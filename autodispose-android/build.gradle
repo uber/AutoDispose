@@ -1,0 +1,38 @@
+buildscript {
+  dependencies {
+    classpath deps.build.gradlePlugins.android
+    classpath deps.build.gradlePlugins.retrolambda
+  }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'me.tatarka.retrolambda'
+
+retrolambda {
+  oldJdk System.getenv("JAVA7_HOME")
+}
+
+android {
+  compileSdkVersion deps.build.compileSdkVersion
+  buildToolsVersion deps.build.buildToolsVersion
+
+  defaultConfig {
+    minSdkVersion deps.build.minSdkVersion
+    targetSdkVersion deps.build.targetSdkVersion
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+}
+
+dependencies {
+  compile project(':autodispose')
+  compile deps.rx.java
+  compile deps.rx.android
+  compile deps.support.annotations
+  testCompile deps.test.junit
+  testCompile deps.test.truth
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
