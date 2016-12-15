@@ -1,0 +1,164 @@
+package com.uber.autodispose;
+
+import hu.akarnokd.rxjava2.subjects.MaybeSubject;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.processors.PublishProcessor;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subscribers.TestSubscriber;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.Test;
+
+import static com.google.common.truth.Truth.assertThat;
+
+public class AutoDisposeSubscriberTest {
+
+  @Test
+  public void autoDispose_withMaybe_normal() {
+    TestSubscriber<Integer> o = new TestSubscriber<>();
+    PublishProcessor<Integer> source = PublishProcessor.create();
+    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
+    AutoDisposingSubscriber<Integer> auto =
+        (AutoDisposingSubscriber<Integer>) AutoDispose.flowable(lifecycle)
+            .around(o);
+    source.subscribe(auto);
+    o.assertSubscribed();
+
+    assertThat(source.hasSubscribers()).isTrue();
+    assertThat(lifecycle.hasObservers()).isTrue();
+
+    source.onNext(1);
+    o.assertValue(1);
+
+    source.onNext(2);
+    source.onComplete();
+    o.assertValues(1, 2);
+    o.assertComplete();
+    assertThat(auto.isDisposed()).isTrue();
+    assertThat(source.hasSubscribers()).isFalse();
+    assertThat(lifecycle.hasObservers()).isFalse();
+  }
+
+  @Test
+  public void autoDispose_withMaybe_interrupted() {
+    TestSubscriber<Integer> o = new TestSubscriber<>();
+    PublishProcessor<Integer> source = PublishProcessor.create();
+    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
+    source.subscribe(AutoDispose.flowable(lifecycle)
+        .around(o));
+    o.assertSubscribed();
+
+    assertThat(source.hasSubscribers()).isTrue();
+    assertThat(lifecycle.hasObservers()).isTrue();
+
+    source.onNext(1);
+    o.assertValue(1);
+
+    lifecycle.onSuccess(2);
+    source.onNext(2);
+
+    // No more events
+    o.assertValue(1);
+
+    // Unsubscribed
+    assertThat(source.hasSubscribers()).isFalse();
+    assertThat(lifecycle.hasObservers()).isFalse();
+  }
+
+  @Test
+  public void autoDispose_withProvider() {
+    TestSubscriber<Integer> o = new TestSubscriber<>();
+    PublishProcessor<Integer> source = PublishProcessor.create();
+    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
+    LifecycleProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
+    source.subscribe(AutoDispose.flowable(provider)
+        .around(o));
+    o.assertSubscribed();
+
+    assertThat(source.hasSubscribers()).isTrue();
+    assertThat(lifecycle.hasObservers()).isTrue();
+
+    source.onNext(1);
+    o.assertValue(1);
+
+    lifecycle.onNext(1);
+    source.onNext(2);
+
+    assertThat(source.hasSubscribers()).isTrue();
+    assertThat(lifecycle.hasObservers()).isTrue();
+    o.assertValues(1, 2);
+
+    lifecycle.onNext(3);
+    source.onNext(3);
+
+    // Nothing new
+    o.assertValues(1, 2);
+
+    // Unsubscribed
+    assertThat(source.hasSubscribers()).isFalse();
+    assertThat(lifecycle.hasObservers()).isFalse();
+  }
+
+  @Test
+  public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
+    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
+    TestSubscriber<Integer> o = new TestSubscriber<>();
+    LifecycleProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
+    Flowable.just(1)
+        .subscribe(AutoDispose.flowable(provider)
+            .around(o));
+
+    List<Throwable> errors = o.errors();
+    assertThat(errors).hasSize(2);
+    // On subscribe not called in proper order. Super weird exception to throw...
+    assertThat(errors.get(0)).isInstanceOf(NullPointerException.class);
+    assertThat(errors.get(1)).isInstanceOf(LifecycleNotStartedException.class);
+  }
+
+  @Test
+  public void autoDispose_withProvider_afterLifecycle_shouldFail() {
+    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
+    lifecycle.onNext(1);
+    lifecycle.onNext(2);
+    lifecycle.onNext(3);
+    TestSubscriber<Integer> o = new TestSubscriber<>();
+    LifecycleProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
+    Flowable.just(1)
+        .subscribe(AutoDispose.flowable(provider)
+            .around(o));
+
+    List<Throwable> errors = o.errors();
+    assertThat(errors).hasSize(2);
+    // On subscribe not called in proper order. Super weird exception to throw...
+    assertThat(errors.get(0)).isInstanceOf(NullPointerException.class);
+    assertThat(errors.get(1)).isInstanceOf(LifecycleEndedException.class);
+  }
+
+  @Test
+  public void verifyCancellation() throws Exception {
+    AtomicInteger i = new AtomicInteger();
+    //noinspection unchecked because Java
+    final FlowableEmitter<Integer>[] emitter = new FlowableEmitter[1];
+    Flowable<Integer> source = Flowable.create(e -> {
+      e.setCancellable(i::incrementAndGet);
+      emitter[0] = e;
+    }, BackpressureStrategy.LATEST);
+    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
+    source.subscribe(AutoDispose.flowable(lifecycle)
+        .empty());
+
+    assertThat(i.get()).isEqualTo(0);
+    assertThat(lifecycle.hasObservers()).isTrue();
+
+    emitter[0].onNext(1);
+
+    lifecycle.onSuccess(0);
+    emitter[0].onNext(2);
+
+    // Verify cancellation was called
+    assertThat(i.get()).isEqualTo(1);
+    assertThat(lifecycle.hasObservers()).isFalse();
+  }
+}

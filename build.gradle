@@ -1,0 +1,22 @@
+subprojects {
+  buildscript {
+    repositories {
+      jcenter()
+    }
+  }
+
+  repositories {
+    jcenter()
+  }
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '3.2.1'
+  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+task clean(type: Delete) {
+  delete rootProject.buildDir
+}
+
+apply from: 'gradle/dependencies.gradle'

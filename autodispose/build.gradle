@@ -1,0 +1,34 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath deps.build.gradlePlugins.retrolambda
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'me.tatarka.retrolambda'
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+test {
+  testLogging.showStandardStreams = true
+}
+
+retrolambda {
+  oldJdk System.getenv("JAVA7_HOME")
+}
+
+dependencies {
+  compile deps.rx.java
+  compile deps.misc.jsr305Annotations
+
+  testCompile deps.rx.rxJava2Extensions
+  testCompile deps.test.junit
+  testCompile deps.test.truth
+}
+
+//apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
