@@ -31,4 +31,4 @@ dependencies {
   testCompile deps.test.truth
 }
 
-//apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
