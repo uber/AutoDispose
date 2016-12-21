@@ -1,0 +1,19 @@
+buildscript {
+  dependencies {
+    classpath deps.build.gradlePlugins.kotlin
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+dependencies {
+  compile deps.kotlin.stdLib
+  compile project(':autodispose')
+
+  testCompile deps.rx.rxJava2Extensions
+  testCompile deps.test.junit
+  testCompile deps.test.truth
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
