@@ -34,19 +34,19 @@ corresponding events are for the current lifecycle state (e.g. `ATTACH` -> `DETA
 you to enforce lifecycle boundary requirements, and by default will error if the lifecycle has either
 not started yet or has already ended.
 
-### "around"
+#### "around"
 
 Every type has some number of `around` overloads. These simply match the available `subscribe` signatures
 for the observed type.
 
-### Behavior
+#### Behavior
 
 The created observer encapsulates the parameters of `around` to create a disposable, auto-disposing
 observer that acts as a lambda observer (passthrough) unless the underlying lifecycle `Maybe` emits.
 Both lifecycle end and upstream termination result in immediate disposable of both the underlying lifecycle
 subscription and upstream disposable.
 
-### Support
+#### Support
 
 `Flowable`, `Observable`, `Maybe`, `Single`, and `Completable` are all supported. Implementation is solely
 based on their `Observer` types, so conceivably any type that uses those for subscription should work.
