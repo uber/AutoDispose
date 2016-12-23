@@ -9,6 +9,7 @@ import io.reactivex.exceptions.CompositeException;
 import io.reactivex.exceptions.Exceptions;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.internal.subscriptions.EmptySubscription;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
 import org.reactivestreams.Subscriber;
@@ -38,15 +39,16 @@ public final class AutoDisposingSubscriber<T> implements Subscriber<T>, Subscrip
 
   @Override
   public final void onSubscribe(Subscription s) {
-    if (AutoSubscriptionHelper.setOnce(mainSubscription, s)) {
-      AutoDisposableHelper.setOnce(lifecycleDisposable,
-          lifecycle.subscribe(e -> cancel(), this::onError));
-      try {
-        onSubscribe.accept(this);
-      } catch (Throwable t) {
-        Exceptions.throwIfFatal(t);
-        s.cancel();
-        onError(t);
+    if (AutoDisposableHelper.setOnce(lifecycleDisposable,
+        lifecycle.subscribe(e -> dispose(), this::onError))) {
+      if (AutoSubscriptionHelper.setOnce(mainSubscription, s)) {
+        try {
+          onSubscribe.accept(this);
+        } catch (Throwable t) {
+          Exceptions.throwIfFatal(t);
+          s.cancel();
+          onError(t);
+        }
       }
     }
   }
@@ -75,6 +77,18 @@ public final class AutoDisposingSubscriber<T> implements Subscriber<T>, Subscrip
   public final void cancel() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
+
+      // If we've never actually started the upstream subscription (i.e. requested immediately in
+      // onSubscribe and had a terminal event), we need to still send an empty subscription instance
+      // to abide by the Subscriber contract.
+      if (mainSubscription.get() == null) {
+        try {
+          onSubscribe.accept(EmptySubscription.INSTANCE);
+        } catch (Exception e) {
+          Exceptions.throwIfFatal(e);
+          RxJavaPlugins.onError(e);
+        }
+      }
       AutoSubscriptionHelper.cancel(mainSubscription);
     }
   }

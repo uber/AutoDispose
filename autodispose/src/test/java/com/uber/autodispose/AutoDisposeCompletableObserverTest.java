@@ -120,6 +120,7 @@ public class AutoDisposeCompletableObserverTest {
         .subscribe(AutoDispose.completable(provider)
             .around(o));
 
+    o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
   }
 
@@ -135,6 +136,7 @@ public class AutoDisposeCompletableObserverTest {
         .subscribe(AutoDispose.completable(provider)
             .around(o));
 
+    o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
   }
 
