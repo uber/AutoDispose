@@ -146,7 +146,7 @@ public final class RecordingObserver<T>
 
     @Override
     public String toString() {
-      return "OnSubscribe[" + disposable + "]";
+      return "OnSubscribe";
     }
   }
 
