@@ -100,6 +100,7 @@ public class AutoDisposeObserverTest {
         .subscribe(AutoDispose.observable(provider)
             .around(o));
 
+    o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
   }
 
@@ -115,6 +116,7 @@ public class AutoDisposeObserverTest {
         .subscribe(AutoDispose.observable(provider)
             .around(o));
 
+    o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
   }
 

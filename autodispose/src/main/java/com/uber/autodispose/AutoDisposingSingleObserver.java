@@ -5,6 +5,7 @@ import com.uber.autodispose.internal.AutoDisposeUtil;
 import io.reactivex.Maybe;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.Disposables;
 import io.reactivex.exceptions.CompositeException;
 import io.reactivex.exceptions.Exceptions;
 import io.reactivex.functions.Consumer;
@@ -32,15 +33,16 @@ public final class AutoDisposingSingleObserver<T> implements SingleObserver<T>, 
 
   @Override
   public final void onSubscribe(Disposable d) {
-    if (AutoDisposableHelper.setOnce(this.mainDisposable, d)) {
-      AutoDisposableHelper.setOnce(this.lifecycleDisposable,
-          lifecycle.subscribe(e -> dispose(), this::onError));
-      try {
-        onSubscribe.accept(this);
-      } catch (Throwable t) {
-        Exceptions.throwIfFatal(t);
-        d.dispose();
-        onError(t);
+    if (AutoDisposableHelper.setOnce(lifecycleDisposable,
+        lifecycle.subscribe(e -> dispose(), this::onError))) {
+      if (AutoDisposableHelper.setOnce(mainDisposable, d)) {
+        try {
+          onSubscribe.accept(this);
+        } catch (Throwable t) {
+          Exceptions.throwIfFatal(t);
+          d.dispose();
+          onError(t);
+        }
       }
     }
   }
@@ -54,6 +56,18 @@ public final class AutoDisposingSingleObserver<T> implements SingleObserver<T>, 
   public final void dispose() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
+
+      // If we've never actually called the downstream onSubscribe (i.e. requested immediately in
+      // onSubscribe and had a terminal event), we need to still send an empty disposable instance
+      // to abide by the Observer contract.
+      if (mainDisposable.get() == null) {
+        try {
+          onSubscribe.accept(Disposables.disposed());
+        } catch (Exception e) {
+          Exceptions.throwIfFatal(e);
+          RxJavaPlugins.onError(e);
+        }
+      }
       AutoDisposableHelper.dispose(mainDisposable);
     }
   }

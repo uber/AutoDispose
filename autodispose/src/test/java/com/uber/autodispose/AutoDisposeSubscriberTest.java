@@ -111,10 +111,8 @@ public class AutoDisposeSubscriberTest {
             .around(o));
 
     List<Throwable> errors = o.errors();
-    assertThat(errors).hasSize(2);
-    // On subscribe not called in proper order. Super weird exception to throw...
-    assertThat(errors.get(0)).isInstanceOf(NullPointerException.class);
-    assertThat(errors.get(1)).isInstanceOf(LifecycleNotStartedException.class);
+    assertThat(errors).hasSize(1);
+    assertThat(errors.get(0)).isInstanceOf(LifecycleNotStartedException.class);
   }
 
   @Test
@@ -130,10 +128,8 @@ public class AutoDisposeSubscriberTest {
             .around(o));
 
     List<Throwable> errors = o.errors();
-    assertThat(errors).hasSize(2);
-    // On subscribe not called in proper order. Super weird exception to throw...
-    assertThat(errors.get(0)).isInstanceOf(NullPointerException.class);
-    assertThat(errors.get(1)).isInstanceOf(LifecycleEndedException.class);
+    assertThat(errors).hasSize(1);
+    assertThat(errors.get(0)).isInstanceOf(LifecycleEndedException.class);
   }
 
   @Test
