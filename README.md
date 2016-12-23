@@ -8,7 +8,7 @@ Overview
 --------
 
 The idea is simple: construct your chain like any other, and then at subscription you simply prefix your
-observer/consumer/etc implementations with a wrapping `AutoDispose` call. In every daye use, it 
+observer/consumer/etc implementations with a wrapping `AutoDispose` call. In every day use, it 
  usually look like this: 
 
 ```java
