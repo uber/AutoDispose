@@ -51,7 +51,8 @@ subscription and upstream disposable.
 `Flowable`, `Observable`, `Maybe`, `Single`, and `Completable` are all supported. Implementation is solely
 based on their `Observer` types, so conceivably any type that uses those for subscription should work.
 
-There is a separate Android artifact with extra APIs for Android components.
+There is a separate Android artifact with extra APIs for Android components, such as support for `View`
+lifecycle binding.
 
 ### Motivations
 
@@ -105,7 +106,7 @@ Java:
 compile 'com.uber.autodispose:autodispose:TODO'
 ```
 
-Android (scope providers):
+Android components:
 ```gradle
 compile 'com.uber.autodispose:autodispose-android:TODO'
 ```
