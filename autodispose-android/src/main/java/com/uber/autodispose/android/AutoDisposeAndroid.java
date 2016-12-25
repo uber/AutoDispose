@@ -2,6 +2,11 @@ package com.uber.autodispose.android;
 
 import android.view.View;
 import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.clause.subscribe.CompletableSubscribeClause;
+import com.uber.autodispose.clause.subscribe.FlowableSubscribeClause;
+import com.uber.autodispose.clause.subscribe.MaybeSubscribeClause;
+import com.uber.autodispose.clause.subscribe.ObservableSubscribeClause;
+import com.uber.autodispose.clause.subscribe.SingleSubscribeClause;
 
 public final class AutoDisposeAndroid {
 
@@ -9,23 +14,23 @@ public final class AutoDisposeAndroid {
     throw new InstantiationError();
   }
 
-  public static AutoDispose.AutoDisposingObserverCreator observable(View view) {
-    return AutoDispose.observable(new ViewLifecycleScopeProvider(view));
+  public static ObservableSubscribeClause observable(View view) {
+    return AutoDispose.observable().withScope(new ViewLifecycleScopeProvider(view));
   }
 
-  public static AutoDispose.AutoDisposingSingleObserverCreator single(View view) {
-    return AutoDispose.single(new ViewLifecycleScopeProvider(view));
+  public static SingleSubscribeClause single(View view) {
+    return AutoDispose.single().withScope(new ViewLifecycleScopeProvider(view));
   }
 
-  public static AutoDispose.AutoDisposingMaybeObserverCreator maybe(View view) {
-    return AutoDispose.maybe(new ViewLifecycleScopeProvider(view));
+  public static MaybeSubscribeClause maybe(View view) {
+    return AutoDispose.maybe().withScope(new ViewLifecycleScopeProvider(view));
   }
 
-  public static AutoDispose.AutoDisposingCompletableObserverCreator completable(View view) {
-    return AutoDispose.completable(new ViewLifecycleScopeProvider(view));
+  public static CompletableSubscribeClause completable(View view) {
+    return AutoDispose.completable().withScope(new ViewLifecycleScopeProvider(view));
   }
 
-  public static AutoDispose.AutoDisposingSubscriberCreator flowable(View view) {
-    return AutoDispose.flowable(new ViewLifecycleScopeProvider(view));
+  public static FlowableSubscribeClause flowable(View view) {
+    return AutoDispose.flowable().withScope(new ViewLifecycleScopeProvider(view));
   }
 }

@@ -1,5 +1,15 @@
 package com.uber.autodispose;
 
+import com.uber.autodispose.clause.scope.CompletableScopeClause;
+import com.uber.autodispose.clause.scope.FlowableScopeClause;
+import com.uber.autodispose.clause.scope.MaybeScopeClause;
+import com.uber.autodispose.clause.scope.ObservableScopeClause;
+import com.uber.autodispose.clause.scope.SingleScopeClause;
+import com.uber.autodispose.clause.subscribe.CompletableSubscribeClause;
+import com.uber.autodispose.clause.subscribe.FlowableSubscribeClause;
+import com.uber.autodispose.clause.subscribe.MaybeSubscribeClause;
+import com.uber.autodispose.clause.subscribe.ObservableSubscribeClause;
+import com.uber.autodispose.clause.subscribe.SingleSubscribeClause;
 import com.uber.autodispose.internal.AutoDisposeUtil;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Maybe;
@@ -22,51 +32,96 @@ public final class AutoDispose {
   private static final Function<Object, LifecycleEndEvent> TRANSFORM_TO_END =
       o -> LifecycleEndEvent.INSTANCE;
 
+  private static final FlowableScopeClause FLOWABLE_SCOPE_CLAUSE = new FlowableClauseImpl();
+  private static final ObservableScopeClause OBSERVABLE_SCOPE_CLAUSE
+      = new ObservableScopeClauseImpl();
+  private static final MaybeScopeClause MAYBE_SCOPE_CLAUSE = new MaybeScopeClauseImpl();
+  private static final SingleScopeClause SINGLE_SCOPE_CLAUSE = new SingleScopeClauseImpl();
+  private static final CompletableScopeClause COMPLETABLE_SCOPE_CLAUSE
+      = new CompletableScopeClauseImpl();
+
   private AutoDispose() {
     throw new InstantiationError();
   }
 
-  public static AutoDisposingSubscriberCreator flowable(LifecycleScopeProvider<?> provider) {
-    return new AutoDisposingSubscriberCreator(provider);
+  public static FlowableScopeClause flowable() {
+    return FLOWABLE_SCOPE_CLAUSE;
   }
 
-  public static AutoDisposingSubscriberCreator flowable(Maybe<?> lifecycle) {
-    return new AutoDisposingSubscriberCreator(lifecycle);
+  public static ObservableScopeClause observable() {
+    return OBSERVABLE_SCOPE_CLAUSE;
   }
 
-  public static AutoDisposingObserverCreator observable(LifecycleScopeProvider<?> provider) {
-    return new AutoDisposingObserverCreator(provider);
+  public static MaybeScopeClause maybe() {
+    return MAYBE_SCOPE_CLAUSE;
   }
 
-  public static AutoDisposingObserverCreator observable(Maybe<?> lifecycle) {
-    return new AutoDisposingObserverCreator(lifecycle);
+  public static SingleScopeClause single() {
+    return SINGLE_SCOPE_CLAUSE;
   }
 
-  public static AutoDisposingSingleObserverCreator single(
-      LifecycleScopeProvider<?> provider) {
-    return new AutoDisposingSingleObserverCreator(provider);
+  public static CompletableScopeClause completable() {
+    return COMPLETABLE_SCOPE_CLAUSE;
   }
 
-  public static AutoDisposingSingleObserverCreator single(Maybe<?> lifecycle) {
-    return new AutoDisposingSingleObserverCreator(lifecycle);
+  private static class FlowableClauseImpl implements FlowableScopeClause {
+    @Override
+    public AutoDisposingSubscriberCreator withScope(LifecycleScopeProvider<?> provider) {
+      return new AutoDisposingSubscriberCreator(provider);
+    }
+
+    @Override
+    public AutoDisposingSubscriberCreator withScope(Maybe<?> lifecycle) {
+      return new AutoDisposingSubscriberCreator(lifecycle);
+    }
   }
 
-  public static AutoDisposingMaybeObserverCreator maybe(
-      LifecycleScopeProvider<?> provider) {
-    return new AutoDisposingMaybeObserverCreator(provider);
+  private static class ObservableScopeClauseImpl implements ObservableScopeClause {
+    @Override
+    public ObservableSubscribeClause withScope(LifecycleScopeProvider<?> provider) {
+      return new AutoDisposingObserverCreator(provider);
+    }
+
+    @Override
+    public ObservableSubscribeClause withScope(Maybe<?> lifecycle) {
+      return new AutoDisposingObserverCreator(lifecycle);
+    }
   }
 
-  public static AutoDisposingMaybeObserverCreator maybe(Maybe<?> lifecycle) {
-    return new AutoDisposingMaybeObserverCreator(lifecycle);
+  private static class MaybeScopeClauseImpl implements MaybeScopeClause {
+    @Override
+    public MaybeSubscribeClause withScope(LifecycleScopeProvider<?> provider) {
+      return new AutoDisposingMaybeObserverCreator(provider);
+    }
+
+    @Override
+    public MaybeSubscribeClause withScope(Maybe<?> lifecycle) {
+      return new AutoDisposingMaybeObserverCreator(lifecycle);
+    }
   }
 
-  public static AutoDisposingCompletableObserverCreator completable(
-      LifecycleScopeProvider<?> provider) {
-    return new AutoDisposingCompletableObserverCreator(provider);
+  private static class SingleScopeClauseImpl implements SingleScopeClause {
+    @Override
+    public SingleSubscribeClause withScope(LifecycleScopeProvider<?> provider) {
+      return new AutoDisposingSingleObserverCreator(provider);
+    }
+
+    @Override
+    public SingleSubscribeClause withScope(Maybe<?> lifecycle) {
+      return new AutoDisposingSingleObserverCreator(lifecycle);
+    }
   }
 
-  public static AutoDisposingCompletableObserverCreator completable(Maybe<?> lifecycle) {
-    return new AutoDisposingCompletableObserverCreator(lifecycle);
+  private static class CompletableScopeClauseImpl implements CompletableScopeClause {
+    @Override
+    public CompletableSubscribeClause withScope(LifecycleScopeProvider<?> provider) {
+      return new AutoDisposingCompletableObserverCreator(provider);
+    }
+
+    @Override
+    public CompletableSubscribeClause withScope(Maybe<?> lifecycle) {
+      return new AutoDisposingCompletableObserverCreator(lifecycle);
+    }
   }
 
   private static <E> Maybe<LifecycleEndEvent> deferredResolvedLifecycle(
@@ -97,35 +152,39 @@ public final class AutoDispose {
   private static class Base {
     protected final Maybe<?> lifecycle;
 
-    protected Base(LifecycleScopeProvider<?> provider) {
+    Base(LifecycleScopeProvider<?> provider) {
       this(deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
     }
 
-    protected Base(Maybe<?> lifecycle) {
+    Base(Maybe<?> lifecycle) {
       this.lifecycle = checkNotNull(lifecycle, "lifecycle == null");
     }
   }
 
-  public static class AutoDisposingSubscriberCreator extends Base {
-    private AutoDisposingSubscriberCreator(LifecycleScopeProvider<?> provider) {
+  private static class AutoDisposingSubscriberCreator extends Base
+      implements FlowableSubscribeClause {
+    AutoDisposingSubscriberCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
 
-    private AutoDisposingSubscriberCreator(Maybe<?> lifecycle) {
+    AutoDisposingSubscriberCreator(Maybe<?> lifecycle) {
       super(lifecycle);
     }
 
+    @Override
     public <T> Subscriber<T> empty() {
       return around(AutoDisposeUtil.EMPTY_CONSUMER,
           AutoDisposeUtil.DEFAULT_ERROR_CONSUMER,
           AutoDisposeUtil.EMPTY_ACTION);
     }
 
+    @Override
     public <T> Subscriber<T> around(Consumer<? super T> onNext) {
       checkNotNull(onNext, "onNext == null");
       return around(onNext, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER, AutoDisposeUtil.EMPTY_ACTION);
     }
 
+    @Override
     public <T> Subscriber<T> around(Consumer<? super T> onNext,
         Consumer<? super Throwable> onError) {
       checkNotNull(onNext, "onNext == null");
@@ -133,6 +192,7 @@ public final class AutoDispose {
       return around(onNext, onError, AutoDisposeUtil.EMPTY_ACTION);
     }
 
+    @Override
     public <T> Subscriber<T> around(Consumer<? super T> onNext,
         Consumer<? super Throwable> onError,
         Action onComplete) {
@@ -142,6 +202,7 @@ public final class AutoDispose {
       return around(onNext, onError, onComplete, AutoDisposeUtil.EMPTY_SUBSCRIPTION_CONSUMER);
     }
 
+    @Override
     public <T> Subscriber<T> around(Subscriber<T> subscriber) {
       checkNotNull(subscriber, "subscriber == null");
       return around(subscriber::onNext,
@@ -150,6 +211,7 @@ public final class AutoDispose {
           subscriber::onSubscribe);
     }
 
+    @Override
     public <T> Subscriber<T> around(Consumer<? super T> onNext,
         Consumer<? super Throwable> onError,
         Action onComplete,
@@ -162,30 +224,35 @@ public final class AutoDispose {
     }
   }
 
-  public static class AutoDisposingObserverCreator extends Base {
-    private AutoDisposingObserverCreator(LifecycleScopeProvider<?> provider) {
+  private static class AutoDisposingObserverCreator extends Base
+      implements ObservableSubscribeClause {
+    AutoDisposingObserverCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
 
-    private AutoDisposingObserverCreator(Maybe<?> lifecycle) {
+    AutoDisposingObserverCreator(Maybe<?> lifecycle) {
       super(lifecycle);
     }
 
+    @Override
     public <T> Observer<T> empty() {
       return around(AutoDisposeUtil.EMPTY_CONSUMER);
     }
 
+    @Override
     public <T> Observer<T> around(Consumer<? super T> onNext) {
       checkNotNull(onNext, "onNext == null");
       return around(onNext, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER, AutoDisposeUtil.EMPTY_ACTION);
     }
 
+    @Override
     public <T> Observer<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError) {
       checkNotNull(onNext, "onNext == null");
       checkNotNull(onError, "onError == null");
       return around(onNext, onError, AutoDisposeUtil.EMPTY_ACTION);
     }
 
+    @Override
     public <T> Observer<T> around(Consumer<? super T> onNext,
         Consumer<? super Throwable> onError,
         Action onComplete) {
@@ -195,6 +262,7 @@ public final class AutoDispose {
       return around(onNext, onError, onComplete, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
     }
 
+    @Override
     public <T> Observer<T> around(Observer<T> observer) {
       checkNotNull(observer, "observer == null");
       return around(observer::onNext,
@@ -203,6 +271,7 @@ public final class AutoDispose {
           observer::onSubscribe);
     }
 
+    @Override
     public <T> Observer<T> around(Consumer<? super T> onNext,
         Consumer<? super Throwable> onError,
         Action onComplete,
@@ -215,29 +284,34 @@ public final class AutoDispose {
     }
   }
 
-  public static class AutoDisposingSingleObserverCreator extends Base {
-    private AutoDisposingSingleObserverCreator(LifecycleScopeProvider<?> provider) {
+  private static class AutoDisposingSingleObserverCreator extends Base
+      implements SingleSubscribeClause {
+    AutoDisposingSingleObserverCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
 
-    private AutoDisposingSingleObserverCreator(Maybe<?> lifecycle) {
+    AutoDisposingSingleObserverCreator(Maybe<?> lifecycle) {
       super(lifecycle);
     }
 
+    @Override
     public <T> SingleObserver<T> empty() {
       return around(AutoDisposeUtil.EMPTY_CONSUMER);
     }
 
+    @Override
     public <T> SingleObserver<T> around(Consumer<? super T> onSuccess) {
       checkNotNull(onSuccess, "onSuccess == null");
       return around(onSuccess, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER);
     }
 
+    @Override
     public <T> SingleObserver<T> around(BiConsumer<? super T, ? super Throwable> biConsumer) {
       checkNotNull(biConsumer, "biConsumer == null");
       return around(v -> biConsumer.accept(v, null), t -> biConsumer.accept(null, t));
     }
 
+    @Override
     public <T> SingleObserver<T> around(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError) {
       checkNotNull(onSuccess, "onSuccess == null");
@@ -245,11 +319,13 @@ public final class AutoDispose {
       return around(onSuccess, onError, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
     }
 
+    @Override
     public <T> SingleObserver<T> around(SingleObserver<T> observer) {
       checkNotNull(observer, "observer == null");
       return around(observer::onSuccess, observer::onError, observer::onSubscribe);
     }
 
+    @Override
     public <T> SingleObserver<T> around(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError,
         Consumer<? super Disposable> onSubscribe) {
@@ -260,19 +336,22 @@ public final class AutoDispose {
     }
   }
 
-  public static class AutoDisposingMaybeObserverCreator extends Base {
-    private AutoDisposingMaybeObserverCreator(LifecycleScopeProvider<?> provider) {
+  private static class AutoDisposingMaybeObserverCreator extends Base
+      implements MaybeSubscribeClause {
+    AutoDisposingMaybeObserverCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
 
-    private AutoDisposingMaybeObserverCreator(Maybe<?> lifecycle) {
+    AutoDisposingMaybeObserverCreator(Maybe<?> lifecycle) {
       super(lifecycle);
     }
 
+    @Override
     public <T> MaybeObserver<T> empty() {
       return around(AutoDisposeUtil.EMPTY_CONSUMER);
     }
 
+    @Override
     public <T> MaybeObserver<T> around(Consumer<? super T> onSuccess) {
       checkNotNull(onSuccess, "onSuccess == null");
       return around(onSuccess,
@@ -280,6 +359,7 @@ public final class AutoDispose {
           AutoDisposeUtil.EMPTY_ACTION);
     }
 
+    @Override
     public <T> MaybeObserver<T> around(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError) {
       checkNotNull(onSuccess, "onSuccess == null");
@@ -287,6 +367,7 @@ public final class AutoDispose {
       return around(onSuccess, onError, AutoDisposeUtil.EMPTY_ACTION);
     }
 
+    @Override
     public <T> MaybeObserver<T> around(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError,
         Action onComplete) {
@@ -296,6 +377,7 @@ public final class AutoDispose {
       return around(onSuccess, onError, onComplete, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
     }
 
+    @Override
     public <T> MaybeObserver<T> around(MaybeObserver<T> observer) {
       checkNotNull(observer, "observer == null");
       return around(observer::onSuccess,
@@ -304,6 +386,7 @@ public final class AutoDispose {
           observer::onSubscribe);
     }
 
+    @Override
     public <T> MaybeObserver<T> around(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError,
         Action onComplete,
@@ -320,12 +403,13 @@ public final class AutoDispose {
     }
   }
 
-  public static class AutoDisposingCompletableObserverCreator extends Base {
-    private AutoDisposingCompletableObserverCreator(LifecycleScopeProvider<?> provider) {
+  private static class AutoDisposingCompletableObserverCreator extends Base
+      implements CompletableSubscribeClause {
+    AutoDisposingCompletableObserverCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
 
-    private AutoDisposingCompletableObserverCreator(Maybe<?> lifecycle) {
+    AutoDisposingCompletableObserverCreator(Maybe<?> lifecycle) {
       super(lifecycle);
     }
 
