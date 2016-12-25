@@ -14,6 +14,7 @@ import com.uber.autodispose.internal.AutoDisposeUtil;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
+import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
@@ -22,6 +23,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import java.util.concurrent.Callable;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -66,6 +68,11 @@ public final class AutoDispose {
 
   private static class FlowableClauseImpl implements FlowableScopeClause {
     @Override
+    public AutoDisposingSubscriberCreator withScope(ScopeProvider provider) {
+      return new AutoDisposingSubscriberCreator(provider);
+    }
+
+    @Override
     public AutoDisposingSubscriberCreator withScope(LifecycleScopeProvider<?> provider) {
       return new AutoDisposingSubscriberCreator(provider);
     }
@@ -77,6 +84,11 @@ public final class AutoDispose {
   }
 
   private static class ObservableScopeClauseImpl implements ObservableScopeClause {
+    @Override
+    public ObservableSubscribeClause withScope(ScopeProvider provider) {
+      return new AutoDisposingObserverCreator(provider);
+    }
+
     @Override
     public ObservableSubscribeClause withScope(LifecycleScopeProvider<?> provider) {
       return new AutoDisposingObserverCreator(provider);
@@ -90,6 +102,11 @@ public final class AutoDispose {
 
   private static class MaybeScopeClauseImpl implements MaybeScopeClause {
     @Override
+    public MaybeSubscribeClause withScope(ScopeProvider provider) {
+      return new AutoDisposingMaybeObserverCreator(provider);
+    }
+
+    @Override
     public MaybeSubscribeClause withScope(LifecycleScopeProvider<?> provider) {
       return new AutoDisposingMaybeObserverCreator(provider);
     }
@@ -102,6 +119,11 @@ public final class AutoDispose {
 
   private static class SingleScopeClauseImpl implements SingleScopeClause {
     @Override
+    public SingleSubscribeClause withScope(ScopeProvider provider) {
+      return new AutoDisposingSingleObserverCreator(provider);
+    }
+
+    @Override
     public SingleSubscribeClause withScope(LifecycleScopeProvider<?> provider) {
       return new AutoDisposingSingleObserverCreator(provider);
     }
@@ -113,6 +135,11 @@ public final class AutoDispose {
   }
 
   private static class CompletableScopeClauseImpl implements CompletableScopeClause {
+    @Override
+    public CompletableSubscribeClause withScope(ScopeProvider provider) {
+      return new AutoDisposingCompletableObserverCreator(provider);
+    }
+
     @Override
     public CompletableSubscribeClause withScope(LifecycleScopeProvider<?> provider) {
       return new AutoDisposingCompletableObserverCreator(provider);
@@ -152,6 +179,10 @@ public final class AutoDispose {
   private static class Base {
     protected final Maybe<?> lifecycle;
 
+    Base(ScopeProvider provider) {
+      this(Maybe.defer((Callable<MaybeSource<?>>) provider::requestScope));
+    }
+
     Base(LifecycleScopeProvider<?> provider) {
       this(deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
     }
@@ -163,6 +194,10 @@ public final class AutoDispose {
 
   private static class AutoDisposingSubscriberCreator extends Base
       implements FlowableSubscribeClause {
+    AutoDisposingSubscriberCreator(ScopeProvider provider) {
+      super(provider);
+    }
+
     AutoDisposingSubscriberCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
@@ -226,6 +261,10 @@ public final class AutoDispose {
 
   private static class AutoDisposingObserverCreator extends Base
       implements ObservableSubscribeClause {
+    AutoDisposingObserverCreator(ScopeProvider provider) {
+      super(provider);
+    }
+
     AutoDisposingObserverCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
@@ -286,6 +325,10 @@ public final class AutoDispose {
 
   private static class AutoDisposingSingleObserverCreator extends Base
       implements SingleSubscribeClause {
+    AutoDisposingSingleObserverCreator(ScopeProvider provider) {
+      super(provider);
+    }
+
     AutoDisposingSingleObserverCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
@@ -338,6 +381,10 @@ public final class AutoDispose {
 
   private static class AutoDisposingMaybeObserverCreator extends Base
       implements MaybeSubscribeClause {
+    AutoDisposingMaybeObserverCreator(ScopeProvider provider) {
+      super(provider);
+    }
+
     AutoDisposingMaybeObserverCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
@@ -405,6 +452,10 @@ public final class AutoDispose {
 
   private static class AutoDisposingCompletableObserverCreator extends Base
       implements CompletableSubscribeClause {
+    AutoDisposingCompletableObserverCreator(ScopeProvider provider) {
+      super(provider);
+    }
+
     AutoDisposingCompletableObserverCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }

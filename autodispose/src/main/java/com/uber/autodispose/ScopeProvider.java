@@ -16,5 +16,5 @@ public interface ScopeProvider {
    * @return a Maybe that, upon emission, will trigger disposal.
    */
   @CheckReturnValue
-  MaybeSource<?> requestScope();
+  Maybe<?> requestScope();
 }
