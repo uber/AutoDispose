@@ -18,7 +18,8 @@ public class AutoDisposeObserverTest {
     PublishSubject<Integer> source = PublishSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     AutoDisposingObserver<Integer> auto =
-        (AutoDisposingObserver<Integer>) AutoDispose.observable(lifecycle)
+        (AutoDisposingObserver<Integer>) AutoDispose.observable()
+            .withScope(lifecycle)
             .around(o);
     source.subscribe(auto);
     o.takeSubscribe();
@@ -43,7 +44,8 @@ public class AutoDisposeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.subscribe(AutoDispose.observable(lifecycle)
+    source.subscribe(AutoDispose.observable()
+        .withScope(lifecycle)
         .around(o));
     o.takeSubscribe();
 
@@ -66,7 +68,8 @@ public class AutoDisposeObserverTest {
     PublishSubject<Integer> source = PublishSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
-    source.subscribe(AutoDispose.observable(provider)
+    source.subscribe(AutoDispose.observable()
+        .withScope(provider)
         .around(o));
     o.takeSubscribe();
 
@@ -97,7 +100,8 @@ public class AutoDisposeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
     Observable.just(1)
-        .subscribe(AutoDispose.observable(provider)
+        .subscribe(AutoDispose.observable()
+            .withScope(provider)
             .around(o));
 
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
@@ -112,7 +116,8 @@ public class AutoDisposeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
     Observable.just(1)
-        .subscribe(AutoDispose.observable(provider)
+        .subscribe(AutoDispose.observable()
+            .withScope(provider)
             .around(o));
 
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
@@ -128,7 +133,8 @@ public class AutoDisposeObserverTest {
       emitter[0] = e;
     });
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.subscribe(AutoDispose.observable(lifecycle)
+    source.subscribe(AutoDispose.observable()
+        .withScope(lifecycle)
         .empty());
 
     assertThat(i.get()).isEqualTo(0);

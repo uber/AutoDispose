@@ -17,7 +17,8 @@ public class AutoDisposeSingleObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.subscribe(AutoDispose.single(lifecycle)
+    source.subscribe(AutoDispose.single()
+        .withScope(lifecycle)
         .around(o));
     o.takeSubscribe();
 
@@ -39,7 +40,8 @@ public class AutoDisposeSingleObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.subscribe(AutoDispose.single(lifecycle)
+    source.subscribe(AutoDispose.single()
+        .withScope(lifecycle)
         .around(o));
     o.takeSubscribe();
 
@@ -62,7 +64,8 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
-    source.subscribe(AutoDispose.single(provider)
+    source.subscribe(AutoDispose.single()
+        .withScope(provider)
         .around(o));
     o.takeSubscribe();
 
@@ -89,7 +92,8 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
-    source.subscribe(AutoDispose.single(provider)
+    source.subscribe(AutoDispose.single()
+        .withScope(provider)
         .around(o));
     o.takeSubscribe();
 
@@ -117,7 +121,8 @@ public class AutoDisposeSingleObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
     Single.just(1)
-        .subscribe(AutoDispose.single(provider)
+        .subscribe(AutoDispose.single()
+            .withScope(provider)
             .around(o));
 
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
@@ -132,7 +137,8 @@ public class AutoDisposeSingleObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
     Single.just(1)
-        .subscribe(AutoDispose.single(provider)
+        .subscribe(AutoDispose.single()
+            .withScope(provider)
             .around(o));
 
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
@@ -144,7 +150,8 @@ public class AutoDisposeSingleObserverTest {
     //noinspection unchecked because Java
     Single<Integer> source = Single.create(e -> e.setCancellable(i::incrementAndGet));
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.subscribe(AutoDispose.single(lifecycle)
+    source.subscribe(AutoDispose.single()
+        .withScope(lifecycle)
         .empty());
 
     assertThat(i.get()).isEqualTo(0);
