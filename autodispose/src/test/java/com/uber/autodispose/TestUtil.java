@@ -21,8 +21,8 @@ final class TestUtil {
     throw new InstantiationError();
   }
 
-  static LifecycleProvider<Integer> makeProvider(final BehaviorSubject<Integer> lifecycle) {
-    return new LifecycleProvider<Integer>() {
+  static LifecycleScopeProvider<Integer> makeProvider(final BehaviorSubject<Integer> lifecycle) {
+    return new LifecycleScopeProvider<Integer>() {
       @Nonnull
       @Override
       public Observable<Integer> lifecycle() {

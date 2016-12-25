@@ -26,7 +26,7 @@ public final class AutoDispose {
     throw new InstantiationError();
   }
 
-  public static AutoDisposingSubscriberCreator flowable(LifecycleProvider<?> provider) {
+  public static AutoDisposingSubscriberCreator flowable(LifecycleScopeProvider<?> provider) {
     return new AutoDisposingSubscriberCreator(provider);
   }
 
@@ -34,7 +34,7 @@ public final class AutoDispose {
     return new AutoDisposingSubscriberCreator(lifecycle);
   }
 
-  public static AutoDisposingObserverCreator observable(LifecycleProvider<?> provider) {
+  public static AutoDisposingObserverCreator observable(LifecycleScopeProvider<?> provider) {
     return new AutoDisposingObserverCreator(provider);
   }
 
@@ -42,7 +42,8 @@ public final class AutoDispose {
     return new AutoDisposingObserverCreator(lifecycle);
   }
 
-  public static AutoDisposingSingleObserverCreator single(LifecycleProvider<?> provider) {
+  public static AutoDisposingSingleObserverCreator single(
+      LifecycleScopeProvider<?> provider) {
     return new AutoDisposingSingleObserverCreator(provider);
   }
 
@@ -50,7 +51,8 @@ public final class AutoDispose {
     return new AutoDisposingSingleObserverCreator(lifecycle);
   }
 
-  public static AutoDisposingMaybeObserverCreator maybe(LifecycleProvider<?> provider) {
+  public static AutoDisposingMaybeObserverCreator maybe(
+      LifecycleScopeProvider<?> provider) {
     return new AutoDisposingMaybeObserverCreator(provider);
   }
 
@@ -58,7 +60,8 @@ public final class AutoDispose {
     return new AutoDisposingMaybeObserverCreator(lifecycle);
   }
 
-  public static AutoDisposingCompletableObserverCreator completable(LifecycleProvider<?> provider) {
+  public static AutoDisposingCompletableObserverCreator completable(
+      LifecycleScopeProvider<?> provider) {
     return new AutoDisposingCompletableObserverCreator(provider);
   }
 
@@ -66,7 +69,8 @@ public final class AutoDispose {
     return new AutoDisposingCompletableObserverCreator(lifecycle);
   }
 
-  private static <E> Maybe<LifecycleEndEvent> deferredResolvedLifecycle(LifecycleProvider<E> provider) {
+  private static <E> Maybe<LifecycleEndEvent> deferredResolvedLifecycle(
+      LifecycleScopeProvider<E> provider) {
     return Maybe.defer(() -> {
       E lastEvent = provider.peekLifecycle();
       if (lastEvent == null) {
@@ -93,7 +97,7 @@ public final class AutoDispose {
   private static class Base {
     protected final Maybe<?> lifecycle;
 
-    protected Base(LifecycleProvider<?> provider) {
+    protected Base(LifecycleScopeProvider<?> provider) {
       this(deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
     }
 
@@ -103,7 +107,7 @@ public final class AutoDispose {
   }
 
   public static class AutoDisposingSubscriberCreator extends Base {
-    private AutoDisposingSubscriberCreator(LifecycleProvider<?> provider) {
+    private AutoDisposingSubscriberCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
 
@@ -159,7 +163,7 @@ public final class AutoDispose {
   }
 
   public static class AutoDisposingObserverCreator extends Base {
-    private AutoDisposingObserverCreator(LifecycleProvider<?> provider) {
+    private AutoDisposingObserverCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
 
@@ -212,7 +216,7 @@ public final class AutoDispose {
   }
 
   public static class AutoDisposingSingleObserverCreator extends Base {
-    private AutoDisposingSingleObserverCreator(LifecycleProvider<?> provider) {
+    private AutoDisposingSingleObserverCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
 
@@ -257,7 +261,7 @@ public final class AutoDispose {
   }
 
   public static class AutoDisposingMaybeObserverCreator extends Base {
-    private AutoDisposingMaybeObserverCreator(LifecycleProvider<?> provider) {
+    private AutoDisposingMaybeObserverCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
 
@@ -317,7 +321,7 @@ public final class AutoDispose {
   }
 
   public static class AutoDisposingCompletableObserverCreator extends Base {
-    private AutoDisposingCompletableObserverCreator(LifecycleProvider<?> provider) {
+    private AutoDisposingCompletableObserverCreator(LifecycleScopeProvider<?> provider) {
       super(provider);
     }
 

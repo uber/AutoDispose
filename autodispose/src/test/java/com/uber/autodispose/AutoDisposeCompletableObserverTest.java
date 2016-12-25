@@ -61,7 +61,7 @@ public class AutoDisposeCompletableObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     CompletableSubject source = CompletableSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    LifecycleProvider<Integer> provider = makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
     source.subscribe(AutoDispose.completable(provider)
         .around(o));
     o.takeSubscribe();
@@ -87,7 +87,7 @@ public class AutoDisposeCompletableObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     CompletableSubject source = CompletableSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    LifecycleProvider<Integer> provider = makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
     source.subscribe(AutoDispose.completable(provider)
         .around(o));
     o.takeSubscribe();
@@ -115,7 +115,7 @@ public class AutoDisposeCompletableObserverTest {
   public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     RecordingObserver<Integer> o = new RecordingObserver<>();
-    LifecycleProvider<Integer> provider = makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
     Completable.complete()
         .subscribe(AutoDispose.completable(provider)
             .around(o));
@@ -130,7 +130,7 @@ public class AutoDisposeCompletableObserverTest {
     lifecycle.onNext(2);
     lifecycle.onNext(3);
     RecordingObserver<Integer> o = new RecordingObserver<>();
-    LifecycleProvider<Integer> provider = makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
     Completable.complete()
         .subscribe(AutoDispose.completable(provider)
             .around(o));

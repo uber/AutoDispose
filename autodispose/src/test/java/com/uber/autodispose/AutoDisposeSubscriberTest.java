@@ -72,7 +72,7 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    LifecycleProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
     source.subscribe(AutoDispose.flowable(provider)
         .around(o));
     o.assertSubscribed();
@@ -105,7 +105,7 @@ public class AutoDisposeSubscriberTest {
   public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     TestSubscriber<Integer> o = new TestSubscriber<>();
-    LifecycleProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
     Flowable.just(1)
         .subscribe(AutoDispose.flowable(provider)
             .around(o));
@@ -124,7 +124,7 @@ public class AutoDisposeSubscriberTest {
     lifecycle.onNext(2);
     lifecycle.onNext(3);
     TestSubscriber<Integer> o = new TestSubscriber<>();
-    LifecycleProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
     Flowable.just(1)
         .subscribe(AutoDispose.flowable(provider)
             .around(o));

@@ -60,7 +60,7 @@ public class AutoDisposeMaybeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    LifecycleProvider<Integer> provider = makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
     source.subscribe(AutoDispose.maybe(provider)
         .around(o));
     o.takeSubscribe();
@@ -86,7 +86,7 @@ public class AutoDisposeMaybeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    LifecycleProvider<Integer> provider = makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
     source.subscribe(AutoDispose.maybe(provider)
         .around(o));
     o.takeSubscribe();
@@ -112,7 +112,7 @@ public class AutoDisposeMaybeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    LifecycleProvider<Integer> provider = makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
     source.subscribe(AutoDispose.maybe(provider)
         .around(o));
     o.takeSubscribe();
@@ -140,7 +140,7 @@ public class AutoDisposeMaybeObserverTest {
   public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     RecordingObserver<Integer> o = new RecordingObserver<>();
-    LifecycleProvider<Integer> provider = makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
     Maybe.just(1)
         .subscribe(AutoDispose.maybe(provider)
             .around(o));
@@ -155,7 +155,7 @@ public class AutoDisposeMaybeObserverTest {
     lifecycle.onNext(2);
     lifecycle.onNext(3);
     RecordingObserver<Integer> o = new RecordingObserver<>();
-    LifecycleProvider<Integer> provider = makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = makeProvider(lifecycle);
     Maybe.just(1)
         .subscribe(AutoDispose.maybe(provider)
             .around(o));
