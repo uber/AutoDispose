@@ -438,22 +438,26 @@ public final class AutoDispose {
       return around(AutoDisposeUtil.EMPTY_ACTION);
     }
 
+    @Override
     public CompletableObserver around(Action action) {
       checkNotNull(action, "action == null");
       return around(action, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER);
     }
 
+    @Override
     public CompletableObserver around(Action action, Consumer<? super Throwable> onError) {
       checkNotNull(action, "action == null");
       checkNotNull(onError, "onError == null");
       return around(action, onError, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
     }
 
+    @Override
     public CompletableObserver around(CompletableObserver observer) {
       checkNotNull(observer, "observer == null");
       return around(observer::onComplete, observer::onError, observer::onSubscribe);
     }
 
+    @Override
     public CompletableObserver around(Action action,
         Consumer<? super Throwable> onError,
         Consumer<? super Disposable> onSubscribe) {
