@@ -434,6 +434,7 @@ public final class AutoDispose {
       super(lifecycle);
     }
 
+    @Override
     public CompletableObserver empty() {
       return around(AutoDisposeUtil.EMPTY_ACTION);
     }
