@@ -15,14 +15,12 @@ import io.reactivex.CompletableObserver;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 import io.reactivex.MaybeSource;
-import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import java.util.concurrent.Callable;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -30,9 +28,6 @@ import org.reactivestreams.Subscription;
 import static com.uber.autodispose.internal.AutoDisposeUtil.checkNotNull;
 
 public final class AutoDispose {
-
-  private static final Function<Object, LifecycleEndEvent> TRANSFORM_TO_END =
-      o -> LifecycleEndEvent.INSTANCE;
 
   private static final FlowableScopeClause FLOWABLE_SCOPE_CLAUSE = new FlowableClauseImpl();
   private static final ObservableScopeClause OBSERVABLE_SCOPE_CLAUSE
@@ -151,31 +146,6 @@ public final class AutoDispose {
     }
   }
 
-  private static <E> Maybe<LifecycleEndEvent> deferredResolvedLifecycle(
-      LifecycleScopeProvider<E> provider) {
-    return Maybe.defer(() -> {
-      E lastEvent = provider.peekLifecycle();
-      if (lastEvent == null) {
-        throw new LifecycleNotStartedException();
-      }
-      E endEvent = provider.correspondingEvents()
-          .apply(lastEvent);
-      return mapEvents(provider.lifecycle(), endEvent);
-    });
-  }
-
-  private static <E> Maybe<LifecycleEndEvent> mapEvents(Observable<E> lifecycle, E endEvent) {
-    return lifecycle.skip(1)
-        .map(e -> e.equals(endEvent))
-        .filter(b -> b)
-        .map(TRANSFORM_TO_END)
-        .firstElement();
-  }
-
-  private enum LifecycleEndEvent {
-    INSTANCE
-  }
-
   private static class Base {
     protected final Maybe<?> lifecycle;
 
@@ -184,7 +154,7 @@ public final class AutoDispose {
     }
 
     Base(LifecycleScopeProvider<?> provider) {
-      this(deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
+      this(ScopeUtil.deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
     }
 
     Base(Maybe<?> lifecycle) {
