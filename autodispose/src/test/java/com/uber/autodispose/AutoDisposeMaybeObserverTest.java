@@ -2,6 +2,9 @@ package com.uber.autodispose;
 
 import hu.akarnokd.rxjava2.subjects.MaybeSubject;
 import io.reactivex.Maybe;
+import io.reactivex.MaybeEmitter;
+import io.reactivex.MaybeOnSubscribe;
+import io.reactivex.functions.Cancellable;
 import io.reactivex.subjects.BehaviorSubject;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
@@ -12,8 +15,7 @@ import static com.uber.autodispose.TestUtil.makeProvider;
 
 public class AutoDisposeMaybeObserverTest {
 
-  @Test
-  public void autoDispose_withMaybe_normal() {
+  @Test public void autoDispose_withMaybe_normal() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     MaybeSubject<Integer> source = MaybeSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
@@ -35,8 +37,7 @@ public class AutoDisposeMaybeObserverTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withMaybe_interrupted() {
+  @Test public void autoDispose_withMaybe_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     MaybeSubject<Integer> source = MaybeSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
@@ -58,8 +59,7 @@ public class AutoDisposeMaybeObserverTest {
     o.assertNoMoreEvents();
   }
 
-  @Test
-  public void autoDispose_withProvider_success() {
+  @Test public void autoDispose_withProvider_success() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
@@ -85,8 +85,7 @@ public class AutoDisposeMaybeObserverTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withProvider_completion() {
+  @Test public void autoDispose_withProvider_completion() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     MaybeSubject<Integer> source = MaybeSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
@@ -107,8 +106,7 @@ public class AutoDisposeMaybeObserverTest {
     assertThat(scope.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withProvider_interrupted() {
+  @Test public void autoDispose_withProvider_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     MaybeSubject<Integer> source = MaybeSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
@@ -132,8 +130,7 @@ public class AutoDisposeMaybeObserverTest {
     o.assertNoMoreEvents();
   }
 
-  @Test
-  public void autoDispose_withLifecycleProvider_completion() {
+  @Test public void autoDispose_withLifecycleProvider_completion() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
@@ -159,8 +156,7 @@ public class AutoDisposeMaybeObserverTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withLifecycleProvider_interrupted() {
+  @Test public void autoDispose_withLifecycleProvider_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
@@ -189,8 +185,7 @@ public class AutoDisposeMaybeObserverTest {
     o.assertNoMoreEvents();
   }
 
-  @Test
-  public void autoDispose_withLifecycleProvider_withoutStartingLifecycle_shouldFail() {
+  @Test public void autoDispose_withLifecycleProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     RecordingObserver<Integer> o = new RecordingObserver<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
@@ -203,8 +198,7 @@ public class AutoDisposeMaybeObserverTest {
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
   }
 
-  @Test
-  public void autoDispose_withLifecycleProvider_afterLifecycle_shouldFail() {
+  @Test public void autoDispose_withLifecycleProvider_afterLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     lifecycle.onNext(1);
     lifecycle.onNext(2);
@@ -220,11 +214,18 @@ public class AutoDisposeMaybeObserverTest {
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
   }
 
-  @Test
-  public void verifyCancellation() throws Exception {
-    AtomicInteger i = new AtomicInteger();
+  @Test public void verifyCancellation() throws Exception {
+    final AtomicInteger i = new AtomicInteger();
     //noinspection unchecked because Java
-    Maybe<Integer> source = Maybe.create(e -> e.setCancellable(i::incrementAndGet));
+    Maybe<Integer> source = Maybe.create(new MaybeOnSubscribe<Integer>() {
+      @Override public void subscribe(MaybeEmitter<Integer> e) throws Exception {
+        e.setCancellable(new Cancellable() {
+          @Override public void cancel() throws Exception {
+            i.incrementAndGet();
+          }
+        });
+      }
+    });
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.maybe()
         .withScope(lifecycle)

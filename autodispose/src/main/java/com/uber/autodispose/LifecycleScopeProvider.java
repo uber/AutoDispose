@@ -17,19 +17,16 @@ public interface LifecycleScopeProvider<E> {
   /**
    * @return a sequence of lifecycle events.
    */
-  @CheckReturnValue
-  Observable<E> lifecycle();
+  @CheckReturnValue Observable<E> lifecycle();
 
   /**
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
-   *         avoid unnecessary object allocationn.
+   * avoid unnecessary object allocationn.
    */
-  @CheckReturnValue
-  Function<E, E> correspondingEvents();
+  @CheckReturnValue Function<E, E> correspondingEvents();
 
   /**
    * @return the last seen lifecycle event, or {@code null} if none.
    */
-  @Nullable
-  E peekLifecycle();
+  @Nullable E peekLifecycle();
 }

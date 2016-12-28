@@ -23,10 +23,8 @@ public final class AutoDisposingMaybeObserver<T> implements MaybeObserver<T>, Di
   private final Action onComplete;
   private final Consumer<? super Disposable> onSubscribe;
 
-  AutoDisposingMaybeObserver(Maybe<?> lifecycle,
-      Consumer<? super T> onSuccess,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
+  AutoDisposingMaybeObserver(Maybe<?> lifecycle, Consumer<? super T> onSuccess,
+      Consumer<? super Throwable> onError, Action onComplete,
       Consumer<? super Disposable> onSubscribe) {
     this.lifecycle = lifecycle;
     this.onSuccess = AutoDisposeUtil.emptyConsumerIfNull(onSuccess);
@@ -35,10 +33,17 @@ public final class AutoDisposingMaybeObserver<T> implements MaybeObserver<T>, Di
     this.onSubscribe = AutoDisposeUtil.emptyDisposableIfNull(onSubscribe);
   }
 
-  @Override
-  public final void onSubscribe(Disposable d) {
+  @Override public final void onSubscribe(Disposable d) {
     if (AutoDisposableHelper.setOnce(lifecycleDisposable,
-        lifecycle.subscribe(e -> dispose(), this::onError))) {
+        lifecycle.subscribe(new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            dispose();
+          }
+        }, new Consumer<Throwable>() {
+          @Override public void accept(Throwable e1) throws Exception {
+            onError(e1);
+          }
+        }))) {
       if (AutoDisposableHelper.setOnce(mainDisposable, d)) {
         try {
           onSubscribe.accept(this);
@@ -51,13 +56,11 @@ public final class AutoDisposingMaybeObserver<T> implements MaybeObserver<T>, Di
     }
   }
 
-  @Override
-  public final boolean isDisposed() {
+  @Override public final boolean isDisposed() {
     return mainDisposable.get() == AutoDisposableHelper.DISPOSED;
   }
 
-  @Override
-  public final void dispose() {
+  @Override public final void dispose() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
 
@@ -76,8 +79,7 @@ public final class AutoDisposingMaybeObserver<T> implements MaybeObserver<T>, Di
     }
   }
 
-  @Override
-  public final void onSuccess(T value) {
+  @Override public final void onSuccess(T value) {
     if (!isDisposed()) {
       dispose();
       try {
@@ -89,8 +91,7 @@ public final class AutoDisposingMaybeObserver<T> implements MaybeObserver<T>, Di
     }
   }
 
-  @Override
-  public final void onError(Throwable e) {
+  @Override public final void onError(Throwable e) {
     if (!isDisposed()) {
       dispose();
       try {
@@ -102,8 +103,7 @@ public final class AutoDisposingMaybeObserver<T> implements MaybeObserver<T>, Di
     }
   }
 
-  @Override
-  public final void onComplete() {
+  @Override public final void onComplete() {
     if (!isDisposed()) {
       dispose();
       try {

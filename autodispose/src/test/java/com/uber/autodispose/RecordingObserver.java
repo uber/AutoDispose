@@ -19,32 +19,27 @@ public final class RecordingObserver<T>
 
   private final BlockingDeque<Object> events = new LinkedBlockingDeque<>();
 
-  @Override
-  public void onError(Throwable e) {
+  @Override public void onError(Throwable e) {
     System.out.println(TAG + ": onError - " + e);
     events.addLast(new OnError(e));
   }
 
-  @Override
-  public void onComplete() {
+  @Override public void onComplete() {
     System.out.println(TAG + ": onCompleted");
     events.addLast(new OnCompleted());
   }
 
-  @Override
-  public void onSubscribe(Disposable d) {
+  @Override public void onSubscribe(Disposable d) {
     System.out.println(TAG + ": onSubscribe");
     events.addLast(new OnSubscribe(d));
   }
 
-  @Override
-  public void onSuccess(T value) {
+  @Override public void onSuccess(T value) {
     System.out.println(TAG + ": onSuccess - " + value);
     events.addLast(new OnSuccess(value));
   }
 
-  @Override
-  public void onNext(T t) {
+  @Override public void onNext(T t) {
     System.out.println(TAG + ": onNext - " + t);
     events.addLast(new OnNext(t));
   }
@@ -57,8 +52,8 @@ public final class RecordingObserver<T>
       throw new RuntimeException(e);
     }
     if (event == null) {
-      throw new NoSuchElementException("No event found while waiting for "
-          + wanted.getSimpleName());
+      throw new NoSuchElementException(
+          "No event found while waiting for " + wanted.getSimpleName());
     }
     assertThat(event).isInstanceOf(wanted);
     return wanted.cast(event);
@@ -111,15 +106,13 @@ public final class RecordingObserver<T>
       this.value = value;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
       return "OnNext[" + value + "]";
     }
   }
 
   private final class OnCompleted {
-    @Override
-    public String toString() {
+    @Override public String toString() {
       return "OnCompleted";
     }
   }
@@ -131,8 +124,7 @@ public final class RecordingObserver<T>
       this.throwable = throwable;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
       return "OnError[" + throwable + "]";
     }
   }
@@ -144,8 +136,7 @@ public final class RecordingObserver<T>
       this.disposable = disposable;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
       return "OnSubscribe";
     }
   }
@@ -157,8 +148,7 @@ public final class RecordingObserver<T>
       this.value = value;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
       return "OnSuccess[" + value + "]";
     }
   }

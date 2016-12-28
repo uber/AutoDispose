@@ -16,14 +16,11 @@ public interface FlowableSubscribeClause {
 
   <T> Subscriber<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError);
 
-  <T> Subscriber<T> around(Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError,
+  <T> Subscriber<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
       Action onComplete);
 
   <T> Subscriber<T> around(Subscriber<T> subscriber);
 
-  <T> Subscriber<T> around(Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
-      Consumer<? super Subscription> onSubscribe);
+  <T> Subscriber<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
+      Action onComplete, Consumer<? super Subscription> onSubscribe);
 }
