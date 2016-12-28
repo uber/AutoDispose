@@ -14,7 +14,6 @@ def build = [
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:2.3.0-alpha3',
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
-        retrolambda: 'me.tatarka:gradle-retrolambda:3.4.0',
         versions: 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
     ]
 ]

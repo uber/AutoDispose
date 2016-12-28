@@ -23,10 +23,8 @@ public final class AutoDisposingObserver<T> implements Observer<T>, Disposable {
   private final Action onComplete;
   private final Consumer<? super Disposable> onSubscribe;
 
-  AutoDisposingObserver(Maybe<?> lifecycle,
-      Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
+  AutoDisposingObserver(Maybe<?> lifecycle, Consumer<? super T> onNext,
+      Consumer<? super Throwable> onError, Action onComplete,
       Consumer<? super Disposable> onSubscribe) {
     this.lifecycle = lifecycle;
     this.onNext = AutoDisposeUtil.emptyConsumerIfNull(onNext);
@@ -35,10 +33,17 @@ public final class AutoDisposingObserver<T> implements Observer<T>, Disposable {
     this.onSubscribe = AutoDisposeUtil.emptyDisposableIfNull(onSubscribe);
   }
 
-  @Override
-  public final void onSubscribe(Disposable d) {
+  @Override public final void onSubscribe(Disposable d) {
     if (AutoDisposableHelper.setOnce(lifecycleDisposable,
-        lifecycle.subscribe(e -> dispose(), this::onError))) {
+        lifecycle.subscribe(new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            dispose();
+          }
+        }, new Consumer<Throwable>() {
+          @Override public void accept(Throwable e) throws Exception {
+            AutoDisposingObserver.this.onError(e);
+          }
+        }))) {
       if (AutoDisposableHelper.setOnce(mainDisposable, d)) {
         try {
           onSubscribe.accept(this);
@@ -51,13 +56,11 @@ public final class AutoDisposingObserver<T> implements Observer<T>, Disposable {
     }
   }
 
-  @Override
-  public final boolean isDisposed() {
+  @Override public final boolean isDisposed() {
     return mainDisposable.get() == AutoDisposableHelper.DISPOSED;
   }
 
-  @Override
-  public final void dispose() {
+  @Override public final void dispose() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
 
@@ -76,8 +79,7 @@ public final class AutoDisposingObserver<T> implements Observer<T>, Disposable {
     }
   }
 
-  @Override
-  public final void onNext(T value) {
+  @Override public final void onNext(T value) {
     if (!isDisposed()) {
       try {
         onNext.accept(value);
@@ -88,8 +90,7 @@ public final class AutoDisposingObserver<T> implements Observer<T>, Disposable {
     }
   }
 
-  @Override
-  public final void onError(Throwable e) {
+  @Override public final void onError(Throwable e) {
     if (!isDisposed()) {
       dispose();
       try {
@@ -101,8 +102,7 @@ public final class AutoDisposingObserver<T> implements Observer<T>, Disposable {
     }
   }
 
-  @Override
-  public final void onComplete() {
+  @Override public final void onComplete() {
     if (!isDisposed()) {
       dispose();
       try {

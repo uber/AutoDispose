@@ -25,10 +25,8 @@ public final class AutoDisposingSubscriber<T> implements Subscriber<T>, Subscrip
   private final Action onComplete;
   private final Consumer<? super Subscription> onSubscribe;
 
-  AutoDisposingSubscriber(Maybe<?> lifecycle,
-      Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
+  AutoDisposingSubscriber(Maybe<?> lifecycle, Consumer<? super T> onNext,
+      Consumer<? super Throwable> onError, Action onComplete,
       Consumer<? super Subscription> onSubscribe) {
     this.lifecycle = lifecycle;
     this.onError = AutoDisposeUtil.emptyErrorConsumerIfNull(onError);
@@ -37,10 +35,17 @@ public final class AutoDisposingSubscriber<T> implements Subscriber<T>, Subscrip
     this.onSubscribe = AutoDisposeUtil.emptySubscriptionIfNull(onSubscribe);
   }
 
-  @Override
-  public final void onSubscribe(Subscription s) {
+  @Override public final void onSubscribe(Subscription s) {
     if (AutoDisposableHelper.setOnce(lifecycleDisposable,
-        lifecycle.subscribe(e -> dispose(), this::onError))) {
+        lifecycle.subscribe(new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            dispose();
+          }
+        }, new Consumer<Throwable>() {
+          @Override public void accept(Throwable e) throws Exception {
+            AutoDisposingSubscriber.this.onError(e);
+          }
+        }))) {
       if (AutoSubscriptionHelper.setOnce(mainSubscription, s)) {
         try {
           onSubscribe.accept(this);
@@ -62,8 +67,7 @@ public final class AutoDisposingSubscriber<T> implements Subscriber<T>, Subscrip
    *
    * @param n the request amount, positive
    */
-  @Override
-  public final void request(long n) {
+  @Override public final void request(long n) {
     mainSubscription.get()
         .request(n);
   }
@@ -73,8 +77,7 @@ public final class AutoDisposingSubscriber<T> implements Subscriber<T>, Subscrip
    * Subscription set asynchronously (later) is cancelled immediately.
    * <p>This method is thread-safe and can be exposed as a public API.
    */
-  @Override
-  public final void cancel() {
+  @Override public final void cancel() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
 
@@ -93,18 +96,15 @@ public final class AutoDisposingSubscriber<T> implements Subscriber<T>, Subscrip
     }
   }
 
-  @Override
-  public final boolean isDisposed() {
+  @Override public final boolean isDisposed() {
     return mainSubscription.get() == AutoSubscriptionHelper.CANCELLED;
   }
 
-  @Override
-  public final void dispose() {
+  @Override public final void dispose() {
     cancel();
   }
 
-  @Override
-  public final void onNext(T value) {
+  @Override public final void onNext(T value) {
     if (!isDisposed()) {
       try {
         onNext.accept(value);
@@ -115,8 +115,7 @@ public final class AutoDisposingSubscriber<T> implements Subscriber<T>, Subscrip
     }
   }
 
-  @Override
-  public void onError(Throwable e) {
+  @Override public void onError(Throwable e) {
     if (!isDisposed()) {
       cancel();
       try {
@@ -128,8 +127,7 @@ public final class AutoDisposingSubscriber<T> implements Subscriber<T>, Subscrip
     }
   }
 
-  @Override
-  public final void onComplete() {
+  @Override public final void onComplete() {
     if (!isDisposed()) {
       cancel();
       try {

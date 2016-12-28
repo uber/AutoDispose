@@ -14,17 +14,13 @@ public interface MaybeSubscribeClause {
 
   <T> MaybeObserver<T> around(Consumer<? super T> onSuccess);
 
-  <T> MaybeObserver<T> around(Consumer<? super T> onSuccess,
-      Consumer<? super Throwable> onError);
+  <T> MaybeObserver<T> around(Consumer<? super T> onSuccess, Consumer<? super Throwable> onError);
 
-  <T> MaybeObserver<T> around(Consumer<? super T> onSuccess,
-      Consumer<? super Throwable> onError,
+  <T> MaybeObserver<T> around(Consumer<? super T> onSuccess, Consumer<? super Throwable> onError,
       Action onComplete);
 
   <T> MaybeObserver<T> around(MaybeObserver<T> observer);
 
-  <T> MaybeObserver<T> around(Consumer<? super T> onSuccess,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
-      Consumer<? super Disposable> onSubscribe);
+  <T> MaybeObserver<T> around(Consumer<? super T> onSuccess, Consumer<? super Throwable> onError,
+      Action onComplete, Consumer<? super Disposable> onSubscribe);
 }

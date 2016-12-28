@@ -3,6 +3,8 @@ package com.uber.autodispose;
 import hu.akarnokd.rxjava2.subjects.MaybeSubject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.functions.Cancellable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,15 +14,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 public class AutoDisposeObserverTest {
 
-  @Test
-  public void autoDispose_withMaybe_normal() {
+  @Test public void autoDispose_withMaybe_normal() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    AutoDisposingObserver<Integer> auto =
-        (AutoDisposingObserver<Integer>) AutoDispose.observable()
-            .withScope(lifecycle)
-            .around(o);
+    AutoDisposingObserver<Integer> auto = (AutoDisposingObserver<Integer>) AutoDispose.observable()
+        .withScope(lifecycle)
+        .around(o);
     source.subscribe(auto);
     o.takeSubscribe();
 
@@ -39,8 +39,7 @@ public class AutoDisposeObserverTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withMaybe_interrupted() {
+  @Test public void autoDispose_withMaybe_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
@@ -62,8 +61,7 @@ public class AutoDisposeObserverTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withProvider() {
+  @Test public void autoDispose_withProvider() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
@@ -93,8 +91,7 @@ public class AutoDisposeObserverTest {
     assertThat(scope.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withLifecycleProvider() {
+  @Test public void autoDispose_withLifecycleProvider() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
@@ -125,8 +122,7 @@ public class AutoDisposeObserverTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
+  @Test public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     RecordingObserver<Integer> o = new RecordingObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
@@ -139,8 +135,7 @@ public class AutoDisposeObserverTest {
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
   }
 
-  @Test
-  public void autoDispose_withProvider_afterLifecycle_shouldFail() {
+  @Test public void autoDispose_withProvider_afterLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     lifecycle.onNext(1);
     lifecycle.onNext(2);
@@ -156,14 +151,19 @@ public class AutoDisposeObserverTest {
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
   }
 
-  @Test
-  public void verifyCancellation() throws Exception {
-    AtomicInteger i = new AtomicInteger();
+  @Test public void verifyCancellation() throws Exception {
+    final AtomicInteger i = new AtomicInteger();
     //noinspection unchecked because Java
     final ObservableEmitter<Integer>[] emitter = new ObservableEmitter[1];
-    Observable<Integer> source = Observable.create(e -> {
-      e.setCancellable(i::incrementAndGet);
-      emitter[0] = e;
+    Observable<Integer> source = Observable.create(new ObservableOnSubscribe<Integer>() {
+      @Override public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+        e.setCancellable(new Cancellable() {
+          @Override public void cancel() throws Exception {
+            i.incrementAndGet();
+          }
+        });
+        emitter[0] = e;
+      }
     });
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.observable()

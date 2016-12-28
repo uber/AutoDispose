@@ -1,25 +1,10 @@
-buildscript {
-  repositories {
-    jcenter()
-  }
-
-  dependencies {
-    classpath deps.build.gradlePlugins.retrolambda
-  }
-}
-
 apply plugin: 'java'
-apply plugin: 'me.tatarka.retrolambda'
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
 
 test {
   testLogging.showStandardStreams = true
-}
-
-retrolambda {
-  oldJdk System.getenv("JAVA7_HOME")
 }
 
 dependencies {

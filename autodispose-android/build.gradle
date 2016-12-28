@@ -1,16 +1,10 @@
 buildscript {
   dependencies {
     classpath deps.build.gradlePlugins.android
-    classpath deps.build.gradlePlugins.retrolambda
   }
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
-
-retrolambda {
-  oldJdk System.getenv("JAVA7_HOME")
-}
 
 android {
   compileSdkVersion deps.build.compileSdkVersion
@@ -21,8 +15,8 @@ android {
     targetSdkVersion deps.build.targetSdkVersion
   }
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
   }
 }
 

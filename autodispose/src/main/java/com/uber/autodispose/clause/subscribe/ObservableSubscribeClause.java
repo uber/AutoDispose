@@ -16,14 +16,11 @@ public interface ObservableSubscribeClause {
 
   <T> Observer<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError);
 
-  <T> Observer<T> around(Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError,
+  <T> Observer<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
       Action onComplete);
 
   <T> Observer<T> around(Observer<T> observer);
 
-  <T> Observer<T> around(Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
-      Consumer<? super Disposable> onSubscribe);
+  <T> Observer<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
+      Action onComplete, Consumer<? super Disposable> onSubscribe);
 }
