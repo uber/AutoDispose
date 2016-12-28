@@ -18,7 +18,6 @@ public interface CompletableSubscribeClause {
 
   CompletableObserver around(CompletableObserver observer);
 
-  CompletableObserver around(Action action,
-      Consumer<? super Throwable> onError,
+  CompletableObserver around(Action action, Consumer<? super Throwable> onError,
       Consumer<? super Disposable> onSubscribe);
 }

@@ -21,20 +21,25 @@ public final class AutoDisposingSingleObserver<T> implements SingleObserver<T>, 
   private final Consumer<? super Throwable> onError;
   private final Consumer<? super Disposable> onSubscribe;
 
-  AutoDisposingSingleObserver(Maybe<?> lifecycle,
-      Consumer<? super T> onSuccess,
-      Consumer<? super Throwable> onError,
-      Consumer<? super Disposable> onSubscribe) {
+  AutoDisposingSingleObserver(Maybe<?> lifecycle, Consumer<? super T> onSuccess,
+      Consumer<? super Throwable> onError, Consumer<? super Disposable> onSubscribe) {
     this.lifecycle = lifecycle;
     this.onSuccess = AutoDisposeUtil.emptyConsumerIfNull(onSuccess);
     this.onError = AutoDisposeUtil.emptyErrorConsumerIfNull(onError);
     this.onSubscribe = AutoDisposeUtil.emptyDisposableIfNull(onSubscribe);
   }
 
-  @Override
-  public final void onSubscribe(Disposable d) {
+  @Override public final void onSubscribe(Disposable d) {
     if (AutoDisposableHelper.setOnce(lifecycleDisposable,
-        lifecycle.subscribe(e -> dispose(), this::onError))) {
+        lifecycle.subscribe(new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            dispose();
+          }
+        }, new Consumer<Throwable>() {
+          @Override public void accept(Throwable e) throws Exception {
+            AutoDisposingSingleObserver.this.onError(e);
+          }
+        }))) {
       if (AutoDisposableHelper.setOnce(mainDisposable, d)) {
         try {
           onSubscribe.accept(this);
@@ -47,13 +52,11 @@ public final class AutoDisposingSingleObserver<T> implements SingleObserver<T>, 
     }
   }
 
-  @Override
-  public final boolean isDisposed() {
+  @Override public final boolean isDisposed() {
     return mainDisposable.get() == AutoDisposableHelper.DISPOSED;
   }
 
-  @Override
-  public final void dispose() {
+  @Override public final void dispose() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
 
@@ -72,8 +75,7 @@ public final class AutoDisposingSingleObserver<T> implements SingleObserver<T>, 
     }
   }
 
-  @Override
-  public final void onSuccess(T value) {
+  @Override public final void onSuccess(T value) {
     if (!isDisposed()) {
       dispose();
       try {
@@ -85,8 +87,7 @@ public final class AutoDisposingSingleObserver<T> implements SingleObserver<T>, 
     }
   }
 
-  @Override
-  public final void onError(Throwable e) {
+  @Override public final void onError(Throwable e) {
     if (!isDisposed()) {
       dispose();
       try {

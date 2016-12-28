@@ -14,5 +14,4 @@ public interface ScopeClause<T> {
   T withScope(LifecycleScopeProvider<?> provider);
 
   T withScope(Maybe<?> lifecycle);
-
 }

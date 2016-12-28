@@ -149,13 +149,11 @@ public enum AutoDisposableHelper implements Disposable {
     RxJavaPlugins.onError(new IllegalStateException("Disposable already set!"));
   }
 
-  @Override
-  public void dispose() {
+  @Override public void dispose() {
     // deliberately no-op
   }
 
-  @Override
-  public boolean isDisposed() {
+  @Override public boolean isDisposed() {
     return true;
   }
 }

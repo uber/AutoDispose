@@ -3,6 +3,9 @@ package com.uber.autodispose;
 import hu.akarnokd.rxjava2.subjects.MaybeSubject;
 import hu.akarnokd.rxjava2.subjects.SingleSubject;
 import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
+import io.reactivex.functions.Cancellable;
 import io.reactivex.subjects.BehaviorSubject;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
@@ -13,8 +16,7 @@ import static com.uber.autodispose.TestUtil.makeProvider;
 
 public class AutoDisposeSingleObserverTest {
 
-  @Test
-  public void autoDispose_withMaybe_normal() {
+  @Test public void autoDispose_withMaybe_normal() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
@@ -36,8 +38,7 @@ public class AutoDisposeSingleObserverTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withMaybe_interrupted() {
+  @Test public void autoDispose_withMaybe_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
@@ -59,8 +60,7 @@ public class AutoDisposeSingleObserverTest {
     o.assertNoMoreEvents();
   }
 
-  @Test
-  public void autoDispose_withProvider() {
+  @Test public void autoDispose_withProvider() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
@@ -82,8 +82,7 @@ public class AutoDisposeSingleObserverTest {
     assertThat(scope.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withProvider_interrupted() {
+  @Test public void autoDispose_withProvider_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
@@ -106,8 +105,7 @@ public class AutoDisposeSingleObserverTest {
     o.assertNoMoreEvents();
   }
 
-  @Test
-  public void autoDispose_withLifecycleProvider() {
+  @Test public void autoDispose_withLifecycleProvider() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     SingleSubject<Integer> source = SingleSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
@@ -134,8 +132,7 @@ public class AutoDisposeSingleObserverTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withLifecycleProvider_interrupted() {
+  @Test public void autoDispose_withLifecycleProvider_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     SingleSubject<Integer> source = SingleSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
@@ -163,8 +160,7 @@ public class AutoDisposeSingleObserverTest {
     o.assertNoMoreEvents();
   }
 
-  @Test
-  public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
+  @Test public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     RecordingObserver<Integer> o = new RecordingObserver<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
@@ -177,8 +173,7 @@ public class AutoDisposeSingleObserverTest {
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
   }
 
-  @Test
-  public void autoDispose_withProvider_afterLifecycle_shouldFail() {
+  @Test public void autoDispose_withProvider_afterLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     lifecycle.onNext(1);
     lifecycle.onNext(2);
@@ -194,11 +189,18 @@ public class AutoDisposeSingleObserverTest {
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
   }
 
-  @Test
-  public void verifyCancellation() throws Exception {
-    AtomicInteger i = new AtomicInteger();
+  @Test public void verifyCancellation() throws Exception {
+    final AtomicInteger i = new AtomicInteger();
     //noinspection unchecked because Java
-    Single<Integer> source = Single.create(e -> e.setCancellable(i::incrementAndGet));
+    Single<Integer> source = Single.create(new SingleOnSubscribe<Integer>() {
+      @Override public void subscribe(SingleEmitter<Integer> e) throws Exception {
+        e.setCancellable(new Cancellable() {
+          @Override public void cancel() throws Exception {
+            i.incrementAndGet();
+          }
+        });
+      }
+    });
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.single()
         .withScope(lifecycle)

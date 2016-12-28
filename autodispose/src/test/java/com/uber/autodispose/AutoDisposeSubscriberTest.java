@@ -4,6 +4,8 @@ import hu.akarnokd.rxjava2.subjects.MaybeSubject;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.functions.Cancellable;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subscribers.TestSubscriber;
@@ -15,8 +17,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 public class AutoDisposeSubscriberTest {
 
-  @Test
-  public void autoDispose_withMaybe_normal() {
+  @Test public void autoDispose_withMaybe_normal() {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
@@ -42,8 +43,7 @@ public class AutoDisposeSubscriberTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withMaybe_interrupted() {
+  @Test public void autoDispose_withMaybe_interrupted() {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
@@ -69,8 +69,7 @@ public class AutoDisposeSubscriberTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withProvider() {
+  @Test public void autoDispose_withProvider() {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
@@ -103,8 +102,7 @@ public class AutoDisposeSubscriberTest {
     assertThat(scope.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withLifecycleProvider() {
+  @Test public void autoDispose_withLifecycleProvider() {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
@@ -138,8 +136,7 @@ public class AutoDisposeSubscriberTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test
-  public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
+  @Test public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     TestSubscriber<Integer> o = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
@@ -153,8 +150,7 @@ public class AutoDisposeSubscriberTest {
     assertThat(errors.get(0)).isInstanceOf(LifecycleNotStartedException.class);
   }
 
-  @Test
-  public void autoDispose_withProvider_afterLifecycle_shouldFail() {
+  @Test public void autoDispose_withProvider_afterLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     lifecycle.onNext(1);
     lifecycle.onNext(2);
@@ -171,14 +167,19 @@ public class AutoDisposeSubscriberTest {
     assertThat(errors.get(0)).isInstanceOf(LifecycleEndedException.class);
   }
 
-  @Test
-  public void verifyCancellation() throws Exception {
-    AtomicInteger i = new AtomicInteger();
+  @Test public void verifyCancellation() throws Exception {
+    final AtomicInteger i = new AtomicInteger();
     //noinspection unchecked because Java
     final FlowableEmitter<Integer>[] emitter = new FlowableEmitter[1];
-    Flowable<Integer> source = Flowable.create(e -> {
-      e.setCancellable(i::incrementAndGet);
-      emitter[0] = e;
+    Flowable<Integer> source = Flowable.create(new FlowableOnSubscribe<Integer>() {
+      @Override public void subscribe(FlowableEmitter<Integer> e) throws Exception {
+        e.setCancellable(new Cancellable() {
+          @Override public void cancel() throws Exception {
+            i.incrementAndGet();
+          }
+        });
+        emitter[0] = e;
+      }
     }, BackpressureStrategy.LATEST);
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.flowable()

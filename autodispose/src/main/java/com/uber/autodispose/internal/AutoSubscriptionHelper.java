@@ -34,13 +34,11 @@ public enum AutoSubscriptionHelper implements Subscription {
    */
   CANCELLED;
 
-  @Override
-  public void request(long n) {
+  @Override public void request(long n) {
     // deliberately ignored
   }
 
-  @Override
-  public void cancel() {
+  @Override public void cancel() {
     // deliberately ignored
   }
 
@@ -213,8 +211,7 @@ public enum AutoSubscriptionHelper implements Subscription {
    * @param s the new Subscription, not null (verified)
    * @return true if the Subscription was set the first time
    */
-  public static boolean deferredSetOnce(AtomicReference<Subscription> field,
-      AtomicLong requested,
+  public static boolean deferredSetOnce(AtomicReference<Subscription> field, AtomicLong requested,
       Subscription s) {
     if (AutoSubscriptionHelper.setOnce(field, s)) {
       long r = requested.getAndSet(0L);
@@ -234,8 +231,7 @@ public enum AutoSubscriptionHelper implements Subscription {
    * @param requested the current requested amount
    * @param n the request amount, positive (verified)
    */
-  public static void deferredRequest(AtomicReference<Subscription> field,
-      AtomicLong requested,
+  public static void deferredRequest(AtomicReference<Subscription> field, AtomicLong requested,
       long n) {
     Subscription s = field.get();
     if (s != null) {

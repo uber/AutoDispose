@@ -5,4 +5,4 @@ import com.uber.autodispose.clause.subscribe.ObservableSubscribeClause;
 /**
  * Scope clause for the scope provisioning steps.
  */
-public interface ObservableScopeClause extends ScopeClause<ObservableSubscribeClause> { }
+public interface ObservableScopeClause extends ScopeClause<ObservableSubscribeClause> {}
