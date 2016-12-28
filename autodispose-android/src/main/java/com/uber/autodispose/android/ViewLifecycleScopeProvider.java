@@ -3,7 +3,7 @@ package com.uber.autodispose.android;
 import android.os.Build;
 import android.view.View;
 import com.uber.autodispose.LifecycleEndedException;
-import com.uber.autodispose.LifecycleProvider;
+import com.uber.autodispose.LifecycleScopeProvider;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Cancellable;
@@ -11,7 +11,7 @@ import io.reactivex.functions.Function;
 
 import static com.uber.autodispose.android.Util.isMainThread;
 
-class ViewLifecycleProvider implements LifecycleProvider<ViewLifecycleEvent> {
+class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLifecycleEvent> {
   private static final Function<ViewLifecycleEvent, ViewLifecycleEvent> CORRESPONDING_EVENTS =
       lastEvent -> {
         switch (lastEvent) {
@@ -25,7 +25,7 @@ class ViewLifecycleProvider implements LifecycleProvider<ViewLifecycleEvent> {
   private final Observable<ViewLifecycleEvent> lifecycle;
   private final View view;
 
-  ViewLifecycleProvider(final View view) {
+  ViewLifecycleScopeProvider(final View view) {
     this.view = view;
     lifecycle = Observable.create(e -> {
       if (!isMainThread()) {
@@ -82,7 +82,10 @@ class ViewLifecycleProvider implements LifecycleProvider<ViewLifecycleEvent> {
 
   @Override
   public ViewLifecycleEvent peekLifecycle() {
-    return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
-        || view.getWindowToken() != null ? ViewLifecycleEvent.ATTACH : ViewLifecycleEvent.DETACH;
+    return
+        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
+            || view.getWindowToken() != null
+        ? ViewLifecycleEvent.ATTACH
+        : ViewLifecycleEvent.DETACH;
   }
 }

@@ -21,7 +21,8 @@ public class AutoDisposeSubscriberTest {
     PublishProcessor<Integer> source = PublishProcessor.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     AutoDisposingSubscriber<Integer> auto =
-        (AutoDisposingSubscriber<Integer>) AutoDispose.flowable(lifecycle)
+        (AutoDisposingSubscriber<Integer>) AutoDispose.flowable()
+            .withScope(lifecycle)
             .around(o);
     source.subscribe(auto);
     o.assertSubscribed();
@@ -46,7 +47,8 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.subscribe(AutoDispose.flowable(lifecycle)
+    source.subscribe(AutoDispose.flowable()
+        .withScope(lifecycle)
         .around(o));
     o.assertSubscribed();
 
@@ -71,9 +73,44 @@ public class AutoDisposeSubscriberTest {
   public void autoDispose_withProvider() {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
+    MaybeSubject<Integer> scope = MaybeSubject.create();
+    ScopeProvider provider = TestUtil.makeProvider(scope);
+    source.subscribe(AutoDispose.flowable()
+        .withScope(provider)
+        .around(o));
+    o.assertSubscribed();
+
+    assertThat(source.hasSubscribers()).isTrue();
+    assertThat(scope.hasObservers()).isTrue();
+
+    source.onNext(1);
+    o.assertValue(1);
+
+    source.onNext(2);
+
+    assertThat(source.hasSubscribers()).isTrue();
+    assertThat(scope.hasObservers()).isTrue();
+    o.assertValues(1, 2);
+
+    scope.onSuccess(3);
+    source.onNext(3);
+
+    // Nothing new
+    o.assertValues(1, 2);
+
+    // Unsubscribed
+    assertThat(source.hasSubscribers()).isFalse();
+    assertThat(scope.hasObservers()).isFalse();
+  }
+
+  @Test
+  public void autoDispose_withLifecycleProvider() {
+    TestSubscriber<Integer> o = new TestSubscriber<>();
+    PublishProcessor<Integer> source = PublishProcessor.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    LifecycleProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
-    source.subscribe(AutoDispose.flowable(provider)
+    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
+    source.subscribe(AutoDispose.flowable()
+        .withScope(provider)
         .around(o));
     o.assertSubscribed();
 
@@ -105,9 +142,10 @@ public class AutoDisposeSubscriberTest {
   public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     TestSubscriber<Integer> o = new TestSubscriber<>();
-    LifecycleProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     Flowable.just(1)
-        .subscribe(AutoDispose.flowable(provider)
+        .subscribe(AutoDispose.flowable()
+            .withScope(provider)
             .around(o));
 
     List<Throwable> errors = o.errors();
@@ -122,9 +160,10 @@ public class AutoDisposeSubscriberTest {
     lifecycle.onNext(2);
     lifecycle.onNext(3);
     TestSubscriber<Integer> o = new TestSubscriber<>();
-    LifecycleProvider<Integer> provider = TestUtil.makeProvider(lifecycle);
+    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     Flowable.just(1)
-        .subscribe(AutoDispose.flowable(provider)
+        .subscribe(AutoDispose.flowable()
+            .withScope(provider)
             .around(o));
 
     List<Throwable> errors = o.errors();
@@ -142,7 +181,8 @@ public class AutoDisposeSubscriberTest {
       emitter[0] = e;
     }, BackpressureStrategy.LATEST);
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.subscribe(AutoDispose.flowable(lifecycle)
+    source.subscribe(AutoDispose.flowable()
+        .withScope(lifecycle)
         .empty());
 
     assertThat(i.get()).isEqualTo(0);
