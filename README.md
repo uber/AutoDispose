@@ -1,11 +1,15 @@
 AutoDispose
 ===========
 
-**AutoDispose** is a tool for automatically binding the execution of RxJava 2 streams to a provided
-scope via disposal/cancellation.
+**AutoDispose** is an RxJava 2 tool for automatically binding the execution of RxJava 2 streams to a 
+provided scope via disposal/cancellation.
 
 Overview
 --------
+
+Often (especially in mobile applications), Rx subscriptions need to stop in response to some event 
+(for instance, when Activity#onStop() executes in an Android app). In order to support this common 
+scenario in RxJava 2, we built AutoDispose.
 
 The idea is simple: construct your chain like any other, and then at subscription you simply prefix your
 observer/consumer/etc implementations with a wrapping `AutoDispose` call. In every day use, it 
