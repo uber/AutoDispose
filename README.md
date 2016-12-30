@@ -29,19 +29,19 @@ scope - this helps prevent many classes of errors when an observable emits and i
 taken in the subscription are no longer valid. For instance, if a network request comes back after a
  UI has already been torn down, the UI can't be updated - this pattern prevents this type of bug.
 
-#### Scope
+### Scope
 
 `withScope` accepts three overloads: `Maybe`, `ScopeProvider`, and `LifecycleScopeProvider`. 
 
 
-##### Maybe 
+#### Maybe 
 
 The `Maybe` semantic is modeled after the `takeUntil()` operator, which accepts an `Observable` 
 whose first emission is used as a notification to signal completion. This is is logically the 
 behavior of a `Maybe`, so we choose to make that explicit. All scopes eventually resolve to a single
 `Maybe` that emits the end-of-scope notification.
 
-##### Providers
+#### Providers
 
 The provider options allow you to pass in an interface of something can provide a resolvable scope. 
 A common use case for this is objects that have implicit lifecycles, such as Android's `Activity`, 
@@ -51,7 +51,7 @@ corresponding events are for the current lifecycle state (e.g. `ATTACH` -> `DETA
 you to enforce lifecycle boundary requirements, and by default will error if the lifecycle has either
 not started yet or has already ended.
 
-###### ScopeLifecycleProvider
+##### ScopeLifecycleProvider
 
 ```java
 public interface LifecycleScopeProvider<E> {
@@ -75,7 +75,7 @@ also doing precondition checks for lifecycle boundaries. If a lifecycle has not 
 you to `onError` with a `LifecycleNotStartedException`. If the lifecycle as ended, it is recommended to
 throw a `LifecycleEndedException` in your `correspondingEvents()` mapping, but it is up to the user.
 
-###### ScopeProvider
+##### ScopeProvider
 
 ```java
 public interface ScopeProvider {
@@ -87,7 +87,7 @@ public interface ScopeProvider {
 This is particularly useful for objects with simple scopes ("stop when I stop") or very custom state
 that requires custom handling.
 
-#### "around"
+### "around"
 
 Every type has some number of `around` overloads. These simply match the available `subscribe` signatures
 for the observed type.
@@ -102,14 +102,14 @@ for the observed type.
    // And so on and so forth
 ```
 
-#### Behavior
+### Behavior
 
 The created observer encapsulates the parameters of `around` to create a disposable, auto-disposing
 observer that acts as a lambda observer (pass-through) unless the underlying scope `Maybe` emits.
 Both scope end and upstream termination result in immediate disposable of both the underlying scope
 subscription and upstream disposable.
 
-#### Support
+### Support
 
 `Flowable`, `Observable`, `Maybe`, `Single`, and `Completable` are all supported. Implementation is solely
 based on their `Observer` types, so conceivably any type that uses those for subscription should work.
@@ -117,7 +117,7 @@ based on their `Observer` types, so conceivably any type that uses those for sub
 There is a separate Android artifact with extra APIs for Android components, such as support for `View`
 lifecycle binding.
 
-### Motivations
+## Motivations
 
 Lifecycle management with RxJava and Android is nothing new, so why yet another tool?
 
@@ -156,7 +156,7 @@ Special thanks go to [Dan Lew][dan] (creator of RxLifecycle), who helped pioneer
  that we've learned from. Much of the internal scope resolution mechanics of `AutoDispose` are 
  inspired by RxLifecycle.
  
-### RxJava 1
+## RxJava 1
 
 This pattern is *sort of* possible in RxJava 1, but only on `Subscriber` (via `onStart()`) and 
 `CompletableObserver` (which matches RxJava 2's API). We are aggressively migrating our internal code
