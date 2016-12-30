@@ -7,6 +7,7 @@ android:
     - build-tools-25.0.2                # Build tools version
     - android-25                        # Target SDK version
     - extra-android-m2repository        # Support repo
+    - sys-img-armeabi-v7a-android-18    # Emulator
 
 jdk:
   - oraclejdk8
