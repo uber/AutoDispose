@@ -15,6 +15,7 @@
  */
 
 def versions = [
+    androidTest: '0.5',
     kotlin: '1.0.6',
     support: '25.1.0'
 ]
@@ -51,6 +52,8 @@ def support = [
 ]
 
 def test = [
+    androidRunner: "com.android.support.test:runner:${versions.androidTest}",
+    androidRules: "com.android.support.test:rules:${versions.androidTest}",
     junit: 'junit:junit:4.12',
     truth: 'com.google.truth:truth:0.31'
 ]
