@@ -30,7 +30,7 @@ import static com.uber.autodispose.android.AutoDisposeAndroidUtil.isMainThread;
 import static com.uber.autodispose.android.ViewLifecycleEvent.DETACH;
 import static com.uber.autodispose.internal.AutoDisposeUtil.checkNotNull;
 
-class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLifecycleEvent> {
+public class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLifecycleEvent> {
   private static final Function<ViewLifecycleEvent, ViewLifecycleEvent> CORRESPONDING_EVENTS =
       new Function<ViewLifecycleEvent, ViewLifecycleEvent>() {
         @Override public ViewLifecycleEvent apply(ViewLifecycleEvent lastEvent) throws Exception {
