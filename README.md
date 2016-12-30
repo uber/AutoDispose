@@ -149,11 +149,12 @@ At the end of the day, we wanted true disposal/unsubscription-based behavior, bu
 semantics around scope resolution. RxJava 2's `Observer` interfaces provide the perfect mechanism for
  this via their `onSubscribe()` callbacks. The result is de-risked `Single`/`Completable` usage, no ordering
  concerns, no threading concerns (fingers crossed), and true disposal with no further events of any kind
- upon lifecycle end. We're quite happy with it, and hope the community finds it useful as well.
+ upon scope end. We're quite happy with it, and hope the community finds it useful as well.
  
-Special thanks go to [Dan Lew][dan] (creator of RxLifecycle), whom I've had many discussions with 
-around lifecycle handling in RxJava with over the past couple years and learned a lot from. Much of 
-the internal lifecycle resolution mechanics of `AutoDispose` are inspired by RxLifecycle.
+Special thanks go to [Dan Lew][dan] (creator of RxLifecycle), who helped pioneer this area for RxJava 
+ in android and humored many of the discussions around lifecycle handling over the past couple years 
+ that we've learned from. Much of the internal scope resolution mechanics of `AutoDispose` are 
+ inspired by RxLifecycle.
  
 ### RxJava 1
 
