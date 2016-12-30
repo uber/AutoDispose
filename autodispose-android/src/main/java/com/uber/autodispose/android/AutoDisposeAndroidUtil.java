@@ -16,9 +16,11 @@
 
 package com.uber.autodispose.android;
 
+import android.os.Build;
 import android.os.Looper;
+import android.view.View;
 
-class Util {
+class AutoDisposeAndroidUtil {
   static boolean isMainThread() {
     try {
       return Looper.myLooper() == Looper.getMainLooper();
@@ -26,5 +28,10 @@ class Util {
       // Cover for tests
       return true;
     }
+  }
+
+  static boolean isAttached(View view) {
+    return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
+        || view.getWindowToken() != null;
   }
 }

@@ -16,10 +16,9 @@
 
 package com.uber.autodispose.android;
 
-import android.os.Build;
 import android.view.View;
-import com.uber.autodispose.LifecycleEndedException;
 import com.uber.autodispose.LifecycleScopeProvider;
+import com.uber.autodispose.OutsideLifecycleException;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -27,7 +26,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Function;
 
-import static com.uber.autodispose.android.Util.isMainThread;
+import static com.uber.autodispose.android.AutoDisposeAndroidUtil.isMainThread;
+import static com.uber.autodispose.android.ViewLifecycleEvent.DETACH;
+import static com.uber.autodispose.internal.AutoDisposeUtil.checkNotNull;
 
 class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLifecycleEvent> {
   private static final Function<ViewLifecycleEvent, ViewLifecycleEvent> CORRESPONDING_EVENTS =
@@ -35,9 +36,9 @@ class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLifecycle
         @Override public ViewLifecycleEvent apply(ViewLifecycleEvent lastEvent) throws Exception {
           switch (lastEvent) {
             case ATTACH:
-              return ViewLifecycleEvent.DETACH;
+              return DETACH;
             default:
-              throw new LifecycleEndedException();
+              throw new OutsideLifecycleException("View is detached!");
           }
         }
       };
@@ -45,7 +46,18 @@ class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLifecycle
   private final Observable<ViewLifecycleEvent> lifecycle;
   private final View view;
 
-  ViewLifecycleScopeProvider(final View view) {
+  /**
+   * Creates a {@link LifecycleScopeProvider} for Android Views.
+   *
+   * @param view the view to scope for
+   * @return a {@link LifecycleScopeProvider} against this view.
+   */
+  public static LifecycleScopeProvider from(View view) {
+    checkNotNull(view, "view == null");
+    return new ViewLifecycleScopeProvider(view);
+  }
+
+  private ViewLifecycleScopeProvider(final View view) {
     this.view = view;
     lifecycle = Observable.create(new ObservableOnSubscribe<ViewLifecycleEvent>() {
       @Override public void subscribe(final ObservableEmitter<ViewLifecycleEvent> e)
@@ -54,8 +66,7 @@ class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLifecycle
           throw new IllegalStateException("Views can only be bound to on the main thread!");
         }
 
-        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
-            || view.getWindowToken() != null) {
+        if (AutoDisposeAndroidUtil.isAttached(view)) {
           // Emit the last event, like a behavior subject
           e.onNext(ViewLifecycleEvent.ATTACH);
         }
@@ -66,7 +77,7 @@ class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLifecycle
           }
 
           @Override public void onViewDetachedFromWindow(View view1) {
-            e.onNext(ViewLifecycleEvent.DETACH);
+            e.onNext(DETACH);
           }
         };
 
@@ -90,6 +101,8 @@ class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLifecycle
             view.removeOnAttachStateChangeListener(listener);
           }
         });
+
+        view.addOnAttachStateChangeListener(listener);
       }
     });
   }
@@ -103,7 +116,6 @@ class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLifecycle
   }
 
   @Override public ViewLifecycleEvent peekLifecycle() {
-    return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
-        || view.getWindowToken() != null ? ViewLifecycleEvent.ATTACH : ViewLifecycleEvent.DETACH;
+    return AutoDisposeAndroidUtil.isAttached(view) ? ViewLifecycleEvent.ATTACH : DETACH;
   }
 }

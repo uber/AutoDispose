@@ -6,6 +6,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.FrameLayout;
+import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.OutsideLifecycleException;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
@@ -16,8 +17,7 @@ import org.junit.runner.RunWith;
 
 import static com.google.common.truth.Truth.assertThat;
 
-@RunWith(AndroidJUnit4.class)
-public final class AutoDisposeAndroidTest {
+@RunWith(AndroidJUnit4.class) public final class ViewLifecycleScopeProviderTest {
 
   @Rule public final ActivityTestRule<AutoDisposeTestActivity> activityRule =
       new ActivityTestRule<>(AutoDisposeTestActivity.class);
@@ -33,12 +33,22 @@ public final class AutoDisposeAndroidTest {
   }
 
   @Test public void observable_normal() {
-    RecordingObserver<Integer> o = new RecordingObserver<>();
-    PublishSubject<Integer> subject = PublishSubject.create();
+    final RecordingObserver<Integer> o = new RecordingObserver<>();
+    final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Attach it
-    instrumentation.runOnMainSync(() -> parent.addView(child));
-    instrumentation.runOnMainSync(() -> subject.subscribe(AutoDisposeAndroid.observable(child).around(o)));
+    instrumentation.runOnMainSync(new Runnable() {
+      @Override public void run() {
+        parent.addView(child);
+      }
+    });
+    instrumentation.runOnMainSync(new Runnable() {
+      @Override public void run() {
+        subject.subscribe(AutoDispose.observable()
+            .withScope(ViewLifecycleScopeProvider.from(child))
+            .around(o));
+      }
+    });
 
     Disposable d = o.takeSubscribe();
     o.assertNoMoreEvents(); // No initial value.
@@ -49,7 +59,11 @@ public final class AutoDisposeAndroidTest {
     subject.onNext(1);
     assertThat(o.takeNext()).isEqualTo(1);
 
-    instrumentation.runOnMainSync(() -> parent.removeView(child));
+    instrumentation.runOnMainSync(new Runnable() {
+      @Override public void run() {
+        parent.removeView(child);
+      }
+    });
 
     subject.onNext(2);
     o.assertNoMoreEvents();
@@ -62,8 +76,14 @@ public final class AutoDisposeAndroidTest {
     PublishSubject<Integer> subject = PublishSubject.create();
 
     // Attach it
-    instrumentation.runOnMainSync(() -> parent.addView(child));
-    subject.subscribe(AutoDisposeAndroid.observable(child).around(o));
+    instrumentation.runOnMainSync(new Runnable() {
+      @Override public void run() {
+        parent.addView(child);
+      }
+    });
+    subject.subscribe(AutoDispose.observable()
+        .withScope(ViewLifecycleScopeProvider.from(child))
+        .around(o));
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
@@ -74,10 +94,16 @@ public final class AutoDisposeAndroidTest {
   }
 
   @Test public void observable_offBeforeAttach_shouldFail() {
-    RecordingObserver<Integer> o = new RecordingObserver<>();
-    PublishSubject<Integer> subject = PublishSubject.create();
+    final RecordingObserver<Integer> o = new RecordingObserver<>();
+    final PublishSubject<Integer> subject = PublishSubject.create();
 
-    instrumentation.runOnMainSync(() -> subject.subscribe(AutoDisposeAndroid.observable(child).around(o)));
+    instrumentation.runOnMainSync(new Runnable() {
+      @Override public void run() {
+        subject.subscribe(AutoDispose.observable()
+            .withScope(ViewLifecycleScopeProvider.from(child))
+            .around(o));
+      }
+    });
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
@@ -87,12 +113,26 @@ public final class AutoDisposeAndroidTest {
   }
 
   @Test public void observable_offAfterDetach_shouldFail() {
-    RecordingObserver<Integer> o = new RecordingObserver<>();
-    PublishSubject<Integer> subject = PublishSubject.create();
+    final RecordingObserver<Integer> o = new RecordingObserver<>();
+    final PublishSubject<Integer> subject = PublishSubject.create();
 
-    instrumentation.runOnMainSync(() -> parent.addView(child));
-    instrumentation.runOnMainSync(() -> parent.removeView(child));
-    instrumentation.runOnMainSync(() -> subject.subscribe(AutoDisposeAndroid.observable(child).around(o)));
+    instrumentation.runOnMainSync(new Runnable() {
+      @Override public void run() {
+        parent.addView(child);
+      }
+    });
+    instrumentation.runOnMainSync(new Runnable() {
+      @Override public void run() {
+        parent.removeView(child);
+      }
+    });
+    instrumentation.runOnMainSync(new Runnable() {
+      @Override public void run() {
+        subject.subscribe(AutoDispose.observable()
+            .withScope(ViewLifecycleScopeProvider.from(child))
+            .around(o));
+      }
+    });
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
