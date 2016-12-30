@@ -24,6 +24,11 @@ myObservable
         .around(s -> ...));     // Your usual implementation
 ```
 
+By doing this, you will automatically unsubscribe from `myObservable` as indicated by your 
+scope - this helps prevent many classes of errors when an observable emits and item, but the actions 
+taken in the subscription are no longer valid. For instance, if a network request comes back after a
+ UI has already been torn down, the UI can't be updated - this pattern prevents this type of bug.
+
 #### Scope
 
 `scopeTo` accepts two overloads: `Maybe` and `ScopeProvider`. The `Maybe` semantic is modeled after
