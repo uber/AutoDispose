@@ -29,6 +29,7 @@ android {
   defaultConfig {
     minSdkVersion deps.build.minSdkVersion
     targetSdkVersion deps.build.targetSdkVersion
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
@@ -41,8 +42,12 @@ dependencies {
   compile deps.rx.java
   compile deps.rx.android
   compile deps.support.annotations
-  testCompile deps.test.junit
-  testCompile deps.test.truth
+  androidTestCompile deps.support.annotations
+  androidTestCompile deps.test.junit
+  androidTestCompile deps.test.truth
+  androidTestCompile deps.test.androidRunner
+  androidTestCompile deps.test.androidRules
+
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

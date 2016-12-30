@@ -16,6 +16,22 @@
 
 package com.uber.autodispose.android;
 
-public class AutoDisposeAndroidTest {
-  // TODO whenever the IDE starts working >_>
+import android.os.Build;
+import android.os.Looper;
+import android.view.View;
+
+class AutoDisposeAndroidUtil {
+  static boolean isMainThread() {
+    try {
+      return Looper.myLooper() == Looper.getMainLooper();
+    } catch (Exception e) {
+      // Cover for tests
+      return true;
+    }
+  }
+
+  static boolean isAttached(View view) {
+    return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
+        || view.getWindowToken() != null;
+  }
 }
