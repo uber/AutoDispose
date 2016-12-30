@@ -20,7 +20,7 @@ myObservable
     .doStuff()
     .subscribe(AutoDispose
         .observable()           // The RxJava type
-        .scopeTo(this)          // The scope, can be a Maybe<?> or a ScopeProvider<?>
+        .withScope(this)        // The scope, can be a Maybe<?> or a ScopeProvider<?>
         .around(s -> ...));     // Your usual implementation
 ```
 
@@ -31,28 +31,82 @@ taken in the subscription are no longer valid. For instance, if a network reques
 
 #### Scope
 
-`scopeTo` accepts two overloads: `Maybe` and `ScopeProvider`. The `Maybe` semantic is modeled after
-the `takeUntil()` operator, which accepts an `Observable` whose first emission is used as a notification
-to signal completion. This is is logically the behavior of a `Maybe`, so we choose to make that explicit.
+`withScope` accepts three overloads: `Maybe`, `ScopeProvider`, and `LifecycleScopeProvider`. 
 
-The alternative option of a `ScopeProvider` allows you to pass in an interface of something can provide
-a resolvable scope. A common use case for this is objects that have implicit lifecycles, such as Android's
-`Activity`, `Fragment`, and `View` classes. Internally at subscription-time, `AutoDispose` will resolve
+
+##### Maybe 
+
+The `Maybe` semantic is modeled after the `takeUntil()` operator, which accepts an `Observable` 
+whose first emission is used as a notification to signal completion. This is is logically the 
+behavior of a `Maybe`, so we choose to make that explicit. All scopes eventually resolve to a single
+`Maybe` that emits the end-of-scope notification.
+
+##### Providers
+
+The provider options allow you to pass in an interface of something can provide a resolvable scope. 
+A common use case for this is objects that have implicit lifecycles, such as Android's `Activity`, 
+`Fragment`, and `View` classes. Internally at subscription-time, `AutoDispose` will resolve
 a `Maybe` representation of the target `end` event in the lifecycle, and exposes an API to dictate what
 corresponding events are for the current lifecycle state (e.g. `ATTACH` -> `DETACH`). This also allows
 you to enforce lifecycle boundary requirements, and by default will error if the lifecycle has either
 not started yet or has already ended.
+
+###### ScopeLifecycleProvider
+
+```java
+public interface LifecycleScopeProvider<E> {
+  Observable<E> lifecycle();
+
+  Function<E, E> correspondingEvents();
+
+  E peekLifecycle();
+}
+```
+
+`ScopeLifecycleProvider` is a special case targeted at binding to things with lifecycles. Its API is
+as follows:
+  - `lifecycle()` - returns an `Observable` of lifecycle events. This should be backed by a `BehaviorSubject`
+  or something similar (`BehaviorRelay`, etc).
+  - `correspondingEvents()` - a mapping of events to corresponding ones, i.e. Attach -> Detach.
+  - `peekLifecycle()` - returns the current lifecycle state of the object.
+
+`AutoDispose` uses these pieces to construct a `Maybe` representation of the proper end scope, while
+also doing precondition checks for lifecycle boundaries. If a lifecycle has not started, it will send 
+you to `onError` with a `LifecycleNotStartedException`. If the lifecycle as ended, it is recommended to
+throw a `LifecycleEndedException` in your `correspondingEvents()` mapping, but it is up to the user.
+
+###### ScopeProvider
+
+```java
+public interface ScopeProvider {
+  Maybe<?> requestScope();
+}
+```
+
+`ScopeProvider` is an abstraction that allows objects to expose and control and provide their own scopes.
+This is particularly useful for objects with simple scopes ("stop when I stop") or very custom state
+that requires custom handling.
 
 #### "around"
 
 Every type has some number of `around` overloads. These simply match the available `subscribe` signatures
 for the observed type.
 
+```java
+   // For Observable
+   .around(someObserver);
+   .around(someConsumer);
+   .around(someConsumer, someError);
+   .around(someConsumer, someError, someAction);
+ 
+   // And so on and so forth
+```
+
 #### Behavior
 
 The created observer encapsulates the parameters of `around` to create a disposable, auto-disposing
-observer that acts as a lambda observer (passthrough) unless the underlying lifecycle `Maybe` emits.
-Both lifecycle end and upstream termination result in immediate disposable of both the underlying lifecycle
+observer that acts as a lambda observer (pass-through) unless the underlying scope `Maybe` emits.
+Both scope end and upstream termination result in immediate disposable of both the underlying scope
 subscription and upstream disposable.
 
 #### Support
