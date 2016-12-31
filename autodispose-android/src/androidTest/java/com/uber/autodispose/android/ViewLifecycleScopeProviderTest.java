@@ -45,7 +45,7 @@ import static com.google.common.truth.Truth.assertThat;
     instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
         subject.subscribe(AutoDispose.observable()
-            .withScope(ViewLifecycleScopeProvider.from(child))
+            .scopeWith(ViewLifecycleScopeProvider.from(child))
             .around(o));
       }
     });
@@ -82,7 +82,7 @@ import static com.google.common.truth.Truth.assertThat;
       }
     });
     subject.subscribe(AutoDispose.observable()
-        .withScope(ViewLifecycleScopeProvider.from(child))
+        .scopeWith(ViewLifecycleScopeProvider.from(child))
         .around(o));
 
     Disposable d = o.takeSubscribe();
@@ -100,7 +100,7 @@ import static com.google.common.truth.Truth.assertThat;
     instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
         subject.subscribe(AutoDispose.observable()
-            .withScope(ViewLifecycleScopeProvider.from(child))
+            .scopeWith(ViewLifecycleScopeProvider.from(child))
             .around(o));
       }
     });
@@ -129,7 +129,7 @@ import static com.google.common.truth.Truth.assertThat;
     instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
         subject.subscribe(AutoDispose.observable()
-            .withScope(ViewLifecycleScopeProvider.from(child))
+            .scopeWith(ViewLifecycleScopeProvider.from(child))
             .around(o));
       }
     });
