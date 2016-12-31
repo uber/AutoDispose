@@ -20,7 +20,7 @@ myObservable
     .doStuff()
     .subscribe(AutoDispose
         .observable()           // The RxJava type
-        .withScope(this)        // The scope, can be a Maybe<?> or a ScopeProvider<?>
+        .scopeWith(this)        // The scope
         .around(s -> ...));     // Your usual implementation
 ```
 
@@ -31,7 +31,7 @@ taken in the subscription are no longer valid. For instance, if a network reques
 
 ### Scope
 
-`withScope` accepts three overloads: `Maybe`, `ScopeProvider`, and `LifecycleScopeProvider`. 
+`scopeWith` accepts three overloads: `Maybe`, `ScopeProvider`, and `LifecycleScopeProvider`. 
 
 
 #### Maybe 
