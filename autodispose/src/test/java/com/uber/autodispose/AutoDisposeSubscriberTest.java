@@ -39,7 +39,7 @@ public class AutoDisposeSubscriberTest {
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     AutoDisposingSubscriber<Integer> auto =
         (AutoDisposingSubscriber<Integer>) AutoDispose.flowable()
-            .withScope(lifecycle)
+            .scopeWith(lifecycle)
             .around(o);
     source.subscribe(auto);
     o.assertSubscribed();
@@ -64,7 +64,7 @@ public class AutoDisposeSubscriberTest {
     PublishProcessor<Integer> source = PublishProcessor.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.flowable()
-        .withScope(lifecycle)
+        .scopeWith(lifecycle)
         .around(o));
     o.assertSubscribed();
 
@@ -91,7 +91,7 @@ public class AutoDisposeSubscriberTest {
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = TestUtil.makeProvider(scope);
     source.subscribe(AutoDispose.flowable()
-        .withScope(provider)
+        .scopeWith(provider)
         .around(o));
     o.assertSubscribed();
 
@@ -124,7 +124,7 @@ public class AutoDisposeSubscriberTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.flowable()
-        .withScope(provider)
+        .scopeWith(provider)
         .around(o));
     o.assertSubscribed();
 
@@ -158,7 +158,7 @@ public class AutoDisposeSubscriberTest {
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     Flowable.just(1)
         .subscribe(AutoDispose.flowable()
-            .withScope(provider)
+            .scopeWith(provider)
             .around(o));
 
     List<Throwable> errors = o.errors();
@@ -175,7 +175,7 @@ public class AutoDisposeSubscriberTest {
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     Flowable.just(1)
         .subscribe(AutoDispose.flowable()
-            .withScope(provider)
+            .scopeWith(provider)
             .around(o));
 
     List<Throwable> errors = o.errors();
@@ -199,7 +199,7 @@ public class AutoDisposeSubscriberTest {
     }, BackpressureStrategy.LATEST);
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.flowable()
-        .withScope(lifecycle)
+        .scopeWith(lifecycle)
         .empty());
 
     assertThat(i.get()).isEqualTo(0);

@@ -25,9 +25,9 @@ import io.reactivex.Maybe;
  */
 public interface ScopeClause<T> {
 
-  T withScope(ScopeProvider provider);
+  T scopeWith(ScopeProvider provider);
 
-  T withScope(LifecycleScopeProvider<?> provider);
+  T scopeWith(LifecycleScopeProvider<?> provider);
 
-  T withScope(Maybe<?> lifecycle);
+  T scopeWith(Maybe<?> lifecycle);
 }

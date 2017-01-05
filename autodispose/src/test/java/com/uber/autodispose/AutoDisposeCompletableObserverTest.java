@@ -37,7 +37,7 @@ public class AutoDisposeCompletableObserverTest {
     CompletableSubject source = CompletableSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.completable()
-        .withScope(lifecycle)
+        .scopeWith(lifecycle)
         .around(o));
     o.takeSubscribe();
 
@@ -59,7 +59,7 @@ public class AutoDisposeCompletableObserverTest {
     CompletableSubject source = CompletableSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.completable()
-        .withScope(lifecycle)
+        .scopeWith(lifecycle)
         .around(o));
     o.takeSubscribe();
 
@@ -82,7 +82,7 @@ public class AutoDisposeCompletableObserverTest {
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
     source.subscribe(AutoDispose.completable()
-        .withScope(provider)
+        .scopeWith(provider)
         .around(o));
     o.takeSubscribe();
 
@@ -103,7 +103,7 @@ public class AutoDisposeCompletableObserverTest {
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
     source.subscribe(AutoDispose.completable()
-        .withScope(provider)
+        .scopeWith(provider)
         .around(o));
     o.takeSubscribe();
 
@@ -127,7 +127,7 @@ public class AutoDisposeCompletableObserverTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.completable()
-        .withScope(provider)
+        .scopeWith(provider)
         .around(o));
     o.takeSubscribe();
 
@@ -153,7 +153,7 @@ public class AutoDisposeCompletableObserverTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.completable()
-        .withScope(provider)
+        .scopeWith(provider)
         .around(o));
     o.takeSubscribe();
 
@@ -182,7 +182,7 @@ public class AutoDisposeCompletableObserverTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Completable.complete()
         .subscribe(AutoDispose.completable()
-            .withScope(provider)
+            .scopeWith(provider)
             .around(o));
 
     o.takeSubscribe();
@@ -198,7 +198,7 @@ public class AutoDisposeCompletableObserverTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Completable.complete()
         .subscribe(AutoDispose.completable()
-            .withScope(provider)
+            .scopeWith(provider)
             .around(o));
 
     o.takeSubscribe();
@@ -219,7 +219,7 @@ public class AutoDisposeCompletableObserverTest {
     });
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.completable()
-        .withScope(lifecycle)
+        .scopeWith(lifecycle)
         .empty());
 
     assertThat(i.get()).isEqualTo(0);
