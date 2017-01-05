@@ -78,71 +78,71 @@ public final class AutoDispose {
   }
 
   private static class FlowableClauseImpl implements FlowableScopeClause {
-    @Override public AutoDisposingSubscriberCreator withScope(ScopeProvider provider) {
+    @Override public AutoDisposingSubscriberCreator scopeWith(ScopeProvider provider) {
       return new AutoDisposingSubscriberCreator(provider);
     }
 
-    @Override public AutoDisposingSubscriberCreator withScope(LifecycleScopeProvider<?> provider) {
+    @Override public AutoDisposingSubscriberCreator scopeWith(LifecycleScopeProvider<?> provider) {
       return new AutoDisposingSubscriberCreator(provider);
     }
 
-    @Override public AutoDisposingSubscriberCreator withScope(Maybe<?> lifecycle) {
+    @Override public AutoDisposingSubscriberCreator scopeWith(Maybe<?> lifecycle) {
       return new AutoDisposingSubscriberCreator(lifecycle);
     }
   }
 
   private static class ObservableScopeClauseImpl implements ObservableScopeClause {
-    @Override public ObservableSubscribeClause withScope(ScopeProvider provider) {
+    @Override public ObservableSubscribeClause scopeWith(ScopeProvider provider) {
       return new AutoDisposingObserverCreator(provider);
     }
 
-    @Override public ObservableSubscribeClause withScope(LifecycleScopeProvider<?> provider) {
+    @Override public ObservableSubscribeClause scopeWith(LifecycleScopeProvider<?> provider) {
       return new AutoDisposingObserverCreator(provider);
     }
 
-    @Override public ObservableSubscribeClause withScope(Maybe<?> lifecycle) {
+    @Override public ObservableSubscribeClause scopeWith(Maybe<?> lifecycle) {
       return new AutoDisposingObserverCreator(lifecycle);
     }
   }
 
   private static class MaybeScopeClauseImpl implements MaybeScopeClause {
-    @Override public MaybeSubscribeClause withScope(ScopeProvider provider) {
+    @Override public MaybeSubscribeClause scopeWith(ScopeProvider provider) {
       return new AutoDisposingMaybeObserverCreator(provider);
     }
 
-    @Override public MaybeSubscribeClause withScope(LifecycleScopeProvider<?> provider) {
+    @Override public MaybeSubscribeClause scopeWith(LifecycleScopeProvider<?> provider) {
       return new AutoDisposingMaybeObserverCreator(provider);
     }
 
-    @Override public MaybeSubscribeClause withScope(Maybe<?> lifecycle) {
+    @Override public MaybeSubscribeClause scopeWith(Maybe<?> lifecycle) {
       return new AutoDisposingMaybeObserverCreator(lifecycle);
     }
   }
 
   private static class SingleScopeClauseImpl implements SingleScopeClause {
-    @Override public SingleSubscribeClause withScope(ScopeProvider provider) {
+    @Override public SingleSubscribeClause scopeWith(ScopeProvider provider) {
       return new AutoDisposingSingleObserverCreator(provider);
     }
 
-    @Override public SingleSubscribeClause withScope(LifecycleScopeProvider<?> provider) {
+    @Override public SingleSubscribeClause scopeWith(LifecycleScopeProvider<?> provider) {
       return new AutoDisposingSingleObserverCreator(provider);
     }
 
-    @Override public SingleSubscribeClause withScope(Maybe<?> lifecycle) {
+    @Override public SingleSubscribeClause scopeWith(Maybe<?> lifecycle) {
       return new AutoDisposingSingleObserverCreator(lifecycle);
     }
   }
 
   private static class CompletableScopeClauseImpl implements CompletableScopeClause {
-    @Override public CompletableSubscribeClause withScope(ScopeProvider provider) {
+    @Override public CompletableSubscribeClause scopeWith(ScopeProvider provider) {
       return new AutoDisposingCompletableObserverCreator(provider);
     }
 
-    @Override public CompletableSubscribeClause withScope(LifecycleScopeProvider<?> provider) {
+    @Override public CompletableSubscribeClause scopeWith(LifecycleScopeProvider<?> provider) {
       return new AutoDisposingCompletableObserverCreator(provider);
     }
 
-    @Override public CompletableSubscribeClause withScope(Maybe<?> lifecycle) {
+    @Override public CompletableSubscribeClause scopeWith(Maybe<?> lifecycle) {
       return new AutoDisposingCompletableObserverCreator(lifecycle);
     }
   }

@@ -37,7 +37,7 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.single()
-        .withScope(lifecycle)
+        .scopeWith(lifecycle)
         .around(o));
     o.takeSubscribe();
 
@@ -59,7 +59,7 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.single()
-        .withScope(lifecycle)
+        .scopeWith(lifecycle)
         .around(o));
     o.takeSubscribe();
 
@@ -82,7 +82,7 @@ public class AutoDisposeSingleObserverTest {
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
     source.subscribe(AutoDispose.single()
-        .withScope(provider)
+        .scopeWith(provider)
         .around(o));
     o.takeSubscribe();
 
@@ -104,7 +104,7 @@ public class AutoDisposeSingleObserverTest {
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
     source.subscribe(AutoDispose.single()
-        .withScope(provider)
+        .scopeWith(provider)
         .around(o));
     o.takeSubscribe();
 
@@ -127,7 +127,7 @@ public class AutoDisposeSingleObserverTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.single()
-        .withScope(provider)
+        .scopeWith(provider)
         .around(o));
     o.takeSubscribe();
 
@@ -154,7 +154,7 @@ public class AutoDisposeSingleObserverTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.single()
-        .withScope(provider)
+        .scopeWith(provider)
         .around(o));
     o.takeSubscribe();
 
@@ -182,7 +182,7 @@ public class AutoDisposeSingleObserverTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Single.just(1)
         .subscribe(AutoDispose.single()
-            .withScope(provider)
+            .scopeWith(provider)
             .around(o));
 
     o.takeSubscribe();
@@ -198,7 +198,7 @@ public class AutoDisposeSingleObserverTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Single.just(1)
         .subscribe(AutoDispose.single()
-            .withScope(provider)
+            .scopeWith(provider)
             .around(o));
 
     o.takeSubscribe();
@@ -219,7 +219,7 @@ public class AutoDisposeSingleObserverTest {
     });
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.single()
-        .withScope(lifecycle)
+        .scopeWith(lifecycle)
         .empty());
 
     assertThat(i.get()).isEqualTo(0);
