@@ -53,8 +53,8 @@ final class TestUtil {
   static LifecycleScopeProvider<Integer> makeLifecycleProvider(
       final BehaviorSubject<Integer> lifecycle) {
     return new LifecycleScopeProvider<Integer>() {
-      @Nonnull @Override public Observable<Integer> lifecycle() {
-        return lifecycle;
+      @Nonnull @Override public BehaviorObservable<Integer> lifecycle() {
+        return lifecycle.to(BehaviorObservable.<Integer>converter());
       }
 
       @Nonnull @Override public Function<Integer, Integer> correspondingEvents() {

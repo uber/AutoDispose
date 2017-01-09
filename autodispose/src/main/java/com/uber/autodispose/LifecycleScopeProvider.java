@@ -16,7 +16,6 @@
 
 package com.uber.autodispose;
 
-import io.reactivex.Observable;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.functions.Function;
 import javax.annotation.Nullable;
@@ -33,7 +32,7 @@ public interface LifecycleScopeProvider<E> {
   /**
    * @return a sequence of lifecycle events.
    */
-  @CheckReturnValue Observable<E> lifecycle();
+  @CheckReturnValue BehaviorObservable<E> lifecycle();
 
   /**
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
