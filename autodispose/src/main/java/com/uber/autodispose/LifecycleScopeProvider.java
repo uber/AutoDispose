@@ -32,11 +32,11 @@ public interface LifecycleScopeProvider<E> {
   /**
    * @return a sequence of lifecycle events.
    */
-  @CheckReturnValue BehaviorObservable<E> lifecycle();
+  @CheckReturnValue LifecycleObservable<E> lifecycle();
 
   /**
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
-   * avoid unnecessary object allocationn.
+   * avoid unnecessary object allocation.
    */
   @CheckReturnValue Function<E, E> correspondingEvents();
 
