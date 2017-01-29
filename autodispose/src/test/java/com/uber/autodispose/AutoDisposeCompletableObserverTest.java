@@ -16,13 +16,13 @@
 
 package com.uber.autodispose;
 
-import hu.akarnokd.rxjava2.subjects.CompletableSubject;
-import hu.akarnokd.rxjava2.subjects.MaybeSubject;
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
 import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.CompletableSubject;
+import io.reactivex.subjects.MaybeSubject;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
 

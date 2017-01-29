@@ -16,11 +16,11 @@
 
 package com.uber.autodispose;
 
-import hu.akarnokd.rxjava2.subjects.MaybeSubject;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.MaybeSubject;
 import javax.annotation.Nonnull;
 
 final class TestUtil {
