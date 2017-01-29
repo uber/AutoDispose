@@ -16,6 +16,7 @@
 
 package com.uber.autodispose;
 
+import com.uber.autodispose.observers.AutoDisposingSingleObserver;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
@@ -25,8 +26,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
 
-final class AutoDisposingSingleObserverImpl<T> implements
-    com.uber.autodispose.observers.AutoDisposingSingleObserver<T> {
+final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObserver<T> {
 
   private final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
