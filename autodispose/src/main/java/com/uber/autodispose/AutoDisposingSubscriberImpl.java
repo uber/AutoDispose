@@ -95,19 +95,30 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
   @Override public final void cancel() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
-
-      // If we've never actually started the upstream subscription (i.e. requested immediately in
-      // onSubscribe and had a terminal event), we need to still send an empty subscription instance
-      // to abide by the Subscriber contract.
-      if (mainSubscription.get() == null) {
-        try {
-          onSubscribe.accept(EmptySubscription.INSTANCE);
-        } catch (Exception e) {
-          Exceptions.throwIfFatal(e);
-          RxJavaPlugins.onError(e);
-        }
-      }
+      callMainSubscribeIfNecessary();
       AutoSubscriptionHelper.cancel(mainSubscription);
+    }
+  }
+
+  private void lazyCancel() {
+    synchronized (this) {
+      AutoDisposableHelper.dispose(lifecycleDisposable);
+      callMainSubscribeIfNecessary();
+      mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
+    }
+  }
+
+  private void callMainSubscribeIfNecessary() {
+    // If we've never actually started the upstream subscription (i.e. requested immediately in
+    // onSubscribe and had a terminal event), we need to still send an empty subscription instance
+    // to abide by the Subscriber contract.
+    if (mainSubscription.get() == null) {
+      try {
+        onSubscribe.accept(EmptySubscription.INSTANCE);
+      } catch (Exception e) {
+        Exceptions.throwIfFatal(e);
+        RxJavaPlugins.onError(e);
+      }
     }
   }
 
@@ -132,7 +143,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
 
   @Override public void onError(Throwable e) {
     if (!isDisposed()) {
-      cancel();
+      lazyCancel();
       try {
         onError.accept(e);
       } catch (Exception e1) {
@@ -144,7 +155,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
 
   @Override public final void onComplete() {
     if (!isDisposed()) {
-      cancel();
+      lazyCancel();
       try {
         onComplete.run();
       } catch (Exception e) {
