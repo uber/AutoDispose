@@ -23,22 +23,22 @@ import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
 
 /**
- * Subscribe clause for the around steps that match Single's subscribe overloads.
+ * Subscribe clause for the lambdize steps that match Single's subscribe overloads.
  */
 public interface SingleSubscribeClause {
 
   <T> AutoDisposingSingleObserver<T> empty();
 
-  <T> AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess);
+  <T> AutoDisposingSingleObserver<T> lambdize(Consumer<? super T> onSuccess);
 
-  <T> AutoDisposingSingleObserver<T> around(BiConsumer<? super T, ? super Throwable> biConsumer);
+  <T> AutoDisposingSingleObserver<T> lambdize(BiConsumer<? super T, ? super Throwable> biConsumer);
 
-  <T> AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess,
+  <T> AutoDisposingSingleObserver<T> lambdize(Consumer<? super T> onSuccess,
       Consumer<? super Throwable> onError);
 
-  <T> AutoDisposingSingleObserver<T> around(SingleObserver<T> observer);
+  <T> AutoDisposingSingleObserver<T> lambdize(SingleObserver<T> observer);
 
-  <T> AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess,
+  <T> AutoDisposingSingleObserver<T> lambdize(Consumer<? super T> onSuccess,
       Consumer<? super Throwable> onError,
       Consumer<? super Disposable> onSubscribe);
 }

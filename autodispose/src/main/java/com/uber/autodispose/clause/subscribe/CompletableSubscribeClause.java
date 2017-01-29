@@ -23,19 +23,19 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 /**
- * Subscribe clause for the around steps that match Flowable's subscribe overloads.
+ * Subscribe clause for the lambdize steps that match Flowable's subscribe overloads.
  */
 public interface CompletableSubscribeClause {
 
   AutoDisposingCompletableObserver empty();
 
-  AutoDisposingCompletableObserver around(Action action);
+  AutoDisposingCompletableObserver lambdize(Action action);
 
-  AutoDisposingCompletableObserver around(Action action, Consumer<? super Throwable> onError);
+  AutoDisposingCompletableObserver lambdize(Action action, Consumer<? super Throwable> onError);
 
-  AutoDisposingCompletableObserver around(CompletableObserver observer);
+  AutoDisposingCompletableObserver lambdize(CompletableObserver observer);
 
-  AutoDisposingCompletableObserver around(Action action,
+  AutoDisposingCompletableObserver lambdize(Action action,
       Consumer<? super Throwable> onError,
       Consumer<? super Disposable> onSubscribe);
 }

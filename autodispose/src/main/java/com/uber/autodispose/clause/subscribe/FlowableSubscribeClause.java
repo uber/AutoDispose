@@ -23,24 +23,24 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 /**
- * Subscribe clause for the around steps that match Flowable's subscribe overloads.
+ * Subscribe clause for the lambdize steps that match Flowable's subscribe overloads.
  */
 public interface FlowableSubscribeClause {
 
   <T> AutoDisposingSubscriber<T> empty();
 
-  <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext);
+  <T> AutoDisposingSubscriber<T> lambdize(Consumer<? super T> onNext);
 
-  <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
+  <T> AutoDisposingSubscriber<T> lambdize(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError);
 
-  <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
+  <T> AutoDisposingSubscriber<T> lambdize(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError,
       Action onComplete);
 
-  <T> AutoDisposingSubscriber<T> around(Subscriber<T> subscriber);
+  <T> AutoDisposingSubscriber<T> lambdize(Subscriber<T> subscriber);
 
-  <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
+  <T> AutoDisposingSubscriber<T> lambdize(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError,
       Action onComplete,
       Consumer<? super Subscription> onSubscribe);

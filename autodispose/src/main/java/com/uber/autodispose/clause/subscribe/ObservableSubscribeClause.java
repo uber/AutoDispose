@@ -23,24 +23,24 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 /**
- * Subscribe clause for the around steps that match Observable's subscribe overloads.
+ * Subscribe clause for the lambdize steps that match Observable's subscribe overloads.
  */
 public interface ObservableSubscribeClause {
 
   <T> AutoDisposingObserver<T> empty();
 
-  <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext);
+  <T> AutoDisposingObserver<T> lambdize(Consumer<? super T> onNext);
 
-  <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
+  <T> AutoDisposingObserver<T> lambdize(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError);
 
-  <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
+  <T> AutoDisposingObserver<T> lambdize(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError,
       Action onComplete);
 
-  <T> AutoDisposingObserver<T> around(Observer<T> observer);
+  <T> AutoDisposingObserver<T> lambdize(Observer<T> observer);
 
-  <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
+  <T> AutoDisposingObserver<T> lambdize(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError,
       Action onComplete,
       Consumer<? super Disposable> onSubscribe);

@@ -38,7 +38,7 @@ public class AutoDisposeCompletableObserverTest {
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.completable()
         .scopeWith(lifecycle)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -60,7 +60,7 @@ public class AutoDisposeCompletableObserverTest {
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.completable()
         .scopeWith(lifecycle)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -83,7 +83,7 @@ public class AutoDisposeCompletableObserverTest {
     ScopeProvider provider = makeProvider(scope);
     source.subscribe(AutoDispose.completable()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -104,7 +104,7 @@ public class AutoDisposeCompletableObserverTest {
     ScopeProvider provider = makeProvider(scope);
     source.subscribe(AutoDispose.completable()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -128,7 +128,7 @@ public class AutoDisposeCompletableObserverTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.completable()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -154,7 +154,7 @@ public class AutoDisposeCompletableObserverTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.completable()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -183,7 +183,7 @@ public class AutoDisposeCompletableObserverTest {
     Completable.complete()
         .subscribe(AutoDispose.completable()
             .scopeWith(provider)
-            .around(o));
+            .lambdize(o));
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
@@ -199,7 +199,7 @@ public class AutoDisposeCompletableObserverTest {
     Completable.complete()
         .subscribe(AutoDispose.completable()
             .scopeWith(provider)
-            .around(o));
+            .lambdize(o));
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);

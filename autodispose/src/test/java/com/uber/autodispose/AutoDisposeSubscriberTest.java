@@ -40,7 +40,7 @@ public class AutoDisposeSubscriberTest {
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     Disposable d = source.subscribeWith(AutoDispose.flowable()
         .scopeWith(lifecycle)
-        .around(o));
+        .lambdize(o));
     o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
@@ -64,7 +64,7 @@ public class AutoDisposeSubscriberTest {
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.flowable()
         .scopeWith(lifecycle)
-        .around(o));
+        .lambdize(o));
     o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
@@ -91,7 +91,7 @@ public class AutoDisposeSubscriberTest {
     ScopeProvider provider = TestUtil.makeProvider(scope);
     source.subscribe(AutoDispose.flowable()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
@@ -124,7 +124,7 @@ public class AutoDisposeSubscriberTest {
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.flowable()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
@@ -158,7 +158,7 @@ public class AutoDisposeSubscriberTest {
     Flowable.just(1)
         .subscribe(AutoDispose.flowable()
             .scopeWith(provider)
-            .around(o));
+            .lambdize(o));
 
     List<Throwable> errors = o.errors();
     assertThat(errors).hasSize(1);
@@ -175,7 +175,7 @@ public class AutoDisposeSubscriberTest {
     Flowable.just(1)
         .subscribe(AutoDispose.flowable()
             .scopeWith(provider)
-            .around(o));
+            .lambdize(o));
 
     List<Throwable> errors = o.errors();
     assertThat(errors).hasSize(1);

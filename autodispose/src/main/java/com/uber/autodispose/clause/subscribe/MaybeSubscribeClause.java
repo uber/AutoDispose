@@ -23,24 +23,24 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 /**
- * Subscribe clause for the around steps that match Maybe's subscribe overloads.
+ * Subscribe clause for the lambdize steps that match Maybe's subscribe overloads.
  */
 public interface MaybeSubscribeClause {
 
   <T> AutoDisposingMaybeObserver<T> empty();
 
-  <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess);
+  <T> AutoDisposingMaybeObserver<T> lambdize(Consumer<? super T> onSuccess);
 
-  <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
+  <T> AutoDisposingMaybeObserver<T> lambdize(Consumer<? super T> onSuccess,
       Consumer<? super Throwable> onError);
 
-  <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
+  <T> AutoDisposingMaybeObserver<T> lambdize(Consumer<? super T> onSuccess,
       Consumer<? super Throwable> onError,
       Action onComplete);
 
-  <T> AutoDisposingMaybeObserver<T> around(MaybeObserver<T> observer);
+  <T> AutoDisposingMaybeObserver<T> lambdize(MaybeObserver<T> observer);
 
-  <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
+  <T> AutoDisposingMaybeObserver<T> lambdize(Consumer<? super T> onSuccess,
       Consumer<? super Throwable> onError,
       Action onComplete,
       Consumer<? super Disposable> onSubscribe);
