@@ -37,7 +37,7 @@ public class AutoDisposeMaybeObserverTest {
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.maybe()
         .scopeWith(lifecycle)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -59,7 +59,7 @@ public class AutoDisposeMaybeObserverTest {
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.maybe()
         .scopeWith(lifecycle)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -82,7 +82,7 @@ public class AutoDisposeMaybeObserverTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.maybe()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -108,7 +108,7 @@ public class AutoDisposeMaybeObserverTest {
     ScopeProvider provider = makeProvider(scope);
     source.subscribe(AutoDispose.maybe()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -129,7 +129,7 @@ public class AutoDisposeMaybeObserverTest {
     ScopeProvider provider = makeProvider(scope);
     source.subscribe(AutoDispose.maybe()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -153,7 +153,7 @@ public class AutoDisposeMaybeObserverTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.maybe()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -179,7 +179,7 @@ public class AutoDisposeMaybeObserverTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.maybe()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -208,7 +208,7 @@ public class AutoDisposeMaybeObserverTest {
     Maybe.just(1)
         .subscribe(AutoDispose.maybe()
             .scopeWith(provider)
-            .around(o));
+            .lambdize(o));
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
@@ -224,7 +224,7 @@ public class AutoDisposeMaybeObserverTest {
     Maybe.just(1)
         .subscribe(AutoDispose.maybe()
             .scopeWith(provider)
-            .around(o));
+            .lambdize(o));
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);

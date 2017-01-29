@@ -38,7 +38,7 @@ public class AutoDisposeSingleObserverTest {
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.single()
         .scopeWith(lifecycle)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -60,7 +60,7 @@ public class AutoDisposeSingleObserverTest {
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.subscribe(AutoDispose.single()
         .scopeWith(lifecycle)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -83,7 +83,7 @@ public class AutoDisposeSingleObserverTest {
     ScopeProvider provider = makeProvider(scope);
     source.subscribe(AutoDispose.single()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -105,7 +105,7 @@ public class AutoDisposeSingleObserverTest {
     ScopeProvider provider = makeProvider(scope);
     source.subscribe(AutoDispose.single()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -128,7 +128,7 @@ public class AutoDisposeSingleObserverTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.single()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -155,7 +155,7 @@ public class AutoDisposeSingleObserverTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.subscribe(AutoDispose.single()
         .scopeWith(provider)
-        .around(o));
+        .lambdize(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -183,7 +183,7 @@ public class AutoDisposeSingleObserverTest {
     Single.just(1)
         .subscribe(AutoDispose.single()
             .scopeWith(provider)
-            .around(o));
+            .lambdize(o));
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
@@ -199,7 +199,7 @@ public class AutoDisposeSingleObserverTest {
     Single.just(1)
         .subscribe(AutoDispose.single()
             .scopeWith(provider)
-            .around(o));
+            .lambdize(o));
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);

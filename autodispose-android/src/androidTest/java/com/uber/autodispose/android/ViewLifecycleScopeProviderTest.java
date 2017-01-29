@@ -62,7 +62,7 @@ import static com.google.common.truth.Truth.assertThat;
       @Override public void run() {
         subject.subscribe(AutoDispose.observable()
             .scopeWith(ViewLifecycleScopeProvider.from(child))
-            .around(o));
+            .lambdize(o));
       }
     });
 
@@ -99,7 +99,7 @@ import static com.google.common.truth.Truth.assertThat;
     });
     subject.subscribe(AutoDispose.observable()
         .scopeWith(ViewLifecycleScopeProvider.from(child))
-        .around(o));
+        .lambdize(o));
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
@@ -117,7 +117,7 @@ import static com.google.common.truth.Truth.assertThat;
       @Override public void run() {
         subject.subscribe(AutoDispose.observable()
             .scopeWith(ViewLifecycleScopeProvider.from(child))
-            .around(o));
+            .lambdize(o));
       }
     });
 
@@ -146,7 +146,7 @@ import static com.google.common.truth.Truth.assertThat;
       @Override public void run() {
         subject.subscribe(AutoDispose.observable()
             .scopeWith(ViewLifecycleScopeProvider.from(child))
-            .around(o));
+            .lambdize(o));
       }
     });
 
