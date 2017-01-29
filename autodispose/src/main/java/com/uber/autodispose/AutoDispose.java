@@ -186,35 +186,35 @@ public final class AutoDispose {
     }
 
     @Override public <T> com.uber.autodispose.observers.AutoDisposingSubscriber<T> empty() {
-      return around(AutoDisposeUtil.EMPTY_CONSUMER,
+      return lambdize(AutoDisposeUtil.EMPTY_CONSUMER,
           AutoDisposeUtil.DEFAULT_ERROR_CONSUMER,
           AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext) {
+    @Override public <T> AutoDisposingSubscriber<T> lambdize(Consumer<? super T> onNext) {
       checkNotNull(onNext, "onNext == null");
-      return around(onNext, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER, AutoDisposeUtil.EMPTY_ACTION);
+      return lambdize(onNext, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER, AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
+    @Override public <T> AutoDisposingSubscriber<T> lambdize(Consumer<? super T> onNext,
         Consumer<? super Throwable> onError) {
       checkNotNull(onNext, "onNext == null");
       checkNotNull(onError, "onError == null");
-      return around(onNext, onError, AutoDisposeUtil.EMPTY_ACTION);
+      return lambdize(onNext, onError, AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
+    @Override public <T> AutoDisposingSubscriber<T> lambdize(Consumer<? super T> onNext,
         Consumer<? super Throwable> onError,
         Action onComplete) {
       checkNotNull(onNext, "onNext == null");
       checkNotNull(onError, "onError == null");
       checkNotNull(onComplete, "onComplete == null");
-      return around(onNext, onError, onComplete, AutoDisposeUtil.EMPTY_SUBSCRIPTION_CONSUMER);
+      return lambdize(onNext, onError, onComplete, AutoDisposeUtil.EMPTY_SUBSCRIPTION_CONSUMER);
     }
 
-    @Override public <T> AutoDisposingSubscriber<T> around(final Subscriber<T> subscriber) {
+    @Override public <T> AutoDisposingSubscriber<T> lambdize(final Subscriber<T> subscriber) {
       checkNotNull(subscriber, "subscriber == null");
-      return around(new Consumer<T>() {
+      return lambdize(new Consumer<T>() {
         @Override public void accept(T t1) throws Exception {
           subscriber.onNext(t1);
         }
@@ -233,7 +233,7 @@ public final class AutoDispose {
       });
     }
 
-    @Override public <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
+    @Override public <T> AutoDisposingSubscriber<T> lambdize(Consumer<? super T> onNext,
         Consumer<? super Throwable> onError,
         Action onComplete,
         Consumer<? super Subscription> onSubscribe) {
@@ -260,33 +260,33 @@ public final class AutoDispose {
     }
 
     @Override public <T> AutoDisposingObserver<T> empty() {
-      return around(AutoDisposeUtil.EMPTY_CONSUMER);
+      return lambdize(AutoDisposeUtil.EMPTY_CONSUMER);
     }
 
-    @Override public <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext) {
+    @Override public <T> AutoDisposingObserver<T> lambdize(Consumer<? super T> onNext) {
       checkNotNull(onNext, "onNext == null");
-      return around(onNext, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER, AutoDisposeUtil.EMPTY_ACTION);
+      return lambdize(onNext, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER, AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
+    @Override public <T> AutoDisposingObserver<T> lambdize(Consumer<? super T> onNext,
         Consumer<? super Throwable> onError) {
       checkNotNull(onNext, "onNext == null");
       checkNotNull(onError, "onError == null");
-      return around(onNext, onError, AutoDisposeUtil.EMPTY_ACTION);
+      return lambdize(onNext, onError, AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
+    @Override public <T> AutoDisposingObserver<T> lambdize(Consumer<? super T> onNext,
         Consumer<? super Throwable> onError,
         Action onComplete) {
       checkNotNull(onNext, "onNext == null");
       checkNotNull(onError, "onError == null");
       checkNotNull(onComplete, "onComplete == null");
-      return around(onNext, onError, onComplete, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
+      return lambdize(onNext, onError, onComplete, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
     }
 
-    @Override public <T> AutoDisposingObserver<T> around(final Observer<T> observer) {
+    @Override public <T> AutoDisposingObserver<T> lambdize(final Observer<T> observer) {
       checkNotNull(observer, "observer == null");
-      return around(new Consumer<T>() {
+      return lambdize(new Consumer<T>() {
         @Override public void accept(T value) throws Exception {
           observer.onNext(value);
         }
@@ -305,7 +305,7 @@ public final class AutoDispose {
       });
     }
 
-    @Override public <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
+    @Override public <T> AutoDisposingObserver<T> lambdize(Consumer<? super T> onNext,
         Consumer<? super Throwable> onError,
         Action onComplete,
         Consumer<? super Disposable> onSubscribe) {
@@ -332,19 +332,19 @@ public final class AutoDispose {
     }
 
     @Override public <T> AutoDisposingSingleObserver<T> empty() {
-      return around(AutoDisposeUtil.EMPTY_CONSUMER);
+      return lambdize(AutoDisposeUtil.EMPTY_CONSUMER);
     }
 
-    @Override public <T> AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess) {
+    @Override public <T> AutoDisposingSingleObserver<T> lambdize(Consumer<? super T> onSuccess) {
       checkNotNull(onSuccess, "onSuccess == null");
-      return around(onSuccess, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER);
+      return lambdize(onSuccess, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER);
     }
 
     @Override
-    public <T> AutoDisposingSingleObserver<T> around(final BiConsumer<? super T, ? super
+    public <T> AutoDisposingSingleObserver<T> lambdize(final BiConsumer<? super T, ? super
         Throwable> biConsumer) {
       checkNotNull(biConsumer, "biConsumer == null");
-      return around(new Consumer<T>() {
+      return lambdize(new Consumer<T>() {
         @Override public void accept(T v) throws Exception {
           biConsumer.accept(v, null);
         }
@@ -355,16 +355,16 @@ public final class AutoDispose {
       });
     }
 
-    @Override public <T> AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess,
+    @Override public <T> AutoDisposingSingleObserver<T> lambdize(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError) {
       checkNotNull(onSuccess, "onSuccess == null");
       checkNotNull(onError, "onError == null");
-      return around(onSuccess, onError, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
+      return lambdize(onSuccess, onError, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
     }
 
-    @Override public <T> AutoDisposingSingleObserver<T> around(final SingleObserver<T> observer) {
+    @Override public <T> AutoDisposingSingleObserver<T> lambdize(final SingleObserver<T> observer) {
       checkNotNull(observer, "observer == null");
-      return around(new Consumer<T>() {
+      return lambdize(new Consumer<T>() {
         @Override public void accept(T value) throws Exception {
           observer.onSuccess(value);
         }
@@ -379,7 +379,7 @@ public final class AutoDispose {
       });
     }
 
-    @Override public <T> AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess,
+    @Override public <T> AutoDisposingSingleObserver<T> lambdize(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError,
         Consumer<? super Disposable> onSubscribe) {
       checkNotNull(onSuccess, "onSuccess == null");
@@ -404,35 +404,35 @@ public final class AutoDispose {
     }
 
     @Override public <T> AutoDisposingMaybeObserver<T> empty() {
-      return around(AutoDisposeUtil.EMPTY_CONSUMER);
+      return lambdize(AutoDisposeUtil.EMPTY_CONSUMER);
     }
 
-    @Override public <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess) {
+    @Override public <T> AutoDisposingMaybeObserver<T> lambdize(Consumer<? super T> onSuccess) {
       checkNotNull(onSuccess, "onSuccess == null");
-      return around(onSuccess,
+      return lambdize(onSuccess,
           AutoDisposeUtil.DEFAULT_ERROR_CONSUMER,
           AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
+    @Override public <T> AutoDisposingMaybeObserver<T> lambdize(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError) {
       checkNotNull(onSuccess, "onSuccess == null");
       checkNotNull(onError, "onError == null");
-      return around(onSuccess, onError, AutoDisposeUtil.EMPTY_ACTION);
+      return lambdize(onSuccess, onError, AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
+    @Override public <T> AutoDisposingMaybeObserver<T> lambdize(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError,
         Action onComplete) {
       checkNotNull(onSuccess, "onSuccess == null");
       checkNotNull(onError, "onError == null");
       checkNotNull(onComplete, "onComplete == null");
-      return around(onSuccess, onError, onComplete, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
+      return lambdize(onSuccess, onError, onComplete, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
     }
 
-    @Override public <T> AutoDisposingMaybeObserver<T> around(final MaybeObserver<T> observer) {
+    @Override public <T> AutoDisposingMaybeObserver<T> lambdize(final MaybeObserver<T> observer) {
       checkNotNull(observer, "observer == null");
-      return around(new Consumer<T>() {
+      return lambdize(new Consumer<T>() {
         @Override public void accept(T value) throws Exception {
           observer.onSuccess(value);
         }
@@ -451,7 +451,7 @@ public final class AutoDispose {
       });
     }
 
-    @Override public <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
+    @Override public <T> AutoDisposingMaybeObserver<T> lambdize(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError,
         Action onComplete,
         Consumer<? super Disposable> onSubscribe) {
@@ -482,24 +482,24 @@ public final class AutoDispose {
     }
 
     @Override public AutoDisposingCompletableObserver empty() {
-      return around(AutoDisposeUtil.EMPTY_ACTION);
+      return lambdize(AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public AutoDisposingCompletableObserver around(Action action) {
+    @Override public AutoDisposingCompletableObserver lambdize(Action action) {
       checkNotNull(action, "action == null");
-      return around(action, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER);
+      return lambdize(action, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER);
     }
 
-    @Override public AutoDisposingCompletableObserver around(Action action,
+    @Override public AutoDisposingCompletableObserver lambdize(Action action,
         Consumer<? super Throwable> onError) {
       checkNotNull(action, "action == null");
       checkNotNull(onError, "onError == null");
-      return around(action, onError, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
+      return lambdize(action, onError, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
     }
 
-    @Override public AutoDisposingCompletableObserver around(final CompletableObserver observer) {
+    @Override public AutoDisposingCompletableObserver lambdize(final CompletableObserver observer) {
       checkNotNull(observer, "observer == null");
-      return around(new Action() {
+      return lambdize(new Action() {
         @Override public void run() throws Exception {
           observer.onComplete();
         }
@@ -514,7 +514,7 @@ public final class AutoDispose {
       });
     }
 
-    @Override public AutoDisposingCompletableObserver around(Action action,
+    @Override public AutoDisposingCompletableObserver lambdize(Action action,
         Consumer<? super Throwable> onError,
         Consumer<? super Disposable> onSubscribe) {
       checkNotNull(action, "action == null");
