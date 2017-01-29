@@ -16,10 +16,7 @@
 
 package com.uber.autodispose;
 
-import com.uber.autodispose.internal.AutoDisposableHelper;
-import com.uber.autodispose.internal.AutoDisposeUtil;
 import io.reactivex.Maybe;
-import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.exceptions.CompositeException;
@@ -28,7 +25,8 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
 
-public final class AutoDisposingSingleObserver<T> implements SingleObserver<T>, Disposable {
+final class AutoDisposingSingleObserverImpl<T> implements
+    com.uber.autodispose.observers.AutoDisposingSingleObserver<T> {
 
   private final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
@@ -37,8 +35,10 @@ public final class AutoDisposingSingleObserver<T> implements SingleObserver<T>, 
   private final Consumer<? super Throwable> onError;
   private final Consumer<? super Disposable> onSubscribe;
 
-  AutoDisposingSingleObserver(Maybe<?> lifecycle, Consumer<? super T> onSuccess,
-      Consumer<? super Throwable> onError, Consumer<? super Disposable> onSubscribe) {
+  AutoDisposingSingleObserverImpl(Maybe<?> lifecycle,
+      Consumer<? super T> onSuccess,
+      Consumer<? super Throwable> onError,
+      Consumer<? super Disposable> onSubscribe) {
     this.lifecycle = lifecycle;
     this.onSuccess = AutoDisposeUtil.emptyConsumerIfNull(onSuccess);
     this.onError = AutoDisposeUtil.emptyErrorConsumerIfNull(onError);
@@ -53,7 +53,7 @@ public final class AutoDisposingSingleObserver<T> implements SingleObserver<T>, 
           }
         }, new Consumer<Throwable>() {
           @Override public void accept(Throwable e) throws Exception {
-            AutoDisposingSingleObserver.this.onError(e);
+            AutoDisposingSingleObserverImpl.this.onError(e);
           }
         }))) {
       if (AutoDisposableHelper.setOnce(mainDisposable, d)) {

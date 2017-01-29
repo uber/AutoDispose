@@ -26,7 +26,10 @@ import com.uber.autodispose.clause.subscribe.FlowableSubscribeClause;
 import com.uber.autodispose.clause.subscribe.MaybeSubscribeClause;
 import com.uber.autodispose.clause.subscribe.ObservableSubscribeClause;
 import com.uber.autodispose.clause.subscribe.SingleSubscribeClause;
-import com.uber.autodispose.internal.AutoDisposeUtil;
+import com.uber.autodispose.observers.AutoDisposingMaybeObserver;
+import com.uber.autodispose.observers.AutoDisposingObserver;
+import com.uber.autodispose.observers.AutoDisposingSingleObserver;
+import com.uber.autodispose.observers.AutoDisposingSubscriber;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
@@ -41,7 +44,7 @@ import java.util.concurrent.Callable;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
-import static com.uber.autodispose.internal.AutoDisposeUtil.checkNotNull;
+import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
 
 public final class AutoDispose {
 
@@ -181,25 +184,26 @@ public final class AutoDispose {
       super(lifecycle);
     }
 
-    @Override public <T> Subscriber<T> empty() {
-      return around(AutoDisposeUtil.EMPTY_CONSUMER, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER,
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingSubscriber<T> empty() {
+      return around(AutoDisposeUtil.EMPTY_CONSUMER,
+          AutoDisposeUtil.DEFAULT_ERROR_CONSUMER,
           AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public <T> Subscriber<T> around(Consumer<? super T> onNext) {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingSubscriber<T> around(Consumer<? super T> onNext) {
       checkNotNull(onNext, "onNext == null");
       return around(onNext, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER, AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public <T> Subscriber<T> around(Consumer<? super T> onNext,
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
         Consumer<? super Throwable> onError) {
       checkNotNull(onNext, "onNext == null");
       checkNotNull(onError, "onError == null");
       return around(onNext, onError, AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override
-    public <T> Subscriber<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
+        Consumer<? super Throwable> onError,
         Action onComplete) {
       checkNotNull(onNext, "onNext == null");
       checkNotNull(onError, "onError == null");
@@ -207,7 +211,7 @@ public final class AutoDispose {
       return around(onNext, onError, onComplete, AutoDisposeUtil.EMPTY_SUBSCRIPTION_CONSUMER);
     }
 
-    @Override public <T> Subscriber<T> around(final Subscriber<T> subscriber) {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingSubscriber<T> around(final Subscriber<T> subscriber) {
       checkNotNull(subscriber, "subscriber == null");
       return around(new Consumer<T>() {
         @Override public void accept(T t1) throws Exception {
@@ -228,14 +232,15 @@ public final class AutoDispose {
       });
     }
 
-    @Override
-    public <T> Subscriber<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
-        Action onComplete, Consumer<? super Subscription> onSubscribe) {
+    @Override public <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
+        Consumer<? super Throwable> onError,
+        Action onComplete,
+        Consumer<? super Subscription> onSubscribe) {
       checkNotNull(onNext, "onNext == null");
       checkNotNull(onError, "onError == null");
       checkNotNull(onComplete, "onComplete == null");
       checkNotNull(onSubscribe, "onSubscribe == null");
-      return new AutoDisposingSubscriber<>(lifecycle, onNext, onError, onComplete, onSubscribe);
+      return new AutoDisposingSubscriberImpl<>(lifecycle, onNext, onError, onComplete, onSubscribe);
     }
   }
 
@@ -253,24 +258,24 @@ public final class AutoDispose {
       super(lifecycle);
     }
 
-    @Override public <T> Observer<T> empty() {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingObserver<T> empty() {
       return around(AutoDisposeUtil.EMPTY_CONSUMER);
     }
 
-    @Override public <T> Observer<T> around(Consumer<? super T> onNext) {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingObserver<T> around(Consumer<? super T> onNext) {
       checkNotNull(onNext, "onNext == null");
       return around(onNext, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER, AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override
-    public <T> Observer<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError) {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingObserver<T> around(Consumer<? super T> onNext,
+        Consumer<? super Throwable> onError) {
       checkNotNull(onNext, "onNext == null");
       checkNotNull(onError, "onError == null");
       return around(onNext, onError, AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override
-    public <T> Observer<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingObserver<T> around(Consumer<? super T> onNext,
+        Consumer<? super Throwable> onError,
         Action onComplete) {
       checkNotNull(onNext, "onNext == null");
       checkNotNull(onError, "onError == null");
@@ -278,7 +283,7 @@ public final class AutoDispose {
       return around(onNext, onError, onComplete, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
     }
 
-    @Override public <T> Observer<T> around(final Observer<T> observer) {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingObserver<T> around(final Observer<T> observer) {
       checkNotNull(observer, "observer == null");
       return around(new Consumer<T>() {
         @Override public void accept(T value) throws Exception {
@@ -299,14 +304,15 @@ public final class AutoDispose {
       });
     }
 
-    @Override
-    public <T> Observer<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
-        Action onComplete, Consumer<? super Disposable> onSubscribe) {
+    @Override public <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
+        Consumer<? super Throwable> onError,
+        Action onComplete,
+        Consumer<? super Disposable> onSubscribe) {
       checkNotNull(onNext, "onNext == null");
       checkNotNull(onError, "onError == null");
       checkNotNull(onComplete, "onComplete == null");
       checkNotNull(onSubscribe, "onSubscribe == null");
-      return new AutoDisposingObserver<>(lifecycle, onNext, onError, onComplete, onSubscribe);
+      return new AutoDisposingObserverImpl<>(lifecycle, onNext, onError, onComplete, onSubscribe);
     }
   }
 
@@ -324,17 +330,17 @@ public final class AutoDispose {
       super(lifecycle);
     }
 
-    @Override public <T> SingleObserver<T> empty() {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingSingleObserver<T> empty() {
       return around(AutoDisposeUtil.EMPTY_CONSUMER);
     }
 
-    @Override public <T> SingleObserver<T> around(Consumer<? super T> onSuccess) {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess) {
       checkNotNull(onSuccess, "onSuccess == null");
       return around(onSuccess, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER);
     }
 
     @Override
-    public <T> SingleObserver<T> around(final BiConsumer<? super T, ? super Throwable> biConsumer) {
+    public <T> com.uber.autodispose.observers.AutoDisposingSingleObserver<T> around(final BiConsumer<? super T, ? super Throwable> biConsumer) {
       checkNotNull(biConsumer, "biConsumer == null");
       return around(new Consumer<T>() {
         @Override public void accept(T v) throws Exception {
@@ -347,14 +353,14 @@ public final class AutoDispose {
       });
     }
 
-    @Override public <T> SingleObserver<T> around(Consumer<? super T> onSuccess,
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError) {
       checkNotNull(onSuccess, "onSuccess == null");
       checkNotNull(onError, "onError == null");
       return around(onSuccess, onError, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
     }
 
-    @Override public <T> SingleObserver<T> around(final SingleObserver<T> observer) {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingSingleObserver<T> around(final SingleObserver<T> observer) {
       checkNotNull(observer, "observer == null");
       return around(new Consumer<T>() {
         @Override public void accept(T value) throws Exception {
@@ -371,12 +377,13 @@ public final class AutoDispose {
       });
     }
 
-    @Override public <T> SingleObserver<T> around(Consumer<? super T> onSuccess,
-        Consumer<? super Throwable> onError, Consumer<? super Disposable> onSubscribe) {
+    @Override public <T> AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess,
+        Consumer<? super Throwable> onError,
+        Consumer<? super Disposable> onSubscribe) {
       checkNotNull(onSuccess, "onSuccess == null");
       checkNotNull(onError, "onError == null");
       checkNotNull(onSubscribe, "onSubscribe == null");
-      return new AutoDisposingSingleObserver<>(lifecycle, onSuccess, onError, onSubscribe);
+      return new AutoDisposingSingleObserverImpl<>(lifecycle, onSuccess, onError, onSubscribe);
     }
   }
 
@@ -394,32 +401,34 @@ public final class AutoDispose {
       super(lifecycle);
     }
 
-    @Override public <T> MaybeObserver<T> empty() {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingMaybeObserver<T> empty() {
       return around(AutoDisposeUtil.EMPTY_CONSUMER);
     }
 
-    @Override public <T> MaybeObserver<T> around(Consumer<? super T> onSuccess) {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess) {
       checkNotNull(onSuccess, "onSuccess == null");
-      return around(onSuccess, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER,
+      return around(onSuccess,
+          AutoDisposeUtil.DEFAULT_ERROR_CONSUMER,
           AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public <T> MaybeObserver<T> around(Consumer<? super T> onSuccess,
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError) {
       checkNotNull(onSuccess, "onSuccess == null");
       checkNotNull(onError, "onError == null");
       return around(onSuccess, onError, AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public <T> MaybeObserver<T> around(Consumer<? super T> onSuccess,
-        Consumer<? super Throwable> onError, Action onComplete) {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
+        Consumer<? super Throwable> onError,
+        Action onComplete) {
       checkNotNull(onSuccess, "onSuccess == null");
       checkNotNull(onError, "onError == null");
       checkNotNull(onComplete, "onComplete == null");
       return around(onSuccess, onError, onComplete, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
     }
 
-    @Override public <T> MaybeObserver<T> around(final MaybeObserver<T> observer) {
+    @Override public <T> com.uber.autodispose.observers.AutoDisposingMaybeObserver<T> around(final MaybeObserver<T> observer) {
       checkNotNull(observer, "observer == null");
       return around(new Consumer<T>() {
         @Override public void accept(T value) throws Exception {
@@ -440,14 +449,18 @@ public final class AutoDispose {
       });
     }
 
-    @Override public <T> MaybeObserver<T> around(Consumer<? super T> onSuccess,
-        Consumer<? super Throwable> onError, Action onComplete,
+    @Override public <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
+        Consumer<? super Throwable> onError,
+        Action onComplete,
         Consumer<? super Disposable> onSubscribe) {
       checkNotNull(onSuccess, "onSuccess == null");
       checkNotNull(onError, "onError == null");
       checkNotNull(onComplete, "onComplete == null");
       checkNotNull(onSubscribe, "onSubscribe == null");
-      return new AutoDisposingMaybeObserver<>(lifecycle, onSuccess, onError, onComplete,
+      return new AutoDisposingMaybeObserverImpl<>(lifecycle,
+          onSuccess,
+          onError,
+          onComplete,
           onSubscribe);
     }
   }
@@ -466,23 +479,23 @@ public final class AutoDispose {
       super(lifecycle);
     }
 
-    @Override public CompletableObserver empty() {
+    @Override public com.uber.autodispose.observers.AutoDisposingCompletableObserver empty() {
       return around(AutoDisposeUtil.EMPTY_ACTION);
     }
 
-    @Override public CompletableObserver around(Action action) {
+    @Override public com.uber.autodispose.observers.AutoDisposingCompletableObserver around(Action action) {
       checkNotNull(action, "action == null");
       return around(action, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER);
     }
 
-    @Override
-    public CompletableObserver around(Action action, Consumer<? super Throwable> onError) {
+    @Override public com.uber.autodispose.observers.AutoDisposingCompletableObserver around(Action action,
+        Consumer<? super Throwable> onError) {
       checkNotNull(action, "action == null");
       checkNotNull(onError, "onError == null");
       return around(action, onError, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
     }
 
-    @Override public CompletableObserver around(final CompletableObserver observer) {
+    @Override public com.uber.autodispose.observers.AutoDisposingCompletableObserver around(final CompletableObserver observer) {
       checkNotNull(observer, "observer == null");
       return around(new Action() {
         @Override public void run() throws Exception {
@@ -499,12 +512,13 @@ public final class AutoDispose {
       });
     }
 
-    @Override public CompletableObserver around(Action action, Consumer<? super Throwable> onError,
+    @Override public com.uber.autodispose.observers.AutoDisposingCompletableObserver around(Action action,
+        Consumer<? super Throwable> onError,
         Consumer<? super Disposable> onSubscribe) {
       checkNotNull(action, "action == null");
       checkNotNull(onError, "onError == null");
       checkNotNull(onSubscribe, "onSubscribe == null");
-      return new AutoDisposingCompletableObserver(lifecycle, action, onError, onSubscribe);
+      return new AutoDisposingCompletableObserverImpl(lifecycle, action, onError, onSubscribe);
     }
   }
 }

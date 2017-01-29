@@ -20,6 +20,7 @@ import hu.akarnokd.rxjava2.subjects.MaybeSubject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
@@ -34,10 +35,9 @@ public class AutoDisposeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    AutoDisposingObserver<Integer> auto = (AutoDisposingObserver<Integer>) AutoDispose.observable()
+    Disposable d = source.subscribeWith(AutoDispose.observable()
         .scopeWith(lifecycle)
-        .around(o);
-    source.subscribe(auto);
+        .around(o));
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -50,7 +50,7 @@ public class AutoDisposeObserverTest {
     source.onComplete();
     assertThat(o.takeNext()).isEqualTo(2);
     o.assertOnComplete();
-    assertThat(auto.isDisposed()).isTrue();
+    assertThat(d.isDisposed()).isTrue();
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
   }

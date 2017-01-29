@@ -16,9 +16,6 @@
 
 package com.uber.autodispose;
 
-import com.uber.autodispose.internal.AutoDisposableHelper;
-import com.uber.autodispose.internal.AutoDisposeUtil;
-import com.uber.autodispose.internal.AutoSubscriptionHelper;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.exceptions.CompositeException;
@@ -28,10 +25,10 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.internal.subscriptions.EmptySubscription;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
-import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
-public final class AutoDisposingSubscriber<T> implements Subscriber<T>, Subscription, Disposable {
+final class AutoDisposingSubscriberImpl<T> implements
+    com.uber.autodispose.observers.AutoDisposingSubscriber<T> {
 
   private final AtomicReference<Subscription> mainSubscription = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
@@ -41,8 +38,10 @@ public final class AutoDisposingSubscriber<T> implements Subscriber<T>, Subscrip
   private final Action onComplete;
   private final Consumer<? super Subscription> onSubscribe;
 
-  AutoDisposingSubscriber(Maybe<?> lifecycle, Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError, Action onComplete,
+  AutoDisposingSubscriberImpl(Maybe<?> lifecycle,
+      Consumer<? super T> onNext,
+      Consumer<? super Throwable> onError,
+      Action onComplete,
       Consumer<? super Subscription> onSubscribe) {
     this.lifecycle = lifecycle;
     this.onError = AutoDisposeUtil.emptyErrorConsumerIfNull(onError);
@@ -59,7 +58,7 @@ public final class AutoDisposingSubscriber<T> implements Subscriber<T>, Subscrip
           }
         }, new Consumer<Throwable>() {
           @Override public void accept(Throwable e) throws Exception {
-            AutoDisposingSubscriber.this.onError(e);
+            AutoDisposingSubscriberImpl.this.onError(e);
           }
         }))) {
       if (AutoSubscriptionHelper.setOnce(mainSubscription, s)) {

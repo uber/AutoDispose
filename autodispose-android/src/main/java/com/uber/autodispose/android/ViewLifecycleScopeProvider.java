@@ -26,9 +26,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Function;
 
+import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
 import static com.uber.autodispose.android.AutoDisposeAndroidUtil.isMainThread;
 import static com.uber.autodispose.android.ViewLifecycleEvent.DETACH;
-import static com.uber.autodispose.internal.AutoDisposeUtil.checkNotNull;
 
 public class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLifecycleEvent> {
   private static final Function<ViewLifecycleEvent, ViewLifecycleEvent> CORRESPONDING_EVENTS =

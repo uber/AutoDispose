@@ -21,6 +21,7 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.subjects.BehaviorSubject;
@@ -37,11 +38,9 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    AutoDisposingSubscriber<Integer> auto =
-        (AutoDisposingSubscriber<Integer>) AutoDispose.flowable()
-            .scopeWith(lifecycle)
-            .around(o);
-    source.subscribe(auto);
+    Disposable d = source.subscribeWith(AutoDispose.flowable()
+        .scopeWith(lifecycle)
+        .around(o));
     o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
@@ -54,7 +53,7 @@ public class AutoDisposeSubscriberTest {
     source.onComplete();
     o.assertValues(1, 2);
     o.assertComplete();
-    assertThat(auto.isDisposed()).isTrue();
+    assertThat(d.isDisposed()).isTrue();
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
   }
