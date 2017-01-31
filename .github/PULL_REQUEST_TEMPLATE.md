@@ -1,6 +1,4 @@
-Thank you for contributing to AutoDispose. Before pressing the "Create Pull Request" button, please consider the following points:
-
-  - [ ] Please make sure you've signed our [Uber Contributor License Agreement](https://docs.google.com/a/uber.com/forms/d/1pAwS_-dA1KhPlfxzYLBqK6rsSWwRwH95OCCZrcsY5rk/viewform) 
+Thank you for contributing to AutoDispose. Before pressing the "Create Pull Request" button, please consider the following points: 
 
   - [ ] Please give a description about what and why you are contributing, even if it's trivial.
 
