@@ -16,6 +16,11 @@
 
 package com.uber.autodispose.android;
 
+import android.support.annotation.RestrictTo;
+
+import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+
+@RestrictTo(LIBRARY)
 enum ViewLifecycleEvent {
   ATTACH, DETACH
 }
