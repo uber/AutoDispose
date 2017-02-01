@@ -24,7 +24,16 @@ import io.reactivex.functions.Function;
 
 import static com.uber.autodispose.android.ViewLifecycleEvent.DETACH;
 
-public class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLifecycleEvent> {
+/**
+ * A {@link LifecycleScopeProvider} that can provide scoping for Android {@link View} classes.
+ * <p>
+ * <pre><code>
+ *   AutoDispose.observable()
+ *      .scopeWith(ViewScopeProvider.from(view))
+ *      .empty();
+ * </code></pre>
+ */
+public class ViewScopeProvider implements LifecycleScopeProvider<ViewLifecycleEvent> {
   private static final Function<ViewLifecycleEvent, ViewLifecycleEvent> CORRESPONDING_EVENTS =
       new Function<ViewLifecycleEvent, ViewLifecycleEvent>() {
         @Override public ViewLifecycleEvent apply(ViewLifecycleEvent lastEvent) throws Exception {
@@ -50,10 +59,10 @@ public class ViewLifecycleScopeProvider implements LifecycleScopeProvider<ViewLi
     if (view == null) {
       throw new NullPointerException("view == null");
     }
-    return new ViewLifecycleScopeProvider(view);
+    return new ViewScopeProvider(view);
   }
 
-  private ViewLifecycleScopeProvider(final View view) {
+  private ViewScopeProvider(final View view) {
     this.view = view;
     lifecycle = new ViewAttachEventsObservable(view);
   }
