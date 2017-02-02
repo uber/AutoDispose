@@ -4,8 +4,6 @@ Contributing to AutoDispose
 The Uber team welcomes contributions of all kinds, from simple bug reports through documentation, test cases,
 bugfixes, and features.
 
-Before we can accept your contributions, we kindly ask you to sign our [Uber Contributor License Agreement](https://docs.google.com/a/uber.com/forms/d/1pAwS_-dA1KhPlfxzYLBqK6rsSWwRwH95OCCZrcsY5rk/viewform)
-
 Workflow
 --------
 
