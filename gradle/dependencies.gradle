@@ -28,7 +28,7 @@ def build = [
     targetSdkVersion: 25,
 
     gradlePlugins: [
-        android: 'com.android.tools.build:gradle:2.3.0-beta2',
+        android: 'com.android.tools.build:gradle:2.3.0-beta3',
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     ]
 ]
@@ -43,8 +43,7 @@ def misc = [
 
 def rx = [
     android: 'io.reactivex.rxjava2:rxandroid:2.0.1',
-    java: 'io.reactivex.rxjava2:rxjava:2.0.4',
-    rxJava2Extensions: 'com.github.akarnokd:rxjava2-extensions:0.14.3'
+    java: 'io.reactivex.rxjava2:rxjava:2.0.5'
 ]
 
 def support = [
