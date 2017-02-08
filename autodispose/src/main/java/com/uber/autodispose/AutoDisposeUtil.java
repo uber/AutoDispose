@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.internal;
+package com.uber.autodispose;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -22,13 +22,13 @@ import io.reactivex.functions.Consumer;
 import javax.annotation.Nullable;
 import org.reactivestreams.Subscription;
 
-public class AutoDisposeUtil {
+final class AutoDisposeUtil {
 
   private AutoDisposeUtil() {
     throw new InstantiationError();
   }
 
-  public static final Action EMPTY_ACTION = new Action() {
+  static final Action EMPTY_ACTION = new Action() {
     @Override public void run() {}
 
     @Override public String toString() {
@@ -36,7 +36,7 @@ public class AutoDisposeUtil {
     }
   };
 
-  public static final Consumer<Object> EMPTY_CONSUMER = new Consumer<Object>() {
+  static final Consumer<Object> EMPTY_CONSUMER = new Consumer<Object>() {
     @Override public void accept(Object v) {}
 
     @Override public String toString() {
@@ -44,7 +44,7 @@ public class AutoDisposeUtil {
     }
   };
 
-  public static final Consumer<Throwable> DEFAULT_ERROR_CONSUMER = new Consumer<Throwable>() {
+  static final Consumer<Throwable> DEFAULT_ERROR_CONSUMER = new Consumer<Throwable>() {
     @Override public void accept(Throwable throwable) throws Exception {}
 
     @Override public String toString() {
@@ -52,7 +52,7 @@ public class AutoDisposeUtil {
     }
   };
 
-  public static final Consumer<Disposable> EMPTY_DISPOSABLE_CONSUMER = new Consumer<Disposable>() {
+  static final Consumer<Disposable> EMPTY_DISPOSABLE_CONSUMER = new Consumer<Disposable>() {
     @Override public void accept(Disposable d) throws Exception {}
 
     @Override public String toString() {
@@ -60,42 +60,40 @@ public class AutoDisposeUtil {
     }
   };
 
-  public static final Consumer<Subscription> EMPTY_SUBSCRIPTION_CONSUMER =
-      new Consumer<Subscription>() {
-        @Override public void accept(Subscription d) throws Exception {
-        }
+  static final Consumer<Subscription> EMPTY_SUBSCRIPTION_CONSUMER = new Consumer<Subscription>() {
+    @Override public void accept(Subscription d) throws Exception {
+    }
 
-        @Override public String toString() {
-          return "AutoDisposingEmptySubscriptionConsumer";
-        }
-      };
+    @Override public String toString() {
+      return "AutoDisposingEmptySubscriptionConsumer";
+    }
+  };
 
   @SuppressWarnings("unchecked")
-  public static <T> Consumer<T> emptyConsumerIfNull(@Nullable Consumer<T> c) {
+  static <T> Consumer<T> emptyConsumerIfNull(@Nullable Consumer<T> c) {
     return c != null ? c : (Consumer<T>) EMPTY_CONSUMER;
   }
 
-  @SuppressWarnings("unchecked") public static Consumer<? super Throwable> emptyErrorConsumerIfNull(
+  @SuppressWarnings("unchecked") static Consumer<? super Throwable> emptyErrorConsumerIfNull(
       @Nullable Consumer<? super Throwable> c) {
     return (Consumer<? super Throwable>) (c != null ? c : DEFAULT_ERROR_CONSUMER);
   }
 
-  @SuppressWarnings("unchecked") public static Consumer<? super Disposable> emptyDisposableIfNull(
+  @SuppressWarnings("unchecked") static Consumer<? super Disposable> emptyDisposableIfNull(
       @Nullable Consumer<? super Disposable> c) {
     return (Consumer<? super Disposable>) (c != null ? c : EMPTY_DISPOSABLE_CONSUMER);
   }
 
-  @SuppressWarnings("unchecked")
-  public static Consumer<? super Subscription> emptySubscriptionIfNull(
+  @SuppressWarnings("unchecked") static Consumer<? super Subscription> emptySubscriptionIfNull(
       @Nullable Consumer<? super Subscription> c) {
     return (Consumer<? super Subscription>) (c != null ? c : EMPTY_SUBSCRIPTION_CONSUMER);
   }
 
-  public static Action emptyActionIfNull(@Nullable Action a) {
+  static Action emptyActionIfNull(@Nullable Action a) {
     return a != null ? a : EMPTY_ACTION;
   }
 
-  public static <T> T checkNotNull(@Nullable T value, String message) {
+  static <T> T checkNotNull(@Nullable T value, String message) {
     if (value == null) {
       throw new NullPointerException(message);
     } else {

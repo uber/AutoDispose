@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.clause.subscribe;
 
+import com.uber.autodispose.observers.AutoDisposingObserver;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -26,17 +27,21 @@ import io.reactivex.functions.Consumer;
  */
 public interface ObservableSubscribeClause {
 
-  <T> Observer<T> empty();
+  <T> AutoDisposingObserver<T> empty();
 
-  <T> Observer<T> around(Consumer<? super T> onNext);
+  <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext);
 
-  <T> Observer<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError);
+  <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
+      Consumer<? super Throwable> onError);
 
-  <T> Observer<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
+  <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
+      Consumer<? super Throwable> onError,
       Action onComplete);
 
-  <T> Observer<T> around(Observer<T> observer);
+  <T> AutoDisposingObserver<T> around(Observer<T> observer);
 
-  <T> Observer<T> around(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
-      Action onComplete, Consumer<? super Disposable> onSubscribe);
+  <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
+      Consumer<? super Throwable> onError,
+      Action onComplete,
+      Consumer<? super Disposable> onSubscribe);
 }

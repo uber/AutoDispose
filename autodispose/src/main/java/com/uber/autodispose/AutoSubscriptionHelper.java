@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 Netflix, Inc.
+ * Copyright 2016-present, RxJava Contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in
@@ -14,20 +14,18 @@
  * the License for the specific language governing permissions and limitations under the License.
  */
 
-package com.uber.autodispose.internal;
+package com.uber.autodispose;
 
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import org.reactivestreams.Subscription;
 
-import static com.uber.autodispose.internal.AutoDisposeUtil.checkNotNull;
-
 /**
  * Utility methods to validate Subscriptions in the various onSubscribe calls. Copied from the
  * RxJava implementation.
  */
-public enum AutoSubscriptionHelper implements Subscription {
+enum AutoSubscriptionHelper implements Subscription {
   /**
    * Represents a cancelled Subscription.
    * <p>Don't leak this instance!
@@ -50,7 +48,7 @@ public enum AutoSubscriptionHelper implements Subscription {
    * @param next the next Subscription, expected to be non-null
    * @return true if the validation succeeded
    */
-  public static boolean validate(Subscription current, Subscription next) {
+  static boolean validate(Subscription current, Subscription next) {
     if (next == null) {
       RxJavaPlugins.onError(new NullPointerException("next is null"));
       return false;
@@ -67,7 +65,7 @@ public enum AutoSubscriptionHelper implements Subscription {
    * Reports that the subscription is already set to the RxJavaPlugins error handler,
    * which is an indication of a onSubscribe management bug.
    */
-  public static void reportSubscriptionSet() {
+  static void reportSubscriptionSet() {
     RxJavaPlugins.onError(new IllegalStateException("Subscription already set!"));
   }
 
@@ -77,7 +75,7 @@ public enum AutoSubscriptionHelper implements Subscription {
    * @param n the request amount
    * @return false if n is non-positive.
    */
-  public static boolean validate(long n) {
+  static boolean validate(long n) {
     if (n <= 0) {
       RxJavaPlugins.onError(new IllegalArgumentException("n > 0 required but it was " + n));
       return false;
@@ -91,7 +89,7 @@ public enum AutoSubscriptionHelper implements Subscription {
    *
    * @param n the overproduction amount
    */
-  public static void reportMoreProduced(long n) {
+  static void reportMoreProduced(long n) {
     RxJavaPlugins.onError(new IllegalStateException("More produced than requested: " + n));
   }
 
@@ -101,7 +99,7 @@ public enum AutoSubscriptionHelper implements Subscription {
    * @param s the subscription to check
    * @return true if the subscription is the common cancelled subscription
    */
-  public static boolean isCancelled(Subscription s) {
+  static boolean isCancelled(Subscription s) {
     return s == CANCELLED;
   }
 
@@ -115,7 +113,7 @@ public enum AutoSubscriptionHelper implements Subscription {
    * holds the {@link #CANCELLED} instance.
    * @see #replace(AtomicReference, Subscription)
    */
-  public static boolean set(AtomicReference<Subscription> field, Subscription s) {
+  static boolean set(AtomicReference<Subscription> field, Subscription s) {
     for (; ; ) {
       Subscription current = field.get();
       if (current == CANCELLED) {
@@ -142,8 +140,8 @@ public enum AutoSubscriptionHelper implements Subscription {
    * @param s the new subscription to set
    * @return true if the operation succeeded, false if the target field was not null.
    */
-  public static boolean setOnce(AtomicReference<Subscription> field, Subscription s) {
-    checkNotNull(s, "s is null");
+  static boolean setOnce(AtomicReference<Subscription> field, Subscription s) {
+    AutoDisposeUtil.checkNotNull(s, "s is null");
     if (!field.compareAndSet(null, s)) {
       s.cancel();
       if (field.get() != CANCELLED) {
@@ -164,7 +162,7 @@ public enum AutoSubscriptionHelper implements Subscription {
    * holds the {@link #CANCELLED} instance.
    * @see #set(AtomicReference, Subscription)
    */
-  public static boolean replace(AtomicReference<Subscription> field, Subscription s) {
+  static boolean replace(AtomicReference<Subscription> field, Subscription s) {
     for (; ; ) {
       Subscription current = field.get();
       if (current == CANCELLED) {
@@ -188,7 +186,7 @@ public enum AutoSubscriptionHelper implements Subscription {
    * common cancelled instance happened in the caller's thread (allows
    * further one-time actions).
    */
-  public static boolean cancel(AtomicReference<Subscription> field) {
+  static boolean cancel(AtomicReference<Subscription> field) {
     Subscription current = field.get();
     if (current != CANCELLED) {
       current = field.getAndSet(CANCELLED);
@@ -211,7 +209,8 @@ public enum AutoSubscriptionHelper implements Subscription {
    * @param s the new Subscription, not null (verified)
    * @return true if the Subscription was set the first time
    */
-  public static boolean deferredSetOnce(AtomicReference<Subscription> field, AtomicLong requested,
+  static boolean deferredSetOnce(AtomicReference<Subscription> field,
+      AtomicLong requested,
       Subscription s) {
     if (AutoSubscriptionHelper.setOnce(field, s)) {
       long r = requested.getAndSet(0L);
@@ -231,8 +230,7 @@ public enum AutoSubscriptionHelper implements Subscription {
    * @param requested the current requested amount
    * @param n the request amount, positive (verified)
    */
-  public static void deferredRequest(AtomicReference<Subscription> field, AtomicLong requested,
-      long n) {
+  static void deferredRequest(AtomicReference<Subscription> field, AtomicLong requested, long n) {
     Subscription s = field.get();
     if (s != null) {
       s.request(n);

@@ -16,31 +16,32 @@
 
 package com.uber.autodispose;
 
-import com.uber.autodispose.internal.AutoDisposableHelper;
-import com.uber.autodispose.internal.AutoDisposeUtil;
+import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
 import io.reactivex.Maybe;
-import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.exceptions.CompositeException;
 import io.reactivex.exceptions.Exceptions;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
 
-public final class AutoDisposingSingleObserver<T> implements SingleObserver<T>, Disposable {
+final class AutoDisposingCompletableObserverImpl implements AutoDisposingCompletableObserver {
 
   private final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
   private final Maybe<?> lifecycle;
-  private final Consumer<? super T> onSuccess;
   private final Consumer<? super Throwable> onError;
+  private final Action onComplete;
   private final Consumer<? super Disposable> onSubscribe;
 
-  AutoDisposingSingleObserver(Maybe<?> lifecycle, Consumer<? super T> onSuccess,
-      Consumer<? super Throwable> onError, Consumer<? super Disposable> onSubscribe) {
+  AutoDisposingCompletableObserverImpl(Maybe<?> lifecycle,
+      Action onComplete,
+      Consumer<? super Throwable> onError,
+      Consumer<? super Disposable> onSubscribe) {
     this.lifecycle = lifecycle;
-    this.onSuccess = AutoDisposeUtil.emptyConsumerIfNull(onSuccess);
+    this.onComplete = AutoDisposeUtil.emptyActionIfNull(onComplete);
     this.onError = AutoDisposeUtil.emptyErrorConsumerIfNull(onError);
     this.onSubscribe = AutoDisposeUtil.emptyDisposableIfNull(onSubscribe);
   }
@@ -52,8 +53,8 @@ public final class AutoDisposingSingleObserver<T> implements SingleObserver<T>, 
             dispose();
           }
         }, new Consumer<Throwable>() {
-          @Override public void accept(Throwable e) throws Exception {
-            AutoDisposingSingleObserver.this.onError(e);
+          @Override public void accept(Throwable e1) throws Exception {
+            onError(e1);
           }
         }))) {
       if (AutoDisposableHelper.setOnce(mainDisposable, d)) {
@@ -91,14 +92,14 @@ public final class AutoDisposingSingleObserver<T> implements SingleObserver<T>, 
     }
   }
 
-  @Override public final void onSuccess(T value) {
+  @Override public final void onComplete() {
     if (!isDisposed()) {
       dispose();
       try {
-        onSuccess.accept(value);
+        onComplete.run();
       } catch (Exception e) {
         Exceptions.throwIfFatal(e);
-        onError(e);
+        RxJavaPlugins.onError(e);
       }
     }
   }

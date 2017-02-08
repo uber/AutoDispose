@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.clause.subscribe;
 
+import com.uber.autodispose.observers.AutoDisposingMaybeObserver;
 import io.reactivex.MaybeObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -26,17 +27,21 @@ import io.reactivex.functions.Consumer;
  */
 public interface MaybeSubscribeClause {
 
-  <T> MaybeObserver<T> empty();
+  <T> AutoDisposingMaybeObserver<T> empty();
 
-  <T> MaybeObserver<T> around(Consumer<? super T> onSuccess);
+  <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess);
 
-  <T> MaybeObserver<T> around(Consumer<? super T> onSuccess, Consumer<? super Throwable> onError);
+  <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
+      Consumer<? super Throwable> onError);
 
-  <T> MaybeObserver<T> around(Consumer<? super T> onSuccess, Consumer<? super Throwable> onError,
+  <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
+      Consumer<? super Throwable> onError,
       Action onComplete);
 
-  <T> MaybeObserver<T> around(MaybeObserver<T> observer);
+  <T> AutoDisposingMaybeObserver<T> around(MaybeObserver<T> observer);
 
-  <T> MaybeObserver<T> around(Consumer<? super T> onSuccess, Consumer<? super Throwable> onError,
-      Action onComplete, Consumer<? super Disposable> onSubscribe);
+  <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
+      Consumer<? super Throwable> onError,
+      Action onComplete,
+      Consumer<? super Disposable> onSubscribe);
 }
