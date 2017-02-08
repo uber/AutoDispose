@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 Netflix, Inc.
+ * Copyright 2016-present, RxJava Contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in
@@ -14,28 +14,26 @@
  * the License for the specific language governing permissions and limitations under the License.
  */
 
-package com.uber.autodispose.internal;
+package com.uber.autodispose;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.uber.autodispose.internal.AutoDisposeUtil.checkNotNull;
-
 /**
  * Utility methods for working with Disposables atomically. Copied from the RxJava implementation.
  */
-public enum AutoDisposableHelper implements Disposable {
+enum AutoDisposableHelper implements Disposable {
   /**
    * The singleton instance representing a terminal, disposed state, don't leak it.
    */
   DISPOSED;
 
-  public static boolean isDisposed(Disposable d) {
+  static boolean isDisposed(Disposable d) {
     return d == DISPOSED;
   }
 
-  public static boolean set(AtomicReference<Disposable> field, Disposable d) {
+  static boolean set(AtomicReference<Disposable> field, Disposable d) {
     for (; ; ) {
       Disposable current = field.get();
       if (current == DISPOSED) {
@@ -64,8 +62,8 @@ public enum AutoDisposableHelper implements Disposable {
    * @param d the disposable to set, not null
    * @return true if the operation succeeded, false
    */
-  public static boolean setOnce(AtomicReference<Disposable> field, Disposable d) {
-    checkNotNull(d, "d is null");
+  static boolean setOnce(AtomicReference<Disposable> field, Disposable d) {
+    AutoDisposeUtil.checkNotNull(d, "d is null");
     if (!field.compareAndSet(null, d)) {
       d.dispose();
       if (field.get() != DISPOSED) {
@@ -85,7 +83,7 @@ public enum AutoDisposableHelper implements Disposable {
    * @return true if the operation succeeded, false if the target field contained
    * the common DISPOSED instance and the given disposable (if not null) is disposed.
    */
-  public static boolean replace(AtomicReference<Disposable> field, Disposable d) {
+  static boolean replace(AtomicReference<Disposable> field, Disposable d) {
     for (; ; ) {
       Disposable current = field.get();
       if (current == DISPOSED) {
@@ -106,7 +104,7 @@ public enum AutoDisposableHelper implements Disposable {
    * @param field the target field
    * @return true if the current thread managed to dispose the Disposable
    */
-  public static boolean dispose(AtomicReference<Disposable> field) {
+  static boolean dispose(AtomicReference<Disposable> field) {
     Disposable current = field.get();
     Disposable d = DISPOSED;
     if (current != d) {
@@ -129,7 +127,7 @@ public enum AutoDisposableHelper implements Disposable {
    * @param next the next Disposable, expected to be non-null
    * @return true if the validation succeeded
    */
-  public static boolean validate(Disposable current, Disposable next) {
+  static boolean validate(Disposable current, Disposable next) {
     if (next == null) {
       RxJavaPlugins.onError(new NullPointerException("next is null"));
       return false;
@@ -145,7 +143,7 @@ public enum AutoDisposableHelper implements Disposable {
   /**
    * Reports that the disposable is already set to the RxJavaPlugins error handler.
    */
-  public static void reportDisposableSet() {
+  static void reportDisposableSet() {
     RxJavaPlugins.onError(new IllegalStateException("Disposable already set!"));
   }
 

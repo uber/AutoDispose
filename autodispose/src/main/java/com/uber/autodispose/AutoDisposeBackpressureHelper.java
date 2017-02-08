@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 Netflix, Inc.
+ * Copyright 2016-present, RxJava Contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in
@@ -13,7 +13,7 @@
  * implied. See
  * the License for the specific language governing permissions and limitations under the License.
  */
-package com.uber.autodispose.internal;
+package com.uber.autodispose;
 
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicLong;
@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * Utility class to help with backpressure-related operations such as request aggregation. Copied
  * from the RxJava implementation.
  */
-public final class AutoDisposeBackpressureHelper {
+final class AutoDisposeBackpressureHelper {
   /** Utility class. */
   private AutoDisposeBackpressureHelper() {
     throw new IllegalStateException("No instances!");
@@ -35,7 +35,7 @@ public final class AutoDisposeBackpressureHelper {
    * @param b the second value
    * @return the sum capped at Long.MAX_VALUE
    */
-  public static long addCap(long a, long b) {
+  static long addCap(long a, long b) {
     long u = a + b;
     if (u < 0L) {
       return Long.MAX_VALUE;
@@ -50,7 +50,7 @@ public final class AutoDisposeBackpressureHelper {
    * @param b the second value
    * @return the product capped at Long.MAX_VALUE
    */
-  public static long multiplyCap(long a, long b) {
+  static long multiplyCap(long a, long b) {
     long u = a * b;
     if (((a | b) >>> 31) != 0) {
       if (u / a != b) {
@@ -68,7 +68,7 @@ public final class AutoDisposeBackpressureHelper {
    * @param n the value to add, must be positive (not verified)
    * @return the original value before the add
    */
-  public static long add(AtomicLong requested, long n) {
+  static long add(AtomicLong requested, long n) {
     for (; ; ) {
       long r = requested.get();
       if (r == Long.MAX_VALUE) {
@@ -90,7 +90,7 @@ public final class AutoDisposeBackpressureHelper {
    * @param n the value to add, must be positive (not verified)
    * @return the original value before the add
    */
-  public static long addCancel(AtomicLong requested, long n) {
+  static long addCancel(AtomicLong requested, long n) {
     for (; ; ) {
       long r = requested.get();
       if (r == Long.MIN_VALUE) {
@@ -114,7 +114,7 @@ public final class AutoDisposeBackpressureHelper {
    * @param n the produced element count, positive (not validated)
    * @return the new amount
    */
-  public static long produced(AtomicLong requested, long n) {
+  static long produced(AtomicLong requested, long n) {
     for (; ; ) {
       long current = requested.get();
       if (current == Long.MAX_VALUE) {
@@ -140,7 +140,7 @@ public final class AutoDisposeBackpressureHelper {
    * @param n the produced element count, positive (not validated)
    * @return the new amount
    */
-  public static long producedCancel(AtomicLong requested, long n) {
+  static long producedCancel(AtomicLong requested, long n) {
     for (; ; ) {
       long current = requested.get();
       if (current == Long.MIN_VALUE) {
