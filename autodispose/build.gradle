@@ -27,7 +27,6 @@ dependencies {
   compile deps.rx.java
   compile deps.misc.jsr305Annotations
 
-  testCompile deps.rx.rxJava2Extensions
   testCompile deps.test.junit
   testCompile deps.test.truth
 }

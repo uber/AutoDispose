@@ -16,7 +16,6 @@
 
 package com.uber.autodispose;
 
-import hu.akarnokd.rxjava2.subjects.MaybeSubject;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
@@ -24,6 +23,7 @@ import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subscribers.TestSubscriber;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
