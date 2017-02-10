@@ -33,7 +33,8 @@ import org.junit.runner.RunWith;
 
 import static com.google.common.truth.Truth.assertThat;
 
-@RunWith(AndroidJUnit4.class) public final class ViewLifecycleScopeProviderTest {
+@RunWith(AndroidJUnit4.class)
+public final class ViewScopeProviderTest {
 
   @Rule public final ActivityTestRule<AutoDisposeTestActivity> activityRule =
       new ActivityTestRule<>(AutoDisposeTestActivity.class);
@@ -61,7 +62,7 @@ import static com.google.common.truth.Truth.assertThat;
     instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
         subject.subscribe(AutoDispose.observable()
-            .scopeWith(ViewLifecycleScopeProvider.from(child))
+            .scopeWith(ViewScopeProvider.from(child))
             .around(o));
       }
     });
@@ -98,7 +99,7 @@ import static com.google.common.truth.Truth.assertThat;
       }
     });
     subject.subscribe(AutoDispose.observable()
-        .scopeWith(ViewLifecycleScopeProvider.from(child))
+        .scopeWith(ViewScopeProvider.from(child))
         .around(o));
 
     Disposable d = o.takeSubscribe();
@@ -116,7 +117,7 @@ import static com.google.common.truth.Truth.assertThat;
     instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
         subject.subscribe(AutoDispose.observable()
-            .scopeWith(ViewLifecycleScopeProvider.from(child))
+            .scopeWith(ViewScopeProvider.from(child))
             .around(o));
       }
     });
@@ -145,7 +146,7 @@ import static com.google.common.truth.Truth.assertThat;
     instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
         subject.subscribe(AutoDispose.observable()
-            .scopeWith(ViewLifecycleScopeProvider.from(child))
+            .scopeWith(ViewScopeProvider.from(child))
             .around(o));
       }
     });

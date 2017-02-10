@@ -18,8 +18,12 @@ package com.uber.autodispose.android;
 
 import android.os.Build;
 import android.os.Looper;
+import android.support.annotation.RestrictTo;
 import android.view.View;
 
+import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+
+@RestrictTo(LIBRARY)
 class AutoDisposeAndroidUtil {
   static boolean isMainThread() {
     try {
