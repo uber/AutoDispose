@@ -1,6 +1,7 @@
 package com.uber.autodispose;
 
 import io.reactivex.exceptions.CompositeException;
+import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +17,17 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * JUnit rule to record RxJava errors.
  */
-@SuppressWarnings("ThrowableResultOfMethodCallIgnored")
-public class RxErrorsRule extends TestWatcher {
+@SuppressWarnings("ThrowableResultOfMethodCallIgnored") public class RxErrorsRule
+    extends TestWatcher {
 
   private BlockingDeque<Throwable> errors = new LinkedBlockingDeque<>();
 
   @Override protected void starting(Description description) {
-    RxJavaPlugins.setErrorHandler(t -> errors.add(t));
+    RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
+      @Override public void accept(Throwable t) throws Exception {
+        errors.add(t);
+      }
+    });
   }
 
   @Override protected void finished(Description description) {

@@ -16,12 +16,15 @@
 
 package com.uber.autodispose;
 
+import com.uber.autodispose.observers.AutoDisposingObserver;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.exceptions.CompositeException;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,8 +36,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@SuppressWarnings("ThrowableResultOfMethodCallIgnored")
-public class LambdaObserverTest {
+@SuppressWarnings("ThrowableResultOfMethodCallIgnored") public class LambdaObserverTest {
 
   @Rule public RxErrorsRule errors = new RxErrorsRule();
 
@@ -44,14 +46,29 @@ public class LambdaObserverTest {
     final List<Object> received = new ArrayList<>();
 
     AutoDisposingObserver<Object> o =
-        new AutoDisposingObserver<>(lifecycle, received::add, received::add,
-            () -> received.add(100), s -> {
-          throw new TestException();
+        new AutoDisposingObserverImpl<>(lifecycle, new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            received.add(o);
+          }
+        }, new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            received.add(o);
+          }
+        }, new Action() {
+
+          @Override public void run() throws Exception {
+            received.add(100);
+          }
+        }, new Consumer<Disposable>() {
+          @Override public void accept(Disposable disposable) throws Exception {
+            throw new TestException();
+          }
         });
 
     assertFalse(o.isDisposed());
 
-    Observable.just(1).subscribe(o);
+    Observable.just(1)
+        .subscribe(o);
 
     assertTrue(received.toString(), received.get(0) instanceof TestException);
     assertEquals(received.toString(), 1, received.size());
@@ -62,14 +79,30 @@ public class LambdaObserverTest {
   @Test public void onNextThrows() {
     final List<Object> received = new ArrayList<>();
 
-    AutoDisposingObserver<Object> o = new AutoDisposingObserver<>(lifecycle, v -> {
-      throw new TestException();
-    }, received::add, () -> received.add(100), s -> {
-    });
+    AutoDisposingObserver<Object> o =
+        new AutoDisposingObserverImpl<>(lifecycle, new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            throw new TestException();
+          }
+        }, new Consumer<Throwable>() {
+          @Override public void accept(Throwable o) throws Exception {
+            received.add(o);
+          }
+        }, new Action() {
+
+          @Override public void run() throws Exception {
+            received.add(100);
+          }
+        }, new Consumer<Disposable>() {
+          @Override public void accept(Disposable disposable) throws Exception {
+            throw new TestException();
+          }
+        });
 
     assertFalse(o.isDisposed());
 
-    Observable.just(1).subscribe(o);
+    Observable.just(1)
+        .subscribe(o);
 
     assertTrue(received.toString(), received.get(0) instanceof TestException);
     assertEquals(received.toString(), 1, received.size());
@@ -80,10 +113,24 @@ public class LambdaObserverTest {
   @Test public void onErrorThrows() {
     final List<Object> received = new ArrayList<>();
 
-    AutoDisposingObserver<Object> o = new AutoDisposingObserver<>(lifecycle, received::add, e -> {
-      throw new TestException("Inner");
-    }, () -> received.add(100), s -> {
-    });
+    AutoDisposingObserver<Object> o =
+        new AutoDisposingObserverImpl<>(lifecycle, new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            throw new TestException();
+          }
+        }, new Consumer<Throwable>() {
+          @Override public void accept(Throwable o) throws Exception {
+            throw new TestException("Inner");
+          }
+        }, new Action() {
+
+          @Override public void run() throws Exception {
+            received.add(100);
+          }
+        }, new Consumer<Disposable>() {
+          @Override public void accept(Disposable disposable) throws Exception {
+          }
+        });
 
     assertFalse(o.isDisposed());
 
@@ -104,9 +151,21 @@ public class LambdaObserverTest {
     final List<Object> received = new ArrayList<>();
 
     AutoDisposingObserver<Object> o =
-        new AutoDisposingObserver<>(lifecycle, received::add, received::add, () -> {
-          throw new TestException();
-        }, s -> {
+        new AutoDisposingObserverImpl<>(lifecycle, new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            received.add(o);
+          }
+        }, new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            received.add(o);
+          }
+        }, new Action() {
+          @Override public void run() throws Exception {
+            throw new TestException();
+          }
+        }, new Consumer<Disposable>() {
+          @Override public void accept(Disposable disposable) throws Exception {
+          }
         });
 
     assertFalse(o.isDisposed());
@@ -139,8 +198,24 @@ public class LambdaObserverTest {
     final List<Object> received = new ArrayList<>();
 
     AutoDisposingObserver<Object> o =
-        new AutoDisposingObserver<>(lifecycle, received::add, received::add,
-            () -> received.add(100), s -> {});
+        new AutoDisposingObserverImpl<>(lifecycle, new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            received.add(o);
+          }
+        }, new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            received.add(o);
+          }
+        }, new Action() {
+
+          @Override public void run() throws Exception {
+            received.add(100);
+          }
+        }, new Consumer<Disposable>() {
+          @Override public void accept(Disposable disposable) throws Exception {
+
+          }
+        });
 
     source.subscribe(o);
 
@@ -163,8 +238,23 @@ public class LambdaObserverTest {
     final List<Object> received = new ArrayList<>();
 
     AutoDisposingObserver<Object> o =
-        new AutoDisposingObserver<>(lifecycle, received::add, received::add,
-            () -> received.add(100), s -> {});
+        new AutoDisposingObserverImpl<>(lifecycle, new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            received.add(o);
+          }
+        }, new Consumer<Object>() {
+          @Override public void accept(Object o) throws Exception {
+            received.add(o);
+          }
+        }, new Action() {
+
+          @Override public void run() throws Exception {
+            received.add(100);
+          }
+        }, new Consumer<Disposable>() {
+          @Override public void accept(Disposable disposable) throws Exception {
+          }
+        });
 
     source.subscribe(o);
 
