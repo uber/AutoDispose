@@ -17,7 +17,7 @@
 def versions = [
     androidTest: '0.5',
     kotlin: '1.0.6',
-    support: '25.1.0'
+    support: '25.2.0'
 ]
 
 def build = [
@@ -28,7 +28,7 @@ def build = [
     targetSdkVersion: 25,
 
     gradlePlugins: [
-        android: 'com.android.tools.build:gradle:2.3.0-beta3',
+        android: 'com.android.tools.build:gradle:2.3.0-rc1',
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     ]
 ]
@@ -43,7 +43,7 @@ def misc = [
 
 def rx = [
     android: 'io.reactivex.rxjava2:rxandroid:2.0.1',
-    java: 'io.reactivex.rxjava2:rxjava:2.0.5'
+    java: 'io.reactivex.rxjava2:rxjava:2.0.6'
 ]
 
 def support = [
@@ -54,7 +54,7 @@ def test = [
     androidRunner: "com.android.support.test:runner:${versions.androidTest}",
     androidRules: "com.android.support.test:rules:${versions.androidTest}",
     junit: 'junit:junit:4.12',
-    truth: 'com.google.truth:truth:0.31'
+    truth: 'com.google.truth:truth:0.32'
 ]
 
 ext.deps = [
