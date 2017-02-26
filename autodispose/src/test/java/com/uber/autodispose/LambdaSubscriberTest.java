@@ -144,8 +144,10 @@ public class LambdaSubscriberTest {
       CompositeException ex = errors.takeCompositeException();
       List<Throwable> ce = ex.getExceptions();
       assertThat(ce).hasSize(2);
-      assertThat(ce.get(0)).hasMessage("Outer");
-      assertThat(ce.get(1)).hasMessage("Inner");
+      assertThat(ce.get(0)).hasMessageThat()
+          .isEqualTo("Outer");
+      assertThat(ce.get(1)).hasMessageThat()
+          .isEqualTo("Inner");
     } finally {
       RxJavaPlugins.reset();
     }
@@ -182,7 +184,8 @@ public class LambdaSubscriberTest {
 
       assertTrue(o.isDisposed());
 
-      assertThat(errors.take()).isInstanceOf(TestException.class);
+      assertThat(errors.takeThrowableFromUndeliverableException()).isInstanceOf(TestException
+          .class);
     } finally {
       RxJavaPlugins.reset();
     }
