@@ -25,7 +25,7 @@ test {
 
 dependencies {
   compile deps.rx.java
-  compile deps.misc.jsr305Annotations
+  compileOnly deps.misc.jsr305Annotations
 
   testCompile deps.test.junit
   testCompile deps.test.truth
