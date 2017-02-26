@@ -125,8 +125,10 @@ import static org.junit.Assert.assertTrue;
     CompositeException ex = errors.takeCompositeException();
     List<Throwable> ce = ex.getExceptions();
     assertThat(ce).hasSize(2);
-    assertThat(ce.get(0)).hasMessage("Outer");
-    assertThat(ce.get(1)).hasMessage("Inner");
+    assertThat(ce.get(0)).hasMessageThat()
+        .isEqualTo("Outer");
+    assertThat(ce.get(1)).hasMessageThat()
+        .isEqualTo("Inner");
   }
 
   @Test @Ignore public void badSourceOnSubscribe() {

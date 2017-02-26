@@ -1,6 +1,7 @@
 package com.uber.autodispose;
 
 import io.reactivex.exceptions.CompositeException;
+import io.reactivex.exceptions.UndeliverableException;
 import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.ArrayList;
@@ -49,6 +50,12 @@ import static com.google.common.truth.Truth.assertThat;
       throw new NoSuchElementException("No errors recorded.");
     }
     return error;
+  }
+
+  public Throwable takeThrowableFromUndeliverableException() {
+    Throwable error = take();
+    assertThat(error).isInstanceOf(UndeliverableException.class);
+    return error.getCause();
   }
 
   public CompositeException takeCompositeException() {

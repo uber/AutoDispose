@@ -130,8 +130,10 @@ import static org.junit.Assert.assertTrue;
     CompositeException ex = errors.takeCompositeException();
     List<Throwable> ce = ex.getExceptions();
     assertThat(ce).hasSize(2);
-    assertThat(ce.get(0)).hasMessage("Outer");
-    assertThat(ce.get(1)).hasMessage("Inner");
+    assertThat(ce.get(0)).hasMessageThat()
+        .isEqualTo("Outer");
+    assertThat(ce.get(1)).hasMessageThat()
+        .isEqualTo("Inner");
   }
 
   @Test public void onCompleteThrows() {
@@ -160,7 +162,7 @@ import static org.junit.Assert.assertTrue;
 
     assertTrue(o.isDisposed());
 
-    assertThat(errors.take()).isInstanceOf(TestException.class);
+    assertThat(errors.takeThrowableFromUndeliverableException()).isInstanceOf(TestException.class);
   }
 
   @Test @Ignore public void badSourceOnSubscribe() {
