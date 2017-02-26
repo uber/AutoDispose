@@ -79,25 +79,36 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
   @Override public final void dispose() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
-
-      // If we've never actually called the downstream onSubscribe (i.e. requested immediately in
-      // onSubscribe and had a terminal event), we need to still send an empty disposable instance
-      // to abide by the Observer contract.
-      if (mainDisposable.get() == null) {
-        try {
-          onSubscribe.accept(Disposables.disposed());
-        } catch (Exception e) {
-          Exceptions.throwIfFatal(e);
-          RxJavaPlugins.onError(e);
-        }
-      }
+      callMainSubscribeIfNecessary();
       AutoDisposableHelper.dispose(mainDisposable);
+    }
+  }
+
+  private void lazyDispose() {
+    synchronized (this) {
+      AutoDisposableHelper.dispose(lifecycleDisposable);
+      callMainSubscribeIfNecessary();
+      mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+    }
+  }
+
+  private void callMainSubscribeIfNecessary() {
+    // If we've never actually called the downstream onSubscribe (i.e. requested immediately in
+    // onSubscribe and had a terminal event), we need to still send an empty disposable instance
+    // to abide by the Observer contract.
+    if (mainDisposable.get() == null) {
+      try {
+        onSubscribe.accept(Disposables.disposed());
+      } catch (Exception e) {
+        Exceptions.throwIfFatal(e);
+        RxJavaPlugins.onError(e);
+      }
     }
   }
 
   @Override public final void onSuccess(T value) {
     if (!isDisposed()) {
-      dispose();
+      lazyDispose();
       try {
         onSuccess.accept(value);
       } catch (Exception e) {
@@ -109,7 +120,7 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
 
   @Override public final void onError(Throwable e) {
     if (!isDisposed()) {
-      dispose();
+      lazyDispose();
       try {
         onError.accept(e);
       } catch (Exception e1) {
@@ -121,7 +132,7 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
 
   @Override public final void onComplete() {
     if (!isDisposed()) {
-      dispose();
+      lazyDispose();
       try {
         onComplete.run();
       } catch (Exception e) {
