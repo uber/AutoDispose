@@ -70,6 +70,14 @@ public final class LifecycleObservable<T> extends Observable<T> {
   @Override protected void subscribeActual(Observer<? super T> observer) {
     // Subscribe the subject to the observer, track disposal so we can clear the behavior
     // subscription later.
+
+    // If we're given an already-disposed disposable observer, we should just not do anything
+    // But what about the observer contract? Short circuiting also crashes some operators.
+    //if (observer instanceof Disposable) {
+    //  if (((Disposable) observer).isDisposed()) {
+    //    return;
+    //  }
+    //}
     subject.subscribe(new LifecycleObserver(observer) {
       @Override void onDispose() {
         Disposable d = subjectDisposable.get();
