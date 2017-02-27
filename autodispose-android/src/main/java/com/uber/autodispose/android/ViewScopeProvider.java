@@ -17,6 +17,7 @@
 package com.uber.autodispose.android;
 
 import android.view.View;
+import com.uber.autodispose.LifecycleObservable;
 import com.uber.autodispose.LifecycleScopeProvider;
 import com.uber.autodispose.OutsideLifecycleException;
 import io.reactivex.Observable;
@@ -67,8 +68,8 @@ public class ViewScopeProvider implements LifecycleScopeProvider<ViewLifecycleEv
     lifecycle = new ViewAttachEventsObservable(view);
   }
 
-  @Override public Observable<ViewLifecycleEvent> lifecycle() {
-    return lifecycle;
+  @Override public LifecycleObservable<ViewLifecycleEvent> lifecycle() {
+    return lifecycle.to(LifecycleObservable.<ViewLifecycleEvent>converter());
   }
 
   @Override public Function<ViewLifecycleEvent, ViewLifecycleEvent> correspondingEvents() {
