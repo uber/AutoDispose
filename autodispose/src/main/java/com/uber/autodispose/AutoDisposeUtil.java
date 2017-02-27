@@ -16,10 +16,10 @@
 
 package com.uber.autodispose;
 
+import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import javax.annotation.Nullable;
 import org.reactivestreams.Subscription;
 
 final class AutoDisposeUtil {
