@@ -28,6 +28,7 @@ dependencies {
   compile deps.misc.jsr305Annotations
 
   testCompile deps.test.junit
+  testCompile deps.test.mockito
   testCompile deps.test.truth
 }
 
