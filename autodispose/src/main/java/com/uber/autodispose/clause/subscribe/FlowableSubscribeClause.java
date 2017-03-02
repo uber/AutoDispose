@@ -17,6 +17,7 @@
 package com.uber.autodispose.clause.subscribe;
 
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
+import io.reactivex.Flowable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import org.reactivestreams.Subscriber;
@@ -27,19 +28,55 @@ import org.reactivestreams.Subscription;
  */
 public interface FlowableSubscribeClause {
 
+  /**
+   * Mirror for {@link Flowable#subscribe()}
+   *
+   * @param <T> the Flowable type
+   * @return an {@link AutoDisposingSubscriber}
+   */
   <T> AutoDisposingSubscriber<T> empty();
 
+  /**
+   * Mirror for {@link Flowable#subscribe(Consumer)}
+   *
+   * @param <T> the Flowable type
+   * @return an {@link AutoDisposingSubscriber}
+   */
   <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext);
 
+  /**
+   * Mirror for {@link Flowable#subscribe(Consumer, Consumer)}
+   *
+   * @param <T> the Flowable type
+   * @return an {@link AutoDisposingSubscriber}
+   */
   <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError);
 
+  /**
+   * Mirror for {@link Flowable#subscribe(Consumer, Consumer, Action)}
+   *
+   * @param <T> the Flowable type
+   * @return an {@link AutoDisposingSubscriber}
+   */
   <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError,
       Action onComplete);
 
+  /**
+   * Mirror for {@link Flowable#subscribe(Subscriber)}
+   *
+   * @param <T> the Flowable type
+   * @return an {@link AutoDisposingSubscriber}
+   */
   <T> AutoDisposingSubscriber<T> around(Subscriber<T> subscriber);
 
+  /**
+   * Mirror for {@link Flowable#subscribe(Consumer, Consumer, Action, Consumer)}
+   *
+   * @param <T> the Flowable type
+   * @return an {@link AutoDisposingSubscriber}
+   */
   <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError,
       Action onComplete,

@@ -31,11 +31,15 @@ import com.uber.autodispose.observers.AutoDisposingMaybeObserver;
 import com.uber.autodispose.observers.AutoDisposingObserver;
 import com.uber.autodispose.observers.AutoDisposingSingleObserver;
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
+import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
+import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 import io.reactivex.MaybeSource;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -47,6 +51,34 @@ import org.reactivestreams.Subscription;
 
 import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
 
+/**
+ * Entry points for creating auto-disposing observers.
+ * <p>
+ * The top level entry points simply correspond to the RxJava type and serve as entry points to the
+ * fluent AutoDispose API for that type. The primary points are:
+ * <ul>
+ *   <li>{@link #flowable()}
+ *   <li>{@link #observable()}
+ *   <li>{@link #maybe()}
+ *   <li>{@link #single()}
+ *   <li>{@link #completable()}
+ * </ul>
+ * <p>
+ * The basic flow stencil might look like this:
+ * <pre><code>
+ *   myObservable.subscribe(AutoDispose.observable()
+ *        .scopeWith(...)
+ *        .around(...))
+ * </code></pre>
+ * <p>
+ * There are several overloads for scopeWith(), with the most basic being a simple {@link Maybe}.
+ * This {@link Maybe} is ultimately what every scope resolves to under the hood, and AutoDispose has
+ * some built in understanding for predefined types. The scope is considered ended upon onSuccess
+ * emission of this {@link Maybe}.
+ * <p>
+ * The second part of AutoDisposal is composing your actual emission logic. Each scope overload
+ * returns a subscribe clause that simply mirrors the actual type's top-level subscribe() overloads.
+ */
 public final class AutoDispose {
 
   private static final FlowableScopeClause FLOWABLE_SCOPE_CLAUSE = new FlowableClauseImpl();
@@ -61,22 +93,47 @@ public final class AutoDispose {
     throw new InstantiationError();
   }
 
+  /**
+   * Entry point for AutoDisposing a {@link Flowable}.
+   *
+   * @return a {@link FlowableScopeClause} for fluent API chaining.
+   */
   public static FlowableScopeClause flowable() {
     return FLOWABLE_SCOPE_CLAUSE;
   }
 
+  /**
+   * Entry point for AutoDisposing an {@link Observable}.
+   *
+   * @return a {@link ObservableScopeClause} for fluent API chaining.
+   */
   public static ObservableScopeClause observable() {
     return OBSERVABLE_SCOPE_CLAUSE;
   }
 
+  /**
+   * Entry point for AutoDisposing a {@link Maybe}.
+   *
+   * @return a {@link MaybeScopeClause} for fluent API chaining.
+   */
   public static MaybeScopeClause maybe() {
     return MAYBE_SCOPE_CLAUSE;
   }
 
+  /**
+   * Entry point for AutoDisposing a {@link Single}.
+   *
+   * @return a {@link SingleScopeClause} for fluent API chaining.
+   */
   public static SingleScopeClause single() {
     return SINGLE_SCOPE_CLAUSE;
   }
 
+  /**
+   * Entry point for AutoDisposing a {@link Completable}.
+   *
+   * @return a {@link CompletableScopeClause} for fluent API chaining.
+   */
   public static CompletableScopeClause completable() {
     return COMPLETABLE_SCOPE_CLAUSE;
   }
@@ -379,7 +436,7 @@ public final class AutoDispose {
       });
     }
 
-    @Override public <T> AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess,
+    private <T> AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError,
         Consumer<? super Disposable> onSubscribe) {
       checkNotNull(onSuccess, "onSuccess == null");
@@ -451,7 +508,7 @@ public final class AutoDispose {
       });
     }
 
-    @Override public <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
+    private <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
         Consumer<? super Throwable> onError,
         Action onComplete,
         Consumer<? super Disposable> onSubscribe) {
@@ -514,7 +571,7 @@ public final class AutoDispose {
       });
     }
 
-    @Override public AutoDisposingCompletableObserver around(Action action,
+    private AutoDisposingCompletableObserver around(Action action,
         Consumer<? super Throwable> onError,
         Consumer<? super Disposable> onSubscribe) {
       checkNotNull(action, "action == null");

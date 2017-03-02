@@ -51,7 +51,7 @@ corresponding events are for the current lifecycle state (e.g. `ATTACH` -> `DETA
 you to enforce lifecycle boundary requirements, and by default will error if the lifecycle has either
 not started yet or has already ended.
 
-##### ScopeLifecycleProvider
+##### LifecycleScopeProvider
 
 ```java
 public interface LifecycleScopeProvider<E> {
@@ -63,7 +63,7 @@ public interface LifecycleScopeProvider<E> {
 }
 ```
 
-`ScopeLifecycleProvider` is a special case targeted at binding to things with lifecycles. Its API is
+`LifecycleScopeProvider` is a special case targeted at binding to things with lifecycles. Its API is
 as follows:
   - `lifecycle()` - returns an `Observable` of lifecycle events. This should be backed by a `BehaviorSubject`
   or something similar (`BehaviorRelay`, etc).

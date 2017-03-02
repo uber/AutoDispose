@@ -17,8 +17,8 @@
 package com.uber.autodispose.clause.subscribe;
 
 import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
+import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
@@ -27,15 +27,31 @@ import io.reactivex.functions.Consumer;
  */
 public interface CompletableSubscribeClause {
 
+  /**
+   * Mirror for {@link Completable#subscribe()}
+   *
+   * @return an {@link AutoDisposingCompletableObserver}
+   */
   AutoDisposingCompletableObserver empty();
 
+  /**
+   * Mirror for {@link Completable#subscribe(Action)}
+   *
+   * @return an {@link AutoDisposingCompletableObserver}
+   */
   AutoDisposingCompletableObserver around(Action action);
 
+  /**
+   * Mirror for {@link Completable#subscribe(Action, Consumer)}
+   *
+   * @return an {@link AutoDisposingCompletableObserver}
+   */
   AutoDisposingCompletableObserver around(Action action, Consumer<? super Throwable> onError);
 
+  /**
+   * Mirror for {@link Completable#subscribe(CompletableObserver)}
+   *
+   * @return an {@link AutoDisposingCompletableObserver}
+   */
   AutoDisposingCompletableObserver around(CompletableObserver observer);
-
-  AutoDisposingCompletableObserver around(Action action,
-      Consumer<? super Throwable> onError,
-      Consumer<? super Disposable> onSubscribe);
 }
