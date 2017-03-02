@@ -17,8 +17,8 @@
 package com.uber.autodispose.clause.subscribe;
 
 import com.uber.autodispose.observers.AutoDisposingMaybeObserver;
+import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
@@ -27,21 +27,46 @@ import io.reactivex.functions.Consumer;
  */
 public interface MaybeSubscribeClause {
 
+  /**
+   * Proxy for {@link Maybe#subscribe()}
+   *
+   * @param <T> the Maybe type
+   * @return an {@link AutoDisposingMaybeObserver}
+   */
   <T> AutoDisposingMaybeObserver<T> empty();
 
+  /**
+   * Proxy for {@link Maybe#subscribe(Consumer)}
+   *
+   * @param <T> the Maybe type
+   * @return an {@link AutoDisposingMaybeObserver}
+   */
   <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess);
 
+  /**
+   * Proxy for {@link Maybe#subscribe(Consumer, Consumer)}
+   *
+   * @param <T> the Maybe type
+   * @return an {@link AutoDisposingMaybeObserver}
+   */
   <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
       Consumer<? super Throwable> onError);
 
+  /**
+   * Proxy for {@link Maybe#subscribe(Consumer, Consumer, Action)}
+   *
+   * @param <T> the Maybe type
+   * @return an {@link AutoDisposingMaybeObserver}
+   */
   <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
       Consumer<? super Throwable> onError,
       Action onComplete);
 
+  /**
+   * Proxy for {@link Maybe#subscribe(MaybeObserver)}
+   *
+   * @param <T> the Maybe type
+   * @return an {@link AutoDisposingMaybeObserver}
+   */
   <T> AutoDisposingMaybeObserver<T> around(MaybeObserver<T> observer);
-
-  <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
-      Consumer<? super Disposable> onSubscribe);
 }

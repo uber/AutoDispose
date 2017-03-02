@@ -17,8 +17,8 @@
 package com.uber.autodispose.clause.subscribe;
 
 import com.uber.autodispose.observers.AutoDisposingSingleObserver;
+import io.reactivex.Single;
 import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
 
@@ -27,18 +27,44 @@ import io.reactivex.functions.Consumer;
  */
 public interface SingleSubscribeClause {
 
+  /**
+   * Proxy for {@link Single#subscribe()}
+   *
+   * @param <T> the Single type
+   * @return an {@link AutoDisposingSingleObserver}
+   */
   <T> AutoDisposingSingleObserver<T> empty();
 
+  /**
+   * Proxy for {@link Single#subscribe(Consumer)}
+   *
+   * @param <T> the Single type
+   * @return an {@link AutoDisposingSingleObserver}
+   */
   <T> AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess);
 
+  /**
+   * Proxy for {@link Single#subscribe(BiConsumer)}
+   *
+   * @param <T> the Single type
+   * @return an {@link AutoDisposingSingleObserver}
+   */
   <T> AutoDisposingSingleObserver<T> around(BiConsumer<? super T, ? super Throwable> biConsumer);
 
+  /**
+   * Proxy for {@link Single#subscribe(Consumer, Consumer)}
+   *
+   * @param <T> the Single type
+   * @return an {@link AutoDisposingSingleObserver}
+   */
   <T> AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess,
       Consumer<? super Throwable> onError);
 
+  /**
+   * Proxy for {@link Single#subscribe(SingleObserver)}
+   *
+   * @param <T> the Single type
+   * @return an {@link AutoDisposingSingleObserver}
+   */
   <T> AutoDisposingSingleObserver<T> around(SingleObserver<T> observer);
-
-  <T> AutoDisposingSingleObserver<T> around(Consumer<? super T> onSuccess,
-      Consumer<? super Throwable> onError,
-      Consumer<? super Disposable> onSubscribe);
 }

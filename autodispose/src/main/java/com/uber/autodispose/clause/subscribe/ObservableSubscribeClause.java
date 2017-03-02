@@ -17,6 +17,7 @@
 package com.uber.autodispose.clause.subscribe;
 
 import com.uber.autodispose.observers.AutoDisposingObserver;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -27,19 +28,55 @@ import io.reactivex.functions.Consumer;
  */
 public interface ObservableSubscribeClause {
 
+  /**
+   * Proxy for {@link Observable#subscribe()}
+   *
+   * @param <T> the Observable type.
+   * @return an {@link AutoDisposingObserver}
+   */
   <T> AutoDisposingObserver<T> empty();
 
+  /**
+   * Proxy for {@link Observable#subscribe(Consumer)}
+   *
+   * @param <T> the Observable type.
+   * @return an {@link AutoDisposingObserver}
+   */
   <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext);
 
+  /**
+   * Proxy for {@link Observable#subscribe(Consumer, Consumer)}
+   *
+   * @param <T> the Observable type.
+   * @return an {@link AutoDisposingObserver}
+   */
   <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError);
 
+  /**
+   * Proxy for {@link Observable#subscribe(Consumer, Consumer, Action)}
+   *
+   * @param <T> the Observable type.
+   * @return an {@link AutoDisposingObserver}
+   */
   <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError,
       Action onComplete);
 
+  /**
+   * Proxy for {@link Observable#subscribe(Observer)}
+   *
+   * @param <T> the Observable type.
+   * @return an {@link AutoDisposingObserver}
+   */
   <T> AutoDisposingObserver<T> around(Observer<T> observer);
 
+  /**
+   * Proxy for {@link Observable#subscribe(Consumer, Consumer, Action, Consumer)}
+   *
+   * @param <T> the Observable type.
+   * @return an {@link AutoDisposingObserver}
+   */
   <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError,
       Action onComplete,

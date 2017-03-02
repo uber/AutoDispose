@@ -17,6 +17,7 @@
 package com.uber.autodispose.clause.subscribe;
 
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
+import io.reactivex.Flowable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import org.reactivestreams.Subscriber;
@@ -27,19 +28,55 @@ import org.reactivestreams.Subscription;
  */
 public interface FlowableSubscribeClause {
 
+  /**
+   * Proxy for {@link Flowable#subscribe()}
+   *
+   * @param <T> the Flowable type
+   * @return an {@link AutoDisposingSubscriber}
+   */
   <T> AutoDisposingSubscriber<T> empty();
 
+  /**
+   * Proxy for {@link Flowable#subscribe(Consumer)}
+   *
+   * @param <T> the Flowable type
+   * @return an {@link AutoDisposingSubscriber}
+   */
   <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext);
 
+  /**
+   * Proxy for {@link Flowable#subscribe(Consumer, Consumer)}
+   *
+   * @param <T> the Flowable type
+   * @return an {@link AutoDisposingSubscriber}
+   */
   <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError);
 
+  /**
+   * Proxy for {@link Flowable#subscribe(Consumer, Consumer, Action)}
+   *
+   * @param <T> the Flowable type
+   * @return an {@link AutoDisposingSubscriber}
+   */
   <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError,
       Action onComplete);
 
+  /**
+   * Proxy for {@link Flowable#subscribe(Subscriber)}
+   *
+   * @param <T> the Flowable type
+   * @return an {@link AutoDisposingSubscriber}
+   */
   <T> AutoDisposingSubscriber<T> around(Subscriber<T> subscriber);
 
+  /**
+   * Proxy for {@link Flowable#subscribe(Consumer, Consumer, Action, Consumer)}
+   *
+   * @param <T> the Flowable type
+   * @return an {@link AutoDisposingSubscriber}
+   */
   <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext,
       Consumer<? super Throwable> onError,
       Action onComplete,

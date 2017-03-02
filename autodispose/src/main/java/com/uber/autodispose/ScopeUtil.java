@@ -24,14 +24,15 @@ import io.reactivex.functions.Predicate;
 import java.util.concurrent.Callable;
 
 /**
- * Utilities for dealing with scopes.
+ * Utilities for dealing with scopes, usually for providers. This includes factories for resolving
+ * {@link Maybe} representations of scopes, corresponding events, etc.
  */
 public final class ScopeUtil {
 
-  private static final Function<Object, LifecycleEndEvent> TRANSFORM_TO_END =
-      new Function<Object, LifecycleEndEvent>() {
-        @Override public LifecycleEndEvent apply(Object o) throws Exception {
-          return LifecycleEndEvent.INSTANCE;
+  private static final Function<Object, LifecycleEndNotification> TRANSFORM_TO_END =
+      new Function<Object, LifecycleEndNotification>() {
+        @Override public LifecycleEndNotification apply(Object o) throws Exception {
+          return LifecycleEndNotification.INSTANCE;
         }
       };
 
@@ -45,16 +46,32 @@ public final class ScopeUtil {
     throw new InstantiationError();
   }
 
-  public static <E> Maybe<LifecycleEndEvent> deferredResolvedLifecycle(
+  /**
+   * Overload for resolving lifecycle providers that defaults to checking start and end boundaries
+   * of lifecycles. That is, they will ensure that the lifecycle has both started and not ended.
+   *
+   * @param provider the {@link LifecycleScopeProvider} to resolve.
+   * @param <E> the lifecycle event type.
+   * @return a resolved {@link Maybe} representation of a given provider
+   */
+  public static <E> Maybe<LifecycleEndNotification> deferredResolvedLifecycle(
       LifecycleScopeProvider<E> provider) {
     return deferredResolvedLifecycle(provider, true, true);
   }
 
-  public static <E> Maybe<LifecycleEndEvent> deferredResolvedLifecycle(
-      final LifecycleScopeProvider<E> provider, final boolean checkStartBoundary,
+  /**
+   * @param provider the {@link LifecycleScopeProvider} to resolve.
+   * @param checkStartBoundary whether or not to check that the lifecycle has started
+   * @param checkEndBoundary whether or not to check that the lifecycle has ended
+   * @param <E> the lifecycle event type
+   * @return a resolved {@link Maybe} representation of a given provider
+   */
+  public static <E> Maybe<LifecycleEndNotification> deferredResolvedLifecycle(
+      final LifecycleScopeProvider<E> provider,
+      final boolean checkStartBoundary,
       final boolean checkEndBoundary) {
-    return Maybe.defer(new Callable<MaybeSource<? extends LifecycleEndEvent>>() {
-      @Override public MaybeSource<? extends LifecycleEndEvent> call() throws Exception {
+    return Maybe.defer(new Callable<MaybeSource<? extends LifecycleEndNotification>>() {
+      @Override public MaybeSource<? extends LifecycleEndNotification> call() throws Exception {
         E lastEvent = provider.peekLifecycle();
         if (checkStartBoundary && lastEvent == null) {
           throw new LifecycleNotStartedException();
@@ -70,12 +87,19 @@ public final class ScopeUtil {
             return Maybe.error(e);
           }
         }
-        return resolveLifecycleMaybe(provider.lifecycle(), endEvent);
+        return resolveScopeFromLifecycle(provider.lifecycle(), endEvent);
       }
     });
   }
 
-  public static <E> Maybe<LifecycleEndEvent> resolveLifecycleMaybe(Observable<E> lifecycle,
+  /**
+   * @param lifecycle the stream of lifecycle events
+   * @param endEvent the target end event
+   * @param <E> the lifecycle event type
+   * @return a resolved {@link Maybe} representation of a given lifecycle, targeting the given event
+   */
+  public static <E> Maybe<LifecycleEndNotification> resolveScopeFromLifecycle(
+      Observable<E> lifecycle,
       final E endEvent) {
     return lifecycle.skip(1)
         .map(new Function<E, Boolean>() {
@@ -92,7 +116,7 @@ public final class ScopeUtil {
    * A simple instance enum used to signify that the end of a lifecycle has occurred. This should
    * be treated solely as a notification and does not have any real value.
    */
-  public enum LifecycleEndEvent {
+  public enum LifecycleEndNotification {
     INSTANCE
   }
 }
