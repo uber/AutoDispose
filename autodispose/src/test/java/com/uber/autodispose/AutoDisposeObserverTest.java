@@ -19,8 +19,11 @@ package com.uber.autodispose;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Cancellable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subjects.PublishSubject;
@@ -51,6 +54,57 @@ public class AutoDisposeObserverTest {
     assertThat(o.takeNext()).isEqualTo(2);
     o.assertOnComplete();
     assertThat(d.isDisposed()).isTrue();
+    assertThat(source.hasObservers()).isFalse();
+    assertThat(lifecycle.hasObservers()).isFalse();
+  }
+
+  @Test public void autoDispose_withMaybe_normal_converter() {
+    TestObserver<Integer> o = new TestObserver<>();
+    PublishSubject<Integer> source = PublishSubject.create();
+    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
+
+    // Current
+    Observable.just(1)
+        .subscribe(AutoDispose.observable()
+            .scopeWith(lifecycle)
+            .around(new Consumer<Integer>() {
+              @Override public void accept(@NonNull Integer integer) throws Exception {
+
+              }
+            }));
+
+    // New "scoper", autocompletes nicely but not as pretty
+    Observable.just(1)
+        .to(new AutoDispose.ObservableScoper<Integer>(lifecycle))
+        .subscribe(new Consumer<Integer>() {
+          @Override public void accept(@NonNull Integer integer) throws Exception {
+
+          }
+        });
+
+    // Static API, no autocomplete but pretty. Not fixed by Java 8 either :|
+    Observable.just(1)
+        .to(AutoDispose.<Integer>scopedObservable(lifecycle))
+        .subscribe(new Consumer<Integer>() {
+          @Override public void accept(@NonNull Integer integer) throws Exception {
+
+          }
+        });
+
+    source.to(AutoDispose.<Integer>scopedObservable(lifecycle))
+        .subscribeWith(o);
+    o.assertSubscribed();
+
+    assertThat(source.hasObservers()).isTrue();
+    assertThat(lifecycle.hasObservers()).isTrue();
+
+    source.onNext(1);
+    o.assertValue(1);
+
+    source.onNext(2);
+    source.onComplete();
+    o.assertValues(1, 2);
+    o.assertComplete();
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
   }
@@ -145,7 +199,11 @@ public class AutoDisposeObserverTest {
     Observable.just(1)
         .subscribe(AutoDispose.observable()
             .scopeWith(provider)
-            .around(o));
+            .around(new Consumer<Integer>() {
+              @Override public void accept(@NonNull Integer integer) throws Exception {
+
+              }
+            }));
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
