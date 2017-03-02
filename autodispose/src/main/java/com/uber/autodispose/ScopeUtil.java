@@ -24,7 +24,8 @@ import io.reactivex.functions.Predicate;
 import java.util.concurrent.Callable;
 
 /**
- * Utilities for dealing with scopes.
+ * Utilities for dealing with scopes, usually for providers. This includes factories for resolving
+ * {@link Maybe} representations of scopes, corresponding events, etc.
  */
 public final class ScopeUtil {
 
