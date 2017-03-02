@@ -29,7 +29,7 @@ import io.reactivex.functions.Consumer;
 public interface ObservableSubscribeClause {
 
   /**
-   * Mirror for {@link Observable#subscribe()}
+   * Proxy for {@link Observable#subscribe()}
    *
    * @param <T> the Observable type.
    * @return an {@link AutoDisposingObserver}
@@ -37,7 +37,7 @@ public interface ObservableSubscribeClause {
   <T> AutoDisposingObserver<T> empty();
 
   /**
-   * Mirror for {@link Observable#subscribe(Consumer)}
+   * Proxy for {@link Observable#subscribe(Consumer)}
    *
    * @param <T> the Observable type.
    * @return an {@link AutoDisposingObserver}
@@ -45,7 +45,7 @@ public interface ObservableSubscribeClause {
   <T> AutoDisposingObserver<T> around(Consumer<? super T> onNext);
 
   /**
-   * Mirror for {@link Observable#subscribe(Consumer, Consumer)}
+   * Proxy for {@link Observable#subscribe(Consumer, Consumer)}
    *
    * @param <T> the Observable type.
    * @return an {@link AutoDisposingObserver}
@@ -54,7 +54,7 @@ public interface ObservableSubscribeClause {
       Consumer<? super Throwable> onError);
 
   /**
-   * Mirror for {@link Observable#subscribe(Consumer, Consumer, Action)}
+   * Proxy for {@link Observable#subscribe(Consumer, Consumer, Action)}
    *
    * @param <T> the Observable type.
    * @return an {@link AutoDisposingObserver}
@@ -64,7 +64,7 @@ public interface ObservableSubscribeClause {
       Action onComplete);
 
   /**
-   * Mirror for {@link Observable#subscribe(Observer)}
+   * Proxy for {@link Observable#subscribe(Observer)}
    *
    * @param <T> the Observable type.
    * @return an {@link AutoDisposingObserver}
@@ -72,7 +72,7 @@ public interface ObservableSubscribeClause {
   <T> AutoDisposingObserver<T> around(Observer<T> observer);
 
   /**
-   * Mirror for {@link Observable#subscribe(Consumer, Consumer, Action, Consumer)}
+   * Proxy for {@link Observable#subscribe(Consumer, Consumer, Action, Consumer)}
    *
    * @param <T> the Observable type.
    * @return an {@link AutoDisposingObserver}

@@ -28,28 +28,28 @@ import io.reactivex.functions.Consumer;
 public interface CompletableSubscribeClause {
 
   /**
-   * Mirror for {@link Completable#subscribe()}
+   * Proxy for {@link Completable#subscribe()}
    *
    * @return an {@link AutoDisposingCompletableObserver}
    */
   AutoDisposingCompletableObserver empty();
 
   /**
-   * Mirror for {@link Completable#subscribe(Action)}
+   * Proxy for {@link Completable#subscribe(Action)}
    *
    * @return an {@link AutoDisposingCompletableObserver}
    */
   AutoDisposingCompletableObserver around(Action action);
 
   /**
-   * Mirror for {@link Completable#subscribe(Action, Consumer)}
+   * Proxy for {@link Completable#subscribe(Action, Consumer)}
    *
    * @return an {@link AutoDisposingCompletableObserver}
    */
   AutoDisposingCompletableObserver around(Action action, Consumer<? super Throwable> onError);
 
   /**
-   * Mirror for {@link Completable#subscribe(CompletableObserver)}
+   * Proxy for {@link Completable#subscribe(CompletableObserver)}
    *
    * @return an {@link AutoDisposingCompletableObserver}
    */

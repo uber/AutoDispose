@@ -29,7 +29,7 @@ import org.reactivestreams.Subscription;
 public interface FlowableSubscribeClause {
 
   /**
-   * Mirror for {@link Flowable#subscribe()}
+   * Proxy for {@link Flowable#subscribe()}
    *
    * @param <T> the Flowable type
    * @return an {@link AutoDisposingSubscriber}
@@ -37,7 +37,7 @@ public interface FlowableSubscribeClause {
   <T> AutoDisposingSubscriber<T> empty();
 
   /**
-   * Mirror for {@link Flowable#subscribe(Consumer)}
+   * Proxy for {@link Flowable#subscribe(Consumer)}
    *
    * @param <T> the Flowable type
    * @return an {@link AutoDisposingSubscriber}
@@ -45,7 +45,7 @@ public interface FlowableSubscribeClause {
   <T> AutoDisposingSubscriber<T> around(Consumer<? super T> onNext);
 
   /**
-   * Mirror for {@link Flowable#subscribe(Consumer, Consumer)}
+   * Proxy for {@link Flowable#subscribe(Consumer, Consumer)}
    *
    * @param <T> the Flowable type
    * @return an {@link AutoDisposingSubscriber}
@@ -54,7 +54,7 @@ public interface FlowableSubscribeClause {
       Consumer<? super Throwable> onError);
 
   /**
-   * Mirror for {@link Flowable#subscribe(Consumer, Consumer, Action)}
+   * Proxy for {@link Flowable#subscribe(Consumer, Consumer, Action)}
    *
    * @param <T> the Flowable type
    * @return an {@link AutoDisposingSubscriber}
@@ -64,7 +64,7 @@ public interface FlowableSubscribeClause {
       Action onComplete);
 
   /**
-   * Mirror for {@link Flowable#subscribe(Subscriber)}
+   * Proxy for {@link Flowable#subscribe(Subscriber)}
    *
    * @param <T> the Flowable type
    * @return an {@link AutoDisposingSubscriber}
@@ -72,7 +72,7 @@ public interface FlowableSubscribeClause {
   <T> AutoDisposingSubscriber<T> around(Subscriber<T> subscriber);
 
   /**
-   * Mirror for {@link Flowable#subscribe(Consumer, Consumer, Action, Consumer)}
+   * Proxy for {@link Flowable#subscribe(Consumer, Consumer, Action, Consumer)}
    *
    * @param <T> the Flowable type
    * @return an {@link AutoDisposingSubscriber}

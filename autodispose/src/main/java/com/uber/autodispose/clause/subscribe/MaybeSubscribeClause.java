@@ -28,7 +28,7 @@ import io.reactivex.functions.Consumer;
 public interface MaybeSubscribeClause {
 
   /**
-   * Mirror for {@link Maybe#subscribe()}
+   * Proxy for {@link Maybe#subscribe()}
    *
    * @param <T> the Maybe type
    * @return an {@link AutoDisposingMaybeObserver}
@@ -36,7 +36,7 @@ public interface MaybeSubscribeClause {
   <T> AutoDisposingMaybeObserver<T> empty();
 
   /**
-   * Mirror for {@link Maybe#subscribe(Consumer)}
+   * Proxy for {@link Maybe#subscribe(Consumer)}
    *
    * @param <T> the Maybe type
    * @return an {@link AutoDisposingMaybeObserver}
@@ -44,7 +44,7 @@ public interface MaybeSubscribeClause {
   <T> AutoDisposingMaybeObserver<T> around(Consumer<? super T> onSuccess);
 
   /**
-   * Mirror for {@link Maybe#subscribe(Consumer, Consumer)}
+   * Proxy for {@link Maybe#subscribe(Consumer, Consumer)}
    *
    * @param <T> the Maybe type
    * @return an {@link AutoDisposingMaybeObserver}
@@ -53,7 +53,7 @@ public interface MaybeSubscribeClause {
       Consumer<? super Throwable> onError);
 
   /**
-   * Mirror for {@link Maybe#subscribe(Consumer, Consumer, Action)}
+   * Proxy for {@link Maybe#subscribe(Consumer, Consumer, Action)}
    *
    * @param <T> the Maybe type
    * @return an {@link AutoDisposingMaybeObserver}
@@ -63,7 +63,7 @@ public interface MaybeSubscribeClause {
       Action onComplete);
 
   /**
-   * Mirror for {@link Maybe#subscribe(MaybeObserver)}
+   * Proxy for {@link Maybe#subscribe(MaybeObserver)}
    *
    * @param <T> the Maybe type
    * @return an {@link AutoDisposingMaybeObserver}
