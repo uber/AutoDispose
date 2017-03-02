@@ -74,7 +74,7 @@ import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
  * There are several overloads for scopeWith(), with the most basic being a simple {@link Maybe}.
  * This {@link Maybe} is ultimately what every scope resolves to under the hood, and AutoDispose has
  * some built in understanding for predefined types. The scope is considered ended upon onSuccess
- * emission of this {@link Maybe}.
+ * emission of this {@link Maybe}. The most common use case would probably be {@link ScopeProvider}.
  * <p>
  * The second part of AutoDisposal is composing your actual emission logic. Each scope overload
  * returns a subscribe clause that simply mirrors the actual type's top-level subscribe() overloads.
