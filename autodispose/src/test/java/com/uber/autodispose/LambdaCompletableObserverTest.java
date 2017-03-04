@@ -40,197 +40,197 @@ import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("ThrowableResultOfMethodCallIgnored") public class LambdaCompletableObserverTest {
 
-  @Rule public RxErrorsRule errors = new RxErrorsRule();
-
-  private final Maybe<Integer> lifecycle = Maybe.empty();
-
-  @Test public void onSubscribeThrows() {
-    final List<Object> received = new ArrayList<>();
-
-    AutoDisposingCompletableObserver o =
-        new AutoDisposingCompletableObserverImpl(lifecycle, new Action() {
-          @Override public void run() throws Exception {
-            received.add(100);
-          }
-        }, new Consumer<Object>() {
-          @Override public void accept(Object o) throws Exception {
-            received.add(o);
-          }
-        }, new Consumer<Disposable>() {
-          @Override public void accept(Disposable disposable) throws Exception {
-            throw new TestException();
-          }
-        });
-
-    assertFalse(o.isDisposed());
-
-    Completable.complete()
-        .subscribe(o);
-
-    assertTrue(received.toString(), received.get(0) instanceof TestException);
-    assertEquals(received.toString(), 1, received.size());
-
-    assertTrue(o.isDisposed());
-  }
-
-  @Test public void onSuccessThrows() {
-    final List<Object> received = new ArrayList<>();
-
-    AutoDisposingCompletableObserver o =
-        new AutoDisposingCompletableObserverImpl(lifecycle, new Action() {
-          @Override public void run() throws Exception {
-            received.add(100);
-          }
-        }, new Consumer<Throwable>() {
-          @Override public void accept(Throwable o) throws Exception {
-            received.add(o);
-          }
-        }, new Consumer<Disposable>() {
-          @Override public void accept(Disposable disposable) throws Exception {
-            throw new TestException();
-          }
-        });
-
-    assertFalse(o.isDisposed());
-
-    Completable.complete()
-        .subscribe(o);
-
-    assertTrue(received.toString(), received.get(0) instanceof TestException);
-    assertEquals(received.toString(), 1, received.size());
-
-    assertTrue(o.isDisposed());
-  }
-
-  @Test public void onErrorThrows() {
-    final List<Object> received = new ArrayList<>();
-
-    AutoDisposingCompletableObserver o =
-        new AutoDisposingCompletableObserverImpl(lifecycle, new Action() {
-          @Override public void run() throws Exception {
-            received.add(100);
-          }
-        }, new Consumer<Throwable>() {
-          @Override public void accept(Throwable o) throws Exception {
-            throw new TestException("Inner");
-          }
-        }, new Consumer<Disposable>() {
-          @Override public void accept(Disposable disposable) throws Exception {
-          }
-        });
-
-    assertFalse(o.isDisposed());
-
-    Completable.<Integer>error(new TestException("Outer")).subscribe(o);
-
-    assertTrue(received.toString(), received.isEmpty());
-
-    assertTrue(o.isDisposed());
-
-    CompositeException ex = errors.takeCompositeException();
-    List<Throwable> ce = ex.getExceptions();
-    assertThat(ce).hasSize(2);
-    assertThat(ce.get(0)).hasMessageThat()
-        .isEqualTo("Outer");
-    assertThat(ce.get(1)).hasMessageThat()
-        .isEqualTo("Inner");
-  }
-
-  @Test public void onCompleteThrows() {
-    final List<Object> received = new ArrayList<>();
-
-    AutoDisposingCompletableObserver o =
-        new AutoDisposingCompletableObserverImpl(lifecycle, new Action() {
-          @Override public void run() throws Exception {
-            throw new TestException();
-          }
-        }, new Consumer<Object>() {
-          @Override public void accept(Object o) throws Exception {
-            received.add(o);
-          }
-        }, new Consumer<Disposable>() {
-          @Override public void accept(Disposable disposable) throws Exception {
-          }
-        });
-
-    assertFalse(o.isDisposed());
-
-    Completable.complete()
-        .subscribe(o);
-
-    assertTrue(received.toString(), received.isEmpty());
-
-    assertTrue(o.isDisposed());
-
-    assertThat(errors.takeThrowableFromUndeliverableException()).isInstanceOf(TestException.class);
-  }
-
-  @Test @Ignore public void badSourceOnSubscribe() {
-    Completable source = new Completable() {
-      @Override public void subscribeActual(CompletableObserver s) {
-        Disposable s1 = Disposables.empty();
-        s.onSubscribe(s1);
-        Disposable s2 = Disposables.empty();
-        s.onSubscribe(s2);
-
-        assertFalse(s1.isDisposed());
-        assertTrue(s2.isDisposed());
-
-        s.onComplete();
-      }
-    };
-
-    final List<Object> received = new ArrayList<>();
-
-    AutoDisposingCompletableObserver o =
-        new AutoDisposingCompletableObserverImpl(lifecycle, new Action() {
-          @Override public void run() throws Exception {
-            received.add(100);
-          }
-        }, new Consumer<Object>() {
-          @Override public void accept(Object o) throws Exception {
-            received.add(o);
-          }
-        }, new Consumer<Disposable>() {
-          @Override public void accept(Disposable disposable) throws Exception {
-
-          }
-        });
-
-    source.subscribe(o);
-
-    assertEquals(Arrays.asList(1, 100), received);
-  }
-
-  @Test public void badSourceEmitAfterDone() {
-    Completable source = new Completable() {
-      @Override public void subscribeActual(CompletableObserver s) {
-        s.onSubscribe(Disposables.empty());
-
-        s.onComplete();
-        s.onError(new TestException());
-        s.onComplete();
-      }
-    };
-
-    final List<Object> received = new ArrayList<>();
-
-    AutoDisposingCompletableObserver o =
-        new AutoDisposingCompletableObserverImpl(lifecycle, new Action() {
-          @Override public void run() throws Exception {
-            received.add(100);
-          }
-        }, new Consumer<Object>() {
-          @Override public void accept(Object o) throws Exception {
-            received.add(o);
-          }
-        }, new Consumer<Disposable>() {
-          @Override public void accept(Disposable disposable) throws Exception {
-          }
-        });
-
-    source.subscribe(o);
-
-    assertEquals(Collections.singletonList(100), received);
-  }
+  //@Rule public RxErrorsRule errors = new RxErrorsRule();
+  //
+  //private final Maybe<Integer> lifecycle = Maybe.empty();
+  //
+  //@Test public void onSubscribeThrows() {
+  //  final List<Object> received = new ArrayList<>();
+  //
+  //  AutoDisposingCompletableObserver o =
+  //      new AutoDisposingCompletableObserverImpl(lifecycle, new Action() {
+  //        @Override public void run() throws Exception {
+  //          received.add(100);
+  //        }
+  //      }, new Consumer<Object>() {
+  //        @Override public void accept(Object o) throws Exception {
+  //          received.add(o);
+  //        }
+  //      }, new Consumer<Disposable>() {
+  //        @Override public void accept(Disposable disposable) throws Exception {
+  //          throw new TestException();
+  //        }
+  //      });
+  //
+  //  assertFalse(o.isDisposed());
+  //
+  //  Completable.complete()
+  //      .subscribe(o);
+  //
+  //  assertTrue(received.toString(), received.get(0) instanceof TestException);
+  //  assertEquals(received.toString(), 1, received.size());
+  //
+  //  assertTrue(o.isDisposed());
+  //}
+  //
+  //@Test public void onSuccessThrows() {
+  //  final List<Object> received = new ArrayList<>();
+  //
+  //  AutoDisposingCompletableObserver o =
+  //      new AutoDisposingCompletableObserverImpl(lifecycle, new Action() {
+  //        @Override public void run() throws Exception {
+  //          received.add(100);
+  //        }
+  //      }, new Consumer<Throwable>() {
+  //        @Override public void accept(Throwable o) throws Exception {
+  //          received.add(o);
+  //        }
+  //      }, new Consumer<Disposable>() {
+  //        @Override public void accept(Disposable disposable) throws Exception {
+  //          throw new TestException();
+  //        }
+  //      });
+  //
+  //  assertFalse(o.isDisposed());
+  //
+  //  Completable.complete()
+  //      .subscribe(o);
+  //
+  //  assertTrue(received.toString(), received.get(0) instanceof TestException);
+  //  assertEquals(received.toString(), 1, received.size());
+  //
+  //  assertTrue(o.isDisposed());
+  //}
+  //
+  //@Test public void onErrorThrows() {
+  //  final List<Object> received = new ArrayList<>();
+  //
+  //  AutoDisposingCompletableObserver o =
+  //      new AutoDisposingCompletableObserverImpl(lifecycle, new Action() {
+  //        @Override public void run() throws Exception {
+  //          received.add(100);
+  //        }
+  //      }, new Consumer<Throwable>() {
+  //        @Override public void accept(Throwable o) throws Exception {
+  //          throw new TestException("Inner");
+  //        }
+  //      }, new Consumer<Disposable>() {
+  //        @Override public void accept(Disposable disposable) throws Exception {
+  //        }
+  //      });
+  //
+  //  assertFalse(o.isDisposed());
+  //
+  //  Completable.<Integer>error(new TestException("Outer")).subscribe(o);
+  //
+  //  assertTrue(received.toString(), received.isEmpty());
+  //
+  //  assertTrue(o.isDisposed());
+  //
+  //  CompositeException ex = errors.takeCompositeException();
+  //  List<Throwable> ce = ex.getExceptions();
+  //  assertThat(ce).hasSize(2);
+  //  assertThat(ce.get(0)).hasMessageThat()
+  //      .isEqualTo("Outer");
+  //  assertThat(ce.get(1)).hasMessageThat()
+  //      .isEqualTo("Inner");
+  //}
+  //
+  //@Test public void onCompleteThrows() {
+  //  final List<Object> received = new ArrayList<>();
+  //
+  //  AutoDisposingCompletableObserver o =
+  //      new AutoDisposingCompletableObserverImpl(lifecycle, new Action() {
+  //        @Override public void run() throws Exception {
+  //          throw new TestException();
+  //        }
+  //      }, new Consumer<Object>() {
+  //        @Override public void accept(Object o) throws Exception {
+  //          received.add(o);
+  //        }
+  //      }, new Consumer<Disposable>() {
+  //        @Override public void accept(Disposable disposable) throws Exception {
+  //        }
+  //      });
+  //
+  //  assertFalse(o.isDisposed());
+  //
+  //  Completable.complete()
+  //      .subscribe(o);
+  //
+  //  assertTrue(received.toString(), received.isEmpty());
+  //
+  //  assertTrue(o.isDisposed());
+  //
+  //  assertThat(errors.takeThrowableFromUndeliverableException()).isInstanceOf(TestException.class);
+  //}
+  //
+  //@Test @Ignore public void badSourceOnSubscribe() {
+  //  Completable source = new Completable() {
+  //    @Override public void subscribeActual(CompletableObserver s) {
+  //      Disposable s1 = Disposables.empty();
+  //      s.onSubscribe(s1);
+  //      Disposable s2 = Disposables.empty();
+  //      s.onSubscribe(s2);
+  //
+  //      assertFalse(s1.isDisposed());
+  //      assertTrue(s2.isDisposed());
+  //
+  //      s.onComplete();
+  //    }
+  //  };
+  //
+  //  final List<Object> received = new ArrayList<>();
+  //
+  //  AutoDisposingCompletableObserver o =
+  //      new AutoDisposingCompletableObserverImpl(lifecycle, new Action() {
+  //        @Override public void run() throws Exception {
+  //          received.add(100);
+  //        }
+  //      }, new Consumer<Object>() {
+  //        @Override public void accept(Object o) throws Exception {
+  //          received.add(o);
+  //        }
+  //      }, new Consumer<Disposable>() {
+  //        @Override public void accept(Disposable disposable) throws Exception {
+  //
+  //        }
+  //      });
+  //
+  //  source.subscribe(o);
+  //
+  //  assertEquals(Arrays.asList(1, 100), received);
+  //}
+  //
+  //@Test public void badSourceEmitAfterDone() {
+  //  Completable source = new Completable() {
+  //    @Override public void subscribeActual(CompletableObserver s) {
+  //      s.onSubscribe(Disposables.empty());
+  //
+  //      s.onComplete();
+  //      s.onError(new TestException());
+  //      s.onComplete();
+  //    }
+  //  };
+  //
+  //  final List<Object> received = new ArrayList<>();
+  //
+  //  AutoDisposingCompletableObserver o =
+  //      new AutoDisposingCompletableObserverImpl(lifecycle, new Action() {
+  //        @Override public void run() throws Exception {
+  //          received.add(100);
+  //        }
+  //      }, new Consumer<Object>() {
+  //        @Override public void accept(Object o) throws Exception {
+  //          received.add(o);
+  //        }
+  //      }, new Consumer<Disposable>() {
+  //        @Override public void accept(Disposable disposable) throws Exception {
+  //        }
+  //      });
+  //
+  //  source.subscribe(o);
+  //
+  //  assertEquals(Collections.singletonList(100), received);
+  //}
 }
