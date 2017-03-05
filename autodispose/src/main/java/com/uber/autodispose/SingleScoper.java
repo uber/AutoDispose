@@ -20,7 +20,6 @@ import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.SingleSource;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
@@ -41,7 +40,7 @@ public class SingleScoper<T> extends ScoperBase
     super(lifecycle);
   }
 
-  @Override public SingleSubscribeProxy<T> apply(final @NonNull Single<T> singleSource)
+  @Override public SingleSubscribeProxy<T> apply(final Single<T> singleSource)
       throws Exception {
     return new SingleSubscribeProxy<T>() {
       @Override public Disposable subscribe() {

@@ -18,7 +18,6 @@ package com.uber.autodispose;
 
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -42,7 +41,7 @@ public class FlowableScoper<T> extends ScoperBase
     super(lifecycle);
   }
 
-  @Override public FlowableSubscribeProxy<T> apply(final @NonNull Flowable<T> source)
+  @Override public FlowableSubscribeProxy<T> apply(final Flowable<T> source)
       throws Exception {
     return new FlowableSubscribeProxy<T>() {
       @Override public Disposable subscribe() {

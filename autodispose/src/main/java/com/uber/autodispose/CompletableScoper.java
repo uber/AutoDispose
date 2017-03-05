@@ -20,7 +20,6 @@ import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.CompletableSource;
 import io.reactivex.Maybe;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -41,7 +40,7 @@ public class CompletableScoper extends ScoperBase
     super(lifecycle);
   }
 
-  @Override public CompletableSubscribeProxy apply(final @NonNull Completable maybeSource)
+  @Override public CompletableSubscribeProxy apply(final Completable maybeSource)
       throws Exception {
     return new CompletableSubscribeProxy() {
       @Override public Disposable subscribe() {

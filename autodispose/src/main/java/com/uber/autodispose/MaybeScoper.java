@@ -19,7 +19,6 @@ package com.uber.autodispose;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 import io.reactivex.MaybeSource;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -40,7 +39,7 @@ public class MaybeScoper<T> extends ScoperBase
     super(lifecycle);
   }
 
-  @Override public MaybeSubscribeProxy<T> apply(final @NonNull Maybe<T> maybeSource)
+  @Override public MaybeSubscribeProxy<T> apply(final Maybe<T> maybeSource)
       throws Exception {
     return new MaybeSubscribeProxy<T>() {
       @Override public Disposable subscribe() {
