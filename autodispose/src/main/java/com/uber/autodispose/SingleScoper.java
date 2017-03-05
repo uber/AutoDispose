@@ -25,6 +25,24 @@ import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
+/**
+ * Entry point for auto-disposing {@link Single}s.
+ * <p>
+ * The basic flow stencil might look like this:
+ * <pre><code>
+ *   myThingSingle
+ *        .to(new SingleScoper<Thing>(...))
+ *        .subscribe(...)
+ * </code></pre>
+ * <p>
+ * There are several constructor overloads, with the most basic being a simple {@link
+ * #SingleScoper(Maybe)}. The provided {@link Maybe} is ultimately what every scope resolves to
+ * under the hood, and AutoDispose has some built-in understanding for predefined types. The scope
+ * is considered ended upon onSuccess emission of this {@link Maybe}. The most common use case would
+ * probably be {@link #SingleScoper(ScopeProvider)}.
+ *
+ * @param <T> the stream type.
+ */
 public class SingleScoper<T> extends Scoper
     implements Function<Single<T>, SingleSubscribeProxy<T>> {
 

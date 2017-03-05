@@ -24,8 +24,25 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
-public class MaybeScoper<T> extends Scoper
-    implements Function<Maybe<T>, MaybeSubscribeProxy<T>> {
+/**
+ * Entry point for auto-disposing {@link Maybe}s.
+ * <p>
+ * The basic flow stencil might look like this:
+ * <pre><code>
+ *   myThingMaybe
+ *        .to(new MaybeScoper<Thing>(...))
+ *        .subscribe(...)
+ * </code></pre>
+ * <p>
+ * There are several constructor overloads, with the most basic being a simple {@link
+ * #MaybeScoper(Maybe)}. The provided {@link Maybe} is ultimately what every scope resolves to under
+ * the hood, and AutoDispose has some built-in understanding for predefined types. The scope is
+ * considered ended upon onSuccess emission of this {@link Maybe}. The most common use case would
+ * probably be {@link #MaybeScoper(ScopeProvider)}.
+ *
+ * @param <T> the stream type.
+ */
+public class MaybeScoper<T> extends Scoper implements Function<Maybe<T>, MaybeSubscribeProxy<T>> {
 
   public MaybeScoper(ScopeProvider provider) {
     super(provider);

@@ -25,6 +25,22 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
+/**
+ * Entry point for auto-disposing {@link Completable}s.
+ * <p>
+ * The basic flow stencil might look like this:
+ * <pre><code>
+ *   myCompletable
+ *        .to(new CompletableScoper...))
+ *        .subscribe(...)
+ * </code></pre>
+ * <p>
+ * There are several constructor overloads, with the most basic being a simple {@link
+ * #CompletableScoper(Maybe)}. The provided {@link Maybe} is ultimately what every scope resolves to
+ * under the hood, and AutoDispose has some built-in understanding for predefined types. The scope
+ * is considered ended upon onSuccess emission of this {@link Maybe}. The most common use case would
+ * probably be {@link #CompletableScoper(ScopeProvider)}.
+ */
 public class CompletableScoper extends Scoper
     implements Function<Completable, CompletableSubscribeProxy> {
 

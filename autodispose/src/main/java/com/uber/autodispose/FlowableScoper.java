@@ -26,6 +26,24 @@ import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
+/**
+ * Entry point for auto-disposing {@link Flowable}s.
+ * <p>
+ * The basic flow stencil might look like this:
+ * <pre><code>
+ *   myThingFlowable
+ *        .to(new FlowableScoper<Thing>(...))
+ *        .subscribe(...)
+ * </code></pre>
+ * <p>
+ * There are several constructor overloads, with the most basic being a simple {@link
+ * #FlowableScoper(Maybe)}. The provided {@link Maybe} is ultimately what every scope resolves to
+ * under the hood, and AutoDispose has some built-in understanding for predefined types. The scope
+ * is considered ended upon onSuccess emission of this {@link Maybe}. The most common use case would
+ * probably be {@link #FlowableScoper(ScopeProvider)}.
+ *
+ * @param <T> the stream type.
+ */
 public class FlowableScoper<T> extends Scoper
     implements Function<Flowable<T>, FlowableSubscribeProxy<T>> {
 
