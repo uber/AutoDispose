@@ -21,11 +21,11 @@ import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.exceptions.CompositeException;
 import io.reactivex.exceptions.Exceptions;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.subscriptions.EmptySubscription;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
+import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T> {
@@ -33,21 +33,11 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
   private final AtomicReference<Subscription> mainSubscription = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
   private final Maybe<?> lifecycle;
-  private final Consumer<? super T> onNext;
-  private final Consumer<? super Throwable> onError;
-  private final Action onComplete;
-  private final Consumer<? super Subscription> onSubscribe;
+  private final Subscriber<? super T> delegate;
 
-  AutoDisposingSubscriberImpl(Maybe<?> lifecycle,
-      Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
-      Consumer<? super Subscription> onSubscribe) {
+  AutoDisposingSubscriberImpl(Maybe<?> lifecycle, Subscriber<? super T> delegate) {
     this.lifecycle = lifecycle;
-    this.onError = AutoDisposeUtil.emptyErrorConsumerIfNull(onError);
-    this.onNext = AutoDisposeUtil.emptyConsumerIfNull(onNext);
-    this.onComplete = AutoDisposeUtil.emptyActionIfNull(onComplete);
-    this.onSubscribe = AutoDisposeUtil.emptySubscriptionIfNull(onSubscribe);
+    this.delegate = delegate;
   }
 
   @Override public final void onSubscribe(Subscription s) {
@@ -63,7 +53,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
         }))) {
       if (AutoSubscriptionHelper.setOnce(mainSubscription, s)) {
         try {
-          onSubscribe.accept(this);
+          delegate.onSubscribe(this);
         } catch (Throwable t) {
           Exceptions.throwIfFatal(t);
           s.cancel();
@@ -114,7 +104,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
     // to abide by the Subscriber contract.
     if (mainSubscription.get() == null) {
       try {
-        onSubscribe.accept(EmptySubscription.INSTANCE);
+        delegate.onSubscribe(EmptySubscription.INSTANCE);
       } catch (Exception e) {
         Exceptions.throwIfFatal(e);
         RxJavaPlugins.onError(e);
@@ -133,7 +123,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
   @Override public final void onNext(T value) {
     if (!isDisposed()) {
       try {
-        onNext.accept(value);
+        delegate.onNext(value);
       } catch (Exception e) {
         Exceptions.throwIfFatal(e);
         onError(e);
@@ -145,7 +135,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
     if (!isDisposed()) {
       lazyCancel();
       try {
-        onError.accept(e);
+        delegate.onError(e);
       } catch (Exception e1) {
         Exceptions.throwIfFatal(e1);
         RxJavaPlugins.onError(new CompositeException(e, e1));
@@ -157,7 +147,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
     if (!isDisposed()) {
       lazyCancel();
       try {
-        onComplete.run();
+        delegate.onComplete();
       } catch (Exception e) {
         Exceptions.throwIfFatal(e);
         RxJavaPlugins.onError(e);
