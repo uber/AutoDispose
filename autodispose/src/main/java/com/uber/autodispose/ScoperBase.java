@@ -25,7 +25,7 @@ import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
 abstract class ScoperBase {
   private final Maybe<?> scope;
 
-  protected ScoperBase(final ScopeProvider provider) {
+  public ScoperBase(final ScopeProvider provider) {
     this(Maybe.defer(new Callable<MaybeSource<?>>() {
       @Override public MaybeSource<?> call() throws Exception {
         return provider.requestScope();
@@ -33,11 +33,11 @@ abstract class ScoperBase {
     }));
   }
 
-  protected ScoperBase(LifecycleScopeProvider<?> provider) {
+  public ScoperBase(LifecycleScopeProvider<?> provider) {
     this(ScopeUtil.deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
   }
 
-  protected ScoperBase(Maybe<?> scope) {
+  public ScoperBase(Maybe<?> scope) {
     this.scope = checkNotNull(scope, "scope == null");
   }
 

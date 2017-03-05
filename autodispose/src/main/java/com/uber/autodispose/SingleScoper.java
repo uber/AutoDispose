@@ -28,20 +28,19 @@ import io.reactivex.functions.Function;
 public class SingleScoper<T> extends ScoperBase
     implements Function<Single<T>, SingleSubscribeProxy<T>> {
 
-  protected SingleScoper(ScopeProvider provider) {
+  public SingleScoper(ScopeProvider provider) {
     super(provider);
   }
 
-  protected SingleScoper(LifecycleScopeProvider<?> provider) {
+  public SingleScoper(LifecycleScopeProvider<?> provider) {
     super(provider);
   }
 
-  protected SingleScoper(Maybe<?> lifecycle) {
+  public SingleScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }
 
-  @Override public SingleSubscribeProxy<T> apply(final Single<T> singleSource)
-      throws Exception {
+  @Override public SingleSubscribeProxy<T> apply(final Single<T> singleSource) throws Exception {
     return new SingleSubscribeProxy<T>() {
       @Override public Disposable subscribe() {
         return new AutoDisposeSingle<>(singleSource, scope()).subscribe();

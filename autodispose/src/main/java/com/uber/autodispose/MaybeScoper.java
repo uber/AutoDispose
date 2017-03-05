@@ -27,20 +27,19 @@ import io.reactivex.functions.Function;
 public class MaybeScoper<T> extends ScoperBase
     implements Function<Maybe<T>, MaybeSubscribeProxy<T>> {
 
-  protected MaybeScoper(ScopeProvider provider) {
+  public MaybeScoper(ScopeProvider provider) {
     super(provider);
   }
 
-  protected MaybeScoper(LifecycleScopeProvider<?> provider) {
+  public MaybeScoper(LifecycleScopeProvider<?> provider) {
     super(provider);
   }
 
-  protected MaybeScoper(Maybe<?> lifecycle) {
+  public MaybeScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }
 
-  @Override public MaybeSubscribeProxy<T> apply(final Maybe<T> maybeSource)
-      throws Exception {
+  @Override public MaybeSubscribeProxy<T> apply(final Maybe<T> maybeSource) throws Exception {
     return new MaybeSubscribeProxy<T>() {
       @Override public Disposable subscribe() {
         return new AutoDisposeMaybe<>(maybeSource, scope()).subscribe();

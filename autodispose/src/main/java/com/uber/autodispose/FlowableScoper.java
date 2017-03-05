@@ -29,20 +29,19 @@ import org.reactivestreams.Subscription;
 public class FlowableScoper<T> extends ScoperBase
     implements Function<Flowable<T>, FlowableSubscribeProxy<T>> {
 
-  protected FlowableScoper(ScopeProvider provider) {
+  public FlowableScoper(ScopeProvider provider) {
     super(provider);
   }
 
-  protected FlowableScoper(LifecycleScopeProvider<?> provider) {
+  public FlowableScoper(LifecycleScopeProvider<?> provider) {
     super(provider);
   }
 
-  protected FlowableScoper(Maybe<?> lifecycle) {
+  public FlowableScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }
 
-  @Override public FlowableSubscribeProxy<T> apply(final Flowable<T> source)
-      throws Exception {
+  @Override public FlowableSubscribeProxy<T> apply(final Flowable<T> source) throws Exception {
     return new FlowableSubscribeProxy<T>() {
       @Override public Disposable subscribe() {
         return new AutoDisposeFlowable<>(source, scope()).subscribe();

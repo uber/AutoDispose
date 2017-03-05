@@ -28,15 +28,15 @@ import io.reactivex.functions.Function;
 public class ObservableScoper<T> extends ScoperBase
     implements Function<Observable<T>, ObservableSubscribeProxy<T>> {
 
-  protected ObservableScoper(ScopeProvider provider) {
+  public ObservableScoper(ScopeProvider provider) {
     super(provider);
   }
 
-  protected ObservableScoper(LifecycleScopeProvider<?> provider) {
+  public ObservableScoper(LifecycleScopeProvider<?> provider) {
     super(provider);
   }
 
-  protected ObservableScoper(Maybe<?> lifecycle) {
+  public ObservableScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }
 

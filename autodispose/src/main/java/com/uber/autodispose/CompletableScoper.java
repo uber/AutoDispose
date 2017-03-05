@@ -28,20 +28,19 @@ import io.reactivex.functions.Function;
 public class CompletableScoper extends ScoperBase
     implements Function<Completable, CompletableSubscribeProxy> {
 
-  protected CompletableScoper(ScopeProvider provider) {
+  public CompletableScoper(ScopeProvider provider) {
     super(provider);
   }
 
-  protected CompletableScoper(LifecycleScopeProvider<?> provider) {
+  public CompletableScoper(LifecycleScopeProvider<?> provider) {
     super(provider);
   }
 
-  protected CompletableScoper(Maybe<?> lifecycle) {
+  public CompletableScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }
 
-  @Override public CompletableSubscribeProxy apply(final Completable maybeSource)
-      throws Exception {
+  @Override public CompletableSubscribeProxy apply(final Completable maybeSource) throws Exception {
     return new CompletableSubscribeProxy() {
       @Override public Disposable subscribe() {
         return new AutoDisposeCompletable(maybeSource, scope()).subscribe();
