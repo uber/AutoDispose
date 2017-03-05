@@ -21,10 +21,7 @@ import io.reactivex.CompletableObserver;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
-import io.reactivex.exceptions.CompositeException;
-import io.reactivex.exceptions.Exceptions;
 import io.reactivex.functions.Consumer;
-import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
 
 final class AutoDisposingCompletableObserverImpl implements AutoDisposingCompletableObserver {
@@ -51,13 +48,7 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
           }
         }))) {
       if (AutoDisposableHelper.setOnce(mainDisposable, d)) {
-        try {
-          delegate.onSubscribe(this);
-        } catch (Throwable t) {
-          Exceptions.throwIfFatal(t);
-          d.dispose();
-          onError(t);
-        }
+        delegate.onSubscribe(this);
       }
     }
   }
@@ -87,36 +78,21 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
     // onSubscribe and had a terminal event), we need to still send an empty disposable instance
     // to abide by the Observer contract.
     if (mainDisposable.get() == null) {
-      try {
-        delegate.onSubscribe(Disposables.disposed());
-      } catch (Exception e) {
-        Exceptions.throwIfFatal(e);
-        RxJavaPlugins.onError(e);
-      }
+      delegate.onSubscribe(Disposables.disposed());
     }
   }
 
   @Override public final void onComplete() {
     if (!isDisposed()) {
       lazyDispose();
-      try {
-        delegate.onComplete();
-      } catch (Exception e) {
-        Exceptions.throwIfFatal(e);
-        RxJavaPlugins.onError(e);
-      }
+      delegate.onComplete();
     }
   }
 
   @Override public final void onError(Throwable e) {
     if (!isDisposed()) {
       lazyDispose();
-      try {
-        delegate.onError(e);
-      } catch (Exception e1) {
-        Exceptions.throwIfFatal(e1);
-        RxJavaPlugins.onError(new CompositeException(e, e1));
-      }
+      delegate.onError(e);
     }
   }
 }

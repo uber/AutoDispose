@@ -21,10 +21,7 @@ import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
-import io.reactivex.exceptions.CompositeException;
-import io.reactivex.exceptions.Exceptions;
 import io.reactivex.functions.Consumer;
-import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
 
 final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObserver<T> {
@@ -51,13 +48,7 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
           }
         }))) {
       if (AutoDisposableHelper.setOnce(mainDisposable, d)) {
-        try {
-          delegate.onSubscribe(this);
-        } catch (Throwable t) {
-          Exceptions.throwIfFatal(t);
-          d.dispose();
-          onError(t);
-        }
+        delegate.onSubscribe(this);
       }
     }
   }
@@ -87,48 +78,28 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
     // onSubscribe and had a terminal event), we need to still send an empty disposable instance
     // to abide by the Observer contract.
     if (mainDisposable.get() == null) {
-      try {
-        delegate.onSubscribe(Disposables.disposed());
-      } catch (Exception e) {
-        Exceptions.throwIfFatal(e);
-        RxJavaPlugins.onError(e);
-      }
+      delegate.onSubscribe(Disposables.disposed());
     }
   }
 
   @Override public final void onSuccess(T value) {
     if (!isDisposed()) {
       lazyDispose();
-      try {
-        delegate.onSuccess(value);
-      } catch (Exception e) {
-        Exceptions.throwIfFatal(e);
-        onError(e);
-      }
+      delegate.onSuccess(value);
     }
   }
 
   @Override public final void onError(Throwable e) {
     if (!isDisposed()) {
       lazyDispose();
-      try {
-        delegate.onError(e);
-      } catch (Exception e1) {
-        Exceptions.throwIfFatal(e1);
-        RxJavaPlugins.onError(new CompositeException(e, e1));
-      }
+      delegate.onError(e);
     }
   }
 
   @Override public final void onComplete() {
     if (!isDisposed()) {
       lazyDispose();
-      try {
-        delegate.onComplete();
-      } catch (Exception e) {
-        Exceptions.throwIfFatal(e);
-        RxJavaPlugins.onError(e);
-      }
+      delegate.onComplete();
     }
   }
 }

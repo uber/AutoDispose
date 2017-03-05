@@ -19,11 +19,8 @@ package com.uber.autodispose;
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.exceptions.CompositeException;
-import io.reactivex.exceptions.Exceptions;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.subscriptions.EmptySubscription;
-import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -52,13 +49,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
           }
         }))) {
       if (AutoSubscriptionHelper.setOnce(mainSubscription, s)) {
-        try {
-          delegate.onSubscribe(this);
-        } catch (Throwable t) {
-          Exceptions.throwIfFatal(t);
-          s.cancel();
-          onError(t);
-        }
+        delegate.onSubscribe(this);
       }
     }
   }
@@ -103,12 +94,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
     // onSubscribe and had a terminal event), we need to still send an empty subscription instance
     // to abide by the Subscriber contract.
     if (mainSubscription.get() == null) {
-      try {
-        delegate.onSubscribe(EmptySubscription.INSTANCE);
-      } catch (Exception e) {
-        Exceptions.throwIfFatal(e);
-        RxJavaPlugins.onError(e);
-      }
+      delegate.onSubscribe(EmptySubscription.INSTANCE);
     }
   }
 
@@ -122,36 +108,21 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
 
   @Override public final void onNext(T value) {
     if (!isDisposed()) {
-      try {
-        delegate.onNext(value);
-      } catch (Exception e) {
-        Exceptions.throwIfFatal(e);
-        onError(e);
-      }
+      delegate.onNext(value);
     }
   }
 
   @Override public void onError(Throwable e) {
     if (!isDisposed()) {
       lazyCancel();
-      try {
-        delegate.onError(e);
-      } catch (Exception e1) {
-        Exceptions.throwIfFatal(e1);
-        RxJavaPlugins.onError(new CompositeException(e, e1));
-      }
+      delegate.onError(e);
     }
   }
 
   @Override public final void onComplete() {
     if (!isDisposed()) {
       lazyCancel();
-      try {
-        delegate.onComplete();
-      } catch (Exception e) {
-        Exceptions.throwIfFatal(e);
-        RxJavaPlugins.onError(e);
-      }
+      delegate.onComplete();
     }
   }
 }
