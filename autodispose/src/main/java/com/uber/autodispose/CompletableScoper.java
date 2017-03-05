@@ -25,7 +25,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
-public class CompletableScoper extends ScoperBase
+public class CompletableScoper extends Scoper
     implements Function<Completable, CompletableSubscribeProxy> {
 
   public CompletableScoper(ScopeProvider provider) {

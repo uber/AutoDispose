@@ -26,7 +26,7 @@ import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
-public class FlowableScoper<T> extends ScoperBase
+public class FlowableScoper<T> extends Scoper
     implements Function<Flowable<T>, FlowableSubscribeProxy<T>> {
 
   public FlowableScoper(ScopeProvider provider) {

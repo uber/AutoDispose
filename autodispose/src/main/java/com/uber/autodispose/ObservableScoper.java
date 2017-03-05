@@ -25,7 +25,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
-public class ObservableScoper<T> extends ScoperBase
+public class ObservableScoper<T> extends Scoper
     implements Function<Observable<T>, ObservableSubscribeProxy<T>> {
 
   public ObservableScoper(ScopeProvider provider) {

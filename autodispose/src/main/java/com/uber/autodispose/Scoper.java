@@ -22,10 +22,16 @@ import java.util.concurrent.Callable;
 
 import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
 
-abstract class ScoperBase {
+abstract class Scoper {
+
   private final Maybe<?> scope;
 
-  public ScoperBase(final ScopeProvider provider) {
+  /**
+   * Accepts a {@link ScopeProvider} for scope resolution.
+   *
+   * @param provider the {@link ScopeProvider}.
+   */
+  public Scoper(final ScopeProvider provider) {
     this(Maybe.defer(new Callable<MaybeSource<?>>() {
       @Override public MaybeSource<?> call() throws Exception {
         return provider.requestScope();
@@ -33,11 +39,21 @@ abstract class ScoperBase {
     }));
   }
 
-  public ScoperBase(LifecycleScopeProvider<?> provider) {
+  /**
+   * Accepts a {@link LifecycleScopeProvider} for scope resolution.
+   *
+   * @param provider the {@link LifecycleScopeProvider}.
+   */
+  public Scoper(LifecycleScopeProvider<?> provider) {
     this(ScopeUtil.deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
   }
 
-  public ScoperBase(Maybe<?> scope) {
+  /**
+   * Accepts a {@link Maybe} for scope resolution.
+   *
+   * @param scope the {@link Maybe}.
+   */
+  public Scoper(Maybe<?> scope) {
     this.scope = checkNotNull(scope, "scope == null");
   }
 

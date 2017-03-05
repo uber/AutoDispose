@@ -24,7 +24,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
-public class MaybeScoper<T> extends ScoperBase
+public class MaybeScoper<T> extends Scoper
     implements Function<Maybe<T>, MaybeSubscribeProxy<T>> {
 
   public MaybeScoper(ScopeProvider provider) {

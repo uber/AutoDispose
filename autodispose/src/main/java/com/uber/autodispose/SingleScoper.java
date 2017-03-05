@@ -25,7 +25,7 @@ import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
-public class SingleScoper<T> extends ScoperBase
+public class SingleScoper<T> extends Scoper
     implements Function<Single<T>, SingleSubscribeProxy<T>> {
 
   public SingleScoper(ScopeProvider provider) {
