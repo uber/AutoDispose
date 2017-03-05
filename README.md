@@ -11,17 +11,15 @@ Often (especially in mobile applications), Rx subscriptions need to stop in resp
 (for instance, when Activity#onStop() executes in an Android app). In order to support this common 
 scenario in RxJava 2, we built AutoDispose.
 
-The idea is simple: construct your chain like any other, and then at subscription you simply prefix your
-observer/consumer/etc implementations with a wrapping `AutoDispose` call. In every day use, it 
+The idea is simple: construct your chain like any other, and then at subscription you simply drop in
+the relevant `Scoper` for that type as a converter. In every day use, it 
  usually look like this: 
 
 ```java
 myObservable
     .doStuff()
-    .subscribe(AutoDispose
-        .observable()           // The RxJava type
-        .scopeWith(this)        // The scope
-        .around(s -> ...));     // Your usual implementation
+    .to(new ObservableScoper<SomeType>(this))   // The scope
+    .subscribe(s -> ...);
 ```
 
 By doing this, you will automatically unsubscribe from `myObservable` as indicated by your 
@@ -29,10 +27,11 @@ scope - this helps prevent many classes of errors when an observable emits and i
 taken in the subscription are no longer valid. For instance, if a network request comes back after a
  UI has already been torn down, the UI can't be updated - this pattern prevents this type of bug.
 
-### Scope
+### Scoper
 
-`scopeWith` accepts three overloads: `Maybe`, `ScopeProvider`, and `LifecycleScopeProvider`. 
-
+There are relevant `Scoper` classes, one per RxJava type (`ObservableScoper`, `SingleScoper`, etc). 
+These are implementations of converter `Function`s, intended for use with the `to()` operator on RxJava
+types. Each Scoper accepts three overloads: `Maybe`, `ScopeProvider`, and `LifecycleScopeProvider`. 
 
 #### Maybe 
 
@@ -87,21 +86,6 @@ public interface ScopeProvider {
 This is particularly useful for objects with simple scopes ("stop when I stop") or very custom state
 that requires custom handling.
 
-### "around"
-
-Every type has some number of `around` overloads. These simply match the available `subscribe` signatures
-for the observed type.
-
-```java
-   // For Observable
-   .around(someObserver);
-   .around(someConsumer);
-   .around(someConsumer, someError);
-   .around(someConsumer, someError, someAction);
- 
-   // And so on and so forth
-```
-
 ### Behavior
 
 The created observer encapsulates the parameters of `around` to create a disposable, auto-disposing
@@ -116,6 +100,16 @@ based on their `Observer` types, so conceivably any type that uses those for sub
 
 There is a separate Android artifact with extra APIs for Android components, such as support for `View`
 lifecycle binding.
+
+### Philosophy
+
+Each scoper returns a subscribe proxy upon application that just proxy to real subscribe calls under 
+the hood to "AutoDisposing" implementations of the types. These types decorate the actual observer 
+at subscribe-time to achieve autodispose behavior. The types are *not* exposed directly because
+autodisposing has *ordering* requirements; specifically, it has to be done at the end of a chain to properly
+wrap all the upstream behavior. Lint could catch this too, but we have seen no use cases for disposing 
+upstream (which can cause a lot of unexpected behavior). Thus, we optimize for the common case, and the
+API is designed to prevent ordering issues while still being a drop-in one-liner.
 
 ## Motivations
 
