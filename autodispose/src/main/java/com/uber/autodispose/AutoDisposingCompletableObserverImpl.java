@@ -17,12 +17,12 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
+import io.reactivex.CompletableObserver;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.exceptions.CompositeException;
 import io.reactivex.exceptions.Exceptions;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
@@ -32,18 +32,11 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
   private final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
   private final Maybe<?> lifecycle;
-  private final Consumer<? super Throwable> onError;
-  private final Action onComplete;
-  private final Consumer<? super Disposable> onSubscribe;
+  private final CompletableObserver delegate;
 
-  AutoDisposingCompletableObserverImpl(Maybe<?> lifecycle,
-      Action onComplete,
-      Consumer<? super Throwable> onError,
-      Consumer<? super Disposable> onSubscribe) {
+  AutoDisposingCompletableObserverImpl(Maybe<?> lifecycle, CompletableObserver delegate) {
     this.lifecycle = lifecycle;
-    this.onComplete = AutoDisposeUtil.emptyActionIfNull(onComplete);
-    this.onError = AutoDisposeUtil.emptyErrorConsumerIfNull(onError);
-    this.onSubscribe = AutoDisposeUtil.emptyDisposableIfNull(onSubscribe);
+    this.delegate = delegate;
   }
 
   @Override public final void onSubscribe(Disposable d) {
@@ -59,7 +52,7 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
         }))) {
       if (AutoDisposableHelper.setOnce(mainDisposable, d)) {
         try {
-          onSubscribe.accept(this);
+          delegate.onSubscribe(this);
         } catch (Throwable t) {
           Exceptions.throwIfFatal(t);
           d.dispose();
@@ -95,7 +88,7 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
     // to abide by the Observer contract.
     if (mainDisposable.get() == null) {
       try {
-        onSubscribe.accept(Disposables.disposed());
+        delegate.onSubscribe(Disposables.disposed());
       } catch (Exception e) {
         Exceptions.throwIfFatal(e);
         RxJavaPlugins.onError(e);
@@ -107,7 +100,7 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
     if (!isDisposed()) {
       lazyDispose();
       try {
-        onComplete.run();
+        delegate.onComplete();
       } catch (Exception e) {
         Exceptions.throwIfFatal(e);
         RxJavaPlugins.onError(e);
@@ -119,7 +112,7 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
     if (!isDisposed()) {
       lazyDispose();
       try {
-        onError.accept(e);
+        delegate.onError(e);
       } catch (Exception e1) {
         Exceptions.throwIfFatal(e1);
         RxJavaPlugins.onError(new CompositeException(e, e1));

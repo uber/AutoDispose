@@ -16,18 +16,12 @@
 
 package com.uber.autodispose;
 
-import com.uber.autodispose.clause.scope.CompletableScopeClause;
 import com.uber.autodispose.clause.scope.FlowableScopeClause;
-import com.uber.autodispose.clause.subscribe.CompletableSubscribeClause;
 import com.uber.autodispose.clause.subscribe.FlowableSubscribeClause;
-import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
-import io.reactivex.Completable;
-import io.reactivex.CompletableObserver;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import java.util.concurrent.Callable;
@@ -43,7 +37,6 @@ import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
  * fluent AutoDispose API for that type. The primary points are:
  * <ul>
  * <li>{@link #flowable()}
- * <li>{@link #completable()}
  * </ul>
  * <p>
  * The basic flow stencil might look like this:
@@ -64,8 +57,6 @@ import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
 public final class AutoDispose {
 
   private static final FlowableScopeClause FLOWABLE_SCOPE_CLAUSE = new FlowableClauseImpl();
-  private static final CompletableScopeClause COMPLETABLE_SCOPE_CLAUSE =
-      new CompletableScopeClauseImpl();
 
   private AutoDispose() {
     throw new InstantiationError();
@@ -80,15 +71,6 @@ public final class AutoDispose {
     return FLOWABLE_SCOPE_CLAUSE;
   }
 
-  /**
-   * Entry point for AutoDisposing a {@link Completable}.
-   *
-   * @return a {@link CompletableScopeClause} for fluent API chaining.
-   */
-  public static CompletableScopeClause completable() {
-    return COMPLETABLE_SCOPE_CLAUSE;
-  }
-
   private static class FlowableClauseImpl implements FlowableScopeClause {
     @Override public AutoDisposingSubscriberCreator scopeWith(ScopeProvider provider) {
       return new AutoDisposingSubscriberCreator(provider);
@@ -100,20 +82,6 @@ public final class AutoDispose {
 
     @Override public AutoDisposingSubscriberCreator scopeWith(Maybe<?> lifecycle) {
       return new AutoDisposingSubscriberCreator(lifecycle);
-    }
-  }
-
-  private static class CompletableScopeClauseImpl implements CompletableScopeClause {
-    @Override public CompletableSubscribeClause scopeWith(ScopeProvider provider) {
-      return new AutoDisposingCompletableObserverCreator(provider);
-    }
-
-    @Override public CompletableSubscribeClause scopeWith(LifecycleScopeProvider<?> provider) {
-      return new AutoDisposingCompletableObserverCreator(provider);
-    }
-
-    @Override public CompletableSubscribeClause scopeWith(Maybe<?> lifecycle) {
-      return new AutoDisposingCompletableObserverCreator(lifecycle);
     }
   }
 
@@ -205,62 +173,6 @@ public final class AutoDispose {
       checkNotNull(onComplete, "onComplete == null");
       checkNotNull(onSubscribe, "onSubscribe == null");
       return new AutoDisposingSubscriberImpl<>(lifecycle, onNext, onError, onComplete, onSubscribe);
-    }
-  }
-
-  private static class AutoDisposingCompletableObserverCreator extends Base
-      implements CompletableSubscribeClause {
-    AutoDisposingCompletableObserverCreator(ScopeProvider provider) {
-      super(provider);
-    }
-
-    AutoDisposingCompletableObserverCreator(LifecycleScopeProvider<?> provider) {
-      super(provider);
-    }
-
-    AutoDisposingCompletableObserverCreator(Maybe<?> lifecycle) {
-      super(lifecycle);
-    }
-
-    @Override public AutoDisposingCompletableObserver empty() {
-      return around(AutoDisposeUtil.EMPTY_ACTION);
-    }
-
-    @Override public AutoDisposingCompletableObserver around(Action action) {
-      checkNotNull(action, "action == null");
-      return around(action, AutoDisposeUtil.DEFAULT_ERROR_CONSUMER);
-    }
-
-    @Override public AutoDisposingCompletableObserver around(Action action,
-        Consumer<? super Throwable> onError) {
-      checkNotNull(action, "action == null");
-      checkNotNull(onError, "onError == null");
-      return around(action, onError, AutoDisposeUtil.EMPTY_DISPOSABLE_CONSUMER);
-    }
-
-    @Override public AutoDisposingCompletableObserver around(final CompletableObserver observer) {
-      checkNotNull(observer, "observer == null");
-      return around(new Action() {
-        @Override public void run() throws Exception {
-          observer.onComplete();
-        }
-      }, new Consumer<Throwable>() {
-        @Override public void accept(Throwable e) throws Exception {
-          observer.onError(e);
-        }
-      }, new Consumer<Disposable>() {
-        @Override public void accept(Disposable d) throws Exception {
-          observer.onSubscribe(d);
-        }
-      });
-    }
-
-    private AutoDisposingCompletableObserver around(Action action,
-        Consumer<? super Throwable> onError, Consumer<? super Disposable> onSubscribe) {
-      checkNotNull(action, "action == null");
-      checkNotNull(onError, "onError == null");
-      checkNotNull(onSubscribe, "onSubscribe == null");
-      return new AutoDisposingCompletableObserverImpl(lifecycle, action, onError, onSubscribe);
     }
   }
 }

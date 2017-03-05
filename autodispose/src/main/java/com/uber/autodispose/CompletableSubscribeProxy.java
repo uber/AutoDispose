@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (c) 2017. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,44 +14,49 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.clause.subscribe;
+package com.uber.autodispose;
 
-import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 /**
- * Subscribe clause for the around steps that match Flowable's subscribe overloads.
+ * Subscribe proxy that matches {@link Completable}'s subscribe overloads.
  */
-public interface CompletableSubscribeClause {
+public interface CompletableSubscribeProxy {
 
   /**
    * Proxy for {@link Completable#subscribe()}
    *
-   * @return an {@link AutoDisposingCompletableObserver}
+   * @return a {@link Disposable}
    */
-  AutoDisposingCompletableObserver empty();
+  Disposable subscribe();
 
   /**
    * Proxy for {@link Completable#subscribe(Action)}
    *
-   * @return an {@link AutoDisposingCompletableObserver}
+   * @return a {@link Disposable}
    */
-  AutoDisposingCompletableObserver around(Action action);
+  Disposable subscribe(Action action);
 
   /**
    * Proxy for {@link Completable#subscribe(Action, Consumer)}
    *
-   * @return an {@link AutoDisposingCompletableObserver}
+   * @return a {@link Disposable}
    */
-  AutoDisposingCompletableObserver around(Action action, Consumer<? super Throwable> onError);
+  Disposable subscribe(Action action, Consumer<? super Throwable> onError);
 
   /**
    * Proxy for {@link Completable#subscribe(CompletableObserver)}
-   *
-   * @return an {@link AutoDisposingCompletableObserver}
    */
-  AutoDisposingCompletableObserver around(CompletableObserver observer);
+  void subscribe(CompletableObserver observer);
+
+  /**
+   * Proxy for {@link Completable#subscribeWith(CompletableObserver)}
+   *
+   * @return a {@link CompletableObserver}
+   */
+  <E extends CompletableObserver> E subscribeWith(E observer);
 }
