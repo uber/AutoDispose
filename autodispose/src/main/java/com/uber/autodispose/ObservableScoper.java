@@ -46,23 +46,14 @@ import io.reactivex.functions.Function;
 public class ObservableScoper<T> extends Scoper
     implements Function<Observable<T>, ObservableSubscribeProxy<T>> {
 
-  /**
-   * {@inheritDoc}
-   */
   public ObservableScoper(ScopeProvider provider) {
     super(provider);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   public ObservableScoper(LifecycleScopeProvider<?> provider) {
     super(provider);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   public ObservableScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }
