@@ -18,6 +18,7 @@ package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingSingleObserver;
 import io.reactivex.Maybe;
+import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.exceptions.CompositeException;
@@ -31,18 +32,11 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
   private final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
   private final Maybe<?> lifecycle;
-  private final Consumer<? super T> onSuccess;
-  private final Consumer<? super Throwable> onError;
-  private final Consumer<? super Disposable> onSubscribe;
+  private final SingleObserver<? super T> delegate;
 
-  AutoDisposingSingleObserverImpl(Maybe<?> lifecycle,
-      Consumer<? super T> onSuccess,
-      Consumer<? super Throwable> onError,
-      Consumer<? super Disposable> onSubscribe) {
+  AutoDisposingSingleObserverImpl(Maybe<?> lifecycle, SingleObserver<? super T> delegate) {
     this.lifecycle = lifecycle;
-    this.onSuccess = AutoDisposeUtil.emptyConsumerIfNull(onSuccess);
-    this.onError = AutoDisposeUtil.emptyErrorConsumerIfNull(onError);
-    this.onSubscribe = AutoDisposeUtil.emptyDisposableIfNull(onSubscribe);
+    this.delegate = delegate;
   }
 
   @Override public final void onSubscribe(Disposable d) {
@@ -58,7 +52,7 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
         }))) {
       if (AutoDisposableHelper.setOnce(mainDisposable, d)) {
         try {
-          onSubscribe.accept(this);
+          delegate.onSubscribe(this);
         } catch (Throwable t) {
           Exceptions.throwIfFatal(t);
           d.dispose();
@@ -94,7 +88,7 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
     // to abide by the Observer contract.
     if (mainDisposable.get() == null) {
       try {
-        onSubscribe.accept(Disposables.disposed());
+        delegate.onSubscribe(Disposables.disposed());
       } catch (Exception e) {
         Exceptions.throwIfFatal(e);
         RxJavaPlugins.onError(e);
@@ -106,7 +100,7 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
     if (!isDisposed()) {
       lazyDispose();
       try {
-        onSuccess.accept(value);
+        delegate.onSuccess(value);
       } catch (Exception e) {
         Exceptions.throwIfFatal(e);
         onError(e);
@@ -118,7 +112,7 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
     if (!isDisposed()) {
       lazyDispose();
       try {
-        onError.accept(e);
+        delegate.onError(e);
       } catch (Exception e1) {
         Exceptions.throwIfFatal(e1);
         RxJavaPlugins.onError(new CompositeException(e, e1));
