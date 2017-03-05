@@ -44,14 +44,23 @@ import io.reactivex.functions.Function;
  */
 public class MaybeScoper<T> extends Scoper implements Function<Maybe<T>, MaybeSubscribeProxy<T>> {
 
+  /**
+   * {@inheritDoc}
+   */
   public MaybeScoper(ScopeProvider provider) {
     super(provider);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public MaybeScoper(LifecycleScopeProvider<?> provider) {
     super(provider);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public MaybeScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }

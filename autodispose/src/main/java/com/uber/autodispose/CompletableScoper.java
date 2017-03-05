@@ -44,14 +44,23 @@ import io.reactivex.functions.Function;
 public class CompletableScoper extends Scoper
     implements Function<Completable, CompletableSubscribeProxy> {
 
+  /**
+   * {@inheritDoc}
+   */
   public CompletableScoper(ScopeProvider provider) {
     super(provider);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public CompletableScoper(LifecycleScopeProvider<?> provider) {
     super(provider);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public CompletableScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }

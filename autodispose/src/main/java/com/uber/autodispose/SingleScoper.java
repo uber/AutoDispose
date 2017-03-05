@@ -46,14 +46,23 @@ import io.reactivex.functions.Function;
 public class SingleScoper<T> extends Scoper
     implements Function<Single<T>, SingleSubscribeProxy<T>> {
 
+  /**
+   * {@inheritDoc}
+   */
   public SingleScoper(ScopeProvider provider) {
     super(provider);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public SingleScoper(LifecycleScopeProvider<?> provider) {
     super(provider);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public SingleScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }
