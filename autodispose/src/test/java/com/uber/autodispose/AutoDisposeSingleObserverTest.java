@@ -36,9 +36,8 @@ public class AutoDisposeSingleObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.subscribe(AutoDispose.single()
-        .scopeWith(lifecycle)
-        .around(o));
+    source.to(new SingleScoper<Integer>(lifecycle))
+        .subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -58,9 +57,8 @@ public class AutoDisposeSingleObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.subscribe(AutoDispose.single()
-        .scopeWith(lifecycle)
-        .around(o));
+    source.to(new SingleScoper<Integer>(lifecycle))
+        .subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -81,9 +79,8 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
-    source.subscribe(AutoDispose.single()
-        .scopeWith(provider)
-        .around(o));
+    source.to(new SingleScoper<Integer>(provider))
+        .subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -103,9 +100,8 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
-    source.subscribe(AutoDispose.single()
-        .scopeWith(provider)
-        .around(o));
+    source.to(new SingleScoper<Integer>(provider))
+        .subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -126,9 +122,8 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.subscribe(AutoDispose.single()
-        .scopeWith(provider)
-        .around(o));
+    source.to(new SingleScoper<Integer>(provider))
+        .subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -153,9 +148,8 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.subscribe(AutoDispose.single()
-        .scopeWith(provider)
-        .around(o));
+    source.to(new SingleScoper<Integer>(provider))
+        .subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -181,9 +175,8 @@ public class AutoDisposeSingleObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Single.just(1)
-        .subscribe(AutoDispose.single()
-            .scopeWith(provider)
-            .around(o));
+        .to(new SingleScoper<Integer>(provider))
+        .subscribe(o);
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
@@ -197,9 +190,8 @@ public class AutoDisposeSingleObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Single.just(1)
-        .subscribe(AutoDispose.single()
-            .scopeWith(provider)
-            .around(o));
+        .to(new SingleScoper<Integer>(provider))
+        .subscribe(o);
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
@@ -218,9 +210,8 @@ public class AutoDisposeSingleObserverTest {
       }
     });
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.subscribe(AutoDispose.single()
-        .scopeWith(lifecycle)
-        .empty());
+    source.to(new SingleScoper<Integer>(lifecycle))
+        .subscribe();
 
     assertThat(i.get()).isEqualTo(0);
     assertThat(lifecycle.hasObservers()).isTrue();

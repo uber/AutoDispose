@@ -18,13 +18,10 @@ package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingObserver;
 import io.reactivex.Maybe;
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
-import io.reactivex.exceptions.CompositeException;
-import io.reactivex.exceptions.Exceptions;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
 
 final class AutoDisposingObserverImpl<T> implements AutoDisposingObserver<T> {
@@ -32,21 +29,11 @@ final class AutoDisposingObserverImpl<T> implements AutoDisposingObserver<T> {
   private final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
   private final Maybe<?> lifecycle;
-  private final Consumer<? super Throwable> onError;
-  private final Consumer<? super T> onNext;
-  private final Action onComplete;
-  private final Consumer<? super Disposable> onSubscribe;
+  private final Observer<? super T> delegate;
 
-  AutoDisposingObserverImpl(Maybe<?> lifecycle,
-      Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
-      Consumer<? super Disposable> onSubscribe) {
+  AutoDisposingObserverImpl(Maybe<?> lifecycle, Observer<? super T> delegate) {
     this.lifecycle = lifecycle;
-    this.onNext = AutoDisposeUtil.emptyConsumerIfNull(onNext);
-    this.onError = AutoDisposeUtil.emptyErrorConsumerIfNull(onError);
-    this.onComplete = AutoDisposeUtil.emptyActionIfNull(onComplete);
-    this.onSubscribe = AutoDisposeUtil.emptyDisposableIfNull(onSubscribe);
+    this.delegate = delegate;
   }
 
   @Override public final void onSubscribe(Disposable d) {
@@ -61,13 +48,7 @@ final class AutoDisposingObserverImpl<T> implements AutoDisposingObserver<T> {
           }
         }))) {
       if (AutoDisposableHelper.setOnce(mainDisposable, d)) {
-        try {
-          onSubscribe.accept(this);
-        } catch (Throwable t) {
-          Exceptions.throwIfFatal(t);
-          d.dispose();
-          onError(t);
-        }
+        delegate.onSubscribe(this);
       }
     }
   }
@@ -97,47 +78,27 @@ final class AutoDisposingObserverImpl<T> implements AutoDisposingObserver<T> {
     // onSubscribe and had a terminal event), we need to still send an empty disposable instance
     // to abide by the Observer contract.
     if (mainDisposable.get() == null) {
-      try {
-        onSubscribe.accept(Disposables.disposed());
-      } catch (Exception e) {
-        Exceptions.throwIfFatal(e);
-        RxJavaPlugins.onError(e);
-      }
+      delegate.onSubscribe(Disposables.disposed());
     }
   }
 
   @Override public final void onNext(T value) {
     if (!isDisposed()) {
-      try {
-        onNext.accept(value);
-      } catch (Exception e) {
-        Exceptions.throwIfFatal(e);
-        onError(e);
-      }
+      delegate.onNext(value);
     }
   }
 
   @Override public final void onError(Throwable e) {
     if (!isDisposed()) {
       lazyDispose();
-      try {
-        onError.accept(e);
-      } catch (Exception e1) {
-        Exceptions.throwIfFatal(e1);
-        RxJavaPlugins.onError(new CompositeException(e, e1));
-      }
+      delegate.onError(e);
     }
   }
 
   @Override public final void onComplete() {
     if (!isDisposed()) {
       lazyDispose();
-      try {
-        onComplete.run();
-      } catch (Exception e) {
-        Exceptions.throwIfFatal(e);
-        RxJavaPlugins.onError(e);
-      }
+      delegate.onComplete();
     }
   }
 }
