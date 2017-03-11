@@ -44,7 +44,7 @@ import io.reactivex.functions.Function;
  * @param <T> the stream type.
  */
 public class ObservableScoper<T> extends Scoper
-    implements Function<Observable<T>, ObservableSubscribeProxy<T>> {
+    implements Function<Observable<? extends T>, ObservableSubscribeProxy<T>> {
 
   public ObservableScoper(ScopeProvider provider) {
     super(provider);
@@ -58,7 +58,7 @@ public class ObservableScoper<T> extends Scoper
     super(lifecycle);
   }
 
-  @Override public ObservableSubscribeProxy<T> apply(final Observable<T> observableSource)
+  @Override public ObservableSubscribeProxy<T> apply(final Observable<? extends T> observableSource)
       throws Exception {
     return new ObservableSubscribeProxy<T>() {
       @Override public Disposable subscribe() {

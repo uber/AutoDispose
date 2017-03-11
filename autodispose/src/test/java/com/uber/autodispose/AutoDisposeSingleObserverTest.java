@@ -16,10 +16,14 @@
 
 package com.uber.autodispose;
 
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Cancellable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subjects.SingleSubject;
@@ -51,6 +55,22 @@ public class AutoDisposeSingleObserverTest {
     o.assertNoMoreEvents();
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
+  }
+
+  @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
+    Single.just(new BClass())
+        .to(new SingleScoper<AClass>(Maybe.never()))
+        .subscribe(new Consumer<AClass>() {
+          @Override public void accept(@NonNull AClass aClass) throws Exception {
+
+          }
+        });
+  }
+
+  @Test public void autoDispose_noGenericsOnEmpty_isFine() {
+    Single.just(new BClass())
+        .to(new SingleScoper<>(Maybe.never()))
+        .subscribe();
   }
 
   @Test public void autoDispose_withMaybe_interrupted() {

@@ -44,7 +44,7 @@ import io.reactivex.functions.Function;
  * @param <T> the stream type.
  */
 public class SingleScoper<T> extends Scoper
-    implements Function<Single<T>, SingleSubscribeProxy<T>> {
+    implements Function<Single<? extends T>, SingleSubscribeProxy<T>> {
 
   public SingleScoper(ScopeProvider provider) {
     super(provider);
@@ -58,7 +58,8 @@ public class SingleScoper<T> extends Scoper
     super(lifecycle);
   }
 
-  @Override public SingleSubscribeProxy<T> apply(final Single<T> singleSource) throws Exception {
+  @Override public SingleSubscribeProxy<T> apply(final Single<? extends T> singleSource)
+      throws Exception {
     return new SingleSubscribeProxy<T>() {
       @Override public Disposable subscribe() {
         return new AutoDisposeSingle<>(singleSource, scope()).subscribe();

@@ -20,8 +20,12 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Cancellable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
@@ -55,6 +59,22 @@ public class AutoDisposeSubscriberTest {
     assertThat(d.isDisposed()).isFalse();   // Because it completes normally
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
+  }
+
+  @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
+    Flowable.just(new BClass())
+        .to(new FlowableScoper<AClass>(Maybe.never()))
+        .subscribe(new Consumer<AClass>() {
+          @Override public void accept(@NonNull AClass aClass) throws Exception {
+
+          }
+        });
+  }
+
+  @Test public void autoDispose_noGenericsOnEmpty_isFine() {
+    Flowable.just(new BClass())
+        .to(new FlowableScoper<>(Maybe.never()))
+        .subscribe();
   }
 
   @Test public void autoDispose_withMaybe_interrupted() {
