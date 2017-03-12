@@ -164,9 +164,15 @@ Java:
 compile 'com.uber.autodispose:autodispose:TODO'
 ```
 
-Android components:
+Android extensions:
 ```gradle
 compile 'com.uber.autodispose:autodispose-android:TODO'
+```
+```
+
+Kotlin extensions:
+```gradle
+compile 'com.uber.autodispose:autodispose-kotlin:TODO'
 ```
 
 Snapshots of the development version are available in [Sonatype's snapshots repository][snapshots].
