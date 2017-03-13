@@ -45,7 +45,7 @@ import org.reactivestreams.Subscription;
  * @param <T> the stream type.
  */
 public class FlowableScoper<T> extends Scoper
-    implements Function<Flowable<T>, FlowableSubscribeProxy<T>> {
+    implements Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> {
 
   public FlowableScoper(ScopeProvider provider) {
     super(provider);
@@ -59,7 +59,8 @@ public class FlowableScoper<T> extends Scoper
     super(lifecycle);
   }
 
-  @Override public FlowableSubscribeProxy<T> apply(final Flowable<T> source) throws Exception {
+  @Override public FlowableSubscribeProxy<T> apply(final Flowable<? extends T> source)
+      throws Exception {
     return new FlowableSubscribeProxy<T>() {
       @Override public Disposable subscribe() {
         return new AutoDisposeFlowable<>(source, scope()).subscribe();

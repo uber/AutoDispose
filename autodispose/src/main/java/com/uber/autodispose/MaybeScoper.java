@@ -42,7 +42,8 @@ import io.reactivex.functions.Function;
  *
  * @param <T> the stream type.
  */
-public class MaybeScoper<T> extends Scoper implements Function<Maybe<T>, MaybeSubscribeProxy<T>> {
+public class MaybeScoper<T> extends Scoper
+    implements Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> {
 
   public MaybeScoper(ScopeProvider provider) {
     super(provider);
@@ -56,7 +57,8 @@ public class MaybeScoper<T> extends Scoper implements Function<Maybe<T>, MaybeSu
     super(lifecycle);
   }
 
-  @Override public MaybeSubscribeProxy<T> apply(final Maybe<T> maybeSource) throws Exception {
+  @Override public MaybeSubscribeProxy<T> apply(final Maybe<? extends T> maybeSource)
+      throws Exception {
     return new MaybeSubscribeProxy<T>() {
       @Override public Disposable subscribe() {
         return new AutoDisposeMaybe<>(maybeSource, scope()).subscribe();
