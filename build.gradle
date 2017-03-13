@@ -28,7 +28,6 @@ subprojects {
   apply plugin: 'checkstyle'
 
   checkstyle {
-    toolVersion '7.2'
     configFile rootProject.file('checkstyle.xml')
   }
 
