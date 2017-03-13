@@ -26,8 +26,9 @@ public class TestLifecycleScopeProviderTest {
 
     private final TestLifecycleScopeProvider testLifecycleScopeProvider = TestLifecycleScopeProvider.create();
 
-    @Test(expected = LifecycleNotStartedException.class) public void create_shouldReturnInUninitializedState() throws Exception {
-        testLifecycleScopeProvider.correspondingEvents().apply(testLifecycleScopeProvider.peekLifecycle());
+    @Test
+    public void create_noArgs_shouldHaveNoState() throws Exception {
+        assertThat(testLifecycleScopeProvider.peekLifecycle()).isNull();
     }
 
     @Test public void createInitial_shouldUseInitialValuePassedIn() {
