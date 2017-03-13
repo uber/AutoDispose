@@ -24,6 +24,20 @@ subprojects {
   repositories {
     jcenter()
   }
+
+  apply plugin: 'checkstyle'
+
+  checkstyle {
+    toolVersion '7.2'
+    configFile rootProject.file('checkstyle.xml')
+  }
+
+  afterEvaluate {
+    tasks.withType(Checkstyle) {
+      configProperties = ['proj.module.dir'      : projectDir.absolutePath,
+                          'checkstyle.cache.file': './build/cache/checkstyle-cache']
+    }
+  }
 }
 
 task wrapper(type: Wrapper) {
