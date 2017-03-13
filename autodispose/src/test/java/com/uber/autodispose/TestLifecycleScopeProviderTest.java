@@ -24,34 +24,38 @@ import static com.uber.autodispose.TestLifecycleScopeProvider.TestLifecycle.STOP
 
 public class TestLifecycleScopeProviderTest {
 
-    private final TestLifecycleScopeProvider testLifecycleScopeProvider = TestLifecycleScopeProvider.create();
+  private final TestLifecycleScopeProvider testLifecycleScopeProvider =
+      TestLifecycleScopeProvider.create();
 
-    @Test
-    public void create_noArgs_shouldHaveNoState() throws Exception {
-        assertThat(testLifecycleScopeProvider.peekLifecycle()).isNull();
-    }
+  @Test public void create_noArgs_shouldHaveNoState() throws Exception {
+    assertThat(testLifecycleScopeProvider.peekLifecycle()).isNull();
+  }
 
-    @Test public void createInitial_shouldUseInitialValuePassedIn() {
-        assertThat(TestLifecycleScopeProvider.createInitial(STARTED).peekLifecycle()).isEqualTo(STARTED);
-    }
+  @Test public void createInitial_shouldUseInitialValuePassedIn() {
+    assertThat(TestLifecycleScopeProvider.createInitial(STARTED)
+        .peekLifecycle()).isEqualTo(STARTED);
+  }
 
-    @Test public void start_shouldTriggerStartEvent() throws Exception {
-        testLifecycleScopeProvider.start();
+  @Test public void start_shouldTriggerStartEvent() throws Exception {
+    testLifecycleScopeProvider.start();
 
-        assertThat(testLifecycleScopeProvider.peekLifecycle()).isEqualTo(STARTED);
-        assertThat(testLifecycleScopeProvider.correspondingEvents().apply(testLifecycleScopeProvider.peekLifecycle()))
-                .isEqualTo(STOPPED);
-    }
+    assertThat(testLifecycleScopeProvider.peekLifecycle()).isEqualTo(STARTED);
+    assertThat(testLifecycleScopeProvider.correspondingEvents()
+        .apply(testLifecycleScopeProvider.peekLifecycle())).isEqualTo(STOPPED);
+  }
 
-    @Test(expected = LifecycleEndedException.class) public void stop_afterStart_shouldTriggerStopEvent() throws Exception {
-        testLifecycleScopeProvider.start();
-        testLifecycleScopeProvider.stop();
+  @Test(expected = LifecycleEndedException.class)
+  public void stop_afterStart_shouldTriggerStopEvent() throws Exception {
+    testLifecycleScopeProvider.start();
+    testLifecycleScopeProvider.stop();
 
-        assertThat(testLifecycleScopeProvider.peekLifecycle()).isEqualTo(STOPPED);
-        testLifecycleScopeProvider.correspondingEvents().apply(testLifecycleScopeProvider.peekLifecycle());
-    }
+    assertThat(testLifecycleScopeProvider.peekLifecycle()).isEqualTo(STOPPED);
+    testLifecycleScopeProvider.correspondingEvents()
+        .apply(testLifecycleScopeProvider.peekLifecycle());
+  }
 
-    @Test(expected = IllegalStateException.class) public void stop_beforeStart_shouldThrowException() throws Exception {
-        testLifecycleScopeProvider.stop();
-    }
+  @Test(expected = IllegalStateException.class) public void stop_beforeStart_shouldThrowException()
+      throws Exception {
+    testLifecycleScopeProvider.stop();
+  }
 }

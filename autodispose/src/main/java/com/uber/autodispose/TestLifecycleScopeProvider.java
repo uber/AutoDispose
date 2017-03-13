@@ -25,85 +25,82 @@ import io.reactivex.subjects.BehaviorSubject;
 /**
  * Test utility to create {@link LifecycleScopeProvider} instances for tests.
  *
- * Supports a start and stop lifecycle. Subscribing when outside of the lifecycle will throw either a
- * {@link LifecycleNotStartedException} or {@link LifecycleEndedException}.
+ * Supports a start and stop lifecycle. Subscribing when outside of the lifecycle will throw either
+ * a {@link LifecycleNotStartedException} or {@link LifecycleEndedException}.
  * }
  */
 public final class TestLifecycleScopeProvider
-        implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
+    implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
 
-    private final BehaviorSubject<TestLifecycle> lifecycleSubject;
+  private final BehaviorSubject<TestLifecycle> lifecycleSubject;
 
-    private TestLifecycleScopeProvider(@Nullable TestLifecycle initialValue) {
-        if (initialValue == null) {
-            lifecycleSubject = BehaviorSubject.create();
-        } else {
-            lifecycleSubject = BehaviorSubject.createDefault(initialValue);
+  private TestLifecycleScopeProvider(@Nullable TestLifecycle initialValue) {
+    if (initialValue == null) {
+      lifecycleSubject = BehaviorSubject.create();
+    } else {
+      lifecycleSubject = BehaviorSubject.createDefault(initialValue);
+    }
+  }
+
+  /**
+   * @return a new {@link TestLifecycleScopeProvider} instance.
+   */
+  public static TestLifecycleScopeProvider create() {
+    return new TestLifecycleScopeProvider(null);
+  }
+
+  /**
+   * @param initialValue the initial lifecycle event to create the {@link
+   * TestLifecycleScopeProvider} with.
+   * @return a new {@link TestLifecycleScopeProvider} instance with {@param initialValue} as its
+   * initial lifecycle
+   * event.
+   */
+  public static TestLifecycleScopeProvider createInitial(TestLifecycle initialValue) {
+    return new TestLifecycleScopeProvider(initialValue);
+  }
+
+  @Override public Observable<TestLifecycle> lifecycle() {
+    return lifecycleSubject.hide();
+  }
+
+  @Override public Function<TestLifecycle, TestLifecycle> correspondingEvents() {
+    return new Function<TestLifecycle, TestLifecycle>() {
+      @Override public TestLifecycle apply(@NonNull TestLifecycle testLifecycle) {
+        switch (testLifecycle) {
+          case STARTED:
+            return TestLifecycle.STOPPED;
+          case STOPPED:
+            throw new LifecycleEndedException();
+          default:
+            throw new IllegalStateException("Unknown lifecycle event.");
         }
-    }
+      }
+    };
+  }
 
-    /**
-     * @return a new {@link TestLifecycleScopeProvider} instance.
-     */
-    public static TestLifecycleScopeProvider create() {
-        return new TestLifecycleScopeProvider(null);
-    }
+  @Override public TestLifecycle peekLifecycle() {
+    return lifecycleSubject.getValue();
+  }
 
-    /**
-     * @param initialValue the initial lifecycle event to create the {@link TestLifecycleScopeProvider} with.
-     * @return a new {@link TestLifecycleScopeProvider} instance with {@param initialValue} as its initial lifecycle
-     * event.
-     */
-    public static TestLifecycleScopeProvider createInitial(TestLifecycle initialValue) {
-        return new TestLifecycleScopeProvider(initialValue);
-    }
+  /**
+   * Start the test lifecycle.
+   */
+  public void start() {
+    lifecycleSubject.onNext(TestLifecycle.STARTED);
+  }
 
-    @Override
-    public Observable<TestLifecycle> lifecycle() {
-        return lifecycleSubject.hide();
+  /**
+   * Stop the test lifecycle.
+   */
+  public void stop() {
+    if (lifecycleSubject.getValue() != TestLifecycle.STARTED) {
+      throw new IllegalStateException("Attempting to stop lifecycle before starting it.");
     }
+    lifecycleSubject.onNext(TestLifecycle.STOPPED);
+  }
 
-    @Override
-    public Function<TestLifecycle, TestLifecycle> correspondingEvents() {
-        return new Function<TestLifecycle, TestLifecycle>() {
-            @Override
-            public TestLifecycle apply(@NonNull TestLifecycle testLifecycle) {
-                switch (testLifecycle) {
-                    case STARTED:
-                        return TestLifecycle.STOPPED;
-                    case STOPPED:
-                        throw new LifecycleEndedException();
-                    default:
-                        throw new IllegalStateException("Unknown lifecycle event.");
-                }
-            }
-        };
-    }
-
-    @Override
-    public TestLifecycle peekLifecycle() {
-        return lifecycleSubject.getValue();
-    }
-
-    /**
-     * Start the test lifecycle.
-     */
-    public void start() {
-        lifecycleSubject.onNext(TestLifecycle.STARTED);
-    }
-
-    /**
-     * Stop the test lifecycle.
-     */
-    public void stop() {
-        if (lifecycleSubject.getValue() != TestLifecycle.STARTED) {
-            throw new IllegalStateException("Attempting to stop lifecycle before starting it.");
-        }
-        lifecycleSubject.onNext(TestLifecycle.STOPPED);
-    }
-
-    public enum TestLifecycle {
-        STARTED,
-        STOPPED
-    }
+  public enum TestLifecycle {
+    STARTED, STOPPED
+  }
 }
