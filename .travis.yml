@@ -23,8 +23,8 @@ script:
   - ./gradlew build check
   - ./gradlew :autodispose-android:connectedAndroidTest -PdisablePreDex --continue --stacktrace
 
-after_success:
-  - .buildscript/deploy_snapshot.sh
+#after_success:
+#  - .buildscript/deploy_snapshot.sh
 
 env:
   global:
