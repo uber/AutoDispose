@@ -29,28 +29,28 @@ import org.reactivestreams.Subscription;
 public interface FlowableSubscribeProxy<T> {
 
   /**
-   * Proxy for {@link Flowable#subscribe()}
+   * Proxy for {@link Flowable#subscribe()}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe();
 
   /**
-   * Proxy for {@link Flowable#subscribe(Consumer)}
+   * Proxy for {@link Flowable#subscribe(Consumer)}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe(Consumer<? super T> onNext);
 
   /**
-   * Proxy for {@link Flowable#subscribe(Consumer, Consumer)}
+   * Proxy for {@link Flowable#subscribe(Consumer, Consumer)}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError);
 
   /**
-   * Proxy for {@link Flowable#subscribe(Consumer, Consumer, Action)}
+   * Proxy for {@link Flowable#subscribe(Consumer, Consumer, Action)}.
    *
    * @return a {@link Disposable}
    */
@@ -58,7 +58,7 @@ public interface FlowableSubscribeProxy<T> {
       Action onComplete);
 
   /**
-   * Proxy for {@link Flowable#subscribe(Consumer, Consumer, Action, Consumer)}
+   * Proxy for {@link Flowable#subscribe(Consumer, Consumer, Action, Consumer)}.
    *
    * @return a {@link Disposable}
    */
@@ -66,12 +66,12 @@ public interface FlowableSubscribeProxy<T> {
       Action onComplete, Consumer<? super Subscription> onSubscribe);
 
   /**
-   * Proxy for {@link Flowable#subscribe(Subscriber)}
+   * Proxy for {@link Flowable#subscribe(Subscriber)}.
    */
   void subscribe(Subscriber<T> observer);
 
   /**
-   * Proxy for {@link Flowable#subscribeWith(Subscriber)}
+   * Proxy for {@link Flowable#subscribeWith(Subscriber)}.
    *
    * @return an {@link Subscriber}
    */

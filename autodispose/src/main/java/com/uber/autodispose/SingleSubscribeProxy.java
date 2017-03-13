@@ -28,40 +28,40 @@ import io.reactivex.functions.Consumer;
 public interface SingleSubscribeProxy<T> {
 
   /**
-   * Proxy for {@link Single#subscribe()}
+   * Proxy for {@link Single#subscribe()}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe();
 
   /**
-   * Proxy for {@link Single#subscribe(Consumer)}
+   * Proxy for {@link Single#subscribe(Consumer)}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe(Consumer<? super T> onSuccess);
 
   /**
-   * Proxy for {@link Single#subscribe(BiConsumer)}
+   * Proxy for {@link Single#subscribe(BiConsumer)}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe(BiConsumer<? super T, ? super Throwable> biConsumer);
 
   /**
-   * Proxy for {@link Single#subscribe(Consumer, Consumer)}
+   * Proxy for {@link Single#subscribe(Consumer, Consumer)}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe(Consumer<? super T> onSuccess, Consumer<? super Throwable> onError);
 
   /**
-   * Proxy for {@link Single#subscribe(SingleObserver)}
+   * Proxy for {@link Single#subscribe(SingleObserver)}.
    */
   void subscribe(SingleObserver<T> observer);
 
   /**
-   * Proxy for {@link Single#subscribeWith(SingleObserver)}
+   * Proxy for {@link Single#subscribeWith(SingleObserver)}.
    *
    * @return a {@link SingleObserver}
    */

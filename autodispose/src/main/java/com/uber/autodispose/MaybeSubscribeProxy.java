@@ -28,28 +28,28 @@ import io.reactivex.functions.Consumer;
 public interface MaybeSubscribeProxy<T> {
 
   /**
-   * Proxy for {@link Maybe#subscribe()}
+   * Proxy for {@link Maybe#subscribe()}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe();
 
   /**
-   * Proxy for {@link Maybe#subscribe(Consumer)}
+   * Proxy for {@link Maybe#subscribe(Consumer)}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe(Consumer<? super T> onSuccess);
 
   /**
-   * Proxy for {@link Maybe#subscribe(Consumer, Consumer)}
+   * Proxy for {@link Maybe#subscribe(Consumer, Consumer)}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe(Consumer<? super T> onSuccess, Consumer<? super Throwable> onError);
 
   /**
-   * Proxy for {@link Maybe#subscribe(Consumer, Consumer, Action)}
+   * Proxy for {@link Maybe#subscribe(Consumer, Consumer, Action)}.
    *
    * @return a {@link Disposable}
    */
@@ -57,12 +57,12 @@ public interface MaybeSubscribeProxy<T> {
       Action onComplete);
 
   /**
-   * Proxy for {@link Maybe#subscribe(MaybeObserver)}
+   * Proxy for {@link Maybe#subscribe(MaybeObserver)}.
    */
   void subscribe(MaybeObserver<T> observer);
 
   /**
-   * Proxy for {@link Maybe#subscribeWith(MaybeObserver)}
+   * Proxy for {@link Maybe#subscribeWith(MaybeObserver)}.
    *
    * @return a {@link MaybeObserver}
    */
