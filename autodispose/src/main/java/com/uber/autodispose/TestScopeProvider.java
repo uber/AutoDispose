@@ -19,6 +19,8 @@ package com.uber.autodispose;
 import io.reactivex.Maybe;
 import io.reactivex.subjects.MaybeSubject;
 
+import static com.uber.autodispose.ScopeUtil.LifecycleEndNotification.INSTANCE;
+
 /**
  * ScopeProvider implementation for testing. You can either back it with your own instance, or just
  * stub it in place and use its public emit APIs.
@@ -59,16 +61,7 @@ public final class TestScopeProvider implements ScopeProvider {
    * Emits a success event, just a simple Object.
    */
   public void emit() {
-    emit(new Object());
-  }
-
-  /**
-   * Emits {@code o} to onSuccess.
-   *
-   * @param o the object to emit.
-   */
-  public void emit(Object o) {
-    innerMaybe.onSuccess(o);
+    innerMaybe.onSuccess(INSTANCE);
   }
 
   /**

@@ -33,16 +33,6 @@ public class TestScopeProviderTest {
     o.assertValueCount(1);
   }
 
-  @Test public void noArgs_emit() {
-    TestScopeProvider provider = TestScopeProvider.create();
-    provider.requestScope()
-        .subscribe(o);
-
-    provider.emit(1);
-    o.assertValueCount(1);
-    o.assertValue(1);
-  }
-
   @Test public void delegateArg() {
     MaybeSubject<Integer> s = MaybeSubject.create();
     TestScopeProvider provider = TestScopeProvider.create(s);
