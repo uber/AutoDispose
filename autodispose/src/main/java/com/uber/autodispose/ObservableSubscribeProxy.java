@@ -28,28 +28,28 @@ import io.reactivex.functions.Consumer;
 public interface ObservableSubscribeProxy<T> {
 
   /**
-   * Proxy for {@link Observable#subscribe()}
+   * Proxy for {@link Observable#subscribe()}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe();
 
   /**
-   * Proxy for {@link Observable#subscribe(Consumer)}
+   * Proxy for {@link Observable#subscribe(Consumer)}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe(Consumer<? super T> onNext);
 
   /**
-   * Proxy for {@link Observable#subscribe(Consumer, Consumer)}
+   * Proxy for {@link Observable#subscribe(Consumer, Consumer)}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError);
 
   /**
-   * Proxy for {@link Observable#subscribe(Consumer, Consumer, Action)}
+   * Proxy for {@link Observable#subscribe(Consumer, Consumer, Action)}.
    *
    * @return a {@link Disposable}
    */
@@ -57,7 +57,7 @@ public interface ObservableSubscribeProxy<T> {
       Action onComplete);
 
   /**
-   * Proxy for {@link Observable#subscribe(Consumer, Consumer, Action, Consumer)}
+   * Proxy for {@link Observable#subscribe(Consumer, Consumer, Action, Consumer)}.
    *
    * @return a {@link Disposable}
    */
@@ -66,12 +66,12 @@ public interface ObservableSubscribeProxy<T> {
       Consumer<? super Disposable> onSubscribe);
 
   /**
-   * Proxy for {@link Observable#subscribe(Observer)}
+   * Proxy for {@link Observable#subscribe(Observer)}.
    */
   void subscribe(Observer<T> observer);
 
   /**
-   * Proxy for {@link Observable#subscribeWith(Observer)}
+   * Proxy for {@link Observable#subscribeWith(Observer)}.
    *
    * @return an {@link Observer}
    */

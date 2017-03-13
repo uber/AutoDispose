@@ -28,33 +28,33 @@ import io.reactivex.functions.Consumer;
 public interface CompletableSubscribeProxy {
 
   /**
-   * Proxy for {@link Completable#subscribe()}
+   * Proxy for {@link Completable#subscribe()}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe();
 
   /**
-   * Proxy for {@link Completable#subscribe(Action)}
+   * Proxy for {@link Completable#subscribe(Action)}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe(Action action);
 
   /**
-   * Proxy for {@link Completable#subscribe(Action, Consumer)}
+   * Proxy for {@link Completable#subscribe(Action, Consumer)}.
    *
    * @return a {@link Disposable}
    */
   Disposable subscribe(Action action, Consumer<? super Throwable> onError);
 
   /**
-   * Proxy for {@link Completable#subscribe(CompletableObserver)}
+   * Proxy for {@link Completable#subscribe(CompletableObserver)}.
    */
   void subscribe(CompletableObserver observer);
 
   /**
-   * Proxy for {@link Completable#subscribeWith(CompletableObserver)}
+   * Proxy for {@link Completable#subscribeWith(CompletableObserver)}.
    *
    * @return a {@link CompletableObserver}
    */

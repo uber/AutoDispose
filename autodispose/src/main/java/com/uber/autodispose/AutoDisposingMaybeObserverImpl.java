@@ -36,7 +36,7 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
     this.delegate = delegate;
   }
 
-  @Override public final void onSubscribe(Disposable d) {
+  @Override public void onSubscribe(Disposable d) {
     if (AutoDisposableHelper.setOnce(lifecycleDisposable,
         lifecycle.subscribe(new Consumer<Object>() {
           @Override public void accept(Object o) throws Exception {
@@ -53,11 +53,11 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
     }
   }
 
-  @Override public final boolean isDisposed() {
+  @Override public boolean isDisposed() {
     return mainDisposable.get() == AutoDisposableHelper.DISPOSED;
   }
 
-  @Override public final void dispose() {
+  @Override public void dispose() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
       callMainSubscribeIfNecessary();
@@ -82,21 +82,21 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
     }
   }
 
-  @Override public final void onSuccess(T value) {
+  @Override public void onSuccess(T value) {
     if (!isDisposed()) {
       lazyDispose();
       delegate.onSuccess(value);
     }
   }
 
-  @Override public final void onError(Throwable e) {
+  @Override public void onError(Throwable e) {
     if (!isDisposed()) {
       lazyDispose();
       delegate.onError(e);
     }
   }
 
-  @Override public final void onComplete() {
+  @Override public void onComplete() {
     if (!isDisposed()) {
       lazyDispose();
       delegate.onComplete();

@@ -37,7 +37,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
     this.delegate = delegate;
   }
 
-  @Override public final void onSubscribe(Subscription s) {
+  @Override public void onSubscribe(Subscription s) {
     if (AutoDisposableHelper.setOnce(lifecycleDisposable,
         lifecycle.subscribe(new Consumer<Object>() {
           @Override public void accept(Object o) throws Exception {
@@ -63,7 +63,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
    *
    * @param n the request amount, positive
    */
-  @Override public final void request(long n) {
+  @Override public void request(long n) {
     mainSubscription.get()
         .request(n);
   }
@@ -73,7 +73,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
    * Subscription set asynchronously (later) is cancelled immediately.
    * <p>This method is thread-safe and can be exposed as a public API.
    */
-  @Override public final void cancel() {
+  @Override public void cancel() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
       callMainSubscribeIfNecessary();
@@ -98,15 +98,15 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
     }
   }
 
-  @Override public final boolean isDisposed() {
+  @Override public boolean isDisposed() {
     return mainSubscription.get() == AutoSubscriptionHelper.CANCELLED;
   }
 
-  @Override public final void dispose() {
+  @Override public void dispose() {
     cancel();
   }
 
-  @Override public final void onNext(T value) {
+  @Override public void onNext(T value) {
     if (!isDisposed()) {
       delegate.onNext(value);
     }
@@ -119,7 +119,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
     }
   }
 
-  @Override public final void onComplete() {
+  @Override public void onComplete() {
     if (!isDisposed()) {
       lazyCancel();
       delegate.onComplete();
