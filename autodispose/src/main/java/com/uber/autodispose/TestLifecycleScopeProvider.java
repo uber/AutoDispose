@@ -21,6 +21,8 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 
+import static com.uber.autodispose.TestLifecycleScopeProvider.TestLifecycle.UNINITIALIZED;
+
 /**
  * Test utility to create {@link LifecycleScopeProvider} instances for tests.
  *
@@ -28,21 +30,33 @@ import io.reactivex.subjects.BehaviorSubject;
  * {@link LifecycleNotStartedException} or {@link LifecycleEndedException}.
  * }
  */
-public final class TestLifecycleScopeProvider implements LifecycleScopeProvider {
+public final class TestLifecycleScopeProvider
+        implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
 
-    private final BehaviorSubject<TestLifecycle> lifecycleSubject = BehaviorSubject.create();
+    private final BehaviorSubject<TestLifecycle> lifecycleSubject = BehaviorSubject.createDefault(UNINITIALIZED);
+
+    private TestLifecycleScopeProvider() { }
+
+    /**
+     * @return a new {@link TestLifecycleScopeProvider} instance.
+     */
+    public static TestLifecycleScopeProvider create() {
+        return new TestLifecycleScopeProvider();
+    }
 
     @Override
-    public Observable lifecycle() {
+    public Observable<TestLifecycle> lifecycle() {
         return lifecycleSubject.hide();
     }
 
     @Override
-    public Function correspondingEvents() {
+    public Function<TestLifecycle, TestLifecycle> correspondingEvents() {
         return new Function<TestLifecycle, TestLifecycle>() {
             @Override
             public TestLifecycle apply(@NonNull TestLifecycle testLifecycle) {
                 switch (testLifecycle) {
+                    case UNINITIALIZED:
+                        throw new LifecycleNotStartedException();
                     case STARTED:
                         return TestLifecycle.STOPPED;
                     case STOPPED:
@@ -55,7 +69,7 @@ public final class TestLifecycleScopeProvider implements LifecycleScopeProvider 
     }
 
     @Override
-    public Object peekLifecycle() {
+    public TestLifecycle peekLifecycle() {
         return lifecycleSubject.getValue();
     }
 
@@ -70,10 +84,14 @@ public final class TestLifecycleScopeProvider implements LifecycleScopeProvider 
      * Stop the test lifecycle.
      */
     public void stop() {
+        if (lifecycleSubject.getValue() != TestLifecycle.STARTED) {
+            throw new IllegalStateException("Attempting to stop lifecycle before starting it.");
+        }
         lifecycleSubject.onNext(TestLifecycle.STOPPED);
     }
 
-    private enum TestLifecycle {
+    enum TestLifecycle {
+        UNINITIALIZED,
         STARTED,
         STOPPED
     }
