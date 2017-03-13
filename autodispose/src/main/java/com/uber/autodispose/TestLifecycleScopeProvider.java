@@ -33,7 +33,7 @@ import static com.uber.autodispose.TestLifecycleScopeProvider.TestLifecycle.UNIN
 public final class TestLifecycleScopeProvider
         implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
 
-    private final BehaviorSubject<TestLifecycle> lifecycleSubject = BehaviorSubject.createDefault(UNINITIALIZED);
+    private final BehaviorSubject<TestLifecycle> lifecycleSubject = BehaviorSubject.createDefault();
 
     private TestLifecycleScopeProvider() { }
 
@@ -42,6 +42,17 @@ public final class TestLifecycleScopeProvider
      */
     public static TestLifecycleScopeProvider create() {
         return new TestLifecycleScopeProvider();
+    }
+
+    /**
+     * @param initialValue the initial lifecycle event to create the {@link TestLifecycleScopeProvider} with.
+     * @return a new {@link TestLifecycleScopeProvider} instance with {@param initialValue} as its initial lifecycle
+     * event.
+     */
+    public static TestLifecycleScopeProvider createInitial(TestLifecycle initialValue) {
+        TestLifecycleScopeProvider testLifecycleScopeProvider = new TestLifecycleScopeProvider();
+        testLifecycleScopeProvider.lifecycleSubject.onNext(initialValue);
+        return testLifecycleScopeProvider;
     }
 
     @Override
@@ -55,8 +66,6 @@ public final class TestLifecycleScopeProvider
             @Override
             public TestLifecycle apply(@NonNull TestLifecycle testLifecycle) {
                 switch (testLifecycle) {
-                    case UNINITIALIZED:
-                        throw new LifecycleNotStartedException();
                     case STARTED:
                         return TestLifecycle.STOPPED;
                     case STOPPED:
@@ -90,8 +99,7 @@ public final class TestLifecycleScopeProvider
         lifecycleSubject.onNext(TestLifecycle.STOPPED);
     }
 
-    enum TestLifecycle {
-        UNINITIALIZED,
+    public enum TestLifecycle {
         STARTED,
         STOPPED
     }

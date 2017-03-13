@@ -21,15 +21,17 @@ import org.junit.Test;
 import static com.google.common.truth.Truth.assertThat;
 import static com.uber.autodispose.TestLifecycleScopeProvider.TestLifecycle.STARTED;
 import static com.uber.autodispose.TestLifecycleScopeProvider.TestLifecycle.STOPPED;
-import static com.uber.autodispose.TestLifecycleScopeProvider.TestLifecycle.UNINITIALIZED;
 
 public class TestLifecycleScopeProviderTest {
 
     private final TestLifecycleScopeProvider testLifecycleScopeProvider = TestLifecycleScopeProvider.create();
 
     @Test(expected = LifecycleNotStartedException.class) public void create_shouldReturnInUninitializedState() throws Exception {
-        assertThat(testLifecycleScopeProvider.peekLifecycle()).isEqualTo(UNINITIALIZED);
         testLifecycleScopeProvider.correspondingEvents().apply(testLifecycleScopeProvider.peekLifecycle());
+    }
+
+    @Test public void createInitial_shouldUseInitialValuePassedIn() {
+        assertThat(TestLifecycleScopeProvider.createInitial(STARTED).peekLifecycle()).isEqualTo(STARTED);
     }
 
     @Test public void start_shouldTriggerStartEvent() throws Exception {
