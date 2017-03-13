@@ -63,11 +63,4 @@ public final class TestScopeProvider implements ScopeProvider {
   public void emit() {
     innerMaybe.onSuccess(INSTANCE);
   }
-
-  /**
-   * Emits a completion event.
-   */
-  public void emitComplete() {
-    innerMaybe.onComplete();
-  }
 }

@@ -64,15 +64,6 @@ public class TestScopeProviderTest {
     o.assertError(IllegalArgumentException.class);
   }
 
-  @Test public void noArgs_complete() {
-    TestScopeProvider provider = TestScopeProvider.create();
-    provider.requestScope()
-        .subscribe(o);
-
-    provider.emitComplete();
-    o.assertComplete();
-  }
-
   @Test public void delegateArg_complete() {
     MaybeSubject<Integer> s = MaybeSubject.create();
     TestScopeProvider provider = TestScopeProvider.create(s);
@@ -80,16 +71,6 @@ public class TestScopeProviderTest {
         .subscribe(o);
 
     s.onComplete();
-    o.assertComplete();
-  }
-
-  @Test public void delegateArg_providerComplete() {
-    MaybeSubject<Integer> s = MaybeSubject.create();
-    TestScopeProvider provider = TestScopeProvider.create(s);
-    provider.requestScope()
-        .subscribe(o);
-
-    provider.emitComplete();
     o.assertComplete();
   }
 }
