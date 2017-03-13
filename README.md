@@ -161,15 +161,15 @@ Download
 
 Java:
 ```gradle
-compile 'com.uber.autodispose:autodispose:TODO'
+compile 'com.uber.autodispose:autodispose:0.1.0'
 ```
 
 Android components:
 ```gradle
-compile 'com.uber.autodispose:autodispose-android:TODO'
+compile 'com.uber.autodispose:autodispose-android:0.1.0'
 ```
 
-Snapshots of the development version are available in [Sonatype's snapshots repository][snapshots].
+Snapshots of the development version will eventually be available in [Sonatype's snapshots repository][snapshots].
 
 License
 -------
