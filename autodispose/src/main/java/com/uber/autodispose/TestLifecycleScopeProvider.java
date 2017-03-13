@@ -18,10 +18,9 @@ package com.uber.autodispose;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.annotations.Nullable;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
-
-import static com.uber.autodispose.TestLifecycleScopeProvider.TestLifecycle.UNINITIALIZED;
 
 /**
  * Test utility to create {@link LifecycleScopeProvider} instances for tests.
@@ -33,15 +32,21 @@ import static com.uber.autodispose.TestLifecycleScopeProvider.TestLifecycle.UNIN
 public final class TestLifecycleScopeProvider
         implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
 
-    private final BehaviorSubject<TestLifecycle> lifecycleSubject = BehaviorSubject.createDefault();
+    private final BehaviorSubject<TestLifecycle> lifecycleSubject;
 
-    private TestLifecycleScopeProvider() { }
+    private TestLifecycleScopeProvider(@Nullable TestLifecycle initialValue) {
+        if (initialValue == null) {
+            lifecycleSubject = BehaviorSubject.create();
+        } else {
+            lifecycleSubject = BehaviorSubject.createDefault(initialValue);
+        }
+    }
 
     /**
      * @return a new {@link TestLifecycleScopeProvider} instance.
      */
     public static TestLifecycleScopeProvider create() {
-        return new TestLifecycleScopeProvider();
+        return new TestLifecycleScopeProvider(null);
     }
 
     /**
@@ -50,9 +55,7 @@ public final class TestLifecycleScopeProvider
      * event.
      */
     public static TestLifecycleScopeProvider createInitial(TestLifecycle initialValue) {
-        TestLifecycleScopeProvider testLifecycleScopeProvider = new TestLifecycleScopeProvider();
-        testLifecycleScopeProvider.lifecycleSubject.onNext(initialValue);
-        return testLifecycleScopeProvider;
+        return new TestLifecycleScopeProvider(initialValue);
     }
 
     @Override
