@@ -54,34 +54,6 @@ public class TestScopeProviderTest {
     o.assertValue(1);
   }
 
-  @Test public void noArgs_error() {
-    TestScopeProvider provider = TestScopeProvider.create();
-    provider.requestScope()
-        .subscribe(o);
-
-    provider.emitError();
-    o.assertError(Throwable.class);
-  }
-
-  @Test public void noArgs_errorValue() {
-    TestScopeProvider provider = TestScopeProvider.create();
-    provider.requestScope()
-        .subscribe(o);
-
-    provider.emitError(new IllegalArgumentException());
-    o.assertError(IllegalArgumentException.class);
-  }
-
-  @Test public void delegateArg_providerError() {
-    MaybeSubject<Integer> s = MaybeSubject.create();
-    TestScopeProvider provider = TestScopeProvider.create(s);
-    provider.requestScope()
-        .subscribe(o);
-
-    provider.emitError(new IllegalArgumentException());
-    o.assertError(IllegalArgumentException.class);
-  }
-
   @Test public void delegateArg_error() {
     MaybeSubject<Integer> s = MaybeSubject.create();
     TestScopeProvider provider = TestScopeProvider.create(s);

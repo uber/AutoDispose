@@ -65,22 +65,6 @@ public final class TestScopeProvider implements ScopeProvider {
   }
 
   /**
-   * Emits an error event, just a simple RuntimeException.
-   */
-  public void emitError() {
-    emitError(new RuntimeException("Test error"));
-  }
-
-  /**
-   * Emits {@code t} as an error event.
-   *
-   * @param t the throwable to emit;
-   */
-  public void emitError(Throwable t) {
-    innerMaybe.onError(t);
-  }
-
-  /**
    * Emits a completion event.
    */
   public void emitComplete() {
