@@ -60,8 +60,8 @@ class AutoDisposeKotlinTest {
     }
 
     override fun correspondingEvents(): Function<LifecycleEvent, LifecycleEvent> {
-      return Function { event ->
-        when (event) {
+      return Function {
+        when (it) {
           is Start -> End()
           is End -> throw LifecycleEndedException()
         }
@@ -74,7 +74,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(scopeMaybe)
         .subscribe(o)
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
@@ -86,7 +86,7 @@ class AutoDisposeKotlinTest {
 
     subject.onNext("Hello")
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
 
     scopeMaybe.onSuccess(Object())
 
@@ -100,7 +100,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(scopeProvider)
         .subscribe(o)
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
@@ -112,7 +112,7 @@ class AutoDisposeKotlinTest {
 
     subject.onNext("Hello")
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
 
     scopeMaybe.onSuccess(Object())
 
@@ -126,7 +126,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(o)
 
-    o.assertError { t -> t is LifecycleNotStartedException }
+    o.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun observable_lifecycleNormalCompletion() {
@@ -135,7 +135,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(o)
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
@@ -148,7 +148,7 @@ class AutoDisposeKotlinTest {
 
     subject.onNext("Hello")
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
 
     lifecycleEvents.onNext(End())
 
@@ -164,7 +164,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(o)
 
-    o.assertError { t -> t is LifecycleEndedException }
+    o.assertError { it is LifecycleEndedException }
   }
 
   @Test fun flowable_maybeNormalCompletion() {
@@ -172,7 +172,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(scopeMaybe)
         .subscribe(s)
 
-    s.assertValue { v -> v == "Hello" }
+    s.assertValue { it == "Hello" }
     s.assertComplete()
   }
 
@@ -184,7 +184,7 @@ class AutoDisposeKotlinTest {
 
     subject.onNext("Hello")
 
-    s.assertValue { v -> v == "Hello" }
+    s.assertValue { it == "Hello" }
 
     scopeMaybe.onSuccess(Object())
 
@@ -198,7 +198,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(scopeProvider)
         .subscribe(s)
 
-    s.assertValue { v -> v == "Hello" }
+    s.assertValue { it == "Hello" }
     s.assertComplete()
   }
 
@@ -210,7 +210,7 @@ class AutoDisposeKotlinTest {
 
     subject.onNext("Hello")
 
-    s.assertValue { v -> v == "Hello" }
+    s.assertValue { it == "Hello" }
 
     scopeMaybe.onSuccess(Object())
 
@@ -224,7 +224,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(s)
 
-    s.assertError { t -> t is LifecycleNotStartedException }
+    s.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun flowable_lifecycleNormalCompletion() {
@@ -233,7 +233,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(s)
 
-    s.assertValue { v -> v == "Hello" }
+    s.assertValue { it == "Hello" }
     s.assertComplete()
   }
 
@@ -246,7 +246,7 @@ class AutoDisposeKotlinTest {
 
     subject.onNext("Hello")
 
-    s.assertValue { v -> v == "Hello" }
+    s.assertValue { it == "Hello" }
 
     lifecycleEvents.onNext(End())
 
@@ -262,7 +262,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(s)
 
-    s.assertError { t -> t is LifecycleEndedException }
+    s.assertError { it is LifecycleEndedException }
   }
 
   @Test fun maybe_maybeNormalCompletion() {
@@ -270,7 +270,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(scopeMaybe)
         .subscribe(o)
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
@@ -282,7 +282,7 @@ class AutoDisposeKotlinTest {
 
     subject.onSuccess("Hello")
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
 
     scopeMaybe.onSuccess(Object())
 
@@ -296,7 +296,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(scopeProvider)
         .subscribe(o)
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
@@ -308,7 +308,7 @@ class AutoDisposeKotlinTest {
 
     subject.onSuccess("Hello")
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
 
     scopeMaybe.onSuccess(Object())
 
@@ -322,7 +322,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(o)
 
-    o.assertError { t -> t is LifecycleNotStartedException }
+    o.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun maybe_lifecycleNormalCompletion() {
@@ -331,7 +331,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(o)
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
@@ -356,7 +356,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(o)
 
-    o.assertError { t -> t is LifecycleEndedException }
+    o.assertError { it is LifecycleEndedException }
   }
 
   @Test fun single_maybeNormalCompletion() {
@@ -364,7 +364,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(scopeMaybe)
         .subscribe(o)
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
@@ -376,7 +376,7 @@ class AutoDisposeKotlinTest {
 
     subject.onSuccess("Hello")
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
 
     scopeMaybe.onSuccess(Object())
 
@@ -390,7 +390,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(scopeProvider)
         .subscribe(o)
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
@@ -402,7 +402,7 @@ class AutoDisposeKotlinTest {
 
     subject.onSuccess("Hello")
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
 
     scopeMaybe.onSuccess(Object())
 
@@ -416,7 +416,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(o)
 
-    o.assertError { t -> t is LifecycleNotStartedException }
+    o.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun single_lifecycleNormalCompletion() {
@@ -425,7 +425,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(o)
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
@@ -450,7 +450,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(o)
 
-    o.assertError { t -> t is LifecycleEndedException }
+    o.assertError { it is LifecycleEndedException }
   }
 
   @Test fun completable_maybeNormalCompletion() {
@@ -469,7 +469,7 @@ class AutoDisposeKotlinTest {
 
     subject.onNext("Hello")
 
-    o.assertValue { v -> v == "Hello" }
+    o.assertValue { it == "Hello" }
 
     scopeMaybe.onSuccess(Object())
 
@@ -506,7 +506,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(o)
 
-    o.assertError { t -> t is LifecycleNotStartedException }
+    o.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun completable_lifecycleNormalCompletion() {
@@ -539,7 +539,7 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(lifecycle)
         .subscribe(o)
 
-    o.assertError { t -> t is LifecycleEndedException }
+    o.assertError { it is LifecycleEndedException }
   }
 
 }
