@@ -170,9 +170,8 @@ Android extensions:
 ```gradle
 compile 'com.uber.autodispose:autodispose-android:0.1.0'
 ```
-```
 
-Kotlin extensions:
+Kotlin extensions (coming soon):
 ```gradle
 compile 'com.uber.autodispose:autodispose-kotlin:TODO'
 ```
