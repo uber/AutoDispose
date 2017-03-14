@@ -104,3 +104,6 @@ tmp/
 
 # TeXlipse plugin
 .texlipse
+
+# kotlin
+annotations/
