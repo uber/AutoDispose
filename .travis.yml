@@ -20,7 +20,7 @@ before_script:
   - adb shell input keyevent 82
 
 script:
-  - ./gradlew build check
+  - ./gradlew build
   - ./gradlew :autodispose-android:connectedAndroidTest -PdisablePreDex --continue --stacktrace
 
 #after_success:
