@@ -18,6 +18,7 @@ package com.uber.autodispose;
 
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
+import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -66,5 +67,5 @@ public interface MaybeSubscribeProxy<T> {
    *
    * @return a {@link MaybeObserver}
    */
-  <E extends MaybeObserver<? super T>> E subscribeWith(E observer);
+  @CheckReturnValue <E extends MaybeObserver<? super T>> E subscribeWith(E observer);
 }
