@@ -61,6 +61,21 @@ public abstract class AutoDisposeViewHolder extends RecyclerView.ViewHolder
   }
 
   /**
+   * Convenience creator for a RecyclerListener that can be registered via
+   * {@link RecyclerView#setRecyclerListener}. The returned listener will automatically signal
+   * recycle events to {@link AutoDisposeViewHolder} holders recycled by the RecyclerView.
+   *
+   * @return the listener.
+   */
+  public static RecyclerView.RecyclerListener newRecyclerListener() {
+    return new RecyclerView.RecyclerListener() {
+      @Override public void onViewRecycled(RecyclerView.ViewHolder holder) {
+        AutoDisposeViewHolder.onViewRecycled(holder);
+      }
+    };
+  }
+
+  /**
    * Proxy for {@link RecyclerView.Adapter#onViewRecycled} method to unbind a holder if it's an
    * RxViewHolder instance.
    *
