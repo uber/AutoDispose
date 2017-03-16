@@ -46,7 +46,8 @@ dependencies {
   androidTestCompile deps.support.annotations
   androidTestCompile deps.test.junit
   androidTestCompile deps.test.truth
-  androidTestCompile deps.test.androidRunner
+  androidTestCompile deps.test.androidEspresso
+  androidTestCompile deps.test.androidRules
   androidTestCompile deps.test.androidRules
 
 }

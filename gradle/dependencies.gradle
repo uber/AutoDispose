@@ -48,6 +48,7 @@ def support = [
 ]
 
 def test = [
+    androidEspresso: 'com.android.support.test.espresso:espresso-core:2.2.1',
     androidRunner: "com.android.support.test:runner:${versions.androidTest}",
     androidRules: "com.android.support.test:rules:${versions.androidTest}",
     junit: 'junit:junit:4.12',
