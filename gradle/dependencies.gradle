@@ -43,7 +43,8 @@ def rx = [
 ]
 
 def support = [
-    annotations: "com.android.support:support-annotations:${versions.support}"
+    annotations: "com.android.support:support-annotations:${versions.support}",
+    recyclerview: "com.android.support:recyclerview-v7:${versions.support}"
 ]
 
 def test = [

@@ -42,6 +42,7 @@ dependencies {
   compile deps.rx.java
   compile deps.rx.android
   compile deps.support.annotations
+  compile deps.support.recyclerview
   androidTestCompile deps.support.annotations
   androidTestCompile deps.test.junit
   androidTestCompile deps.test.truth
