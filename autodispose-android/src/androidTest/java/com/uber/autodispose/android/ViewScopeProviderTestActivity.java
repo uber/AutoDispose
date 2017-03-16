@@ -21,7 +21,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
-public final class AutoDisposeTestActivity extends Activity {
+public final class ViewScopeProviderTestActivity extends Activity {
   FrameLayout parent;
   View child;
 
