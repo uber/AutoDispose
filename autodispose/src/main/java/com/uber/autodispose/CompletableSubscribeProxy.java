@@ -18,6 +18,7 @@ package com.uber.autodispose;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
+import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -58,5 +59,5 @@ public interface CompletableSubscribeProxy {
    *
    * @return a {@link CompletableObserver}
    */
-  <E extends CompletableObserver> E subscribeWith(E observer);
+  @CheckReturnValue <E extends CompletableObserver> E subscribeWith(E observer);
 }

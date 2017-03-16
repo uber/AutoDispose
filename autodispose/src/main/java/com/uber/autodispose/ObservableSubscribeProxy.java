@@ -18,6 +18,7 @@ package com.uber.autodispose;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -75,5 +76,5 @@ public interface ObservableSubscribeProxy<T> {
    *
    * @return an {@link Observer}
    */
-  <E extends Observer<? super T>> E subscribeWith(E observer);
+  @CheckReturnValue <E extends Observer<? super T>> E subscribeWith(E observer);
 }

@@ -17,6 +17,7 @@
 package com.uber.autodispose;
 
 import io.reactivex.Flowable;
+import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -75,5 +76,5 @@ public interface FlowableSubscribeProxy<T> {
    *
    * @return an {@link Subscriber}
    */
-  <E extends Subscriber<? super T>> E subscribeWith(E observer);
+  @CheckReturnValue <E extends Subscriber<? super T>> E subscribeWith(E observer);
 }

@@ -18,6 +18,7 @@ package com.uber.autodispose;
 
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
+import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
@@ -65,5 +66,5 @@ public interface SingleSubscribeProxy<T> {
    *
    * @return a {@link SingleObserver}
    */
-  <E extends SingleObserver<? super T>> E subscribeWith(E observer);
+  @CheckReturnValue <E extends SingleObserver<? super T>> E subscribeWith(E observer);
 }
