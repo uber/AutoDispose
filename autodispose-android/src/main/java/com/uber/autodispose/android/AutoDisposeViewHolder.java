@@ -27,10 +27,10 @@ import io.reactivex.subjects.MaybeSubject;
  * in RecyclerViews. You can extend from this base class, or copy its logic into your own ViewHolder
  * implementations and use this as a reference. When hooked up properly, you can safely scope
  * subscriptions with AutoDispose to the ViewHolder. Just make sure to implement and call
- * {@link #onViewRecycled} from your corresponding {@link RecyclerView.Adapter#onViewRecycled} 
+ * {@link #onViewRecycled} from your corresponding {@link RecyclerView.Adapter#onViewRecycled}
  * method to ensure proper scoping.
  */
-public abstract class AutoDisposeViewHolder extends RecyclerView.ViewHolder 
+public abstract class AutoDisposeViewHolder extends RecyclerView.ViewHolder
     implements ScopeProvider {
 
   private MaybeSubject<Object> unbindNotifier;
