@@ -18,7 +18,6 @@ package com.uber.autodispose.android;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import com.uber.autodispose.ScopeProvider;
 import io.reactivex.Maybe;
 import io.reactivex.subjects.MaybeSubject;
 
@@ -29,9 +28,12 @@ import io.reactivex.subjects.MaybeSubject;
  * subscriptions with AutoDispose to the ViewHolder. Just make sure to implement and call
  * {@link #onViewRecycled} from your corresponding {@link RecyclerView.Adapter#onViewRecycled}
  * method to ensure proper scoping.
+ * <p>
+ * While this is a reference implementation, any ViewHolder can implement
+ * {@link RecycleAwareViewHolder} and leverage {@link #onViewRecycled} to signal.
  */
 public abstract class AutoDisposeViewHolder extends RecyclerView.ViewHolder
-    implements ScopeProvider {
+    implements RecycleAwareViewHolder {
 
   private MaybeSubject<Object> unbindNotifier;
 
@@ -39,7 +41,7 @@ public abstract class AutoDisposeViewHolder extends RecyclerView.ViewHolder
     super(itemView);
   }
 
-  private void onUnBind() {
+  @Override public void onRecycled() {
     emitUnBindIfPresent();
   }
 
@@ -63,7 +65,7 @@ public abstract class AutoDisposeViewHolder extends RecyclerView.ViewHolder
   /**
    * Convenience creator for a RecyclerListener that can be registered via
    * {@link RecyclerView#setRecyclerListener}. The returned listener will automatically signal
-   * recycle events to {@link AutoDisposeViewHolder} holders recycled by the RecyclerView.
+   * recycle events to {@link RecycleAwareViewHolder} holders recycled by the RecyclerView.
    *
    * @return the listener.
    */
@@ -76,14 +78,14 @@ public abstract class AutoDisposeViewHolder extends RecyclerView.ViewHolder
   }
 
   /**
-   * Proxy for {@link RecyclerView.Adapter#onViewRecycled} method to unbind a holder if it's an
-   * RxViewHolder instance.
+   * Proxy for {@link RecyclerView.Adapter#onViewRecycled} method to unbind a holder if it's a
+   * {@link RecycleAwareViewHolder} instance.
    *
    * @param holder the holder to check.
    */
   public static void onViewRecycled(RecyclerView.ViewHolder holder) {
-    if (holder instanceof AutoDisposeViewHolder) {
-      ((AutoDisposeViewHolder) holder).onUnBind();
+    if (holder instanceof RecycleAwareViewHolder) {
+      ((RecycleAwareViewHolder) holder).onRecycled();
     }
   }
 }
