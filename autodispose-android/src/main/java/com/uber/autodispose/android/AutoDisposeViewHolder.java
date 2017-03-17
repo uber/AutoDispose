@@ -46,9 +46,8 @@ public abstract class AutoDisposeViewHolder extends RecyclerView.ViewHolder
   }
 
   private MaybeSubject<?> getOrInitNotifier() {
-    if (unbindNotifier == null) {
-      unbindNotifier = MaybeSubject.create();
-    }
+    emitUnBindIfPresent();
+    unbindNotifier = MaybeSubject.create();
     return unbindNotifier;
   }
 

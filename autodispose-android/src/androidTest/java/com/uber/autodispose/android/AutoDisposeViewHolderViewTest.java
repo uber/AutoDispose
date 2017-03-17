@@ -39,6 +39,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.google.common.truth.Truth.assertThat;
@@ -46,7 +47,7 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * Bit of an odd one, but this test works by flinging the list and ensuring the number of recycles
  * lines up with the number of disposals. We can't monitor recycling + immediate disposable directly
- *  because it's actually async.
+ * because it's actually async.
  */
 @RunWith(AndroidJUnit4.class) public final class AutoDisposeViewHolderViewTest {
   @Rule public final ActivityTestRule<AutoDisposeViewHolderTestActivity> activityRule =
@@ -93,7 +94,17 @@ import static com.google.common.truth.Truth.assertThat;
     instrumentation.waitForIdleSync();
     int disposeCount = disposeCounter.get();
     int recycledCount = recycledCounter.get();
-    Log.d("TEST", "Counts are " + disposeCount + " and " + recycledCount);
+    Log.d("TEST", "Counts after swipe up are " + disposeCount + " and " + recycledCount);
+    assertThat(disposeCount).isGreaterThan(0);
+    assertThat(recycledCount).isGreaterThan(0);
+    assertThat(disposeCount).isEqualTo(recycledCount);
+
+    // Swipe back down to confirm rebinding also behaves correctly.
+    interaction.perform(swipeDown());
+    instrumentation.waitForIdleSync();
+    disposeCount = disposeCounter.get();
+    recycledCount = recycledCounter.get();
+    Log.d("TEST", "Counts after swipe down are " + disposeCount + " and " + recycledCount);
     assertThat(disposeCount).isGreaterThan(0);
     assertThat(recycledCount).isGreaterThan(0);
     assertThat(disposeCount).isEqualTo(recycledCount);
