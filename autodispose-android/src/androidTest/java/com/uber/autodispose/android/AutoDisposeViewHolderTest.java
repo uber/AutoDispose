@@ -49,7 +49,7 @@ import static com.google.common.truth.Truth.assertThat;
  * lines up with the number of disposals. We can't monitor recycling + immediate disposable directly
  * because it's actually async.
  */
-@RunWith(AndroidJUnit4.class) public final class AutoDisposeViewHolderViewTest {
+@RunWith(AndroidJUnit4.class) public final class AutoDisposeViewHolderTest {
   @Rule public final ActivityTestRule<AutoDisposeViewHolderTestActivity> activityRule =
       new ActivityTestRule<>(AutoDisposeViewHolderTestActivity.class);
 
