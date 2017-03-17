@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.android;
 
+import android.support.annotation.UiThread;
 import android.view.View;
 import com.uber.autodispose.LifecycleScopeProvider;
 import com.uber.autodispose.OutsideLifecycleException;
@@ -33,7 +34,8 @@ import static com.uber.autodispose.android.ViewLifecycleEvent.DETACH;
  *      .empty();
  * </code></pre>
  */
-public class ViewScopeProvider implements LifecycleScopeProvider<ViewLifecycleEvent> {
+@UiThread
+public final class ViewScopeProvider implements LifecycleScopeProvider<ViewLifecycleEvent> {
   private static final Function<ViewLifecycleEvent, ViewLifecycleEvent> CORRESPONDING_EVENTS =
       new Function<ViewLifecycleEvent, ViewLifecycleEvent>() {
         @Override public ViewLifecycleEvent apply(ViewLifecycleEvent lastEvent) throws Exception {

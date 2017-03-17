@@ -18,14 +18,16 @@ package com.uber.autodispose.android;
 
 import android.os.Build;
 import android.os.Looper;
+import android.support.annotation.AnyThread;
 import android.support.annotation.RestrictTo;
+import android.support.annotation.UiThread;
 import android.view.View;
 
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 
 @RestrictTo(LIBRARY)
 class AutoDisposeAndroidUtil {
-  static boolean isMainThread() {
+  @AnyThread static boolean isMainThread() {
     try {
       return Looper.myLooper() == Looper.getMainLooper();
     } catch (Exception e) {
@@ -34,7 +36,7 @@ class AutoDisposeAndroidUtil {
     }
   }
 
-  static boolean isAttached(View view) {
+  @UiThread static boolean isAttached(View view) {
     return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
         || view.getWindowToken() != null;
   }

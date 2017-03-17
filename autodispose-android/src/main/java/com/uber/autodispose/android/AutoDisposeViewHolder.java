@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.android;
 
+import android.support.annotation.UiThread;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import io.reactivex.Maybe;
@@ -32,6 +33,7 @@ import io.reactivex.subjects.MaybeSubject;
  * While this is a reference implementation, any ViewHolder can implement
  * {@link RecycleAwareViewHolder} and leverage {@link #onViewRecycled} to signal.
  */
+@UiThread
 public abstract class AutoDisposeViewHolder extends RecyclerView.ViewHolder
     implements RecycleAwareViewHolder {
 

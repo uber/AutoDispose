@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.android;
 
+import android.support.annotation.UiThread;
 import android.support.v7.widget.RecyclerView;
 import com.uber.autodispose.ScopeProvider;
 
@@ -30,5 +31,6 @@ public interface RecycleAwareViewHolder extends ScopeProvider {
   /**
    * Callback to signal that the ViewHolder has been recycled.
    */
+  @UiThread
   void onRecycled();
 }
