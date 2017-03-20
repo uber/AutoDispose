@@ -162,13 +162,18 @@ Download
 --------
 
 Java:
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose)
+
 ```gradle
-compile 'com.uber.autodispose:autodispose:0.1.0'
+compile 'com.uber.autodispose:autodispose:x.y.z'
 ```
 
 Android extensions:
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android)
 ```gradle
-compile 'com.uber.autodispose:autodispose-android:0.1.0'
+compile 'com.uber.autodispose:autodispose-android:x.y.z'
 ```
 
 Kotlin extensions (coming soon):
