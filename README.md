@@ -14,8 +14,8 @@ Often (especially in mobile applications), Rx subscriptions need to stop in resp
 scenario in RxJava 2, we built AutoDispose.
 
 The idea is simple: construct your chain like any other, and then at subscription you simply drop in
-the relevant `Scoper` for that type as a converter. In every day use, it 
- usually look like this: 
+the relevant `Scoper` for that type as a converter. In everyday use, it 
+ usually looks like this: 
 
 ```java
 myObservable
@@ -32,7 +32,7 @@ taken in the subscription are no longer valid. For instance, if a network reques
 ### Scoper
 
 There are relevant `Scoper` classes, one per RxJava type (`ObservableScoper`, `SingleScoper`, etc). 
-These are implementations of converter `Function`s, intended for use with the `to()` operator on RxJava
+These are implementations of a converter `Function`, intended for use with the `to()` operator on RxJava
 types. Each Scoper accepts three overloads: `Maybe`, `ScopeProvider`, and `LifecycleScopeProvider`. 
 
 #### Maybe 
