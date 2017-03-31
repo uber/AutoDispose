@@ -23,10 +23,10 @@ import io.reactivex.functions.Function;
 
 /**
  * An interface that, when implemented, provides information to AutoDispose to allow it to resolve
- * the next lifecycle event and construct a Maybe representation of it from hte {@link #lifecycle()}
+ * the next lifecycle event and construct a Maybe representation of it from the {@link #lifecycle()}
  * stream.
  *
- * @param <E> the the lifecycle event type.
+ * @param <E> the lifecycle event type.
  */
 public interface LifecycleScopeProvider<E> {
 
