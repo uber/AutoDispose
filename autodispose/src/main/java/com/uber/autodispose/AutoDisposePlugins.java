@@ -24,10 +24,10 @@ import io.reactivex.plugins.RxJavaPlugins;
 /**
  * Utility class to inject handlers to certain standard AutoDispose operations.
  */
-public class AutoDisposePlugins {
+public final class AutoDisposePlugins {
 
     @Nullable
-    static volatile Consumer<? super OutsideLifecycleException> outsideLifecycleHandler;
+    private static volatile Consumer<? super OutsideLifecycleException> outsideLifecycleHandler;
 
     /**
      * Prevents changing the plugins.
@@ -36,7 +36,8 @@ public class AutoDisposePlugins {
 
     /**
      * Prevents changing the plugins from then on.
-     * <p>This allows container-like environments to prevent client messing with plugins.</p>
+     *
+     * This allows container-like environments to prevent client messing with plugins.
      */
     public static void lockdown() {
         lockdown = true;
@@ -67,30 +68,6 @@ public class AutoDisposePlugins {
             throw new IllegalStateException("Plugins can't be changed anymore");
         }
         outsideLifecycleHandler = handler;
-    }
-
-    /**
-     * Called when an outside lifecycle error occurs.
-     * @param error the error to report
-     */
-    public static void onOutsideLifecycleException(@NonNull OutsideLifecycleException error) {
-        Consumer<? super  OutsideLifecycleException> f = outsideLifecycleHandler;
-
-        if (error == null) {
-            RxJavaPlugins.onError(
-                    new NullPointerException("onOutsideLifecycleException called with null. Null values are generally "
-                    + "not allowed in 2.x operators and sources.")
-            );
-        }
-
-        if (f != null) {
-            try {
-                f.accept(error);
-                return;
-            } catch (Throwable e) {
-                RxJavaPlugins.onError(e);
-            }
-        }
     }
 
     /**

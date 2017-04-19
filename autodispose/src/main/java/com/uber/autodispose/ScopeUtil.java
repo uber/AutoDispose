@@ -76,8 +76,9 @@ public final class ScopeUtil {
         E lastEvent = provider.peekLifecycle();
         if (checkStartBoundary && lastEvent == null) {
           LifecycleNotStartedException exception = new LifecycleNotStartedException();
-          if (AutoDisposePlugins.outsideLifecycleHandler != null) {
-            AutoDisposePlugins.outsideLifecycleHandler.accept(exception);
+          if (AutoDisposePlugins.getOutsideLifecycleHandler() != null) {
+            AutoDisposePlugins.getOutsideLifecycleHandler().accept(exception);
+            return Maybe.just(LifecycleEndNotification.INSTANCE);
           } else {
             throw exception;
           }
@@ -88,9 +89,9 @@ public final class ScopeUtil {
               .apply(lastEvent);
         } catch (Exception e) {
           if (checkEndBoundary && e instanceof LifecycleEndedException) {
-            if (AutoDisposePlugins.outsideLifecycleHandler != null) {
-              AutoDisposePlugins.outsideLifecycleHandler.accept((LifecycleEndedException) e);
-              return Maybe.empty();
+            if (AutoDisposePlugins.getOutsideLifecycleHandler() != null) {
+              AutoDisposePlugins.getOutsideLifecycleHandler().accept((LifecycleEndedException) e);
+              return Maybe.just(LifecycleEndNotification.INSTANCE);
             } else {
               throw e;
             }
