@@ -16,64 +16,65 @@
 
 package com.uber.autodispose;
 
-import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.plugins.RxJavaPlugins;
 
 /**
  * Utility class to inject handlers to certain standard AutoDispose operations.
  */
 public final class AutoDisposePlugins {
 
-    @Nullable
-    private static volatile Consumer<? super OutsideLifecycleException> outsideLifecycleHandler;
+  private AutoDisposePlugins() { }
 
-    /**
-     * Prevents changing the plugins.
-     */
-    static volatile boolean lockdown;
+  @Nullable
+  private static volatile Consumer<? super OutsideLifecycleException> outsideLifecycleHandler;
 
-    /**
-     * Prevents changing the plugins from then on.
-     *
-     * This allows container-like environments to prevent client messing with plugins.
-     */
-    public static void lockdown() {
-        lockdown = true;
+  /**
+   * Prevents changing the plugins.
+   */
+  static volatile boolean lockdown;
+
+  /**
+   * Prevents changing the plugins from then on.
+   * <p>
+   * This allows container-like environments to prevent client messing with plugins.
+   */
+  public static void lockdown() {
+    lockdown = true;
+  }
+
+  /**
+   * Returns true if the plugins were locked down.
+   *
+   * @return true if the plugins were locked down
+   */
+  public static boolean isLockdown() {
+    return lockdown;
+  }
+
+  /**
+   * @return the consumer for handling {@link OutsideLifecycleException}.
+   */
+  @Nullable
+  public static Consumer<? super OutsideLifecycleException> getOutsideLifecycleHandler() {
+    return outsideLifecycleHandler;
+  }
+
+  /**
+   * @param handler the consumer for handling {@link OutsideLifecycleException} to set, null allowed
+   */
+  public static void setOutsideLifecycleHandler(
+          @Nullable Consumer<? super OutsideLifecycleException> handler) {
+    if (lockdown) {
+      throw new IllegalStateException("Plugins can't be changed anymore");
     }
+    outsideLifecycleHandler = handler;
+  }
 
-    /**
-     * Returns true if the plugins were locked down.
-     *
-     * @return true if the plugins were locked down
-     */
-    public static boolean isLockdown() {
-        return lockdown;
-    }
-
-    /**
-     * @return the consumer for handling {@link OutsideLifecycleException}.
-     */
-    @Nullable
-    public static Consumer<? super OutsideLifecycleException> getOutsideLifecycleHandler() {
-        return outsideLifecycleHandler;
-    }
-
-    /**
-     * @param handler the consumer for handling {@link OutsideLifecycleException} to set, null allowed
-     */
-    public static void setOutsideLifecycleHandler(@Nullable Consumer<? super OutsideLifecycleException> handler) {
-        if (lockdown) {
-            throw new IllegalStateException("Plugins can't be changed anymore");
-        }
-        outsideLifecycleHandler = handler;
-    }
-
-    /**
-     * Removes all handlers and resets to default behavior.
-     */
-    public static void reset() {
-        setOutsideLifecycleHandler(null);
-    }
+  /**
+   * Removes all handlers and resets to default behavior.
+   */
+  public static void reset() {
+    setOutsideLifecycleHandler(null);
+  }
 }
