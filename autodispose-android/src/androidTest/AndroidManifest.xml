@@ -17,7 +17,11 @@
 <manifest package="com.uber.autodispose.android"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+  <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+  <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
   <application>
-    <activity android:name=".AutoDisposeTestActivity"/>
+    <activity android:name=".ViewScopeProviderTestActivity"/>
+    <activity android:name=".AutoDisposeViewHolderTestActivity"/>
   </application>
 </manifest>

@@ -16,28 +16,21 @@
 
 package com.uber.autodispose.android;
 
-import android.os.Build;
-import android.os.Looper;
-import android.support.annotation.AnyThread;
-import android.support.annotation.RestrictTo;
 import android.support.annotation.UiThread;
-import android.view.View;
+import android.support.v7.widget.RecyclerView;
+import com.uber.autodispose.ScopeProvider;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+/**
+ * A simple interface for {@link RecyclerView.ViewHolder}s to implement to support unbinding from
+ * {@link AutoDisposeViewHolder#onViewRecycled}.
+ *
+ * @see AutoDisposeViewHolder for a reference implementation.
+ */
+public interface RecycleAwareViewHolder extends ScopeProvider {
 
-@RestrictTo(LIBRARY)
-class AutoDisposeAndroidUtil {
-  @AnyThread static boolean isMainThread() {
-    try {
-      return Looper.myLooper() == Looper.getMainLooper();
-    } catch (Exception e) {
-      // Cover for tests
-      return true;
-    }
-  }
-
-  @UiThread static boolean isAttached(View view) {
-    return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
-        || view.getWindowToken() != null;
-  }
+  /**
+   * Callback to signal that the ViewHolder has been recycled.
+   */
+  @UiThread
+  void onRecycled();
 }

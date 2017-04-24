@@ -43,10 +43,12 @@ def rx = [
 ]
 
 def support = [
-    annotations: "com.android.support:support-annotations:${versions.support}"
+    annotations: "com.android.support:support-annotations:${versions.support}",
+    recyclerview: "com.android.support:recyclerview-v7:${versions.support}"
 ]
 
 def test = [
+    androidEspresso: 'com.android.support.test.espresso:espresso-core:2.2.1',
     androidRunner: "com.android.support.test:runner:${versions.androidTest}",
     androidRules: "com.android.support.test:rules:${versions.androidTest}",
     junit: 'junit:junit:4.12',

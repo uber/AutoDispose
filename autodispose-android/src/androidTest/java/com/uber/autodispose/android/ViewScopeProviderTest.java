@@ -35,15 +35,15 @@ import static com.google.common.truth.Truth.assertThat;
 
 @RunWith(AndroidJUnit4.class) public final class ViewScopeProviderTest {
 
-  @Rule public final ActivityTestRule<AutoDisposeTestActivity> activityRule =
-      new ActivityTestRule<>(AutoDisposeTestActivity.class);
+  @Rule public final ActivityTestRule<ViewScopeProviderTestActivity> activityRule =
+      new ActivityTestRule<>(ViewScopeProviderTestActivity.class);
 
   private final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
   private FrameLayout parent;
   private View child;
 
   @Before public void setUp() {
-    AutoDisposeTestActivity activity = activityRule.getActivity();
+    ViewScopeProviderTestActivity activity = activityRule.getActivity();
     parent = activity.parent;
     child = activity.child;
   }
