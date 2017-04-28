@@ -27,8 +27,6 @@ import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subjects.SingleSubject;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.junit.After;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -36,10 +34,6 @@ import static com.uber.autodispose.TestUtil.makeLifecycleProvider;
 import static com.uber.autodispose.TestUtil.makeProvider;
 
 public class AutoDisposeSingleObserverTest {
-
-  @After public void resetPlugins() {
-    AutoDisposePlugins.reset();
-  }
 
   @Test public void autoDispose_withMaybe_normal() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
@@ -207,25 +201,6 @@ public class AutoDisposeSingleObserverTest {
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
   }
 
-  @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailPlugin() {
-    final RecordingObserver<OutsideLifecycleException> errorHandler = new RecordingObserver<>();
-    AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override
-      public void accept(OutsideLifecycleException e) throws Exception {
-        errorHandler.onNext(e);
-      }
-    });
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    RecordingObserver<Integer> o = new RecordingObserver<>();
-    LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    Single.just(1)
-            .to(new SingleScoper<Integer>(provider))
-            .subscribe(o);
-
-    assertThat(o.takeSubscribe().isDisposed()).isTrue();
-    assertThat(errorHandler.takeNext()).isInstanceOf(LifecycleNotStartedException.class);
-  }
-
   @Test public void autoDispose_withProvider_afterLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     lifecycle.onNext(1);
@@ -239,28 +214,6 @@ public class AutoDisposeSingleObserverTest {
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
-  }
-
-  @Test public void autoDispose_withProviderAndPlugin_afterLifecycle_shouldFail() {
-    final RecordingObserver<OutsideLifecycleException> errorHandler = new RecordingObserver<>();
-    AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override
-      public void accept(OutsideLifecycleException e) throws Exception {
-        errorHandler.onNext(e);
-      }
-    });
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    lifecycle.onNext(1);
-    lifecycle.onNext(2);
-    lifecycle.onNext(3);
-    RecordingObserver<Integer> o = new RecordingObserver<>();
-    LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    Single.just(1)
-            .to(new SingleScoper<Integer>(provider))
-            .subscribe(o);
-
-    assertThat(o.takeSubscribe().isDisposed()).isTrue();
-    assertThat(errorHandler.takeNext()).isInstanceOf(LifecycleEndedException.class);
   }
 
   @Test public void verifyCancellation() throws Exception {
