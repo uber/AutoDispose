@@ -31,7 +31,7 @@ abstract class Scoper {
    *
    * @param provider the {@link ScopeProvider}.
    */
-  public Scoper(final ScopeProvider provider) {
+  Scoper(final ScopeProvider provider) {
     this(Maybe.defer(new Callable<MaybeSource<?>>() {
       @Override public MaybeSource<?> call() throws Exception {
         return provider.requestScope();
@@ -44,7 +44,7 @@ abstract class Scoper {
    *
    * @param provider the {@link LifecycleScopeProvider}.
    */
-  public Scoper(LifecycleScopeProvider<?> provider) {
+  Scoper(LifecycleScopeProvider<?> provider) {
     this(ScopeUtil.deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
   }
 
@@ -53,7 +53,7 @@ abstract class Scoper {
    *
    * @param scope the {@link Maybe}.
    */
-  public Scoper(Maybe<?> scope) {
+  Scoper(Maybe<?> scope) {
     this.scope = checkNotNull(scope, "scope == null");
   }
 
