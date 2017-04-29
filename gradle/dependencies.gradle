@@ -16,6 +16,7 @@
 
 def versions = [
     androidTest: '0.5',
+    errorProne: '2.0.19',
     kotlin: '1.1.0',
     support: '25.2.0'
 ]
@@ -26,15 +27,21 @@ def build = [
     ci: 'true' == System.getenv('CI'),
     minSdkVersion: 14,
     targetSdkVersion: 25,
+    errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
 
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:2.3.0',
+        errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10',
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     ]
 ]
 
 def kotlin = [
     stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
+]
+
+def misc = [
+    errorProneAnnotations: "com.google.errorprone:error_prone_annotations:${versions.errorProne}"
 ]
 
 def rx = [
@@ -56,6 +63,7 @@ def test = [
 ext.deps = [
     "build": build,
     "kotlin": kotlin,
+    "misc": misc,
     "rx": rx,
     "support": support,
     "test": test,
