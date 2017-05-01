@@ -88,6 +88,12 @@ public interface ScopeProvider {
 This is particularly useful for objects with simple scopes ("stop when I stop") or very custom state
 that requires custom handling.
 
+#### Plugins
+
+When a lifecycle has not started or has already ended, `AutoDispose` will send an error event with an
+ `OutsideLifecycleException` to downstream consumers. If you want to customize this behavior, you can use 
+ `AutoDisposePlugins` to intercept these exceptions and rethrow something else or nothing at all.
+
 ### Behavior
 
 The created observer encapsulates the parameters of `around` to create a disposable, auto-disposing
