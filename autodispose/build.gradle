@@ -16,7 +16,7 @@
 buildscript {
   repositories {
     jcenter()
-    maven { url "https://plugins.gradle.org/m2/" }
+    maven { url deps.build.repositories.plugins }
   }
   dependencies {
     classpath deps.build.gradlePlugins.errorProne
@@ -24,7 +24,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: "net.ltgt.errorprone"
+apply plugin: 'net.ltgt.errorprone'
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"

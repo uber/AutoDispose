@@ -29,6 +29,10 @@ def build = [
     targetSdkVersion: 25,
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
 
+    repositories: [
+        plugins: 'https://plugins.gradle.org/m2/'
+    ],
+
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:2.3.0',
         errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10',
