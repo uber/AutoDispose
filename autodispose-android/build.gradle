@@ -15,12 +15,19 @@
  */
 
 buildscript {
+  repositories {
+    jcenter()
+    maven { url "https://plugins.gradle.org/m2/" }
+  }
+
   dependencies {
     classpath deps.build.gradlePlugins.android
+    classpath deps.build.gradlePlugins.errorProne
   }
 }
 
 apply plugin: 'com.android.library'
+apply plugin: "net.ltgt.errorprone"
 
 android {
   compileSdkVersion deps.build.compileSdkVersion
@@ -42,12 +49,13 @@ dependencies {
   compile deps.rx.java
   compile deps.rx.android
   compile deps.support.annotations
+  provided deps.misc.errorProneAnnotations
+  errorprone deps.build.errorProne
   androidTestCompile deps.support.annotations
   androidTestCompile deps.test.junit
   androidTestCompile deps.test.truth
   androidTestCompile deps.test.androidRunner
   androidTestCompile deps.test.androidRules
-
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
