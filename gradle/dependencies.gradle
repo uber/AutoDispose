@@ -18,7 +18,7 @@ def versions = [
     androidTest: '0.5',
     errorProne: '2.0.19',
     kotlin: '1.1.2',
-    support: '25.3.1'
+    support: '25.1.0'
 ]
 
 def build = [
