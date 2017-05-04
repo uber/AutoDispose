@@ -21,6 +21,7 @@ import io.reactivex.CompletableObserver;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
+import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -36,9 +37,14 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
     this.delegate = delegate;
   }
 
-  @Override public void onSubscribe(Disposable d) {
+  @Override public void onSubscribe(final Disposable d) {
     if (AutoDisposableHelper.setOnce(lifecycleDisposable,
-        lifecycle.subscribe(new Consumer<Object>() {
+        lifecycle.doOnEvent(new BiConsumer<Object, Throwable>() {
+          @Override
+          public void accept(Object o, Throwable throwable) throws Exception {
+            callMainSubscribeIfNecessary(d);
+          }
+        }).subscribe(new Consumer<Object>() {
           @Override public void accept(Object o) throws Exception {
             dispose();
           }
@@ -60,7 +66,6 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
   @Override public void dispose() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
-      callMainSubscribeIfNecessary();
       AutoDisposableHelper.dispose(mainDisposable);
     }
   }
@@ -68,16 +73,15 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
   private void lazyDispose() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
-      callMainSubscribeIfNecessary();
       mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
     }
   }
 
-  private void callMainSubscribeIfNecessary() {
+  private void callMainSubscribeIfNecessary(Disposable d) {
     // If we've never actually called the downstream onSubscribe (i.e. requested immediately in
     // onSubscribe and had a terminal event), we need to still send an empty disposable instance
     // to abide by the Observer contract.
-    if (mainDisposable.get() == null) {
+    if (AutoDisposableHelper.setIfNotSet(mainDisposable, d)) {
       delegate.onSubscribe(Disposables.disposed());
     }
   }
