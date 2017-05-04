@@ -199,7 +199,7 @@ public class AutoDisposeObserverTest {
     PublishSubject<Integer> source = PublishSubject.create();
     source
       .to(new ObservableScoper<Integer>(provider))
-      .subscribeWith(o);
+      .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();

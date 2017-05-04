@@ -235,7 +235,7 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     source
             .to(new SingleScoper<Integer>(provider))
-            .subscribeWith(o);
+            .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();

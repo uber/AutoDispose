@@ -218,7 +218,7 @@ public class AutoDisposeCompletableObserverTest {
     CompletableSubject source = CompletableSubject.create();
     source
             .to(new CompletableScoper(provider))
-            .subscribeWith(o);
+            .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();

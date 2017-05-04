@@ -265,7 +265,7 @@ public class AutoDisposeMaybeObserverTest {
     MaybeSubject<Integer> source = MaybeSubject.create();
     source
             .to(new MaybeScoper<Integer>(provider))
-            .subscribeWith(o);
+            .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();

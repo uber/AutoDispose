@@ -213,7 +213,7 @@ public class AutoDisposeSubscriberTest {
     PublishProcessor<Integer> source = PublishProcessor.create();
     source
             .to(new FlowableScoper<Integer>(provider))
-            .subscribeWith(o);
+            .subscribe(o);
 
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
