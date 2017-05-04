@@ -133,7 +133,7 @@ public final class RecordingObserver<T>
     }
   }
 
-  private final class OnError {
+  private static final class OnError {
     private final Throwable throwable;
 
     private OnError(Throwable throwable) {
