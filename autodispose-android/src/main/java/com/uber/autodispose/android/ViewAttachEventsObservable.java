@@ -38,6 +38,7 @@ final class ViewAttachEventsObservable extends Observable<ViewLifecycleEvent> {
   @Override protected void subscribeActual(Observer<? super ViewLifecycleEvent> observer) {
     if (!isMainThread()) {
       observer.onError(new IllegalStateException("Views can only be bound to on the main thread!"));
+      return;
     }
 
     if (AutoDisposeAndroidUtil.isAttached(view)) {
