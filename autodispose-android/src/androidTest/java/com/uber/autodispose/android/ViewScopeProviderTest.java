@@ -86,7 +86,8 @@ import static com.google.common.truth.Truth.assertThat;
     d.dispose();
   }
 
-  @Test public void observable_offMainThread_shouldFail() {
+  @Test
+  public void observable_offMainThread_shouldFail() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
     PublishSubject<Integer> subject = PublishSubject.create();
 

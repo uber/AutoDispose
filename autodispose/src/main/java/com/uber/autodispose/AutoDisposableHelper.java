@@ -75,6 +75,19 @@ enum AutoDisposableHelper implements Disposable {
   }
 
   /**
+   * Atomically sets the field to the given non-null Disposable and returns true
+   * or returns false if the field is non-null.
+   *
+   * @param field the target field
+   * @param d the disposable to set, not null
+   * @return true if the operation succeeded, false
+   */
+  static boolean setIfNotSet(AtomicReference<Disposable> field, Disposable d) {
+    AutoDisposeUtil.checkNotNull(d, "d is null");
+    return field.compareAndSet(null, d);
+  }
+
+  /**
    * Atomically replaces the Disposable in the field with the given new Disposable
    * but does not dispose the old one.
    *

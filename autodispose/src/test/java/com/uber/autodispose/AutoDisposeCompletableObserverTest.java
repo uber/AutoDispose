@@ -20,10 +20,16 @@ import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
 import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.functions.Cancellable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
+import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.MaybeSubject;
+
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.junit.After;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -31,6 +37,10 @@ import static com.uber.autodispose.TestUtil.makeLifecycleProvider;
 import static com.uber.autodispose.TestUtil.makeProvider;
 
 public class AutoDisposeCompletableObserverTest {
+
+  @After public void resetPlugins() {
+    AutoDisposePlugins.reset();
+  }
 
   @Test public void autoDispose_withMaybe_normal() {
     RecordingObserver<Integer> o = new RecordingObserver<>();
@@ -195,6 +205,76 @@ public class AutoDisposeCompletableObserverTest {
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
+  }
+
+  @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
+    AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
+      @Override
+      public void accept(OutsideLifecycleException e) throws Exception { }
+    });
+    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
+    TestObserver<Integer> o = new TestObserver<>();
+    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
+    CompletableSubject source = CompletableSubject.create();
+    source
+            .to(new CompletableScoper(provider))
+            .subscribe(o);
+
+    assertThat(source.hasObservers()).isFalse();
+    assertThat(lifecycle.hasObservers()).isFalse();
+    o.assertNoValues();
+    o.assertNoErrors();
+  }
+
+  @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
+    AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
+      @Override
+      public void accept(OutsideLifecycleException e) throws Exception {
+        // Noop
+      }
+    });
+    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
+    lifecycle.onNext(1);
+    lifecycle.onNext(2);
+    lifecycle.onNext(3);
+    TestObserver<Integer> o = new TestObserver<>();
+    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
+    CompletableSubject source = CompletableSubject.create();
+    source
+            .to(new CompletableScoper(provider))
+            .subscribe(o);
+
+    assertThat(source.hasObservers()).isFalse();
+    assertThat(lifecycle.hasObservers()).isFalse();
+    o.assertNoValues();
+    o.assertNoErrors();
+  }
+
+  @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithWrappedExp() {
+    AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
+      @Override
+      public void accept(OutsideLifecycleException e) throws Exception {
+        // Wrap in an IllegalStateException so we can verify this is the exception we see on the
+        // other side
+        throw new IllegalStateException(e);
+      }
+    });
+    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
+    TestObserver<Integer> o = new TestObserver<>();
+    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
+    CompletableSubject source = CompletableSubject.create();
+    source
+            .to(new CompletableScoper(provider))
+            .subscribe(o);
+
+    o.assertNoValues();
+    o.assertError(new Predicate<Throwable>() {
+      @Override
+      public boolean test(Throwable throwable) throws Exception {
+        return throwable instanceof IllegalStateException
+                && throwable.getCause() instanceof OutsideLifecycleException;
+      }
+    });
   }
 
   @Test public void verifyCancellation() throws Exception {

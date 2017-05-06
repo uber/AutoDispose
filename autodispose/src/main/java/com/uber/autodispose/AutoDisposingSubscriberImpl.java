@@ -19,6 +19,7 @@ package com.uber.autodispose;
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.subscriptions.EmptySubscription;
 import java.util.concurrent.atomic.AtomicReference;
@@ -37,9 +38,14 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
     this.delegate = delegate;
   }
 
-  @Override public void onSubscribe(Subscription s) {
+  @Override public void onSubscribe(final Subscription s) {
     if (AutoDisposableHelper.setOnce(lifecycleDisposable,
-        lifecycle.subscribe(new Consumer<Object>() {
+        lifecycle.doOnEvent(new BiConsumer<Object, Throwable>() {
+          @Override
+          public void accept(Object o, Throwable throwable) throws Exception {
+            callMainSubscribeIfNecessary(s);
+          }
+        }).subscribe(new Consumer<Object>() {
           @Override public void accept(Object o) throws Exception {
             dispose();
           }
@@ -76,7 +82,6 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
   @Override public void cancel() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
-      callMainSubscribeIfNecessary();
       AutoSubscriptionHelper.cancel(mainSubscription);
     }
   }
@@ -84,16 +89,15 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
   private void lazyCancel() {
     synchronized (this) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
-      callMainSubscribeIfNecessary();
       mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
     }
   }
 
-  private void callMainSubscribeIfNecessary() {
+  private void callMainSubscribeIfNecessary(Subscription s) {
     // If we've never actually started the upstream subscription (i.e. requested immediately in
     // onSubscribe and had a terminal event), we need to still send an empty subscription instance
     // to abide by the Subscriber contract.
-    if (mainSubscription.get() == null) {
+    if (AutoSubscriptionHelper.setIfNotSet(mainSubscription, s)) {
       delegate.onSubscribe(EmptySubscription.INSTANCE);
     }
   }

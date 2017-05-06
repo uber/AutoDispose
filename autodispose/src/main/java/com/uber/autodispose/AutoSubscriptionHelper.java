@@ -153,6 +153,19 @@ enum AutoSubscriptionHelper implements Subscription {
   }
 
   /**
+   * Atomically sets the field to the given non-null Subscription and returns true
+   * or returns false if the field is non-null.
+   *
+   * @param field the target field
+   * @param s the subscription to set, not null
+   * @return true if the operation succeeded, false
+   */
+  static boolean setIfNotSet(AtomicReference<Subscription> field, Subscription s) {
+    AutoDisposeUtil.checkNotNull(s, "s is null");
+    return field.compareAndSet(null, s);
+  }
+
+  /**
    * Atomically sets the subscription on the field but does not
    * cancel the previous subscription.
    *
