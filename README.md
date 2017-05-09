@@ -182,8 +182,9 @@ Android extensions:
 compile 'com.uber.autodispose:autodispose-android:x.y.z'
 ```
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-kotlin)
 Kotlin extensions:
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-kotlin)
 ```gradle
 compile 'com.uber.autodispose:autodispose-kotlin:x.y.z'
 ```
