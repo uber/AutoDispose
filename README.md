@@ -182,9 +182,10 @@ Android extensions:
 compile 'com.uber.autodispose:autodispose-android:x.y.z'
 ```
 
-Kotlin extensions (coming soon):
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-kotlin)
+Kotlin extensions:
 ```gradle
-compile 'com.uber.autodispose:autodispose-kotlin:TODO'
+compile 'com.uber.autodispose:autodispose-kotlin:x.y.z'
 ```
 
 Snapshots of the development version will eventually be available in [Sonatype's snapshots repository][snapshots].
