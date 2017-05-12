@@ -19,6 +19,7 @@ package com.uber.autodispose;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
+import javax.annotation.Nullable;
 
 /**
  * Utility methods for working with Disposables atomically. Copied from the RxJava implementation.
@@ -33,7 +34,7 @@ enum AutoDisposableHelper implements Disposable {
     return d == DISPOSED;
   }
 
-  static boolean set(AtomicReference<Disposable> field, Disposable d) {
+  static boolean set(AtomicReference<Disposable> field, @Nullable Disposable d) {
     for (; ; ) {
       Disposable current = field.get();
       if (current == DISPOSED) {
@@ -96,7 +97,7 @@ enum AutoDisposableHelper implements Disposable {
    * @return true if the operation succeeded, false if the target field contained
    * the common DISPOSED instance and the given disposable (if not null) is disposed.
    */
-  static boolean replace(AtomicReference<Disposable> field, Disposable d) {
+  static boolean replace(AtomicReference<Disposable> field, @Nullable Disposable d) {
     for (; ; ) {
       Disposable current = field.get();
       if (current == DISPOSED) {
@@ -140,7 +141,8 @@ enum AutoDisposableHelper implements Disposable {
    * @param next the next Disposable, expected to be non-null
    * @return true if the validation succeeded
    */
-  static boolean validate(Disposable current, Disposable next) {
+  static boolean validate(@Nullable Disposable current, Disposable next) {
+    //noinspection ConstantConditions leftover from original RxJava implementation
     if (next == null) {
       RxJavaPlugins.onError(new NullPointerException("next is null"));
       return false;

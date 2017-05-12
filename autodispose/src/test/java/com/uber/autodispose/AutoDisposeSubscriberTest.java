@@ -21,7 +21,6 @@ import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Maybe;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Consumer;
@@ -32,7 +31,6 @@ import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subscribers.TestSubscriber;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.junit.After;
 import org.junit.Test;
 
@@ -71,7 +69,7 @@ public class AutoDisposeSubscriberTest {
     Flowable.just(new BClass())
         .to(new FlowableScoper<AClass>(Maybe.never()))
         .subscribe(new Consumer<AClass>() {
-          @Override public void accept(@NonNull AClass aClass) throws Exception {
+          @Override public void accept(AClass aClass) throws Exception {
 
           }
         });

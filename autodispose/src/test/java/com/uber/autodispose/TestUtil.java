@@ -18,7 +18,6 @@ package com.uber.autodispose;
 
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
@@ -53,11 +52,11 @@ final class TestUtil {
   static LifecycleScopeProvider<Integer> makeLifecycleProvider(
       final BehaviorSubject<Integer> lifecycle) {
     return new LifecycleScopeProvider<Integer>() {
-      @NonNull @Override public Observable<Integer> lifecycle() {
+      @Override public Observable<Integer> lifecycle() {
         return lifecycle;
       }
 
-      @NonNull @Override public Function<Integer, Integer> correspondingEvents() {
+      @Override public Function<Integer, Integer> correspondingEvents() {
         return CORRESPONDING_EVENTS;
       }
 

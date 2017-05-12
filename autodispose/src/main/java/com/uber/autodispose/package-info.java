@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (c) 2017. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,9 @@
  * limitations under the License.
  */
 
+/**
+ * AutoDispose is an RxJava 2 tool for automatically binding the execution of RxJava 2 streams to a
+ * provided scope via disposal/cancellation.
+ */
+@javax.annotation.ParametersAreNonnullByDefault
 package com.uber.autodispose;
-
-import javax.annotation.Nullable;
-
-final class AutoDisposeUtil {
-
-  private AutoDisposeUtil() {
-    throw new InstantiationError();
-  }
-
-  static <T> T checkNotNull(@Nullable T value, String message) {
-    if (value == null) {
-      throw new NullPointerException(message);
-    } else {
-      return value;
-    }
-  }
-}

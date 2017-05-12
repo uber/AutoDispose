@@ -17,10 +17,9 @@
 package com.uber.autodispose;
 
 import io.reactivex.Observable;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.annotations.Nullable;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
+import javax.annotation.Nullable;
 
 /**
  * Test utility to create {@link LifecycleScopeProvider} instances for tests.
@@ -66,7 +65,7 @@ public final class TestLifecycleScopeProvider
 
   @Override public Function<TestLifecycle, TestLifecycle> correspondingEvents() {
     return new Function<TestLifecycle, TestLifecycle>() {
-      @Override public TestLifecycle apply(@NonNull TestLifecycle testLifecycle) {
+      @Override public TestLifecycle apply(TestLifecycle testLifecycle) {
         switch (testLifecycle) {
           case STARTED:
             return TestLifecycle.STOPPED;

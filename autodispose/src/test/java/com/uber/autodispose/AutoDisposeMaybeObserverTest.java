@@ -19,16 +19,13 @@ package com.uber.autodispose;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeEmitter;
 import io.reactivex.MaybeOnSubscribe;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
-
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.junit.After;
 import org.junit.Test;
 
@@ -67,7 +64,7 @@ public class AutoDisposeMaybeObserverTest {
     Maybe.just(new BClass())
         .to(new MaybeScoper<AClass>(Maybe.never()))
         .subscribe(new Consumer<AClass>() {
-          @Override public void accept(@NonNull AClass aClass) throws Exception {
+          @Override public void accept(AClass aClass) throws Exception {
 
           }
         });
@@ -87,7 +84,7 @@ public class AutoDisposeMaybeObserverTest {
         .subscribe(o);
     source.to(new MaybeScoper<Integer>(lifecycle))
         .subscribe(new Consumer<Integer>() {
-          @Override public void accept(@NonNull Integer integer) throws Exception {
+          @Override public void accept(Integer integer) throws Exception {
 
           }
         });

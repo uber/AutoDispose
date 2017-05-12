@@ -20,7 +20,6 @@ import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Consumer;
@@ -30,7 +29,6 @@ import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subjects.PublishSubject;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.junit.After;
 import org.junit.Test;
 
@@ -69,7 +67,7 @@ public class AutoDisposeObserverTest {
     Observable.just(new BClass())
         .to(new ObservableScoper<AClass>(Maybe.never()))
         .subscribe(new Consumer<AClass>() {
-          @Override public void accept(@NonNull AClass aClass) throws Exception {
+          @Override public void accept(AClass aClass) throws Exception {
 
           }
         });
