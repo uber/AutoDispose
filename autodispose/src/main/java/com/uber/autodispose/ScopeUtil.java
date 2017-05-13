@@ -16,13 +16,13 @@
 
 package com.uber.autodispose;
 
-import java.util.concurrent.Callable;
-
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import java.util.concurrent.Callable;
 
 /**
  * Utilities for dealing with scopes, usually for providers. This includes factories for resolving
@@ -76,8 +76,10 @@ public final class ScopeUtil {
         E lastEvent = provider.peekLifecycle();
         if (checkStartBoundary && lastEvent == null) {
           LifecycleNotStartedException exception = new LifecycleNotStartedException();
-          if (AutoDisposePlugins.getOutsideLifecycleHandler() != null) {
-            AutoDisposePlugins.getOutsideLifecycleHandler().accept(exception);
+          Consumer<? super OutsideLifecycleException> handler
+              = AutoDisposePlugins.getOutsideLifecycleHandler();
+          if (handler != null) {
+            handler.accept(exception);
             return Maybe.just(LifecycleEndNotification.INSTANCE);
           } else {
             throw exception;
@@ -89,8 +91,10 @@ public final class ScopeUtil {
               .apply(lastEvent);
         } catch (Exception e) {
           if (checkEndBoundary && e instanceof LifecycleEndedException) {
-            if (AutoDisposePlugins.getOutsideLifecycleHandler() != null) {
-              AutoDisposePlugins.getOutsideLifecycleHandler().accept((LifecycleEndedException) e);
+            Consumer<? super OutsideLifecycleException> handler
+                = AutoDisposePlugins.getOutsideLifecycleHandler();
+            if (handler != null) {
+              handler.accept((LifecycleEndedException) e);
               return Maybe.just(LifecycleEndNotification.INSTANCE);
             } else {
               throw e;

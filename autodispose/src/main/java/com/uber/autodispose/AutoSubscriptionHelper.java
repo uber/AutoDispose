@@ -19,6 +19,7 @@ package com.uber.autodispose;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
+import javax.annotation.Nullable;
 import org.reactivestreams.Subscription;
 
 /**
@@ -48,7 +49,8 @@ enum AutoSubscriptionHelper implements Subscription {
    * @param next the next Subscription, expected to be non-null
    * @return true if the validation succeeded
    */
-  static boolean validate(Subscription current, Subscription next) {
+  static boolean validate(@Nullable Subscription current, Subscription next) {
+    //noinspection ConstantConditions left as is from original RxJava implementation
     if (next == null) {
       RxJavaPlugins.onError(new NullPointerException("next is null"));
       return false;
@@ -113,7 +115,7 @@ enum AutoSubscriptionHelper implements Subscription {
    * holds the {@link #CANCELLED} instance.
    * @see #replace(AtomicReference, Subscription)
    */
-  static boolean set(AtomicReference<Subscription> field, Subscription s) {
+  static boolean set(AtomicReference<Subscription> field, @Nullable Subscription s) {
     for (; ; ) {
       Subscription current = field.get();
       if (current == CANCELLED) {
@@ -175,7 +177,7 @@ enum AutoSubscriptionHelper implements Subscription {
    * holds the {@link #CANCELLED} instance.
    * @see #set(AtomicReference, Subscription)
    */
-  static boolean replace(AtomicReference<Subscription> field, Subscription s) {
+  static boolean replace(AtomicReference<Subscription> field, @Nullable Subscription s) {
     for (; ; ) {
       Subscription current = field.get();
       if (current == CANCELLED) {
