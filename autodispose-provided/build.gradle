@@ -13,9 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+buildscript {
+  repositories {
+    jcenter()
+    maven { url deps.build.repositories.plugins }
+  }
+  dependencies {
+    classpath deps.build.gradlePlugins.errorProne
+  }
+}
 
-rootProject.name = 'autodispose-root'
-include ':autodispose'
-include ':autodispose-android'
-include ':autodispose-kotlin'
-include ':autodispose-provided'
+apply plugin: 'java-library'
+apply plugin: 'net.ltgt.errorprone'
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+test {
+  testLogging.showStandardStreams = true
+}
+
+dependencies {
+  compileOnly deps.misc.errorProneAnnotations
+  compile deps.misc.jsr305
+
+  errorprone deps.build.errorProne
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

@@ -15,8 +15,9 @@
  */
 
 /**
- * AutoDispose is an RxJava 2 tool for automatically binding the execution of RxJava 2 streams to a
- * provided scope via disposal/cancellation.
+ * These are Observers AutoDispose uses when scoping an observable. They are exposed as a public API
+ *  to allow for consumers to watch for them if they want, such as in RxJava plugins.
  */
 @com.uber.autodispose.internal.PackageNonNull
-package com.uber.autodispose;
+package com.uber.autodispose.observers;
+
