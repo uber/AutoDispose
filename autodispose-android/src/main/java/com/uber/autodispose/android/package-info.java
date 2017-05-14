@@ -17,6 +17,6 @@
 /**
  * Android components for AutoDispose.
  */
-@com.uber.autodispose.internal.PackageNonNull
+@com.uber.autodispose.internal.EverythingNonNullByDefault
 package com.uber.autodispose.android;
 
