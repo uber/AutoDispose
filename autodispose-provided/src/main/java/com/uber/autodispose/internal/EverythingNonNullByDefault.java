@@ -21,5 +21,5 @@ import javax.annotation.meta.TypeQualifierDefault;
     ElementType.METHOD,
     ElementType.PARAMETER
 })
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.CLASS)
 public @interface EverythingNonNullByDefault { }
