@@ -49,6 +49,7 @@ dependencies {
   compile deps.rx.java
   compile deps.rx.android
   compile deps.support.annotations
+  compile "android.arch.lifecycle:extensions:1.0.0-alpha1"
   provided deps.misc.errorProneAnnotations
   provided deps.misc.javaxExtras
   errorprone deps.build.errorProne

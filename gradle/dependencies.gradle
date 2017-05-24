@@ -56,7 +56,12 @@ def rx = [
 ]
 
 def support = [
-    annotations: "com.android.support:support-annotations:${versions.support}"
+    annotations: "com.android.support:support-annotations:${versions.support}",
+    arch: [
+        lifecycle: [
+            extensions: "android.arch.lifecycle:extensions:1.0.0-alpha1",
+        ]
+    ]
 ]
 
 def test = [
