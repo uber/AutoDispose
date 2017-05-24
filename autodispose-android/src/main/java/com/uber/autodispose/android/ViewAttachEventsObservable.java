@@ -18,12 +18,13 @@ package com.uber.autodispose.android;
 
 import android.support.annotation.RestrictTo;
 import android.view.View;
+import com.uber.autodispose.android.internal.AutoDisposeAndroidUtil;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.MainThreadDisposable;
 
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
-import static com.uber.autodispose.android.AutoDisposeAndroidUtil.isMainThread;
+import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
 import static com.uber.autodispose.android.ViewLifecycleEvent.ATTACH;
 import static com.uber.autodispose.android.ViewLifecycleEvent.DETACH;
 

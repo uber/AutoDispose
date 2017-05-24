@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (c) 2017. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,12 +45,13 @@ android {
 }
 
 dependencies {
-  compile project(':autodispose')
-  compile deps.rx.java
-  compile deps.rx.android
-  compile deps.support.annotations
+  annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha1"
+
+  compile project(':autodispose-android')
+  compile 'android.arch.lifecycle:extensions:1.0.0-alpha1'
+  compile "android.arch.lifecycle:runtime:1.0.0-alpha1"
   provided deps.misc.errorProneAnnotations
-  provided deps.misc.javaxExtras
+  provided project(':autodispose-provided')
   errorprone deps.build.errorProne
   androidTestCompile deps.support.annotations
   androidTestCompile deps.test.junit
@@ -59,4 +60,5 @@ dependencies {
   androidTestCompile deps.test.androidRules
 }
 
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+// Disable for now until we're ready to release this
+// apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.android;
+package com.uber.autodispose.android.archcomponents;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.Lifecycle.State;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.support.annotation.RestrictTo;
+import com.uber.autodispose.android.internal.AutoDisposeAndroidUtil;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.MainThreadDisposable;
 
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
-import static com.uber.autodispose.android.AutoDisposeAndroidUtil.isMainThread;
 
 @RestrictTo(LIBRARY)
 class LifecycleStatesObservable extends Observable<State> {
@@ -38,7 +38,7 @@ class LifecycleStatesObservable extends Observable<State> {
   }
 
   @Override protected void subscribeActual(Observer<? super State> observer) {
-    if (!isMainThread()) {
+    if (!AutoDisposeAndroidUtil.isMainThread()) {
       observer.onError(
           new IllegalStateException("Lifecycles can only be bound to on the main thread!"));
       return;
