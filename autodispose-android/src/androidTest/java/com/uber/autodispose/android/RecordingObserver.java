@@ -16,7 +16,6 @@
 
 package com.uber.autodispose.android;
 
-import com.google.common.truth.Platform;
 import io.reactivex.CompletableObserver;
 import io.reactivex.MaybeObserver;
 import io.reactivex.Observer;
@@ -87,7 +86,7 @@ public final class RecordingObserver<T>
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
-    return event != null && Platform.isInstanceOfType(event, OnNext.class);
+    return event != null && OnNext.class.isInstance(event);
   }
 
   public T takeNext() {
