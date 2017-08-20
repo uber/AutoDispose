@@ -19,37 +19,37 @@ package com.uber.autodispose.android.archcomponents;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import com.uber.autodispose.LifecycleEndedException;
-import com.uber.autodispose.LifecycleNotStartedException;
 import com.uber.autodispose.LifecycleScopeProvider;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
-import static android.arch.lifecycle.Lifecycle.State.DESTROYED;
-
 /**
- * A {@link LifecycleScopeProvider} that can provide scoping for Android
- * {@link LifecycleOwner} classes.
+ * A {@link LifecycleScopeProvider} that can provide scoping for Android {@link LifecycleOwner}
+ * classes.
  * <p>
  * <pre><code>
- *   AutoDispose.observable()
- *      .scopeWith(LifecycleOwnerScopeProvider.from(view))
- *      .empty();
+ *   myFooObservable
+ *      .to(new ObservableScoper<Foo>(LifecycleOwnerScopeProvider.from(lifecycleOwner)))
+ *      .subscribe();
  * </code></pre>
  */
-public final class LifecycleOwnerScopeProvider implements LifecycleScopeProvider<Lifecycle.State> {
+public final class LifecycleOwnerScopeProvider implements LifecycleScopeProvider<Lifecycle.Event> {
 
-  private static final Function<Lifecycle.State, Lifecycle.State> CORRESPONDING_EVENTS =
-      new Function<Lifecycle.State, Lifecycle.State>() {
-        @Override public Lifecycle.State apply(Lifecycle.State lastEvent) throws Exception {
+  private static final Function<Lifecycle.Event, Lifecycle.Event> CORRESPONDING_EVENTS =
+      new Function<Lifecycle.Event, Lifecycle.Event>() {
+        @Override public Lifecycle.Event apply(Lifecycle.Event lastEvent) throws Exception {
           switch (lastEvent) {
-            case INITIALIZED:
-              throw new LifecycleNotStartedException();
-            case CREATED:
-              return DESTROYED;
-            case STARTED:
-              return DESTROYED;
-            case RESUMED:
-              return DESTROYED;
+            case ON_CREATE:
+              return Lifecycle.Event.ON_DESTROY;
+            case ON_START:
+              return Lifecycle.Event.ON_STOP;
+            case ON_RESUME:
+              return Lifecycle.Event.ON_PAUSE;
+            case ON_PAUSE:
+              return Lifecycle.Event.ON_STOP;
+            case ON_STOP:
+              return Lifecycle.Event.ON_DESTROY;
+            case ON_DESTROY:
             default:
               throw new LifecycleEndedException();
           }
@@ -73,26 +73,25 @@ public final class LifecycleOwnerScopeProvider implements LifecycleScopeProvider
    * @return a {@link LifecycleOwnerScopeProvider} against this lifecycle.
    */
   public static LifecycleOwnerScopeProvider from(Lifecycle lifecycle) {
+
     return new LifecycleOwnerScopeProvider(lifecycle);
   }
 
-  private final Lifecycle lifecycle;
-  private final LifecycleStatesObservable lifecycleObservable;
+  private final LifecycleEventsObservable lifecycleObservable;
 
   private LifecycleOwnerScopeProvider(Lifecycle lifecycle) {
-    this.lifecycle = lifecycle;
-    this.lifecycleObservable = new LifecycleStatesObservable(lifecycle);
+    this.lifecycleObservable = new LifecycleEventsObservable(lifecycle);
   }
 
-  @Override public Observable<Lifecycle.State> lifecycle() {
+  @Override public Observable<Lifecycle.Event> lifecycle() {
     return lifecycleObservable;
   }
 
-  @Override public Function<Lifecycle.State, Lifecycle.State> correspondingEvents() {
+  @Override public Function<Lifecycle.Event, Lifecycle.Event> correspondingEvents() {
     return CORRESPONDING_EVENTS;
   }
 
-  @Override public Lifecycle.State peekLifecycle() {
-    return lifecycle.getCurrentState();
+  @Override public Lifecycle.Event peekLifecycle() {
+    return lifecycleObservable.getValue();
   }
 }
