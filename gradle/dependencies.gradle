@@ -16,6 +16,7 @@
 
 def versions = [
     androidTest: '0.5',
+    archComponents: '1.0.0-alpha8',
     errorProne: '2.0.21',
     kotlin: '1.1.4-2',
     support: '25.1.0'
@@ -59,7 +60,9 @@ def support = [
     annotations: "com.android.support:support-annotations:${versions.support}",
     arch: [
         lifecycle: [
-            extensions: "android.arch.lifecycle:extensions:1.0.0-alpha1",
+            compiler: "android.arch.lifecycle:compiler:${versions.archComponents}",
+            extensions: "android.arch.lifecycle:extensions:${versions.archComponents}",
+            runtime: "android.arch.lifecycle:runtime:${versions.archComponents}"
         ]
     ]
 ]
