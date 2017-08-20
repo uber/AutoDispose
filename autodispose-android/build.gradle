@@ -52,9 +52,8 @@ dependencies {
   provided deps.misc.errorProneAnnotations
   provided deps.misc.javaxExtras
   errorprone deps.build.errorProne
+  androidTestCompile project(':test-utils')
   androidTestCompile deps.support.annotations
-  androidTestCompile deps.test.junit
-  androidTestCompile deps.test.truth
   androidTestCompile deps.test.androidRunner
   androidTestCompile deps.test.androidRules
 }

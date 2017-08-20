@@ -16,6 +16,7 @@
 
 package com.uber.autodispose;
 
+import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeEmitter;
 import io.reactivex.MaybeOnSubscribe;
@@ -35,12 +36,18 @@ import static com.uber.autodispose.TestUtil.makeProvider;
 
 public class AutoDisposeMaybeObserverTest {
 
+  private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
+    @Override public void log(String message) {
+      System.out.println(AutoDisposeMaybeObserverTest.class.getSimpleName() + ": " + message);
+    }
+  };
+
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();
   }
 
   @Test public void autoDispose_withMaybe_normal() {
-    RecordingObserver<Integer> o = new RecordingObserver<>();
+    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.to(new MaybeScoper<Integer>(lifecycle))
@@ -77,7 +84,7 @@ public class AutoDisposeMaybeObserverTest {
   }
 
   @Test public void autoDispose_withMaybe_interrupted() {
-    RecordingObserver<Integer> o = new RecordingObserver<>();
+    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
     source.to(new MaybeScoper<Integer>(lifecycle))
@@ -104,7 +111,7 @@ public class AutoDisposeMaybeObserverTest {
   }
 
   @Test public void autoDispose_withProvider_success() {
-    RecordingObserver<Integer> o = new RecordingObserver<>();
+    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
@@ -129,7 +136,7 @@ public class AutoDisposeMaybeObserverTest {
   }
 
   @Test public void autoDispose_withProvider_completion() {
-    RecordingObserver<Integer> o = new RecordingObserver<>();
+    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
@@ -149,7 +156,7 @@ public class AutoDisposeMaybeObserverTest {
   }
 
   @Test public void autoDispose_withProvider_interrupted() {
-    RecordingObserver<Integer> o = new RecordingObserver<>();
+    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
@@ -172,7 +179,7 @@ public class AutoDisposeMaybeObserverTest {
   }
 
   @Test public void autoDispose_withLifecycleProvider_completion() {
-    RecordingObserver<Integer> o = new RecordingObserver<>();
+    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
@@ -197,7 +204,7 @@ public class AutoDisposeMaybeObserverTest {
   }
 
   @Test public void autoDispose_withLifecycleProvider_interrupted() {
-    RecordingObserver<Integer> o = new RecordingObserver<>();
+    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
@@ -226,7 +233,7 @@ public class AutoDisposeMaybeObserverTest {
 
   @Test public void autoDispose_withLifecycleProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    RecordingObserver<Integer> o = new RecordingObserver<>();
+    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Maybe.just(1)
         .to(new MaybeScoper<Integer>(provider))
@@ -241,7 +248,7 @@ public class AutoDisposeMaybeObserverTest {
     lifecycle.onNext(1);
     lifecycle.onNext(2);
     lifecycle.onNext(3);
-    RecordingObserver<Integer> o = new RecordingObserver<>();
+    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Maybe.just(1)
         .to(new MaybeScoper<Integer>(provider))
@@ -253,16 +260,14 @@ public class AutoDisposeMaybeObserverTest {
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override
-      public void accept(OutsideLifecycleException e) throws Exception { }
+      @Override public void accept(OutsideLifecycleException e) throws Exception { }
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    source
-            .to(new MaybeScoper<Integer>(provider))
-            .subscribe(o);
+    source.to(new MaybeScoper<Integer>(provider))
+        .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -272,8 +277,7 @@ public class AutoDisposeMaybeObserverTest {
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override
-      public void accept(OutsideLifecycleException e) throws Exception {
+      @Override public void accept(OutsideLifecycleException e) throws Exception {
         // Noop
       }
     });
@@ -284,9 +288,8 @@ public class AutoDisposeMaybeObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    source
-            .to(new MaybeScoper<Integer>(provider))
-            .subscribe(o);
+    source.to(new MaybeScoper<Integer>(provider))
+        .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -296,8 +299,7 @@ public class AutoDisposeMaybeObserverTest {
 
   @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithWrappedExp() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override
-      public void accept(OutsideLifecycleException e) throws Exception {
+      @Override public void accept(OutsideLifecycleException e) throws Exception {
         // Wrap in an IllegalStateException so we can verify this is the exception we see on the
         // other side
         throw new IllegalStateException(e);
@@ -307,16 +309,14 @@ public class AutoDisposeMaybeObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    source
-            .to(new MaybeScoper<Integer>(provider))
-            .subscribe(o);
+    source.to(new MaybeScoper<Integer>(provider))
+        .subscribe(o);
 
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
-      @Override
-      public boolean test(Throwable throwable) throws Exception {
+      @Override public boolean test(Throwable throwable) throws Exception {
         return throwable instanceof IllegalStateException
-                && throwable.getCause() instanceof OutsideLifecycleException;
+            && throwable.getCause() instanceof OutsideLifecycleException;
       }
     });
   }

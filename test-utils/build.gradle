@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (c) 2017. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+buildscript {
+  repositories {
+    jcenter()
+    maven { url deps.build.repositories.plugins }
+  }
+  dependencies {
+    classpath deps.build.gradlePlugins.errorProne
+  }
+}
 
-rootProject.name = 'autodispose-root'
-include ':autodispose'
-include ':autodispose-android'
-include ':autodispose-android-archcomponents'
-include ':autodispose-kotlin'
-include ':test-utils'
+apply plugin: 'java-library'
+apply plugin: 'net.ltgt.errorprone'
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+dependencies {
+  compileOnly deps.misc.errorProneAnnotations
+  errorprone deps.build.errorProne
+  api deps.rx.java
+  api deps.test.junit
+  api deps.test.truth
+}
