@@ -4,8 +4,8 @@ android:
   components:
     - tools                             # Tools
     - platform-tools                    # Platform tools
-    - build-tools-25.0.2                # Build tools version
-    - android-25                        # Target SDK version
+    - build-tools-26.0.1                # Build tools version
+    - android-26                        # Target SDK version
     - extra-android-m2repository        # Support repo
     - sys-img-armeabi-v7a-android-18    # Emulator
 
