@@ -60,9 +60,8 @@ def support = [
     annotations: "com.android.support:support-annotations:${versions.support}",
     arch: [
         lifecycle: [
-            compiler: "android.arch.lifecycle:compiler:${versions.archComponents}",
-            extensions: "android.arch.lifecycle:extensions:${versions.archComponents}",
-            runtime: "android.arch.lifecycle:runtime:${versions.archComponents}"
+            common: "android.arch.lifecycle:common:${versions.archComponents}",
+            compiler: "android.arch.lifecycle:compiler:${versions.archComponents}"
         ]
     ]
 ]

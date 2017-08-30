@@ -48,8 +48,7 @@ dependencies {
   annotationProcessor deps.support.arch.lifecycle.compiler
 
   compile project(':autodispose-android')
-  compile deps.support.arch.lifecycle.extensions
-  compile deps.support.arch.lifecycle.runtime
+  compile deps.support.arch.lifecycle.common
 
   provided deps.misc.errorProneAnnotations
   provided project(':autodispose-provided')
