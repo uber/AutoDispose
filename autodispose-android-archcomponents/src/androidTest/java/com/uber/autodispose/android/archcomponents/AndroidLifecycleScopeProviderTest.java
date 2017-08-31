@@ -35,11 +35,11 @@ import org.junit.runner.RunWith;
 
 import static com.google.common.truth.Truth.assertThat;
 
-@RunWith(AndroidJUnit4.class) public final class ViewScopeProviderTest {
+@RunWith(AndroidJUnit4.class) public final class AndroidLifecycleScopeProviderTest {
 
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
     @Override public void log(String message) {
-      Log.d(ViewScopeProviderTest.class.getSimpleName(), message);
+      Log.d(AndroidLifecycleScopeProviderTest.class.getSimpleName(), message);
     }
   };
 
@@ -50,11 +50,11 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwnerScopeProvider lifecycle = new TestLifecycleOwnerScopeProvider();
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.to(new ObservableScoper<Integer>(LifecycleOwnerScopeProvider.from(lifecycle)))
+    subject.to(new ObservableScoper<Integer>(AndroidLifecycleScopeProvider.from(lifecycle)))
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -81,11 +81,11 @@ import static com.google.common.truth.Truth.assertThat;
     PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwnerScopeProvider lifecycle = new TestLifecycleOwnerScopeProvider();
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.to(new ObservableScoper<Integer>(LifecycleOwnerScopeProvider.from(lifecycle)))
+    subject.to(new ObservableScoper<Integer>(AndroidLifecycleScopeProvider.from(lifecycle)))
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -101,7 +101,7 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     UninitializedLifecycleOwner owner = new UninitializedLifecycleOwner();
-    subject.to(new ObservableScoper<Integer>(LifecycleOwnerScopeProvider.from(owner)))
+    subject.to(new ObservableScoper<Integer>(AndroidLifecycleScopeProvider.from(owner)))
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -115,14 +115,14 @@ import static com.google.common.truth.Truth.assertThat;
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
-    TestLifecycleOwnerScopeProvider lifecycle = new TestLifecycleOwnerScopeProvider();
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
     lifecycle.emit(Lifecycle.Event.ON_PAUSE);
     lifecycle.emit(Lifecycle.Event.ON_STOP);
     lifecycle.emit(Lifecycle.Event.ON_DESTROY);
-    subject.to(new ObservableScoper<Integer>(LifecycleOwnerScopeProvider.from(lifecycle)))
+    subject.to(new ObservableScoper<Integer>(AndroidLifecycleScopeProvider.from(lifecycle)))
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();

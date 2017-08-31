@@ -24,16 +24,17 @@ import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
 /**
- * A {@link LifecycleScopeProvider} that can provide scoping for Android {@link LifecycleOwner}
- * classes.
+ * A {@link LifecycleScopeProvider} that can provide scoping for Android {@link Lifecycle} and
+ * {@link LifecycleOwner} classes.
  * <p>
  * <pre><code>
  *   myFooObservable
- *      .to(new ObservableScoper<Foo>(LifecycleOwnerScopeProvider.from(lifecycleOwner)))
+ *      .to(new ObservableScoper<Foo>(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
  *      .subscribe();
  * </code></pre>
  */
-public final class LifecycleOwnerScopeProvider implements LifecycleScopeProvider<Lifecycle.Event> {
+public final class AndroidLifecycleScopeProvider
+    implements LifecycleScopeProvider<Lifecycle.Event> {
 
   private static final Function<Lifecycle.Event, Lifecycle.Event> CORRESPONDING_EVENTS =
       new Function<Lifecycle.Event, Lifecycle.Event>() {
@@ -57,28 +58,28 @@ public final class LifecycleOwnerScopeProvider implements LifecycleScopeProvider
       };
 
   /**
-   * Creates a {@link LifecycleOwnerScopeProvider} for Android LifecycleOwners.
+   * Creates a {@link AndroidLifecycleScopeProvider} for Android LifecycleOwners.
    *
    * @param owner the owner to scope for
-   * @return a {@link LifecycleOwnerScopeProvider} against this owner.
+   * @return a {@link AndroidLifecycleScopeProvider} against this owner.
    */
-  public static LifecycleOwnerScopeProvider from(LifecycleOwner owner) {
+  public static AndroidLifecycleScopeProvider from(LifecycleOwner owner) {
     return from(owner.getLifecycle());
   }
 
   /**
-   * Creates a {@link LifecycleOwnerScopeProvider} for Android Lifecycles.
+   * Creates a {@link AndroidLifecycleScopeProvider} for Android Lifecycles.
    *
    * @param lifecycle the lifecycle to scope for
-   * @return a {@link LifecycleOwnerScopeProvider} against this lifecycle.
+   * @return a {@link AndroidLifecycleScopeProvider} against this lifecycle.
    */
-  public static LifecycleOwnerScopeProvider from(Lifecycle lifecycle) {
-    return new LifecycleOwnerScopeProvider(lifecycle);
+  public static AndroidLifecycleScopeProvider from(Lifecycle lifecycle) {
+    return new AndroidLifecycleScopeProvider(lifecycle);
   }
 
   private final LifecycleEventsObservable lifecycleObservable;
 
-  private LifecycleOwnerScopeProvider(Lifecycle lifecycle) {
+  private AndroidLifecycleScopeProvider(Lifecycle lifecycle) {
     this.lifecycleObservable = new LifecycleEventsObservable(lifecycle);
   }
 

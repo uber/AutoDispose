@@ -25,10 +25,10 @@ import android.support.annotation.RestrictTo;
 import static android.support.annotation.RestrictTo.Scope.TESTS;
 
 /**
- * LifecycleOwnerScopeProvider implementation for testing. You can either back it with your own
+ * AndroidLifecycleScopeProvider implementation for testing. You can either back it with your own
  * instance, or just stub it in place and use its public emit() API.
  */
-@RestrictTo(TESTS) public final class TestLifecycleOwnerScopeProvider
+@RestrictTo(TESTS) public final class TestAndroidLifecycleScopeProvider
     implements LifecycleRegistryOwner {
 
   private final LifecycleRegistry registry;
@@ -36,7 +36,7 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
   /**
    * Default constructor, creates and maintains its own {@link LifecycleRegistry} under the hood.
    */
-  public TestLifecycleOwnerScopeProvider() {
+  public TestAndroidLifecycleScopeProvider() {
     this(null);
   }
 
@@ -44,7 +44,7 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
    * @param registry an optional custom {@link LifecycleRegistry} if you want to provide one. If
    * {@code null}, a default implementation will be created and maintained under the hood.
    */
-  public TestLifecycleOwnerScopeProvider(@Nullable LifecycleRegistry registry) {
+  public TestAndroidLifecycleScopeProvider(@Nullable LifecycleRegistry registry) {
     this.registry = registry == null ? new LifecycleRegistry(this) : registry;
   }
 
