@@ -54,6 +54,10 @@ dependencies {
   provided deps.misc.errorProneAnnotations
   provided project(':autodispose-provided')
   errorprone deps.build.errorProne
+
+  androidTestCompile project(':test-utils')
+  androidTestCompile deps.test.androidRunner
+  androidTestCompile deps.test.androidRules
 }
 
 // Disable for now until we're ready to release this
