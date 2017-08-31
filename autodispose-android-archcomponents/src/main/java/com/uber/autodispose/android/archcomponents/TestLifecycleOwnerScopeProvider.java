@@ -34,7 +34,7 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
   private final LifecycleRegistry registry;
 
   public TestLifecycleOwnerScopeProvider() {
-    this(new LifecycleRegistry(null));
+    this(null);
   }
 
   public TestLifecycleOwnerScopeProvider(@Nullable LifecycleRegistry registry) {
