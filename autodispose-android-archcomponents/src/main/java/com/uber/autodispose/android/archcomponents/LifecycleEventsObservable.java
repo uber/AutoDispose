@@ -21,8 +21,8 @@ import android.arch.lifecycle.Lifecycle.Event;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
-import com.uber.autodispose.android.internal.AutoDisposeAndroidUtil;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.MainThreadDisposable;
@@ -31,8 +31,7 @@ import io.reactivex.subjects.BehaviorSubject;
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
 
-@RestrictTo(LIBRARY)
-class LifecycleEventsObservable extends Observable<Event> {
+@RestrictTo(LIBRARY) class LifecycleEventsObservable extends Observable<Event> {
 
   private final Lifecycle lifecycle;
   private final BehaviorSubject<Event> eventsObservable = BehaviorSubject.create();
@@ -40,23 +39,25 @@ class LifecycleEventsObservable extends Observable<Event> {
   @SuppressWarnings("CheckReturnValue") LifecycleEventsObservable(Lifecycle lifecycle) {
     this.lifecycle = lifecycle;
     // Backfill if already created for boundary checking
-    Lifecycle.State currentState = lifecycle.getCurrentState();
-    if (currentState.isAtLeast(Lifecycle.State.CREATED)) {
-      Event event;
-      switch (lifecycle.getCurrentState()) {
-        case CREATED:
-          event = Event.ON_CREATE;
-          break;
-        case STARTED:
-          event = Event.ON_START;
-          break;
-        case RESUMED:
-          event = Event.ON_RESUME;
-          break;
-        default:
-          event = Event.ON_DESTROY;
-          break;
-      }
+    @Nullable Event event;
+    switch (lifecycle.getCurrentState()) {
+      case CREATED:
+        event = Event.ON_CREATE;
+        break;
+      case STARTED:
+        event = Event.ON_START;
+        break;
+      case RESUMED:
+        event = Event.ON_RESUME;
+        break;
+      case DESTROYED:
+        event = Event.ON_DESTROY;
+        break;
+      default:
+        event = null;
+        break;
+    }
+    if (event != null) {
       eventsObservable.onNext(event);
     }
   }
