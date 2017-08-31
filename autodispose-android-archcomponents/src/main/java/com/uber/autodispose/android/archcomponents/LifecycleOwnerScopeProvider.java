@@ -73,7 +73,6 @@ public final class LifecycleOwnerScopeProvider implements LifecycleScopeProvider
    * @return a {@link LifecycleOwnerScopeProvider} against this lifecycle.
    */
   public static LifecycleOwnerScopeProvider from(Lifecycle lifecycle) {
-
     return new LifecycleOwnerScopeProvider(lifecycle);
   }
 
