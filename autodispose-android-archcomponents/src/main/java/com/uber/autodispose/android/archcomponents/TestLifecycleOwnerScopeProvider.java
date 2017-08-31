@@ -33,10 +33,17 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
 
   private final LifecycleRegistry registry;
 
+  /**
+   * Default constructor, creates and maintains its own {@link LifecycleRegistry} under the hood.
+   */
   public TestLifecycleOwnerScopeProvider() {
     this(null);
   }
 
+  /**
+   * @param registry an optional custom {@link LifecycleRegistry} if you want to provide one. If
+   * {@code null}, a default implementation will be created and maintained under the hood.
+   */
   public TestLifecycleOwnerScopeProvider(@Nullable LifecycleRegistry registry) {
     this.registry = registry == null ? new LifecycleRegistry(this) : registry;
   }
@@ -45,6 +52,12 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
     return registry;
   }
 
+  /**
+   * Simulates the emission of a given lifecycle {@code event}, marking state as necessary to the
+   * internal {@link LifecycleRegistry} as well as needed.
+   *
+   * @param event the event to simulate
+   */
   public void emit(Lifecycle.Event event) {
     registry.handleLifecycleEvent(event);
     switch (event) {
