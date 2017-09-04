@@ -202,16 +202,14 @@ public class AutoDisposeSubscriberTest {
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override
-      public void accept(OutsideLifecycleException e) throws Exception { }
+      @Override public void accept(OutsideLifecycleException e) throws Exception { }
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     TestSubscriber<Integer> o = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-    source
-            .to(new FlowableScoper<Integer>(provider))
-            .subscribe(o);
+    source.to(new FlowableScoper<Integer>(provider))
+        .subscribe(o);
 
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -221,8 +219,7 @@ public class AutoDisposeSubscriberTest {
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override
-      public void accept(OutsideLifecycleException e) throws Exception {
+      @Override public void accept(OutsideLifecycleException e) throws Exception {
         // Noop
       }
     });
@@ -233,9 +230,8 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-    source
-            .to(new FlowableScoper<Integer>(provider))
-            .subscribe(o);
+    source.to(new FlowableScoper<Integer>(provider))
+        .subscribe(o);
 
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -245,8 +241,7 @@ public class AutoDisposeSubscriberTest {
 
   @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithExp() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override
-      public void accept(OutsideLifecycleException e) throws Exception {
+      @Override public void accept(OutsideLifecycleException e) throws Exception {
         // Wrap in an IllegalStateException so we can verify this is the exception we see on the
         // other side
         throw new IllegalStateException(e);
@@ -256,16 +251,14 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-    source
-            .to(new FlowableScoper<Integer>(provider))
-            .subscribe(o);
+    source.to(new FlowableScoper<Integer>(provider))
+        .subscribe(o);
 
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
-      @Override
-      public boolean test(Throwable throwable) throws Exception {
+      @Override public boolean test(Throwable throwable) throws Exception {
         return throwable instanceof IllegalStateException
-                && throwable.getCause() instanceof OutsideLifecycleException;
+            && throwable.getCause() instanceof OutsideLifecycleException;
       }
     });
   }

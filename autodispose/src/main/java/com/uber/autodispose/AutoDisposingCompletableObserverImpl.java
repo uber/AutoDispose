@@ -38,22 +38,22 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
   }
 
   @Override public void onSubscribe(final Disposable d) {
-    if (AutoDisposableHelper.setOnce(lifecycleDisposable,
+    if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable,
         lifecycle.doOnEvent(new BiConsumer<Object, Throwable>() {
-          @Override
-          public void accept(Object o, Throwable throwable) throws Exception {
+          @Override public void accept(Object o, Throwable throwable) throws Exception {
             callMainSubscribeIfNecessary(d);
           }
-        }).subscribe(new Consumer<Object>() {
-          @Override public void accept(Object o) throws Exception {
-            dispose();
-          }
-        }, new Consumer<Throwable>() {
-          @Override public void accept(Throwable e1) throws Exception {
-            onError(e1);
-          }
-        }))) {
-      if (AutoDisposableHelper.setOnce(mainDisposable, d)) {
+        })
+            .subscribe(new Consumer<Object>() {
+              @Override public void accept(Object o) throws Exception {
+                dispose();
+              }
+            }, new Consumer<Throwable>() {
+              @Override public void accept(Throwable e1) throws Exception {
+                onError(e1);
+              }
+            }), getClass())) {
+      if (AutoDisposeEndConsumerHelper.setOnce(mainDisposable, d, getClass())) {
         delegate.onSubscribe(this);
       }
     }
