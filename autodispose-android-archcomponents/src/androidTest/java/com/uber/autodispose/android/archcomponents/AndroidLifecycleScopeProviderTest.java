@@ -72,8 +72,6 @@ import static com.google.common.truth.Truth.assertThat;
 
     subject.onNext(2);
     o.assertNoMoreEvents();
-
-    d.dispose();
   }
 
   @Test public void observable_offMainThread_shouldFail() {
