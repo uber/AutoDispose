@@ -1,4 +1,5 @@
 language: android
+dist: trusty
 
 android:
   components:
@@ -7,14 +8,14 @@ android:
     - build-tools-26.0.1                # Build tools version
     - android-26                        # Target SDK version
     - extra-android-m2repository        # Support repo
-    - sys-img-armeabi-v7a-android-25    # Emulator
+    - sys-img-armeabi-v7a-android-18    # Emulator
 
 jdk:
   - oraclejdk8
 
 before_script:
   # Create and start an emulator for instrumentation tests.
-  - echo no | android create avd --force -n test -t android-25 --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-18 --abi armeabi-v7a
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82
