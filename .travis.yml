@@ -8,6 +8,7 @@ android:
     - build-tools-26.0.1                # Build tools version
     - android-26                        # Target SDK version
     - extra-android-m2repository        # Support repo
+    - sys-img-x86-android-18
 
 jdk:
   - oraclejdk8
