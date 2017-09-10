@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (c) 2017. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 buildscript {
   repositories {
     jcenter()
-    maven { url "https://plugins.gradle.org/m2/" }
+    maven { url deps.build.repositories.plugins }
   }
 
   dependencies {
@@ -45,17 +45,20 @@ android {
 }
 
 dependencies {
-  compile project(':autodispose')
-  compile deps.rx.java
-  compile deps.rx.android
-  compile deps.support.annotations
+  annotationProcessor deps.support.arch.lifecycle.compiler
+
+  compile project(':autodispose-android')
+  compile deps.support.arch.lifecycle.common
+  compile deps.support.arch.lifecycle.extensions
+
   provided deps.misc.errorProneAnnotations
   provided deps.misc.javaxExtras
   errorprone deps.build.errorProne
+
   androidTestCompile project(':test-utils')
-  androidTestCompile deps.support.annotations
   androidTestCompile deps.test.androidRunner
   androidTestCompile deps.test.androidRules
 }
 
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+// Disable for now until we're ready to release this
+// apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

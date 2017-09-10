@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose;
+package com.uber.autodispose.test;
 
 import io.reactivex.CompletableObserver;
 import io.reactivex.MaybeObserver;
@@ -30,32 +30,40 @@ import static com.google.common.truth.Truth.assertThat;
 
 public final class RecordingObserver<T>
     implements Observer<T>, SingleObserver<T>, MaybeObserver<T>, CompletableObserver {
-  private static final String TAG = "RecordingObserver";
+
+  public interface Logger {
+    void log(String message);
+  }
 
   private final BlockingDeque<Object> events = new LinkedBlockingDeque<>();
+  private final Logger logger;
+
+  public RecordingObserver(Logger logger) {
+    this.logger = logger;
+  }
 
   @Override public void onError(Throwable e) {
-    System.out.println(TAG + ": onError - " + e);
+    logger.log("onError - " + e);
     events.addLast(new OnError(e));
   }
 
   @Override public void onComplete() {
-    System.out.println(TAG + ": onCompleted");
+    logger.log("onCompleted");
     events.addLast(new OnCompleted());
   }
 
   @Override public void onSubscribe(Disposable d) {
-    System.out.println(TAG + ": onSubscribe");
+    logger.log("onSubscribe");
     events.addLast(new OnSubscribe(d));
   }
 
   @Override public void onSuccess(T value) {
-    System.out.println(TAG + ": onSuccess - " + value);
+    logger.log("onSuccess - " + value);
     events.addLast(new OnSuccess(value));
   }
 
   @Override public void onNext(T t) {
-    System.out.println(TAG + ": onNext - " + t);
+    logger.log("onNext - " + t);
     events.addLast(new OnNext(t));
   }
 

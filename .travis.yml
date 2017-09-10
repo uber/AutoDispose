@@ -24,6 +24,7 @@ jdk:
 script:
   - ./gradlew build
 #  - ./gradlew :autodispose-android:connectedAndroidTest -PdisablePreDex --continue --stacktrace
+#  - ./gradlew :autodispose-android-archcomponents:connectedAndroidTest -PdisablePreDex --continue --stacktrace
 
 #after_success:
 #  - .buildscript/deploy_snapshot.sh

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (c) 2017. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.android;
+package com.uber.autodispose.android.internal;
 
 import android.os.Build;
 import android.os.Looper;
@@ -22,10 +22,11 @@ import android.support.annotation.RestrictTo;
 import android.view.View;
 
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
-@RestrictTo(LIBRARY)
-class AutoDisposeAndroidUtil {
-  static boolean isMainThread() {
+@RestrictTo(LIBRARY_GROUP)
+public class AutoDisposeAndroidUtil {
+  public static boolean isMainThread() {
     try {
       return Looper.myLooper() == Looper.getMainLooper();
     } catch (Exception e) {
@@ -34,7 +35,7 @@ class AutoDisposeAndroidUtil {
     }
   }
 
-  static boolean isAttached(View view) {
+  public static boolean isAttached(View view) {
     return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
         || view.getWindowToken() != null;
   }

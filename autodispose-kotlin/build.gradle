@@ -10,8 +10,7 @@ dependencies {
   compile deps.kotlin.stdlib
   compile project(':autodispose')
 
-  testCompile deps.test.junit
-  testCompile deps.test.truth
+  testCompile project(':test-utils')
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

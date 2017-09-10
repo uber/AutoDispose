@@ -20,10 +20,12 @@ import android.app.Instrumentation;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import com.uber.autodispose.ObservableScoper;
 import com.uber.autodispose.OutsideLifecycleException;
+import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 import org.junit.Before;
@@ -34,6 +36,12 @@ import org.junit.runner.RunWith;
 import static com.google.common.truth.Truth.assertThat;
 
 @RunWith(AndroidJUnit4.class) public final class ViewScopeProviderTest {
+
+  private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
+    @Override public void log(String message) {
+      Log.d(ViewScopeProviderTest.class.getSimpleName(), message);
+    }
+  };
 
   @Rule public final ActivityTestRule<AutoDisposeTestActivity> activityRule =
       new ActivityTestRule<>(AutoDisposeTestActivity.class);
@@ -49,7 +57,7 @@ import static com.google.common.truth.Truth.assertThat;
   }
 
   @Test public void observable_normal() {
-    final RecordingObserver<Integer> o = new RecordingObserver<>();
+    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Attach it
@@ -86,9 +94,8 @@ import static com.google.common.truth.Truth.assertThat;
     d.dispose();
   }
 
-  @Test
-  public void observable_offMainThread_shouldFail() {
-    RecordingObserver<Integer> o = new RecordingObserver<>();
+  @Test public void observable_offMainThread_shouldFail() {
+    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> subject = PublishSubject.create();
 
     // Attach it
@@ -109,7 +116,7 @@ import static com.google.common.truth.Truth.assertThat;
   }
 
   @Test public void observable_offBeforeAttach_shouldFail() {
-    final RecordingObserver<Integer> o = new RecordingObserver<>();
+    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     instrumentation.runOnMainSync(new Runnable() {
@@ -127,7 +134,7 @@ import static com.google.common.truth.Truth.assertThat;
   }
 
   @Test public void observable_offAfterDetach_shouldFail() {
-    final RecordingObserver<Integer> o = new RecordingObserver<>();
+    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     instrumentation.runOnMainSync(new Runnable() {

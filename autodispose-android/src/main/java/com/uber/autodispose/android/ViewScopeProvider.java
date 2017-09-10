@@ -19,6 +19,7 @@ package com.uber.autodispose.android;
 import android.view.View;
 import com.uber.autodispose.LifecycleScopeProvider;
 import com.uber.autodispose.OutsideLifecycleException;
+import com.uber.autodispose.android.internal.AutoDisposeAndroidUtil;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
