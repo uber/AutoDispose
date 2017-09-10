@@ -94,7 +94,7 @@ import static com.google.common.truth.Truth.assertThat;
     assertThat(d.isDisposed()).isTrue();
   }
 
-  @Test @UiThreadTest public void observable_offBeforeAttach_shouldFail() {
+  @Test @UiThreadTest public void observable_offBeforeCreate_shouldFail() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
@@ -109,7 +109,7 @@ import static com.google.common.truth.Truth.assertThat;
     assertThat(d.isDisposed()).isTrue();
   }
 
-  @Test @UiThreadTest public void observable_offAfterDetach_shouldFail() {
+  @Test @UiThreadTest public void observable_offAfterDestroy_shouldFail() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
