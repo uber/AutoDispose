@@ -45,12 +45,12 @@ sealed class LifecycleEvent {
 
 class AutoDisposeKotlinTest {
 
-  val o = TestObserver<String>()
-  val s = TestSubscriber<String>()
-  val scopeMaybe = MaybeSubject.create<Any>()
-  val scopeProvider = ScopeProvider { scopeMaybe }
-  val lifecycleEvents = BehaviorSubject.create<LifecycleEvent>()
-  val lifecycle = object : LifecycleScopeProvider<LifecycleEvent> {
+  private val o = TestObserver<String>()
+  private val s = TestSubscriber<String>()
+  private val scopeMaybe = MaybeSubject.create<Any>()
+  private val scopeProvider = ScopeProvider { scopeMaybe }
+  private val lifecycleEvents = BehaviorSubject.create<LifecycleEvent>()
+  private val lifecycle = object : LifecycleScopeProvider<LifecycleEvent> {
     override fun lifecycle(): Observable<LifecycleEvent> {
       return lifecycleEvents
     }
