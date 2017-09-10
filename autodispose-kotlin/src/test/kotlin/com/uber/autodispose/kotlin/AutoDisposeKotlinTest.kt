@@ -18,8 +18,8 @@ package com.uber.autodispose.kotlin
 
 import com.uber.autodispose.LifecycleEndedException
 import com.uber.autodispose.LifecycleNotStartedException
-import com.uber.autodispose.ScopeProvider
 import com.uber.autodispose.TestLifecycleScopeProvider
+import com.uber.autodispose.TestScopeProvider
 import io.reactivex.BackpressureStrategy.ERROR
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -39,7 +39,7 @@ class AutoDisposeKotlinTest {
   private val o = TestObserver<String>()
   private val s = TestSubscriber<String>()
   private val scopeMaybe = MaybeSubject.create<Any>()
-  private val scopeProvider = ScopeProvider { scopeMaybe }
+  private val scopeProvider = TestScopeProvider.create()
   private val lifecycleScopeProvider = TestLifecycleScopeProvider.create()
 
   @Test fun observable_maybeNormalCompletion() {
@@ -283,7 +283,7 @@ class AutoDisposeKotlinTest {
 
     o.assertValue { it == "Hello" }
 
-    scopeMaybe.onSuccess(Object())
+    scopeProvider.emit()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
