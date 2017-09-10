@@ -50,7 +50,7 @@ dependencies {
   compile deps.rx.android
   compile deps.support.annotations
   provided deps.misc.errorProneAnnotations
-  provided project(':autodispose-provided')
+  provided deps.misc.javaxExtras
   errorprone deps.build.errorProne
   androidTestCompile deps.support.annotations
   androidTestCompile deps.test.junit

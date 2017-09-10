@@ -36,7 +36,7 @@ test {
 dependencies {
   api deps.rx.java
   compileOnly deps.misc.errorProneAnnotations
-  compileOnly project(':autodispose-provided')
+  compileOnly deps.misc.javaxExtras
 
   errorprone deps.build.errorProne
 
