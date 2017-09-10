@@ -17,6 +17,6 @@
 /**
  * Android Architecture Components extensions for AutoDispose.
  */
-@com.uber.autodispose.internal.EverythingNonNullByDefault
+@com.uber.javaxextras.FieldsMethodsAndParametersAreNonNullByDefault
 package com.uber.autodispose.android.archcomponents;
 
