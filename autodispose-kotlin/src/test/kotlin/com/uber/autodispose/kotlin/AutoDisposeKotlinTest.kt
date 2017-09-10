@@ -279,11 +279,11 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(scopeProvider)
         .subscribe(o)
 
+    scopeProvider.emit()
+
     subject.onSuccess("Hello")
 
-    o.assertValue { it == "Hello" }
-
-    scopeProvider.emit()
+    o.assertNoValues()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
