@@ -46,6 +46,7 @@ android {
 
 dependencies {
   annotationProcessor deps.build.nullAway
+  testAnnotationProcessor deps.build.nullAway
   annotationProcessor deps.support.arch.lifecycle.compiler
 
   compile project(':autodispose-android')

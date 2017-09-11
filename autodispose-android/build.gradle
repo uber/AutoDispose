@@ -46,6 +46,7 @@ android {
 
 dependencies {
   annotationProcessor deps.build.nullAway
+  testAnnotationProcessor deps.build.nullAway
 
   compile project(':autodispose')
   compile deps.rx.java
