@@ -17,7 +17,7 @@
 def versions = [
     androidTest: '0.5',
     archComponents: '1.0.0-alpha8',
-    errorProne: '2.0.21',
+    errorProne: '2.1.1',
     kotlin: '1.1.4-2',
     support: '25.1.0'
 ]
@@ -28,7 +28,10 @@ def build = [
     ci: 'true' == System.getenv('CI'),
     minSdkVersion: 14,
     targetSdkVersion: 26,
+
+    checkerFramework: 'org.checkerframework:dataflow:2.1.14',
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
+    nullAway: 'com.uber.nullaway:nullaway:0.1.2',
 
     repositories: [
         plugins: 'https://plugins.gradle.org/m2/'
@@ -36,7 +39,8 @@ def build = [
 
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:2.3.0',
-        errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10',
+        apt: 'net.ltgt.gradle:gradle-apt-plugin:0.11',
+        errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.11',
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     ]
 ]
