@@ -45,17 +45,28 @@ android {
 }
 
 dependencies {
+  annotationProcessor deps.build.nullAway
+  testAnnotationProcessor deps.build.nullAway
+
   compile project(':autodispose')
   compile deps.rx.java
   compile deps.rx.android
   compile deps.support.annotations
+
   provided deps.misc.errorProneAnnotations
   provided deps.misc.javaxExtras
+
+  errorprone deps.build.checkerFramework
   errorprone deps.build.errorProne
+
   androidTestCompile project(':test-utils')
   androidTestCompile deps.support.annotations
   androidTestCompile deps.test.androidRunner
   androidTestCompile deps.test.androidRules
+}
+
+tasks.withType(JavaCompile) {
+  options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

@@ -45,6 +45,8 @@ android {
 }
 
 dependencies {
+  annotationProcessor deps.build.nullAway
+  testAnnotationProcessor deps.build.nullAway
   annotationProcessor deps.support.arch.lifecycle.compiler
 
   compile project(':autodispose-android')
@@ -53,11 +55,20 @@ dependencies {
 
   provided deps.misc.errorProneAnnotations
   provided deps.misc.javaxExtras
+
+  errorprone deps.build.checkerFramework
   errorprone deps.build.errorProne
 
   androidTestCompile project(':test-utils')
   androidTestCompile deps.test.androidRunner
   androidTestCompile deps.test.androidRules
+}
+
+tasks.withType(JavaCompile) {
+  options.compilerArgs += ["-Xep:NullAway:ERROR",
+                           "-XepOpt:NullAway:AnnotatedPackages=com.uber",
+                           // Because arch components doesn't generate @Override
+                           "-Xep:MissingOverride:OFF"]
 }
 
 // Disable for now until we're ready to release this
