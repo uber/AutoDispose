@@ -18,19 +18,15 @@ package com.uber.autodispose.kotlin
 
 import com.uber.autodispose.LifecycleEndedException
 import com.uber.autodispose.LifecycleNotStartedException
-import com.uber.autodispose.LifecycleScopeProvider
-import com.uber.autodispose.ScopeProvider
-import com.uber.autodispose.kotlin.LifecycleEvent.End
-import com.uber.autodispose.kotlin.LifecycleEvent.Start
+import com.uber.autodispose.TestLifecycleScopeProvider
+import com.uber.autodispose.TestScopeProvider
 import io.reactivex.BackpressureStrategy.ERROR
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.functions.Function
 import io.reactivex.observers.TestObserver
-import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.CompletableSubject
 import io.reactivex.subjects.MaybeSubject
 import io.reactivex.subjects.PublishSubject
@@ -38,36 +34,13 @@ import io.reactivex.subjects.SingleSubject
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.Test
 
-sealed class LifecycleEvent {
-  class Start: LifecycleEvent()
-  class End: LifecycleEvent()
-}
-
 class AutoDisposeKotlinTest {
 
-  val o = TestObserver<String>()
-  val s = TestSubscriber<String>()
-  val scopeMaybe = MaybeSubject.create<Any>()
-  val scopeProvider = ScopeProvider { scopeMaybe }
-  val lifecycleEvents = BehaviorSubject.create<LifecycleEvent>()
-  val lifecycle = object : LifecycleScopeProvider<LifecycleEvent> {
-    override fun lifecycle(): Observable<LifecycleEvent> {
-      return lifecycleEvents
-    }
-
-    override fun peekLifecycle(): LifecycleEvent? {
-      return lifecycleEvents.value
-    }
-
-    override fun correspondingEvents(): Function<LifecycleEvent, LifecycleEvent> {
-      return Function {
-        when (it) {
-          is Start -> End()
-          is End -> throw LifecycleEndedException()
-        }
-      }
-    }
-  }
+  private val o = TestObserver<String>()
+  private val s = TestSubscriber<String>()
+  private val scopeMaybe = MaybeSubject.create<Any>()
+  private val scopeProvider = TestScopeProvider.create()
+  private val lifecycleScopeProvider = TestLifecycleScopeProvider.create()
 
   @Test fun observable_maybeNormalCompletion() {
     Observable.just("Hello")
@@ -123,16 +96,16 @@ class AutoDisposeKotlinTest {
 
   @Test fun observable_lifecycleNotStarted() {
     Observable.just("Hello")
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun observable_lifecycleNormalCompletion() {
-    lifecycleEvents.onNext(Start())
+    lifecycleScopeProvider.start()
     Observable.just("Hello")
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertValue { it == "Hello" }
@@ -140,17 +113,17 @@ class AutoDisposeKotlinTest {
   }
 
   @Test fun observable_lifecycleNormalInterrupted() {
-    lifecycleEvents.onNext(Start())
+    lifecycleScopeProvider.start()
     val subject = PublishSubject.create<String>()
     subject
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     subject.onNext("Hello")
 
     o.assertValue { it == "Hello" }
 
-    lifecycleEvents.onNext(End())
+    lifecycleScopeProvider.stop()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
@@ -158,10 +131,10 @@ class AutoDisposeKotlinTest {
   }
 
   @Test fun observable_lifecycleEnded() {
-    lifecycleEvents.onNext(Start())
-    lifecycleEvents.onNext(End())
+    lifecycleScopeProvider.start()
+    lifecycleScopeProvider.stop()
     Observable.just("Hello")
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleEndedException }
@@ -221,16 +194,16 @@ class AutoDisposeKotlinTest {
 
   @Test fun flowable_lifecycleNotStarted() {
     Flowable.just("Hello")
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(s)
 
     s.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun flowable_lifecycleNormalCompletion() {
-    lifecycleEvents.onNext(Start())
+    lifecycleScopeProvider.start()
     Flowable.just("Hello")
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(s)
 
     s.assertValue { it == "Hello" }
@@ -238,17 +211,17 @@ class AutoDisposeKotlinTest {
   }
 
   @Test fun flowable_lifecycleNormalInterrupted() {
-    lifecycleEvents.onNext(Start())
+    lifecycleScopeProvider.start()
     val subject = PublishSubject.create<String>()
     subject.toFlowable(ERROR)
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(s)
 
     subject.onNext("Hello")
 
     s.assertValue { it == "Hello" }
 
-    lifecycleEvents.onNext(End())
+    lifecycleScopeProvider.stop()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(s.isDisposed).isTrue()
@@ -256,10 +229,10 @@ class AutoDisposeKotlinTest {
   }
 
   @Test fun flowable_lifecycleEnded() {
-    lifecycleEvents.onNext(Start())
-    lifecycleEvents.onNext(End())
+    lifecycleScopeProvider.start()
+    lifecycleScopeProvider.stop()
     Flowable.just("Hello")
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(s)
 
     s.assertError { it is LifecycleEndedException }
@@ -306,11 +279,11 @@ class AutoDisposeKotlinTest {
         .autoDisposeWith(scopeProvider)
         .subscribe(o)
 
+    scopeProvider.emit()
+
     subject.onSuccess("Hello")
 
-    o.assertValue { it == "Hello" }
-
-    scopeMaybe.onSuccess(Object())
+    o.assertNoValues()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
@@ -319,16 +292,16 @@ class AutoDisposeKotlinTest {
 
   @Test fun maybe_lifecycleNotStarted() {
     Maybe.just("Hello")
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun maybe_lifecycleNormalCompletion() {
-    lifecycleEvents.onNext(Start())
+    lifecycleScopeProvider.start()
     Maybe.just("Hello")
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertValue { it == "Hello" }
@@ -336,13 +309,13 @@ class AutoDisposeKotlinTest {
   }
 
   @Test fun maybe_lifecycleNormalInterrupted() {
-    lifecycleEvents.onNext(Start())
+    lifecycleScopeProvider.start()
     val subject = PublishSubject.create<String>()
     subject
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
-    lifecycleEvents.onNext(End())
+    lifecycleScopeProvider.stop()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
@@ -350,10 +323,10 @@ class AutoDisposeKotlinTest {
   }
 
   @Test fun maybe_lifecycleEnded() {
-    lifecycleEvents.onNext(Start())
-    lifecycleEvents.onNext(End())
+    lifecycleScopeProvider.start()
+    lifecycleScopeProvider.stop()
     Maybe.just("Hello")
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleEndedException }
@@ -413,16 +386,16 @@ class AutoDisposeKotlinTest {
 
   @Test fun single_lifecycleNotStarted() {
     Single.just("Hello")
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun single_lifecycleNormalCompletion() {
-    lifecycleEvents.onNext(Start())
+    lifecycleScopeProvider.start()
     Single.just("Hello")
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertValue { it == "Hello" }
@@ -430,13 +403,13 @@ class AutoDisposeKotlinTest {
   }
 
   @Test fun single_lifecycleNormalInterrupted() {
-    lifecycleEvents.onNext(Start())
+    lifecycleScopeProvider.start()
     val subject = PublishSubject.create<String>()
     subject
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
-    lifecycleEvents.onNext(End())
+    lifecycleScopeProvider.stop()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
@@ -444,10 +417,10 @@ class AutoDisposeKotlinTest {
   }
 
   @Test fun single_lifecycleEnded() {
-    lifecycleEvents.onNext(Start())
-    lifecycleEvents.onNext(End())
+    lifecycleScopeProvider.start()
+    lifecycleScopeProvider.stop()
     Single.just("Hello")
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleEndedException }
@@ -503,29 +476,29 @@ class AutoDisposeKotlinTest {
 
   @Test fun completable_lifecycleNotStarted() {
     Completable.complete()
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun completable_lifecycleNormalCompletion() {
-    lifecycleEvents.onNext(Start())
+    lifecycleScopeProvider.start()
     Completable.complete()
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertComplete()
   }
 
   @Test fun completable_lifecycleNormalInterrupted() {
-    lifecycleEvents.onNext(Start())
+    lifecycleScopeProvider.start()
     val subject = CompletableSubject.create()
     subject
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
-    lifecycleEvents.onNext(End())
+    lifecycleScopeProvider.stop()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
@@ -533,10 +506,10 @@ class AutoDisposeKotlinTest {
   }
 
   @Test fun completable_lifecycleEnded() {
-    lifecycleEvents.onNext(Start())
-    lifecycleEvents.onNext(End())
+    lifecycleScopeProvider.start()
+    lifecycleScopeProvider.stop()
     Completable.complete()
-        .autoDisposeWith(lifecycle)
+        .autoDisposeWith(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleEndedException }
