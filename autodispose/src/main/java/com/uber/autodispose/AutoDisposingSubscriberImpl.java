@@ -70,8 +70,10 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
    * @param n the request amount, positive
    */
   @Override public void request(long n) {
-    mainSubscription.get()
-        .request(n);
+    Subscription s = mainSubscription.get();
+    if (s != null) {
+      s.request(n);
+    }
   }
 
   /**
