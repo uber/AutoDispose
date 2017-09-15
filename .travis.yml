@@ -22,7 +22,9 @@ jdk:
 #  - adb shell input keyevent 82
 
 script:
-  - ./gradlew build
+  - echo $ANDROID_HOME
+  - echo $ANDROID_SDK
+#  - ./gradlew build
 #  - ./gradlew :autodispose-android:connectedAndroidTest -PdisablePreDex --continue --stacktrace
 #  - ./gradlew :autodispose-android-archcomponents:connectedAndroidTest -PdisablePreDex --continue --stacktrace
 
