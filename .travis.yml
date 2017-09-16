@@ -15,9 +15,9 @@ jdk:
 
 before_script:
   # Create and start an emulator for instrumentation tests.
-  - echo no | $ANDROID_HOME/tools/bin/avdmanager create avd -f -n test -k "system-images;android-18;google_apis;x86"
-  - $ANDROID_HOME/tools/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
-  - $ANDROID_HOME/platform-tools/adb shell input keyevent 82
+  - echo no | ${ANDROID_HOME}tools/bin/avdmanager create avd -f -n test -k "system-images;android-18;google_apis;x86"
+  - ${ANDROID_HOME}tools/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
+  - ${ANDROID_HOME}platform-tools/adb shell input keyevent 82
 
 script:
   - ./gradlew build
