@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
+@SuppressWarnings("NullAway") // https://github.com/uber/NullAway/issues/19
 public final class AutoDisposeTestActivity extends Activity {
   FrameLayout parent;
   View child;

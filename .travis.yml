@@ -1,30 +1,34 @@
 language: android
-dist: trusty
 
 android:
   components:
-    - tools                             # Tools
-    - platform-tools                    # Platform tools
-    - build-tools-26.0.1                # Build tools version
-    - android-26                        # Target SDK version
-    - extra-android-m2repository        # Support repo
-    - sys-img-x86-android-18            # Emulator
+    # Update tools and then platform-tools explicitly so lint gets an updated database. Can be removed once 3.0 is out.
+    - tools
+    - platform-tools
 
 jdk:
   - oraclejdk8
 
-# Disabled, see https://github.com/uber/AutoDispose/issues/81
-#before_script:
-#  # Create and start an emulator for instrumentation tests.
-#  - echo no | avdmanager create avd -f -n test -k "system-images;android-18;google_apis;x86"
-#  - emulator -avd test -no-audio -no-window &
-#  - android-wait-for-emulator
-#  - adb shell input keyevent 82
+before_install:
+  # Install SDK license so Android Gradle plugin can install deps.
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo "$LICENSES_SHA" > "$ANDROID_HOME/licenses/android-sdk-license"
+  # Install the rest of tools (e.g., avdmanager)
+  - sdkmanager tools
+  # Install the system image
+  - sdkmanager "system-images;android-18;default;armeabi-v7a"
+  # Create and start emulator for the script. Meant to race the install task.
+  - echo no | avdmanager create avd --force -n test -k "system-images;android-18;default;armeabi-v7a"
+  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
+
+install: ./gradlew clean assemble assembleAndroidTest --stacktrace
+
+before_script:
+  - android-wait-for-emulator
+  - adb shell input keyevent 82
 
 script:
-  - ./gradlew build
-#  - ./gradlew :autodispose-android:connectedAndroidTest -PdisablePreDex --continue --stacktrace
-#  - ./gradlew :autodispose-android-archcomponents:connectedAndroidTest -PdisablePreDex --continue --stacktrace
+  - ./gradlew check connectedCheck --stacktrace
 
 #after_success:
 #  - .buildscript/deploy_snapshot.sh
