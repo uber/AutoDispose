@@ -49,7 +49,6 @@ public final class AndroidLifecycleScopeProvider
             case ON_PAUSE:
               return Lifecycle.Event.ON_STOP;
             case ON_STOP:
-              return Lifecycle.Event.ON_DESTROY;
             case ON_DESTROY:
             default:
               throw new LifecycleEndedException();

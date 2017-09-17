@@ -130,6 +130,26 @@ import static com.google.common.truth.Truth.assertThat;
     assertThat(d.isDisposed()).isTrue();
   }
 
+  @Test @UiThreadTest public void observable_offAfterStop_shouldFail() {
+    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
+    final PublishSubject<Integer> subject = PublishSubject.create();
+
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
+    lifecycle.emit(Lifecycle.Event.ON_CREATE);
+    lifecycle.emit(Lifecycle.Event.ON_START);
+    lifecycle.emit(Lifecycle.Event.ON_RESUME);
+    lifecycle.emit(Lifecycle.Event.ON_PAUSE);
+    lifecycle.emit(Lifecycle.Event.ON_STOP);
+    subject.to(new ObservableScoper<Integer>(AndroidLifecycleScopeProvider.from(lifecycle)))
+        .subscribe(o);
+
+    Disposable d = o.takeSubscribe();
+    Throwable t = o.takeError();
+    assertThat(t).isInstanceOf(LifecycleEndedException.class);
+    o.assertNoMoreEvents();
+    assertThat(d.isDisposed()).isTrue();
+  }
+
   private static class UninitializedLifecycleOwner implements LifecycleRegistryOwner {
 
     LifecycleRegistry registry = new LifecycleRegistry(this);
