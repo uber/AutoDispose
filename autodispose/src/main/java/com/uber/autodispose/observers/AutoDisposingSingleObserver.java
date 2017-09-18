@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.observers;
 
+import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 
@@ -23,4 +24,11 @@ import io.reactivex.disposables.Disposable;
  * A {@link Disposable} {@link SingleObserver} that can automatically dispose itself.
  * Interface here for type safety but enforcement is left to the implementation.
  */
-public interface AutoDisposingSingleObserver<T> extends SingleObserver<T>, Disposable {}
+public interface AutoDisposingSingleObserver<T> extends SingleObserver<T>, Disposable {
+
+    /**
+     * @return {@link SingleObserver} The delegate SingleObserver that is used under the hood for introspection
+     * purposes.
+     */
+    SingleObserver<? super T> delegateObserver();
+}

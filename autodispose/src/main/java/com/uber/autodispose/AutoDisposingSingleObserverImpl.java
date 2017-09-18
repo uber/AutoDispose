@@ -18,6 +18,7 @@ package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingSingleObserver;
 import io.reactivex.Maybe;
+import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
@@ -35,6 +36,10 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
   AutoDisposingSingleObserverImpl(Maybe<?> lifecycle, SingleObserver<? super T> delegate) {
     this.lifecycle = lifecycle;
     this.delegate = delegate;
+  }
+
+  @Override public SingleObserver<? super T> delegateObserver() {
+    return delegate;
   }
 
   @Override public void onSubscribe(final Disposable d) {
