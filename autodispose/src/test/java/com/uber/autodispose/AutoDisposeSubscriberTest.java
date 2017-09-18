@@ -16,27 +16,40 @@
 
 package com.uber.autodispose;
 
+import com.uber.autodispose.observers.AutoDisposingSubscriber;
+
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Maybe;
+import io.reactivex.MaybeObserver;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
+import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subscribers.TestSubscriber;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import org.reactivestreams.Subscriber;
+
 import org.junit.After;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
 public class AutoDisposeSubscriberTest {
+
+  private final AtomicReference<Subscriber> atomicSubscriber = new AtomicReference<>();
+  private final AtomicReference<Subscriber> atomicAutoDisposingSubscriber = new AtomicReference<>();
 
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();
@@ -261,6 +274,33 @@ public class AutoDisposeSubscriberTest {
             && throwable.getCause() instanceof OutsideLifecycleException;
       }
     });
+  }
+
+  @Test public void verifySubscriberDelegate() {
+    try {
+      RxJavaPlugins.setOnFlowableSubscribe(new BiFunction<Flowable, Subscriber, Subscriber>() {
+        @Override public Subscriber apply(Flowable source, Subscriber subscriber) {
+          if (atomicSubscriber.get() == null) {
+            System.out.println(subscriber.getClass().toString());
+            atomicSubscriber.set(subscriber);
+          } else if (atomicAutoDisposingSubscriber.get() == null) {
+            System.out.println(subscriber.getClass().toString());
+            atomicAutoDisposingSubscriber.set(subscriber);
+            RxJavaPlugins.setOnFlowableSubscribe(null);
+          }
+          return subscriber;
+        }
+      });
+      Flowable.just(1).to(new FlowableScoper<Integer>(Maybe.never())).subscribe();
+
+      assertThat(atomicAutoDisposingSubscriber.get()).isNotNull();
+      assertThat(atomicAutoDisposingSubscriber.get()).isInstanceOf(AutoDisposingSubscriber.class);
+      assertThat(((AutoDisposingSubscriber)atomicAutoDisposingSubscriber.get()).delegateSubscriber()).isNotNull();
+      assertThat(((AutoDisposingSubscriber)atomicAutoDisposingSubscriber.get()).delegateSubscriber())
+              .isEqualTo(atomicSubscriber.get());
+    } finally {
+      RxJavaPlugins.reset();
+    }
   }
 
   @Test public void verifyCancellation() throws Exception {
