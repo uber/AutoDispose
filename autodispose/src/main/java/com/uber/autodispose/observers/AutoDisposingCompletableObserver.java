@@ -17,10 +17,17 @@
 package com.uber.autodispose.observers;
 
 import io.reactivex.CompletableObserver;
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 /**
  * A {@link Disposable} {@link CompletableObserver} that can automatically dispose itself.
  * Interface here for type safety but enforcement is left to the implementation.
  */
-public interface AutoDisposingCompletableObserver extends CompletableObserver, Disposable {}
+public interface AutoDisposingCompletableObserver extends CompletableObserver, Disposable {
+
+    /**
+     * @return {@link Observer} The delegate Observer that is used under the hood for introspection purposes.
+     */
+    CompletableObserver delegateObserver();
+}

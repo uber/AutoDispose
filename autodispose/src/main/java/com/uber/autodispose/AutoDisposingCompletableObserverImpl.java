@@ -19,6 +19,7 @@ package com.uber.autodispose;
 import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Maybe;
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.functions.BiConsumer;
@@ -35,6 +36,10 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
   AutoDisposingCompletableObserverImpl(Maybe<?> lifecycle, CompletableObserver delegate) {
     this.lifecycle = lifecycle;
     this.delegate = delegate;
+  }
+
+  @Override public CompletableObserver delegateObserver() {
+    return delegate;
   }
 
   @Override public void onSubscribe(final Disposable d) {

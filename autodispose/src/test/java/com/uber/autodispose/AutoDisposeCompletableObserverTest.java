@@ -17,17 +17,27 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.test.RecordingObserver;
+import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
+
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableObserver;
 import io.reactivex.CompletableOnSubscribe;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
+import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.MaybeSubject;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.junit.After;
 import org.junit.Test;
 
@@ -36,6 +46,9 @@ import static com.uber.autodispose.TestUtil.makeLifecycleProvider;
 import static com.uber.autodispose.TestUtil.makeProvider;
 
 public class AutoDisposeCompletableObserverTest {
+
+  private final AtomicReference<CompletableObserver> atomicObserver = new AtomicReference<>();
+  private final AtomicReference<CompletableObserver> atomicAutoDisposingObserver = new AtomicReference<>();
 
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
     @Override public void log(String message) {
@@ -273,6 +286,31 @@ public class AutoDisposeCompletableObserverTest {
             && throwable.getCause() instanceof OutsideLifecycleException;
       }
     });
+  }
+
+  @Test public void verifyObserverDelegate() {
+    try {
+      RxJavaPlugins.setOnCompletableSubscribe(new BiFunction<Completable, CompletableObserver, CompletableObserver>() {
+        @Override public CompletableObserver apply(Completable source, CompletableObserver observer) {
+          if (atomicObserver.get() == null) {
+            atomicObserver.set(observer);
+          } else if (atomicAutoDisposingObserver.get() == null) {
+            atomicAutoDisposingObserver.set(observer);
+            RxJavaPlugins.setOnObservableSubscribe(null);
+          }
+          return observer;
+        }
+      });
+      Completable.complete().to(new CompletableScoper(Maybe.never())).subscribe();
+
+      assertThat(atomicAutoDisposingObserver.get()).isNotNull();
+      assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingCompletableObserver.class);
+      assertThat(((AutoDisposingCompletableObserver)atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
+      assertThat(((AutoDisposingCompletableObserver)atomicAutoDisposingObserver.get()).delegateObserver())
+              .isEqualTo(atomicObserver.get());
+    } finally {
+      RxJavaPlugins.reset();
+    }
   }
 
   @Test public void verifyCancellation() throws Exception {
