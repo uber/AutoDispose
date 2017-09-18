@@ -19,6 +19,7 @@ package com.uber.autodispose;
 import com.uber.autodispose.observers.AutoDisposingMaybeObserver;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.functions.BiConsumer;
@@ -35,6 +36,10 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
   AutoDisposingMaybeObserverImpl(Maybe<?> lifecycle, MaybeObserver<? super T> delegate) {
     this.lifecycle = lifecycle;
     this.delegate = delegate;
+  }
+
+  @Override public MaybeObserver<? super T> delegateObserver() {
+    return delegate;
   }
 
   @Override public void onSubscribe(final Disposable d) {

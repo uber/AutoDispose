@@ -17,16 +17,26 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.test.RecordingObserver;
+import com.uber.autodispose.observers.AutoDisposingMaybeObserver;
+
+import io.reactivex.CompletableObserver;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeEmitter;
+import io.reactivex.MaybeObserver;
 import io.reactivex.MaybeOnSubscribe;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
+import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.junit.After;
 import org.junit.Test;
 
@@ -41,6 +51,10 @@ public class AutoDisposeMaybeObserverTest {
       System.out.println(AutoDisposeMaybeObserverTest.class.getSimpleName() + ": " + message);
     }
   };
+
+  private final AtomicReference<MaybeObserver> atomicObserver = new AtomicReference<>();
+  private final AtomicReference<MaybeObserver> atomicAutoDisposingObserver = new AtomicReference<>();
+
 
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();
@@ -319,6 +333,31 @@ public class AutoDisposeMaybeObserverTest {
             && throwable.getCause() instanceof OutsideLifecycleException;
       }
     });
+  }
+
+  @Test public void verifyObserverDelegate() {
+    try {
+      RxJavaPlugins.setOnMaybeSubscribe(new BiFunction<Maybe, MaybeObserver, MaybeObserver>() {
+        @Override public MaybeObserver apply(Maybe source, MaybeObserver observer) {
+          if (atomicObserver.get() == null) {
+            atomicObserver.set(observer);
+          } else if (atomicAutoDisposingObserver.get() == null) {
+            atomicAutoDisposingObserver.set(observer);
+            RxJavaPlugins.setOnObservableSubscribe(null);
+          }
+          return observer;
+        }
+      });
+      Maybe.just(1).to(new MaybeScoper<Integer>(Maybe.never())).subscribe();
+
+      assertThat(atomicAutoDisposingObserver.get()).isNotNull();
+      assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingMaybeObserver.class);
+      assertThat(((AutoDisposingMaybeObserver)atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
+      assertThat(((AutoDisposingMaybeObserver)atomicAutoDisposingObserver.get()).delegateObserver())
+              .isEqualTo(atomicObserver.get());
+    } finally {
+      RxJavaPlugins.reset();
+    }
   }
 
   @Test public void verifyCancellation() throws Exception {
