@@ -23,4 +23,10 @@ import io.reactivex.disposables.Disposable;
  * A {@link Disposable} {@link Observer} that can automatically dispose itself.
  * Interface here for type safety but enforcement is left to the implementation.
  */
-public interface AutoDisposingObserver<T> extends Observer<T>, Disposable {}
+public interface AutoDisposingObserver<T> extends Observer<T>, Disposable {
+
+    /**
+     * @return {@link Observer} The delegate Observer that is used under the hood for introspection purposes.
+     */
+    Observer<? super T> delegateObserver();
+}
