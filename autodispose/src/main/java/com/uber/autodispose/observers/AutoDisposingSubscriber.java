@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.observers;
 
+import io.reactivex.FlowableSubscriber;
 import io.reactivex.disposables.Disposable;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -24,4 +25,4 @@ import org.reactivestreams.Subscription;
  * A {@link Disposable} {@link Subscriber} that can automatically dispose itself. Interface here
  * for type safety but enforcement is left to the implementation.
  */
-public interface AutoDisposingSubscriber<T> extends Subscriber<T>, Subscription, Disposable {}
+public interface AutoDisposingSubscriber<T> extends FlowableSubscriber<T>, Subscription, Disposable {}
