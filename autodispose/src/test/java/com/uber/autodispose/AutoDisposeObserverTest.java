@@ -42,14 +42,14 @@ import static com.google.common.truth.Truth.assertThat;
 
 public class AutoDisposeObserverTest {
 
-  private final AtomicReference<Observer> atomicObserver = new AtomicReference();
-  private final AtomicReference<Observer> atomicAutoDisposingObserver = new AtomicReference<>();
-
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
     @Override public void log(String message) {
       System.out.println(AutoDisposeObserverTest.class.getSimpleName() + ": " + message);
     }
   };
+
+  private final AtomicReference<Observer> atomicObserver = new AtomicReference();
+  private final AtomicReference<Observer> atomicAutoDisposingObserver = new AtomicReference<>();
 
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();

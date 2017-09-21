@@ -47,14 +47,14 @@ import static com.uber.autodispose.TestUtil.makeProvider;
 
 public class AutoDisposeCompletableObserverTest {
 
-  private final AtomicReference<CompletableObserver> atomicObserver = new AtomicReference<>();
-  private final AtomicReference<CompletableObserver> atomicAutoDisposingObserver = new AtomicReference<>();
-
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
     @Override public void log(String message) {
       System.out.println(AutoDisposeCompletableObserverTest.class.getSimpleName() + ": " + message);
     }
   };
+
+  private final AtomicReference<CompletableObserver> atomicObserver = new AtomicReference<>();
+  private final AtomicReference<CompletableObserver> atomicAutoDisposingObserver = new AtomicReference<>();
 
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();
