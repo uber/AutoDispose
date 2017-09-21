@@ -138,4 +138,8 @@ public final class AutoDispose {
       return new CompletableScoper(scope);
     }
   }
+
+  private AutoDispose() {
+    throw new AssertionError("No instances");
+  }
 }
