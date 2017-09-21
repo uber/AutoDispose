@@ -17,6 +17,7 @@
 package com.uber.autodispose;
 
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -25,6 +26,8 @@ import io.reactivex.functions.Function;
 public final class AutoDispose {
 
   public interface ScopeHandler {
+    <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> flowable();
+
     <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> observable();
 
     <T> Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> maybe();
@@ -54,6 +57,10 @@ public final class AutoDispose {
       this.scope = scope;
     }
 
+    @Override public <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> flowable() {
+      return new FlowableScoper<>(scope);
+    }
+
     @Override
     public <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> observable() {
       return new ObservableScoper<>(scope);
@@ -80,6 +87,10 @@ public final class AutoDispose {
       this.scope = scope;
     }
 
+    @Override public <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> flowable() {
+      return new FlowableScoper<>(scope);
+    }
+
     @Override
     public <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> observable() {
       return new ObservableScoper<>(scope);
@@ -104,6 +115,10 @@ public final class AutoDispose {
 
     LifecycleScopeProviderHandlerImpl(LifecycleScopeProvider<?> scope) {
       this.scope = scope;
+    }
+
+    @Override public <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> flowable() {
+      return new FlowableScoper<>(scope);
     }
 
     @Override
