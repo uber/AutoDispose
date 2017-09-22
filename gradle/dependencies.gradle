@@ -16,7 +16,7 @@
 
 def versions = [
     androidTest: '0.5',
-    archComponents: '1.0.0-alpha8',
+    archComponents: '1.0.0-beta1',
     errorProne: '2.1.1',
     kotlin: '1.1.4-2',
     support: '25.1.0'
