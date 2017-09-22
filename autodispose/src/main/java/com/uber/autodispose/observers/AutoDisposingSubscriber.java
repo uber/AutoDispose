@@ -17,6 +17,7 @@
 package com.uber.autodispose.observers;
 
 import io.reactivex.FlowableSubscriber;
+import io.reactivex.annotations.Experimental;
 import io.reactivex.disposables.Disposable;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -30,7 +31,8 @@ public interface AutoDisposingSubscriber<T>
 
   /**
    * @return The delegate {@link Subscriber} that is used under the hood for introspection
-   * purposes.
+   * purposes. This will be updated once LambdaIntrospection is out of @Experimental in RxJava.
    */
+  @Experimental
   Subscriber<? super T> delegateSubscriber();
 }

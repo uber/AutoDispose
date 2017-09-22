@@ -17,6 +17,7 @@
 package com.uber.autodispose.observers;
 
 import io.reactivex.MaybeObserver;
+import io.reactivex.annotations.Experimental;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -27,7 +28,8 @@ public interface AutoDisposingMaybeObserver<T> extends MaybeObserver<T>, Disposa
 
   /**
    * @return The delegate {@link MayberObserver} that is used under the hood for introspection
-   * purposes.
+   * purposes. This will be updated once LambdaIntrospection is out of @Experimental in RxJava.
    */
+  @Experimental
   MaybeObserver<? super T> delegateObserver();
 }
