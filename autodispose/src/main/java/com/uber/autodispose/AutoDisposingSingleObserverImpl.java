@@ -37,6 +37,10 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
     this.delegate = delegate;
   }
 
+  @Override public SingleObserver<? super T> delegateObserver() {
+    return delegate;
+  }
+
   @Override public void onSubscribe(final Disposable d) {
     if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable,
         lifecycle.doOnEvent(new BiConsumer<Object, Throwable>() {

@@ -17,10 +17,19 @@
 package com.uber.autodispose.observers;
 
 import io.reactivex.SingleObserver;
+import io.reactivex.annotations.Experimental;
 import io.reactivex.disposables.Disposable;
 
 /**
  * A {@link Disposable} {@link SingleObserver} that can automatically dispose itself.
  * Interface here for type safety but enforcement is left to the implementation.
  */
-public interface AutoDisposingSingleObserver<T> extends SingleObserver<T>, Disposable {}
+public interface AutoDisposingSingleObserver<T> extends SingleObserver<T>, Disposable {
+
+  /**
+   * @return The delegate {@link SingleObserver} that is used under the hood for introspection
+   * purposes. This will be updated once LambdaIntrospection is out of @Experimental in RxJava.
+   */
+  @Experimental
+  SingleObserver<? super T> delegateObserver();
+}

@@ -17,10 +17,19 @@
 package com.uber.autodispose.observers;
 
 import io.reactivex.CompletableObserver;
+import io.reactivex.annotations.Experimental;
 import io.reactivex.disposables.Disposable;
 
 /**
  * A {@link Disposable} {@link CompletableObserver} that can automatically dispose itself.
  * Interface here for type safety but enforcement is left to the implementation.
  */
-public interface AutoDisposingCompletableObserver extends CompletableObserver, Disposable {}
+public interface AutoDisposingCompletableObserver extends CompletableObserver, Disposable {
+
+  /**
+   * @return The delegate {@link CompletableObserver} that is used under the hood forintrospection
+   * purposes. This will be updated once LambdaIntrospection is out of @Experimental in RxJava.
+   */
+  @Experimental
+  CompletableObserver delegateObserver();
+}

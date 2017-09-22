@@ -17,19 +17,24 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.test.RecordingObserver;
+import com.uber.autodispose.observers.AutoDisposingObserver;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
+import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subjects.PublishSubject;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import org.junit.After;
 import org.junit.Test;
 
@@ -254,6 +259,34 @@ public class AutoDisposeObserverTest {
             && throwable.getCause() instanceof OutsideLifecycleException;
       }
     });
+  }
+
+  @Test public void verifyObserverDelegate() {
+    final AtomicReference<Observer> atomicObserver = new AtomicReference();
+    final AtomicReference<Observer> atomicAutoDisposingObserver = new AtomicReference();
+    try {
+      RxJavaPlugins.setOnObservableSubscribe(new BiFunction<Observable, Observer, Observer>() {
+        @Override public Observer apply(Observable source, Observer observer) {
+          if (atomicObserver.get() == null) {
+            atomicObserver.set(observer);
+          } else if (atomicAutoDisposingObserver.get() == null) {
+            atomicAutoDisposingObserver.set(observer);
+            RxJavaPlugins.setOnObservableSubscribe(null);
+          }
+          return observer;
+        }
+      });
+      Observable.just(1).to(new ObservableScoper<Integer>(Maybe.never())).subscribe();
+
+      assertThat(atomicAutoDisposingObserver.get()).isNotNull();
+      assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingObserver.class);
+      assertThat(((AutoDisposingObserver) atomicAutoDisposingObserver.get()).delegateObserver())
+              .isNotNull();
+      assertThat(((AutoDisposingObserver) atomicAutoDisposingObserver.get()).delegateObserver())
+              .isSameAs(atomicObserver.get());
+    } finally {
+      RxJavaPlugins.reset();
+    }
   }
 
   @Test public void verifyCancellation() throws Exception {

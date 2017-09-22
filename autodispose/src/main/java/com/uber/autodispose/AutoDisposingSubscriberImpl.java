@@ -38,6 +38,10 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
     this.delegate = delegate;
   }
 
+  @Override public Subscriber<? super T> delegateSubscriber() {
+    return delegate;
+  }
+
   @Override public void onSubscribe(final Subscription s) {
     if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable,
         lifecycle.doOnEvent(new BiConsumer<Object, Throwable>() {

@@ -37,6 +37,10 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
     this.delegate = delegate;
   }
 
+  @Override public CompletableObserver delegateObserver() {
+    return delegate;
+  }
+
   @Override public void onSubscribe(final Disposable d) {
     if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable,
         lifecycle.doOnEvent(new BiConsumer<Object, Throwable>() {
