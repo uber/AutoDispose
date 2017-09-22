@@ -18,7 +18,6 @@ package com.uber.autodispose;
 
 import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.observers.AutoDisposingSingleObserver;
-
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
@@ -50,9 +49,6 @@ public class AutoDisposeSingleObserverTest {
       System.out.println(AutoDisposeSingleObserverTest.class.getSimpleName() + ": " + message);
     }
   };
-
-  private final AtomicReference<SingleObserver> atomicObserver = new AtomicReference<>();
-  private final AtomicReference<SingleObserver> atomicAutoDisposingObserver = new AtomicReference<>();
 
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();
@@ -303,6 +299,8 @@ public class AutoDisposeSingleObserverTest {
   }
 
   @Test public void verifyObserverDelegate() {
+    final AtomicReference<SingleObserver> atomicObserver = new AtomicReference<>();
+    final AtomicReference<SingleObserver> atomicAutoDisposingObserver = new AtomicReference<>();
     try {
       RxJavaPlugins.setOnSingleSubscribe(new BiFunction<Single, SingleObserver, SingleObserver>() {
         @Override public SingleObserver apply(Single source, SingleObserver observer) {

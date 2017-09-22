@@ -52,10 +52,6 @@ public class AutoDisposeMaybeObserverTest {
     }
   };
 
-  private final AtomicReference<MaybeObserver> atomicObserver = new AtomicReference<>();
-  private final AtomicReference<MaybeObserver> atomicAutoDisposingObserver = new AtomicReference<>();
-
-
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();
   }
@@ -336,6 +332,8 @@ public class AutoDisposeMaybeObserverTest {
   }
 
   @Test public void verifyObserverDelegate() {
+    final AtomicReference<MaybeObserver> atomicObserver = new AtomicReference<>();
+    final AtomicReference<MaybeObserver> atomicAutoDisposingObserver = new AtomicReference<>();
     try {
       RxJavaPlugins.setOnMaybeSubscribe(new BiFunction<Maybe, MaybeObserver, MaybeObserver>() {
         @Override public MaybeObserver apply(Maybe source, MaybeObserver observer) {

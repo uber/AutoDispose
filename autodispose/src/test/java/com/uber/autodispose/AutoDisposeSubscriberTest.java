@@ -48,9 +48,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 public class AutoDisposeSubscriberTest {
 
-  private final AtomicReference<Subscriber> atomicSubscriber = new AtomicReference<>();
-  private final AtomicReference<Subscriber> atomicAutoDisposingSubscriber = new AtomicReference<>();
-
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();
   }
@@ -277,6 +274,8 @@ public class AutoDisposeSubscriberTest {
   }
 
   @Test public void verifySubscriberDelegate() {
+    final AtomicReference<Subscriber> atomicSubscriber = new AtomicReference<>();
+    final AtomicReference<Subscriber> atomicAutoDisposingSubscriber = new AtomicReference<>();
     try {
       RxJavaPlugins.setOnFlowableSubscribe(new BiFunction<Flowable, Subscriber, Subscriber>() {
         @Override public Subscriber apply(Flowable source, Subscriber subscriber) {

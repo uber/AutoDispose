@@ -53,9 +53,6 @@ public class AutoDisposeCompletableObserverTest {
     }
   };
 
-  private final AtomicReference<CompletableObserver> atomicObserver = new AtomicReference<>();
-  private final AtomicReference<CompletableObserver> atomicAutoDisposingObserver = new AtomicReference<>();
-
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();
   }
@@ -289,6 +286,8 @@ public class AutoDisposeCompletableObserverTest {
   }
 
   @Test public void verifyObserverDelegate() {
+    final AtomicReference<CompletableObserver> atomicObserver = new AtomicReference<>();
+    final AtomicReference<CompletableObserver> atomicAutoDisposingObserver = new AtomicReference<>();
     try {
       RxJavaPlugins.setOnCompletableSubscribe(new BiFunction<Completable, CompletableObserver, CompletableObserver>() {
         @Override public CompletableObserver apply(Completable source, CompletableObserver observer) {

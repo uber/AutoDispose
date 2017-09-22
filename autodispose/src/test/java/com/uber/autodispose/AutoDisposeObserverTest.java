@@ -48,9 +48,6 @@ public class AutoDisposeObserverTest {
     }
   };
 
-  private final AtomicReference<Observer> atomicObserver = new AtomicReference();
-  private final AtomicReference<Observer> atomicAutoDisposingObserver = new AtomicReference<>();
-
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();
   }
@@ -265,6 +262,8 @@ public class AutoDisposeObserverTest {
   }
 
   @Test public void verifyObserverDelegate() {
+    final AtomicReference<Observer> atomicObserver = new AtomicReference();
+    final AtomicReference<Observer> atomicAutoDisposingObserver = new AtomicReference();
     try {
       RxJavaPlugins.setOnObservableSubscribe(new BiFunction<Observable, Observer, Observer>() {
         @Override public Observer apply(Observable source, Observer observer) {
