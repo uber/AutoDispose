@@ -162,7 +162,7 @@ public class AutoDisposeObserverTest {
     lifecycle.onNext(1);
     source.onNext(2);
 
-    assertThat(source.hasObservers()).isTrue();Å
+    assertThat(source.hasObservers()).isTrue();
     assertThat(lifecycle.hasObservers()).isTrue();
     assertThat(o.takeNext()).isEqualTo(2);
 
