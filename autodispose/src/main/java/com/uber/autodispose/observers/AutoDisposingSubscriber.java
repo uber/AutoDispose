@@ -25,10 +25,12 @@ import org.reactivestreams.Subscription;
  * A {@link Disposable} {@link Subscriber} that can automatically dispose itself. Interface here
  * for type safety but enforcement is left to the implementation.
  */
-public interface AutoDisposingSubscriber<T> extends FlowableSubscriber<T>, Subscription, Disposable {
+public interface AutoDisposingSubscriber<T>
+        extends FlowableSubscriber<T>, Subscription, Disposable {
 
-    /**
-     * @return The delegate {@link Subscriber} that is used under the hood for introspection purposes.
-     */
-    Subscriber<? super T> delegateSubscriber();
+  /**
+   * @return The delegate {@link Subscriber} that is used under the hood for introspection
+   * purposes.
+   */
+  Subscriber<? super T> delegateSubscriber();
 }

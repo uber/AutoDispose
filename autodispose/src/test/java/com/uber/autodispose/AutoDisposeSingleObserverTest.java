@@ -18,6 +18,7 @@ package com.uber.autodispose;
 
 import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.observers.AutoDisposingSingleObserver;
+
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
@@ -32,6 +33,7 @@ import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subjects.SingleSubject;
+
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -45,16 +47,19 @@ import static com.uber.autodispose.TestUtil.makeProvider;
 public class AutoDisposeSingleObserverTest {
 
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
-    @Override public void log(String message) {
+    @Override
+    public void log(String message) {
       System.out.println(AutoDisposeSingleObserverTest.class.getSimpleName() + ": " + message);
     }
   };
 
-  @After public void resetPlugins() {
+  @After
+  public void resetPlugins() {
     AutoDisposePlugins.reset();
   }
 
-  @Test public void autoDispose_withMaybe_normal() {
+  @Test
+  public void autoDispose_withMaybe_normal() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
@@ -75,23 +80,27 @@ public class AutoDisposeSingleObserverTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
+  @Test
+  public void autoDispose_withSuperClassGenerics_compilesFine() {
     Single.just(new BClass())
         .to(new SingleScoper<AClass>(Maybe.never()))
         .subscribe(new Consumer<AClass>() {
-          @Override public void accept(AClass aClass) throws Exception {
+          @Override
+          public void accept(AClass aClass) throws Exception {
 
           }
         });
   }
 
-  @Test public void autoDispose_noGenericsOnEmpty_isFine() {
+  @Test
+  public void autoDispose_noGenericsOnEmpty_isFine() {
     Single.just(new BClass())
         .to(new SingleScoper<>(Maybe.never()))
         .subscribe();
   }
 
-  @Test public void autoDispose_withMaybe_interrupted() {
+  @Test
+  public void autoDispose_withMaybe_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
@@ -112,7 +121,8 @@ public class AutoDisposeSingleObserverTest {
     o.assertNoMoreEvents();
   }
 
-  @Test public void autoDispose_withProvider() {
+  @Test
+  public void autoDispose_withProvider() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
@@ -133,7 +143,8 @@ public class AutoDisposeSingleObserverTest {
     assertThat(scope.hasObservers()).isFalse();
   }
 
-  @Test public void autoDispose_withProvider_interrupted() {
+  @Test
+  public void autoDispose_withProvider_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
@@ -155,7 +166,8 @@ public class AutoDisposeSingleObserverTest {
     o.assertNoMoreEvents();
   }
 
-  @Test public void autoDispose_withLifecycleProvider() {
+  @Test
+  public void autoDispose_withLifecycleProvider() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     SingleSubject<Integer> source = SingleSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
@@ -181,7 +193,8 @@ public class AutoDisposeSingleObserverTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
-  @Test public void autoDispose_withLifecycleProvider_interrupted() {
+  @Test
+  public void autoDispose_withLifecycleProvider_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     SingleSubject<Integer> source = SingleSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
@@ -208,7 +221,8 @@ public class AutoDisposeSingleObserverTest {
     o.assertNoMoreEvents();
   }
 
-  @Test public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
+  @Test
+  public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
@@ -220,7 +234,8 @@ public class AutoDisposeSingleObserverTest {
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
   }
 
-  @Test public void autoDispose_withProvider_afterLifecycle_shouldFail() {
+  @Test
+  public void autoDispose_withProvider_afterLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     lifecycle.onNext(1);
     lifecycle.onNext(2);
@@ -235,9 +250,11 @@ public class AutoDisposeSingleObserverTest {
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
   }
 
-  @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
+  @Test
+  public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) throws Exception { }
+      @Override
+      public void accept(OutsideLifecycleException e) throws Exception { }
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     TestObserver<Integer> o = new TestObserver<>();
@@ -252,9 +269,11 @@ public class AutoDisposeSingleObserverTest {
     o.assertNoErrors();
   }
 
-  @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
+  @Test
+  public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) throws Exception {
+      @Override
+      public void accept(OutsideLifecycleException e) throws Exception {
         // Noop
       }
     });
@@ -274,9 +293,11 @@ public class AutoDisposeSingleObserverTest {
     o.assertNoErrors();
   }
 
-  @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithExp() {
+  @Test
+  public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithExp() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) throws Exception {
+      @Override
+      public void accept(OutsideLifecycleException e) throws Exception {
         // Wrap in an IllegalStateException so we can verify this is the exception we see on the
         // other side
         throw new IllegalStateException(e);
@@ -291,14 +312,16 @@ public class AutoDisposeSingleObserverTest {
 
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
-      @Override public boolean test(Throwable throwable) throws Exception {
+      @Override
+      public boolean test(Throwable throwable) throws Exception {
         return throwable instanceof IllegalStateException
             && throwable.getCause() instanceof OutsideLifecycleException;
       }
     });
   }
 
-  @Test public void verifyObserverDelegate() {
+  @Test
+  public void verifyObserverDelegate() {
     final AtomicReference<SingleObserver> atomicObserver = new AtomicReference<>();
     final AtomicReference<SingleObserver> atomicAutoDisposingObserver = new AtomicReference<>();
     try {
@@ -317,21 +340,25 @@ public class AutoDisposeSingleObserverTest {
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
       assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingSingleObserver.class);
-      assertThat(((AutoDisposingSingleObserver)atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
-      assertThat(((AutoDisposingSingleObserver)atomicAutoDisposingObserver.get()).delegateObserver())
-              .isSameAs(atomicObserver.get());
+      assertThat(((AutoDisposingSingleObserver) atomicAutoDisposingObserver.get())
+          .delegateObserver()).isNotNull();
+      assertThat(((AutoDisposingSingleObserver) atomicAutoDisposingObserver.get())
+          .delegateObserver()).isSameAs(atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
   }
 
-  @Test public void verifyCancellation() throws Exception {
+  @Test
+  public void verifyCancellation() throws Exception {
     final AtomicInteger i = new AtomicInteger();
     //noinspection unchecked because Java
     Single<Integer> source = Single.create(new SingleOnSubscribe<Integer>() {
-      @Override public void subscribe(SingleEmitter<Integer> e) throws Exception {
+      @Override
+      public void subscribe(SingleEmitter<Integer> e) throws Exception {
         e.setCancellable(new Cancellable() {
-          @Override public void cancel() throws Exception {
+          @Override
+          public void cancel() throws Exception {
             i.incrementAndGet();
           }
         });
