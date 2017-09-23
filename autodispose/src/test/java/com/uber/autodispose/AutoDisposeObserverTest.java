@@ -283,11 +283,12 @@ public class AutoDisposeObserverTest {
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
       assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingObserver.class);
-      assertThat(
-          ((AutoDisposingObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
-      assertThat(
-          ((AutoDisposingObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isSameAs(
-          atomicObserver.get());
+      assertThat(((AutoDisposingObserver) atomicAutoDisposingObserver.get())
+              .delegateObserver())
+          .isNotNull();
+      assertThat(((AutoDisposingObserver) atomicAutoDisposingObserver.get())
+              .delegateObserver())
+          .isSameAs(atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
