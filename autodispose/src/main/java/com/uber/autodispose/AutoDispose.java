@@ -49,6 +49,7 @@ import io.reactivex.functions.Function;
  * @see ScopeHandler#single()
  * @see ScopeHandler#completable()
  */
+@SuppressWarnings("deprecation") // Temporary until we remove and inline the Scoper classes
 public final class AutoDispose {
 
   /**
