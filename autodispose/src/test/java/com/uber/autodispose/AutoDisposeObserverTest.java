@@ -16,8 +16,8 @@
 
 package com.uber.autodispose;
 
-import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.observers.AutoDisposingObserver;
+import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -87,7 +87,8 @@ public class AutoDisposeObserverTest {
 
   @Test public void autoDispose_noGenericsOnEmpty_isFine() {
     Observable.just(new BClass())
-        .to(AutoDispose.with(Maybe.never()).observable())
+        .to(AutoDispose.with(Maybe.never())
+            .observable())
         .subscribe();
   }
 
@@ -262,8 +263,8 @@ public class AutoDisposeObserverTest {
   }
 
   @Test public void verifyObserverDelegate() {
-    final AtomicReference<Observer> atomicObserver = new AtomicReference();
-    final AtomicReference<Observer> atomicAutoDisposingObserver = new AtomicReference();
+    final AtomicReference<Observer> atomicObserver = new AtomicReference<>();
+    final AtomicReference<Observer> atomicAutoDisposingObserver = new AtomicReference<>();
     try {
       RxJavaPlugins.setOnObservableSubscribe(new BiFunction<Observable, Observer, Observer>() {
         @Override public Observer apply(Observable source, Observer observer) {
@@ -276,14 +277,17 @@ public class AutoDisposeObserverTest {
           return observer;
         }
       });
-      Observable.just(1).to(new ObservableScoper<Integer>(Maybe.never())).subscribe();
+      Observable.just(1)
+          .to(AutoDispose.with(Maybe.never()).<Integer>observable())
+          .subscribe();
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
       assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingObserver.class);
-      assertThat(((AutoDisposingObserver) atomicAutoDisposingObserver.get()).delegateObserver())
-              .isNotNull();
-      assertThat(((AutoDisposingObserver) atomicAutoDisposingObserver.get()).delegateObserver())
-              .isSameAs(atomicObserver.get());
+      assertThat(
+          ((AutoDisposingObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
+      assertThat(
+          ((AutoDisposingObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isSameAs(
+          atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
