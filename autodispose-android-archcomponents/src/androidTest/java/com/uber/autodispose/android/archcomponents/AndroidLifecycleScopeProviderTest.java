@@ -23,9 +23,9 @@ import android.support.test.annotation.UiThreadTest;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
+import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.LifecycleEndedException;
 import com.uber.autodispose.LifecycleNotStartedException;
-import com.uber.autodispose.ObservableScoper;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
@@ -54,7 +54,8 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.to(new ObservableScoper<Integer>(AndroidLifecycleScopeProvider.from(lifecycle)))
+    subject.to(
+        AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle)).<Integer>observable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -83,7 +84,8 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.to(new ObservableScoper<Integer>(AndroidLifecycleScopeProvider.from(lifecycle)))
+    subject.to(
+        AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle)).<Integer>observable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -99,7 +101,7 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     UninitializedLifecycleOwner owner = new UninitializedLifecycleOwner();
-    subject.to(new ObservableScoper<Integer>(AndroidLifecycleScopeProvider.from(owner)))
+    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(owner)).<Integer>observable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -120,7 +122,8 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_PAUSE);
     lifecycle.emit(Lifecycle.Event.ON_STOP);
     lifecycle.emit(Lifecycle.Event.ON_DESTROY);
-    subject.to(new ObservableScoper<Integer>(AndroidLifecycleScopeProvider.from(lifecycle)))
+    subject.to(
+        AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle)).<Integer>observable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -140,7 +143,8 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
     lifecycle.emit(Lifecycle.Event.ON_PAUSE);
     lifecycle.emit(Lifecycle.Event.ON_STOP);
-    subject.to(new ObservableScoper<Integer>(AndroidLifecycleScopeProvider.from(lifecycle)))
+    subject.to(
+        AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle)).<Integer>observable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
