@@ -17,8 +17,8 @@
 package com.uber.autodispose.android.archcomponents;
 
 import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LifecycleRegistry;
-import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.support.test.annotation.UiThreadTest;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -150,7 +150,7 @@ import static com.google.common.truth.Truth.assertThat;
     assertThat(d.isDisposed()).isTrue();
   }
 
-  private static class UninitializedLifecycleOwner implements LifecycleRegistryOwner {
+  private static class UninitializedLifecycleOwner implements LifecycleOwner {
 
     LifecycleRegistry registry = new LifecycleRegistry(this);
 

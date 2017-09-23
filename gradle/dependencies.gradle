@@ -18,8 +18,8 @@ def versions = [
     androidTest: '0.5',
     archComponents: '1.0.0-beta1',
     errorProne: '2.1.1',
-    kotlin: '1.1.4-2',
-    support: '25.1.0'
+    kotlin: '1.1.50',
+    support: '26.1.0'
 ]
 
 def build = [
@@ -31,7 +31,7 @@ def build = [
 
     checkerFramework: 'org.checkerframework:dataflow:2.1.14',
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
-    nullAway: 'com.uber.nullaway:nullaway:0.1.2',
+    nullAway: 'com.uber.nullaway:nullaway:0.1.4',
 
     repositories: [
         plugins: 'https://plugins.gradle.org/m2/'
@@ -75,7 +75,7 @@ def test = [
     androidRunner: "com.android.support.test:runner:${versions.androidTest}",
     androidRules: "com.android.support.test:rules:${versions.androidTest}",
     junit: 'junit:junit:4.12',
-    truth: 'com.google.truth:truth:0.34'
+    truth: 'com.google.truth:truth:0.36'
 ]
 
 ext.deps = [
