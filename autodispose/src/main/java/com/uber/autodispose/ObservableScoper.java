@@ -42,7 +42,9 @@ import io.reactivex.functions.Function;
  * probably be {@link #ObservableScoper(ScopeProvider)}.
  *
  * @param <T> the stream type.
+ * @deprecated Use the static factories in {@link AutoDispose}. This will be removed in 1.0.
  */
+@Deprecated
 public class ObservableScoper<T> extends Scoper
     implements Function<Observable<? extends T>, ObservableSubscribeProxy<T>> {
 

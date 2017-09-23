@@ -43,7 +43,9 @@ import org.reactivestreams.Subscription;
  * probably be {@link #FlowableScoper(ScopeProvider)}.
  *
  * @param <T> the stream type.
+ * @deprecated Use the static factories in {@link AutoDispose}. This will be removed in 1.0.
  */
+@Deprecated
 public class FlowableScoper<T> extends Scoper
     implements Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> {
 

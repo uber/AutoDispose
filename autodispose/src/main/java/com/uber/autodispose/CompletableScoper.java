@@ -40,7 +40,10 @@ import io.reactivex.functions.Function;
  * under the hood, and AutoDispose has some built-in understanding for predefined types. The scope
  * is considered ended upon onSuccess emission of this {@link Maybe}. The most common use case would
  * probably be {@link #CompletableScoper(ScopeProvider)}.
+ *
+ * @deprecated Use the static factories in {@link AutoDispose}. This will be removed in 1.0.
  */
+@Deprecated
 public class CompletableScoper extends Scoper
     implements Function<Completable, CompletableSubscribeProxy> {
 
