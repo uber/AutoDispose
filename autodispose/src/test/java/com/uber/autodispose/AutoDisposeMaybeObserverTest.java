@@ -61,7 +61,7 @@ public class AutoDisposeMaybeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(new MaybeScoper<Integer>(lifecycle))
+    source.to(AutoDispose.with(lifecycle).<Integer>maybe())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -81,7 +81,7 @@ public class AutoDisposeMaybeObserverTest {
   @Test
   public void autoDispose_withSuperClassGenerics_compilesFine() {
     Maybe.just(new BClass())
-        .to(new MaybeScoper<AClass>(Maybe.never()))
+        .to(AutoDispose.with(Maybe.never()).<AClass>maybe())
         .subscribe(new Consumer<AClass>() {
           @Override
           public void accept(AClass aClass) throws Exception {
@@ -93,7 +93,8 @@ public class AutoDisposeMaybeObserverTest {
   @Test
   public void autoDispose_noGenericsOnEmpty_isFine() {
     Maybe.just(new BClass())
-        .to(new MaybeScoper<>(Maybe.never()))
+        .to(AutoDispose.with(Maybe.never())
+            .maybe())
         .subscribe();
   }
 
@@ -102,9 +103,9 @@ public class AutoDisposeMaybeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(new MaybeScoper<Integer>(lifecycle))
+    source.to(AutoDispose.with(lifecycle).<Integer>maybe())
         .subscribe(o);
-    source.to(new MaybeScoper<Integer>(lifecycle))
+    source.to(AutoDispose.with(lifecycle).<Integer>maybe())
         .subscribe(new Consumer<Integer>() {
           @Override
           public void accept(Integer integer) throws Exception {
@@ -132,7 +133,7 @@ public class AutoDisposeMaybeObserverTest {
     MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.to(new MaybeScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>maybe())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -158,7 +159,7 @@ public class AutoDisposeMaybeObserverTest {
     MaybeSubject<Integer> source = MaybeSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
-    source.to(new MaybeScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>maybe())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -179,7 +180,7 @@ public class AutoDisposeMaybeObserverTest {
     MaybeSubject<Integer> source = MaybeSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
-    source.to(new MaybeScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>maybe())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -203,7 +204,7 @@ public class AutoDisposeMaybeObserverTest {
     MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.to(new MaybeScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>maybe())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -229,7 +230,7 @@ public class AutoDisposeMaybeObserverTest {
     MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.to(new MaybeScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>maybe())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -258,7 +259,7 @@ public class AutoDisposeMaybeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Maybe.just(1)
-        .to(new MaybeScoper<Integer>(provider))
+        .to(AutoDispose.with(provider).<Integer>maybe())
         .subscribe(o);
 
     o.takeSubscribe();
@@ -274,7 +275,7 @@ public class AutoDisposeMaybeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Maybe.just(1)
-        .to(new MaybeScoper<Integer>(provider))
+        .to(AutoDispose.with(provider).<Integer>maybe())
         .subscribe(o);
 
     o.takeSubscribe();
@@ -291,7 +292,7 @@ public class AutoDisposeMaybeObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    source.to(new MaybeScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>maybe())
         .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
@@ -315,7 +316,7 @@ public class AutoDisposeMaybeObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    source.to(new MaybeScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>maybe())
         .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
@@ -338,7 +339,7 @@ public class AutoDisposeMaybeObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    source.to(new MaybeScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>maybe())
         .subscribe(o);
 
     o.assertNoValues();
@@ -396,7 +397,7 @@ public class AutoDisposeMaybeObserverTest {
       }
     });
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(new MaybeScoper<Integer>(lifecycle))
+    source.to(AutoDispose.with(lifecycle).<Integer>maybe())
         .subscribe();
 
     assertThat(i.get()).isEqualTo(0);
