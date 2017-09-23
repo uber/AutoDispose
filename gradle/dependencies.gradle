@@ -31,7 +31,7 @@ def build = [
 
     checkerFramework: 'org.checkerframework:dataflow:2.1.14',
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
-    nullAway: 'com.uber.nullaway:nullaway:0.1.2',
+    nullAway: 'com.uber.nullaway:nullaway:0.1.4',
 
     repositories: [
         plugins: 'https://plugins.gradle.org/m2/'

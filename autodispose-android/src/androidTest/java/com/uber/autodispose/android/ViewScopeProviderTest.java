@@ -36,7 +36,6 @@ import org.junit.runner.RunWith;
 import static com.google.common.truth.Truth.assertThat;
 
 @RunWith(AndroidJUnit4.class)
-@SuppressWarnings("NullAway") // https://github.com/uber/NullAway/issues/18
 public final class ViewScopeProviderTest {
 
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
