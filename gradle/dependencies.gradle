@@ -19,7 +19,7 @@ def versions = [
     archComponents: '1.0.0-beta1',
     errorProne: '2.1.1',
     kotlin: '1.1.50',
-    support: '25.1.0'
+    support: '26.1.0'
 ]
 
 def build = [
