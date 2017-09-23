@@ -21,6 +21,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.functions.Function;
 
 /**
@@ -70,7 +71,7 @@ public final class AutoDispose {
      * @param <T> the stream type.
      * @return a {@link Function} to transform with {@link Flowable#to(Function)}
      */
-    <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> flowable();
+    @CheckReturnValue <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> flowable();
 
     /**
      * Entry point for auto-disposing {@link Observable}s.
@@ -85,6 +86,7 @@ public final class AutoDispose {
      * @param <T> the stream type.
      * @return a {@link Function} to transform with {@link Observable#to(Function)}
      */
+    @CheckReturnValue
     <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> observable();
 
     /**
@@ -100,7 +102,7 @@ public final class AutoDispose {
      * @param <T> the stream type.
      * @return a {@link Function} to transform with {@link Maybe#to(Function)}
      */
-    <T> Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> maybe();
+    @CheckReturnValue <T> Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> maybe();
 
     /**
      * Entry point for auto-disposing {@link Single}s.
@@ -115,7 +117,7 @@ public final class AutoDispose {
      * @param <T> the stream type.
      * @return a {@link Function} to transform with {@link Single#to(Function)}
      */
-    <T> Function<Single<? extends T>, SingleSubscribeProxy<T>> single();
+    @CheckReturnValue <T> Function<Single<? extends T>, SingleSubscribeProxy<T>> single();
 
     /**
      * Entry point for auto-disposing {@link Completable}s.
@@ -129,7 +131,7 @@ public final class AutoDispose {
      *
      * @return a {@link Function} to transform with {@link Completable#to(Function)}
      */
-    Function<Completable, CompletableSubscribeProxy> completable();
+    @CheckReturnValue Function<Completable, CompletableSubscribeProxy> completable();
   }
 
   /**
@@ -139,7 +141,7 @@ public final class AutoDispose {
    * @return a {@link ScopeHandler} for this scope to create AutoDisposing transformation
    * {@link Function}s
    */
-  public static ScopeHandler with(Maybe<?> scope) {
+  @CheckReturnValue public static ScopeHandler with(Maybe<?> scope) {
     return new MaybeScopeHandlerImpl(scope);
   }
 
@@ -150,7 +152,7 @@ public final class AutoDispose {
    * @return a {@link ScopeHandler} for this scope to create AutoDisposing transformation
    * {@link Function}s
    */
-  public static ScopeHandler with(ScopeProvider scope) {
+  @CheckReturnValue public static ScopeHandler with(ScopeProvider scope) {
     return new ScopeProviderHandlerImpl(scope);
   }
 
@@ -161,7 +163,7 @@ public final class AutoDispose {
    * @return a {@link ScopeHandler} for this scope to create AutoDisposing transformation
    * {@link Function}s
    */
-  public static ScopeHandler with(LifecycleScopeProvider<?> scope) {
+  @CheckReturnValue public static ScopeHandler with(LifecycleScopeProvider<?> scope) {
     return new LifecycleScopeProviderHandlerImpl(scope);
   }
 
