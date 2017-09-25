@@ -31,8 +31,7 @@ import io.reactivex.functions.Function;
  * There are several static {@code with(...)} entry points, with the most basic being a simple
  * {@link #with(Maybe)}. The provided {@link Maybe} is ultimately what every scope resolves to
  * under the hood, and AutoDispose has some built-in understanding for predefined types. The scope
- * is considered ended upon onSuccess emission of this {@link Maybe}. The most common use case would
- * probably be {@link #with(ScopeProvider)}.
+ * is considered ended upon onSuccess emission of this {@link Maybe}.
  * <p>
  * Every factory method returns an instance of a {@link ScopeHandler} that serves as an indirection
  * to route to the corresponding RxJava types. This is structured in such a way to be friendly to
@@ -61,10 +60,10 @@ public final class AutoDispose {
     /**
      * Entry point for auto-disposing {@link Flowable}s.
      * <p>
-     * The basic flow stencil might look like this:
+     * Example usage:
      * <pre><code>
-     *   myFlowable
-     *        .to(AutoDispose.with(scope).<T>flowable())
+     *   Flowable.just(1)
+     *        .to(AutoDispose.with(scope).<Integer>flowable())
      *        .subscribe(...)
      * </code></pre>
      *
@@ -76,10 +75,10 @@ public final class AutoDispose {
     /**
      * Entry point for auto-disposing {@link Observable}s.
      * <p>
-     * The basic flow stencil might look like this:
+     * Example usage:
      * <pre><code>
-     *   myObservable
-     *        .to(AutoDispose.with(scope).<T>observable())
+     *   Observable.just(1)
+     *        .to(AutoDispose.with(scope).<Integer>observable())
      *        .subscribe(...)
      * </code></pre>
      *
@@ -92,10 +91,10 @@ public final class AutoDispose {
     /**
      * Entry point for auto-disposing {@link Maybe}s.
      * <p>
-     * The basic flow stencil might look like this:
+     * Example usage:
      * <pre><code>
-     *   myMaybe
-     *        .to(AutoDispose.with(scope).<T>maybe())
+     *   Maybe.just(1)
+     *        .to(AutoDispose.with(scope).<Integer>maybe())
      *        .subscribe(...)
      * </code></pre>
      *
@@ -107,10 +106,10 @@ public final class AutoDispose {
     /**
      * Entry point for auto-disposing {@link Single}s.
      * <p>
-     * The basic flow stencil might look like this:
+     * Example usage:
      * <pre><code>
-     *   mySingle
-     *        .to(AutoDispose.with(scope).<T>single())
+     *   Single.just(1)
+     *        .to(AutoDispose.with(scope).<Integer>single())
      *        .subscribe(...)
      * </code></pre>
      *
@@ -122,9 +121,9 @@ public final class AutoDispose {
     /**
      * Entry point for auto-disposing {@link Completable}s.
      * <p>
-     * The basic flow stencil might look like this:
+     * Example usage:
      * <pre><code>
-     *   myCompletable
+     *   Completable.complete()
      *        .to(AutoDispose.with(scope).completable())
      *        .subscribe(...)
      * </code></pre>
