@@ -14,13 +14,13 @@ Often (especially in mobile applications), Rx subscriptions need to stop in resp
 scenario in RxJava 2, we built AutoDispose.
 
 The idea is simple: construct your chain like any other, and then at subscription you simply drop in
-the relevant `Scoper` for that type as a converter. In everyday use, it 
+the relevant factory call + method for that type as a converter. In everyday use, it 
  usually looks like this: 
 
 ```java
 myObservable
     .doStuff()
-    .to(new ObservableScoper<SomeType>(this))   // The scope
+    .to(AutoDispose.with(this).forObservable())   // The magic
     .subscribe(s -> ...);
 ```
 
@@ -29,11 +29,18 @@ scope - this helps prevent many classes of errors when an observable emits and i
 taken in the subscription are no longer valid. For instance, if a network request comes back after a
  UI has already been torn down, the UI can't be updated - this pattern prevents this type of bug.
 
-### Scoper
+### `with()` + `<type>()`
 
-There are relevant `Scoper` classes, one per RxJava type (`ObservableScoper`, `SingleScoper`, etc). 
-These are implementations of a converter `Function`, intended for use with the `to()` operator on RxJava
-types. Each Scoper accepts three overloads: `Maybe`, `ScopeProvider`, and `LifecycleScopeProvider`. 
+The main entry point is via static factory `with()` methods in the `AutoDispose` class. There are 
+three overloads: `Maybe`, `ScopeProvider`, and `LifecycleScopeProvider`. They return a 
+`ScopeHandler` object that's just intended to be an intermediary to route to the desired type 
+function (this is for better autocomplete in IDEs for the generics). 
+
+For the relevant `type` methods, there is one per RxJava type (`forObservable()`, `forSingle()`, etc). 
+These return implementations of a converter `Function`, intended for use with the `to()` operator in RxJava
+types.
+
+These work in tandem to create the regular AutoDispose flow. `AutoDispose.with(scope).forObservable()`.
 
 #### Maybe 
 
@@ -111,7 +118,7 @@ lifecycle binding.
 
 ### Philosophy
 
-Each scoper returns a subscribe proxy upon application that just proxy to real subscribe calls under 
+Each factory returns a subscribe proxy upon application that just proxy to real subscribe calls under 
 the hood to "AutoDisposing" implementations of the types. These types decorate the actual observer 
 at subscribe-time to achieve autodispose behavior. The types are *not* exposed directly because
 autodisposing has *ordering* requirements; specifically, it has to be done at the end of a chain to properly
