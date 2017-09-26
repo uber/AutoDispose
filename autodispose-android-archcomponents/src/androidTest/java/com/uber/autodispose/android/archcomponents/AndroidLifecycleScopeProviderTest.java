@@ -55,7 +55,7 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
     subject.to(
-        AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle)).<Integer>observable())
+        AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle)).<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -85,7 +85,7 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
     subject.to(
-        AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle)).<Integer>observable())
+        AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle)).<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -101,7 +101,7 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     UninitializedLifecycleOwner owner = new UninitializedLifecycleOwner();
-    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(owner)).<Integer>observable())
+    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(owner)).<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -123,7 +123,7 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_STOP);
     lifecycle.emit(Lifecycle.Event.ON_DESTROY);
     subject.to(
-        AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle)).<Integer>observable())
+        AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle)).<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -144,7 +144,7 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_PAUSE);
     lifecycle.emit(Lifecycle.Event.ON_STOP);
     subject.to(
-        AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle)).<Integer>observable())
+        AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle)).<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();

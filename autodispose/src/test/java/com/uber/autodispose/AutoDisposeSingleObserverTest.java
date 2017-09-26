@@ -57,7 +57,7 @@ public class AutoDisposeSingleObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(AutoDispose.with(lifecycle).<Integer>single())
+    source.to(AutoDispose.with(lifecycle).<Integer>forSingle())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -76,7 +76,7 @@ public class AutoDisposeSingleObserverTest {
 
   @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
     Single.just(new BClass())
-        .to(AutoDispose.with(Maybe.never()).<AClass>single())
+        .to(AutoDispose.with(Maybe.never()).<AClass>forSingle())
         .subscribe(new Consumer<AClass>() {
           @Override public void accept(AClass aClass) throws Exception {
 
@@ -87,7 +87,7 @@ public class AutoDisposeSingleObserverTest {
   @Test public void autoDispose_noGenericsOnEmpty_isFine() {
     Single.just(new BClass())
         .to(AutoDispose.with(Maybe.never())
-            .single())
+            .forSingle())
         .subscribe();
   }
 
@@ -95,7 +95,7 @@ public class AutoDisposeSingleObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(AutoDispose.with(lifecycle).<Integer>single())
+    source.to(AutoDispose.with(lifecycle).<Integer>forSingle())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -117,7 +117,7 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
-    source.to(AutoDispose.with(provider).<Integer>single())
+    source.to(AutoDispose.with(provider).<Integer>forSingle())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -138,7 +138,7 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
-    source.to(AutoDispose.with(provider).<Integer>single())
+    source.to(AutoDispose.with(provider).<Integer>forSingle())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -160,7 +160,7 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.to(AutoDispose.with(provider).<Integer>single())
+    source.to(AutoDispose.with(provider).<Integer>forSingle())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -186,7 +186,7 @@ public class AutoDisposeSingleObserverTest {
     SingleSubject<Integer> source = SingleSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.to(AutoDispose.with(provider).<Integer>single())
+    source.to(AutoDispose.with(provider).<Integer>forSingle())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -213,7 +213,7 @@ public class AutoDisposeSingleObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Single.just(1)
-        .to(AutoDispose.with(provider).<Integer>single())
+        .to(AutoDispose.with(provider).<Integer>forSingle())
         .subscribe(o);
 
     o.takeSubscribe();
@@ -228,7 +228,7 @@ public class AutoDisposeSingleObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Single.just(1)
-        .to(AutoDispose.with(provider).<Integer>single())
+        .to(AutoDispose.with(provider).<Integer>forSingle())
         .subscribe(o);
 
     o.takeSubscribe();
@@ -243,7 +243,7 @@ public class AutoDisposeSingleObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     SingleSubject<Integer> source = SingleSubject.create();
-    source.to(AutoDispose.with(provider).<Integer>single())
+    source.to(AutoDispose.with(provider).<Integer>forSingle())
         .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
@@ -265,7 +265,7 @@ public class AutoDisposeSingleObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     SingleSubject<Integer> source = SingleSubject.create();
-    source.to(AutoDispose.with(provider).<Integer>single())
+    source.to(AutoDispose.with(provider).<Integer>forSingle())
         .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
@@ -286,7 +286,7 @@ public class AutoDisposeSingleObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     SingleSubject<Integer> source = SingleSubject.create();
-    source.to(AutoDispose.with(provider).<Integer>single())
+    source.to(AutoDispose.with(provider).<Integer>forSingle())
         .subscribe(o);
 
     o.assertNoValues();
@@ -314,7 +314,7 @@ public class AutoDisposeSingleObserverTest {
         }
       });
       Single.just(1)
-          .to(AutoDispose.with(Maybe.never()).<Integer>single())
+          .to(AutoDispose.with(Maybe.never()).<Integer>forSingle())
           .subscribe();
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
@@ -343,7 +343,7 @@ public class AutoDisposeSingleObserverTest {
       }
     });
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(AutoDispose.with(lifecycle).<Integer>single())
+    source.to(AutoDispose.with(lifecycle).<Integer>forSingle())
         .subscribe();
 
     assertThat(i.get()).isEqualTo(0);

@@ -24,7 +24,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import com.uber.autodispose.AutoDispose;
-import com.uber.autodispose.ObservableScoper;
 import com.uber.autodispose.OutsideLifecycleException;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.disposables.Disposable;
@@ -71,7 +70,7 @@ public final class ViewScopeProviderTest {
     });
     instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
-        subject.to(AutoDispose.with(ViewScopeProvider.from(child)).<Integer>observable())
+        subject.to(AutoDispose.with(ViewScopeProvider.from(child)).<Integer>forObservable())
             .subscribe(o);
       }
     });
@@ -107,7 +106,7 @@ public final class ViewScopeProviderTest {
         parent.addView(child);
       }
     });
-    subject.to(AutoDispose.with(ViewScopeProvider.from(child)).<Integer>observable())
+    subject.to(AutoDispose.with(ViewScopeProvider.from(child)).<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -124,7 +123,7 @@ public final class ViewScopeProviderTest {
 
     instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
-        subject.to(AutoDispose.with(ViewScopeProvider.from(child)).<Integer>observable())
+        subject.to(AutoDispose.with(ViewScopeProvider.from(child)).<Integer>forObservable())
             .subscribe(o);
       }
     });
@@ -152,7 +151,7 @@ public final class ViewScopeProviderTest {
     });
     instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
-        subject.to(AutoDispose.with(ViewScopeProvider.from(child)).<Integer>observable())
+        subject.to(AutoDispose.with(ViewScopeProvider.from(child)).<Integer>forObservable())
             .subscribe(o);
       }
     });

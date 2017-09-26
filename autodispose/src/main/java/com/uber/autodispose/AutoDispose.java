@@ -43,11 +43,11 @@ import io.reactivex.functions.Function;
  * @see Maybe#to(Function)
  * @see Single#to(Function)
  * @see Completable#to(Function)
- * @see ScopeHandler#flowable()
- * @see ScopeHandler#observable()
- * @see ScopeHandler#maybe()
- * @see ScopeHandler#single()
- * @see ScopeHandler#completable()
+ * @see ScopeHandler#forFlowable()
+ * @see ScopeHandler#forObservable()
+ * @see ScopeHandler#forMaybe()
+ * @see ScopeHandler#forSingle()
+ * @see ScopeHandler#forCompletable()
  */
 @SuppressWarnings("deprecation") // Temporary until we remove and inline the Scoper classes
 public final class AutoDispose {
@@ -63,14 +63,14 @@ public final class AutoDispose {
      * Example usage:
      * <pre><code>
      *   Flowable.just(1)
-     *        .to(AutoDispose.with(scope).<Integer>flowable())
+     *        .to(AutoDispose.with(scope).<Integer>forFlowable())
      *        .subscribe(...)
      * </code></pre>
      *
      * @param <T> the stream type.
      * @return a {@link Function} to transform with {@link Flowable#to(Function)}
      */
-    @CheckReturnValue <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> flowable();
+    @CheckReturnValue <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> forFlowable();
 
     /**
      * Entry point for auto-disposing {@link Observable}s.
@@ -78,7 +78,7 @@ public final class AutoDispose {
      * Example usage:
      * <pre><code>
      *   Observable.just(1)
-     *        .to(AutoDispose.with(scope).<Integer>observable())
+     *        .to(AutoDispose.with(scope).<Integer>forObservable())
      *        .subscribe(...)
      * </code></pre>
      *
@@ -86,7 +86,7 @@ public final class AutoDispose {
      * @return a {@link Function} to transform with {@link Observable#to(Function)}
      */
     @CheckReturnValue
-    <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> observable();
+    <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> forObservable();
 
     /**
      * Entry point for auto-disposing {@link Maybe}s.
@@ -94,14 +94,14 @@ public final class AutoDispose {
      * Example usage:
      * <pre><code>
      *   Maybe.just(1)
-     *        .to(AutoDispose.with(scope).<Integer>maybe())
+     *        .to(AutoDispose.with(scope).<Integer>forMaybe())
      *        .subscribe(...)
      * </code></pre>
      *
      * @param <T> the stream type.
      * @return a {@link Function} to transform with {@link Maybe#to(Function)}
      */
-    @CheckReturnValue <T> Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> maybe();
+    @CheckReturnValue <T> Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> forMaybe();
 
     /**
      * Entry point for auto-disposing {@link Single}s.
@@ -109,14 +109,14 @@ public final class AutoDispose {
      * Example usage:
      * <pre><code>
      *   Single.just(1)
-     *        .to(AutoDispose.with(scope).<Integer>single())
+     *        .to(AutoDispose.with(scope).<Integer>forSingle())
      *        .subscribe(...)
      * </code></pre>
      *
      * @param <T> the stream type.
      * @return a {@link Function} to transform with {@link Single#to(Function)}
      */
-    @CheckReturnValue <T> Function<Single<? extends T>, SingleSubscribeProxy<T>> single();
+    @CheckReturnValue <T> Function<Single<? extends T>, SingleSubscribeProxy<T>> forSingle();
 
     /**
      * Entry point for auto-disposing {@link Completable}s.
@@ -124,13 +124,13 @@ public final class AutoDispose {
      * Example usage:
      * <pre><code>
      *   Completable.complete()
-     *        .to(AutoDispose.with(scope).completable())
+     *        .to(AutoDispose.with(scope).forCompletable())
      *        .subscribe(...)
      * </code></pre>
      *
      * @return a {@link Function} to transform with {@link Completable#to(Function)}
      */
-    @CheckReturnValue Function<Completable, CompletableSubscribeProxy> completable();
+    @CheckReturnValue Function<Completable, CompletableSubscribeProxy> forCompletable();
   }
 
   /**
@@ -174,24 +174,24 @@ public final class AutoDispose {
       this.scope = scope;
     }
 
-    @Override public <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> flowable() {
+    @Override public <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> forFlowable() {
       return new FlowableScoper<>(scope);
     }
 
     @Override
-    public <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> observable() {
+    public <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> forObservable() {
       return new ObservableScoper<>(scope);
     }
 
-    @Override public <T> Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> maybe() {
+    @Override public <T> Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> forMaybe() {
       return new MaybeScoper<>(scope);
     }
 
-    @Override public <T> Function<Single<? extends T>, SingleSubscribeProxy<T>> single() {
+    @Override public <T> Function<Single<? extends T>, SingleSubscribeProxy<T>> forSingle() {
       return new SingleScoper<>(scope);
     }
 
-    @Override public Function<Completable, CompletableSubscribeProxy> completable() {
+    @Override public Function<Completable, CompletableSubscribeProxy> forCompletable() {
       return new CompletableScoper(scope);
     }
   }
@@ -204,24 +204,24 @@ public final class AutoDispose {
       this.scope = scope;
     }
 
-    @Override public <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> flowable() {
+    @Override public <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> forFlowable() {
       return new FlowableScoper<>(scope);
     }
 
     @Override
-    public <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> observable() {
+    public <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> forObservable() {
       return new ObservableScoper<>(scope);
     }
 
-    @Override public <T> Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> maybe() {
+    @Override public <T> Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> forMaybe() {
       return new MaybeScoper<>(scope);
     }
 
-    @Override public <T> Function<Single<? extends T>, SingleSubscribeProxy<T>> single() {
+    @Override public <T> Function<Single<? extends T>, SingleSubscribeProxy<T>> forSingle() {
       return new SingleScoper<>(scope);
     }
 
-    @Override public Function<Completable, CompletableSubscribeProxy> completable() {
+    @Override public Function<Completable, CompletableSubscribeProxy> forCompletable() {
       return new CompletableScoper(scope);
     }
   }
@@ -234,24 +234,24 @@ public final class AutoDispose {
       this.scope = scope;
     }
 
-    @Override public <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> flowable() {
+    @Override public <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> forFlowable() {
       return new FlowableScoper<>(scope);
     }
 
     @Override
-    public <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> observable() {
+    public <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> forObservable() {
       return new ObservableScoper<>(scope);
     }
 
-    @Override public <T> Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> maybe() {
+    @Override public <T> Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> forMaybe() {
       return new MaybeScoper<>(scope);
     }
 
-    @Override public <T> Function<Single<? extends T>, SingleSubscribeProxy<T>> single() {
+    @Override public <T> Function<Single<? extends T>, SingleSubscribeProxy<T>> forSingle() {
       return new SingleScoper<>(scope);
     }
 
-    @Override public Function<Completable, CompletableSubscribeProxy> completable() {
+    @Override public Function<Completable, CompletableSubscribeProxy> forCompletable() {
       return new CompletableScoper(scope);
     }
   }
