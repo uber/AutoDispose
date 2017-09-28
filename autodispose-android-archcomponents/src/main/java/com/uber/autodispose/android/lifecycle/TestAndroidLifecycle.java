@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.android.archcomponents;
+package com.uber.autodispose.android.lifecycle;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleRegistry;
@@ -25,10 +25,10 @@ import android.support.annotation.RestrictTo;
 import static android.support.annotation.RestrictTo.Scope.TESTS;
 
 /**
- * AndroidLifecycleScopeProvider implementation for testing. You can either back it with your own
+ * AndroidLifecycle implementation for testing. You can either back it with your own
  * instance, or just stub it in place and use its public emit() API.
  */
-@RestrictTo(TESTS) public final class TestAndroidLifecycleScopeProvider
+@RestrictTo(TESTS) public final class TestAndroidLifecycle
     implements LifecycleRegistryOwner {
 
   private final LifecycleRegistry registry;
@@ -36,7 +36,7 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
   /**
    * Default constructor, creates and maintains its own {@link LifecycleRegistry} under the hood.
    */
-  public TestAndroidLifecycleScopeProvider() {
+  public TestAndroidLifecycle() {
     this(null);
   }
 
@@ -44,7 +44,7 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
    * @param registry an optional custom {@link LifecycleRegistry} if you want to provide one. If
    * {@code null}, a default implementation will be created and maintained under the hood.
    */
-  public TestAndroidLifecycleScopeProvider(@Nullable LifecycleRegistry registry) {
+  public TestAndroidLifecycle(@Nullable LifecycleRegistry registry) {
     this.registry = registry == null ? new LifecycleRegistry(this) : registry;
   }
 

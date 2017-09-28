@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.android.archcomponents;
+package com.uber.autodispose.android.lifecycle;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
@@ -28,10 +28,10 @@ import io.reactivex.functions.Function;
  * {@link LifecycleOwner} classes.
  * <p>
  * <pre><code>
- *   AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycleOwner))
+ *   AutoDispose.with(AndroidLifecycle.from(lifecycleOwner))
  * </code></pre>
  */
-public final class AndroidLifecycleScopeProvider
+public final class AndroidLifecycle
     implements LifecycleScopeProvider<Lifecycle.Event> {
 
   private static final Function<Lifecycle.Event, Lifecycle.Event> CORRESPONDING_EVENTS =
@@ -55,28 +55,28 @@ public final class AndroidLifecycleScopeProvider
       };
 
   /**
-   * Creates a {@link AndroidLifecycleScopeProvider} for Android LifecycleOwners.
+   * Creates a {@link AndroidLifecycle} for Android LifecycleOwners.
    *
    * @param owner the owner to scope for
-   * @return a {@link AndroidLifecycleScopeProvider} against this owner.
+   * @return a {@link AndroidLifecycle} against this owner.
    */
-  public static AndroidLifecycleScopeProvider from(LifecycleOwner owner) {
+  public static AndroidLifecycle from(LifecycleOwner owner) {
     return from(owner.getLifecycle());
   }
 
   /**
-   * Creates a {@link AndroidLifecycleScopeProvider} for Android Lifecycles.
+   * Creates a {@link AndroidLifecycle} for Android Lifecycles.
    *
    * @param lifecycle the lifecycle to scope for
-   * @return a {@link AndroidLifecycleScopeProvider} against this lifecycle.
+   * @return a {@link AndroidLifecycle} against this lifecycle.
    */
-  public static AndroidLifecycleScopeProvider from(Lifecycle lifecycle) {
-    return new AndroidLifecycleScopeProvider(lifecycle);
+  public static AndroidLifecycle from(Lifecycle lifecycle) {
+    return new AndroidLifecycle(lifecycle);
   }
 
   private final LifecycleEventsObservable lifecycleObservable;
 
-  private AndroidLifecycleScopeProvider(Lifecycle lifecycle) {
+  private AndroidLifecycle(Lifecycle lifecycle) {
     this.lifecycleObservable = new LifecycleEventsObservable(lifecycle);
   }
 
