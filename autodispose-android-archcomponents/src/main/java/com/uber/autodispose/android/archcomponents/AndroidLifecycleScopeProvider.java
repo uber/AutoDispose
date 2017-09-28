@@ -28,9 +28,7 @@ import io.reactivex.functions.Function;
  * {@link LifecycleOwner} classes.
  * <p>
  * <pre><code>
- *   myFooObservable
- *      .to(new ObservableScoper<Foo>(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
- *      .subscribe();
+ *   AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycleOwner))
  * </code></pre>
  */
 public final class AndroidLifecycleScopeProvider

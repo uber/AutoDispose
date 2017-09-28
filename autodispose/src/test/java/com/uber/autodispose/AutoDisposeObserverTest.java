@@ -16,8 +16,8 @@
 
 package com.uber.autodispose;
 
-import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.observers.AutoDisposingObserver;
+import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -56,7 +56,7 @@ public class AutoDisposeObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    Disposable d = source.to(new ObservableScoper<Integer>(lifecycle))
+    Disposable d = source.to(AutoDispose.with(lifecycle).<Integer>forObservable())
         .subscribeWith(o);
     o.assertSubscribed();
 
@@ -77,7 +77,7 @@ public class AutoDisposeObserverTest {
 
   @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
     Observable.just(new BClass())
-        .to(new ObservableScoper<AClass>(Maybe.never()))
+        .to(AutoDispose.with(Maybe.never()).<AClass>forObservable())
         .subscribe(new Consumer<AClass>() {
           @Override public void accept(AClass aClass) throws Exception {
 
@@ -87,7 +87,8 @@ public class AutoDisposeObserverTest {
 
   @Test public void autoDispose_noGenericsOnEmpty_isFine() {
     Observable.just(new BClass())
-        .to(new ObservableScoper<>(Maybe.never()))
+        .to(AutoDispose.with(Maybe.never())
+            .forObservable())
         .subscribe();
   }
 
@@ -95,7 +96,7 @@ public class AutoDisposeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(new ObservableScoper<Integer>(lifecycle))
+    source.to(AutoDispose.with(lifecycle).<Integer>forObservable())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -117,7 +118,7 @@ public class AutoDisposeObserverTest {
     PublishSubject<Integer> source = PublishSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = TestUtil.makeProvider(scope);
-    source.to(new ObservableScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>forObservable())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -146,7 +147,7 @@ public class AutoDisposeObserverTest {
     PublishSubject<Integer> source = PublishSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    source.to(new ObservableScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>forObservable())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -176,7 +177,7 @@ public class AutoDisposeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     Observable.just(1)
-        .to(new ObservableScoper<Integer>(provider))
+        .to(AutoDispose.with(provider).<Integer>forObservable())
         .subscribe(o);
 
     o.takeSubscribe();
@@ -191,7 +192,7 @@ public class AutoDisposeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     Observable.just(1)
-        .to(new ObservableScoper<Integer>(provider))
+        .to(AutoDispose.with(provider).<Integer>forObservable())
         .subscribe(o);
 
     o.takeSubscribe();
@@ -206,7 +207,7 @@ public class AutoDisposeObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     PublishSubject<Integer> source = PublishSubject.create();
-    source.to(new ObservableScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>forObservable())
         .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
@@ -228,7 +229,7 @@ public class AutoDisposeObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     PublishSubject<Integer> source = PublishSubject.create();
-    source.to(new ObservableScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>forObservable())
         .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
@@ -249,7 +250,7 @@ public class AutoDisposeObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     PublishSubject<Integer> source = PublishSubject.create();
-    source.to(new ObservableScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>forObservable())
         .subscribe(o);
 
     o.assertNoValues();
@@ -262,8 +263,8 @@ public class AutoDisposeObserverTest {
   }
 
   @Test public void verifyObserverDelegate() {
-    final AtomicReference<Observer> atomicObserver = new AtomicReference();
-    final AtomicReference<Observer> atomicAutoDisposingObserver = new AtomicReference();
+    final AtomicReference<Observer> atomicObserver = new AtomicReference<>();
+    final AtomicReference<Observer> atomicAutoDisposingObserver = new AtomicReference<>();
     try {
       RxJavaPlugins.setOnObservableSubscribe(new BiFunction<Observable, Observer, Observer>() {
         @Override public Observer apply(Observable source, Observer observer) {
@@ -276,14 +277,18 @@ public class AutoDisposeObserverTest {
           return observer;
         }
       });
-      Observable.just(1).to(new ObservableScoper<Integer>(Maybe.never())).subscribe();
+      Observable.just(1)
+          .to(AutoDispose.with(Maybe.never()).<Integer>forObservable())
+          .subscribe();
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
       assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingObserver.class);
-      assertThat(((AutoDisposingObserver) atomicAutoDisposingObserver.get()).delegateObserver())
-              .isNotNull();
-      assertThat(((AutoDisposingObserver) atomicAutoDisposingObserver.get()).delegateObserver())
-              .isSameAs(atomicObserver.get());
+      assertThat(((AutoDisposingObserver) atomicAutoDisposingObserver.get())
+              .delegateObserver())
+          .isNotNull();
+      assertThat(((AutoDisposingObserver) atomicAutoDisposingObserver.get())
+              .delegateObserver())
+          .isSameAs(atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
@@ -304,7 +309,7 @@ public class AutoDisposeObserverTest {
       }
     });
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(new ObservableScoper<Integer>(lifecycle))
+    source.to(AutoDispose.with(lifecycle).<Integer>forObservable())
         .subscribe();
 
     assertThat(i.get()).isEqualTo(0);

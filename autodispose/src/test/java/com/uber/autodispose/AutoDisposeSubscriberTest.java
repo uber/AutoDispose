@@ -17,7 +17,6 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
-
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
@@ -36,10 +35,9 @@ import io.reactivex.subscribers.TestSubscriber;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import org.reactivestreams.Subscriber;
-
 import org.junit.After;
 import org.junit.Test;
+import org.reactivestreams.Subscriber;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -53,7 +51,7 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    Disposable d = source.to(new FlowableScoper<Integer>(lifecycle))
+    Disposable d = source.to(AutoDispose.with(lifecycle).<Integer>forFlowable())
         .subscribeWith(o);
     o.assertSubscribed();
 
@@ -74,7 +72,7 @@ public class AutoDisposeSubscriberTest {
 
   @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
     Flowable.just(new BClass())
-        .to(new FlowableScoper<AClass>(Maybe.never()))
+        .to(AutoDispose.with(Maybe.never()).<AClass>forFlowable())
         .subscribe(new Consumer<AClass>() {
           @Override public void accept(AClass aClass) throws Exception {
 
@@ -84,7 +82,8 @@ public class AutoDisposeSubscriberTest {
 
   @Test public void autoDispose_noGenericsOnEmpty_isFine() {
     Flowable.just(new BClass())
-        .to(new FlowableScoper<>(Maybe.never()))
+        .to(AutoDispose.with(Maybe.never())
+            .forFlowable())
         .subscribe();
   }
 
@@ -92,7 +91,7 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(new FlowableScoper<Integer>(lifecycle))
+    source.to(AutoDispose.with(lifecycle).<Integer>forFlowable())
         .subscribe(o);
     o.assertSubscribed();
 
@@ -118,7 +117,7 @@ public class AutoDisposeSubscriberTest {
     PublishProcessor<Integer> source = PublishProcessor.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = TestUtil.makeProvider(scope);
-    source.to(new FlowableScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>forFlowable())
         .subscribe(o);
     o.assertSubscribed();
 
@@ -150,7 +149,7 @@ public class AutoDisposeSubscriberTest {
     PublishProcessor<Integer> source = PublishProcessor.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    source.to(new FlowableScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>forFlowable())
         .subscribe(o);
     o.assertSubscribed();
 
@@ -183,7 +182,7 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     Flowable.just(1)
-        .to(new FlowableScoper<Integer>(provider))
+        .to(AutoDispose.with(provider).<Integer>forFlowable())
         .subscribe(o);
 
     List<Throwable> errors = o.errors();
@@ -199,7 +198,7 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     Flowable.just(1)
-        .to(new FlowableScoper<Integer>(provider))
+        .to(AutoDispose.with(provider).<Integer>forFlowable())
         .subscribe(o);
 
     List<Throwable> errors = o.errors();
@@ -215,7 +214,7 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-    source.to(new FlowableScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>forFlowable())
         .subscribe(o);
 
     assertThat(source.hasSubscribers()).isFalse();
@@ -237,7 +236,7 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-    source.to(new FlowableScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>forFlowable())
         .subscribe(o);
 
     assertThat(source.hasSubscribers()).isFalse();
@@ -258,7 +257,7 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-    source.to(new FlowableScoper<Integer>(provider))
+    source.to(AutoDispose.with(provider).<Integer>forFlowable())
         .subscribe(o);
 
     o.assertNoValues();
@@ -277,24 +276,30 @@ public class AutoDisposeSubscriberTest {
       RxJavaPlugins.setOnFlowableSubscribe(new BiFunction<Flowable, Subscriber, Subscriber>() {
         @Override public Subscriber apply(Flowable source, Subscriber subscriber) {
           if (atomicSubscriber.get() == null) {
-            System.out.println(subscriber.getClass().toString());
+            System.out.println(subscriber.getClass()
+                .toString());
             atomicSubscriber.set(subscriber);
           } else if (atomicAutoDisposingSubscriber.get() == null) {
-            System.out.println(subscriber.getClass().toString());
+            System.out.println(subscriber.getClass()
+                .toString());
             atomicAutoDisposingSubscriber.set(subscriber);
             RxJavaPlugins.setOnFlowableSubscribe(null);
           }
           return subscriber;
         }
       });
-      Flowable.just(1).to(new FlowableScoper<Integer>(Maybe.never())).subscribe();
+      Flowable.just(1)
+          .to(AutoDispose.with(Maybe.never()).<Integer>forFlowable())
+          .subscribe();
 
       assertThat(atomicAutoDisposingSubscriber.get()).isNotNull();
       assertThat(atomicAutoDisposingSubscriber.get()).isInstanceOf(AutoDisposingSubscriber.class);
       assertThat(((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get())
-          .delegateSubscriber()).isNotNull();
+              .delegateSubscriber())
+          .isNotNull();
       assertThat(((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get())
-          .delegateSubscriber()).isSameAs(atomicSubscriber.get());
+              .delegateSubscriber())
+          .isSameAs(atomicSubscriber.get());
     } finally {
       RxJavaPlugins.reset();
     }
@@ -315,7 +320,7 @@ public class AutoDisposeSubscriberTest {
       }
     }, BackpressureStrategy.LATEST);
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(new FlowableScoper<Integer>(lifecycle))
+    source.to(AutoDispose.with(lifecycle).<Integer>forFlowable())
         .subscribe();
 
     assertThat(i.get()).isEqualTo(0);
