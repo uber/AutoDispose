@@ -14,4 +14,4 @@
   ~ limitations under the License.
   -->
 
-<manifest package="com.uber.autodispose.android.archcomponents"/>
+<manifest package="com.uber.autodispose.android.androidlifecycle"/>

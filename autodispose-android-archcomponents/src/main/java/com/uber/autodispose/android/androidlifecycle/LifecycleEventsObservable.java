@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.android.archcomponents;
+package com.uber.autodispose.android.androidlifecycle;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.Lifecycle.Event;
