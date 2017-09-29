@@ -17,15 +17,12 @@
 package com.uber.autodispose.android.lifecycle;
 
 import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LifecycleRegistry;
 import android.support.test.annotation.UiThreadTest;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.LifecycleEndedException;
-import com.uber.autodispose.LifecycleNotStartedException;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
@@ -96,21 +93,6 @@ import static com.google.common.truth.Truth.assertThat;
     assertThat(d.isDisposed()).isTrue();
   }
 
-  @Test @UiThreadTest public void observable_offBeforeCreate_shouldFail() {
-    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
-    final PublishSubject<Integer> subject = PublishSubject.create();
-
-    UninitializedLifecycleOwner owner = new UninitializedLifecycleOwner();
-    subject.to(AutoDispose.with(AndroidLifecycle.from(owner)).<Integer>forObservable())
-        .subscribe(o);
-
-    Disposable d = o.takeSubscribe();
-    Throwable t = o.takeError();
-    assertThat(t).isInstanceOf(LifecycleNotStartedException.class);
-    o.assertNoMoreEvents();
-    assertThat(d.isDisposed()).isTrue();
-  }
-
   @Test @UiThreadTest public void observable_offAfterDestroy_shouldFail() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
@@ -152,14 +134,5 @@ import static com.google.common.truth.Truth.assertThat;
     assertThat(t).isInstanceOf(LifecycleEndedException.class);
     o.assertNoMoreEvents();
     assertThat(d.isDisposed()).isTrue();
-  }
-
-  private static class UninitializedLifecycleOwner implements LifecycleOwner {
-
-    LifecycleRegistry registry = new LifecycleRegistry(this);
-
-    @Override public LifecycleRegistry getLifecycle() {
-      return registry;
-    }
   }
 }
