@@ -28,6 +28,17 @@
       android:theme="@style/Theme.AppCompat.DayNight"
       android:fullBackupContent="@null"
       tools:ignore="GoogleAppIndexingWarning">
+    <activity
+        android:name=".MainActivity"
+        android:label="@string/title_activity_main"
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+      <intent-filter>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
   </application>
 
 </manifest>
