@@ -17,8 +17,8 @@
 package com.uber.autodispose.android.lifecycle;
 
 import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LifecycleRegistry;
-import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 
@@ -28,8 +28,7 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
  * AndroidLifecycle implementation for testing. You can either back it with your own
  * instance, or just stub it in place and use its public emit() API.
  */
-@RestrictTo(TESTS) public final class TestAndroidLifecycle
-    implements LifecycleRegistryOwner {
+@RestrictTo(TESTS) public final class TestAndroidLifecycle implements LifecycleOwner {
 
   private final LifecycleRegistry registry;
 
