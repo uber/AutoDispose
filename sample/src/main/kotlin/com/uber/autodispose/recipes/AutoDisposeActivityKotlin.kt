@@ -27,7 +27,7 @@ import io.reactivex.subjects.BehaviorSubject
 /**
  * An [Activity] example implementation for making one implement [LifecycleScopeProvider].
  */
-abstract class AutoDisposeKotlinActivity : Activity(), LifecycleScopeProvider<AutoDisposeKotlinActivity.ActivityEvent> {
+abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<AutoDisposeActivityKotlin.ActivityEvent> {
 
   private val lifecycleEvents = BehaviorSubject.create<ActivityEvent>()
 
