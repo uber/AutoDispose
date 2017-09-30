@@ -51,7 +51,7 @@ public abstract class AutoDisposeActivity extends Activity
             case STOP:
               return ActivityEvent.DESTROY;
             default:
-              throw new LifecycleEndedException();
+              throw new LifecycleEndedException("Cannot bind to Activity lifecycle after destroy.");
           }
         }
       };
