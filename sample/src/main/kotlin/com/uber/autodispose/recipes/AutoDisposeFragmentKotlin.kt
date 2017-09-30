@@ -1,0 +1,120 @@
+/*
+ * Copyright (c) 2017. Uber Technologies
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.uber.autodispose.recipes
+
+import android.app.Fragment
+import android.content.Context
+import android.os.Bundle
+import android.view.View
+import com.uber.autodispose.LifecycleEndedException
+import com.uber.autodispose.LifecycleScopeProvider
+import io.reactivex.Observable
+import io.reactivex.functions.Function
+import io.reactivex.subjects.BehaviorSubject
+
+/**
+ * A [Fragment] example implementation for making one implement [LifecycleScopeProvider]. One would
+ * normally use this as a base fragment class to extend others from.
+ */
+abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<AutoDisposeFragmentKotlin.FragmentEvent> {
+
+  private val lifecycleEvents = BehaviorSubject.create<FragmentEvent>()
+
+  enum class FragmentEvent {
+    ATTACH, CREATE, CREATE_VIEW, START, RESUME, PAUSE, STOP, DESTROY_VIEW, DESTROY, DETACH
+  }
+
+  override fun lifecycle(): Observable<FragmentEvent> {
+    return lifecycleEvents.hide()
+  }
+
+  override fun correspondingEvents(): Function<FragmentEvent, FragmentEvent> {
+    return CORRESPONDING_EVENTS
+  }
+
+  override fun peekLifecycle(): FragmentEvent? {
+    return lifecycleEvents.value
+  }
+
+  override fun onAttach(context: Context) {
+    super.onAttach(context)
+    lifecycleEvents.onNext(FragmentEvent.ATTACH)
+  }
+
+  override fun onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    lifecycleEvents.onNext(FragmentEvent.CREATE)
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle) {
+    super.onViewCreated(view, savedInstanceState)
+    lifecycleEvents.onNext(FragmentEvent.CREATE_VIEW)
+  }
+
+  override fun onStart() {
+    super.onStart()
+    lifecycleEvents.onNext(FragmentEvent.START)
+  }
+
+  override fun onResume() {
+    super.onResume()
+    lifecycleEvents.onNext(FragmentEvent.RESUME)
+  }
+
+  override fun onPause() {
+    lifecycleEvents.onNext(FragmentEvent.PAUSE)
+    super.onPause()
+  }
+
+  override fun onStop() {
+    lifecycleEvents.onNext(FragmentEvent.STOP)
+    super.onStop()
+  }
+
+  override fun onDestroyView() {
+    lifecycleEvents.onNext(FragmentEvent.DESTROY_VIEW)
+    super.onDestroyView()
+  }
+
+  override fun onDestroy() {
+    lifecycleEvents.onNext(FragmentEvent.DESTROY)
+    super.onDestroy()
+  }
+
+  override fun onDetach() {
+    lifecycleEvents.onNext(FragmentEvent.DETACH)
+    super.onDetach()
+  }
+
+  companion object {
+
+    private val CORRESPONDING_EVENTS = Function<FragmentEvent, FragmentEvent> { event ->
+      when (event) {
+        AutoDisposeFragmentKotlin.FragmentEvent.ATTACH -> FragmentEvent.DETACH
+        AutoDisposeFragmentKotlin.FragmentEvent.CREATE -> FragmentEvent.DESTROY
+        AutoDisposeFragmentKotlin.FragmentEvent.CREATE_VIEW -> FragmentEvent.DESTROY_VIEW
+        AutoDisposeFragmentKotlin.FragmentEvent.START -> FragmentEvent.STOP
+        AutoDisposeFragmentKotlin.FragmentEvent.RESUME -> FragmentEvent.PAUSE
+        AutoDisposeFragmentKotlin.FragmentEvent.PAUSE -> FragmentEvent.STOP
+        AutoDisposeFragmentKotlin.FragmentEvent.STOP -> FragmentEvent.DESTROY_VIEW
+        AutoDisposeFragmentKotlin.FragmentEvent.DESTROY_VIEW -> FragmentEvent.DESTROY
+        AutoDisposeFragmentKotlin.FragmentEvent.DESTROY -> FragmentEvent.DETACH
+        else -> throw LifecycleEndedException("Cannot bind to Fragment lifecycle after detach.")
+      }
+    }
+  }
+}
