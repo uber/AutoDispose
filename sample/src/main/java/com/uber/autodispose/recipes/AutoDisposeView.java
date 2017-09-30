@@ -99,6 +99,7 @@ public abstract class AutoDisposeView extends View
   }
 
   @Override public Observable<ViewEvent> lifecycle() {
+    //noinspection ConstantConditions only in layoutlib
     return lifecycleEvents.hide();
   }
 
@@ -107,6 +108,7 @@ public abstract class AutoDisposeView extends View
   }
 
   @Nullable @Override public ViewEvent peekLifecycle() {
+    //noinspection ConstantConditions only in layoutlib
     return lifecycleEvents.getValue();
   }
 }
