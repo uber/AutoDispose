@@ -27,7 +27,8 @@ import javax.annotation.Nullable;
 
 /**
  * An {@link Activity} example implementation for making one implement {@link
- * LifecycleScopeProvider}.
+ * LifecycleScopeProvider}. One would normally use this as a base activity class to extend others
+ * from.
  */
 public abstract class AutoDisposeActivity extends Activity
     implements LifecycleScopeProvider<AutoDisposeActivity.ActivityEvent> {

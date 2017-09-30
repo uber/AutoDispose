@@ -25,7 +25,8 @@ import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
 
 /**
- * An [Activity] example implementation for making one implement [LifecycleScopeProvider].
+ * An [Activity] example implementation for making one implement [LifecycleScopeProvider]. One
+ * would normally use this as a base activity class to extend others from.
  */
 abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<AutoDisposeActivityKotlin.ActivityEvent> {
 
