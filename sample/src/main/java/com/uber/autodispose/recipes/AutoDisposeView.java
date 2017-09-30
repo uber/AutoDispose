@@ -18,6 +18,7 @@ package com.uber.autodispose.recipes;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
@@ -27,7 +28,6 @@ import com.uber.autodispose.android.ViewScopeProvider;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
-import javax.annotation.Nullable;
 
 /**
  * An example implementation of an AutoDispose View with lifecycle handling and precondition checks
@@ -49,23 +49,26 @@ public abstract class AutoDisposeView extends View
         }
       };
 
-  private BehaviorSubject<ViewEvent> lifecycleEvents;
+  @Nullable private BehaviorSubject<ViewEvent> lifecycleEvents = null;
 
   public AutoDisposeView(Context context) {
     this(context, null);
   }
 
-  public AutoDisposeView(Context context, AttributeSet attrs) {
+  public AutoDisposeView(Context context, @Nullable AttributeSet attrs) {
     this(context, attrs, View.NO_ID);
   }
 
-  public AutoDisposeView(Context context, AttributeSet attrs, int defStyleAttr) {
+  public AutoDisposeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     init();
   }
 
   @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-  public AutoDisposeView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+  public AutoDisposeView(Context context,
+      @Nullable AttributeSet attrs,
+      int defStyleAttr,
+      int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
     init();
   }

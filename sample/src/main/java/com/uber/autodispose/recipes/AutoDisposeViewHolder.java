@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.recipes;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.BindAwareViewHolder;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,9 +33,7 @@ public abstract class AutoDisposeViewHolder extends BindAwareViewHolder implemen
 
   private static Object NOTIFICATION = new Object();
 
-  private MaybeSubject<Object> unbindNotifier = null;
-
-  private MaybeSubject<Object> notifier = null;
+  @Nullable private MaybeSubject<Object> unbindNotifier = null;
 
   public AutoDisposeViewHolder(View itemView) {
     super(itemView);

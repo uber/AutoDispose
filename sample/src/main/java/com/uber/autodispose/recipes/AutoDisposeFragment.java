@@ -19,13 +19,13 @@ package com.uber.autodispose.recipes;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import com.uber.autodispose.LifecycleEndedException;
 import com.uber.autodispose.LifecycleScopeProvider;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
-import javax.annotation.Nullable;
 
 /**
  * A {@link Fragment} example implementation for making one implement {@link

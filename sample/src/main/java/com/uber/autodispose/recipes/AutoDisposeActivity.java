@@ -18,12 +18,12 @@ package com.uber.autodispose.recipes;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import com.uber.autodispose.LifecycleEndedException;
 import com.uber.autodispose.LifecycleScopeProvider;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
-import javax.annotation.Nullable;
 
 /**
  * An {@link Activity} example implementation for making one implement {@link
