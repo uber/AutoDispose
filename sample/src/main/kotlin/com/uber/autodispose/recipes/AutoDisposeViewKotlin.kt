@@ -24,6 +24,7 @@ import android.view.View
 import com.uber.autodispose.LifecycleEndedException
 import com.uber.autodispose.LifecycleScopeProvider
 import com.uber.autodispose.android.ViewScopeProvider
+import com.uber.autodispose.recipes.AutoDisposeViewKotlin.ViewEvent
 import io.reactivex.Observable
 import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
@@ -33,59 +34,49 @@ import io.reactivex.subjects.BehaviorSubject
  * using [LifecycleScopeProvider]. The precondition checks here are only different from what
  * [ViewScopeProvider] provides in that it will check against subscription in the constructor.
  */
-abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<AutoDisposeViewKotlin.ViewEvent> {
+abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
 
   enum class ViewEvent {
     ATTACH, DETACH
   }
 
-  private var lifecycleEvents: BehaviorSubject<ViewEvent>? = null
+  private val lifecycleEvents by lazy { BehaviorSubject.create<ViewEvent>() }
 
-  @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
-      defStyleAttr: Int = View.NO_ID) : super(context, attrs, defStyleAttr)
+  @JvmOverloads constructor(
+      context: Context,
+      attrs: AttributeSet? = null,
+      defStyleAttr: Int = View.NO_ID)
+      : super(context, attrs, defStyleAttr)
 
   @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-  constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(
-      context, attrs, defStyleAttr, defStyleRes)
-
-  init {
-    if (!isInEditMode) {
-      // This is important to gate so you don't break the IDE preview!
-      lifecycleEvents = BehaviorSubject.create()
-    }
-  }
+  constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int)
+      : super(context, attrs, defStyleAttr, defStyleRes)
 
   override fun onAttachedToWindow() {
     super.onAttachedToWindow()
-    if (lifecycleEvents != null) {
-      lifecycleEvents!!.onNext(ViewEvent.ATTACH)
-    }
+    lifecycleEvents.onNext(ViewEvent.ATTACH)
   }
 
   override fun onDetachedFromWindow() {
     super.onDetachedFromWindow()
-    if (lifecycleEvents != null) {
-      lifecycleEvents!!.onNext(ViewEvent.DETACH)
-    }
+    lifecycleEvents.onNext(ViewEvent.DETACH)
   }
 
-  override fun lifecycle(): Observable<ViewEvent> {
-    return lifecycleEvents!!.hide()
-  }
+  override fun lifecycle(): Observable<ViewEvent> = lifecycleEvents.hide()
 
   override fun correspondingEvents(): Function<ViewEvent, ViewEvent> {
     return CORRESPONDING_EVENTS
   }
 
   override fun peekLifecycle(): ViewEvent? {
-    return lifecycleEvents!!.value
+    return lifecycleEvents.value
   }
 
   companion object {
 
     private val CORRESPONDING_EVENTS = Function<ViewEvent, ViewEvent> { viewEvent ->
       when (viewEvent) {
-        AutoDisposeViewKotlin.ViewEvent.ATTACH -> ViewEvent.DETACH
+        ViewEvent.ATTACH -> ViewEvent.DETACH
         else -> throw LifecycleEndedException("Cannot bind to View lifecycle after detach.")
       }
     }
