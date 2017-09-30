@@ -17,15 +17,12 @@
 package com.uber.autodispose.android.lifecycle;
 
 import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LifecycleRegistry;
 import android.support.test.annotation.UiThreadTest;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.LifecycleEndedException;
-import com.uber.autodispose.LifecycleNotStartedException;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
@@ -45,18 +42,17 @@ import static com.google.common.truth.Truth.assertThat;
 
   @Rule public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
 
-  @Test @UiThreadTest public void observable_normal() {
+  @Test @UiThreadTest public void observable_beforeCreate() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
     TestAndroidLifecycle lifecycle = new TestAndroidLifecycle();
+    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+        .subscribe(o);
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.to(
-        AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
-        .subscribe(o);
 
     Disposable d = o.takeSubscribe();
     o.assertNoMoreEvents(); // No initial value.
@@ -75,6 +71,96 @@ import static com.google.common.truth.Truth.assertThat;
     o.assertNoMoreEvents();
   }
 
+  @Test @UiThreadTest public void observable_createDestroy() {
+    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
+    final PublishSubject<Integer> subject = PublishSubject.create();
+
+    // Spin it up
+    TestAndroidLifecycle lifecycle = new TestAndroidLifecycle();
+    lifecycle.emit(Lifecycle.Event.ON_CREATE);
+    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+        .subscribe(o);
+    lifecycle.emit(Lifecycle.Event.ON_START);
+    lifecycle.emit(Lifecycle.Event.ON_RESUME);
+
+    Disposable d = o.takeSubscribe();
+    o.assertNoMoreEvents(); // No initial value.
+
+    subject.onNext(0);
+    assertThat(o.takeNext()).isEqualTo(0);
+
+    subject.onNext(1);
+    assertThat(o.takeNext()).isEqualTo(1);
+
+    lifecycle.emit(Lifecycle.Event.ON_PAUSE);
+    lifecycle.emit(Lifecycle.Event.ON_STOP);
+    lifecycle.emit(Lifecycle.Event.ON_DESTROY);
+
+    subject.onNext(2);
+    o.assertNoMoreEvents();
+  }
+
+  @Test @UiThreadTest public void observable_startStop() {
+    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
+    final PublishSubject<Integer> subject = PublishSubject.create();
+
+    // Spin it up
+    TestAndroidLifecycle lifecycle = new TestAndroidLifecycle();
+    lifecycle.emit(Lifecycle.Event.ON_CREATE);
+    lifecycle.emit(Lifecycle.Event.ON_START);
+    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+        .subscribe(o);
+    lifecycle.emit(Lifecycle.Event.ON_RESUME);
+
+    Disposable d = o.takeSubscribe();
+    o.assertNoMoreEvents(); // No initial value.
+
+    subject.onNext(0);
+    assertThat(o.takeNext()).isEqualTo(0);
+
+    subject.onNext(1);
+    assertThat(o.takeNext()).isEqualTo(1);
+
+    lifecycle.emit(Lifecycle.Event.ON_PAUSE);
+
+    // We should stop here
+    lifecycle.emit(Lifecycle.Event.ON_STOP);
+    subject.onNext(2);
+    o.assertNoMoreEvents();
+
+    lifecycle.emit(Lifecycle.Event.ON_DESTROY);
+  }
+
+  @Test @UiThreadTest public void observable_resumePause() {
+    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
+    final PublishSubject<Integer> subject = PublishSubject.create();
+
+    // Spin it up
+    TestAndroidLifecycle lifecycle = new TestAndroidLifecycle();
+    lifecycle.emit(Lifecycle.Event.ON_CREATE);
+    lifecycle.emit(Lifecycle.Event.ON_START);
+    lifecycle.emit(Lifecycle.Event.ON_RESUME);
+    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+        .subscribe(o);
+
+    Disposable d = o.takeSubscribe();
+    o.assertNoMoreEvents(); // No initial value.
+
+    subject.onNext(0);
+    assertThat(o.takeNext()).isEqualTo(0);
+
+    subject.onNext(1);
+    assertThat(o.takeNext()).isEqualTo(1);
+
+    // We should stop here
+    lifecycle.emit(Lifecycle.Event.ON_PAUSE);
+    subject.onNext(2);
+    o.assertNoMoreEvents();
+
+    lifecycle.emit(Lifecycle.Event.ON_STOP);
+    lifecycle.emit(Lifecycle.Event.ON_DESTROY);
+  }
+
   @Test public void observable_offMainThread_shouldFail() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> subject = PublishSubject.create();
@@ -84,29 +170,13 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.to(
-        AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
     assertThat(t).isInstanceOf(IllegalStateException.class);
     assertThat(t.getMessage()).contains("main thread");
-    o.assertNoMoreEvents();
-    assertThat(d.isDisposed()).isTrue();
-  }
-
-  @Test @UiThreadTest public void observable_offBeforeCreate_shouldFail() {
-    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
-    final PublishSubject<Integer> subject = PublishSubject.create();
-
-    UninitializedLifecycleOwner owner = new UninitializedLifecycleOwner();
-    subject.to(AutoDispose.with(AndroidLifecycle.from(owner)).<Integer>forObservable())
-        .subscribe(o);
-
-    Disposable d = o.takeSubscribe();
-    Throwable t = o.takeError();
-    assertThat(t).isInstanceOf(LifecycleNotStartedException.class);
     o.assertNoMoreEvents();
     assertThat(d.isDisposed()).isTrue();
   }
@@ -122,8 +192,7 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_PAUSE);
     lifecycle.emit(Lifecycle.Event.ON_STOP);
     lifecycle.emit(Lifecycle.Event.ON_DESTROY);
-    subject.to(
-        AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -143,8 +212,7 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
     lifecycle.emit(Lifecycle.Event.ON_PAUSE);
     lifecycle.emit(Lifecycle.Event.ON_STOP);
-    subject.to(
-        AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -152,14 +220,5 @@ import static com.google.common.truth.Truth.assertThat;
     assertThat(t).isInstanceOf(LifecycleEndedException.class);
     o.assertNoMoreEvents();
     assertThat(d.isDisposed()).isTrue();
-  }
-
-  private static class UninitializedLifecycleOwner implements LifecycleOwner {
-
-    LifecycleRegistry registry = new LifecycleRegistry(this);
-
-    @Override public LifecycleRegistry getLifecycle() {
-      return registry;
-    }
   }
 }

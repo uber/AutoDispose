@@ -39,27 +39,26 @@ import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMai
   @SuppressWarnings("CheckReturnValue") LifecycleEventsObservable(Lifecycle lifecycle) {
     this.lifecycle = lifecycle;
     // Backfill if already created for boundary checking
-    @Nullable Event event;
+    // We do a trick here for corresponding events where we pretend something is created
+    // upon initialized state so that it assumes the corresponding event is DESTROY.
+    @Nullable Event correspondingEvent;
     switch (lifecycle.getCurrentState()) {
+      case INITIALIZED:
+        correspondingEvent = Event.ON_CREATE;
+        break;
       case CREATED:
-        event = Event.ON_CREATE;
+        correspondingEvent = Event.ON_START;
         break;
       case STARTED:
-        event = Event.ON_START;
-        break;
       case RESUMED:
-        event = Event.ON_RESUME;
+        correspondingEvent = Event.ON_RESUME;
         break;
       case DESTROYED:
-        event = Event.ON_DESTROY;
-        break;
       default:
-        event = null;
+        correspondingEvent = Event.ON_DESTROY;
         break;
     }
-    if (event != null) {
-      eventsObservable.onNext(event);
-    }
+    eventsObservable.onNext(correspondingEvent);
   }
 
   Event getValue() {
@@ -97,7 +96,11 @@ import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMai
 
     @OnLifecycleEvent(Event.ON_ANY) void onStateChange(LifecycleOwner owner, Event event) {
       if (!isDisposed()) {
-        eventsObservable.onNext(event);
+        if (!(event == Event.ON_CREATE && eventsObservable.getValue() == event)) {
+          // Due to the INITIALIZED->ON_CREATE mapping trick we do in the constructor backfill,
+          // we fire this conditionally to avoid duplicate CREATE events.
+          eventsObservable.onNext(event);
+        }
         observer.onNext(event);
       }
     }

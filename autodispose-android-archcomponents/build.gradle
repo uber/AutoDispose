@@ -69,5 +69,4 @@ tasks.withType(JavaCompile) {
                            "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
 }
 
-// Disable for now until we're ready to release this
-// apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
