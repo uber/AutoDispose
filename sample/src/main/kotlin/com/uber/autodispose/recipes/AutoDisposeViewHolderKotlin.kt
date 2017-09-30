@@ -38,14 +38,7 @@ abstract class AutoDisposeViewHolderKotlin(itemView: View)
   private val notifier: MaybeSubject<Any>
     get() {
       synchronized(this) {
-        var n = unbindNotifier
-        return if (n == null) {
-          n = MaybeSubject.create<Any>()
-          unbindNotifier = n
-          n
-        } else {
-          n
-        }
+        return unbindNotifier ?: MaybeSubject.create<Any>().also { unbindNotifier = it }
       }
     }
 
