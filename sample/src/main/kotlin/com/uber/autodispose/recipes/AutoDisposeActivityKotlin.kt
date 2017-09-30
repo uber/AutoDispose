@@ -20,6 +20,12 @@ import android.app.Activity
 import android.os.Bundle
 import com.uber.autodispose.LifecycleEndedException
 import com.uber.autodispose.LifecycleScopeProvider
+import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.CREATE
+import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.DESTROY
+import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.PAUSE
+import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.RESUME
+import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.START
+import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.STOP
 import io.reactivex.Observable
 import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
@@ -82,11 +88,11 @@ abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<Au
 
     private val CORRESPONDING_EVENTS = Function<ActivityEvent, ActivityEvent> { activityEvent ->
       when (activityEvent) {
-        ActivityEvent.CREATE -> ActivityEvent.DESTROY
-        ActivityEvent.START -> ActivityEvent.STOP
-        ActivityEvent.RESUME -> ActivityEvent.PAUSE
-        ActivityEvent.PAUSE -> ActivityEvent.STOP
-        ActivityEvent.STOP -> ActivityEvent.DESTROY
+        CREATE -> DESTROY
+        START -> STOP
+        RESUME -> PAUSE
+        PAUSE -> STOP
+        STOP -> DESTROY
         else -> throw LifecycleEndedException("Cannot bind to Activity lifecycle after destroy.")
       }
     }

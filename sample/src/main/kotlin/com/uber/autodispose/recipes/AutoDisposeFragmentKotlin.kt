@@ -22,6 +22,16 @@ import android.os.Bundle
 import android.view.View
 import com.uber.autodispose.LifecycleEndedException
 import com.uber.autodispose.LifecycleScopeProvider
+import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.ATTACH
+import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.CREATE
+import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.CREATE_VIEW
+import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.DESTROY
+import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.DESTROY_VIEW
+import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.DETACH
+import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.PAUSE
+import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.RESUME
+import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.START
+import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.STOP
 import io.reactivex.Observable
 import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
@@ -104,15 +114,15 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Au
 
     private val CORRESPONDING_EVENTS = Function<FragmentEvent, FragmentEvent> { event ->
       when (event) {
-        AutoDisposeFragmentKotlin.FragmentEvent.ATTACH -> FragmentEvent.DETACH
-        AutoDisposeFragmentKotlin.FragmentEvent.CREATE -> FragmentEvent.DESTROY
-        AutoDisposeFragmentKotlin.FragmentEvent.CREATE_VIEW -> FragmentEvent.DESTROY_VIEW
-        AutoDisposeFragmentKotlin.FragmentEvent.START -> FragmentEvent.STOP
-        AutoDisposeFragmentKotlin.FragmentEvent.RESUME -> FragmentEvent.PAUSE
-        AutoDisposeFragmentKotlin.FragmentEvent.PAUSE -> FragmentEvent.STOP
-        AutoDisposeFragmentKotlin.FragmentEvent.STOP -> FragmentEvent.DESTROY_VIEW
-        AutoDisposeFragmentKotlin.FragmentEvent.DESTROY_VIEW -> FragmentEvent.DESTROY
-        AutoDisposeFragmentKotlin.FragmentEvent.DESTROY -> FragmentEvent.DETACH
+        ATTACH -> DETACH
+        CREATE -> DESTROY
+        CREATE_VIEW -> DESTROY_VIEW
+        START -> STOP
+        RESUME -> PAUSE
+        PAUSE -> STOP
+        STOP -> DESTROY_VIEW
+        DESTROY_VIEW -> DESTROY
+        DESTROY -> DETACH
         else -> throw LifecycleEndedException("Cannot bind to Fragment lifecycle after detach.")
       }
     }
