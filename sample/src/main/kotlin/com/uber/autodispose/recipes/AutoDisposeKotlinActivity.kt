@@ -81,9 +81,11 @@ abstract class AutoDisposeKotlinActivity : Activity(), LifecycleScopeProvider<Au
 
     private val CORRESPONDING_EVENTS = Function<ActivityEvent, ActivityEvent> { activityEvent ->
       when (activityEvent) {
-        AutoDisposeKotlinActivity.ActivityEvent.CREATE -> ActivityEvent.DESTROY
-        AutoDisposeKotlinActivity.ActivityEvent.START -> ActivityEvent.STOP
-        AutoDisposeKotlinActivity.ActivityEvent.RESUME, AutoDisposeKotlinActivity.ActivityEvent.PAUSE, AutoDisposeKotlinActivity.ActivityEvent.STOP -> ActivityEvent.DESTROY
+        ActivityEvent.CREATE -> ActivityEvent.DESTROY
+        ActivityEvent.START -> ActivityEvent.STOP
+        ActivityEvent.RESUME -> ActivityEvent.PAUSE
+        ActivityEvent.PAUSE -> ActivityEvent.STOP
+        ActivityEvent.STOP -> ActivityEvent.DESTROY
         else -> throw LifecycleEndedException()
       }
     }

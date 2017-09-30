@@ -45,7 +45,9 @@ public abstract class AutoDisposeActivity extends Activity
             case START:
               return ActivityEvent.STOP;
             case RESUME:
+              return ActivityEvent.PAUSE;
             case PAUSE:
+              return ActivityEvent.STOP;
             case STOP:
               return ActivityEvent.DESTROY;
             default:
