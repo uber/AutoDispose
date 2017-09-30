@@ -21,17 +21,28 @@
   <application
       android:allowBackup="true"
       android:hardwareAccelerated="true"
-      android:label="AutoDispose"
+      android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher"
       android:supportsRtl="true"
-      android:theme="@style/Theme.AppCompat.DayNight"
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar"
       android:fullBackupContent="@null"
       tools:ignore="GoogleAppIndexingWarning">
     <activity
         android:name=".MainActivity"
-        android:label="@string/title_activity_main"
-        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+      <intent-filter>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+    <activity
+        android:name=".KotlinActivity"
+        android:label="@string/app_name_kotlin"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
       <intent-filter>
         <category android:name="android.intent.category.DEFAULT"/>

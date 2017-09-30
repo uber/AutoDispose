@@ -15,5 +15,7 @@
   -->
 
 <resources>
+  <string name="app_name">AutoDispose Demo</string>
+  <string name="app_name_kotlin">AutoDispose Kotlin Demo</string>
   <string name="title_activity_main">AutoDispose Demo</string>
 </resources>
