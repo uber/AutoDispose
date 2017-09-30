@@ -50,11 +50,11 @@ abstract class AutoDisposeViewHolderKotlin(itemView: View)
     }
 
   override fun onUnbind() {
-    emitUnBindIfPresent()
+    emitUnbindIfPresent()
     unbindNotifier = null
   }
 
-  private fun emitUnBindIfPresent() {
+  private fun emitUnbindIfPresent() {
     unbindNotifier?.let {
       if (!it.hasComplete()) {
         it.onSuccess(NOTIFICATION)

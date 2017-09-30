@@ -49,11 +49,11 @@ public abstract class AutoDisposeViewHolder extends BindAwareViewHolder implemen
   }
 
   @Override protected void onUnbind() {
-    emitUnBindIfPresent();
+    emitUnbindIfPresent();
     unbindNotifier = null;
   }
 
-  private void emitUnBindIfPresent() {
+  private void emitUnbindIfPresent() {
     MaybeSubject<Object> notifier = unbindNotifier;
     if (notifier != null && !notifier.hasComplete()) {
       notifier.onSuccess(NOTIFICATION);
