@@ -37,6 +37,12 @@ public abstract class AutoDisposeActivity extends Activity
     CREATE, START, RESUME, PAUSE, STOP, DESTROY
   }
 
+  /**
+   * This is a function of current event -> target disposal event. That is to say that if event A
+   * returns B, then any stream subscribed to during A will autodispose on B. In Android, we make
+   * symmetric boundary conditions. Create -> Destroy, Start -> Stop, etc. For anything after Resume
+   * we dispose on the next immediate destruction event. Subscribing after Destroy is an error.
+   */
   private static Function<ActivityEvent, ActivityEvent> CORRESPONDING_EVENTS =
       new Function<ActivityEvent, ActivityEvent>() {
         @Override public ActivityEvent apply(ActivityEvent activityEvent) throws Exception {

@@ -86,6 +86,13 @@ abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<Au
 
   companion object {
 
+    /**
+     * This is a function of current event -> target disposal event. That is to say that if event A
+     * returns B, then any stream subscribed to during A will autodispose on B. In Android, we make
+     * symmetric boundary conditions. Create -> Destroy, Start -> Stop, etc. For anything after
+     * Resume we dispose on the next immediate destruction event. Subscribing after Destroy is an
+     * error.
+     */
     private val CORRESPONDING_EVENTS = Function<ActivityEvent, ActivityEvent> { activityEvent ->
       when (activityEvent) {
         CREATE -> DESTROY

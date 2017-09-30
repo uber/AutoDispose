@@ -39,6 +39,12 @@ public abstract class AutoDisposeFragment extends Fragment
     ATTACH, CREATE, CREATE_VIEW, START, RESUME, PAUSE, STOP, DESTROY_VIEW, DESTROY, DETACH
   }
 
+  /**
+   * This is a function of current event -> target disposal event. That is to say that if event A
+   * returns B, then any stream subscribed to during A will autodispose on B. In Android, we make
+   * symmetric boundary conditions. Create -> Destroy, Start -> Stop, etc. For anything after Resume
+   * we dispose on the next immediate destruction event. Subscribing after Detach is an error.
+   */
   private static Function<FragmentEvent, FragmentEvent> CORRESPONDING_EVENTS =
       new Function<FragmentEvent, FragmentEvent>() {
         @Override public FragmentEvent apply(FragmentEvent event) throws Exception {

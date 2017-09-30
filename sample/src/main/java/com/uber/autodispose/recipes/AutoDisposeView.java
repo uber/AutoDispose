@@ -37,6 +37,11 @@ import io.reactivex.subjects.BehaviorSubject;
 public abstract class AutoDisposeView extends View
     implements LifecycleScopeProvider<AutoDisposeView.ViewEvent> {
 
+  /**
+   * This is a function of current event -> target disposal event. That is to say that if event
+   * "Attach" returns "Detach", then any stream subscribed to during Attach will autodispose on
+   * Detach.
+   */
   private static Function<ViewEvent, ViewEvent> CORRESPONDING_EVENTS =
       new Function<ViewEvent, ViewEvent>() {
         @Override public ViewEvent apply(ViewEvent viewEvent) throws Exception {

@@ -74,6 +74,11 @@ abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
 
   companion object {
 
+    /**
+     * This is a function of current event -> target disposal event. That is to say that if event
+     * "Attach" returns "Detach", then any stream subscribed to during Attach will autodispose on
+     * Detach.
+     */
     private val CORRESPONDING_EVENTS = Function<ViewEvent, ViewEvent> { viewEvent ->
       when (viewEvent) {
         ViewEvent.ATTACH -> ViewEvent.DETACH
