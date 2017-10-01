@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (c) 2017. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-rootProject.name = 'autodispose-root'
-include ':autodispose'
-include ':autodispose-android'
-include ':autodispose-android-archcomponents'
-include ':autodispose-kotlin'
-include ':sample'
-include ':test-utils'
+/**
+ * Android recipes for AutoDispose.
+ */
+@com.uber.javaxextras.FieldsMethodsAndParametersAreNonNullByDefault
+package com.uber.autodispose.sample;
+
