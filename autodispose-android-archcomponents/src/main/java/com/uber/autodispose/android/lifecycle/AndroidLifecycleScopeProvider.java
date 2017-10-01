@@ -28,10 +28,10 @@ import io.reactivex.functions.Function;
  * {@link LifecycleOwner} classes.
  * <p>
  * <pre><code>
- *   AutoDispose.with(AndroidLifecycle.from(lifecycleOwner))
+ *   AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycleOwner))
  * </code></pre>
  */
-public final class AndroidLifecycle
+public final class AndroidLifecycleScopeProvider
     implements LifecycleScopeProvider<Lifecycle.Event> {
 
   private static final Function<Lifecycle.Event, Lifecycle.Event> CORRESPONDING_EVENTS =
@@ -55,28 +55,28 @@ public final class AndroidLifecycle
       };
 
   /**
-   * Creates a {@link AndroidLifecycle} for Android LifecycleOwners.
+   * Creates a {@link AndroidLifecycleScopeProvider} for Android LifecycleOwners.
    *
    * @param owner the owner to scope for
-   * @return a {@link AndroidLifecycle} against this owner.
+   * @return a {@link AndroidLifecycleScopeProvider} against this owner.
    */
-  public static AndroidLifecycle from(LifecycleOwner owner) {
+  public static AndroidLifecycleScopeProvider from(LifecycleOwner owner) {
     return from(owner.getLifecycle());
   }
 
   /**
-   * Creates a {@link AndroidLifecycle} for Android Lifecycles.
+   * Creates a {@link AndroidLifecycleScopeProvider} for Android Lifecycles.
    *
    * @param lifecycle the lifecycle to scope for
-   * @return a {@link AndroidLifecycle} against this lifecycle.
+   * @return a {@link AndroidLifecycleScopeProvider} against this lifecycle.
    */
-  public static AndroidLifecycle from(Lifecycle lifecycle) {
-    return new AndroidLifecycle(lifecycle);
+  public static AndroidLifecycleScopeProvider from(Lifecycle lifecycle) {
+    return new AndroidLifecycleScopeProvider(lifecycle);
   }
 
   private final LifecycleEventsObservable lifecycleObservable;
 
-  private AndroidLifecycle(Lifecycle lifecycle) {
+  private AndroidLifecycleScopeProvider(Lifecycle lifecycle) {
     this.lifecycleObservable = new LifecycleEventsObservable(lifecycle);
   }
 

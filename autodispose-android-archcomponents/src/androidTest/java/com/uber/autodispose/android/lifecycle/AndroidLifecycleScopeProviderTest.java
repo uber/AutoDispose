@@ -32,11 +32,11 @@ import org.junit.runner.RunWith;
 
 import static com.google.common.truth.Truth.assertThat;
 
-@RunWith(AndroidJUnit4.class) public final class AndroidLifecycleTest {
+@RunWith(AndroidJUnit4.class) public final class AndroidLifecycleScopeProviderTest {
 
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
     @Override public void log(String message) {
-      Log.d(AndroidLifecycleTest.class.getSimpleName(), message);
+      Log.d(AndroidLifecycleScopeProviderTest.class.getSimpleName(), message);
     }
   };
 
@@ -47,8 +47,9 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestAndroidLifecycle lifecycle = new TestAndroidLifecycle();
-    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
+    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
+        .<Integer>forObservable())
         .subscribe(o);
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
@@ -76,9 +77,10 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestAndroidLifecycle lifecycle = new TestAndroidLifecycle();
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
-    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
+        .<Integer>forObservable())
         .subscribe(o);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
@@ -105,10 +107,11 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestAndroidLifecycle lifecycle = new TestAndroidLifecycle();
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
-    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
+        .<Integer>forObservable())
         .subscribe(o);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
 
@@ -136,11 +139,12 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestAndroidLifecycle lifecycle = new TestAndroidLifecycle();
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
+        .<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -166,11 +170,12 @@ import static com.google.common.truth.Truth.assertThat;
     PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestAndroidLifecycle lifecycle = new TestAndroidLifecycle();
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
+        .<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -185,14 +190,15 @@ import static com.google.common.truth.Truth.assertThat;
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
-    TestAndroidLifecycle lifecycle = new TestAndroidLifecycle();
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
     lifecycle.emit(Lifecycle.Event.ON_PAUSE);
     lifecycle.emit(Lifecycle.Event.ON_STOP);
     lifecycle.emit(Lifecycle.Event.ON_DESTROY);
-    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
+        .<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -206,13 +212,14 @@ import static com.google.common.truth.Truth.assertThat;
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
-    TestAndroidLifecycle lifecycle = new TestAndroidLifecycle();
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
     lifecycle.emit(Lifecycle.Event.ON_PAUSE);
     lifecycle.emit(Lifecycle.Event.ON_STOP);
-    subject.to(AutoDispose.with(AndroidLifecycle.from(lifecycle)).<Integer>forObservable())
+    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
+        .<Integer>forObservable())
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
