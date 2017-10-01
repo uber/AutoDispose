@@ -95,6 +95,13 @@ public interface ScopeProvider {
 This is particularly useful for objects with simple scopes ("stop when I stop") or very custom state
 that requires custom handling.
 
+#### Android
+
+There are two artifacts with extra support for Android:
+* `autodispose-android` has a `ViewScopeProvider` for use with Android `View` classes.
+* `autodispose-android-archcomponents` has a `AndroidLifecycleScopeProvider` for use with `LifecycleOwner` and `Lifecycle` implementations.
+  * This also comes with a `TestAndroidLifecycleScopeProvider` fake for use in testing.
+
 #### Plugins
 
 When a lifecycle has not started or has already ended, `AutoDispose` will send an error event with an
@@ -187,6 +194,13 @@ Android extensions:
 [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android)
 ```gradle
 compile 'com.uber.autodispose:autodispose-android:x.y.z'
+```
+
+Android Architecture Components extensions:
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents)
+```gradle
+compile 'com.uber.autodispose:autodispose-android-archcomponents:x.y.z'
 ```
 
 Kotlin extensions:
