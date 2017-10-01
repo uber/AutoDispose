@@ -25,17 +25,17 @@ import android.support.annotation.RestrictTo;
 import static android.support.annotation.RestrictTo.Scope.TESTS;
 
 /**
- * AndroidLifecycle implementation for testing. You can either back it with your own
- * instance, or just stub it in place and use its public emit() API.
+ * {@link AndroidLifecycleScopeProvider} implementation for testing. You can either back it with
+ * your own instance or just stub it in place and use its public emit() API.
  */
-@RestrictTo(TESTS) public final class TestAndroidLifecycle implements LifecycleOwner {
+@RestrictTo(TESTS) public final class TestAndroidLifecycleScopeProvider implements LifecycleOwner {
 
   private final LifecycleRegistry registry;
 
   /**
    * Default constructor, creates and maintains its own {@link LifecycleRegistry} under the hood.
    */
-  public TestAndroidLifecycle() {
+  public TestAndroidLifecycleScopeProvider() {
     this(null);
   }
 
@@ -43,7 +43,7 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
    * @param registry an optional custom {@link LifecycleRegistry} if you want to provide one. If
    * {@code null}, a default implementation will be created and maintained under the hood.
    */
-  public TestAndroidLifecycle(@Nullable LifecycleRegistry registry) {
+  public TestAndroidLifecycleScopeProvider(@Nullable LifecycleRegistry registry) {
     this.registry = registry == null ? new LifecycleRegistry(this) : registry;
   }
 
@@ -75,8 +75,8 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
         registry.markState(Lifecycle.State.DESTROYED);
         break;
       case ON_ANY:
-        throw new IllegalArgumentException(
-            "Event#ON_ANY is not a valid event to the emit() method.");
+        throw new IllegalArgumentException("Event#ON_ANY is not a valid event to the emit() "
+            + "method.");
     }
   }
 }

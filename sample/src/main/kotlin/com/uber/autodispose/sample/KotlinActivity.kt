@@ -19,7 +19,7 @@ package com.uber.autodispose.sample
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.uber.autodispose.android.lifecycle.AndroidLifecycle
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.kotlin.autoDisposeWith
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
@@ -40,7 +40,7 @@ class KotlinActivity : AppCompatActivity() {
     // dispose is onDestroy (the opposite of onCreate).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onCreate()") }
-        .autoDisposeWith(AndroidLifecycle.from(this))
+        .autoDisposeWith(AndroidLifecycleScopeProvider.from(this))
         .subscribe { num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): " + num) }
   }
 
@@ -53,7 +53,7 @@ class KotlinActivity : AppCompatActivity() {
     // dispose is onStop (the opposite of onStart).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onStart()") }
-        .autoDisposeWith(AndroidLifecycle.from(this))
+        .autoDisposeWith(AndroidLifecycleScopeProvider.from(this))
         .subscribe { num -> Log.i(TAG, "Started in onStart(), running until in onStop(): " + num) }
   }
 
@@ -66,7 +66,7 @@ class KotlinActivity : AppCompatActivity() {
     // dispose is onPause (the opposite of onResume).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onResume()") }
-        .autoDisposeWith(AndroidLifecycle.from(this))
+        .autoDisposeWith(AndroidLifecycleScopeProvider.from(this))
         .subscribe { num ->
           Log.i(TAG, "Started in onResume(), running until in onPause(): " + num)
         }
