@@ -81,7 +81,8 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
     }
   }
 
-  private void callMainSubscribeIfNecessary(Disposable d) {
+  /* private */
+  void callMainSubscribeIfNecessary(Disposable d) {
     // If we've never actually called the downstream onSubscribe (i.e. requested immediately in
     // onSubscribe and had a terminal event), we need to still send an empty disposable instance
     // to abide by the Observer contract.

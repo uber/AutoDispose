@@ -99,7 +99,8 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
     }
   }
 
-  private void callMainSubscribeIfNecessary(Subscription s) {
+  /* private */
+  void callMainSubscribeIfNecessary(Subscription s) {
     // If we've never actually started the upstream subscription (i.e. requested immediately in
     // onSubscribe and had a terminal event), we need to still send an empty subscription instance
     // to abide by the Subscriber contract.
