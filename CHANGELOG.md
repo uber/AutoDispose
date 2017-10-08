@@ -30,7 +30,7 @@ this is easy to migrate via IntelliJ's structural replace. Information can be fo
 * **New: Support for Android Architecture Components! ([#71](https://github.com/uber/AutoDispose/pull/71))**
 
 With the beta release of architecture components, they are now supported in the `autodispose-android-archcomponents` 
-artifact. Thanks to @yigit, @jaychang0917, and @lsvijay for their help and contributions on this!
+artifact.
 
 ```java
 Observable(1)
@@ -44,6 +44,8 @@ Where `this` could be anything that implements `LifecycleOwner` or extends `Life
 ```gradle
 compile 'com.uber.autodispose:autodispose-android-archcomponents:x.y.z'
 ```
+
+Thanks to [@yigit](https://github.com/yigit), [@jaychang0917](https://github.com/jaychang0917), and [@lsvijay](https://github.com/lsvijay) for their help and contributions on this!
 
 * **New: Delegate Observer retrieval ([#89](https://github.com/uber/AutoDispose/pull/89))**
 
@@ -60,7 +62,7 @@ a `LambdaConsumerIntrospection` ([relevant PR](https://github.com/ReactiveX/RxJa
 In the future, this will likely be narrowed to return a `@Nullable lambdaConsumerIntrospection()`, but 
 we're open to feedback if others think this should remain the high level `Observer` type.
 
-Thanks to @mswysocki for his contribution on this!
+Thanks to [@mswysocki](https://github.com/mswysocki) for his contribution on this!
 
 * **New: JSR 305 Nullability Annotations ([#79](https://github.com/uber/AutoDispose/pull/79))**
 
