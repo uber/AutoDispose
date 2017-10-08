@@ -125,7 +125,8 @@ public final class RecordingObserver<T>
   private final class OnNext {
     final T value;
 
-    private OnNext(T value) {
+    /* private */
+    OnNext(T value) {
       this.value = value;
     }
 
@@ -141,9 +142,11 @@ public final class RecordingObserver<T>
   }
 
   private static final class OnError {
-    private final Throwable throwable;
+    /* private */
+    final Throwable throwable;
 
-    private OnError(Throwable throwable) {
+    /* private */
+    OnError(Throwable throwable) {
       this.throwable = throwable;
     }
 
@@ -153,9 +156,11 @@ public final class RecordingObserver<T>
   }
 
   private static final class OnSubscribe {
-    private final Disposable disposable;
+    /* private */
+    final Disposable disposable;
 
-    private OnSubscribe(Disposable disposable) {
+    /* private */
+    OnSubscribe(Disposable disposable) {
       this.disposable = disposable;
     }
 
@@ -165,9 +170,11 @@ public final class RecordingObserver<T>
   }
 
   private final class OnSuccess {
-    private final T value;
+    /* private */
+    final T value;
 
-    private OnSuccess(T value) {
+    /* private */
+    OnSuccess(T value) {
       this.value = value;
     }
 
