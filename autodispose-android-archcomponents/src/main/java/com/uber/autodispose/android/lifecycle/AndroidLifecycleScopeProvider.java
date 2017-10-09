@@ -73,8 +73,8 @@ public final class AndroidLifecycleScopeProvider
    * @param untilEvent the event until the scope is valid.
    * @return a {@link AndroidLifecycleScopeProvider} against this owner.
    */
-  public static AndroidLifecycleScopeProvider from(LifecycleOwner owner,
-                                                   Lifecycle.Event untilEvent) {
+  public static AndroidLifecycleScopeProvider from(
+          LifecycleOwner owner, Lifecycle.Event untilEvent) {
     return from(owner.getLifecycle(), untilEvent);
   }
 
@@ -95,7 +95,8 @@ public final class AndroidLifecycleScopeProvider
    * @param untilEvent the event until the scope is valid.
    * @return a {@link AndroidLifecycleScopeProvider} against this lifecycle.
    */
-  public static AndroidLifecycleScopeProvider from(Lifecycle lifecycle, Lifecycle.Event untilEvent) {
+  public static AndroidLifecycleScopeProvider from(
+          Lifecycle lifecycle, Lifecycle.Event untilEvent) {
     return new AndroidLifecycleScopeProvider(lifecycle, untilEvent);
   }
 
