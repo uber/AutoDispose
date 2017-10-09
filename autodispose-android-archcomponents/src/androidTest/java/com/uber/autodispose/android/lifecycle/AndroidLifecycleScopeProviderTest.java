@@ -24,11 +24,11 @@ import android.util.Log;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.LifecycleEndedException;
 import com.uber.autodispose.test.RecordingObserver;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.subjects.PublishSubject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.PublishSubject;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -163,6 +163,73 @@ import static com.google.common.truth.Truth.assertThat;
 
     lifecycle.emit(Lifecycle.Event.ON_STOP);
     lifecycle.emit(Lifecycle.Event.ON_DESTROY);
+  }
+
+  @Test @UiThreadTest public void observable_createPause() {
+    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
+    final PublishSubject<Integer> subject = PublishSubject.create();
+
+    // Spin it up
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
+    lifecycle.emit(Lifecycle.Event.ON_CREATE);
+    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider
+            .from(lifecycle, Lifecycle.Event.ON_PAUSE))
+            .<Integer>forObservable())
+            .subscribe(o);
+    lifecycle.emit(Lifecycle.Event.ON_START);
+    lifecycle.emit(Lifecycle.Event.ON_RESUME);
+
+    Disposable d = o.takeSubscribe();
+    o.assertNoMoreEvents(); // No initial value.
+
+    subject.onNext(0);
+    assertThat(o.takeNext()).isEqualTo(0);
+
+    subject.onNext(1);
+    assertThat(o.takeNext()).isEqualTo(1);
+
+    // We should stop here
+    lifecycle.emit(Lifecycle.Event.ON_PAUSE);
+    subject.onNext(2);
+    o.assertNoMoreEvents();
+
+    lifecycle.emit(Lifecycle.Event.ON_STOP);
+    lifecycle.emit(Lifecycle.Event.ON_DESTROY);
+  }
+
+  @Test @UiThreadTest public void observable_resumeDestroy() {
+    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
+    final PublishSubject<Integer> subject = PublishSubject.create();
+
+    // Spin it up
+    TestAndroidLifecycleScopeProvider lifecycle = new TestAndroidLifecycleScopeProvider();
+    lifecycle.emit(Lifecycle.Event.ON_CREATE);
+    lifecycle.emit(Lifecycle.Event.ON_START);
+    lifecycle.emit(Lifecycle.Event.ON_RESUME);
+    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider
+            .from(lifecycle, Lifecycle.Event.ON_DESTROY))
+            .<Integer>forObservable())
+            .subscribe(o);
+
+    Disposable d = o.takeSubscribe();
+    o.assertNoMoreEvents(); // No initial value.
+
+    subject.onNext(0);
+    assertThat(o.takeNext()).isEqualTo(0);
+
+    subject.onNext(1);
+    assertThat(o.takeNext()).isEqualTo(1);
+
+    lifecycle.emit(Lifecycle.Event.ON_PAUSE);
+    lifecycle.emit(Lifecycle.Event.ON_STOP);
+
+    subject.onNext(2);
+    assertThat(o.takeNext()).isEqualTo(2);
+
+    // We should stop here
+    lifecycle.emit(Lifecycle.Event.ON_DESTROY);
+    subject.onNext(3);
+    o.assertNoMoreEvents();
   }
 
   @Test public void observable_offMainThread_shouldFail() {
