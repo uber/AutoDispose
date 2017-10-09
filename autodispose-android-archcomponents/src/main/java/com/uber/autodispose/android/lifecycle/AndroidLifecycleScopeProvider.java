@@ -130,8 +130,7 @@ public final class AndroidLifecycleScopeProvider
       this.untilEvent = untilEvent;
     }
 
-    @Override
-    public Lifecycle.Event apply(Lifecycle.Event event) throws Exception {
+    @Override public Lifecycle.Event apply(Lifecycle.Event event) throws Exception {
       return untilEvent;
     }
   }
