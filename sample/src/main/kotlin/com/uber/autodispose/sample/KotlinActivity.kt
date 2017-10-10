@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.sample
 
+import android.arch.lifecycle.Lifecycle
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -69,6 +70,16 @@ class KotlinActivity : AppCompatActivity() {
         .autoDisposeWith(AndroidLifecycleScopeProvider.from(this))
         .subscribe { num ->
           Log.i(TAG, "Started in onResume(), running until in onPause(): " + num)
+        }
+
+    // Setting a specific untilEvent, this should dispose in onDestroy.
+    Observable.interval(1, TimeUnit.SECONDS)
+        .doOnDispose {
+          Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY")
+        }
+        .autoDisposeWith(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
+        .subscribe{ num ->
+          Log.i(TAG, "Started in onResume(), running until in onDestroy(): " + num)
         }
   }
 
