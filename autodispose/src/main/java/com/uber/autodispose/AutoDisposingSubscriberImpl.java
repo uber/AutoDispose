@@ -57,7 +57,8 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
               @Override public void accept(Throwable e) throws Exception {
                 AutoDisposingSubscriberImpl.this.onError(e);
               }
-            }), getClass())) {
+            }),
+        getClass())) {
       if (AutoDisposeEndConsumerHelper.setOnce(mainSubscription, s, getClass())) {
         delegate.onSubscribe(this);
       }
@@ -99,7 +100,7 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
     }
   }
 
-  /* private */
+  @SuppressWarnings("WeakerAccess") // Avoiding synthetic accessors
   void callMainSubscribeIfNecessary(Subscription s) {
     // If we've never actually started the upstream subscription (i.e. requested immediately in
     // onSubscribe and had a terminal event), we need to still send an empty subscription instance

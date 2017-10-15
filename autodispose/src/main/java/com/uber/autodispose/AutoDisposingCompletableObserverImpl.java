@@ -81,7 +81,7 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
     }
   }
 
-  /* private */
+  @SuppressWarnings("WeakerAccess") // Avoiding synthetic accessors
   void callMainSubscribeIfNecessary(Disposable d) {
     // If we've never actually called the downstream onSubscribe (i.e. requested immediately in
     // onSubscribe and had a terminal event), we need to still send an empty disposable instance
