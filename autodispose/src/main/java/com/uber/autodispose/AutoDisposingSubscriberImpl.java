@@ -19,7 +19,6 @@ package com.uber.autodispose;
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiConsumer;
 import io.reactivex.internal.subscriptions.EmptySubscription;
 import io.reactivex.observers.DisposableMaybeObserver;
 import java.util.concurrent.atomic.AtomicReference;
@@ -44,24 +43,22 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
 
   @Override public void onSubscribe(final Subscription s) {
     if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable,
-        lifecycle.doOnEvent(new BiConsumer<Object, Throwable>() {
-          @Override public void accept(Object o, Throwable throwable) throws Exception {
+        lifecycle.subscribeWith(new DisposableMaybeObserver<Object>() {
+          @Override public void onSuccess(Object o) {
             callMainSubscribeIfNecessary(s);
+            AutoDisposingSubscriberImpl.this.dispose();
           }
-        })
-            .subscribeWith(new DisposableMaybeObserver<Object>() {
-              @Override public void onSuccess(Object o) {
-                AutoDisposingSubscriberImpl.this.dispose();
-              }
 
-              @Override public void onError(Throwable e) {
-                AutoDisposingSubscriberImpl.this.onError(e);
-              }
+          @Override public void onError(Throwable e) {
+            callMainSubscribeIfNecessary(s);
+            AutoDisposingSubscriberImpl.this.onError(e);
+          }
 
-              @Override public void onComplete() {
-                // Noop - we're unbound now
-              }
-            }),
+          @Override public void onComplete() {
+            callMainSubscribeIfNecessary(s);
+            // Noop - we're unbound now
+          }
+        }),
         getClass())) {
       if (AutoDisposeEndConsumerHelper.setOnce(mainSubscription, s, getClass())) {
         delegate.onSubscribe(this);

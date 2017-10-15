@@ -21,7 +21,6 @@ import io.reactivex.CompletableObserver;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
-import io.reactivex.functions.BiConsumer;
 import io.reactivex.observers.DisposableMaybeObserver;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -43,24 +42,22 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
 
   @Override public void onSubscribe(final Disposable d) {
     if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable,
-        lifecycle.doOnEvent(new BiConsumer<Object, Throwable>() {
-          @Override public void accept(Object o, Throwable throwable) throws Exception {
+        lifecycle.subscribeWith(new DisposableMaybeObserver<Object>() {
+          @Override public void onSuccess(Object o) {
             callMainSubscribeIfNecessary(d);
+            AutoDisposingCompletableObserverImpl.this.dispose();
           }
-        })
-            .subscribeWith(new DisposableMaybeObserver<Object>() {
-              @Override public void onSuccess(Object o) {
-                AutoDisposingCompletableObserverImpl.this.dispose();
-              }
 
-              @Override public void onError(Throwable e) {
-                AutoDisposingCompletableObserverImpl.this.onError(e);
-              }
+          @Override public void onError(Throwable e) {
+            callMainSubscribeIfNecessary(d);
+            AutoDisposingCompletableObserverImpl.this.onError(e);
+          }
 
-              @Override public void onComplete() {
-                // Noop - we're unbound now
-              }
-            }),
+          @Override public void onComplete() {
+            callMainSubscribeIfNecessary(d);
+            // Noop - we're unbound now
+          }
+        }),
         getClass())) {
       if (AutoDisposeEndConsumerHelper.setOnce(mainDisposable, d, getClass())) {
         delegate.onSubscribe(this);
