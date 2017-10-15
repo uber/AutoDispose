@@ -22,7 +22,7 @@ import io.reactivex.MaybeObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.functions.BiConsumer;
-import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableMaybeObserver;
 import java.util.concurrent.atomic.AtomicReference;
 
 final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObserver<T> {
@@ -48,15 +48,20 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
             callMainSubscribeIfNecessary(d);
           }
         })
-            .subscribe(new Consumer<Object>() {
-              @Override public void accept(Object o) throws Exception {
-                dispose();
+            .subscribeWith(new DisposableMaybeObserver<Object>() {
+              @Override public void onSuccess(Object o) {
+                AutoDisposingMaybeObserverImpl.this.dispose();
               }
-            }, new Consumer<Throwable>() {
-              @Override public void accept(Throwable e1) throws Exception {
-                onError(e1);
+
+              @Override public void onError(Throwable e) {
+                AutoDisposingMaybeObserverImpl.this.onError(e);
               }
-            }), getClass())) {
+
+              @Override public void onComplete() {
+                // Noop - we're unbound now
+              }
+            }),
+        getClass())) {
       if (AutoDisposeEndConsumerHelper.setOnce(mainDisposable, d, getClass())) {
         delegate.onSubscribe(this);
       }

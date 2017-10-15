@@ -20,8 +20,8 @@ import com.uber.autodispose.observers.AutoDisposingSubscriber;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiConsumer;
-import io.reactivex.functions.Consumer;
 import io.reactivex.internal.subscriptions.EmptySubscription;
+import io.reactivex.observers.DisposableMaybeObserver;
 import java.util.concurrent.atomic.AtomicReference;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -49,13 +49,17 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
             callMainSubscribeIfNecessary(s);
           }
         })
-            .subscribe(new Consumer<Object>() {
-              @Override public void accept(Object o) throws Exception {
-                dispose();
+            .subscribeWith(new DisposableMaybeObserver<Object>() {
+              @Override public void onSuccess(Object o) {
+                AutoDisposingSubscriberImpl.this.dispose();
               }
-            }, new Consumer<Throwable>() {
-              @Override public void accept(Throwable e) throws Exception {
+
+              @Override public void onError(Throwable e) {
                 AutoDisposingSubscriberImpl.this.onError(e);
+              }
+
+              @Override public void onComplete() {
+                // Noop - we're unbound now
               }
             }),
         getClass())) {
