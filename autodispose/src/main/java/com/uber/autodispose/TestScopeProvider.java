@@ -47,6 +47,16 @@ public final class TestScopeProvider implements ScopeProvider {
     return new TestScopeProvider(delegate);
   }
 
+  /**
+   * Creates a new provider that is "unbound", e.g. will emit a completion event to signal that the
+   * scope is unbound.
+   *
+   * @return the created TestScopeProvider
+   */
+  public static TestScopeProvider unbound() {
+    return create(Maybe.empty());
+  }
+
   private final MaybeSubject<Object> innerMaybe = MaybeSubject.create();
 
   private TestScopeProvider(Maybe<?> delegate) {

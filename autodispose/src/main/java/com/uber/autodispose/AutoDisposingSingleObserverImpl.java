@@ -21,8 +21,7 @@ import io.reactivex.Maybe;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
-import io.reactivex.functions.BiConsumer;
-import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableMaybeObserver;
 import java.util.concurrent.atomic.AtomicReference;
 
 final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObserver<T> {
@@ -43,20 +42,23 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
 
   @Override public void onSubscribe(final Disposable d) {
     if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable,
-        lifecycle.doOnEvent(new BiConsumer<Object, Throwable>() {
-          @Override public void accept(Object o, Throwable throwable) throws Exception {
+        lifecycle.subscribeWith(new DisposableMaybeObserver<Object>() {
+          @Override public void onSuccess(Object o) {
             callMainSubscribeIfNecessary(d);
+            AutoDisposingSingleObserverImpl.this.dispose();
           }
-        })
-            .subscribe(new Consumer<Object>() {
-              @Override public void accept(Object o) throws Exception {
-                dispose();
-              }
-            }, new Consumer<Throwable>() {
-              @Override public void accept(Throwable e) throws Exception {
-                AutoDisposingSingleObserverImpl.this.onError(e);
-              }
-            }), getClass())) {
+
+          @Override public void onError(Throwable e) {
+            callMainSubscribeIfNecessary(d);
+            AutoDisposingSingleObserverImpl.this.onError(e);
+          }
+
+          @Override public void onComplete() {
+            callMainSubscribeIfNecessary(d);
+            // Noop - we're unbound now
+          }
+        }),
+        getClass())) {
       if (AutoDisposeEndConsumerHelper.setOnce(mainDisposable, d, getClass())) {
         delegate.onSubscribe(this);
       }
@@ -81,7 +83,7 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
     }
   }
 
-  /* private */
+  @SuppressWarnings("WeakerAccess") // Avoiding synthetic accessors
   void callMainSubscribeIfNecessary(Disposable d) {
     // If we've never actually called the downstream onSubscribe (i.e. requested immediately in
     // onSubscribe and had a terminal event), we need to still send an empty disposable instance
