@@ -1,0 +1,55 @@
+/*
+ * Copyright (c) 2017. Uber Technologies
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+buildscript {
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath deps.build.gradlePlugins.android
+    classpath deps.build.gradlePlugins.kotlin
+  }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+
+android {
+  compileSdkVersion deps.build.compileSdkVersion
+  buildToolsVersion deps.build.buildToolsVersion
+
+  defaultConfig {
+    minSdkVersion deps.build.minSdkVersion
+    targetSdkVersion deps.build.targetSdkVersion
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
+  }
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+  }
+}
+
+dependencies {
+  compile deps.kotlin.stdlib
+  compile project(':android:autodispose-android-archcomponents-test')
+  androidTestCompile project(':test-utils')
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

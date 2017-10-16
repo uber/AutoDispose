@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (c) 2017. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-rootProject.name = 'autodispose-root'
-include ':android:autodispose-android'
-include ':android:autodispose-android-kotlin'
-include ':android:autodispose-android-archcomponents'
-include ':android:autodispose-android-archcomponents-kotlin'
-include ':android:autodispose-android-archcomponents-test'
-include ':android:autodispose-android-archcomponents-test-kotlin'
-include ':autodispose'
-include ':autodispose-kotlin'
-include ':sample'
-include ':test-utils'
+@file:Suppress("NOTHING_TO_INLINE")
+
+package com.uber.autodispose.android.lifecycle.test
+
+import android.arch.lifecycle.LifecycleRegistry
+import io.reactivex.annotations.CheckReturnValue
+
+/**
+ * Extension that returns a [TestLifecycleOwner] for this [LifecycleRegistry].
+ */
+@CheckReturnValue
+inline fun LifecycleRegistry.test(): TestLifecycleOwner = TestLifecycleOwner.create(this)
