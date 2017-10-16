@@ -49,7 +49,7 @@ dependencies {
   testAnnotationProcessor deps.build.nullAway
   annotationProcessor deps.support.arch.lifecycle.compiler
 
-  compile project(':autodispose-android')
+  compile project(':android:autodispose-android')
   compile deps.support.arch.lifecycle.common
   compile deps.support.arch.lifecycle.extensions
 

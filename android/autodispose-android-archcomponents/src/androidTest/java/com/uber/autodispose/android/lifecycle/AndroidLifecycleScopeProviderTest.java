@@ -24,11 +24,11 @@ import android.util.Log;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.LifecycleEndedException;
 import com.uber.autodispose.test.RecordingObserver;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.PublishSubject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.subjects.PublishSubject;
 
 import static com.google.common.truth.Truth.assertThat;
 
