@@ -36,7 +36,6 @@ android {
   defaultConfig {
     minSdkVersion deps.build.minSdkVersion
     targetSdkVersion deps.build.targetSdkVersion
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
@@ -47,21 +46,17 @@ android {
 dependencies {
   annotationProcessor deps.build.nullAway
   testAnnotationProcessor deps.build.nullAway
-  annotationProcessor deps.support.arch.lifecycle.compiler
 
-  compile project(':android:autodispose-android')
+  compile project(':autodispose')
   compile deps.support.arch.lifecycle.runtime
+  compile deps.support.arch.lifecycle.common
+  compile deps.support.arch.lifecycle.extensions
 
   provided deps.misc.errorProneAnnotations
   provided deps.misc.javaxExtras
 
   errorprone deps.build.checkerFramework
   errorprone deps.build.errorProne
-
-  androidTestCompile project(':android:autodispose-android-archcomponents-test')
-  androidTestCompile project(':test-utils')
-  androidTestCompile deps.test.androidRunner
-  androidTestCompile deps.test.androidRules
 }
 
 tasks.withType(JavaCompile) {
