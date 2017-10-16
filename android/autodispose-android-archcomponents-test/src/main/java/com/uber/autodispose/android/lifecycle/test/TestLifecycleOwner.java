@@ -33,17 +33,21 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
   private final LifecycleRegistry registry;
 
   /**
-   * Default constructor, creates and maintains its own {@link LifecycleRegistry} under the hood.
+   * Default creator. Creates and maintains its own {@link LifecycleRegistry} under the hood.
    */
-  public TestLifecycleOwner() {
-    this(null);
+  public static TestLifecycleOwner create() {
+    return new TestLifecycleOwner(null);
   }
 
   /**
    * @param registry an optional custom {@link LifecycleRegistry} if you want to provide one. If
    * {@code null}, a default implementation will be created and maintained under the hood.
    */
-  public TestLifecycleOwner(@Nullable LifecycleRegistry registry) {
+  public static TestLifecycleOwner create(LifecycleRegistry registry) {
+    return new TestLifecycleOwner(registry);
+  }
+
+  private TestLifecycleOwner(@Nullable LifecycleRegistry registry) {
     this.registry = registry == null ? new LifecycleRegistry(this) : registry;
   }
 

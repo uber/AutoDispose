@@ -48,7 +48,7 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner();
+    TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
         .<Integer>forObservable())
         .subscribe(o);
@@ -78,7 +78,7 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner();
+    TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
         .<Integer>forObservable())
@@ -108,7 +108,7 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner();
+    TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
@@ -140,7 +140,7 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner();
+    TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
@@ -171,7 +171,7 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner();
+    TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     subject.to(AutoDispose.with(AndroidLifecycleScopeProvider
             .from(lifecycle, Lifecycle.Event.ON_PAUSE))
@@ -203,7 +203,7 @@ import static com.google.common.truth.Truth.assertThat;
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner();
+    TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
@@ -238,7 +238,7 @@ import static com.google.common.truth.Truth.assertThat;
     PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner();
+    TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
@@ -258,7 +258,7 @@ import static com.google.common.truth.Truth.assertThat;
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner();
+    TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
@@ -280,7 +280,7 @@ import static com.google.common.truth.Truth.assertThat;
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner();
+    TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
