@@ -23,7 +23,7 @@ def versions = [
 ]
 
 def build = [
-    buildToolsVersion: '26.0.1',
+    buildToolsVersion: '26.0.2',
     compileSdkVersion: 26,
     ci: 'true' == System.getenv('CI'),
     minSdkVersion: 14,
