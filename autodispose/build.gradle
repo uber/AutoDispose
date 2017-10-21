@@ -39,7 +39,7 @@ dependencies {
   apt deps.build.nullAway
   testApt deps.build.nullAway
 
-  api deps.rx.java
+  implementation deps.rx.java
   compileOnly deps.misc.errorProneAnnotations
   compileOnly deps.misc.javaxExtras
 
