@@ -25,7 +25,7 @@ dependencies {
     testApt deps.build.nullAway
 
     compile project(':autodispose')
-    api deps.misc.rxlifecycle
+    compile deps.misc.rxlifecycle
     compileOnly deps.misc.errorProneAnnotations
     compileOnly deps.misc.javaxExtras
 
