@@ -11,8 +11,8 @@ import io.reactivex.Maybe;
  * LifecycleProvider} to {@link ScopeProvider}.
  *
  * <p>There are several static utility converter
- * methods such as {@link #fromBindLifecycle(LifecycleProvider)} for {@link
- * LifecycleProvider#bindToLifecycle()} and {@link #fromBindUntilEvent(LifecycleProvider, Object)} for
+ * methods such as {@link #fromLifecycle(LifecycleProvider)} for {@link
+ * LifecycleProvider#bindToLifecycle()} and {@link #fromUntilEvent(LifecycleProvider, Object)} for
  * {@link LifecycleProvider#bindUntilEvent(Object)}.
  * <p>
  *
@@ -20,15 +20,15 @@ import io.reactivex.Maybe;
  * as normal terminal event. There is no mapping to {@link LifecycleEndedException} and in such
  * cases the stream is normally disposed.
  */
-public final class RXLifecycleInterop {
+public final class RxLifecycleInterop {
 
-  private RXLifecycleInterop() {
+  private RxLifecycleInterop() {
     throw new AssertionError("No Instances");
   }
 
   private static final Object DEFAULT_THROWAWAY_OBJECT = new Object();
 
-  public static <E> ScopeProvider fromBindLifecycle(final LifecycleProvider<E> provider) {
+  public static <E> ScopeProvider fromLifecycle(final LifecycleProvider<E> provider) {
     return new ScopeProvider() {
       @Override public Maybe<?> requestScope() {
         return provider.lifecycle()
@@ -40,7 +40,7 @@ public final class RXLifecycleInterop {
     };
   }
 
-  public static <E> ScopeProvider fromBindUntilEvent(final LifecycleProvider<E> provider, final E event) {
+  public static <E> ScopeProvider fromUntilEvent(final LifecycleProvider<E> provider, final E event) {
     return new ScopeProvider() {
       @Override public Maybe<?> requestScope() {
         return provider.lifecycle()

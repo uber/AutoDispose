@@ -9,11 +9,11 @@ import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
-public class RXLifecycleInteropTest {
+public class RxLifecycleInteropTest {
 
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
     @Override public void log(String message) {
-      System.out.println(RXLifecycleInteropTest.class.getSimpleName() + ": " + message);
+      System.out.println(RxLifecycleInteropTest.class.getSimpleName() + ": " + message);
     }
   };
 
@@ -25,7 +25,7 @@ public class RXLifecycleInteropTest {
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     Disposable d = source.to(AutoDispose.with(
-        RXLifecycleInterop.fromBindLifecycle(lifecycleProvider)).<Integer>forObservable())
+        RxLifecycleInterop.fromLifecycle(lifecycleProvider)).<Integer>forObservable())
         .subscribeWith(o);
     o.assertSubscribed();
 
@@ -48,7 +48,7 @@ public class RXLifecycleInteropTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
     source.to(AutoDispose.with(
-        RXLifecycleInterop.fromBindLifecycle(lifecycleProvider)).<Integer>forObservable())
+        RxLifecycleInterop.fromLifecycle(lifecycleProvider)).<Integer>forObservable())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -71,7 +71,7 @@ public class RXLifecycleInteropTest {
     lifecycleProvider.emitDestroy();
     source
         .to(AutoDispose.with(
-            RXLifecycleInterop.fromBindLifecycle(lifecycleProvider)).<Integer>forObservable())
+            RxLifecycleInterop.fromLifecycle(lifecycleProvider)).<Integer>forObservable())
         .subscribe(o);
 
     o.takeSubscribe();
@@ -79,7 +79,7 @@ public class RXLifecycleInteropTest {
     source.onNext(2);
     o.assertNoMoreEvents();
     assertThat(
-        source.hasObservers()).isFalse(); // Because RXLifecycle treats lifecycle ended exception as terminal event.
+        source.hasObservers()).isFalse(); // Because RxLifecycle treats lifecycle ended exception as terminal event.
   }
 
   @Test
@@ -87,7 +87,7 @@ public class RXLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
-    Disposable d = source.to(AutoDispose.with(RXLifecycleInterop.fromBindUntilEvent(
+    Disposable d = source.to(AutoDispose.with(RxLifecycleInterop.fromUntilEvent(
         lifecycleProvider,
         TestLifecycleProvider.Event.DESTROY)).<Integer>forObservable())
         .subscribeWith(o);
@@ -111,7 +111,7 @@ public class RXLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
-    source.to(AutoDispose.with(RXLifecycleInterop.fromBindUntilEvent(lifecycleProvider,
+    source.to(AutoDispose.with(RxLifecycleInterop.fromUntilEvent(lifecycleProvider,
         TestLifecycleProvider.Event.DESTROY)).<Integer>forObservable())
         .subscribe(o);
     o.takeSubscribe();
