@@ -105,6 +105,19 @@ public final class AndroidLifecycleScopeProvider
   /**
    * Creates a {@link AndroidLifecycleScopeProvider} for Android Lifecycles.
    *
+   * @param owner the owner to scope for.
+   * @param boundaryResolver function that resolves the event boundary.
+   * @return a {@link AndroidLifecycleScopeProvider} against this owner.
+   */
+  public static AndroidLifecycleScopeProvider from(
+          LifecycleOwner owner,
+          Function<Lifecycle.Event, Lifecycle.Event> boundaryResolver) {
+    return from(owner.getLifecycle(), boundaryResolver);
+  }
+
+  /**
+   * Creates a {@link AndroidLifecycleScopeProvider} for Android Lifecycles.
+   *
    * @param lifecycle the lifecycle to scope for.
    * @param boundaryResolver function that resolves the event boundary.
    * @return a {@link AndroidLifecycleScopeProvider} against this lifecycle.
