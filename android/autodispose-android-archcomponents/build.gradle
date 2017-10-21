@@ -38,6 +38,7 @@ android {
     targetSdkVersion deps.build.targetSdkVersion
     consumerProguardFiles 'consumer-proguard-rules.txt'
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    testApplicationId "com.uber.autodispose.android.lifecycle.androidTest"
   }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
