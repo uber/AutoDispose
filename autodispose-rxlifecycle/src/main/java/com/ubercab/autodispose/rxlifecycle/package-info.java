@@ -15,9 +15,8 @@
  */
 
 /**
- * These are Observers AutoDispose uses when scoping an observable. They are exposed as a public API
- *  to allow for consumers to watch for them if they want, such as in RxJava plugins.
+ * Interop for RxLifecycle.
  */
 @com.uber.javaxextras.FieldsMethodsAndParametersAreNonNullByDefault
-package com.ubercab.autodispose.rxlifecycleinterop;
+package com.ubercab.autodispose.rxlifecycle;
 
