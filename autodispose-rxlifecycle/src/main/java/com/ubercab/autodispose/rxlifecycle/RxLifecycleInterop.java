@@ -30,7 +30,7 @@ public final class RxLifecycleInterop {
   private static final Object DEFAULT_THROWAWAY_OBJECT = new Object();
 
   /**
-   * Converter for  transforming {@link LifecycleProvider} to {@link ScopeProvider}.
+   * Converter for transforming {@link LifecycleProvider} to {@link ScopeProvider}.
    * It disposes the source when the next reasonable event occurs.
    * <p>
    * Example usage:
@@ -57,7 +57,7 @@ public final class RxLifecycleInterop {
   }
 
   /**
-   * Converter for  transforming {@link LifecycleProvider} to {@link ScopeProvider}.
+   * Converter for transforming {@link LifecycleProvider} to {@link ScopeProvider}.
    * It disposes the source when a specific event occurs.
    * <p>
    * Example usage:
