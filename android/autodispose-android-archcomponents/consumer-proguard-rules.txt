@@ -1,0 +1,2 @@
+-dontwarn com.uber.javaxextras.**
+-keep class * implements android.arch.lifecycle.GeneratedAdapter {<init>(...);}

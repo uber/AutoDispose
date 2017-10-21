@@ -17,7 +17,6 @@
 buildscript {
   repositories {
     jcenter()
-    google()
   }
 
   dependencies {
@@ -26,8 +25,8 @@ buildscript {
   }
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
   compileSdkVersion deps.build.compileSdkVersion
@@ -36,9 +35,10 @@ android {
   defaultConfig {
     minSdkVersion deps.build.minSdkVersion
     targetSdkVersion deps.build.targetSdkVersion
+    consumerProguardFiles 'consumer-proguard-rules.txt'
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   compileOptions {
-    // TODO Go to 1.8 + D8 on AGP 3.x
     sourceCompatibility JavaVersion.VERSION_1_7
     targetCompatibility JavaVersion.VERSION_1_7
   }
@@ -48,12 +48,9 @@ android {
 }
 
 dependencies {
-  provided deps.misc.javaxExtras
+  compile deps.kotlin.stdlib
   compile project(':android:autodispose-android')
-  compile project(':android:autodispose-android-archcomponents')
-  compile project(':autodispose')
-  compile project(':autodispose-kotlin')
-  compile 'com.android.support:appcompat-v7:26.1.0'
-  compile 'com.android.support.constraint:constraint-layout:1.1.0-beta1'
-  compile 'com.android.support:design:26.1.0'
+  androidTestCompile project(':test-utils')
 }
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

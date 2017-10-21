@@ -17,17 +17,17 @@
 buildscript {
   repositories {
     jcenter()
-    google()
+    maven { url deps.build.repositories.plugins }
   }
 
   dependencies {
     classpath deps.build.gradlePlugins.android
-    classpath deps.build.gradlePlugins.kotlin
+    classpath deps.build.gradlePlugins.errorProne
   }
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+apply plugin: 'com.android.library'
+apply plugin: "net.ltgt.errorprone"
 
 android {
   compileSdkVersion deps.build.compileSdkVersion
@@ -36,24 +36,33 @@ android {
   defaultConfig {
     minSdkVersion deps.build.minSdkVersion
     targetSdkVersion deps.build.targetSdkVersion
+    consumerProguardFiles 'consumer-proguard-rules.txt'
   }
   compileOptions {
-    // TODO Go to 1.8 + D8 on AGP 3.x
     sourceCompatibility JavaVersion.VERSION_1_7
     targetCompatibility JavaVersion.VERSION_1_7
-  }
-  sourceSets {
-    main.java.srcDirs += 'src/main/kotlin'
   }
 }
 
 dependencies {
-  provided deps.misc.javaxExtras
-  compile project(':android:autodispose-android')
-  compile project(':android:autodispose-android-archcomponents')
+  annotationProcessor deps.build.nullAway
+  testAnnotationProcessor deps.build.nullAway
+
   compile project(':autodispose')
-  compile project(':autodispose-kotlin')
-  compile 'com.android.support:appcompat-v7:26.1.0'
-  compile 'com.android.support.constraint:constraint-layout:1.1.0-beta1'
-  compile 'com.android.support:design:26.1.0'
+  compile deps.support.arch.lifecycle.runtime
+  compile deps.support.arch.lifecycle.common
+  compile deps.support.arch.lifecycle.extensions
+
+  provided deps.misc.errorProneAnnotations
+  provided deps.misc.javaxExtras
+
+  errorprone deps.build.checkerFramework
+  errorprone deps.build.errorProne
 }
+
+tasks.withType(JavaCompile) {
+  options.compilerArgs += ["-Xep:NullAway:ERROR",
+                           "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
