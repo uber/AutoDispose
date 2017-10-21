@@ -54,7 +54,7 @@ public final class AndroidLifecycleScopeProvider
         }
       };
 
-  private final Function<Lifecycle.Event, Lifecycle.Event> correspondingEvents;
+  private final Function<Lifecycle.Event, Lifecycle.Event> boundaryResolver;
 
   /**
    * Creates a {@link AndroidLifecycleScopeProvider} for Android LifecycleOwners.
@@ -86,7 +86,7 @@ public final class AndroidLifecycleScopeProvider
    * @return a {@link AndroidLifecycleScopeProvider} against this lifecycle.
    */
   public static AndroidLifecycleScopeProvider from(Lifecycle lifecycle) {
-    return new AndroidLifecycleScopeProvider(lifecycle);
+    return from(lifecycle, DEFAULT_CORRESPONDING_EVENTS);
   }
 
   /**
@@ -99,19 +99,28 @@ public final class AndroidLifecycleScopeProvider
   public static AndroidLifecycleScopeProvider from(
           Lifecycle lifecycle,
           Lifecycle.Event untilEvent) {
-    return new AndroidLifecycleScopeProvider(lifecycle, untilEvent);
+    return from(lifecycle, new UntilEventFunction(untilEvent));
+  }
+
+  /**
+   * Creates a {@link AndroidLifecycleScopeProvider} for Android Lifecycles.
+   *
+   * @param lifecycle the lifecycle to scope for.
+   * @param boundaryResolver function that resolves the event boundary.
+   * @return a {@link AndroidLifecycleScopeProvider} against this lifecycle.
+   */
+  public static AndroidLifecycleScopeProvider from(
+          Lifecycle lifecycle,
+          Function<Lifecycle.Event, Lifecycle.Event> boundaryResolver) {
+    return new AndroidLifecycleScopeProvider(lifecycle, boundaryResolver);
   }
 
   private final LifecycleEventsObservable lifecycleObservable;
 
-  private AndroidLifecycleScopeProvider(Lifecycle lifecycle) {
+  private AndroidLifecycleScopeProvider(Lifecycle lifecycle,
+      Function<Lifecycle.Event, Lifecycle.Event> boundaryResolver) {
     this.lifecycleObservable = new LifecycleEventsObservable(lifecycle);
-    this.correspondingEvents = DEFAULT_CORRESPONDING_EVENTS;
-  }
-
-  private AndroidLifecycleScopeProvider(Lifecycle lifecycle, Lifecycle.Event untilEvent) {
-    this.lifecycleObservable = new LifecycleEventsObservable(lifecycle);
-    this.correspondingEvents = new UntilEventFunction(untilEvent);
+    this.boundaryResolver = boundaryResolver;
   }
 
   @Override public Observable<Lifecycle.Event> lifecycle() {
@@ -119,7 +128,7 @@ public final class AndroidLifecycleScopeProvider
   }
 
   @Override public Function<Lifecycle.Event, Lifecycle.Event> correspondingEvents() {
-    return correspondingEvents;
+    return boundaryResolver;
   }
 
   @Override public Lifecycle.Event peekLifecycle() {
