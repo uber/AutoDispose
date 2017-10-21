@@ -19,9 +19,11 @@
 package com.uber.autodispose.android.lifecycle
 
 import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.Lifecycle.Event
 import android.arch.lifecycle.LifecycleOwner
 import com.uber.autodispose.LifecycleScopeProvider
 import io.reactivex.annotations.CheckReturnValue
+import io.reactivex.functions.Function
 
 /**
  * Extension that returns a [LifecycleScopeProvider] for this [LifecycleOwner].
@@ -39,6 +41,15 @@ inline fun LifecycleOwner.scope(untilEvent: Lifecycle.Event): LifecycleScopeProv
     = AndroidLifecycleScopeProvider.from(this, untilEvent)
 
 /**
+ * Extension that returns a [LifecycleScopeProvider] for this [LifecycleOwner].
+ *
+ * @param boundaryResolver function that resolves the event boundary.
+ */
+@CheckReturnValue
+inline fun LifecycleOwner.scope(boundaryResolver: Function<Event, Event>): LifecycleScopeProvider<*>
+    = AndroidLifecycleScopeProvider.from(this, boundaryResolver)
+
+/**
  * Extension that returns a [LifecycleScopeProvider] for this [Lifecycle].
  */
 @CheckReturnValue
@@ -52,3 +63,12 @@ inline fun Lifecycle.scope(): LifecycleScopeProvider<*> = AndroidLifecycleScopeP
 @CheckReturnValue
 inline fun Lifecycle.scope(untilEvent: Lifecycle.Event): LifecycleScopeProvider<*>
     = AndroidLifecycleScopeProvider.from(this, untilEvent)
+
+/**
+ * Extension that returns a [LifecycleScopeProvider] for this [Lifecycle].
+ *
+ * @param boundaryResolver function that resolves the event boundary.
+ */
+@CheckReturnValue
+inline fun Lifecycle.scope(boundaryResolver: Function<Event, Event>): LifecycleScopeProvider<*>
+    = AndroidLifecycleScopeProvider.from(this, boundaryResolver)
