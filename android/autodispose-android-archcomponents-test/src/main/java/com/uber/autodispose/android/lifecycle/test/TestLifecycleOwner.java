@@ -63,24 +63,5 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
    */
   public void emit(Lifecycle.Event event) {
     registry.handleLifecycleEvent(event);
-    switch (event) {
-      case ON_CREATE:
-        registry.markState(Lifecycle.State.CREATED);
-        break;
-      case ON_START:
-        registry.markState(Lifecycle.State.STARTED);
-        break;
-      case ON_RESUME:
-        registry.markState(Lifecycle.State.RESUMED);
-        break;
-      case ON_PAUSE:
-      case ON_STOP:
-      case ON_DESTROY:
-        registry.markState(Lifecycle.State.DESTROYED);
-        break;
-      case ON_ANY:
-        throw new IllegalArgumentException("Event#ON_ANY is not a valid event to the emit() "
-            + "method.");
-    }
   }
 }
