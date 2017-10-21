@@ -11,8 +11,8 @@ import io.reactivex.Maybe;
  * LifecycleProvider} to {@link ScopeProvider}.
  *
  * <p>There are several static utility converter
- * methods such as {@link #fromLifecycle(LifecycleProvider)} for {@link
- * LifecycleProvider#bindToLifecycle()} and {@link #fromUntilEvent(LifecycleProvider, Object)} for
+ * methods such as {@link #from(LifecycleProvider)} for {@link
+ * LifecycleProvider#bindToLifecycle()} and {@link #from(LifecycleProvider, Object)} for
  * {@link LifecycleProvider#bindUntilEvent(Object)}.
  * <p>
  *
@@ -28,7 +28,7 @@ public final class RxLifecycleInterop {
 
   private static final Object DEFAULT_THROWAWAY_OBJECT = new Object();
 
-  public static <E> ScopeProvider fromLifecycle(final LifecycleProvider<E> provider) {
+  public static <E> ScopeProvider from(final LifecycleProvider<E> provider) {
     return new ScopeProvider() {
       @Override public Maybe<?> requestScope() {
         return provider.lifecycle()
@@ -40,7 +40,7 @@ public final class RxLifecycleInterop {
     };
   }
 
-  public static <E> ScopeProvider fromUntilEvent(final LifecycleProvider<E> provider, final E event) {
+  public static <E> ScopeProvider from(final LifecycleProvider<E> provider, final E event) {
     return new ScopeProvider() {
       @Override public Maybe<?> requestScope() {
         return provider.lifecycle()

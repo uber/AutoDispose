@@ -25,7 +25,7 @@ public class RxLifecycleInteropTest {
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     Disposable d = source.to(AutoDispose.with(
-        RxLifecycleInterop.fromLifecycle(lifecycleProvider)).<Integer>forObservable())
+        RxLifecycleInterop.from(lifecycleProvider)).<Integer>forObservable())
         .subscribeWith(o);
     o.assertSubscribed();
 
@@ -48,7 +48,7 @@ public class RxLifecycleInteropTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
     source.to(AutoDispose.with(
-        RxLifecycleInterop.fromLifecycle(lifecycleProvider)).<Integer>forObservable())
+        RxLifecycleInterop.from(lifecycleProvider)).<Integer>forObservable())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -71,7 +71,7 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitDestroy();
     source
         .to(AutoDispose.with(
-            RxLifecycleInterop.fromLifecycle(lifecycleProvider)).<Integer>forObservable())
+            RxLifecycleInterop.from(lifecycleProvider)).<Integer>forObservable())
         .subscribe(o);
 
     o.takeSubscribe();
@@ -87,7 +87,7 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
-    Disposable d = source.to(AutoDispose.with(RxLifecycleInterop.fromUntilEvent(
+    Disposable d = source.to(AutoDispose.with(RxLifecycleInterop.from(
         lifecycleProvider,
         TestLifecycleProvider.Event.DESTROY)).<Integer>forObservable())
         .subscribeWith(o);
@@ -111,7 +111,7 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
-    source.to(AutoDispose.with(RxLifecycleInterop.fromUntilEvent(lifecycleProvider,
+    source.to(AutoDispose.with(RxLifecycleInterop.from(lifecycleProvider,
         TestLifecycleProvider.Event.DESTROY)).<Integer>forObservable())
         .subscribe(o);
     o.takeSubscribe();
