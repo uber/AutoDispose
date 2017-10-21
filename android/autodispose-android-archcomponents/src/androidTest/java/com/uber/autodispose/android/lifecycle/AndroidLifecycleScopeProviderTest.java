@@ -233,6 +233,35 @@ import static com.google.common.truth.Truth.assertThat;
     o.assertNoMoreEvents();
   }
 
+  @Test @UiThreadTest public void observable_offAfterPause_shouldStopOnStop() {
+    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
+    final PublishSubject<Integer> subject = PublishSubject.create();
+
+    TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
+    lifecycle.emit(Lifecycle.Event.ON_CREATE);
+    lifecycle.emit(Lifecycle.Event.ON_START);
+    lifecycle.emit(Lifecycle.Event.ON_RESUME);
+    lifecycle.emit(Lifecycle.Event.ON_PAUSE);
+    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
+        .<Integer>forObservable())
+        .subscribe(o);
+
+    Disposable d = o.takeSubscribe();
+
+    subject.onNext(2);
+    assertThat(o.takeNext()).isEqualTo(2);
+
+    // We could resume again
+    lifecycle.emit(Lifecycle.Event.ON_RESUME);
+    subject.onNext(3);
+    assertThat(o.takeNext()).isEqualTo(3);
+
+    // We should stop here
+    lifecycle.emit(Lifecycle.Event.ON_STOP);
+    subject.onNext(3);
+    o.assertNoMoreEvents();
+  }
+
   @Test public void observable_offMainThread_shouldFail() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> subject = PublishSubject.create();
@@ -265,27 +294,6 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_PAUSE);
     lifecycle.emit(Lifecycle.Event.ON_STOP);
     lifecycle.emit(Lifecycle.Event.ON_DESTROY);
-    subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
-        .<Integer>forObservable())
-        .subscribe(o);
-
-    Disposable d = o.takeSubscribe();
-    Throwable t = o.takeError();
-    assertThat(t).isInstanceOf(LifecycleEndedException.class);
-    o.assertNoMoreEvents();
-    assertThat(d.isDisposed()).isTrue();
-  }
-
-  @Test @UiThreadTest public void observable_offAfterStop_shouldFail() {
-    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
-    final PublishSubject<Integer> subject = PublishSubject.create();
-
-    TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
-    lifecycle.emit(Lifecycle.Event.ON_CREATE);
-    lifecycle.emit(Lifecycle.Event.ON_START);
-    lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    lifecycle.emit(Lifecycle.Event.ON_PAUSE);
-    lifecycle.emit(Lifecycle.Event.ON_STOP);
     subject.to(AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycle))
         .<Integer>forObservable())
         .subscribe(o);
