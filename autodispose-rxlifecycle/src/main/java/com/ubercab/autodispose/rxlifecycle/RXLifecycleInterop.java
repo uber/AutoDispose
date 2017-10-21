@@ -14,7 +14,7 @@ import io.reactivex.Maybe;
  * methods such as {@link #fromBindLifecycle(LifecycleProvider)} for {@link
  * LifecycleProvider#bindToLifecycle()} and {@link #fromBindUntilEvent(LifecycleProvider, Object)} for
  * {@link LifecycleProvider#bindUntilEvent(Object)}.
- * </p>
+ * <p>
  *
  * <em>Note:</em> RxLifecycle treats the {@link OutsideLifecycleException}
  * as normal terminal event. There is no mapping to {@link LifecycleEndedException} and in such
