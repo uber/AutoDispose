@@ -7,7 +7,7 @@ import com.uber.autodispose.ScopeProvider;
 import io.reactivex.Maybe;
 
 /**
- * Interop class for RxLifecycle. It provides static utility methods to convert {@link
+ * Interop for RxLifecycle. It provides static utility methods to convert {@link
  * LifecycleProvider} to {@link ScopeProvider}.
  *
  * <p>There are several static utility converter
