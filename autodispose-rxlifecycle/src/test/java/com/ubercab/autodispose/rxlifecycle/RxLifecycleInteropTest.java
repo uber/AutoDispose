@@ -79,7 +79,8 @@ public class RxLifecycleInteropTest {
     source.onNext(2);
     o.assertNoMoreEvents();
     assertThat(
-        source.hasObservers()).isFalse(); // Because RxLifecycle treats lifecycle ended exception as terminal event.
+        source.hasObservers()).isFalse(); // Because RxLifecycle
+    // treats lifecycle ended exception as terminal event.
   }
 
   @Test
