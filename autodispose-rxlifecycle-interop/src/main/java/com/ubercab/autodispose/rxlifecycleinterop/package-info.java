@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (c) 2017. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-rootProject.name = 'autodispose-root'
-include ':android:autodispose-android'
-include ':android:autodispose-android-kotlin'
-include ':android:autodispose-android-archcomponents'
-include ':android:autodispose-android-archcomponents-kotlin'
-include ':android:autodispose-android-archcomponents-test'
-include ':android:autodispose-android-archcomponents-test-kotlin'
-include ':autodispose'
-include ':autodispose-kotlin'
-include ':sample'
-include ':test-utils'
-include 'autodispose-rxlifecycle-interop'
+/**
+ * These are Observers AutoDispose uses when scoping an observable. They are exposed as a public API
+ *  to allow for consumers to watch for them if they want, such as in RxJava plugins.
+ */
+@com.uber.javaxextras.FieldsMethodsAndParametersAreNonNullByDefault
+package com.ubercab.autodispose.rxlifecycleinterop;
 

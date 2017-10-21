@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url deps.build.repositories.plugins }
+    }
+    dependencies {
+        classpath deps.build.gradlePlugins.apt
+        classpath deps.build.gradlePlugins.errorProne
+    }
+}
+
+apply plugin: 'java-library'
+apply plugin: 'net.ltgt.apt'
+apply plugin: 'net.ltgt.errorprone'
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+test {
+    testLogging.showStandardStreams = true
+}
+
+dependencies {
+    apt deps.build.nullAway
+    testApt deps.build.nullAway
+
+    compile project(':autodispose')
+    compile 'com.trello.rxlifecycle2:rxlifecycle:2.2.0'
+    compileOnly deps.misc.errorProneAnnotations
+    compileOnly deps.misc.javaxExtras
+
+    errorprone deps.build.checkerFramework
+    errorprone deps.build.errorProne
+
+    testCompile project(':test-utils')
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
+}
