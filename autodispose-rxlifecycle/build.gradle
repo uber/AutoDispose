@@ -40,8 +40,8 @@ dependencies {
     apt deps.build.nullAway
     testApt deps.build.nullAway
 
-    compile project(':autodispose')
-    compile deps.misc.rxlifecycle
+    api project(':autodispose')
+    api deps.misc.rxlifecycle
     compileOnly deps.misc.errorProneAnnotations
     compileOnly deps.misc.javaxExtras
 

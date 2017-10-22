@@ -18,24 +18,17 @@ package com.ubercab.autodispose.rxlifecycle;
 
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.OutsideLifecycleException;
-import com.uber.autodispose.AutoDispose.ScopeHandler;
 import com.uber.autodispose.LifecycleEndedException;
 import com.uber.autodispose.ScopeProvider;
 import io.reactivex.Maybe;
 
 /**
- * Interop for RxLifecycle. It provides static utility methods to convert {@link
- * LifecycleProvider} to {@link ScopeProvider}.
- *
- * <p>There are several static utility converter
- * methods such as {@link #from(LifecycleProvider)} for {@link
- * LifecycleProvider#bindToLifecycle()} and {@link #from(LifecycleProvider, Object)} for
- * {@link LifecycleProvider#bindUntilEvent(Object)}.
- * <p>
+ * Interop for RxLifecycle. This provides static factory methods to convert {@link
+ * LifecycleProvider}s into {@link ScopeProvider} representations.
  *
  * <em>Note:</em> RxLifecycle treats the {@link OutsideLifecycleException}
  * as normal terminal event. There is no mapping to {@link LifecycleEndedException} and in such
- * cases the stream is normally disposed.
+ * cases the stream is just disposed.
  */
 public final class RxLifecycleInterop {
 
@@ -46,19 +39,18 @@ public final class RxLifecycleInterop {
   private static final Object DEFAULT_THROWAWAY_OBJECT = new Object();
 
   /**
-   * Converter for transforming {@link LifecycleProvider} to {@link ScopeProvider}.
-   * It disposes the source when the next reasonable event occurs.
+   * Factory creating a {@link ScopeProvider} representation of a {@link LifecycleProvider}.
    * <p>
    * Example usage:
    * <pre><code>
    *   Observable.just(1)
-   *        .to(RxLifecycleInterop.from(lifecycleProvider))
+   *        .to(AutoDispose.with(RxLifecycleInterop.from(lifecycleProvider)).forObservable())
    *        .subscribe(...)
    * </code></pre>
    *
    * @param <E> the lifecycle event.
-   * @param provider the {@link LifecycleProvider} for RxLifecycle.
-   * @return a {@link ScopeHandler} to create AutoDisposing transformation
+   * @param provider the {@link LifecycleProvider}.
+   * @return a {@link ScopeProvider}
    */
   public static <E> ScopeProvider from(final LifecycleProvider<E> provider) {
     return new ScopeProvider() {
@@ -73,20 +65,19 @@ public final class RxLifecycleInterop {
   }
 
   /**
-   * Converter for transforming {@link LifecycleProvider} to {@link ScopeProvider}.
-   * It disposes the source when a specific event occurs.
+   * Factory creating a {@link ScopeProvider} representation of a {@link LifecycleProvider}.
    * <p>
    * Example usage:
    * <pre><code>
    *   Observable.just(1)
-   *        .to(RxLifecycleInterop.from(lifecycleProvider, event))
+   *        .to(AutoDispose.with(RxLifecycleInterop.from(lifecycleProvider, event)).forObservable())
    *        .subscribe(...)
    * </code></pre>
    *
    * @param <E> the lifecycle event.
-   * @param provider the {@link LifecycleProvider} for RxLifecycle.
-   * @param event the event at which the source is disposed.
-   * @return a {@link ScopeHandler} to create AutoDisposing transformation
+   * @param provider the {@link LifecycleProvider}.
+   * @param event a target event to dispose upon.
+   * @return a {@link ScopeProvider}
    */
   public static <E> ScopeProvider from(final LifecycleProvider<E> provider, final E event) {
     return new ScopeProvider() {

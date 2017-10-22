@@ -35,14 +35,14 @@ public class RxLifecycleInteropTest {
 
   private TestLifecycleProvider lifecycleProvider = new TestLifecycleProvider();
 
-  @Test
-  public void bindLifecycle_normalTermination_completeTheStream() {
+  @Test public void bindLifecycle_normalTermination_completeTheStream() {
     lifecycleProvider.emitCreate();
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
-    Disposable d = source.to(AutoDispose.with(
-        RxLifecycleInterop.from(lifecycleProvider)).<Integer>forObservable())
-        .subscribeWith(o);
+    Disposable d =
+        source.to(AutoDispose.with(RxLifecycleInterop.from(lifecycleProvider))
+            .<Integer>forObservable())
+            .subscribeWith(o);
     o.assertSubscribed();
 
     assertThat(source.hasObservers()).isTrue();
@@ -58,13 +58,11 @@ public class RxLifecycleInteropTest {
     assertThat(source.hasObservers()).isFalse();
   }
 
-  @Test
-  public void bindLifecycle_normalTermination_unsubscribe() {
+  @Test public void bindLifecycle_normalTermination_unsubscribe() {
     lifecycleProvider.emitCreate();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
-    source.to(AutoDispose.with(
-        RxLifecycleInterop.from(lifecycleProvider)).<Integer>forObservable())
+    source.to(AutoDispose.with(RxLifecycleInterop.from(lifecycleProvider)).<Integer>forObservable())
         .subscribe(o);
     o.takeSubscribe();
 
@@ -79,33 +77,27 @@ public class RxLifecycleInteropTest {
     assertThat(source.hasObservers()).isFalse();
   }
 
-  @Test
-  public void bindLifecycle_outsideLifecycleBound_unsubscribe() {
+  @Test public void bindLifecycle_outsideLifecycleBound_unsubscribe() {
     lifecycleProvider.emitCreate();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
     lifecycleProvider.emitDestroy();
-    source
-        .to(AutoDispose.with(
-            RxLifecycleInterop.from(lifecycleProvider)).<Integer>forObservable())
+    source.to(AutoDispose.with(RxLifecycleInterop.from(lifecycleProvider)).<Integer>forObservable())
         .subscribe(o);
 
     o.takeSubscribe();
 
     source.onNext(2);
     o.assertNoMoreEvents();
-    assertThat(
-        source.hasObservers()).isFalse(); // Because RxLifecycle
+    assertThat(source.hasObservers()).isFalse(); // Because RxLifecycle
     // treats OutsideLifecycleException as terminal event.
   }
 
-  @Test
-  public void bindUntilEvent_normalTermination_completeTheStream() {
+  @Test public void bindUntilEvent_normalTermination_completeTheStream() {
     lifecycleProvider.emitCreate();
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
-    Disposable d = source.to(AutoDispose.with(RxLifecycleInterop.from(
-        lifecycleProvider,
+    Disposable d = source.to(AutoDispose.with(RxLifecycleInterop.from(lifecycleProvider,
         TestLifecycleProvider.Event.DESTROY)).<Integer>forObservable())
         .subscribeWith(o);
     o.assertSubscribed();
@@ -123,8 +115,7 @@ public class RxLifecycleInteropTest {
     assertThat(source.hasObservers()).isFalse();
   }
 
-  @Test
-  public void bindUntilEvent_interruptedTermination_unsubscribe() {
+  @Test public void bindUntilEvent_interruptedTermination_unsubscribe() {
     lifecycleProvider.emitCreate();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
