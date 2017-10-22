@@ -28,6 +28,10 @@ import io.reactivex.Observer;
 import io.reactivex.android.MainThreadDisposable;
 import io.reactivex.subjects.BehaviorSubject;
 
+import static android.arch.lifecycle.Lifecycle.Event.ON_CREATE;
+import static android.arch.lifecycle.Lifecycle.Event.ON_DESTROY;
+import static android.arch.lifecycle.Lifecycle.Event.ON_RESUME;
+import static android.arch.lifecycle.Lifecycle.Event.ON_START;
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
 
@@ -51,18 +55,18 @@ import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMai
     @Nullable Lifecycle.Event correspondingEvent;
     switch (lifecycle.getCurrentState()) {
       case INITIALIZED:
-        correspondingEvent = Lifecycle.Event.ON_CREATE;
+        correspondingEvent = ON_CREATE;
         break;
       case CREATED:
-        correspondingEvent = Lifecycle.Event.ON_START;
+        correspondingEvent = ON_START;
         break;
       case STARTED:
       case RESUMED:
-        correspondingEvent = Lifecycle.Event.ON_RESUME;
+        correspondingEvent = ON_RESUME;
         break;
       case DESTROYED:
       default:
-        correspondingEvent = Lifecycle.Event.ON_DESTROY;
+        correspondingEvent = ON_DESTROY;
         break;
     }
     eventsObservable.onNext(correspondingEvent);
@@ -99,7 +103,7 @@ import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMai
 
     @OnLifecycleEvent(Event.ON_ANY) void onStateChange(LifecycleOwner owner, Event event) {
       if (!isDisposed()) {
-        if (!(event == Event.ON_CREATE && eventsObservable.getValue() == event)) {
+        if (!(event == ON_CREATE && eventsObservable.getValue() == event)) {
           // Due to the INITIALIZED->ON_CREATE mapping trick we do in backfill(),
           // we fire this conditionally to avoid duplicate CREATE events.
           eventsObservable.onNext(event);
