@@ -49,7 +49,7 @@ public final class AndroidLifecycleScopeProvider
             case ON_STOP:
             case ON_DESTROY:
             default:
-              throw new LifecycleEndedException();
+              throw new LifecycleEndedException("Lifecycle has ended! Last event was " + lastEvent);
           }
         }
       };
@@ -145,6 +145,7 @@ public final class AndroidLifecycleScopeProvider
   }
 
   @Override public Lifecycle.Event peekLifecycle() {
+    lifecycleObservable.backfillEvents();
     return lifecycleObservable.getValue();
   }
 
