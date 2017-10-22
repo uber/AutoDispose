@@ -15,9 +15,8 @@
  */
 
 /**
- * Interop for RxLifecycle. It could understand RxLifecycle's
- * LifecycleProvider mechanics, which in turn lend support to different
- * components such as RxActivity. It does so by providing converters to retrieve ScopeProvider.
+ * AutoDispose extensions for interop with RxLifecycle. This namely supports
+ * {@link com.trello.rxlifecycle2.LifecycleProvider}.
  */
 @com.uber.javaxextras.FieldsMethodsAndParametersAreNonNullByDefault
 package com.ubercab.autodispose.rxlifecycle;
