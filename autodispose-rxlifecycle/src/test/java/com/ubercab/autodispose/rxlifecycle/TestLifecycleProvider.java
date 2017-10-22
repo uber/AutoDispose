@@ -27,8 +27,7 @@ import io.reactivex.subjects.BehaviorSubject;
 final class TestLifecycleProvider implements LifecycleProvider<TestLifecycleProvider.Event> {
 
   private static final Function<Event, Event> CORRESPONDING_EVENTS = new Function<Event, Event>() {
-    @Override public Event apply(Event event)
-        throws Exception {
+    @Override public Event apply(Event event) throws Exception {
       switch (event) {
         case CREATE:
           return Event.DESTROY;
@@ -44,8 +43,7 @@ final class TestLifecycleProvider implements LifecycleProvider<TestLifecycleProv
     return lifecycle.hide();
   }
 
-  @Override
-  public <T> LifecycleTransformer<T> bindUntilEvent(Event event) {
+  @Override public <T> LifecycleTransformer<T> bindUntilEvent(Event event) {
     return RxLifecycle.bindUntilEvent(lifecycle, event);
   }
 
@@ -62,7 +60,6 @@ final class TestLifecycleProvider implements LifecycleProvider<TestLifecycleProv
   }
 
   enum Event {
-    CREATE,
-    DESTROY
+    CREATE, DESTROY
   }
 }
