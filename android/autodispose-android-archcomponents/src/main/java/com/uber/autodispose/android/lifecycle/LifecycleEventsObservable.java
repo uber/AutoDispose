@@ -48,10 +48,12 @@ import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMai
     return eventsObservable.getValue();
   }
 
+  /**
+   * Backfill if already created for boundary checking. We do a trick here for corresponding events
+   * where we pretend something is created upon initialized state so that it assumes the
+   * corresponding event is DESTROY.
+   */
   void backfillEvents() {
-    // Backfill if already created for boundary checking
-    // We do a trick here for corresponding events where we pretend something is created
-    // upon initialized state so that it assumes the corresponding event is DESTROY.
     @Nullable Lifecycle.Event correspondingEvent;
     switch (lifecycle.getCurrentState()) {
       case INITIALIZED:
