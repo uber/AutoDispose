@@ -15,7 +15,9 @@
  */
 
 /**
- * Interop for RxLifecycle.
+ * Interop for RxLifecycle. It could understand RxLifecycle's
+ * LifecycleProvider mechanics, which in turn lend support to different
+ * components such as RxActivity. It does so by providing converters to retrieve ScopeProvider.
  */
 @com.uber.javaxextras.FieldsMethodsAndParametersAreNonNullByDefault
 package com.ubercab.autodispose.rxlifecycle;
