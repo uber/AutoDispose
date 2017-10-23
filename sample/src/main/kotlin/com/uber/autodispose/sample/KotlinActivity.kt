@@ -32,6 +32,9 @@ import java.util.concurrent.TimeUnit
  */
 class KotlinActivity : AppCompatActivity() {
 
+  // Can be reused
+  private val scopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     Log.d(TAG, "onCreate()")
@@ -41,7 +44,7 @@ class KotlinActivity : AppCompatActivity() {
     // dispose is onDestroy (the opposite of onCreate).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onCreate()") }
-        .autoDisposeWith(AndroidLifecycleScopeProvider.from(this))
+        .autoDisposeWith(scopeProvider)
         .subscribe { num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): " + num) }
   }
 
@@ -54,7 +57,7 @@ class KotlinActivity : AppCompatActivity() {
     // dispose is onStop (the opposite of onStart).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onStart()") }
-        .autoDisposeWith(AndroidLifecycleScopeProvider.from(this))
+        .autoDisposeWith(scopeProvider)
         .subscribe { num -> Log.i(TAG, "Started in onStart(), running until in onStop(): " + num) }
   }
 
@@ -67,7 +70,7 @@ class KotlinActivity : AppCompatActivity() {
     // dispose is onPause (the opposite of onResume).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onResume()") }
-        .autoDisposeWith(AndroidLifecycleScopeProvider.from(this))
+        .autoDisposeWith(scopeProvider)
         .subscribe { num ->
           Log.i(TAG, "Started in onResume(), running until in onPause(): " + num)
         }
