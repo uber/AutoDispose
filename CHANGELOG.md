@@ -1,8 +1,47 @@
 Changelog
 =========
 
+Version 0.4.0
+----------------------------
+
+_2017-10-22_
+
+#### Structured Android Components [#111](https://github.com/uber/AutoDispose/pull/111)
+
+Android components have been split up into several artifacts under `:android`:
+-  `autodispose-android`: Core android utilities, previously `:autodispose-android`
+- `autodispose-android-archcomponents`: Utilities for lifecycles in android archcomponents, previously `:autodispose-android-archcomponents` but does not have the test helper
+- **New:** `autodispose-android-archcomponents-test`: Test utilities for working with arch components, namely `TestLifecycleOwner`, formerly `TestAndroidLifecycleScopeProvider`.
+  - This allows us to remove the `extensions` dependency from the main arch components artifact and keep this optional. This API can also be used for general use testing for arch components, as it's not actually specific to AutoDispose.
+- **New:** `autodispose-android-kotlin`: kotlin bindings for `autodispose-android`
+- **New:** `autodispose-android-archcomponents-kotlin`: kotlin bindings for `autodispose-android-archcomponents`
+- **New:** `autodispose-android-archcomponents-test-kotlin`: kotlin bindings for `autodispose-android-test-archcomponents`
+- **New:** Android artifacts include consumer proguard rules (relates to ([#112](https://github.com/uber/AutoDispose/issues/112)))
+
+Related changes:
+- **Fix:** Arch components updated to `1.0.0-rc1`, which should fix compatibility issues noted in ([#113](https://github.com/uber/AutoDispose/issues/113))
+- **Enhancement:** `untilEvent` overload for AndroidLifecycleScopeProvider ([#107](https://github.com/uber/AutoDispose/issues/107))
+  - Now you can bind until a specific target event, or provide your own boundary provider function
+- Behavior change: previously, anything occurring after `ON_STOP` would resolve to `ON_DESTROY`. Now, they resolve to stop on the next destruction event. This brings it inline with the modern behavior of arch components version `-rc1`.
+- **Enhancement:** `AndroidLifecycleScopeProvider`s are now reusable. This is somewhat experimental, as it works by dynamically resolving the last event based on the state. Please report any issues! [#121](https://github.com/uber/AutoDispose/pull/121)
+
+#### RxLifecycle Interop
+
+A new `autodispose-rxlifecycle` interop module was added, adding support for scoping to [RxLifecycle](https://github.com/trello/RxLifecycle)'s `LifecycleProvider` API. ([#118](https://github.com/uber/AutoDispose/pull/118))
+
+#### Misc
+
+- Reduced object allocations ([#108](https://github.com/uber/AutoDispose/issues/108))
+- Convenience `unbound()` factory on `TestScopeProvider` ([#108](https://github.com/uber/AutoDispose/issues/108))
+- Removed synthetic accessors ([#103](https://github.com/uber/AutoDispose/issues/103))
+- Updated to Kotlin 1.1.51 ([#116](https://github.com/uber/AutoDispose/issues/116))
+
+Thanks to the following contributors! [@rubengees](https://github.com/rubengees) [@bangarharshit](https://github.com/bangarharshit) 
+
 Version 0.3.0
 ----------------------------
+
+_2017-10-01_
 
 * **New: Static factory API ([#88](https://github.com/uber/AutoDispose/pull/88))**
 
@@ -101,6 +140,8 @@ Soon Now, so now is the time. There are a few outstanding discussion issues in t
 Version 0.2.0
 ----------------------------
 
+_2017-05-08_
+
 * **New: Kotlin artifact! (#47)**
 
 This adds `autoDisposeWith()` extensions to RxJava types.
@@ -145,5 +186,7 @@ annotated with `@Nullable` are not.
 
 Version 0.1.0
 ----------------------------
+
+_2017-03-13_
 
 * Initial release

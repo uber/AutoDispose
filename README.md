@@ -95,13 +95,6 @@ public interface ScopeProvider {
 This is particularly useful for objects with simple scopes ("stop when I stop") or very custom state
 that requires custom handling.
 
-#### Android
-
-There are two artifacts with extra support for Android:
-* `autodispose-android` has a `ViewScopeProvider` for use with Android `View` classes.
-* `autodispose-android-archcomponents` has a `AndroidLifecycleScopeProvider` for use with `LifecycleOwner` and `Lifecycle` implementations.
-  * This also comes with a `TestAndroidLifecycleScopeProvider` fake for use in testing.
-
 #### Plugins
 
 When a lifecycle has not started or has already ended, `AutoDispose` will send an error event with an
@@ -115,13 +108,47 @@ observer that acts as a lambda observer (pass-through) unless the underlying sco
 Both scope end and upstream termination result in immediate disposable of both the underlying scope
 subscription and upstream disposable.
 
-### Support
+### Support/Extensions
 
 `Flowable`, `Observable`, `Maybe`, `Single`, and `Completable` are all supported. Implementation is solely
 based on their `Observer` types, so conceivably any type that uses those for subscription should work.
 
-There is a separate Android artifact with extra APIs for Android components, such as support for `View`
-lifecycle binding.
+#### AutoDisposePlugins
+
+Modeled after RxJava's plugins, this allows you to customize the behavior of AutoDispose.
+
+Example
+```java
+AutoDisposePlugins.setOutsideLifecycleHandler(t -> {
+    // Swallow the exception, or rethrow it, or throw your own!
+})
+```
+
+A good use case of this is, say, just silently disposing/logging observers outside of lifecycle exceptions in production but crashing on debug.
+
+####  Extensions
+
+There are also a number of extension artifacts available, detailed below.
+
+##### Android
+
+There are three artifacts with extra support for Android:
+* `autodispose-android` has a `ViewScopeProvider` for use with Android `View` classes.
+* `autodispose-android-archcomponents` has a `AndroidLifecycleScopeProvider` for use with `LifecycleOwner` and `Lifecycle` implementations.
+* `autodispose-android-archcomponents-test` has a `TestLifecycleOwner` for use in testing.
+
+For each artifact, there is a corresponding kotlin extensions artifact with it. Example:
+`autodispose-android` -> `autodispose-android-kotlin`.
+
+##### Kotlin
+
+Kotlin extension artifacts are available for almost every artifact by adding `-kotlin` to the ID like 
+above.
+
+##### RxLifecycle
+
+As of 0.4.0 there is an RxLifecycle interop module under `autodispose-rxlifecycle`. This is for interop
+with [RxLifecycle](https://github.com/trello/RxLifecycle)'s `LifecycleProvider` interfaces.
 
 ### Philosophy
 
