@@ -230,11 +230,40 @@ Android Architecture Components extensions:
 compile 'com.uber.autodispose:autodispose-android-archcomponents:x.y.z'
 ```
 
+Android Architecture Components Test extensions:
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test)
+```gradle
+compile 'com.uber.autodispose:autodispose-android-archcomponents-test:x.y.z'
+```
+
+RxLifecycle interop:
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-rxlifecycle.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-rxlifecycle)
+```gradle
+compile 'com.uber.autodispose:autodispose-rxlifecycle:x.y.z'
+```
+
 Kotlin extensions:
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-kotlin)
+`autodispose-kotlin` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-kotlin) 
 ```gradle
 compile 'com.uber.autodispose:autodispose-kotlin:x.y.z'
+```
+
+`autodispose-android-kotlin` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-kotlin) 
+```gradle
+compile 'com.uber.autodispose:autodispose-android-kotlin:x.y.z'
+```
+
+`autodispose-android-archcomponents-kotlin` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-kotlin) 
+```gradle
+compile 'com.uber.autodispose:autodispose-android-archcomponents-kotlin:x.y.z'
+```
+
+`autodispose-android-archcomponents-test-kotlin` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin) 
+```gradle
+compile 'com.uber.autodispose:autodispose-android-archcomponents-test-kotlin:x.y.z'
 ```
 
 Snapshots of the development version will eventually be available in [Sonatype's snapshots repository][snapshots].
