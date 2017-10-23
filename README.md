@@ -266,7 +266,7 @@ compile 'com.uber.autodispose:autodispose-android-archcomponents-kotlin:x.y.z'
 compile 'com.uber.autodispose:autodispose-android-archcomponents-test-kotlin:x.y.z'
 ```
 
-Snapshots of the development version will eventually be available in [Sonatype's snapshots repository][snapshots].
+Snapshots of the development version are available in [Sonatype's snapshots repository][snapshots].
 
 License
 -------
