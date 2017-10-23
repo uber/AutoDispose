@@ -38,6 +38,40 @@ A new `autodispose-rxlifecycle` interop module was added, adding support for sco
 
 Thanks to the following contributors! [@rubengees](https://github.com/rubengees) [@bangarharshit](https://github.com/bangarharshit) 
 
+#### Updated dependencies:
+```
+Android Arch Components: 1.0.0-rc1
+Android Arch Components (common): 1.0.3
+Kotlin: 1.1.51
+```
+
+#### New artifacts coordinates:
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test)
+```gradle
+compile 'com.uber.autodispose:autodispose-android-archcomponents-test:x.y.z'
+```
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-rxlifecycle.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-rxlifecycle)
+```gradle
+compile 'com.uber.autodispose:autodispose-rxlifecycle:x.y.z'
+```
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-kotlin) 
+```gradle
+compile 'com.uber.autodispose:autodispose-android-kotlin:x.y.z'
+```
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-kotlin) 
+```gradle
+compile 'com.uber.autodispose:autodispose-android-archcomponents-kotlin:x.y.z'
+```
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin) 
+```gradle
+compile 'com.uber.autodispose:autodispose-android-archcomponents-test-kotlin:x.y.z'
+```
+
 Version 0.3.0
 ----------------------------
 
