@@ -28,6 +28,7 @@ public final class AutoDisposePlugins {
 
   @Nullable
   private static volatile Consumer<? super OutsideLifecycleException> outsideLifecycleHandler;
+  private static volatile boolean fillInOutsideLifecycleExceptionStacktraces;
 
   /**
    * Prevents changing the plugins.
@@ -53,7 +54,15 @@ public final class AutoDisposePlugins {
   }
 
   /**
-   * @return the consumer for handling {@link OutsideLifecycleException}.
+   * @return the value indicating whether or not to fill in stacktraces in
+   * {@link OutsideLifecycleException}.
+   */
+  public static boolean getFillInOutsideLifecycleExceptionStacktraces() {
+    return fillInOutsideLifecycleExceptionStacktraces;
+  }
+
+  /**
+   * @return the value for handling {@link OutsideLifecycleException}.
    */
   @Nullable
   public static Consumer<? super OutsideLifecycleException> getOutsideLifecycleHandler() {
@@ -69,6 +78,19 @@ public final class AutoDisposePlugins {
       throw new IllegalStateException("Plugins can't be changed anymore");
     }
     outsideLifecycleHandler = handler;
+  }
+
+  /**
+   * @param fillInStacktrace {@code true} to fill in stacktraces in
+   * {@link OutsideLifecycleException}s. {@code false} to disable them (and use them as signals
+   * only). Disabling them, if you don't care about the stacktraces, can result in some minor
+   * performance improvements.
+   */
+  public static void setFillInOutsideLifecycleExceptionStacktraces(boolean fillInStacktrace) {
+    if (lockdown) {
+      throw new IllegalStateException("Plugins can't be changed anymore");
+    }
+    fillInOutsideLifecycleExceptionStacktraces = fillInStacktrace;
   }
 
   /**
