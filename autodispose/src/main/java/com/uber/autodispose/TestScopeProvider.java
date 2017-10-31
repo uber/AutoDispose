@@ -52,7 +52,9 @@ public final class TestScopeProvider implements ScopeProvider {
    * scope is unbound.
    *
    * @return the created TestScopeProvider
+   * @deprecated in favor of {@link ScopeProvider#UNBOUND}. This method will be removed in 1.0.
    */
+  @Deprecated
   public static TestScopeProvider unbound() {
     return create(Maybe.empty());
   }
