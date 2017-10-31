@@ -74,7 +74,7 @@ public class AutoDisposeMaybeObserverTest {
 
   @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
     Maybe.just(new BClass())
-        .to(AutoDispose.with(Maybe.never()).<AClass>forMaybe())
+        .to(AutoDispose.with(ScopeProvider.UNBOUND).<AClass>forMaybe())
         .subscribe(new Consumer<AClass>() {
           @Override public void accept(AClass aClass) throws Exception {
 
@@ -84,7 +84,7 @@ public class AutoDisposeMaybeObserverTest {
 
   @Test public void autoDispose_noGenericsOnEmpty_isFine() {
     Maybe.just(new BClass())
-        .to(AutoDispose.with(Maybe.never())
+        .to(AutoDispose.with(ScopeProvider.UNBOUND)
             .forMaybe())
         .subscribe();
   }
@@ -343,7 +343,7 @@ public class AutoDisposeMaybeObserverTest {
         }
       });
       Maybe.just(1)
-          .to(AutoDispose.with(Maybe.never()).<Integer>forMaybe())
+          .to(AutoDispose.with(ScopeProvider.UNBOUND).<Integer>forMaybe())
           .subscribe();
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();

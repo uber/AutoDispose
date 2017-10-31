@@ -311,7 +311,7 @@ public class AutoDisposeCompletableObserverTest {
             }
           });
       Completable.complete()
-          .to(AutoDispose.with(Maybe.never())
+          .to(AutoDispose.with(ScopeProvider.UNBOUND)
               .forCompletable())
           .subscribe();
 
