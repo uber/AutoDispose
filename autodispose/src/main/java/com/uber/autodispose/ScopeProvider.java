@@ -24,6 +24,12 @@ import io.reactivex.annotations.CheckReturnValue;
  */
 public interface ScopeProvider {
 
+  ScopeProvider UNBOUND = new ScopeProvider() {
+    @Override public Maybe<?> requestScope() {
+      return Maybe.empty();
+    }
+  };
+
   /**
    * @return a Maybe that, upon emission, will trigger disposal.
    */
