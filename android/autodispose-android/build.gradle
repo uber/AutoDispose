@@ -70,4 +70,5 @@ tasks.withType(JavaCompile) {
   options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
 }
 
+apply from: rootProject.file('gradle/android-java-artifacts.gradle')
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

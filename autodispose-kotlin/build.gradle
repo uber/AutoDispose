@@ -1,10 +1,12 @@
 buildscript {
   dependencies {
     classpath deps.build.gradlePlugins.kotlin
+    classpath deps.build.gradlePlugins.dokka
   }
 }
 
 apply plugin: 'org.jetbrains.kotlin.jvm'
+apply plugin: 'org.jetbrains.dokka'
 
 dependencies {
   compile deps.kotlin.stdlib
@@ -13,4 +15,5 @@ dependencies {
   testCompile project(':test-utils')
 }
 
+apply from: rootProject.file('gradle/kotlin-artifacts.gradle')
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

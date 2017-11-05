@@ -1,0 +1,19 @@
+dokka {
+  externalDocumentationLink {
+    url = new URL("http://reactivex.io/RxJava/2.x/javadoc/")
+  }
+
+  outputFormat = 'html'
+  outputDirectory = "$buildDir/docs/kdoc"
+  sourceDirs = sourceSets.main.allSource
+}
+
+task sourceJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+task docJar(type: Jar, dependsOn: dokka) {
+  classifier = 'javadoc'
+  from dokka.outputDirectory
+}

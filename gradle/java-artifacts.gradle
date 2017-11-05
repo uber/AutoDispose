@@ -1,0 +1,17 @@
+task javaJavadoc(type: Javadoc) {
+  source = sourceSets.main.allSource
+
+  if (JavaVersion.current().isJava8Compatible()) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+  }
+}
+
+task sourceJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource.srcDirs
+}
+
+task docJar(type: Jar, dependsOn: javaJavadoc) {
+  classifier = 'javadoc'
+  from javaJavadoc.destinationDir
+}

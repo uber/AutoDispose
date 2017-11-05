@@ -22,11 +22,13 @@ buildscript {
   dependencies {
     classpath deps.build.gradlePlugins.android
     classpath deps.build.gradlePlugins.kotlin
+    classpath deps.build.gradlePlugins.dokkaAndroid
   }
 }
 
 apply plugin: 'com.android.library'
 apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'org.jetbrains.dokka-android'
 
 android {
   compileSdkVersion deps.build.compileSdkVersion
@@ -53,4 +55,5 @@ dependencies {
   androidTestCompile project(':test-utils')
 }
 
+apply from: rootProject.file('gradle/android-kotlin-artifacts.gradle')
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

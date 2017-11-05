@@ -134,28 +134,6 @@ afterEvaluate { project ->
         }
       }
     }
-
-    task androidJavadocs(type: Javadoc) {
-      if (!project.plugins.hasPlugin('kotlin-android')) {
-        source = android.sourceSets.main.java.srcDirs
-      }
-      classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-      exclude '**/internal/*'
-
-      if (JavaVersion.current().isJava8Compatible()) {
-        options.addStringOption('Xdoclint:none', '-quiet')
-      }
-    }
-
-    task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
-      classifier = 'javadoc'
-      from androidJavadocs.destinationDir
-    }
-
-    task androidSourcesJar(type: Jar) {
-      classifier = 'sources'
-      from android.sourceSets.main.java.sourceFiles
-    }
   } else {
     install {
       repositories.mavenInstaller {
@@ -192,34 +170,10 @@ afterEvaluate { project ->
         }
       }
     }
-
-    task sourcesJar(type: Jar, dependsOn: classes) {
-      classifier = 'sources'
-      from sourceSets.main.allSource
-    }
-
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-      classifier = 'javadoc'
-      from javadoc.destinationDir
-    }
-  }
-
-  if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
-      tasks.withType(Javadoc) {
-        options.addStringOption('Xdoclint:none', '-quiet')
-      }
-    }
   }
 
   artifacts {
-    if (project.getPlugins().hasPlugin('com.android.application') ||
-        project.getPlugins().hasPlugin('com.android.library')) {
-      archives androidSourcesJar
-      archives androidJavadocsJar
-    } else {
-      archives sourcesJar
-      archives javadocJar
-    }
+    archives sourceJar
+    archives docJar
   }
 }
