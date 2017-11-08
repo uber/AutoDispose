@@ -42,6 +42,101 @@ def getRepositoryPassword() {
   return hasProperty('SONATYPE_NEXUS_PASSWORD') ? SONATYPE_NEXUS_PASSWORD : ""
 }
 
+def kotlinAndroidArtifactTasks() {
+  if (!project.plugins.hasPlugin('org.jetbrains.dokka-android')) {
+    throw new GradleException("Apply the dokka-android plugin in ${project.name}")
+  }
+
+  dokka {
+    externalDocumentationLink {
+      url = new URL("http://reactivex.io/RxJava/2.x/javadoc/")
+    }
+
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/docs/kdoc"
+    sourceDirs = android.sourceSets.main.java.srcDirs
+  }
+
+  task docJar(type: Jar, dependsOn: dokka) {
+    classifier = 'javadoc'
+    from dokka.outputDirectory
+  }
+
+  task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+  }
+}
+
+def kotlinArtifactTasks() {
+  if (!project.plugins.hasPlugin('org.jetbrains.dokka')) {
+    throw new GradleException("Apply the dokka plugin in ${project.name}")
+  }
+
+  dokka {
+    externalDocumentationLink {
+      url = new URL("http://reactivex.io/RxJava/2.x/javadoc/")
+    }
+
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/docs/kdoc"
+    sourceDirs = sourceSets.main.allSource
+  }
+
+  task docJar(type: Jar, dependsOn: dokka) {
+    classifier = 'javadoc'
+    from dokka.outputDirectory
+  }
+
+  task sourceJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+  }
+}
+
+def androidArtifactTasks() {
+  task androidJavadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    exclude '**/internal/*'
+
+    if (JavaVersion.current().isJava8Compatible()) {
+      options.addStringOption('Xdoclint:none', '-quiet')
+    }
+  }
+
+  task docJar(type: Jar, dependsOn: androidJavadoc) {
+    classifier = 'javadoc'
+    from androidJavadoc.destinationDir
+  }
+
+  task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+  }
+}
+
+def javaArtifactTasks() {
+  task javaJavadoc(type: Javadoc) {
+    source = sourceSets.main.allSource
+
+    if (JavaVersion.current().isJava8Compatible()) {
+      options.addStringOption('Xdoclint:none', '-quiet')
+    }
+  }
+
+  task docJar(type: Jar, dependsOn: javaJavadoc) {
+    classifier = 'javadoc'
+    from javaJavadoc.destinationDir
+  }
+
+  task sourceJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource.srcDirs
+  }
+}
+
 afterEvaluate { project ->
   uploadArchives {
     repositories {
@@ -134,6 +229,12 @@ afterEvaluate { project ->
         }
       }
     }
+
+    if (project.plugins.hasPlugin('kotlin-android')) {
+      kotlinAndroidArtifactTasks()
+    } else {
+      androidArtifactTasks()
+    }
   } else {
     install {
       repositories.mavenInstaller {
@@ -169,6 +270,12 @@ afterEvaluate { project ->
           }
         }
       }
+    }
+
+    if (project.plugins.hasPlugin('kotlin')) {
+      kotlinArtifactTasks()
+    } else {
+      javaArtifactTasks()
     }
   }
 

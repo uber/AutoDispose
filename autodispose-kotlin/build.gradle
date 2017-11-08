@@ -15,5 +15,4 @@ dependencies {
   testCompile project(':test-utils')
 }
 
-apply from: rootProject.file('gradle/kotlin-artifacts.gradle')
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
