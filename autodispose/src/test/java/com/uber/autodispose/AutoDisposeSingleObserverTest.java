@@ -18,7 +18,6 @@ package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingSingleObserver;
 import com.uber.autodispose.test.RecordingObserver;
-import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleObserver;
