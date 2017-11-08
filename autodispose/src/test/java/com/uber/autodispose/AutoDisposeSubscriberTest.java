@@ -21,7 +21,6 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
-import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Cancellable;
@@ -72,7 +71,7 @@ public class AutoDisposeSubscriberTest {
 
   @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
     Flowable.just(new BClass())
-        .to(AutoDispose.with(Maybe.never()).<AClass>forFlowable())
+        .to(AutoDispose.with(ScopeProvider.UNBOUND).<AClass>forFlowable())
         .subscribe(new Consumer<AClass>() {
           @Override public void accept(AClass aClass) throws Exception {
 
@@ -82,7 +81,7 @@ public class AutoDisposeSubscriberTest {
 
   @Test public void autoDispose_noGenericsOnEmpty_isFine() {
     Flowable.just(new BClass())
-        .to(AutoDispose.with(Maybe.never())
+        .to(AutoDispose.with(ScopeProvider.UNBOUND)
             .forFlowable())
         .subscribe();
   }
@@ -289,7 +288,7 @@ public class AutoDisposeSubscriberTest {
         }
       });
       Flowable.just(1)
-          .to(AutoDispose.with(Maybe.never()).<Integer>forFlowable())
+          .to(AutoDispose.with(ScopeProvider.UNBOUND).<Integer>forFlowable())
           .subscribe();
 
       assertThat(atomicAutoDisposingSubscriber.get()).isNotNull();

@@ -18,7 +18,6 @@ package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingSingleObserver;
 import com.uber.autodispose.test.RecordingObserver;
-import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleObserver;
@@ -76,7 +75,7 @@ public class AutoDisposeSingleObserverTest {
 
   @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
     Single.just(new BClass())
-        .to(AutoDispose.with(Maybe.never()).<AClass>forSingle())
+        .to(AutoDispose.with(ScopeProvider.UNBOUND).<AClass>forSingle())
         .subscribe(new Consumer<AClass>() {
           @Override public void accept(AClass aClass) throws Exception {
 
@@ -86,7 +85,7 @@ public class AutoDisposeSingleObserverTest {
 
   @Test public void autoDispose_noGenericsOnEmpty_isFine() {
     Single.just(new BClass())
-        .to(AutoDispose.with(Maybe.never())
+        .to(AutoDispose.with(ScopeProvider.UNBOUND)
             .forSingle())
         .subscribe();
   }
@@ -314,7 +313,7 @@ public class AutoDisposeSingleObserverTest {
         }
       });
       Single.just(1)
-          .to(AutoDispose.with(Maybe.never()).<Integer>forSingle())
+          .to(AutoDispose.with(ScopeProvider.UNBOUND).<Integer>forSingle())
           .subscribe();
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
