@@ -1,4 +1,4 @@
-package com.uber.autodispose.kotlin
+package com.uber.autodispose.recipes
 
 import com.uber.autodispose.*
 import io.reactivex.disposables.Disposable
