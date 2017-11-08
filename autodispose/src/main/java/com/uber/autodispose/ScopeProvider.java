@@ -24,6 +24,10 @@ import io.reactivex.annotations.CheckReturnValue;
  */
 public interface ScopeProvider {
 
+  /**
+   * A new provider that is "unbound", e.g. will emit a completion event to signal that the
+   * scope is unbound.
+   */
   ScopeProvider UNBOUND = new ScopeProvider() {
     @Override public Maybe<?> requestScope() {
       return Maybe.empty();
