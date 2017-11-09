@@ -17,6 +17,7 @@
 def versions = [
     androidTest: '0.5',
     archComponents: '1.0.0-rc1',
+    dokka: '0.9.15',
     errorProne: '2.1.1',
     kotlin: '1.1.51',
     support: '26.1.0'
@@ -40,6 +41,8 @@ def build = [
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:2.3.0',
         apt: 'net.ltgt.gradle:gradle-apt-plugin:0.11',
+        dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
+        dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
         errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.11',
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     ]
