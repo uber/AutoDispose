@@ -1,6 +1,10 @@
 package com.uber.autodispose.recipes
 
-import com.uber.autodispose.*
+import com.uber.autodispose.CompletableSubscribeProxy
+import com.uber.autodispose.FlowableSubscribeProxy
+import com.uber.autodispose.MaybeSubscribeProxy
+import com.uber.autodispose.ObservableSubscribeProxy
+import com.uber.autodispose.SingleSubscribeProxy
 import io.reactivex.disposables.Disposable
 import io.reactivex.exceptions.OnErrorNotImplementedException
 import io.reactivex.plugins.RxJavaPlugins
