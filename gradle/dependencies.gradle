@@ -16,7 +16,7 @@
 
 def versions = [
     androidTest: '0.5',
-    archComponents: '1.0.0-rc1',
+    archComponents: '1.0.0',
     dokka: '0.9.15',
     errorProne: '2.1.1',
     kotlin: '1.1.51',
@@ -71,7 +71,7 @@ def support = [
             common: "android.arch.lifecycle:common:1.0.3",
             compiler: "android.arch.lifecycle:compiler:${versions.archComponents}",
             extensions: "android.arch.lifecycle:extensions:${versions.archComponents}",
-            runtime: "android.arch.lifecycle:runtime:1.0.0"
+            runtime: "android.arch.lifecycle:runtime:1.0.3"
         ]
     ]
 ]
