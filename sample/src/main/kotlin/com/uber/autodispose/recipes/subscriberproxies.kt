@@ -36,12 +36,13 @@ fun <T : Any> ObservableSubscribeProxy<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
         onNext: (T) -> Unit = onNextStub
-): Disposable =
-        if (onError === onErrorStub && onComplete === onCompleteStub) {
-            subscribe(onNext)
-        } else {
-            subscribe(onNext, onError, onComplete)
-        }
+): Disposable {
+    return if (onError === onErrorStub && onComplete === onCompleteStub) {
+        subscribe(onNext)
+    } else {
+        subscribe(onNext, onError, onComplete)
+    }
+}
 
 /**
  * Overloaded subscribe function that allows passing named parameters
@@ -50,12 +51,13 @@ fun <T : Any> FlowableSubscribeProxy<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
         onNext: (T) -> Unit = onNextStub
-): Disposable =
-        if (onError === onErrorStub && onComplete === onCompleteStub) {
-            subscribe(onNext)
-        } else {
-            subscribe(onNext, onError, onComplete)
-        }
+): Disposable {
+    return if (onError === onErrorStub && onComplete === onCompleteStub) {
+        subscribe(onNext)
+    } else {
+        subscribe(onNext, onError, onComplete)
+    }
+}
 
 /**
  * Overloaded subscribe function that allows passing named parameters
@@ -63,12 +65,13 @@ fun <T : Any> FlowableSubscribeProxy<T>.subscribeBy(
 fun <T : Any> SingleSubscribeProxy<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onSuccess: (T) -> Unit = onNextStub
-): Disposable =
-        if (onError === onErrorStub) {
-            subscribe(onSuccess)
-        } else {
-            subscribe(onSuccess, onError)
-        }
+): Disposable {
+    return if (onError === onErrorStub) {
+        subscribe(onSuccess)
+    } else {
+        subscribe(onSuccess, onError)
+    }
+}
 
 /**
  * Overloaded subscribe function that allows passing named parameters
@@ -77,12 +80,13 @@ fun <T : Any> MaybeSubscribeProxy<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
         onSuccess: (T) -> Unit = onNextStub
-): Disposable =
-        if (onError === onErrorStub && onComplete === onCompleteStub) {
-            subscribe(onSuccess)
-        } else {
-            subscribe(onSuccess, onError, onComplete)
-        }
+): Disposable {
+    return if (onError === onErrorStub && onComplete === onCompleteStub) {
+        subscribe(onSuccess)
+    } else {
+        subscribe(onSuccess, onError, onComplete)
+    }
+}
 
 
 /**
@@ -91,9 +95,10 @@ fun <T : Any> MaybeSubscribeProxy<T>.subscribeBy(
 fun CompletableSubscribeProxy.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub
-): Disposable =
-        if (onError === onErrorStub) {
-            subscribe(onComplete)
-        } else {
-            subscribe(onComplete, onError)
-        }
+): Disposable {
+    return if (onError === onErrorStub) {
+        subscribe(onComplete)
+    } else {
+        subscribe(onComplete, onError)
+    }
+}
