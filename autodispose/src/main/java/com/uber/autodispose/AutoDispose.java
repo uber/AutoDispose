@@ -166,7 +166,7 @@ public final class AutoDispose {
     return new LifecycleScopeProviderHandlerImpl(scope);
   }
 
-  private static class MaybeScopeHandlerImpl implements ScopeHandler {
+  private static final class MaybeScopeHandlerImpl implements ScopeHandler {
 
     private final Maybe<?> scope;
 
@@ -196,7 +196,7 @@ public final class AutoDispose {
     }
   }
 
-  private static class ScopeProviderHandlerImpl implements ScopeHandler {
+  private static final class ScopeProviderHandlerImpl implements ScopeHandler {
 
     private final ScopeProvider scope;
 
@@ -226,7 +226,7 @@ public final class AutoDispose {
     }
   }
 
-  private static class LifecycleScopeProviderHandlerImpl implements ScopeHandler {
+  private static final class LifecycleScopeProviderHandlerImpl implements ScopeHandler {
 
     private final LifecycleScopeProvider<?> scope;
 
