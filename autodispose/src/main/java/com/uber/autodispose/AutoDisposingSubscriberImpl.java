@@ -88,17 +88,13 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
    * <p>This method is thread-safe and can be exposed as a public API.
    */
   @Override public void cancel() {
-    synchronized (this) {
-      AutoDisposableHelper.dispose(lifecycleDisposable);
-      AutoSubscriptionHelper.cancel(mainSubscription);
-    }
+    AutoDisposableHelper.dispose(lifecycleDisposable);
+    AutoSubscriptionHelper.cancel(mainSubscription);
   }
 
   private void lazyCancel() {
-    synchronized (this) {
-      AutoDisposableHelper.dispose(lifecycleDisposable);
-      mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
-    }
+    AutoDisposableHelper.dispose(lifecycleDisposable);
+    mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
   }
 
   @SuppressWarnings("WeakerAccess") // Avoiding synthetic accessors

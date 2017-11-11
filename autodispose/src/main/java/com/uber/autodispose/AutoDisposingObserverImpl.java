@@ -70,17 +70,13 @@ final class AutoDisposingObserverImpl<T> implements AutoDisposingObserver<T> {
   }
 
   @Override public void dispose() {
-    synchronized (this) {
-      AutoDisposableHelper.dispose(lifecycleDisposable);
-      AutoDisposableHelper.dispose(mainDisposable);
-    }
+    AutoDisposableHelper.dispose(lifecycleDisposable);
+    AutoDisposableHelper.dispose(mainDisposable);
   }
 
   private void lazyDispose() {
-    synchronized (this) {
-      AutoDisposableHelper.dispose(lifecycleDisposable);
-      mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-    }
+    AutoDisposableHelper.dispose(lifecycleDisposable);
+    mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
   }
 
   @SuppressWarnings("WeakerAccess") // Avoiding synthetic accessors
