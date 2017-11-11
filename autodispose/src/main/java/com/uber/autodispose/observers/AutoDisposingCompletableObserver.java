@@ -27,7 +27,7 @@ import io.reactivex.disposables.Disposable;
 public interface AutoDisposingCompletableObserver extends CompletableObserver, Disposable {
 
   /**
-   * @return The delegate {@link CompletableObserver} that is used under the hood forintrospection
+   * @return The delegate {@link CompletableObserver} that is used under the hood for introspection
    * purposes. This will be updated once LambdaIntrospection is out of @Experimental in RxJava.
    */
   @Experimental
