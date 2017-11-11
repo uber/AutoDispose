@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
 
     // Using automatic disposal, this should determine that the correct time to
-    // dispose is onCreate (the opposite of onStop).
+    // dispose is onDestroy (the opposite of onCreate).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(new Action() {
           @Override public void run() throws Exception {
