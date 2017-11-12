@@ -41,24 +41,24 @@ final class AutoDisposingObserverImpl<T> implements AutoDisposingObserver<T> {
   }
 
   @Override public void onSubscribe(final Disposable d) {
-    if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable,
-        lifecycle.subscribeWith(new DisposableMaybeObserver<Object>() {
-          @Override public void onSuccess(Object o) {
-            callMainSubscribeIfNecessary(d);
-            AutoDisposingObserverImpl.this.dispose();
-          }
+    DisposableMaybeObserver<Object> o = new DisposableMaybeObserver<Object>() {
+      @Override public void onSuccess(Object o) {
+        callMainSubscribeIfNecessary(d);
+        AutoDisposingObserverImpl.this.dispose();
+      }
 
-          @Override public void onError(Throwable e) {
-            callMainSubscribeIfNecessary(d);
-            AutoDisposingObserverImpl.this.onError(e);
-          }
+      @Override public void onError(Throwable e) {
+        callMainSubscribeIfNecessary(d);
+        AutoDisposingObserverImpl.this.onError(e);
+      }
 
-          @Override public void onComplete() {
-            callMainSubscribeIfNecessary(d);
-            // Noop - we're unbound now
-          }
-        }),
-        getClass())) {
+      @Override public void onComplete() {
+        callMainSubscribeIfNecessary(d);
+        // Noop - we're unbound now
+      }
+    };
+    if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable, o, getClass())) {
+      lifecycle.subscribe(o);
       if (AutoDisposeEndConsumerHelper.setOnce(mainDisposable, d, getClass())) {
         delegate.onSubscribe(this);
       }
