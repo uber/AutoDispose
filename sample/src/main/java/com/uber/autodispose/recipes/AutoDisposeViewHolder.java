@@ -18,20 +18,20 @@ package com.uber.autodispose.recipes;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.BindAwareViewHolder;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.uber.autodispose.ScopeProvider;
 import io.reactivex.Maybe;
 import io.reactivex.subjects.MaybeSubject;
 
 /**
- * Example implementation of a {@link RecyclerView.ViewHolder} implementation that implements
- * {@link ScopeProvider}. This could be useful for cases where you have subscriptions that should be
- * disposed upon unbinding or otherwise aren't overwritten in future binds.
+ * Example implementation of a {@link android.support.v7.widget.RecyclerView.ViewHolder}
+ * implementation that implements {@link ScopeProvider}. This could be useful for cases where you
+ * have subscriptions that should be disposed upon unbinding or otherwise aren't overwritten
+ * in future binds.
  */
 public abstract class AutoDisposeViewHolder extends BindAwareViewHolder implements ScopeProvider {
 
-  private static Object NOTIFICATION = new Object();
+  private static final Object NOTIFICATION = new Object();
 
   @Nullable private MaybeSubject<Object> unbindNotifier = null;
 
