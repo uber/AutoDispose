@@ -21,11 +21,13 @@ import android.os.Looper;
 import android.support.annotation.RestrictTo;
 import android.view.View;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 @RestrictTo(LIBRARY_GROUP)
 public class AutoDisposeAndroidUtil {
+
+  private AutoDisposeAndroidUtil() { }
+
   public static boolean isMainThread() {
     try {
       return Looper.myLooper() == Looper.getMainLooper();

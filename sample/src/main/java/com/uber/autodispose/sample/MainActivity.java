@@ -29,9 +29,9 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 /**
- * Demo activity, shamelessly borrowed from the RxLifecycle sample
+ * Demo activity, shamelessly borrowed from the RxLifecycle sample.
  * <p>
- * This leverages the Architecture Components support for the demo
+ * This leverages the Architecture Components support for the demo.
  */
 public class MainActivity extends AppCompatActivity {
 

@@ -42,7 +42,7 @@ public abstract class AutoDisposeView extends View
    * "Attach" returns "Detach", then any stream subscribed to during Attach will autodispose on
    * Detach.
    */
-  private static Function<ViewEvent, ViewEvent> CORRESPONDING_EVENTS =
+  private static final Function<ViewEvent, ViewEvent> CORRESPONDING_EVENTS =
       new Function<ViewEvent, ViewEvent>() {
         @Override public ViewEvent apply(ViewEvent viewEvent) throws Exception {
           switch (viewEvent) {

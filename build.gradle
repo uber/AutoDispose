@@ -14,34 +14,6 @@
  * limitations under the License.
  */
 
-subprojects {
-  buildscript {
-    repositories {
-      jcenter()
-    }
-  }
-
-  repositories {
-    jcenter()
-    maven {
-      url 'https://maven.google.com'
-    }
-  }
-
-  apply plugin: 'checkstyle'
-
-  checkstyle {
-    configFile rootProject.file('checkstyle.xml')
-  }
-
-  afterEvaluate {
-    tasks.withType(Checkstyle) {
-      configProperties = ['proj.module.dir'      : projectDir.absolutePath,
-                          'checkstyle.cache.file': './build/cache/checkstyle-cache']
-    }
-  }
-}
-
 task wrapper(type: Wrapper) {
   gradleVersion = '4.2.1'
   distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
@@ -52,3 +24,4 @@ task clean(type: Delete) {
 }
 
 apply from: 'gradle/dependencies.gradle'
+apply from: 'gradle/checkstyle.gradle'
