@@ -171,6 +171,18 @@ public class AutoDisposeObserverTest {
     assertThat(lifecycle.hasObservers()).isFalse();
   }
 
+  @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
+    TestObserver<Integer> o = new TestObserver<>();
+    PublishSubject<Integer> source = PublishSubject.create();
+    MaybeSubject<Integer> scope = MaybeSubject.create();
+    scope.onComplete();
+    ScopeProvider scopeProvider = TestUtil.makeProvider(scope);
+    source.to(AutoDispose.with(scopeProvider).<Integer>forObservable())
+            .subscribe(o);
+    o.assertNoValues();
+    o.assertNoErrors();
+  }
+
   @Test public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
