@@ -16,13 +16,22 @@
 
 package com.uber.autodispose;
 
+import com.google.common.truth.BooleanSubject;
 import com.uber.autodispose.observers.AutoDisposingObserver;
 import com.uber.autodispose.test.RecordingObserver;
+
+import org.junit.After;
+import org.junit.Test;
+
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.exceptions.ProtocolViolationException;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Consumer;
@@ -32,10 +41,6 @@ import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subjects.PublishSubject;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
-import org.junit.After;
-import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -49,6 +54,7 @@ public class AutoDisposeObserverTest {
 
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();
+    RxJavaPlugins.reset();
   }
 
   @Test public void autoDispose_withMaybe_normal() {
@@ -172,6 +178,12 @@ public class AutoDisposeObserverTest {
   }
 
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
+    RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
+      @Override
+      public void accept(Throwable throwable) throws Exception {
+        assertThat(throwable instanceof ProtocolViolationException).isFalse();
+      }
+    });
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
