@@ -46,15 +46,20 @@ final class AutoDisposingObserverImpl<T> implements AutoDisposingObserver<T> {
           @Override public void onSuccess(Object o) {
             callMainSubscribeIfNecessary(d);
             AutoDisposingObserverImpl.this.dispose();
+            lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
           }
 
           @Override public void onError(Throwable e) {
             callMainSubscribeIfNecessary(d);
             AutoDisposingObserverImpl.this.onError(e);
+            lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+            mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
           }
 
           @Override public void onComplete() {
             callMainSubscribeIfNecessary(d);
+            lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+            mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
             // Noop - we're unbound now
           }
         }),
