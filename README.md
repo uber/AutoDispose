@@ -11,6 +11,7 @@ Overview
 
 Often (especially in mobile applications), Rx subscriptions need to stop in response to some event 
 (for instance, when Activity#onStop() executes in an Android app). In order to support this common 
+yay
 scenario in RxJava 2, we built AutoDispose.
 
 The idea is simple: construct your chain like any other, and then at subscription you simply drop in
