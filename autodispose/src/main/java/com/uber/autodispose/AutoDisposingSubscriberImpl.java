@@ -26,7 +26,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
-final class AutoDisposingSubscriberImpl<T> extends AtomicInteger implements AutoDisposingSubscriber<T> {
+final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
+    implements AutoDisposingSubscriber<T> {
 
   private final AtomicReference<Subscription> mainSubscription = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
@@ -100,11 +101,6 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger implements Auto
     AutoSubscriptionHelper.cancel(mainSubscription);
   }
 
-  private void lazyCancel() {
-    AutoDisposableHelper.dispose(lifecycleDisposable);
-    mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
-  }
-
   @SuppressWarnings("WeakerAccess") // Avoiding synthetic accessors
   void callMainSubscribeIfNecessary(Subscription s) {
     // If we've never actually started the upstream subscription (i.e. requested immediately in
@@ -127,21 +123,24 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger implements Auto
     if (!isDisposed()) {
       if (HalfSerializer.onNext(delegate, value, this, error)) {
         // Terminal event occurred and was forwarded to the delegate, so clean up here
-        lazyCancel();
+        AutoDisposableHelper.dispose(lifecycleDisposable);
+        mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
       }
     }
   }
 
   @Override public void onError(Throwable e) {
     if (!isDisposed()) {
-      lazyCancel();
+      AutoDisposableHelper.dispose(lifecycleDisposable);
+      mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
       HalfSerializer.onError(delegate, e, this, error);
     }
   }
 
   @Override public void onComplete() {
     if (!isDisposed()) {
-      lazyCancel();
+      AutoDisposableHelper.dispose(lifecycleDisposable);
+      mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
       HalfSerializer.onComplete(delegate, this, error);
     }
   }
