@@ -31,14 +31,13 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
 
   private final AtomicReference<Subscription> mainSubscription = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
+  private final AtomicThrowable error = new AtomicThrowable();
   private final Maybe<?> lifecycle;
   private final Subscriber<? super T> delegate;
-  private final AtomicThrowable error;
 
   AutoDisposingSubscriberImpl(Maybe<?> lifecycle, Subscriber<? super T> delegate) {
     this.lifecycle = lifecycle;
     this.delegate = delegate;
-    this.error = new AtomicThrowable();
   }
 
   @Override public Subscriber<? super T> delegateSubscriber() {

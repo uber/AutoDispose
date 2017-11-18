@@ -29,14 +29,13 @@ final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDi
 
   private final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
+  private final AtomicThrowable error = new AtomicThrowable();
   private final Maybe<?> lifecycle;
   private final Observer<? super T> delegate;
-  private final AtomicThrowable error;
 
   AutoDisposingObserverImpl(Maybe<?> lifecycle, Observer<? super T> delegate) {
     this.lifecycle = lifecycle;
     this.delegate = delegate;
-    this.error = new AtomicThrowable();
   }
 
   @Override public Observer<? super T> delegateObserver() {
