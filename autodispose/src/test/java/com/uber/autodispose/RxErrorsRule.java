@@ -65,12 +65,13 @@ import static com.google.common.truth.Truth.assertThat;
   }
 
   public boolean hasErrors() {
-    Throwable error;
-    try {
-      error = errors.pollFirst(0, TimeUnit.SECONDS);
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
-    }
+    Throwable error = errors.peek();
     return error != null;
+  }
+
+  public void assertNoErrors() {
+    if (hasErrors()) {
+      throw new AssertionError("Expected no errors but found " + getErrors());
+    }
   }
 }
