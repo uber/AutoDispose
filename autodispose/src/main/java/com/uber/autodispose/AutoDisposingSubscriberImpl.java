@@ -85,10 +85,7 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
    * @param n the request amount, positive
    */
   @Override public void request(long n) {
-    Subscription s = mainSubscription.get();
-    if (s != null) {
-      s.request(n);
-    }
+    mainSubscription.get().request(n);
   }
 
   /**
