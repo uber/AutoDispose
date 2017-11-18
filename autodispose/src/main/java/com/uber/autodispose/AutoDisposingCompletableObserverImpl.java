@@ -79,11 +79,6 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
     AutoDisposableHelper.dispose(mainDisposable);
   }
 
-  private void lazyDispose() {
-    AutoDisposableHelper.dispose(lifecycleDisposable);
-    mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-  }
-
   @SuppressWarnings("WeakerAccess") // Avoiding synthetic accessors
   void callMainSubscribeIfNecessary(Disposable d) {
     // If we've never actually called the downstream onSubscribe (i.e. requested immediately in
@@ -96,14 +91,16 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
 
   @Override public void onComplete() {
     if (!isDisposed()) {
-      lazyDispose();
+      AutoDisposableHelper.dispose(lifecycleDisposable);
+      mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
       delegate.onComplete();
     }
   }
 
   @Override public void onError(Throwable e) {
     if (!isDisposed()) {
-      lazyDispose();
+      AutoDisposableHelper.dispose(lifecycleDisposable);
+      mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
       delegate.onError(e);
     }
   }
