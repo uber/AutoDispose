@@ -21,20 +21,23 @@ import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.subscriptions.EmptySubscription;
 import io.reactivex.observers.DisposableMaybeObserver;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
-final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T> {
+final class AutoDisposingSubscriberImpl<T> extends AtomicInteger implements AutoDisposingSubscriber<T> {
 
   private final AtomicReference<Subscription> mainSubscription = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
   private final Maybe<?> lifecycle;
   private final Subscriber<? super T> delegate;
+  private final AtomicThrowable error;
 
   AutoDisposingSubscriberImpl(Maybe<?> lifecycle, Subscriber<? super T> delegate) {
     this.lifecycle = lifecycle;
     this.delegate = delegate;
+    this.error = new AtomicThrowable();
   }
 
   @Override public Subscriber<? super T> delegateSubscriber() {
@@ -122,21 +125,24 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
 
   @Override public void onNext(T value) {
     if (!isDisposed()) {
-      delegate.onNext(value);
+      if (HalfSerializer.onNext(delegate, value, this, error)) {
+        // Terminal event occurred and was forwarded to the delegate, so clean up here
+        lazyCancel();
+      }
     }
   }
 
   @Override public void onError(Throwable e) {
     if (!isDisposed()) {
       lazyCancel();
-      delegate.onError(e);
+      HalfSerializer.onError(delegate, e, this, error);
     }
   }
 
   @Override public void onComplete() {
     if (!isDisposed()) {
       lazyCancel();
-      delegate.onComplete();
+      HalfSerializer.onComplete(delegate, this, error);
     }
   }
 }

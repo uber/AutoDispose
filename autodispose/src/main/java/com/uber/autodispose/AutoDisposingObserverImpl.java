@@ -22,18 +22,21 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.observers.DisposableMaybeObserver;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-final class AutoDisposingObserverImpl<T> implements AutoDisposingObserver<T> {
+final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDisposingObserver<T> {
 
   private final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
   private final Maybe<?> lifecycle;
   private final Observer<? super T> delegate;
+  private final AtomicThrowable error;
 
   AutoDisposingObserverImpl(Maybe<?> lifecycle, Observer<? super T> delegate) {
     this.lifecycle = lifecycle;
     this.delegate = delegate;
+    this.error = new AtomicThrowable();
   }
 
   @Override public Observer<? super T> delegateObserver() {
@@ -91,7 +94,11 @@ final class AutoDisposingObserverImpl<T> implements AutoDisposingObserver<T> {
 
   @Override public void onNext(T value) {
     if (!isDisposed()) {
-      delegate.onNext(value);
+      if (HalfSerializer.onNext(delegate, value, this, error)) {
+        // Terminal event occurred and was forwarded to the delegate, so clean up here
+        AutoDisposableHelper.dispose(lifecycleDisposable);
+        mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+      }
     }
   }
 
@@ -99,7 +106,7 @@ final class AutoDisposingObserverImpl<T> implements AutoDisposingObserver<T> {
     if (!isDisposed()) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
       mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-      delegate.onError(e);
+      HalfSerializer.onError(delegate, e, this, error);
     }
   }
 
@@ -107,7 +114,7 @@ final class AutoDisposingObserverImpl<T> implements AutoDisposingObserver<T> {
     if (!isDisposed()) {
       AutoDisposableHelper.dispose(lifecycleDisposable);
       mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-      delegate.onComplete();
+      HalfSerializer.onComplete(delegate, this, error);
     }
   }
 }
