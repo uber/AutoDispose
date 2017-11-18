@@ -34,6 +34,7 @@ import io.reactivex.subjects.SingleSubject;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.After;
+import org.junit.Rule;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -47,6 +48,8 @@ public class AutoDisposeSingleObserverTest {
       System.out.println(AutoDisposeSingleObserverTest.class.getSimpleName() + ": " + message);
     }
   };
+
+  @Rule public RxErrorsRule rule = new RxErrorsRule();
 
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();
@@ -353,5 +356,16 @@ public class AutoDisposeSingleObserverTest {
     // Verify cancellation was called
     assertThat(i.get()).isEqualTo(1);
     assertThat(lifecycle.hasObservers()).isFalse();
+  }
+
+  @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
+    TestObserver<Object> o = new TestObserver<>();
+    SingleSubject.create()
+        .to(AutoDispose.with(ScopeProvider.UNBOUND).forSingle())
+        .subscribe(o);
+    o.assertNoValues();
+    o.assertNoErrors();
+
+    rule.assertNoErrors();
   }
 }

@@ -45,16 +45,21 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
     DisposableMaybeObserver<Object> o = new DisposableMaybeObserver<Object>() {
       @Override public void onSuccess(Object o) {
         callMainSubscribeIfNecessary(s);
-        AutoDisposingSubscriberImpl.this.dispose();
+        AutoSubscriptionHelper.cancel(mainSubscription);
+        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
       }
 
       @Override public void onError(Throwable e) {
         callMainSubscribeIfNecessary(s);
         AutoDisposingSubscriberImpl.this.onError(e);
+        mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
+        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
       }
 
       @Override public void onComplete() {
         callMainSubscribeIfNecessary(s);
+        mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
+        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         // Noop - we're unbound now
       }
     };
