@@ -75,14 +75,14 @@ import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMai
   }
 
   @Override protected void subscribeActual(Observer<? super Event> observer) {
+    ArchLifecycleObserver archObserver =
+        new ArchLifecycleObserver(lifecycle, observer, eventsObservable);
+    observer.onSubscribe(archObserver);
     if (!isMainThread()) {
       observer.onError(
           new IllegalStateException("Lifecycles can only be bound to on the main thread!"));
       return;
     }
-    ArchLifecycleObserver archObserver =
-        new ArchLifecycleObserver(lifecycle, observer, eventsObservable);
-    observer.onSubscribe(archObserver);
     lifecycle.addObserver(archObserver);
   }
 
