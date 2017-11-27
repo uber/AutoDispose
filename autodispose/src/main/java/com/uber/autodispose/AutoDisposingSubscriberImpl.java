@@ -19,7 +19,6 @@ package com.uber.autodispose;
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.subscriptions.EmptySubscription;
 import io.reactivex.internal.subscriptions.SubscriptionHelper;
 import io.reactivex.observers.DisposableMaybeObserver;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -51,26 +50,24 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
   @Override public void onSubscribe(final Subscription s) {
     DisposableMaybeObserver<Object> o = new DisposableMaybeObserver<Object>() {
       @Override public void onSuccess(Object o) {
-        callMainSubscribeIfNecessary(s);
         AutoSubscriptionHelper.cancel(mainSubscription);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
       }
 
       @Override public void onError(Throwable e) {
-        callMainSubscribeIfNecessary(s);
         AutoDisposingSubscriberImpl.this.onError(e);
         mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
       }
 
       @Override public void onComplete() {
-        callMainSubscribeIfNecessary(s);
         mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         // Noop - we're unbound now
       }
     };
     if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable, o, getClass())) {
+      delegate.onSubscribe(this);
       lifecycle.subscribe(o);
       if (AutoDisposeEndConsumerHelper.setOnce(mainSubscription, s, getClass())) {
         SubscriptionHelper.deferredSetOnce(ref, requested, s);
@@ -99,16 +96,6 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
   @Override public void cancel() {
     AutoDisposableHelper.dispose(lifecycleDisposable);
     AutoSubscriptionHelper.cancel(mainSubscription);
-  }
-
-  @SuppressWarnings("WeakerAccess") // Avoiding synthetic accessors
-  void callMainSubscribeIfNecessary(Subscription s) {
-    // If we've never actually started the upstream subscription (i.e. requested immediately in
-    // onSubscribe and had a terminal event), we need to still send an empty subscription instance
-    // to abide by the Subscriber contract.
-    if (AutoSubscriptionHelper.setIfNotSet(mainSubscription, s)) {
-      delegate.onSubscribe(EmptySubscription.INSTANCE);
-    }
   }
 
   @Override public boolean isDisposed() {
