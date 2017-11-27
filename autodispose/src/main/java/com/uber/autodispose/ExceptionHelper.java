@@ -73,7 +73,7 @@ final class ExceptionHelper {
       super("No further exceptions");
     }
 
-    @Override public Throwable fillInStackTrace() {
+    @Override public synchronized Throwable fillInStackTrace() {
       return this;
     }
   }
