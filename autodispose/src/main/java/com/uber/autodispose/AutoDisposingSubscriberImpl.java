@@ -54,9 +54,8 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
       }
 
       @Override public void onError(Throwable e) {
-        AutoDisposingSubscriberImpl.this.onError(e);
-        mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoDisposingSubscriberImpl.this.onError(e);
       }
 
       @Override public void onComplete() {

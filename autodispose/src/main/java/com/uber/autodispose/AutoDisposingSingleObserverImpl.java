@@ -47,9 +47,8 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
       }
 
       @Override public void onError(Throwable e) {
-        AutoDisposingSingleObserverImpl.this.onError(e);
-        mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoDisposingSingleObserverImpl.this.onError(e);
       }
 
       @Override public void onComplete() {

@@ -49,9 +49,8 @@ final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDi
       }
 
       @Override public void onError(Throwable e) {
-        AutoDisposingObserverImpl.this.onError(e);
-        mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoDisposingObserverImpl.this.onError(e);
       }
 
       @Override public void onComplete() {

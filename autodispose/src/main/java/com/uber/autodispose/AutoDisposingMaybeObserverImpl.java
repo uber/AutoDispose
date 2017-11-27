@@ -47,9 +47,8 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
       }
 
       @Override public void onError(Throwable e) {
-        AutoDisposingMaybeObserverImpl.this.onError(e);
-        mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoDisposingMaybeObserverImpl.this.onError(e);
       }
 
       @Override public void onComplete() {

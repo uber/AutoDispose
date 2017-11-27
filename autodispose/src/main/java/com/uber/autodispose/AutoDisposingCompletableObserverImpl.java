@@ -47,9 +47,8 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
       }
 
       @Override public void onError(Throwable e) {
-        AutoDisposingCompletableObserverImpl.this.onError(e);
-        mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoDisposingCompletableObserverImpl.this.onError(e);
       }
 
       @Override public void onComplete() {
