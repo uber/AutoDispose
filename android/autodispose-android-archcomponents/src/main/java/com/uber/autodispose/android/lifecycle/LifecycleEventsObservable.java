@@ -84,6 +84,9 @@ import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMai
       return;
     }
     lifecycle.addObserver(archObserver);
+    if (archObserver.isDisposed()) {
+      lifecycle.removeObserver(archObserver);
+    }
   }
 
   static final class ArchLifecycleObserver extends MainThreadDisposable
