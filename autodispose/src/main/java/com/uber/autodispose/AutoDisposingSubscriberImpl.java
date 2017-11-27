@@ -49,8 +49,8 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
   @Override public void onSubscribe(final Subscription s) {
     DisposableMaybeObserver<Object> o = new DisposableMaybeObserver<Object>() {
       @Override public void onSuccess(Object o) {
-        AutoSubscriptionHelper.cancel(mainSubscription);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoSubscriptionHelper.cancel(mainSubscription);
       }
 
       @Override public void onError(Throwable e) {
@@ -109,24 +109,24 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
     if (!isDisposed()) {
       if (HalfSerializer.onNext(delegate, value, this, error)) {
         // Terminal event occurred and was forwarded to the delegate, so clean up here
-        AutoDisposableHelper.dispose(lifecycleDisposable);
         mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
+        AutoDisposableHelper.dispose(lifecycleDisposable);
       }
     }
   }
 
   @Override public void onError(Throwable e) {
     if (!isDisposed()) {
-      AutoDisposableHelper.dispose(lifecycleDisposable);
       mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
+      AutoDisposableHelper.dispose(lifecycleDisposable);
       HalfSerializer.onError(delegate, e, this, error);
     }
   }
 
   @Override public void onComplete() {
     if (!isDisposed()) {
-      AutoDisposableHelper.dispose(lifecycleDisposable);
       mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
+      AutoDisposableHelper.dispose(lifecycleDisposable);
       HalfSerializer.onComplete(delegate, this, error);
     }
   }

@@ -42,8 +42,8 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
   @Override public void onSubscribe(final Disposable d) {
     DisposableMaybeObserver<Object> o = new DisposableMaybeObserver<Object>() {
       @Override public void onSuccess(Object o) {
-        AutoDisposableHelper.dispose(mainDisposable);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoDisposableHelper.dispose(mainDisposable);
       }
 
       @Override public void onError(Throwable e) {
@@ -76,16 +76,16 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
 
   @Override public void onSuccess(T value) {
     if (!isDisposed()) {
-      AutoDisposableHelper.dispose(lifecycleDisposable);
       mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+      AutoDisposableHelper.dispose(lifecycleDisposable);
       delegate.onSuccess(value);
     }
   }
 
   @Override public void onError(Throwable e) {
     if (!isDisposed()) {
-      AutoDisposableHelper.dispose(lifecycleDisposable);
       mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+      AutoDisposableHelper.dispose(lifecycleDisposable);
       delegate.onError(e);
     }
   }
