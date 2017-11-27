@@ -19,7 +19,6 @@ package com.uber.autodispose;
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.subscriptions.SubscriptionHelper;
 import io.reactivex.observers.DisposableMaybeObserver;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -70,7 +69,7 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
       delegate.onSubscribe(this);
       lifecycle.subscribe(o);
       if (AutoDisposeEndConsumerHelper.setOnce(mainSubscription, s, getClass())) {
-        SubscriptionHelper.deferredSetOnce(ref, requested, s);
+        AutoSubscriptionHelper.deferredSetOnce(ref, requested, s);
       }
     }
   }
@@ -85,7 +84,7 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
    * @param n the request amount, positive
    */
   @SuppressWarnings("NullAway") @Override public void request(long n) {
-    SubscriptionHelper.deferredRequest(ref, requested, n);
+    AutoSubscriptionHelper.deferredRequest(ref, requested, n);
   }
 
   /**
