@@ -168,7 +168,7 @@ public final class AutoDispose {
 
   private static final class MaybeScopeHandlerImpl implements ScopeHandler {
 
-    private final Maybe<?> scope;
+    final Maybe<?> scope;
 
     MaybeScopeHandlerImpl(Maybe<?> scope) {
       this.scope = scope;
@@ -198,7 +198,7 @@ public final class AutoDispose {
 
   private static final class ScopeProviderHandlerImpl implements ScopeHandler {
 
-    private final ScopeProvider scope;
+    final ScopeProvider scope;
 
     ScopeProviderHandlerImpl(ScopeProvider scope) {
       this.scope = scope;
@@ -228,7 +228,7 @@ public final class AutoDispose {
 
   private static final class LifecycleScopeProviderHandlerImpl implements ScopeHandler {
 
-    private final LifecycleScopeProvider<?> scope;
+    final LifecycleScopeProvider<?> scope;
 
     LifecycleScopeProviderHandlerImpl(LifecycleScopeProvider<?> scope) {
       this.scope = scope;
