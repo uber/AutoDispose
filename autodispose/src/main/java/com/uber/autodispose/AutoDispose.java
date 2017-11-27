@@ -19,10 +19,15 @@ package com.uber.autodispose;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.functions.Function;
+import java.util.concurrent.Callable;
+
+import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
+import static com.uber.autodispose.ScopeUtil.deferredResolvedLifecycle;
 
 /**
  * Factories for autodispose transformation {@link Function}s that can be used with RxJava types'
@@ -254,6 +259,45 @@ public final class AutoDispose {
     @Override public Function<Completable, CompletableSubscribeProxy> forCompletable() {
       return new CompletableScoper(scope);
     }
+  }
+
+  public static <T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
+    checkNotNull(provider, "provider == null");
+    return autoDisposable(Maybe.defer(new Callable<MaybeSource<?>>() {
+      @Override public MaybeSource<?> call() throws Exception {
+        return provider.requestScope();
+      }
+    }));
+  }
+
+  public static <T> AutoDisposeConverter<T> autoDisposable(
+      final LifecycleScopeProvider<?> provider) {
+    return autoDisposable(deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
+  }
+
+  public static <T> AutoDisposeConverter<T> autoDisposable(final Maybe<?> scope) {
+    checkNotNull(scope, "scope == null");
+    return new AutoDisposeConverter<T>() {
+      @Override public CompletableSubscribeProxy apply(Completable upstream) {
+        return upstream.to(new CompletableScoper(scope));
+      }
+
+      @Override public FlowableSubscribeProxy<T> apply(Flowable<T> upstream) {
+        return upstream.to(new FlowableScoper<T>(scope));
+      }
+
+      @Override public MaybeSubscribeProxy<T> apply(Maybe<T> upstream) {
+        return upstream.to(new MaybeScoper<T>(scope));
+      }
+
+      @Override public ObservableSubscribeProxy<T> apply(Observable<T> upstream) {
+        return upstream.to(new ObservableScoper<T>(scope));
+      }
+
+      @Override public SingleSubscribeProxy<T> apply(Single<T> upstream) {
+        return upstream.to(new SingleScoper<T>(scope));
+      }
+    };
   }
 
   private AutoDispose() {
