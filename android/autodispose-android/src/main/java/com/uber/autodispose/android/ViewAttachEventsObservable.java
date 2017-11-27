@@ -49,6 +49,9 @@ final class ViewAttachEventsObservable extends Observable<ViewLifecycleEvent> {
       observer.onNext(ViewLifecycleEvent.ATTACH);
     }
     view.addOnAttachStateChangeListener(listener);
+    if (listener.isDisposed()) {
+      view.removeOnAttachStateChangeListener(listener);
+    }
   }
 
   static final class Listener extends MainThreadDisposable
