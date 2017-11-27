@@ -20,7 +20,6 @@ import com.uber.autodispose.observers.AutoDisposingObserver;
 import io.reactivex.Maybe;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposables;
 import io.reactivex.observers.DisposableMaybeObserver;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -45,30 +44,26 @@ final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDi
   @Override public void onSubscribe(final Disposable d) {
     DisposableMaybeObserver<Object> o = new DisposableMaybeObserver<Object>() {
       @Override public void onSuccess(Object o) {
-        callMainSubscribeIfNecessary(d);
         AutoDisposableHelper.dispose(mainDisposable);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
       }
 
       @Override public void onError(Throwable e) {
-        callMainSubscribeIfNecessary(d);
         AutoDisposingObserverImpl.this.onError(e);
         mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
       }
 
       @Override public void onComplete() {
-        callMainSubscribeIfNecessary(d);
         mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         // Noop - we're unbound now
       }
     };
     if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable, o, getClass())) {
+      delegate.onSubscribe(this);
       lifecycle.subscribe(o);
-      if (AutoDisposeEndConsumerHelper.setOnce(mainDisposable, d, getClass())) {
-        delegate.onSubscribe(this);
-      }
+      AutoDisposeEndConsumerHelper.setOnce(mainDisposable, d, getClass());
     }
   }
 
@@ -79,16 +74,6 @@ final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDi
   @Override public void dispose() {
     AutoDisposableHelper.dispose(lifecycleDisposable);
     AutoDisposableHelper.dispose(mainDisposable);
-  }
-
-  @SuppressWarnings("WeakerAccess") // Avoiding synthetic accessors
-  void callMainSubscribeIfNecessary(Disposable d) {
-    // If we've never actually called the downstream onSubscribe (i.e. requested immediately in
-    // onSubscribe and had a terminal event), we need to still send an empty disposable instance
-    // to abide by the Observer contract.
-    if (AutoDisposableHelper.setIfNotSet(mainDisposable, d)) {
-      delegate.onSubscribe(Disposables.disposed());
-    }
   }
 
   @Override public void onNext(T value) {
