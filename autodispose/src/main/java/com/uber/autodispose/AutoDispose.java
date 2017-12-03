@@ -17,16 +17,12 @@
 package com.uber.autodispose;
 
 import io.reactivex.Completable;
-import io.reactivex.CompletableConverter;
 import io.reactivex.Flowable;
-import io.reactivex.FlowableConverter;
 import io.reactivex.Maybe;
-import io.reactivex.MaybeConverter;
 import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
 import io.reactivex.ObservableConverter;
 import io.reactivex.Single;
-import io.reactivex.SingleConverter;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.functions.Function;
 import java.util.concurrent.Callable;
@@ -47,11 +43,11 @@ import static com.uber.autodispose.ScopeUtil.deferredResolvedLifecycle;
  * generic method will autocomplete with the appropriate generic parameters in Java <7, or
  * implicitly in >=8.
  *
- * @see Flowable#as(FlowableConverter)
- * @see Observable#as(ObservableConverter)
- * @see Maybe#as(MaybeConverter)
- * @see Single#as(SingleConverter)
- * @see Completable#as(CompletableConverter)
+ * @see Flowable#as(io.reactivex.FlowableConverter)
+ * @see Observable#as(io.reactivex.ObservableConverter)
+ * @see Maybe#as(io.reactivex.MaybeConverter)
+ * @see Single#as(io.reactivex.SingleConverter)
+ * @see Completable#as(io.reactivex.CompletableConverter)
  */
 @SuppressWarnings("deprecation") // Temporary until we remove and inline the Scoper classes
 public final class AutoDispose {
@@ -143,7 +139,8 @@ public final class AutoDispose {
    * @param scope the target scope
    * @return a {@link ScopeHandler} for this scope to create AutoDisposing transformation
    * {@link Function}s
-   * @deprecated This will be removed in AutoDispose 1.0. Please use the {@code autoDisposable()} APIs.
+   * @deprecated This will be removed in AutoDispose 1.0. Please use the {@code autoDisposable()}
+   *             APIs.
    */
   @Deprecated @CheckReturnValue public static ScopeHandler with(Maybe<?> scope) {
     return new MaybeScopeHandlerImpl(scope);
@@ -155,7 +152,8 @@ public final class AutoDispose {
    * @param scope the target scope
    * @return a {@link ScopeHandler} for this scope to create AutoDisposing transformation
    * {@link Function}s
-   * @deprecated This will be removed in AutoDispose 1.0. Please use the {@code autoDisposable()} APIs.
+   * @deprecated This will be removed in AutoDispose 1.0. Please use the {@code autoDisposable()}
+   *             APIs.
    */
   @Deprecated @CheckReturnValue public static ScopeHandler with(ScopeProvider scope) {
     return new ScopeProviderHandlerImpl(scope);
@@ -167,7 +165,8 @@ public final class AutoDispose {
    * @param scope the target scope
    * @return a {@link ScopeHandler} for this scope to create AutoDisposing transformation
    * {@link Function}s
-   * @deprecated This will be removed in AutoDispose 1.0. Please use the {@code autoDisposable()} APIs.
+   * @deprecated This will be removed in AutoDispose 1.0. Please use the {@code autoDisposable()}
+   *             APIs.
    */
   @Deprecated @CheckReturnValue public static ScopeHandler with(LifecycleScopeProvider<?> scope) {
     return new LifecycleScopeProviderHandlerImpl(scope);
