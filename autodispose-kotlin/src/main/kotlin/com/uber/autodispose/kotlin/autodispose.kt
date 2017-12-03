@@ -32,10 +32,17 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.annotations.CheckReturnValue
+import kotlin.DeprecationLevel.WARNING
 
 /**
  * Extension that proxies to [Flowable.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(scope)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun <T> Flowable<T>.autoDisposeWith(scope: Maybe<*>): FlowableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
@@ -43,6 +50,12 @@ inline fun <T> Flowable<T>.autoDisposeWith(scope: Maybe<*>): FlowableSubscribePr
 /**
  * Extension that proxies to [Observable.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(scope)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun <T> Observable<T>.autoDisposeWith(scope: Maybe<*>): ObservableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
@@ -50,6 +63,12 @@ inline fun <T> Observable<T>.autoDisposeWith(scope: Maybe<*>): ObservableSubscri
 /**
  * Extension that proxies to [Single.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(scope)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun <T> Single<T>.autoDisposeWith(scope: Maybe<*>): SingleSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
@@ -57,6 +76,12 @@ inline fun <T> Single<T>.autoDisposeWith(scope: Maybe<*>): SingleSubscribeProxy<
 /**
  * Extension that proxies to [Maybe.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(scope)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun <T> Maybe<T>.autoDisposeWith(scope: Maybe<*>): MaybeSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
@@ -64,6 +89,12 @@ inline fun <T> Maybe<T>.autoDisposeWith(scope: Maybe<*>): MaybeSubscribeProxy<T>
 /**
  * Extension that proxies to [Completable.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(scope)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun Completable.autoDisposeWith(scope: Maybe<*>): CompletableSubscribeProxy
     = this.`as`(AutoDispose.autoDisposable<Any>(scope))
@@ -71,6 +102,12 @@ inline fun Completable.autoDisposeWith(scope: Maybe<*>): CompletableSubscribePro
 /**
  * Extension that proxies to [Flowable.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(provider)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun <T> Flowable<T>.autoDisposeWith(provider: ScopeProvider): FlowableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
@@ -78,6 +115,12 @@ inline fun <T> Flowable<T>.autoDisposeWith(provider: ScopeProvider): FlowableSub
 /**
  * Extension that proxies to [Observable.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(provider)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun <T> Observable<T>.autoDisposeWith(provider: ScopeProvider): ObservableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
@@ -85,6 +128,12 @@ inline fun <T> Observable<T>.autoDisposeWith(provider: ScopeProvider): Observabl
 /**
  * Extension that proxies to [Single.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(provider)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun <T> Single<T>.autoDisposeWith(provider: ScopeProvider): SingleSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
@@ -92,6 +141,12 @@ inline fun <T> Single<T>.autoDisposeWith(provider: ScopeProvider): SingleSubscri
 /**
  * Extension that proxies to [Maybe.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(provider)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun <T> Maybe<T>.autoDisposeWith(provider: ScopeProvider): MaybeSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
@@ -99,6 +154,12 @@ inline fun <T> Maybe<T>.autoDisposeWith(provider: ScopeProvider): MaybeSubscribe
 /**
  * Extension that proxies to [Completable.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(provider)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun Completable.autoDisposeWith(provider: ScopeProvider): CompletableSubscribeProxy
     = this.`as`(AutoDispose.autoDisposable<Any>(provider))
@@ -107,6 +168,12 @@ inline fun Completable.autoDisposeWith(provider: ScopeProvider): CompletableSubs
  * Extension that proxies to [Flowable.to] + [AutoDispose.autoDisposable]
  *
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(provider)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun <T> Flowable<T>.autoDisposeWith(
     provider: LifecycleScopeProvider<*>): FlowableSubscribeProxy<T>
@@ -115,6 +182,12 @@ inline fun <T> Flowable<T>.autoDisposeWith(
 /**
  * Extension that proxies to [Observable.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(provider)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun <T> Observable<T>.autoDisposeWith(
     provider: LifecycleScopeProvider<*>): ObservableSubscribeProxy<T>
@@ -123,6 +196,12 @@ inline fun <T> Observable<T>.autoDisposeWith(
 /**
  * Extension that proxies to [Single.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(provider)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun <T> Single<T>.autoDisposeWith(
     provider: LifecycleScopeProvider<*>): SingleSubscribeProxy<T>
@@ -131,6 +210,12 @@ inline fun <T> Single<T>.autoDisposeWith(
 /**
  * Extension that proxies to [Maybe.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(provider)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun <T> Maybe<T>.autoDisposeWith(provider: LifecycleScopeProvider<*>): MaybeSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
@@ -138,8 +223,123 @@ inline fun <T> Maybe<T>.autoDisposeWith(provider: LifecycleScopeProvider<*>): Ma
 /**
  * Extension that proxies to [Completable.to] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    level = WARNING,
+    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    replaceWith = ReplaceWith("autoDisposable(provider)",
+        "com.uber.autodispose.kotlin.autoDisposable")
+)
 @CheckReturnValue
 inline fun Completable.autoDisposeWith(
     provider: LifecycleScopeProvider<*>): CompletableSubscribeProxy
     = this.`as`(AutoDispose.autoDisposable<Any>(provider))
 
+/**
+ * Extension that proxies to [Flowable.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Flowable<T>.autoDisposable(scope: Maybe<*>): FlowableSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(scope))
+
+/**
+ * Extension that proxies to [Observable.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Observable<T>.autoDisposable(scope: Maybe<*>): ObservableSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(scope))
+
+/**
+ * Extension that proxies to [Single.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Single<T>.autoDisposable(scope: Maybe<*>): SingleSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(scope))
+
+/**
+ * Extension that proxies to [Maybe.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Maybe<T>.autoDisposable(scope: Maybe<*>): MaybeSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(scope))
+
+/**
+ * Extension that proxies to [Completable.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun Completable.autoDisposable(scope: Maybe<*>): CompletableSubscribeProxy
+    = this.`as`(AutoDispose.autoDisposable<Any>(scope))
+
+/**
+ * Extension that proxies to [Flowable.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Flowable<T>.autoDisposable(provider: ScopeProvider): FlowableSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(provider))
+
+/**
+ * Extension that proxies to [Observable.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Observable<T>.autoDisposable(provider: ScopeProvider): ObservableSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(provider))
+
+/**
+ * Extension that proxies to [Single.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Single<T>.autoDisposable(provider: ScopeProvider): SingleSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(provider))
+
+/**
+ * Extension that proxies to [Maybe.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Maybe<T>.autoDisposable(provider: ScopeProvider): MaybeSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(provider))
+
+/**
+ * Extension that proxies to [Completable.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun Completable.autoDisposable(provider: ScopeProvider): CompletableSubscribeProxy
+    = this.`as`(AutoDispose.autoDisposable<Any>(provider))
+
+/**
+ * Extension that proxies to [Flowable.to] + [AutoDispose.autoDisposable]
+ *
+ */
+@CheckReturnValue
+inline fun <T> Flowable<T>.autoDisposable(
+    provider: LifecycleScopeProvider<*>): FlowableSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(provider))
+
+/**
+ * Extension that proxies to [Observable.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Observable<T>.autoDisposable(
+    provider: LifecycleScopeProvider<*>): ObservableSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(provider))
+
+/**
+ * Extension that proxies to [Single.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Single<T>.autoDisposable(
+    provider: LifecycleScopeProvider<*>): SingleSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(provider))
+
+/**
+ * Extension that proxies to [Maybe.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Maybe<T>.autoDisposable(provider: LifecycleScopeProvider<*>): MaybeSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(provider))
+
+/**
+ * Extension that proxies to [Completable.to] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun Completable.autoDisposable(
+    provider: LifecycleScopeProvider<*>): CompletableSubscribeProxy
+    = this.`as`(AutoDispose.autoDisposable<Any>(provider))
