@@ -19,16 +19,21 @@ package com.uber.autodispose;
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.subscriptions.EmptySubscription;
 import io.reactivex.observers.DisposableMaybeObserver;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
-final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T> {
+final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
+    implements AutoDisposingSubscriber<T> {
 
   private final AtomicReference<Subscription> mainSubscription = new AtomicReference<>();
   private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
+  private final AtomicThrowable error = new AtomicThrowable();
+  private final AtomicReference<Subscription> ref = new AtomicReference<>();
+  private final AtomicLong requested = new AtomicLong();
   private final Maybe<?> lifecycle;
   private final Subscriber<? super T> delegate;
 
@@ -42,26 +47,28 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
   }
 
   @Override public void onSubscribe(final Subscription s) {
-    if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable,
-        lifecycle.subscribeWith(new DisposableMaybeObserver<Object>() {
-          @Override public void onSuccess(Object o) {
-            callMainSubscribeIfNecessary(s);
-            AutoDisposingSubscriberImpl.this.dispose();
-          }
+    DisposableMaybeObserver<Object> o = new DisposableMaybeObserver<Object>() {
+      @Override public void onSuccess(Object o) {
+        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoSubscriptionHelper.cancel(mainSubscription);
+      }
 
-          @Override public void onError(Throwable e) {
-            callMainSubscribeIfNecessary(s);
-            AutoDisposingSubscriberImpl.this.onError(e);
-          }
+      @Override public void onError(Throwable e) {
+        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoDisposingSubscriberImpl.this.onError(e);
+      }
 
-          @Override public void onComplete() {
-            callMainSubscribeIfNecessary(s);
-            // Noop - we're unbound now
-          }
-        }),
-        getClass())) {
+      @Override public void onComplete() {
+        mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
+        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        // Noop - we're unbound now
+      }
+    };
+    if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable, o, getClass())) {
+      delegate.onSubscribe(this);
+      lifecycle.subscribe(o);
       if (AutoDisposeEndConsumerHelper.setOnce(mainSubscription, s, getClass())) {
-        delegate.onSubscribe(this);
+        AutoSubscriptionHelper.deferredSetOnce(ref, requested, s);
       }
     }
   }
@@ -75,11 +82,8 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
    *
    * @param n the request amount, positive
    */
-  @Override public void request(long n) {
-    Subscription s = mainSubscription.get();
-    if (s != null) {
-      s.request(n);
-    }
+  @SuppressWarnings("NullAway") @Override public void request(long n) {
+    AutoSubscriptionHelper.deferredRequest(ref, requested, n);
   }
 
   /**
@@ -88,27 +92,8 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
    * <p>This method is thread-safe and can be exposed as a public API.
    */
   @Override public void cancel() {
-    synchronized (this) {
-      AutoDisposableHelper.dispose(lifecycleDisposable);
-      AutoSubscriptionHelper.cancel(mainSubscription);
-    }
-  }
-
-  private void lazyCancel() {
-    synchronized (this) {
-      AutoDisposableHelper.dispose(lifecycleDisposable);
-      mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
-    }
-  }
-
-  @SuppressWarnings("WeakerAccess") // Avoiding synthetic accessors
-  void callMainSubscribeIfNecessary(Subscription s) {
-    // If we've never actually started the upstream subscription (i.e. requested immediately in
-    // onSubscribe and had a terminal event), we need to still send an empty subscription instance
-    // to abide by the Subscriber contract.
-    if (AutoSubscriptionHelper.setIfNotSet(mainSubscription, s)) {
-      delegate.onSubscribe(EmptySubscription.INSTANCE);
-    }
+    AutoDisposableHelper.dispose(lifecycleDisposable);
+    AutoSubscriptionHelper.cancel(mainSubscription);
   }
 
   @Override public boolean isDisposed() {
@@ -121,21 +106,27 @@ final class AutoDisposingSubscriberImpl<T> implements AutoDisposingSubscriber<T>
 
   @Override public void onNext(T value) {
     if (!isDisposed()) {
-      delegate.onNext(value);
+      if (HalfSerializer.onNext(delegate, value, this, error)) {
+        // Terminal event occurred and was forwarded to the delegate, so clean up here
+        mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
+        AutoDisposableHelper.dispose(lifecycleDisposable);
+      }
     }
   }
 
   @Override public void onError(Throwable e) {
     if (!isDisposed()) {
-      lazyCancel();
-      delegate.onError(e);
+      mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
+      AutoDisposableHelper.dispose(lifecycleDisposable);
+      HalfSerializer.onError(delegate, e, this, error);
     }
   }
 
   @Override public void onComplete() {
     if (!isDisposed()) {
-      lazyCancel();
-      delegate.onComplete();
+      mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
+      AutoDisposableHelper.dispose(lifecycleDisposable);
+      HalfSerializer.onComplete(delegate, this, error);
     }
   }
 }

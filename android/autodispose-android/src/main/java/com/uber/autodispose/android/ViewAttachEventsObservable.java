@@ -37,6 +37,8 @@ final class ViewAttachEventsObservable extends Observable<ViewLifecycleEvent> {
   }
 
   @Override protected void subscribeActual(Observer<? super ViewLifecycleEvent> observer) {
+    Listener listener = new Listener(view, observer);
+    observer.onSubscribe(listener);
     if (!isMainThread()) {
       observer.onError(new IllegalStateException("Views can only be bound to on the main thread!"));
       return;
@@ -46,9 +48,10 @@ final class ViewAttachEventsObservable extends Observable<ViewLifecycleEvent> {
       // Emit the last event, like a behavior subject
       observer.onNext(ViewLifecycleEvent.ATTACH);
     }
-    Listener listener = new Listener(view, observer);
-    observer.onSubscribe(listener);
     view.addOnAttachStateChangeListener(listener);
+    if (listener.isDisposed()) {
+      view.removeOnAttachStateChangeListener(listener);
+    }
   }
 
   static final class Listener extends MainThreadDisposable
