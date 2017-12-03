@@ -19,8 +19,8 @@ def versions = [
     archComponents: '1.0.0',
     archRuntime: '1.0.3',
     dokka: '0.9.15',
-    errorProne: '2.1.1',
-    kotlin: '1.1.51',
+    errorProne: '2.1.3',
+    kotlin: '1.2.0',
     support: '26.1.0'
 ]
 
@@ -31,9 +31,9 @@ def build = [
     minSdkVersion: 14,
     targetSdkVersion: 26,
 
-    checkerFramework: 'org.checkerframework:dataflow:2.1.14',
+    checkerFramework: 'org.checkerframework:dataflow:2.3.0',
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
-    nullAway: 'com.uber.nullaway:nullaway:0.1.4',
+    nullAway: 'com.uber.nullaway:nullaway:0.2.0',
 
     repositories: [
         plugins: 'https://plugins.gradle.org/m2/'
