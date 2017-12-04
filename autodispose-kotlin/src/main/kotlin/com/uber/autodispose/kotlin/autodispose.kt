@@ -35,7 +35,7 @@ import io.reactivex.annotations.CheckReturnValue
 import kotlin.DeprecationLevel.WARNING
 
 /**
- * Extension that proxies to [Flowable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -48,7 +48,7 @@ inline fun <T> Flowable<T>.autoDisposeWith(scope: Maybe<*>): FlowableSubscribePr
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**
- * Extension that proxies to [Observable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -61,7 +61,7 @@ inline fun <T> Observable<T>.autoDisposeWith(scope: Maybe<*>): ObservableSubscri
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**
- * Extension that proxies to [Single.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -74,7 +74,7 @@ inline fun <T> Single<T>.autoDisposeWith(scope: Maybe<*>): SingleSubscribeProxy<
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**
- * Extension that proxies to [Maybe.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -87,7 +87,7 @@ inline fun <T> Maybe<T>.autoDisposeWith(scope: Maybe<*>): MaybeSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**
- * Extension that proxies to [Completable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -100,7 +100,7 @@ inline fun Completable.autoDisposeWith(scope: Maybe<*>): CompletableSubscribePro
     = this.`as`(AutoDispose.autoDisposable<Any>(scope))
 
 /**
- * Extension that proxies to [Flowable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -113,7 +113,7 @@ inline fun <T> Flowable<T>.autoDisposeWith(provider: ScopeProvider): FlowableSub
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Observable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -126,7 +126,7 @@ inline fun <T> Observable<T>.autoDisposeWith(provider: ScopeProvider): Observabl
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Single.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -139,7 +139,7 @@ inline fun <T> Single<T>.autoDisposeWith(provider: ScopeProvider): SingleSubscri
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Maybe.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -152,7 +152,7 @@ inline fun <T> Maybe<T>.autoDisposeWith(provider: ScopeProvider): MaybeSubscribe
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Completable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -165,7 +165,7 @@ inline fun Completable.autoDisposeWith(provider: ScopeProvider): CompletableSubs
     = this.`as`(AutoDispose.autoDisposable<Any>(provider))
 
 /**
- * Extension that proxies to [Flowable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
  *
  */
 @Deprecated(
@@ -180,7 +180,7 @@ inline fun <T> Flowable<T>.autoDisposeWith(
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Observable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -194,7 +194,7 @@ inline fun <T> Observable<T>.autoDisposeWith(
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Single.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -208,7 +208,7 @@ inline fun <T> Single<T>.autoDisposeWith(
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Maybe.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -221,7 +221,7 @@ inline fun <T> Maybe<T>.autoDisposeWith(provider: LifecycleScopeProvider<*>): Ma
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Completable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
  */
 @Deprecated(
     level = WARNING,
@@ -235,77 +235,77 @@ inline fun Completable.autoDisposeWith(
     = this.`as`(AutoDispose.autoDisposable<Any>(provider))
 
 /**
- * Extension that proxies to [Flowable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Flowable<T>.autoDisposable(scope: Maybe<*>): FlowableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**
- * Extension that proxies to [Observable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Observable<T>.autoDisposable(scope: Maybe<*>): ObservableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**
- * Extension that proxies to [Single.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Single<T>.autoDisposable(scope: Maybe<*>): SingleSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**
- * Extension that proxies to [Maybe.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Maybe<T>.autoDisposable(scope: Maybe<*>): MaybeSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**
- * Extension that proxies to [Completable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun Completable.autoDisposable(scope: Maybe<*>): CompletableSubscribeProxy
     = this.`as`(AutoDispose.autoDisposable<Any>(scope))
 
 /**
- * Extension that proxies to [Flowable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Flowable<T>.autoDisposable(provider: ScopeProvider): FlowableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Observable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Observable<T>.autoDisposable(provider: ScopeProvider): ObservableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Single.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Single<T>.autoDisposable(provider: ScopeProvider): SingleSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Maybe.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Maybe<T>.autoDisposable(provider: ScopeProvider): MaybeSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Completable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun Completable.autoDisposable(provider: ScopeProvider): CompletableSubscribeProxy
     = this.`as`(AutoDispose.autoDisposable<Any>(provider))
 
 /**
- * Extension that proxies to [Flowable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
  *
  */
 @CheckReturnValue
@@ -314,7 +314,7 @@ inline fun <T> Flowable<T>.autoDisposable(
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Observable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Observable<T>.autoDisposable(
@@ -322,7 +322,7 @@ inline fun <T> Observable<T>.autoDisposable(
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Single.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Single<T>.autoDisposable(
@@ -330,14 +330,14 @@ inline fun <T> Single<T>.autoDisposable(
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Maybe.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Maybe<T>.autoDisposable(provider: LifecycleScopeProvider<*>): MaybeSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
- * Extension that proxies to [Completable.to] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun Completable.autoDisposable(
