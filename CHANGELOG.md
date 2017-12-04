@@ -44,7 +44,7 @@ The Kotlin bindings have also been updated to match semantics, with the `autoDis
 
 For structural replace templates, see this issue: https://github.com/uber/AutoDispose/issues/129
 
-### Fixed a lot of concurrency edge cases and performance improvements after review from David Karnok ([#138](https://github.com/uber/autodispose/issues/138)) and [#130](https://github.com/uber/autodispose/issues/130))
+### Fixed a lot of concurrency edge cases and performance improvements after review from David Karnok ([#138](https://github.com/uber/autodispose/issues/138) and [#130](https://github.com/uber/autodispose/issues/130))
 
 David Karnok (@akarnokd, RxJava project lead) did an audit of the current codebase and gave extensive feedback in #130. #138 implements that feedback. This handled a lot of concurrency gotchas and edge cases we were missing before. See the issue and PR for full details.
 
