@@ -281,6 +281,8 @@ compile 'com.uber.autodispose:autodispose-android-archcomponents-kotlin:x.y.z'
 compile 'com.uber.autodispose:autodispose-android-archcomponents-test-kotlin:x.y.z'
 ```
 
+Javadocs and KDocs for the most recent release can be found here: https://uber.github.io/AutoDispose/0.x/
+
 Snapshots of the development version are available in [Sonatype's snapshots repository][snapshots].
 
 License
