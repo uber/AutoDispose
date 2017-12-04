@@ -1,6 +1,78 @@
 Changelog
 =========
 
+Version 0.5.0
+----------------------------
+
+_2017-12-3_
+
+### New converter-based API for use with as() ([#141](https://github.com/uber/autodispose/issues/141))
+
+AutoDispose's primary API is now via static `autoDisposable()` methods on the `AutoDispose` class. The previous `to()` based APIs are now completely deprecated, and will be removed in AutoDispose 1.0.
+
+This has been sort of the long-standing ideal API for AutoDispose for awhile, but wasn't possible until the introduction of the new `as()` operator in RxJava. As this operator is still not marked as stable (and won't until RxJava 2.2.0), AutoDispose will not be updated to 1.0 until then.
+
+The main difference is that you no longer have to specify the type indirection, and the returned converter is applicable for all 5 RxJava types. In use, it looks like this:
+
+```java
+Flowable.just(1)
+    .as(autoDisposable(scope))
+    .subscribe()
+
+Observable.just(1)
+    .as(autoDisposable(scope))
+    .subscribe()
+
+Maybe.just(1)
+    .as(autoDisposable(scope))
+    .subscribe()
+
+Single.just(1)
+    .as(autoDisposable(scope))
+    .subscribe()
+
+Completable.complete()
+    .as(autoDisposable(scope))
+    .subscribe()
+```
+
+There are three overloads for `autoDisposable()`, for each of the three scope types (`Maybe`, `ScopeProvider`, and `LifecycleScopeProvider`).
+
+The Kotlin bindings have also been updated to match semantics, with the `autoDisposeWith` extension functions being deprecated in favor of analogous `autoDisposable`. These are `WARNING` level in this release, and will become `ERROR` in AutoDispose 0.6.0, before finally being removed in 1.0. They also provide `replaceWith` options (compatible with Kotlin's deprecation quickfixes).
+
+`autoDisposable` reads best when statically imported (so you can do `.as(autoDisposable(...))`, which you can safely do if you're using Java 8.
+
+For structural replace templates, see this issue: https://github.com/uber/AutoDispose/issues/129
+
+### Fixed a lot of concurrency edge cases and performance improvements after review from David Karnok ([#138 ](https://github.com/uber/autodispose/issues/138 ))nd #130)
+
+David Karnok (@akarnokd, RxJava project lead) did an audit of the current codebase and gave extensive feedback in #130. #138 implements that feedback. This handled a lot of concurrency gotchas and edge cases we were missing before. See the issue and PR for full details.
+
+### Plugin for controlling whether or not to fill in stacktraces ([#124](https://github.com/uber/autodispose/issues/124))
+
+`AutoDisposePlugins` has a new API to control whether or not lifecycle exception stacktraces are filled in. What this means is that if you opt out, the exceptions thrown in `LifecycleScopeProvider` boundary issues will no longer have a stacktrace (`getStacktrace()` will return an empty array) and only carry the type name and message. This can be useful to gain some performance if you track stacktracing via other means.
+
+### UNBOUND shorthand ([#125](https://github.com/uber/autodispose/issues/125))
+
+`ScopeProvider` has a static instance of an "unbound" provider directly in the interface now for reuse. This obviates the need for `TestScopeProvider#unbound()`, which has been **removed**. Usage is simple:
+
+```java
+Observable.just(1)
+    .as(autoDisposable(ScopeProvider.UNBOUND))
+    .subscribe()
+```
+
+## Misc
+
+- Archcomponents updated to 1.0.0 final ([#128](https://github.com/uber/autodispose/issues/128))
+- RxJava dependency is now 2.1.7 (to leverage `as()`) ([#141](https://github.com/uber/autodispose/issues/141))
+- Kotlin is now updated to 1.2.0 ([#141](https://github.com/uber/autodispose/issues/141))
+- Dokka is wired up, meaning that javadocs found at now have kotlin docs too. ([#126](https://github.com/uber/autodispose/issues/126))
+- `subscribeBy` example extension in the sample app displaying how you can add extension functions to the `*SubscribeProxy` classes. ([#127](https://github.com/uber/autodispose/issues/127))
+- `delegateObserver()` APIs on `AutoDisposing` observers have been promoted to stable. Considering they are useful for `subscribeWith()`, we can just keep it observer-based and keep the library more flexible long-term ([#144](https://github.com/uber/autodispose/issues/144))
+
+Thanks to the following contributors! [@charlesdurham](https://github.com/@charlesdurham) [@ajalt](https://github.com/@ajalt) [@tbsandee](https://github.com/@tbsandee) [@akarnokd](https://github.com/@akarnokd)
+
 Version 0.4.0
 ----------------------------
 
