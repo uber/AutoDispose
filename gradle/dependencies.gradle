@@ -41,10 +41,10 @@ def build = [
 
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:2.3.0',
-        apt: 'net.ltgt.gradle:gradle-apt-plugin:0.11',
+        apt: 'net.ltgt.gradle:gradle-apt-plugin:0.13',
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
         dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
-        errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.11',
+        errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.13',
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     ]
 ]
