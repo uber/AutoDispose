@@ -15,19 +15,6 @@
  */
 
 subprojects {
-    buildscript {
-        repositories {
-            jcenter()
-        }
-    }
-
-    repositories {
-        jcenter()
-        maven {
-            url 'https://maven.google.com'
-        }
-    }
-
     apply plugin: 'checkstyle'
 
     afterEvaluate {
@@ -43,7 +30,7 @@ subprojects {
                 exclude '**/R.java'
                 exclude '**/BuildConfig.java'
                 reports {
-                    xml.destination "$project.buildDir/reports/checkstyle/main.xml"
+                    xml.destination new File("$project.buildDir/reports/checkstyle/main.xml")
                 }
                 classpath = files()
                 configFile = rootProject.file('checkstyle.xml')
@@ -58,7 +45,7 @@ subprojects {
                 exclude '**/R.java'
                 exclude '**/BuildConfig.java'
                 reports {
-                    xml.destination "$project.buildDir/reports/checkstyle/test.xml"
+                    xml.destination new File("$project.buildDir/reports/checkstyle/test.xml")
                 }
                 classpath = files()
                 configFile = rootProject.file('checkstyle.xml')
