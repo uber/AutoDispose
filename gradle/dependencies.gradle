@@ -19,8 +19,8 @@ def versions = [
     archComponents: '1.0.0',
     archRuntime: '1.0.3',
     dokka: '0.9.15',
-    errorProne: '2.1.1',
-    kotlin: '1.1.51',
+    errorProne: '2.1.3',
+    kotlin: '1.2.0',
     support: '26.1.0'
 ]
 
@@ -31,9 +31,9 @@ def build = [
     minSdkVersion: 14,
     targetSdkVersion: 26,
 
-    checkerFramework: 'org.checkerframework:dataflow:2.1.14',
+    checkerFramework: 'org.checkerframework:dataflow:2.3.0',
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
-    nullAway: 'com.uber.nullaway:nullaway:0.1.4',
+    nullAway: 'com.uber.nullaway:nullaway:0.2.0',
 
     repositories: [
         plugins: 'https://plugins.gradle.org/m2/'
@@ -41,10 +41,10 @@ def build = [
 
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:2.3.0',
-        apt: 'net.ltgt.gradle:gradle-apt-plugin:0.11',
+        apt: 'net.ltgt.gradle:gradle-apt-plugin:0.13',
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
         dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
-        errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.11',
+        errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.13',
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     ]
 ]
@@ -62,7 +62,7 @@ def misc = [
 
 def rx = [
     android: 'io.reactivex.rxjava2:rxandroid:2.0.1',
-    java: 'io.reactivex.rxjava2:rxjava:2.1.0'
+    java: 'io.reactivex.rxjava2:rxjava:2.1.7'
 ]
 
 def support = [
