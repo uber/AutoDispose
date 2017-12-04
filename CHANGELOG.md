@@ -67,7 +67,7 @@ Observable.just(1)
 - Archcomponents updated to 1.0.0 final ([#128](https://github.com/uber/autodispose/issues/128))
 - RxJava dependency is now 2.1.7 (to leverage `as()`) ([#141](https://github.com/uber/autodispose/issues/141))
 - Kotlin is now updated to 1.2.0 ([#141](https://github.com/uber/autodispose/issues/141))
-- Dokka is wired up, meaning that javadocs found at now have kotlin docs too. ([#126](https://github.com/uber/autodispose/issues/126))
+- Dokka is wired up, meaning that kotlin artifacts now also have exported javadocs. ([#126](https://github.com/uber/autodispose/issues/126))
 - `subscribeBy` example extension in the sample app displaying how you can add extension functions to the `*SubscribeProxy` classes. ([#127](https://github.com/uber/autodispose/issues/127))
 - `delegateObserver()` APIs on `AutoDisposing` observers have been promoted to stable. Considering they are useful for `subscribeWith()`, we can just keep it observer-based and keep the library more flexible long-term ([#144](https://github.com/uber/autodispose/issues/144))
 
