@@ -42,7 +42,7 @@ The Kotlin bindings have also been updated to match semantics, with the `autoDis
 
 `autoDisposable` reads best when statically imported (so you can do `.as(autoDisposable(...))`, which you can safely do if you're using Java 8.
 
-For structural replace templates, see this issue: https://github.com/uber/AutoDispose/issues/129
+For structural replace templates, see [here](https://github.com/uber/AutoDispose/wiki/Migrating-from-0.4.0-to-0.5.0)).
 
 ### Fixed a lot of concurrency edge cases and performance improvements after review from David Karnok ([#138](https://github.com/uber/autodispose/issues/138) and [#130](https://github.com/uber/autodispose/issues/130))
 
