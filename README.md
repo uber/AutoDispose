@@ -304,4 +304,4 @@ License
 
  [rxlifecycle]: https://github.com/trello/RxLifecycle/
  [dan]: https://twitter.com/danlew42
- [snapshots]: https://oss.sonatype.org/content/repositories/snapshots/
+ [snapshots]: https://oss.sonatype.org/content/repositories/snapshots/com/uber/autodispose/
