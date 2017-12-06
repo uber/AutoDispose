@@ -297,10 +297,11 @@ public class AutoDisposeSubscriberTest {
       assertThat(atomicAutoDisposingSubscriber.get()).isNotNull();
       assertThat(atomicAutoDisposingSubscriber.get()).isInstanceOf(AutoDisposingSubscriber.class);
       assertThat(
-          ((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber()).isNotNull();
+          ((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber())
+          .isNotNull();
       assertThat(
-          ((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber()).isSameAs(
-          atomicSubscriber.get());
+          ((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber())
+          .isSameAs(atomicSubscriber.get());
     } finally {
       RxJavaPlugins.reset();
     }
