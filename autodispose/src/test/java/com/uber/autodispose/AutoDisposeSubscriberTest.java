@@ -296,12 +296,11 @@ public class AutoDisposeSubscriberTest {
 
       assertThat(atomicAutoDisposingSubscriber.get()).isNotNull();
       assertThat(atomicAutoDisposingSubscriber.get()).isInstanceOf(AutoDisposingSubscriber.class);
-      assertThat(((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get())
-              .delegateSubscriber())
-          .isNotNull();
-      assertThat(((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get())
-              .delegateSubscriber())
-          .isSameAs(atomicSubscriber.get());
+      assertThat(
+          ((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber()).isNotNull();
+      assertThat(
+          ((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber()).isSameAs(
+          atomicSubscriber.get());
     } finally {
       RxJavaPlugins.reset();
     }
@@ -341,11 +340,23 @@ public class AutoDisposeSubscriberTest {
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestSubscriber<Object> o = new TestSubscriber<>();
     PublishProcessor.create()
-        .to(AutoDispose.with(ScopeProvider.UNBOUND).forFlowable())
+        .to(AutoDispose.with(ScopeProvider.UNBOUND)
+            .forFlowable())
         .subscribe(o);
     o.assertNoValues();
     o.assertNoErrors();
 
     rule.assertNoErrors();
+  }
+
+  @Test public void unbound_shouldStillPassValues() {
+    TestSubscriber<Integer> o = new TestSubscriber<>();
+    PublishProcessor<Integer> s = PublishProcessor.create();
+    s.to(AutoDispose.with(ScopeProvider.UNBOUND).<Integer>forFlowable())
+        .subscribe(o);
+
+    s.onNext(1);
+    o.assertValue(1);
+    o.dispose();
   }
 }

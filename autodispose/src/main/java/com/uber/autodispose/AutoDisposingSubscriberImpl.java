@@ -59,7 +59,6 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
       }
 
       @Override public void onComplete() {
-        mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         // Noop - we're unbound now
       }

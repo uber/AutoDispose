@@ -320,12 +320,11 @@ public class AutoDisposeCompletableObserverTest {
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
       assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(
           AutoDisposingCompletableObserver.class);
-      assertThat(((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get())
-              .delegateObserver())
-          .isNotNull();
-      assertThat(((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get())
-              .delegateObserver())
-          .isSameAs(atomicObserver.get());
+      assertThat(
+          ((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
+      assertThat(
+          ((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isSameAs(
+          atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
@@ -361,11 +360,23 @@ public class AutoDisposeCompletableObserverTest {
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestObserver<Object> o = new TestObserver<>();
     CompletableSubject.create()
-        .to(AutoDispose.with(ScopeProvider.UNBOUND).forCompletable())
+        .to(AutoDispose.with(ScopeProvider.UNBOUND)
+            .forCompletable())
         .subscribe(o);
     o.assertNoValues();
     o.assertNoErrors();
 
     rule.assertNoErrors();
+  }
+
+  @Test public void unbound_shouldStillPassValues() {
+    TestObserver<Object> o = new TestObserver<>();
+    CompletableSubject s = CompletableSubject.create();
+    s.to(AutoDispose.with(ScopeProvider.UNBOUND)
+        .forCompletable())
+        .subscribe(o);
+
+    s.onComplete();
+    o.assertComplete();
   }
 }

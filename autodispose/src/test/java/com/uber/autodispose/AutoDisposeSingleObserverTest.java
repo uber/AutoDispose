@@ -321,12 +321,11 @@ public class AutoDisposeSingleObserverTest {
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
       assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingSingleObserver.class);
-      assertThat(((AutoDisposingSingleObserver) atomicAutoDisposingObserver.get())
-              .delegateObserver())
-          .isNotNull();
-      assertThat(((AutoDisposingSingleObserver) atomicAutoDisposingObserver.get())
-              .delegateObserver())
-          .isSameAs(atomicObserver.get());
+      assertThat(
+          ((AutoDisposingSingleObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
+      assertThat(
+          ((AutoDisposingSingleObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isSameAs(
+          atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
@@ -361,11 +360,22 @@ public class AutoDisposeSingleObserverTest {
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestObserver<Object> o = new TestObserver<>();
     SingleSubject.create()
-        .to(AutoDispose.with(ScopeProvider.UNBOUND).forSingle())
+        .to(AutoDispose.with(ScopeProvider.UNBOUND)
+            .forSingle())
         .subscribe(o);
     o.assertNoValues();
     o.assertNoErrors();
 
     rule.assertNoErrors();
+  }
+
+  @Test public void unbound_shouldStillPassValues() {
+    TestObserver<Integer> o = new TestObserver<>();
+    SingleSubject<Integer> s = SingleSubject.create();
+    s.to(AutoDispose.with(ScopeProvider.UNBOUND).<Integer>forSingle())
+        .subscribe(o);
+
+    s.onSuccess(1);
+    o.assertValue(1);
   }
 }

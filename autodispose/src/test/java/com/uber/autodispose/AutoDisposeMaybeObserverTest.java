@@ -351,12 +351,11 @@ public class AutoDisposeMaybeObserverTest {
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
       assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingMaybeObserver.class);
-      assertThat(((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get())
-              .delegateObserver())
-          .isNotNull();
-      assertThat(((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get())
-              .delegateObserver())
-          .isSameAs(atomicObserver.get());
+      assertThat(
+          ((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
+      assertThat(
+          ((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isSameAs(
+          atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
@@ -391,11 +390,22 @@ public class AutoDisposeMaybeObserverTest {
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestObserver<Object> o = new TestObserver<>();
     MaybeSubject.create()
-        .to(AutoDispose.with(ScopeProvider.UNBOUND).forMaybe())
+        .to(AutoDispose.with(ScopeProvider.UNBOUND)
+            .forMaybe())
         .subscribe(o);
     o.assertNoValues();
     o.assertNoErrors();
 
     rule.assertNoErrors();
+  }
+
+  @Test public void unbound_shouldStillPassValues() {
+    TestObserver<Integer> o = new TestObserver<>();
+    MaybeSubject<Integer> s = MaybeSubject.create();
+    s.to(AutoDispose.with(ScopeProvider.UNBOUND).<Integer>forMaybe())
+        .subscribe(o);
+
+    s.onSuccess(1);
+    o.assertValue(1);
   }
 }
