@@ -52,7 +52,6 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
       }
 
       @Override public void onComplete() {
-        mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         // Noop - we're unbound now
       }

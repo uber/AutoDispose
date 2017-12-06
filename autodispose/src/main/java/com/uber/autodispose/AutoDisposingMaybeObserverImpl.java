@@ -52,7 +52,6 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
       }
 
       @Override public void onComplete() {
-        mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         // Noop - we're unbound now
       }

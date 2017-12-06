@@ -337,4 +337,15 @@ public class AutoDisposeObserverTest {
 
     rule.assertNoErrors();
   }
+
+  @Test public void unbound_shouldStillPassValues() {
+    TestObserver<Integer> o = new TestObserver<>();
+    PublishSubject<Integer> s = PublishSubject.create();
+    s.to(AutoDispose.with(ScopeProvider.UNBOUND).<Integer>forObservable())
+        .subscribe(o);
+
+    s.onNext(1);
+    o.assertValue(1);
+    o.dispose();
+  }
 }
