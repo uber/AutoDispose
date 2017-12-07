@@ -28,7 +28,7 @@ import io.reactivex.functions.Function;
  * {@link LifecycleOwner} classes.
  * <p>
  * <pre><code>
- *   AutoDispose.with(AndroidLifecycleScopeProvider.from(lifecycleOwner))
+ *   AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner))
  * </code></pre>
  */
 public final class AndroidLifecycleScopeProvider

@@ -10,7 +10,7 @@ import io.reactivex.exceptions.OnErrorNotImplementedException
 import io.reactivex.plugins.RxJavaPlugins
 
 /*
- * An example of extension functions on the objects returned by `AutoDispose.with`.
+ * An example of extension functions on the objects returned by `AutoDisposeConverter`.
  *
  * AutoDispose returns proxy objects that don't extend Observable or the other reactive classes. This means
  * that extensions like RxKotlin's `Observable.subscribeBy` can't be used. However, it's easy to define your
@@ -20,7 +20,7 @@ import io.reactivex.plugins.RxJavaPlugins
  * 
  * ```
  * Observable.just(1)
- *   .autoDisposeWith(this)
+ *   .autoDisposable(this)
  *   .subscribeBy(onError = { Log.e(it) })
  * ```
  */

@@ -38,6 +38,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.TestUtil.makeLifecycleProvider;
 import static com.uber.autodispose.TestUtil.makeProvider;
 
@@ -59,8 +60,7 @@ public class AutoDisposeCompletableObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     CompletableSubject source = CompletableSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(AutoDispose.with(lifecycle)
-        .forCompletable())
+    source.as(autoDisposable(lifecycle))
         .subscribe(o);
     o.takeSubscribe();
 
@@ -81,8 +81,7 @@ public class AutoDisposeCompletableObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     CompletableSubject source = CompletableSubject.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(AutoDispose.with(lifecycle)
-        .forCompletable())
+    source.as(autoDisposable(lifecycle))
         .subscribe(o);
     o.takeSubscribe();
 
@@ -104,8 +103,7 @@ public class AutoDisposeCompletableObserverTest {
     CompletableSubject source = CompletableSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
-    source.to(AutoDispose.with(provider)
-        .forCompletable())
+    source.as(autoDisposable(provider))
         .subscribe(o);
     o.takeSubscribe();
 
@@ -125,8 +123,7 @@ public class AutoDisposeCompletableObserverTest {
     CompletableSubject source = CompletableSubject.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = makeProvider(scope);
-    source.to(AutoDispose.with(provider)
-        .forCompletable())
+    source.as(autoDisposable(provider))
         .subscribe(o);
     o.takeSubscribe();
 
@@ -149,8 +146,7 @@ public class AutoDisposeCompletableObserverTest {
     CompletableSubject source = CompletableSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.to(AutoDispose.with(provider)
-        .forCompletable())
+    source.as(autoDisposable(provider))
         .subscribe(o);
     o.takeSubscribe();
 
@@ -175,8 +171,7 @@ public class AutoDisposeCompletableObserverTest {
     CompletableSubject source = CompletableSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.to(AutoDispose.with(provider)
-        .forCompletable())
+    source.as(autoDisposable(provider))
         .subscribe(o);
     o.takeSubscribe();
 
@@ -204,8 +199,7 @@ public class AutoDisposeCompletableObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Completable.complete()
-        .to(AutoDispose.with(provider)
-            .forCompletable())
+        .as(autoDisposable(provider))
         .subscribe(o);
 
     o.takeSubscribe();
@@ -220,8 +214,7 @@ public class AutoDisposeCompletableObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     Completable.complete()
-        .to(AutoDispose.with(provider)
-            .forCompletable())
+        .as(autoDisposable(provider))
         .subscribe(o);
 
     o.takeSubscribe();
@@ -230,14 +223,13 @@ public class AutoDisposeCompletableObserverTest {
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) throws Exception { }
+      @Override public void accept(OutsideLifecycleException e) { }
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     CompletableSubject source = CompletableSubject.create();
-    source.to(AutoDispose.with(provider)
-        .forCompletable())
+    source.as(autoDisposable(provider))
         .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
@@ -248,7 +240,7 @@ public class AutoDisposeCompletableObserverTest {
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) throws Exception {
+      @Override public void accept(OutsideLifecycleException e) {
         // Noop
       }
     });
@@ -259,8 +251,7 @@ public class AutoDisposeCompletableObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     CompletableSubject source = CompletableSubject.create();
-    source.to(AutoDispose.with(provider)
-        .forCompletable())
+    source.as(autoDisposable(provider))
         .subscribe(o);
 
     assertThat(source.hasObservers()).isFalse();
@@ -271,7 +262,7 @@ public class AutoDisposeCompletableObserverTest {
 
   @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithWrappedExp() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) throws Exception {
+      @Override public void accept(OutsideLifecycleException e) {
         // Wrap in an IllegalStateException so we can verify this is the exception we see on the
         // other side
         throw new IllegalStateException(e);
@@ -281,13 +272,12 @@ public class AutoDisposeCompletableObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     CompletableSubject source = CompletableSubject.create();
-    source.to(AutoDispose.with(provider)
-        .forCompletable())
+    source.as(autoDisposable(provider))
         .subscribe(o);
 
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
-      @Override public boolean test(Throwable throwable) throws Exception {
+      @Override public boolean test(Throwable throwable) {
         return throwable instanceof IllegalStateException
             && throwable.getCause() instanceof OutsideLifecycleException;
       }
@@ -313,8 +303,7 @@ public class AutoDisposeCompletableObserverTest {
             }
           });
       Completable.complete()
-          .to(AutoDispose.with(ScopeProvider.UNBOUND)
-              .forCompletable())
+          .as(autoDisposable(ScopeProvider.UNBOUND))
           .subscribe();
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
@@ -325,28 +314,26 @@ public class AutoDisposeCompletableObserverTest {
           .isNotNull();
       assertThat(
           ((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver())
-          .isSameAs(
-          atomicObserver.get());
+          .isSameAs(atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
   }
 
-  @Test public void verifyCancellation() throws Exception {
+  @Test public void verifyCancellation() {
     final AtomicInteger i = new AtomicInteger();
     //noinspection unchecked because Java
     Completable source = Completable.create(new CompletableOnSubscribe() {
-      @Override public void subscribe(CompletableEmitter e) throws Exception {
+      @Override public void subscribe(CompletableEmitter e) {
         e.setCancellable(new Cancellable() {
-          @Override public void cancel() throws Exception {
+          @Override public void cancel() {
             i.incrementAndGet();
           }
         });
       }
     });
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.to(AutoDispose.with(lifecycle)
-        .forCompletable())
+    source.as(autoDisposable(lifecycle))
         .subscribe();
 
     assertThat(i.get()).isEqualTo(0);
@@ -362,8 +349,7 @@ public class AutoDisposeCompletableObserverTest {
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestObserver<Object> o = new TestObserver<>();
     CompletableSubject.create()
-        .to(AutoDispose.with(ScopeProvider.UNBOUND)
-            .forCompletable())
+        .as(autoDisposable(ScopeProvider.UNBOUND))
         .subscribe(o);
     o.assertNoValues();
     o.assertNoErrors();
@@ -374,8 +360,7 @@ public class AutoDisposeCompletableObserverTest {
   @Test public void unbound_shouldStillPassValues() {
     TestObserver<Object> o = new TestObserver<>();
     CompletableSubject s = CompletableSubject.create();
-    s.to(AutoDispose.with(ScopeProvider.UNBOUND)
-        .forCompletable())
+    s.as(autoDisposable(ScopeProvider.UNBOUND))
         .subscribe(o);
 
     s.onComplete();
