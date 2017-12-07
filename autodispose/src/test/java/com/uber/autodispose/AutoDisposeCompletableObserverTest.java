@@ -310,10 +310,11 @@ public class AutoDisposeCompletableObserverTest {
       assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(
           AutoDisposingCompletableObserver.class);
       assertThat(
-          ((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
+          ((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver())
+          .isNotNull();
       assertThat(
-          ((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isSameAs(
-          atomicObserver.get());
+          ((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver())
+          .isSameAs(atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
