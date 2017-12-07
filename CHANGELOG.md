@@ -8,7 +8,7 @@ _2017-12-6_
 
 **Fix:** A bug where unbound scopes would mark the observer as disposed, subsequently preventing future events from emitting. ([#149](https://github.com/autodispose/issues/149))
 
-**Fix:** Kotlin docs accidentally pointing to `to()` operators instead of `as(). ([#145](https://github.com/autodispose/issues/145))
+**Fix:** Kotlin docs accidentally pointing to `to()` operators instead of `as()`. ([#145](https://github.com/autodispose/issues/145))
 
 Snapshots should be fully working now as well.
 
