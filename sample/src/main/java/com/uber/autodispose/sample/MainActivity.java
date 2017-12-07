@@ -23,10 +23,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
-import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Demo activity, shamelessly borrowed from the RxLifecycle sample.
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "Disposing subscription from onCreate()");
           }
         })
-        .to(AutoDispose.with(AndroidLifecycleScopeProvider.from(this)).<Long>forObservable())
+        .as(AutoDispose.<Long>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(new Consumer<Long>() {
           @Override public void accept(Long num) throws Exception {
             Log.i(TAG, "Started in onCreate(), running until onDestroy(): " + num);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "Disposing subscription from onStart()");
           }
         })
-        .to(AutoDispose.with(AndroidLifecycleScopeProvider.from(this)).<Long>forObservable())
+        .as(AutoDispose.<Long>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(new Consumer<Long>() {
           @Override public void accept(Long num) throws Exception {
             Log.i(TAG, "Started in onStart(), running until in onStop(): " + num);
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         })
         // `.<Long>forObservable` is necessary if you're compiling on JDK7 or below.
         // If you're using JDK8+, then you can safely remove it.
-        .to(AutoDispose.with(AndroidLifecycleScopeProvider.from(this)).<Long>forObservable())
+        .as(AutoDispose.<Long>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(new Consumer<Long>() {
           @Override public void accept(Long num) throws Exception {
             Log.i(TAG, "Started in onResume(), running until in onPause(): " + num);
@@ -110,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY");
           }
         })
-        .to(AutoDispose.with(AndroidLifecycleScopeProvider.from(this,
-                Lifecycle.Event.ON_DESTROY)).<Long>forObservable())
+        .as(AutoDispose.<Long>autoDisposable(
+            AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
         .subscribe(new Consumer<Long>() {
           @Override public void accept(Long num) throws Exception {
             Log.i(TAG, "Started in onResume(), running until in onDestroy(): " + num);
