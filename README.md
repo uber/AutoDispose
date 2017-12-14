@@ -168,7 +168,7 @@ with [RxLifecycle](https://github.com/trello/RxLifecycle)'s `LifecycleProvider` 
 
 ### Philosophy
 
-Each factory returns a subscribe proxy upon application that just proxy to real subscribe calls under 
+Each factory returns a subscribe proxies upon application that just proxy to real subscribe calls under 
 the hood to "AutoDisposing" implementations of the types. These types decorate the actual observer 
 at subscribe-time to achieve autodispose behavior. The types are *not* exposed directly because
 autodisposing has *ordering* requirements; specifically, it has to be done at the end of a chain to properly
