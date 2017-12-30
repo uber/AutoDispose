@@ -39,7 +39,7 @@ import kotlin.DeprecationLevel.ERROR
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(scope)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -52,7 +52,7 @@ inline fun <T> Flowable<T>.autoDisposeWith(scope: Maybe<*>): FlowableSubscribePr
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(scope)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -65,7 +65,7 @@ inline fun <T> Observable<T>.autoDisposeWith(scope: Maybe<*>): ObservableSubscri
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(scope)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -78,7 +78,7 @@ inline fun <T> Single<T>.autoDisposeWith(scope: Maybe<*>): SingleSubscribeProxy<
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(scope)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -91,7 +91,7 @@ inline fun <T> Maybe<T>.autoDisposeWith(scope: Maybe<*>): MaybeSubscribeProxy<T>
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(scope)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -104,7 +104,7 @@ inline fun Completable.autoDisposeWith(scope: Maybe<*>): CompletableSubscribePro
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(provider)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -117,7 +117,7 @@ inline fun <T> Flowable<T>.autoDisposeWith(provider: ScopeProvider): FlowableSub
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(provider)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -130,7 +130,7 @@ inline fun <T> Observable<T>.autoDisposeWith(provider: ScopeProvider): Observabl
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(provider)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -143,7 +143,7 @@ inline fun <T> Single<T>.autoDisposeWith(provider: ScopeProvider): SingleSubscri
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(provider)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -156,7 +156,7 @@ inline fun <T> Maybe<T>.autoDisposeWith(provider: ScopeProvider): MaybeSubscribe
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(provider)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -170,7 +170,7 @@ inline fun Completable.autoDisposeWith(provider: ScopeProvider): CompletableSubs
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(provider)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -184,7 +184,7 @@ inline fun <T> Flowable<T>.autoDisposeWith(
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(provider)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -198,7 +198,7 @@ inline fun <T> Observable<T>.autoDisposeWith(
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(provider)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -212,7 +212,7 @@ inline fun <T> Single<T>.autoDisposeWith(
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(provider)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
@@ -225,7 +225,7 @@ inline fun <T> Maybe<T>.autoDisposeWith(provider: LifecycleScopeProvider<*>): Ma
  */
 @Deprecated(
     level = ERROR,
-    message = "Replaced with autoDisposable() to match top level APIs. This deprecation will become an ERROR in 0.6.0 and removed in 1.0.",
+    message = "Replaced with autoDisposable() to match top level APIs.",
     replaceWith = ReplaceWith("autoDisposable(provider)",
         "com.uber.autodispose.kotlin.autoDisposable")
 )
