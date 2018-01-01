@@ -13,8 +13,8 @@ class ParallelFlowableScoper<T> extends Scoper
     super(lifecycle);
   }
 
-  @Override public ParallelFlowableSubscribeProxy<T> apply(final ParallelFlowable<? extends T> source)
-      throws Exception {
+  @Override public ParallelFlowableSubscribeProxy<T> apply(
+          final ParallelFlowable<? extends T> source) throws Exception {
     return new ParallelFlowableSubscribeProxy<T>() {
       @Override
       public void subscribe(Subscriber<? super T>[] subscribers) {

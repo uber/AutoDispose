@@ -10,8 +10,8 @@ import io.reactivex.parallel.ParallelFlowable;
  */
 public interface ParallelFlowableSubscribeProxy<T> {
 
-    /**
-     * Proxy for {@link ParallelFlowable#subscribe(Subscriber[])}.
-     */
-    void subscribe(@NonNull Subscriber<? super T>[] subscribers);
+  /**
+   * Proxy for {@link ParallelFlowable#subscribe(Subscriber[])}.
+   */
+  void subscribe(@NonNull Subscriber<? super T>[] subscribers);
 }

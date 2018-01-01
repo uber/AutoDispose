@@ -232,7 +232,8 @@ public class AutoDisposeParallelFlowableTest {
     AutoDisposePlugins.setOutsideLifecycleHandler(
         new Consumer<OutsideLifecycleException>() {
           @Override
-          public void accept(OutsideLifecycleException e) throws Exception {}
+          public void accept(OutsideLifecycleException e) throws Exception {
+          }
         });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
