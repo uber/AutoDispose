@@ -272,7 +272,7 @@ inline fun Completable.autoDisposable(scope: Maybe<*>): CompletableSubscribeProx
     = this.`as`(AutoDispose.autoDisposable<Any>(scope))
 
 /**
- * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> ParallelFlowable<T>.autoDisposable(scope: Maybe<*>): ParallelFlowableSubscribeProxy<T>
@@ -314,7 +314,7 @@ inline fun Completable.autoDisposable(provider: ScopeProvider): CompletableSubsc
     = this.`as`(AutoDispose.autoDisposable<Any>(provider))
 
 /**
- * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> ParallelFlowable<T>.autoDisposable(provider: ScopeProvider): ParallelFlowableSubscribeProxy<T>
@@ -361,7 +361,7 @@ inline fun Completable.autoDisposable(
     = this.`as`(AutoDispose.autoDisposable<Any>(provider))
 
 /**
- * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
+ * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> ParallelFlowable<T>.autoDisposable(
