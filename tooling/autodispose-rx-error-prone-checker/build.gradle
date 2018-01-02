@@ -1,0 +1,70 @@
+plugins {
+  id "net.ltgt.errorprone" version "0.0.13"
+  id "com.github.johnrengelman.shadow" version "2.0.1"
+  id "com.github.johnrengelman.plugin-shadow" version "2.0.0"
+  id "java"
+}
+
+// we use this config to get the path of the JDK 9 javac jar, to
+// stick it in the bootclasspath when running tests
+configurations.maybeCreate("epJavac")
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+dependencies {
+  compileOnly deps.apt.autoService
+  testCompile deps.rx.java
+
+  compileOnly deps.build.errorProneCheckApi
+
+  errorprone deps.build.errorProne
+
+  testCompile deps.test.junit
+  testCompile(deps.build.errorProneTestHelpers) {
+    exclude group: "junit", module: "junit"
+  }
+  testCompile project(':autodispose')
+
+  epJavac deps.build.errorProneCheckApi
+}
+
+shadowJar {
+  classifier = null
+}
+build.dependsOn shadowJar
+
+javadoc {
+  failOnError = false
+}
+
+compileJava {
+  options.compilerArgs += ["-Xlint:unchecked", "-Werror"]
+}
+
+test {
+  maxHeapSize = "1024m"
+  jvmArgs "-Xbootclasspath/p:${configurations.epJavac.asPath}"
+}
+
+apply from: rootProject.file("gradle/gradle-mvn-push.gradle")
+
+def configurePomForShadow(pom) {
+  pom.scopeMappings.mappings.remove(project.configurations.compile)
+  pom.scopeMappings.mappings.remove(project.configurations.runtime)
+  pom.scopeMappings.addMapping(MavenPlugin.COMPILE_PRIORITY, project.configurations.shadow, Conf2ScopeMappingContainer.COMPILE)
+}
+
+install {
+  repositories.mavenInstaller {
+    configurePomForShadow(pom)
+  }
+}
+install.dependsOn shadowJar
+
+uploadArchives {
+  repositories.mavenDeployer {
+    configurePomForShadow(pom)
+  }
+}
+uploadArchives.dependsOn shadowJar

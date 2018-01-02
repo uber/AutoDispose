@@ -24,6 +24,10 @@ def versions = [
     support: '26.1.0'
 ]
 
+def apt = [
+        autoService : "com.google.auto.service:auto-service:1.0-rc3",
+]
+
 def build = [
     buildToolsVersion: '26.0.2',
     compileSdkVersion: 26,
@@ -32,7 +36,9 @@ def build = [
     targetSdkVersion: 26,
 
     checkerFramework: 'org.checkerframework:dataflow:2.3.0',
+    errorProneCheckApi: "com.google.errorprone:error_prone_check_api:${versions.errorProne}",
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
+    errorProneTestHelpers: "com.google.errorprone:error_prone_test_helpers:${versions.errorProne}",
     nullAway: 'com.uber.nullaway:nullaway:0.2.0',
 
     repositories: [
@@ -84,6 +90,7 @@ def test = [
 ]
 
 ext.deps = [
+    "apt": apt,
     "build": build,
     "kotlin": kotlin,
     "misc": misc,
