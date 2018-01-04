@@ -19,44 +19,57 @@ package com.uber.autodispose.recipes
 import android.support.v7.widget.BindAwareViewHolder
 import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.View
-import com.uber.autodispose.ScopeProvider
-import io.reactivex.Maybe
-import io.reactivex.subjects.MaybeSubject
+import com.uber.autodispose.LifecycleEndedException
+import com.uber.autodispose.LifecycleScopeProvider
+import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent.BIND
+import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent.UNBIND
+import io.reactivex.Observable
+import io.reactivex.functions.Function
+import io.reactivex.subjects.BehaviorSubject
 
 private object NOTIFICATION
 
 /**
  * Example implementation of a [ViewHolder] implementation that implements
- * [ScopeProvider]. This could be useful for cases where you have subscriptions that should be
+ * [LifecycleScopeProvider]. This could be useful for cases where you have subscriptions that should be
  * disposed upon unbinding or otherwise aren't overwritten in future binds.
  */
 abstract class AutoDisposeViewHolderKotlin(itemView: View)
-  : BindAwareViewHolder(itemView), ScopeProvider {
+  : BindAwareViewHolder(itemView), LifecycleScopeProvider<AutoDisposeViewHolderKotlin.ViewHolderEvent> {
 
-  private var unbindNotifier: MaybeSubject<Any>? = null
+  private val lifecycleEvents = BehaviorSubject.create<ViewHolderEvent>()
 
-  private val notifier: MaybeSubject<Any>
-    get() {
-      synchronized(this) {
-        return unbindNotifier ?: MaybeSubject.create<Any>().also { unbindNotifier = it }
-      }
-    }
+  enum class ViewHolderEvent {
+    BIND, UNBIND
+  }
+
+  override fun onBind() {
+    lifecycleEvents.onNext(BIND)
+  }
 
   override fun onUnbind() {
-    emitUnbindIfPresent()
-    unbindNotifier = null
+    lifecycleEvents.onNext(UNBIND)
   }
 
-  private fun emitUnbindIfPresent() {
-    unbindNotifier?.let {
-      if (!it.hasComplete()) {
-        it.onSuccess(NOTIFICATION)
+  override fun lifecycle(): Observable<ViewHolderEvent> {
+    return lifecycleEvents.hide()
+  }
+
+  override fun correspondingEvents(): Function<ViewHolderEvent, ViewHolderEvent> {
+    return CORRESPONDING_EVENTS
+  }
+
+  override fun peekLifecycle(): ViewHolderEvent? {
+    return lifecycleEvents.value
+  }
+
+  companion object {
+
+    private val CORRESPONDING_EVENTS = Function<ViewHolderEvent, ViewHolderEvent> { viewHolderEvent ->
+      when (viewHolderEvent) {
+        BIND -> UNBIND
+        else -> throw LifecycleEndedException("Cannot use view holder lifecycle after unbind.")
       }
     }
   }
-
-  override fun requestScope(): Maybe<*> {
-    return notifier
-  }
-
 }
