@@ -21,7 +21,7 @@ public class AutoDisposeParallelFlowableTest {
 
   private static final int DEFAULT_PARALLELISM = 2;
 
-  @Rule public RxErrorsRule rule = new RxErrorsRule();
+  @Rule public final RxErrorsRule rule = new RxErrorsRule();
 
   @After public void resetPlugins() {
     AutoDisposePlugins.reset();
