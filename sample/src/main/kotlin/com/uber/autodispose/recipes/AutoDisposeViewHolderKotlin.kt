@@ -37,38 +37,28 @@ private object NOTIFICATION
 abstract class AutoDisposeViewHolderKotlin(itemView: View)
   : BindAwareViewHolder(itemView), LifecycleScopeProvider<AutoDisposeViewHolderKotlin.ViewHolderEvent> {
 
-  private val lifecycleEvents = BehaviorSubject.create<ViewHolderEvent>()
+  private val lifecycleEvents by lazy { BehaviorSubject.create<ViewHolderEvent>() }
 
   enum class ViewHolderEvent {
     BIND, UNBIND
   }
 
-  override fun onBind() {
-    lifecycleEvents.onNext(BIND)
-  }
+  override fun onBind() = lifecycleEvents.onNext(BIND)
 
-  override fun onUnbind() {
-    lifecycleEvents.onNext(UNBIND)
-  }
+  override fun onUnbind() = lifecycleEvents.onNext(UNBIND)
 
-  override fun lifecycle(): Observable<ViewHolderEvent> {
-    return lifecycleEvents.hide()
-  }
+  override fun lifecycle(): Observable<ViewHolderEvent> = lifecycleEvents.hide()
 
-  override fun correspondingEvents(): Function<ViewHolderEvent, ViewHolderEvent> {
-    return CORRESPONDING_EVENTS
-  }
+  override fun correspondingEvents(): Function<ViewHolderEvent, ViewHolderEvent> = CORRESPONDING_EVENTS
 
-  override fun peekLifecycle(): ViewHolderEvent? {
-    return lifecycleEvents.value
-  }
+  override fun peekLifecycle(): ViewHolderEvent? = lifecycleEvents.value
 
   companion object {
 
     private val CORRESPONDING_EVENTS = Function<ViewHolderEvent, ViewHolderEvent> { viewHolderEvent ->
       when (viewHolderEvent) {
         BIND -> UNBIND
-        else -> throw LifecycleEndedException("Cannot use view holder lifecycle after unbind.")
+        else -> throw LifecycleEndedException("Cannot use ViewHolder lifecycle after unbind.")
       }
     }
   }

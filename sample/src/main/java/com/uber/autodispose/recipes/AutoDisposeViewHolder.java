@@ -30,9 +30,9 @@ import io.reactivex.subjects.BehaviorSubject;
 
 /**
  * Example implementation of a {@link android.support.v7.widget.RecyclerView.ViewHolder}
- * implementation that implements {@link LifecycleScopeProvider}. This could be useful for cases where you
- * have subscriptions that should be disposed upon unbinding or otherwise aren't overwritten
- * in future binds.
+ * implementation that implements {@link LifecycleScopeProvider}. This could be useful for cases
+ * where you have subscriptions that should be disposed upon unbinding or otherwise aren't
+ * overwritten in future binds.
  */
 public abstract class AutoDisposeViewHolder
     extends BindAwareViewHolder
@@ -50,7 +50,7 @@ public abstract class AutoDisposeViewHolder
             case BIND:
               return ViewHolderEvent.UNBIND;
             default:
-              throw new LifecycleEndedException("Cannot use view holder lifecycle after unbind.");
+              throw new LifecycleEndedException("Cannot use ViewHolder lifecycle after unbind.");
           }
         }
       };
