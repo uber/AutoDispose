@@ -16,12 +16,14 @@
 
 package com.uber.autodispose;
 
+import com.google.errorprone.annotations.DoNotMock;
 import io.reactivex.Maybe;
 import io.reactivex.annotations.CheckReturnValue;
 
 /**
  * Proves a {@link Maybe} representation of a scope. The emission of this is the signal
  */
+@DoNotMock(value = "Use TestScopeProvider instead")
 public interface ScopeProvider {
 
   /**
