@@ -25,7 +25,7 @@ def versions = [
 ]
 
 def apt = [
-        autoService : "com.google.auto.service:auto-service:1.0-rc3",
+    autoService : "com.google.auto.service:auto-service:1.0-rc4",
 ]
 
 def build = [
@@ -36,8 +36,8 @@ def build = [
     targetSdkVersion: 26,
 
     checkerFramework: 'org.checkerframework:dataflow:2.3.0',
-    errorProneCheckApi: "com.google.errorprone:error_prone_check_api:${versions.errorProne}",
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
+    errorProneCheckApi: "com.google.errorprone:error_prone_check_api:${versions.errorProne}",
     errorProneTestHelpers: "com.google.errorprone:error_prone_test_helpers:${versions.errorProne}",
     nullAway: 'com.uber.nullaway:nullaway:0.2.0',
 

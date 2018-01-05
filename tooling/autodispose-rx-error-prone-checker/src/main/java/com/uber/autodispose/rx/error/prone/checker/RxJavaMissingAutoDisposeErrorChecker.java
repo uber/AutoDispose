@@ -62,6 +62,10 @@ public final class RxJavaMissingAutoDisposeErrorChecker extends BugChecker
 
   private final ImmutableList<String> classesWithLifecycle;
 
+  public RxJavaMissingAutoDisposeErrorChecker() {
+    this(ErrorProneFlags.empty());
+  }
+
   public RxJavaMissingAutoDisposeErrorChecker(ErrorProneFlags flags) {
     Optional<ImmutableList<String>> inputClasses = flags.getList("AutoDisposeLeakCheck");
     ImmutableList.Builder<String> builder = new ImmutableList.Builder<>();
