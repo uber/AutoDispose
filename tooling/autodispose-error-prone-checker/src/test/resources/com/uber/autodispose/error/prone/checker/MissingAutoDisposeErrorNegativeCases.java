@@ -81,26 +81,6 @@ public class MissingAutoDisposeErrorNegativeCases
     return lifecycleSubject.getValue();
   }
 
-  public void observable_subscribeWithTo() {
-    Observable.just(1).to(new ObservableScoper<Integer>(this)).subscribe();
-  }
-
-  public void single_subscribeWithTo() {
-    Single.just(true).to(new SingleScoper<Boolean>(this)).subscribe();
-  }
-
-  public void completable_subscribeWithTo() {
-    Completable.complete().to(new CompletableScoper(this)).subscribe();
-  }
-
-  public void maybe_subscribeWithTo() {
-    Maybe.just(1).to(new MaybeScoper<Integer>(this)).subscribe();
-  }
-
-  public void flowable_subscribeWithTo() {
-    Flowable.just(1).to(new FlowableScoper<Integer>(this)).subscribe();
-  }
-
   public void observable_subscribeWithAs() {
     Observable.just(1).as(AutoDispose.<Integer>autoDisposable(this)).subscribe();
   }

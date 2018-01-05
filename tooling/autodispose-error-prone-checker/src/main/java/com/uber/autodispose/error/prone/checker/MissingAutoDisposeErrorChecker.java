@@ -55,10 +55,8 @@ public final class MissingAutoDisposeErrorChecker extends BugChecker
 
   private static final String AS = "as";
   private static final ImmutableList<MethodMatchers.MethodNameMatcher> AS_CALL_MATCHERS;
-  private static final ImmutableList<MethodMatchers.MethodNameMatcher> TO_CALL_MATCHERS;
   private static final ImmutableList<MethodMatchers.MethodNameMatcher> SUBSCRIBE_MATCHERS;
   private static final String SUBSCRIBE = "subscribe";
-  private static final String TO = "to";
 
   private final ImmutableList<String> classesWithLifecycle;
 
@@ -78,34 +76,21 @@ public final class MissingAutoDisposeErrorChecker extends BugChecker
   }
 
   static {
-    ImmutableList.Builder<MethodMatchers.MethodNameMatcher> builder = new ImmutableList.Builder<>();
-    builder
-        .add(instanceMethod().onDescendantOf("io.reactivex.Single").named(TO))
-        .add(instanceMethod().onDescendantOf("io.reactivex.Observable").named(TO))
-        .add(instanceMethod().onDescendantOf("io.reactivex.Completable").named(TO))
-        .add(instanceMethod().onDescendantOf("io.reactivex.Flowable").named(TO))
-        .add(instanceMethod().onDescendantOf("io.reactivex.Maybe").named(TO));
-    TO_CALL_MATCHERS = builder.build();
-
-    ImmutableList.Builder<MethodMatchers.MethodNameMatcher> builder2
-        = new ImmutableList.Builder<>();
-    builder2
+    AS_CALL_MATCHERS = new ImmutableList.Builder<MethodMatchers.MethodNameMatcher>()
         .add(instanceMethod().onDescendantOf("io.reactivex.Single").named(AS))
         .add(instanceMethod().onDescendantOf("io.reactivex.Observable").named(AS))
         .add(instanceMethod().onDescendantOf("io.reactivex.Completable").named(AS))
         .add(instanceMethod().onDescendantOf("io.reactivex.Flowable").named(AS))
-        .add(instanceMethod().onDescendantOf("io.reactivex.Maybe").named(AS));
-    AS_CALL_MATCHERS = builder2.build();
+        .add(instanceMethod().onDescendantOf("io.reactivex.Maybe").named(AS))
+        .build();
 
-    ImmutableList.Builder<MethodMatchers.MethodNameMatcher> builder3 =
-        new ImmutableList.Builder<>();
-    builder3
+    SUBSCRIBE_MATCHERS = new ImmutableList.Builder<MethodMatchers.MethodNameMatcher>()
         .add(instanceMethod().onDescendantOf("io.reactivex.Single").named(SUBSCRIBE))
         .add(instanceMethod().onDescendantOf("io.reactivex.Observable").named(SUBSCRIBE))
         .add(instanceMethod().onDescendantOf("io.reactivex.Completable").named(SUBSCRIBE))
         .add(instanceMethod().onDescendantOf("io.reactivex.Flowable").named(SUBSCRIBE))
-        .add(instanceMethod().onDescendantOf("io.reactivex.Maybe").named(SUBSCRIBE));
-    SUBSCRIBE_MATCHERS = builder3.build();
+        .add(instanceMethod().onDescendantOf("io.reactivex.Maybe").named(SUBSCRIBE))
+        .build();
   }
 
   private static final Matcher<ExpressionTree> METHOD_NAME_MATCHERS =
@@ -118,16 +103,8 @@ public final class MissingAutoDisposeErrorChecker extends BugChecker
           MethodInvocationTree invTree = (MethodInvocationTree) tree;
 
           final MemberSelectTree memberTree = (MemberSelectTree) invTree.getMethodSelect();
-          if (!memberTree.getIdentifier().contentEquals(TO)) {
+          if (!memberTree.getIdentifier().contentEquals(AS)) {
             return false;
-          }
-
-          for (MethodMatchers.MethodNameMatcher nameMatcher : TO_CALL_MATCHERS) {
-            if (nameMatcher.matches(invTree, state)) {
-              ExpressionTree arg = invTree.getArguments().get(0);
-              final Type scoper = state.getTypeFromString("com.uber.autodispose.Scoper");
-              return ASTHelpers.isSubtype(ASTHelpers.getType(arg), scoper, state);
-            }
           }
 
           for (MethodMatchers.MethodNameMatcher nameMatcher : AS_CALL_MATCHERS) {
