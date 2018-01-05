@@ -27,6 +27,22 @@ public class AutoDisposeParallelFlowableTest {
     AutoDisposePlugins.reset();
   }
 
+  @Test public void ifParallelism_and_subscribersCount_dontMatch_shouldFail() {
+    TestSubscriber<Integer> subscriber = new TestSubscriber<>();
+    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
+
+    //noinspection unchecked
+    Subscriber<Integer>[] subscribers = new Subscriber[] {subscriber};
+    Flowable.just(1, 2)
+        .parallel(DEFAULT_PARALLELISM)
+        .as(AutoDispose.<Integer>autoDisposable(lifecycle))
+        .subscribe(subscribers);
+
+    List<Throwable> errors = subscriber.errors();
+    assertThat(errors).hasSize(1);
+    assertThat(errors.get(0)).isInstanceOf(IllegalArgumentException.class);
+  }
+
   @Test public void autoDispose_withMaybe_normal() {
     TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
     TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();

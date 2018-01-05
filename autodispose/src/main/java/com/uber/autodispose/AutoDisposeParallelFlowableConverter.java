@@ -3,22 +3,20 @@ package com.uber.autodispose;
 import org.reactivestreams.Subscriber;
 
 import io.reactivex.Maybe;
-import io.reactivex.functions.Function;
 import io.reactivex.parallel.ParallelFlowable;
+import io.reactivex.parallel.ParallelFlowableConverter;
 
-class ParallelFlowableScoper<T> extends Scoper
-    implements Function<ParallelFlowable<? extends T>, ParallelFlowableSubscribeProxy<T>> {
+class AutoDisposeParallelFlowableConverter<T> extends Scoper
+    implements ParallelFlowableConverter<T, ParallelFlowableSubscribeProxy<T>> {
 
-  ParallelFlowableScoper(Maybe<?> lifecycle) {
-    super(lifecycle);
+  AutoDisposeParallelFlowableConverter(Maybe<?> scope) {
+    super(scope);
   }
 
-  @Override public ParallelFlowableSubscribeProxy<T> apply(
-          final ParallelFlowable<? extends T> source) throws Exception {
+  @Override public ParallelFlowableSubscribeProxy<T> apply(final ParallelFlowable<T> upstream) {
     return new ParallelFlowableSubscribeProxy<T>() {
-      @Override
-      public void subscribe(Subscriber<? super T>[] subscribers) {
-        new AutoDisposeParallelFlowable<>(source, scope()).subscribe(subscribers);
+      @Override public void subscribe(Subscriber<? super T>[] subscribers) {
+        new AutoDisposeParallelFlowable<>(upstream, scope()).subscribe(subscribers);
       }
     };
   }
@@ -34,6 +32,10 @@ class ParallelFlowableScoper<T> extends Scoper
     }
 
     @Override public void subscribe(Subscriber<? super T>[] subscribers) {
+      if (!validate(subscribers)) {
+        return;
+      }
+
       Subscriber<? super T>[] newSubscribers = new Subscriber[subscribers.length];
       for (int i = 0; i < subscribers.length; i++) {
         AutoDisposingSubscriberImpl<? super T> subscriber =
