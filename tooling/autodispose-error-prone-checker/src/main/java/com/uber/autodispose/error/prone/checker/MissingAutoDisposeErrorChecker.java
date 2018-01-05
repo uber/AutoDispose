@@ -35,7 +35,6 @@ import com.sun.tools.javac.code.Type;
 import java.util.List;
 import java.util.Optional;
 
-import static com.google.errorprone.BugPattern.Category.JDK;
 import static com.google.errorprone.BugPattern.SeverityLevel.ERROR;
 import static com.google.errorprone.matchers.Matchers.instanceMethod;
 
@@ -47,7 +46,7 @@ import static com.google.errorprone.matchers.Matchers.instanceMethod;
 @BugPattern(
     name = "MissingAutoDisposeErrorChecker",
     summary = "Always apply an Autodispose scope before subscribing",
-    category = JDK,
+    tags = {BugPattern.StandardTags.CONCURRENCY},
     severity = ERROR
 )
 public final class MissingAutoDisposeErrorChecker extends BugChecker
@@ -58,7 +57,7 @@ public final class MissingAutoDisposeErrorChecker extends BugChecker
   private static final ImmutableList<MethodMatchers.MethodNameMatcher> SUBSCRIBE_MATCHERS;
   private static final String SUBSCRIBE = "subscribe";
 
-  private final ImmutableList<String> classesWithLifecycle;
+  private final Matcher<MethodInvocationTree> matcher;
 
   public MissingAutoDisposeErrorChecker() {
     this(ErrorProneFlags.empty());
@@ -66,13 +65,13 @@ public final class MissingAutoDisposeErrorChecker extends BugChecker
 
   public MissingAutoDisposeErrorChecker(ErrorProneFlags flags) {
     Optional<ImmutableList<String>> inputClasses = flags.getList("AutoDisposeLeakCheck");
-    ImmutableList.Builder<String> builder = new ImmutableList.Builder<>();
-    classesWithLifecycle = builder
+    ImmutableList<String> classesWithLifecycle = new ImmutableList.Builder<String>()
         .add("android.app.Activity")
         .add("android.app.Fragment")
         .add("com.uber.autodispose.LifecycleScopeProvider")
         .addAll(inputClasses.orElse(ImmutableList.of()))
         .build();
+    matcher = matcher(classesWithLifecycle);
   }
 
   static {
@@ -93,6 +92,9 @@ public final class MissingAutoDisposeErrorChecker extends BugChecker
         .build();
   }
 
+  /**
+   * Matcher to find the as operator in the observable chain.
+   */
   private static final Matcher<ExpressionTree> METHOD_NAME_MATCHERS =
       new Matcher<ExpressionTree>() {
         @Override
@@ -125,45 +127,41 @@ public final class MissingAutoDisposeErrorChecker extends BugChecker
       public boolean matches(MethodInvocationTree tree, VisitorState state) {
 
         boolean matchFound = false;
-        try {
-          final MemberSelectTree memberTree = (MemberSelectTree) tree.getMethodSelect();
-          if (!memberTree.getIdentifier().contentEquals(SUBSCRIBE)) {
-            return false;
-          }
-
-          for (MethodMatchers.MethodNameMatcher nameMatcher : SUBSCRIBE_MATCHERS) {
-            if (!nameMatcher.matches(tree, state)) {
-              continue;
-            } else {
-              matchFound = true;
-              break;
-            }
-          }
-          if (!matchFound) {
-            return false;
-          }
-
-          ClassTree enclosingClass =
-              ASTHelpers.findEnclosingNode(state.getPath(), ClassTree.class);
-          Type.ClassType enclosingClassType = ASTHelpers.getType(enclosingClass);
-
-          for (String s : classesWithLifecycle) {
-            Type lifecycleType = state.getTypeFromString(s);
-            if (ASTHelpers.isSubtype(enclosingClassType, lifecycleType, state)) {
-              return !METHOD_NAME_MATCHERS.matches(memberTree.getExpression(), state);
-            }
-          }
-          return false;
-        } catch (ClassCastException e) {
+        final MemberSelectTree memberTree = (MemberSelectTree) tree.getMethodSelect();
+        if (!memberTree.getIdentifier().contentEquals(SUBSCRIBE)) {
           return false;
         }
+
+        for (MethodMatchers.MethodNameMatcher nameMatcher : SUBSCRIBE_MATCHERS) {
+          if (!nameMatcher.matches(tree, state)) {
+            continue;
+          } else {
+            matchFound = true;
+            break;
+          }
+        }
+        if (!matchFound) {
+          return false;
+        }
+
+        ClassTree enclosingClass =
+            ASTHelpers.findEnclosingNode(state.getPath(), ClassTree.class);
+        Type.ClassType enclosingClassType = ASTHelpers.getType(enclosingClass);
+
+        for (String s : classesWithLifecycle) {
+          Type lifecycleType = state.getTypeFromString(s);
+          if (ASTHelpers.isSubtype(enclosingClassType, lifecycleType, state)) {
+            return !METHOD_NAME_MATCHERS.matches(memberTree.getExpression(), state);
+          }
+        }
+        return false;
       }
     };
   }
 
   @Override
   public Description matchMethodInvocation(MethodInvocationTree tree, VisitorState state) {
-    if (matcher(classesWithLifecycle).matches(tree, state)) {
+    if (matcher.matches(tree, state)) {
       return buildDescription(tree).build();
     } else {
       return Description.NO_MATCH;
