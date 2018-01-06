@@ -21,6 +21,8 @@ import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.subscribers.TestSubscriber;
+
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -77,4 +79,34 @@ public interface FlowableSubscribeProxy<T> {
    * @return an {@link Subscriber}
    */
   @CheckReturnValue <E extends Subscriber<? super T>> E subscribeWith(E observer);
+
+  /**
+  * Creates a TestSubscriber that requests Long.MAX_VALUE and subscribes
+  * it to this Flowable.
+  *
+  * @return a {@link TestSubscriber} that consumes this Flowable in an unbounded fashion.
+  */
+  @CheckReturnValue TestSubscriber<T> test();
+
+  /**
+  * Creates a TestSubscriber with the given initial request amount and subscribes
+  * it to this Flowable.
+  *
+  * @param initialRequest initial request amount.
+  * @return a {@link TestSubscriber} that requests the given {@code initialRequest} amount
+   *        upfront
+  */
+  @CheckReturnValue TestSubscriber<T> test(long initialRequest);
+
+  /**
+   * Creates a TestSubscriber with the given initial request amount,
+   * optionally cancels it before the subscription and subscribes
+   * it to this Flowable.
+   *
+   * @param initialRequest initial request amount
+   * @param cancel if the TestSubscriber shouble be cancelled before subscription or not
+   * @return a {@link TestSubscriber} that requests the given {@code initialRequest} amount
+   *        upfront
+   */
+  @CheckReturnValue TestSubscriber<T> test(long initialRequest, boolean cancel);
 }

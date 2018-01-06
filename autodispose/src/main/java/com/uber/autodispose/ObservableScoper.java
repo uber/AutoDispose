@@ -24,6 +24,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.observers.TestObserver;
 
 /**
  * Entry point for auto-disposing {@link Observable}s.
@@ -96,6 +97,21 @@ public class ObservableScoper<T> extends Scoper
 
       @Override public <E extends Observer<? super T>> E subscribeWith(E observer) {
         return new AutoDisposeObservable<>(observableSource, scope()).subscribeWith(observer);
+      }
+
+      @Override public TestObserver<T> test() {
+        TestObserver<T> observer = new TestObserver<>();
+        subscribe(observer);
+        return observer;
+      }
+
+      @Override public TestObserver<T> test(boolean dispose) {
+        TestObserver<T> observer = new TestObserver<>();
+        if (dispose) {
+            observer.dispose();
+        }
+        subscribe(observer);
+        return observer;
       }
     };
   }

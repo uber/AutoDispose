@@ -22,6 +22,7 @@ import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.observers.TestObserver;
 
 /**
  * Subscribe proxy that matches {@link Observable}'s subscribe overloads.
@@ -77,4 +78,21 @@ public interface ObservableSubscribeProxy<T> {
    * @return an {@link Observer}
    */
   @CheckReturnValue <E extends Observer<? super T>> E subscribeWith(E observer);
+
+  /**
+  * Creates a TestObserver and subscribes
+  * it to this Observable.
+  *
+  * @return a {@link TestObserver}
+  */
+  @CheckReturnValue TestObserver<T> test();
+
+  /**
+   * Creates a TestObserver, optionally disposes it and then subscribes
+   * it to this Observable.
+   *
+   * @param dispose whether to dispose the TestObserver before it is subscribed to this Observable
+   * @return a {@link TestObserver}
+   */
+  @CheckReturnValue TestObserver<T> test(boolean dispose);
 }

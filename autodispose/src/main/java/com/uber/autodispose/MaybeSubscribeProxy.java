@@ -22,6 +22,7 @@ import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.observers.TestObserver;
 
 /**
  * Subscribe proxy that matches {@link Maybe}'s subscribe overloads.
@@ -68,4 +69,20 @@ public interface MaybeSubscribeProxy<T> {
    * @return a {@link MaybeObserver}
    */
   @CheckReturnValue <E extends MaybeObserver<? super T>> E subscribeWith(E observer);
+
+  /**
+   * Creates a TestObserver and subscribes it to this Maybe.
+   *
+   * @return a {@link TestObserver}
+   */
+  @CheckReturnValue TestObserver<T> test();
+
+  /**
+   * Creates a TestObserver, optionally cancels it and then subscribes
+   * it to this Maybe.
+   *
+   * @param cancel whether to cancel the TestObserver before it is subscribed to this Maybe
+   * @return a {@link TestObserver}
+   */
+  @CheckReturnValue TestObserver<T> test(boolean cancel);
 }

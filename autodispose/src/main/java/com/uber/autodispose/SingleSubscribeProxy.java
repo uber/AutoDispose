@@ -22,6 +22,7 @@ import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
+import io.reactivex.observers.TestObserver;
 
 /**
  * Subscribe proxy that matches {@link Single}'s subscribe overloads.
@@ -67,4 +68,20 @@ public interface SingleSubscribeProxy<T> {
    * @return a {@link SingleObserver}
    */
   @CheckReturnValue <E extends SingleObserver<? super T>> E subscribeWith(E observer);
+
+  /**
+   * Creates a TestObserver and subscribes it to this Single.
+   *
+   * @return a {@link TestObserver}
+   */
+  @CheckReturnValue TestObserver<T> test();
+
+  /**
+   * Creates a TestObserver, optionally cancels it and then subscribes
+   * it to this Single.
+   *
+   * @param cancel whether to cancel the TestObserver before it is subscribed to this Single
+   * @return a {@link TestObserver}
+   */
+  @CheckReturnValue TestObserver<T> test(boolean cancel);
 }
