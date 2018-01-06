@@ -170,7 +170,6 @@ public final class MissingAutoDisposeErrorChecker extends BugChecker
 
   @Override
   public String linkUrl() {
-    return "https://github.com/uber/RIBs"
-        + "/blob/memory_leaks_module/android/demos/memory-leaks/README.md";
+    return "http://t.uber.com/autodispose-leak-checker";
   }
 }
