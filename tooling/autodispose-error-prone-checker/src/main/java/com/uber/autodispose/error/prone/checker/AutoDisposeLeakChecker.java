@@ -34,6 +34,9 @@ import com.sun.source.tree.MethodInvocationTree;
 import com.sun.tools.javac.code.Type;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import javax.swing.text.html.Option;
 
 import static com.google.errorprone.BugPattern.SeverityLevel.ERROR;
 import static com.google.errorprone.matchers.Matchers.instanceMethod;
@@ -112,53 +115,54 @@ public final class AutoDisposeLeakChecker extends BugChecker
             return false;
           }
 
-          for (MethodMatchers.MethodNameMatcher nameMatcher : AS_CALL_MATCHERS) {
-            if (nameMatcher.matches(invTree, state)) {
-              ExpressionTree arg = invTree.getArguments().get(0);
-              final Type scoper = state
-                  .getTypeFromString("com.uber.autodispose.AutoDisposeConverter");
-              return ASTHelpers.isSubtype(ASTHelpers.getType(arg), scoper, state);
-            }
-          }
-          return false;
+          return AS_CALL_MATCHERS
+              .stream()
+              .filter(methodNameMatcher -> methodNameMatcher.matches(invTree, state))
+              .map(methodNameMatcher -> {
+                ExpressionTree arg = invTree.getArguments().get(0);
+                final Type scoper = state
+                    .getTypeFromString("com.uber.autodispose.AutoDisposeConverter");
+                return ASTHelpers.isSubtype(ASTHelpers.getType(arg), scoper, state);
+              })
+              .filter(aBoolean -> aBoolean)
+              .findFirst()
+              .orElse(false);
         }
       };
 
   private static Matcher<MethodInvocationTree> matcher(List<String> classesWithLifecycle) {
-    return new Matcher<MethodInvocationTree>() {
-      @Override
-      public boolean matches(MethodInvocationTree tree, VisitorState state) {
+    return (Matcher<MethodInvocationTree>) (tree, state) -> {
 
-        boolean matchFound = false;
-        final MemberSelectTree memberTree = (MemberSelectTree) tree.getMethodSelect();
-        if (!memberTree.getIdentifier().contentEquals(SUBSCRIBE)) {
-          return false;
-        }
-
-        for (MethodMatchers.MethodNameMatcher nameMatcher : SUBSCRIBE_MATCHERS) {
-          if (!nameMatcher.matches(tree, state)) {
-            continue;
-          } else {
-            matchFound = true;
-            break;
-          }
-        }
-        if (!matchFound) {
-          return false;
-        }
-
-        ClassTree enclosingClass =
-            ASTHelpers.findEnclosingNode(state.getPath(), ClassTree.class);
-        Type.ClassType enclosingClassType = ASTHelpers.getType(enclosingClass);
-
-        for (String s : classesWithLifecycle) {
-          Type lifecycleType = state.getTypeFromString(s);
-          if (ASTHelpers.isSubtype(enclosingClassType, lifecycleType, state)) {
-            return !METHOD_NAME_MATCHERS.matches(memberTree.getExpression(), state);
-          }
-        }
+      boolean matchFound = false;
+      final MemberSelectTree memberTree = (MemberSelectTree) tree.getMethodSelect();
+      if (!memberTree.getIdentifier().contentEquals(SUBSCRIBE)) {
         return false;
       }
+
+      for (MethodMatchers.MethodNameMatcher nameMatcher : SUBSCRIBE_MATCHERS) {
+        if (nameMatcher.matches(tree, state)) {
+          matchFound = true;
+          break;
+        }
+      }
+      if (!matchFound) {
+        return false;
+      }
+
+      ClassTree enclosingClass =
+          ASTHelpers.findEnclosingNode(state.getPath(), ClassTree.class);
+      Type.ClassType enclosingClassType = ASTHelpers.getType(enclosingClass);
+
+      return classesWithLifecycle
+          .stream()
+          .map(s -> {
+            Type lifecycleType = state.getTypeFromString(s);
+            return ASTHelpers.isSubtype(enclosingClassType, lifecycleType, state)
+                && !METHOD_NAME_MATCHERS.matches(memberTree.getExpression(), state);
+          })
+          .filter(aBoolean -> aBoolean)
+          .findFirst()
+          .orElse(false);
     };
   }
 
