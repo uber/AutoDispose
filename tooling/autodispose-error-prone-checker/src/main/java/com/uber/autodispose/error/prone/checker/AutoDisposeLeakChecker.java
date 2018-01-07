@@ -173,6 +173,6 @@ public final class AutoDisposeLeakChecker extends BugChecker
 
   @Override
   public String linkUrl() {
-    return "http://t.uber.com/autodispose-leak-checker";
+    return "https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker";
   }
 }
