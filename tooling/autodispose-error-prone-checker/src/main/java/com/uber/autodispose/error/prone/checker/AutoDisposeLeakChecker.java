@@ -44,12 +44,12 @@ import static com.google.errorprone.matchers.Matchers.instanceMethod;
  */
 @AutoService(BugChecker.class)
 @BugPattern(
-    name = "MissingAutoDisposeErrorChecker",
+    name = "AutoDisposeLeakChecker",
     summary = "Always apply an Autodispose scope before subscribing",
     tags = {BugPattern.StandardTags.CONCURRENCY},
     severity = ERROR
 )
-public final class MissingAutoDisposeErrorChecker extends BugChecker
+public final class AutoDisposeLeakChecker extends BugChecker
     implements MethodInvocationTreeMatcher {
 
   private static final String AS = "as";
@@ -59,11 +59,11 @@ public final class MissingAutoDisposeErrorChecker extends BugChecker
 
   private final Matcher<MethodInvocationTree> matcher;
 
-  public MissingAutoDisposeErrorChecker() {
+  public AutoDisposeLeakChecker() {
     this(ErrorProneFlags.empty());
   }
 
-  public MissingAutoDisposeErrorChecker(ErrorProneFlags flags) {
+  public AutoDisposeLeakChecker(ErrorProneFlags flags) {
     Optional<ImmutableList<String>> inputClasses = flags.getList("AutoDisposeLeakCheck");
     ImmutableList<String> classesWithLifecycle = new ImmutableList.Builder<String>()
         .add("android.app.Activity")

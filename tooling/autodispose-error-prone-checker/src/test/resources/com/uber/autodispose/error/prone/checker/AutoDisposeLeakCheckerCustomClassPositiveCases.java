@@ -23,7 +23,7 @@ import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
-public class MissingAutoDisposeErrorPositiveCases2 extends ComponentWithLifeCycle {
+public class AutoDisposeLeakCheckerCustomClassPositiveCases extends ComponentWithLifeCycle {
   public void observable_subscribeWithoutAutodispose() {
     // BUG: Diagnostic contains: Always apply an Autodispose scope before subscribing
     Observable.empty().subscribe();

@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
 /**
  * Cases that use autodispose and should not fail the MissingAutodisposeError check.
  */
-public class MissingAutoDisposeErrorNegativeCases
+public class AutoDisposeLeakCheckerNegativeCases
     implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
 
   private final BehaviorSubject<TestLifecycleScopeProvider.TestLifecycle> lifecycleSubject =

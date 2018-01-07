@@ -26,8 +26,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-@SuppressWarnings("CheckTestExtendsBaseClass")
-public class MissingAutoDisposeErrorCheckerTest {
+public class AutoDisposeLeakCheckerTest {
 
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -37,7 +36,7 @@ public class MissingAutoDisposeErrorCheckerTest {
   public void setup() {
     compilationHelper =
         CompilationTestHelper
-            .newInstance(MissingAutoDisposeErrorChecker.class, getClass());
+            .newInstance(AutoDisposeLeakChecker.class, getClass());
     compilationHelper.setArgs(
         Arrays.asList(
             "-d",
@@ -47,17 +46,17 @@ public class MissingAutoDisposeErrorCheckerTest {
   }
 
   @Test
-  public void test_autodisposePositiveCases() {
-    compilationHelper.addSourceFile("MissingAutoDisposeErrorPositiveCases.java").doTest();
+  public void test_autodisposePositiveCasesWithDefaultClass() {
+    compilationHelper.addSourceFile("AutoDisposeLeakCheckerDefaultClassPositiveCases.java").doTest();
   }
 
   @Test
-  public void test_autodisposePositiveCases2() {
-    compilationHelper.addSourceFile("MissingAutoDisposeErrorPositiveCases2.java").doTest();
+  public void test_autodisposePositiveCaseswithCustomClass() {
+    compilationHelper.addSourceFile("AutoDisposeLeakCheckerCustomClassPositiveCases.java").doTest();
   }
 
   @Test
   public void test_autodisposeNegativeCases() {
-    compilationHelper.addSourceFile("MissingAutoDisposeErrorNegativeCases.java").doTest();
+    compilationHelper.addSourceFile("AutoDisposeLeakCheckerNegativeCases.java").doTest();
   }
 }
