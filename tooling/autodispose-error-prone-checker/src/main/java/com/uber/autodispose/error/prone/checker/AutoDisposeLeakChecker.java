@@ -34,16 +34,17 @@ import com.sun.source.tree.MethodInvocationTree;
 import com.sun.tools.javac.code.Type;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import javax.swing.text.html.Option;
 
 import static com.google.errorprone.BugPattern.SeverityLevel.ERROR;
 import static com.google.errorprone.matchers.Matchers.instanceMethod;
 
 /**
  * Checker for subscriptions not binding to lifecycle in components with lifecycle.
- * Use -XepOpt:AutoDisposeLeakCheck to add support for custom components with lifecycle.
+ * Use -XepOpt:AutoDisposeLeakCheck flag to add support for custom components with lifecycle.
+ * The sample configuration for Conductor:
+ * <pre><code>
+ *   -XepOpt:AutoDisposeLeakCheck=com.bluelinelabs.conductor.Controller,android.app.Activity
+ * </code></pre>
  */
 @AutoService(BugChecker.class)
 @BugPattern(

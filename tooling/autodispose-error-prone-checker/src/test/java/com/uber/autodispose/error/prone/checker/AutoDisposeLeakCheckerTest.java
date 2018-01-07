@@ -45,7 +45,9 @@ public class AutoDisposeLeakCheckerTest {
         Arrays.asList(
             "-d",
             temporaryFolder.getRoot().getAbsolutePath()));
-    compilationHelper.addSourceFile("AutoDisposeLeakCheckerDefaultClassPositiveCases.java").doTest();
+    compilationHelper
+        .addSourceFile("AutoDisposeLeakCheckerDefaultClassPositiveCases.java")
+        .doTest();
   }
 
   @Test
@@ -56,11 +58,15 @@ public class AutoDisposeLeakCheckerTest {
             temporaryFolder.getRoot().getAbsolutePath(),
             "-XepOpt:AutoDisposeLeakCheck"
                 + "=com.uber.autodispose.error.prone.checker.ComponentWithLifeCycle"));
-    compilationHelper.addSourceFile("AutoDisposeLeakCheckerCustomClassPositiveCases.java").doTest();
+    compilationHelper
+        .addSourceFile("AutoDisposeLeakCheckerCustomClassPositiveCases.java")
+        .doTest();
   }
 
   @Test
   public void test_autodisposeNegativeCases() {
-    compilationHelper.addSourceFile("AutoDisposeLeakCheckerNegativeCases.java").doTest();
+    compilationHelper
+        .addSourceFile("AutoDisposeLeakCheckerNegativeCases.java")
+        .doTest();
   }
 }
