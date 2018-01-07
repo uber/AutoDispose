@@ -24,6 +24,7 @@ import com.uber.autodispose.FlowableSubscribeProxy
 import com.uber.autodispose.LifecycleScopeProvider
 import com.uber.autodispose.MaybeSubscribeProxy
 import com.uber.autodispose.ObservableSubscribeProxy
+import com.uber.autodispose.ParallelFlowableSubscribeProxy
 import com.uber.autodispose.ScopeProvider
 import com.uber.autodispose.SingleSubscribeProxy
 import io.reactivex.Completable
@@ -32,6 +33,7 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.annotations.CheckReturnValue
+import io.reactivex.parallel.ParallelFlowable
 import kotlin.DeprecationLevel.ERROR
 
 /**
@@ -270,6 +272,13 @@ inline fun Completable.autoDisposable(scope: Maybe<*>): CompletableSubscribeProx
     = this.`as`(AutoDispose.autoDisposable<Any>(scope))
 
 /**
+ * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> ParallelFlowable<T>.autoDisposable(scope: Maybe<*>): ParallelFlowableSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(scope))
+
+/**
  * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
@@ -303,6 +312,13 @@ inline fun <T> Maybe<T>.autoDisposable(provider: ScopeProvider): MaybeSubscribeP
 @CheckReturnValue
 inline fun Completable.autoDisposable(provider: ScopeProvider): CompletableSubscribeProxy
     = this.`as`(AutoDispose.autoDisposable<Any>(provider))
+
+/**
+ * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> ParallelFlowable<T>.autoDisposable(provider: ScopeProvider): ParallelFlowableSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
  * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
@@ -343,3 +359,11 @@ inline fun <T> Maybe<T>.autoDisposable(provider: LifecycleScopeProvider<*>): May
 inline fun Completable.autoDisposable(
     provider: LifecycleScopeProvider<*>): CompletableSubscribeProxy
     = this.`as`(AutoDispose.autoDisposable<Any>(provider))
+
+/**
+ * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> ParallelFlowable<T>.autoDisposable(
+    provider: LifecycleScopeProvider<*>): ParallelFlowableSubscribeProxy<T>
+    = this.`as`(AutoDispose.autoDisposable(provider))
