@@ -65,12 +65,15 @@ public final class AutoDisposeLeakChecker extends BugChecker
 
   public AutoDisposeLeakChecker(ErrorProneFlags flags) {
     Optional<ImmutableList<String>> inputClasses = flags.getList("AutoDisposeLeakCheck");
-    ImmutableList<String> classesWithLifecycle = new ImmutableList.Builder<String>()
+    ImmutableList<String> defaultClassesWithLifecycle = new ImmutableList.Builder<String>()
         .add("android.app.Activity")
         .add("android.app.Fragment")
         .add("com.uber.autodispose.LifecycleScopeProvider")
-        .addAll(inputClasses.orElse(ImmutableList.of()))
+        .add("android.support.v4.app.Fragment")
+        .add("android.arch.lifecycle.LifecycleOwner")
+        .add("com.uber.autodispose.ScopeProvider")
         .build();
+    ImmutableList<String> classesWithLifecycle = inputClasses.orElse(defaultClassesWithLifecycle);
     matcher = matcher(classesWithLifecycle);
   }
 
