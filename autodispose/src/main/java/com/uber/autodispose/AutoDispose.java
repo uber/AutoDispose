@@ -270,7 +270,7 @@ public final class AutoDispose {
    * Example usage:
    * <pre><code>
    *   Observable.just(1)
-   *        .to(AutoDispose.<Integer>autoDisposable(scope))
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
    *        .subscribe(...)
    * </code></pre>
    *
@@ -294,7 +294,7 @@ public final class AutoDispose {
    * Example usage:
    * <pre><code>
    *   Observable.just(1)
-   *        .to(AutoDispose.<Integer>autoDisposable(scope))
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
    *        .subscribe(...)
    * </code></pre>
    *
@@ -314,7 +314,7 @@ public final class AutoDispose {
    * Example usage:
    * <pre><code>
    *   Observable.just(1)
-   *        .to(AutoDispose.<Integer>autoDisposable(scope))
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
    *        .subscribe(...)
    * </code></pre>
    *
