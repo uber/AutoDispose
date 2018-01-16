@@ -235,13 +235,12 @@ public class AutoDisposeSingleObserverTest {
       @Override public void accept(OutsideLifecycleException e) { }
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     SingleSubject<Integer> source = SingleSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(provider))
-        .subscribe(o);
+      TestObserver<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
+              .test();
 
-    assertThat(source.hasObservers()).isFalse();
+      assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
     o.assertNoValues();
     o.assertNoErrors();
@@ -257,13 +256,12 @@ public class AutoDisposeSingleObserverTest {
     lifecycle.onNext(1);
     lifecycle.onNext(2);
     lifecycle.onNext(3);
-    TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     SingleSubject<Integer> source = SingleSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(provider))
-        .subscribe(o);
+      TestObserver<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
+              .test();
 
-    assertThat(source.hasObservers()).isFalse();
+      assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
     o.assertNoValues();
     o.assertNoErrors();
@@ -278,13 +276,12 @@ public class AutoDisposeSingleObserverTest {
       }
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     SingleSubject<Integer> source = SingleSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(provider))
-        .subscribe(o);
+      TestObserver<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
+              .test();
 
-    o.assertNoValues();
+      o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
         return throwable instanceof IllegalStateException
@@ -352,23 +349,21 @@ public class AutoDisposeSingleObserverTest {
   }
 
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
-    TestObserver<Object> o = new TestObserver<>();
-    SingleSubject.create()
-        .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
-        .subscribe(o);
-    o.assertNoValues();
+      TestObserver<Object> o = SingleSubject.create()
+              .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
+              .test();
+      o.assertNoValues();
     o.assertNoErrors();
 
     rule.assertNoErrors();
   }
 
   @Test public void unbound_shouldStillPassValues() {
-    TestObserver<Integer> o = new TestObserver<>();
     SingleSubject<Integer> s = SingleSubject.create();
-    s.as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
-        .subscribe(o);
+      TestObserver<Integer> o = s.as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
+              .test();
 
-    s.onSuccess(1);
+      s.onSuccess(1);
     o.assertValue(1);
   }
 }

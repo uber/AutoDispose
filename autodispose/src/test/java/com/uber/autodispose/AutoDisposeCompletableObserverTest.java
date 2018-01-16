@@ -226,13 +226,12 @@ public class AutoDisposeCompletableObserverTest {
       @Override public void accept(OutsideLifecycleException e) { }
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     CompletableSubject source = CompletableSubject.create();
-    source.as(autoDisposable(provider))
-        .subscribe(o);
+      TestObserver<Void> o = source.as(autoDisposable(provider))
+              .test();
 
-    assertThat(source.hasObservers()).isFalse();
+      assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
     o.assertNoValues();
     o.assertNoErrors();
@@ -248,13 +247,12 @@ public class AutoDisposeCompletableObserverTest {
     lifecycle.onNext(1);
     lifecycle.onNext(2);
     lifecycle.onNext(3);
-    TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     CompletableSubject source = CompletableSubject.create();
-    source.as(autoDisposable(provider))
-        .subscribe(o);
+      TestObserver<Void> o = source.as(autoDisposable(provider))
+              .test();
 
-    assertThat(source.hasObservers()).isFalse();
+      assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
     o.assertNoValues();
     o.assertNoErrors();
@@ -269,13 +267,12 @@ public class AutoDisposeCompletableObserverTest {
       }
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    CompletableSubject source = CompletableSubject.create();
-    source.as(autoDisposable(provider))
-        .subscribe(o);
+      TestObserver<Void> o = CompletableSubject.create()
+              .as(autoDisposable(provider))
+              .test();
 
-    o.assertNoValues();
+      o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
         return throwable instanceof IllegalStateException
@@ -347,23 +344,22 @@ public class AutoDisposeCompletableObserverTest {
   }
 
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
-    TestObserver<Object> o = new TestObserver<>();
-    CompletableSubject.create()
-        .as(autoDisposable(ScopeProvider.UNBOUND))
-        .subscribe(o);
-    o.assertNoValues();
-    o.assertNoErrors();
+      TestObserver<Void> o = CompletableSubject.create()
+              .as(autoDisposable(ScopeProvider.UNBOUND))
+              .test();
 
-    rule.assertNoErrors();
+      o.assertNoValues();
+      o.assertNoErrors();
+
+      rule.assertNoErrors();
   }
 
   @Test public void unbound_shouldStillPassValues() {
-    TestObserver<Object> o = new TestObserver<>();
-    CompletableSubject s = CompletableSubject.create();
-    s.as(autoDisposable(ScopeProvider.UNBOUND))
-        .subscribe(o);
+      TestObserver<Void> o = CompletableSubject.create()
+      .as(autoDisposable(ScopeProvider.UNBOUND))
+              .test();
 
-    s.onComplete();
-    o.assertComplete();
+      o.onComplete();
+      o.assertComplete();
   }
 }
