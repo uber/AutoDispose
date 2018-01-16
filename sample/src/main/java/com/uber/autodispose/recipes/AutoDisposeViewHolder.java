@@ -16,51 +16,68 @@
 
 package com.uber.autodispose.recipes;
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.BindAwareViewHolder;
 import android.view.View;
-import com.uber.autodispose.ScopeProvider;
-import io.reactivex.Maybe;
-import io.reactivex.subjects.MaybeSubject;
+
+import com.uber.autodispose.LifecycleEndedException;
+import com.uber.autodispose.LifecycleScopeProvider;
+
+import javax.annotation.Nullable;
+
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
+import io.reactivex.subjects.BehaviorSubject;
 
 /**
  * Example implementation of a {@link android.support.v7.widget.RecyclerView.ViewHolder}
- * implementation that implements {@link ScopeProvider}. This could be useful for cases where you
- * have subscriptions that should be disposed upon unbinding or otherwise aren't overwritten
- * in future binds.
+ * implementation that implements {@link LifecycleScopeProvider}. This could be useful for cases
+ * where you have subscriptions that should be disposed upon unbinding or otherwise aren't
+ * overwritten in future binds.
  */
-public abstract class AutoDisposeViewHolder extends BindAwareViewHolder implements ScopeProvider {
+public abstract class AutoDisposeViewHolder
+    extends BindAwareViewHolder
+    implements LifecycleScopeProvider<AutoDisposeViewHolder.ViewHolderEvent> {
 
-  private static final Object NOTIFICATION = new Object();
+  public enum ViewHolderEvent {
+    BIND, UNBIND
+  }
 
-  @Nullable private MaybeSubject<Object> unbindNotifier = null;
+  private static final Function<ViewHolderEvent, ViewHolderEvent> CORRESPONDING_EVENTS =
+      new Function<ViewHolderEvent, ViewHolderEvent>() {
+        @Override
+        public ViewHolderEvent apply(final ViewHolderEvent viewHolderEvent) throws Exception {
+          switch (viewHolderEvent) {
+            case BIND:
+              return ViewHolderEvent.UNBIND;
+            default:
+              throw new LifecycleEndedException("Cannot use ViewHolder lifecycle after unbind.");
+          }
+        }
+      };
+
+  private final BehaviorSubject<ViewHolderEvent> lifecycleEvents = BehaviorSubject.create();
 
   public AutoDisposeViewHolder(View itemView) {
     super(itemView);
   }
 
-  private synchronized MaybeSubject<Object> notifier() {
-    MaybeSubject<Object> n = unbindNotifier;
-    if (n == null) {
-      n = MaybeSubject.create();
-      unbindNotifier = n;
-    }
-    return n;
+  @Override public Function<ViewHolderEvent, ViewHolderEvent> correspondingEvents() {
+    return CORRESPONDING_EVENTS;
+  }
+
+  @Override public Observable<ViewHolderEvent> lifecycle() {
+    return lifecycleEvents.hide();
+  }
+
+  @Nullable @Override public ViewHolderEvent peekLifecycle() {
+    return lifecycleEvents.getValue();
+  }
+
+  @Override protected void onBind() {
+    lifecycleEvents.onNext(ViewHolderEvent.BIND);
   }
 
   @Override protected void onUnbind() {
-    emitUnbindIfPresent();
-    unbindNotifier = null;
-  }
-
-  private void emitUnbindIfPresent() {
-    MaybeSubject<Object> notifier = unbindNotifier;
-    if (notifier != null && !notifier.hasComplete()) {
-      notifier.onSuccess(NOTIFICATION);
-    }
-  }
-
-  @Override public final Maybe<?> requestScope() {
-    return notifier();
+    lifecycleEvents.onNext(ViewHolderEvent.UNBIND);
   }
 }

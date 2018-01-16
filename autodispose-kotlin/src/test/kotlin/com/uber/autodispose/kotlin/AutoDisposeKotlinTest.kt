@@ -36,6 +36,9 @@ import org.junit.Test
 
 class AutoDisposeKotlinTest {
 
+  companion object {
+      private const val DEFAULT_PARALLELISM = 2
+  }
   private val o = TestObserver<String>()
   private val s = TestSubscriber<String>()
   private val scopeMaybe = MaybeSubject.create<Any>()
@@ -513,6 +516,133 @@ class AutoDisposeKotlinTest {
         .subscribe(o)
 
     o.assertError { it is LifecycleEndedException }
+  }
+
+  @Test fun parallelFlowable_maybeNormalCompletion() {
+    val s2 = TestSubscriber<String>()
+    Flowable.just(  "Hello", "World")
+        .parallel(DEFAULT_PARALLELISM)
+        .autoDisposable(scopeMaybe)
+        .subscribe(arrayOf(s, s2))
+
+    s.assertValue { it == "Hello" }
+    s2.assertValue { it == "World" }
+    s.assertComplete()
+    s2.assertComplete()
+  }
+
+  @Test fun parallelFlowable_maybeNormalInterrupted() {
+    val subject = PublishSubject.create<String>()
+    val s2 = TestSubscriber<String>()
+    subject.toFlowable(ERROR)
+        .parallel(DEFAULT_PARALLELISM)
+        .autoDisposable(scopeMaybe)
+        .subscribe(arrayOf(s, s2))
+
+    subject.onNext("Hello")
+    subject.onNext("World")
+
+    s.assertValue { it == "Hello" }
+    s2.assertValue{ it == "World" }
+
+    scopeMaybe.onSuccess(Object())
+
+    // https://github.com/ReactiveX/RxJava/issues/5178
+//    assertThat(s.isDisposed).isTrue()
+//    s.assertNotSubscribed()
+  }
+
+  @Test fun parallelFlowable_scopeProviderNormalCompletion() {
+    val s2 = TestSubscriber<String>()
+    Flowable.just("Hello", "World")
+        .parallel(DEFAULT_PARALLELISM)
+        .autoDisposable(scopeProvider)
+        .subscribe(arrayOf(s, s2))
+
+    s.assertValue { it == "Hello" }
+    s.assertComplete()
+    s2.assertValue { it == "World" }
+    s2.assertComplete()
+  }
+
+  @Test fun parallelFlowable_scopeProviderNormalInterrupted() {
+    val subject = PublishSubject.create<String>()
+    val s2 = TestSubscriber<String>()
+    subject.toFlowable(ERROR)
+        .parallel(DEFAULT_PARALLELISM)
+        .autoDisposable(scopeProvider)
+        .subscribe(arrayOf(s, s2))
+
+    subject.onNext("Hello")
+    subject.onNext("World")
+
+    s.assertValue { it == "Hello" }
+    s2.assertValue { it == "World" }
+
+    scopeMaybe.onSuccess(Object())
+
+// https://github.com/ReactiveX/RxJava/issues/5178
+//    assertThat(s.isDisposed).isTrue()
+//    s.assertNotSubscribed()
+  }
+
+  @Test fun parallelFlowable_lifecycleNotStarted() {
+    val s2 = TestSubscriber<String>()
+    Flowable.just("Hello", "World")
+        .parallel(DEFAULT_PARALLELISM)
+        .autoDisposable(lifecycleScopeProvider)
+        .subscribe(arrayOf(s, s2))
+
+    s.assertError { it is LifecycleNotStartedException }
+    s2.assertError { it is LifecycleNotStartedException }
+  }
+
+  @Test fun parallelFlowable_lifecycleNormalCompletion() {
+    lifecycleScopeProvider.start()
+    val s2 = TestSubscriber<String>()
+    Flowable.just("Hello", "World")
+        .parallel(DEFAULT_PARALLELISM)
+        .autoDisposable(lifecycleScopeProvider)
+        .subscribe(arrayOf(s, s2))
+
+    s.assertValue { it == "Hello" }
+    s.assertComplete()
+    s2.assertValue { it == "World" }
+    s2.assertComplete()
+  }
+
+  @Test fun parallelFlowable_lifecycleNormalInterrupted() {
+    lifecycleScopeProvider.start()
+    val subject = PublishSubject.create<String>()
+    val s2 = TestSubscriber<String>()
+    subject.toFlowable(ERROR)
+        .parallel(DEFAULT_PARALLELISM)
+        .autoDisposable(lifecycleScopeProvider)
+        .subscribe(arrayOf(s, s2))
+
+    subject.onNext("Hello")
+    subject.onNext("World")
+
+    s.assertValue { it == "Hello" }
+    s2.assertValue { it == "World" }
+    lifecycleScopeProvider.stop()
+
+// https://github.com/ReactiveX/RxJava/issues/5178
+//    assertThat(s.isDisposed).isTrue()
+//    s.assertNotSubscribed()
+  }
+
+  @Test fun parallelFlowable_lifecycleEnded() {
+    lifecycleScopeProvider.start()
+    lifecycleScopeProvider.stop()
+    val s2 = TestSubscriber<String>()
+    Flowable.just("Hello")
+        .parallel(DEFAULT_PARALLELISM)
+        .autoDisposable(lifecycleScopeProvider)
+        .subscribe(arrayOf(s, s2))
+
+    s.assertError { it is LifecycleEndedException }
+    s2.assertError { it is LifecycleEndedException }
   }
 
 }

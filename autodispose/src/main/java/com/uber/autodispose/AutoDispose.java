@@ -25,6 +25,8 @@ import io.reactivex.ObservableConverter;
 import io.reactivex.Single;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.functions.Function;
+import io.reactivex.parallel.ParallelFlowable;
+
 import java.util.concurrent.Callable;
 
 import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
@@ -268,7 +270,7 @@ public final class AutoDispose {
    * Example usage:
    * <pre><code>
    *   Observable.just(1)
-   *        .to(AutoDispose.<Integer>autoDisposable(scope))
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
    *        .subscribe(...)
    * </code></pre>
    *
@@ -292,7 +294,7 @@ public final class AutoDispose {
    * Example usage:
    * <pre><code>
    *   Observable.just(1)
-   *        .to(AutoDispose.<Integer>autoDisposable(scope))
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
    *        .subscribe(...)
    * </code></pre>
    *
@@ -312,7 +314,7 @@ public final class AutoDispose {
    * Example usage:
    * <pre><code>
    *   Observable.just(1)
-   *        .to(AutoDispose.<Integer>autoDisposable(scope))
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
    *        .subscribe(...)
    * </code></pre>
    *
@@ -324,6 +326,11 @@ public final class AutoDispose {
   public static <T> AutoDisposeConverter<T> autoDisposable(final Maybe<?> scope) {
     checkNotNull(scope, "scope == null");
     return new AutoDisposeConverter<T>() {
+      @Override
+      public ParallelFlowableSubscribeProxy<T> apply(ParallelFlowable<T> upstream) {
+        return upstream.as(new ParallelFlowableScoper<T>(scope));
+      }
+
       @Override public CompletableSubscribeProxy apply(Completable upstream) {
         return upstream.to(new CompletableScoper(scope));
       }
