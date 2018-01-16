@@ -228,10 +228,11 @@ public class AutoDisposeCompletableObserverTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     CompletableSubject source = CompletableSubject.create();
-      TestObserver<Void> o = source.as(autoDisposable(provider))
-              .test();
+    TestObserver<Void> o = source
+            .as(autoDisposable(provider))
+            .test();
 
-      assertThat(source.hasObservers()).isFalse();
+    assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
     o.assertNoValues();
     o.assertNoErrors();
@@ -249,10 +250,11 @@ public class AutoDisposeCompletableObserverTest {
     lifecycle.onNext(3);
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     CompletableSubject source = CompletableSubject.create();
-      TestObserver<Void> o = source.as(autoDisposable(provider))
-              .test();
+    TestObserver<Void> o = source
+            .as(autoDisposable(provider))
+            .test();
 
-      assertThat(source.hasObservers()).isFalse();
+    assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
     o.assertNoValues();
     o.assertNoErrors();
@@ -268,11 +270,11 @@ public class AutoDisposeCompletableObserverTest {
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-      TestObserver<Void> o = CompletableSubject.create()
+    TestObserver<Void> o = CompletableSubject.create()
               .as(autoDisposable(provider))
               .test();
 
-      o.assertNoValues();
+    o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
         return throwable instanceof IllegalStateException
@@ -344,22 +346,21 @@ public class AutoDisposeCompletableObserverTest {
   }
 
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
-      TestObserver<Void> o = CompletableSubject.create()
+    TestObserver<Void> o = CompletableSubject.create()
               .as(autoDisposable(ScopeProvider.UNBOUND))
               .test();
+    o.assertNoValues();
+    o.assertNoErrors();
 
-      o.assertNoValues();
-      o.assertNoErrors();
-
-      rule.assertNoErrors();
+    rule.assertNoErrors();
   }
 
   @Test public void unbound_shouldStillPassValues() {
-      TestObserver<Void> o = CompletableSubject.create()
-      .as(autoDisposable(ScopeProvider.UNBOUND))
-              .test();
+    TestObserver<Void> o = CompletableSubject.create()
+            .as(autoDisposable(ScopeProvider.UNBOUND))
+            .test();
 
-      o.onComplete();
-      o.assertComplete();
+    o.onComplete();
+    o.assertComplete();
   }
 }

@@ -267,10 +267,11 @@ public class AutoDisposeMaybeObserverTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     MaybeSubject<Integer> source = MaybeSubject.create();
-      TestObserver<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
-              .test();
+    TestObserver<Integer> o = source
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
 
-      assertThat(source.hasObservers()).isFalse();
+    assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
     o.assertNoValues();
     o.assertNoErrors();
@@ -288,10 +289,11 @@ public class AutoDisposeMaybeObserverTest {
     lifecycle.onNext(3);
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     MaybeSubject<Integer> source = MaybeSubject.create();
-      TestObserver<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
-              .test();
+    TestObserver<Integer> o = source
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
 
-      assertThat(source.hasObservers()).isFalse();
+    assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
     o.assertNoValues();
     o.assertNoErrors();
@@ -308,10 +310,11 @@ public class AutoDisposeMaybeObserverTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     MaybeSubject<Integer> source = MaybeSubject.create();
-      TestObserver<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
-              .test();
+    TestObserver<Integer> o = source
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
 
-      o.assertNoValues();
+    o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
         return throwable instanceof IllegalStateException
@@ -379,10 +382,10 @@ public class AutoDisposeMaybeObserverTest {
   }
 
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
-      TestObserver<Object> o = MaybeSubject.create()
-              .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
-              .test();
-      o.assertNoValues();
+    TestObserver<Object> o = MaybeSubject.create()
+            .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
+            .test();
+    o.assertNoValues();
     o.assertNoErrors();
 
     rule.assertNoErrors();
@@ -390,10 +393,11 @@ public class AutoDisposeMaybeObserverTest {
 
   @Test public void unbound_shouldStillPassValues() {
     MaybeSubject<Integer> s = MaybeSubject.create();
-      TestObserver<Integer> o = s.as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
-              .test();
+    TestObserver<Integer> o = s
+            .as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
+            .test();
 
-      s.onSuccess(1);
+    s.onSuccess(1);
     o.assertValue(1);
   }
 }

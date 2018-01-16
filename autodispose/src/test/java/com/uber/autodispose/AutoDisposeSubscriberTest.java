@@ -85,9 +85,10 @@ public class AutoDisposeSubscriberTest {
   @Test public void autoDispose_withMaybe_interrupted() {
     PublishProcessor<Integer> source = PublishProcessor.create();
     MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-      TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(lifecycle))
-              .test();
-      o.assertSubscribed();
+    TestSubscriber<Integer> o = source
+            .as(AutoDispose.<Integer>autoDisposable(lifecycle))
+            .test();
+    o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(lifecycle.hasObservers()).isTrue();
@@ -110,9 +111,10 @@ public class AutoDisposeSubscriberTest {
     PublishProcessor<Integer> source = PublishProcessor.create();
     MaybeSubject<Integer> scope = MaybeSubject.create();
     ScopeProvider provider = TestUtil.makeProvider(scope);
-      TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
-              .test();
-      o.assertSubscribed();
+    TestSubscriber<Integer> o = source
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
+    o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(scope.hasObservers()).isTrue();
@@ -141,9 +143,10 @@ public class AutoDisposeSubscriberTest {
     PublishProcessor<Integer> source = PublishProcessor.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-      TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
-              .test();
-      o.assertSubscribed();
+    TestSubscriber<Integer> o = source
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
+    o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(lifecycle.hasObservers()).isTrue();
@@ -172,11 +175,11 @@ public class AutoDisposeSubscriberTest {
   @Test public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-      TestSubscriber<Integer> o = Flowable.just(1)
-              .as(AutoDispose.<Integer>autoDisposable(provider))
-              .test();
+    TestSubscriber<Integer> o = Flowable.just(1)
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
 
-      List<Throwable> errors = o.errors();
+    List<Throwable> errors = o.errors();
     assertThat(errors).hasSize(1);
     assertThat(errors.get(0)).isInstanceOf(LifecycleNotStartedException.class);
   }
@@ -187,11 +190,11 @@ public class AutoDisposeSubscriberTest {
     lifecycle.onNext(2);
     lifecycle.onNext(3);
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-      TestSubscriber<Integer> o = Flowable.just(1)
-              .as(AutoDispose.<Integer>autoDisposable(provider))
-              .test();
+    TestSubscriber<Integer> o = Flowable.just(1)
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
 
-      List<Throwable> errors = o.errors();
+    List<Throwable> errors = o.errors();
     assertThat(errors).hasSize(1);
     assertThat(errors.get(0)).isInstanceOf(LifecycleEndedException.class);
   }
@@ -203,10 +206,11 @@ public class AutoDisposeSubscriberTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-      TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
-              .test();
+    TestSubscriber<Integer> o = source
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
 
-      assertThat(source.hasSubscribers()).isFalse();
+    assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
     o.assertNoValues();
     o.assertNoErrors();
@@ -224,10 +228,11 @@ public class AutoDisposeSubscriberTest {
     lifecycle.onNext(3);
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-      TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
-              .test();
+    TestSubscriber<Integer> o = source
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
 
-      assertThat(source.hasSubscribers()).isFalse();
+    assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
     o.assertNoValues();
     o.assertNoErrors();
@@ -244,10 +249,11 @@ public class AutoDisposeSubscriberTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-      TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
-              .test();
+    TestSubscriber<Integer> o = source
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
 
-      o.assertNoValues();
+    o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
         return throwable instanceof IllegalStateException
@@ -324,10 +330,10 @@ public class AutoDisposeSubscriberTest {
   }
 
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
-      TestSubscriber<Object> o = PublishProcessor.create()
+    TestSubscriber<Object> o = PublishProcessor.create()
               .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
               .test();
-      o.assertNoValues();
+    o.assertNoValues();
     o.assertNoErrors();
 
     rule.assertNoErrors();
@@ -335,10 +341,11 @@ public class AutoDisposeSubscriberTest {
 
   @Test public void unbound_shouldStillPassValues() {
     PublishProcessor<Integer> s = PublishProcessor.create();
-      TestSubscriber<Integer> o = s.as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
-              .test();
+    TestSubscriber<Integer> o = s
+            .as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
+            .test();
 
-      s.onNext(1);
+    s.onNext(1);
     o.assertValue(1);
     o.dispose();
   }
