@@ -83,18 +83,18 @@ public class CompletableScoper extends Scoper
       }
 
       @Override public TestObserver<Void> test() {
-         TestObserver<Void> observer = new TestObserver<>();
-         subscribe(observer);
-         return observer;
+        TestObserver<Void> observer = new TestObserver<>();
+        subscribe(observer);
+        return observer;
       }
 
       @Override public TestObserver<Void> test(boolean cancel) {
-         TestObserver<Void> observer = new TestObserver<>();
-         if (cancel) {
-             observer.cancel();
-         }
-         subscribe(observer);
-         return observer;
+        TestObserver<Void> observer = new TestObserver<>();
+        if (cancel) {
+            observer.cancel();
+        }
+        subscribe(observer);
+        return observer;
       }
     };
   }
