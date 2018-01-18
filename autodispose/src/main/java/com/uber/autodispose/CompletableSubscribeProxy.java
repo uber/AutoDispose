@@ -63,14 +63,14 @@ public interface CompletableSubscribeProxy {
   @CheckReturnValue <E extends CompletableObserver> E subscribeWith(E observer);
 
   /**
-   * Proxy for {@link Completable#test()}
+   * Proxy for {@link Completable#test()}.
    *
    * @return a {@link TestObserver}
    */
   @CheckReturnValue TestObserver<Void> test();
 
   /**
-   * Proxy for {@link Completable#test(boolean)}
+   * Proxy for {@link Completable#test(boolean)}.
    *
    * @return a {@link TestObserver}
    */

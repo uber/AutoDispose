@@ -81,21 +81,21 @@ public interface FlowableSubscribeProxy<T> {
   @CheckReturnValue <E extends Subscriber<? super T>> E subscribeWith(E observer);
 
   /**
-  * Proxy for {@link Flowable#test()}
+  * Proxy for {@link Flowable#test()}.
   *
   * @return a {@link TestSubscriber}
   */
   @CheckReturnValue TestSubscriber<T> test();
 
   /**
-  * Proxy for {@link Flowable#test(long)}
+  * Proxy for {@link Flowable#test(long)}.
   *
   * @return a {@link TestSubscriber}
   */
   @CheckReturnValue TestSubscriber<T> test(long initialRequest);
 
   /**
-   * Proxy for {@link Flowable#test(long, boolean)}
+   * Proxy for {@link Flowable#test(long, boolean)}.
    *
    * @return a {@link TestSubscriber}
    */

@@ -70,14 +70,14 @@ public interface SingleSubscribeProxy<T> {
   @CheckReturnValue <E extends SingleObserver<? super T>> E subscribeWith(E observer);
 
   /**
-   * Proxy for {@link Single#test()}
+   * Proxy for {@link Single#test()}.
    *
    * @return a {@link TestObserver}
    */
   @CheckReturnValue TestObserver<T> test();
 
   /**
-   * Proxy for {@link Single#test(boolean)}
+   * Proxy for {@link Single#test(boolean)}.
    *
    * @return a {@link TestObserver}
    */

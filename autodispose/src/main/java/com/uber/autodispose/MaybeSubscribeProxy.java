@@ -71,14 +71,14 @@ public interface MaybeSubscribeProxy<T> {
   @CheckReturnValue <E extends MaybeObserver<? super T>> E subscribeWith(E observer);
 
   /**
-   * Proxy for {@link Maybe#test()}
+   * Proxy for {@link Maybe#test()}.
    *
    * @return a {@link TestObserver}
    */
   @CheckReturnValue TestObserver<T> test();
 
   /**
-   * Proxy for {@link Maybe#test(boolean)}
+   * Proxy for {@link Maybe#test(boolean)}.
    *
    * @return a {@link TestObserver}
    */

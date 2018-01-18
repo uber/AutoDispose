@@ -80,14 +80,14 @@ public interface ObservableSubscribeProxy<T> {
   @CheckReturnValue <E extends Observer<? super T>> E subscribeWith(E observer);
 
   /**
-  * Proxy for {@link Observable#test()}
+  * Proxy for {@link Observable#test()}.
   *
   * @return a {@link TestObserver}
   */
   @CheckReturnValue TestObserver<T> test();
 
   /**
-   * Proxy for {@link Observable#test(boolean)}
+   * Proxy for {@link Observable#test(boolean)}.
    *
    * @return a {@link TestObserver}
    */
