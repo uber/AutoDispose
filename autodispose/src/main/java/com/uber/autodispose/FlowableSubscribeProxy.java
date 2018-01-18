@@ -81,32 +81,23 @@ public interface FlowableSubscribeProxy<T> {
   @CheckReturnValue <E extends Subscriber<? super T>> E subscribeWith(E observer);
 
   /**
-  * Creates a TestSubscriber that requests Long.MAX_VALUE and subscribes
-  * it to this Flowable.
+  * Proxy for {@link Flowable#test()}
   *
-  * @return a {@link TestSubscriber} that consumes this Flowable in an unbounded fashion.
+  * @return a {@link TestSubscriber}
   */
   @CheckReturnValue TestSubscriber<T> test();
 
   /**
-  * Creates a TestSubscriber with the given initial request amount and subscribes
-  * it to this Flowable.
+  * Proxy for {@link Flowable#test(long)}
   *
-  * @param initialRequest initial request amount.
-  * @return a {@link TestSubscriber} that requests the given {@code initialRequest} amount
-   *        upfront
+  * @return a {@link TestSubscriber}
   */
   @CheckReturnValue TestSubscriber<T> test(long initialRequest);
 
   /**
-   * Creates a TestSubscriber with the given initial request amount,
-   * optionally cancels it before the subscription and subscribes
-   * it to this Flowable.
+   * Proxy for {@link Flowable#test(long, boolean)}
    *
-   * @param initialRequest initial request amount
-   * @param cancel if the TestSubscriber shouble be cancelled before subscription or not
-   * @return a {@link TestSubscriber} that requests the given {@code initialRequest} amount
-   *        upfront
+   * @return a {@link TestSubscriber}
    */
   @CheckReturnValue TestSubscriber<T> test(long initialRequest, boolean cancel);
 }

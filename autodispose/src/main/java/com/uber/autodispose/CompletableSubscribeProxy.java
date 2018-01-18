@@ -63,18 +63,15 @@ public interface CompletableSubscribeProxy {
   @CheckReturnValue <E extends CompletableObserver> E subscribeWith(E observer);
 
   /**
-   * Creates a TestObserver and subscribes
-   * it to this Completable.
+   * Proxy for {@link Completable#test()}
    *
    * @return a {@link TestObserver}
    */
   @CheckReturnValue TestObserver<Void> test();
 
   /**
-   * Creates a TestObserver, optionally cancels it and then subscribes
-   * it to this Completable.
+   * Proxy for {@link Completable#test(boolean)}
    *
-   * @param cancel whether to cancel the TestObserver before it is subscribed to this Completable
    * @return a {@link TestObserver}
    */
   @CheckReturnValue TestObserver<Void> test(boolean cancel);

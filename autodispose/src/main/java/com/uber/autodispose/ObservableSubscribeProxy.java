@@ -80,18 +80,15 @@ public interface ObservableSubscribeProxy<T> {
   @CheckReturnValue <E extends Observer<? super T>> E subscribeWith(E observer);
 
   /**
-  * Creates a TestObserver and subscribes
-  * it to this Observable.
+  * Proxy for {@link Observable#test()}
   *
   * @return a {@link TestObserver}
   */
   @CheckReturnValue TestObserver<T> test();
 
   /**
-   * Creates a TestObserver, optionally disposes it and then subscribes
-   * it to this Observable.
+   * Proxy for {@link Observable#test(boolean)}
    *
-   * @param dispose whether to dispose the TestObserver before it is subscribed to this Observable
    * @return a {@link TestObserver}
    */
   @CheckReturnValue TestObserver<T> test(boolean dispose);

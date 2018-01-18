@@ -70,17 +70,15 @@ public interface SingleSubscribeProxy<T> {
   @CheckReturnValue <E extends SingleObserver<? super T>> E subscribeWith(E observer);
 
   /**
-   * Creates a TestObserver and subscribes it to this Single.
+   * Proxy for {@link Single#test()}
    *
    * @return a {@link TestObserver}
    */
   @CheckReturnValue TestObserver<T> test();
 
   /**
-   * Creates a TestObserver, optionally cancels it and then subscribes
-   * it to this Single.
+   * Proxy for {@link Single#test(boolean)}
    *
-   * @param cancel whether to cancel the TestObserver before it is subscribed to this Single
    * @return a {@link TestObserver}
    */
   @CheckReturnValue TestObserver<T> test(boolean cancel);

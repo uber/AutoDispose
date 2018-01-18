@@ -71,17 +71,15 @@ public interface MaybeSubscribeProxy<T> {
   @CheckReturnValue <E extends MaybeObserver<? super T>> E subscribeWith(E observer);
 
   /**
-   * Creates a TestObserver and subscribes it to this Maybe.
+   * Proxy for {@link Maybe#test()}
    *
    * @return a {@link TestObserver}
    */
   @CheckReturnValue TestObserver<T> test();
 
   /**
-   * Creates a TestObserver, optionally cancels it and then subscribes
-   * it to this Maybe.
+   * Proxy for {@link Maybe#test(boolean)}
    *
-   * @param cancel whether to cancel the TestObserver before it is subscribed to this Maybe
    * @return a {@link TestObserver}
    */
   @CheckReturnValue TestObserver<T> test(boolean cancel);
