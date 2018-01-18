@@ -265,11 +265,11 @@ public class AutoDisposeMaybeObserverTest {
       @Override public void accept(OutsideLifecycleException e) { }
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(provider))
-        .subscribe(o);
+    TestObserver<Integer> o = source
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -287,11 +287,11 @@ public class AutoDisposeMaybeObserverTest {
     lifecycle.onNext(1);
     lifecycle.onNext(2);
     lifecycle.onNext(3);
-    TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(provider))
-        .subscribe(o);
+    TestObserver<Integer> o = source
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -308,11 +308,11 @@ public class AutoDisposeMaybeObserverTest {
       }
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    TestObserver<Integer> o = new TestObserver<>();
     LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(provider))
-        .subscribe(o);
+    TestObserver<Integer> o = source
+            .as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
 
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
@@ -382,10 +382,9 @@ public class AutoDisposeMaybeObserverTest {
   }
 
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
-    TestObserver<Object> o = new TestObserver<>();
-    MaybeSubject.create()
-        .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
-        .subscribe(o);
+    TestObserver<Object> o = MaybeSubject.create()
+            .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
+            .test();
     o.assertNoValues();
     o.assertNoErrors();
 
@@ -393,10 +392,10 @@ public class AutoDisposeMaybeObserverTest {
   }
 
   @Test public void unbound_shouldStillPassValues() {
-    TestObserver<Integer> o = new TestObserver<>();
     MaybeSubject<Integer> s = MaybeSubject.create();
-    s.as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
-        .subscribe(o);
+    TestObserver<Integer> o = s
+            .as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
+            .test();
 
     s.onSuccess(1);
     o.assertValue(1);
