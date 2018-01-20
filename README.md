@@ -285,6 +285,12 @@ Javadocs and KDocs for the most recent release can be found here: https://uber.g
 
 Snapshots of the development version are available in [Sonatype's snapshots repository][snapshots].
 
+Static code analysis
+-------
+There is an optional error-prone checker you can use to enforce use of AutoDispose.
+Integration steps and more details
+can be found on the [wiki](https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker)
+
 License
 -------
 
