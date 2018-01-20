@@ -49,7 +49,7 @@ import static com.google.errorprone.matchers.Matchers.instanceMethod;
 @AutoService(BugChecker.class)
 @BugPattern(
     name = "AutoDisposeLeakChecker",
-    summary = "Always apply an Autodispose scope before subscribing",
+    summary = "Always apply an AutoDispose scope before subscribing",
     tags = {BugPattern.StandardTags.CONCURRENCY},
     severity = ERROR
 )
@@ -88,6 +88,7 @@ public final class AutoDisposeLeakChecker extends BugChecker
         .add(instanceMethod().onDescendantOf("io.reactivex.Completable").named(AS))
         .add(instanceMethod().onDescendantOf("io.reactivex.Flowable").named(AS))
         .add(instanceMethod().onDescendantOf("io.reactivex.Maybe").named(AS))
+        .add(instanceMethod().onDescendantOf("io.reactivex.parallel.ParallelFlowable").named(AS))
         .build();
 
     SUBSCRIBE_MATCHERS = new ImmutableList.Builder<MethodMatchers.MethodNameMatcher>()
@@ -96,6 +97,7 @@ public final class AutoDisposeLeakChecker extends BugChecker
         .add(instanceMethod().onDescendantOf("io.reactivex.Completable").named(SUBSCRIBE))
         .add(instanceMethod().onDescendantOf("io.reactivex.Flowable").named(SUBSCRIBE))
         .add(instanceMethod().onDescendantOf("io.reactivex.Maybe").named(SUBSCRIBE))
+        .add(instanceMethod().onDescendantOf("io.reactivex.parallel.ParallelFlowable").named(SUBSCRIBE))
         .build();
   }
 

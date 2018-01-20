@@ -36,9 +36,10 @@ import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 import javax.annotation.Nullable;
+import org.reactivestreams.Subscriber;
 
 /**
- * Cases that use autodispose and should not fail the MissingAutodisposeError check.
+ * Cases that use {@link AutoDispose} and should not fail the {@link AutoDisposeLeakChecker} check.
  */
 public class AutoDisposeLeakCheckerNegativeCases
     implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
@@ -81,23 +82,31 @@ public class AutoDisposeLeakCheckerNegativeCases
     return lifecycleSubject.getValue();
   }
 
-  public void observable_subscribeWithAs() {
+  public void observable_subscribeWithAutoDispose() {
     Observable.just(1).as(AutoDispose.<Integer>autoDisposable(this)).subscribe();
   }
 
-  public void single_subscribeWithAs() {
+  public void single_subscribeWithAutoDispose() {
     Single.just(true).as(AutoDispose.<Boolean>autoDisposable(this)).subscribe();
   }
 
-  public void completable_subscribeWithAs() {
+  public void completable_subscribeWithAutoDispose() {
     Completable.complete().as(AutoDispose.autoDisposable(this)).subscribe();
   }
 
-  public void maybe_subscribeWithAs() {
+  public void maybe_subscribeWithAutoDispose() {
     Maybe.just(1).as(AutoDispose.<Integer>autoDisposable(this)).subscribe();
   }
 
-  public void flowable_subscribeWithAs() {
+  public void flowable_subscribeWithAutoDispose() {
     Flowable.just(1).as(AutoDispose.<Integer>autoDisposable(this)).subscribe();
+  }
+
+  public void parallelFlowable_subscribeWithAutoDispose() {
+    Subscriber<Integer>[] subscribers = new Subscriber[] {};
+    Flowable.just(1, 2)
+        .parallel(2)
+        .as(AutoDispose.<Integer>autoDisposable(this))
+        .subscribe(subscribers);
   }
 }

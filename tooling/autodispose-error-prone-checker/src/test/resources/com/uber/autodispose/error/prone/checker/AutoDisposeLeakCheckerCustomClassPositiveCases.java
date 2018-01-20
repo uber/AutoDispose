@@ -16,36 +16,46 @@
 
 package com.uber.autodispose.error.prone.checker;
 
+import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.ObservableScoper;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import org.reactivestreams.Subscriber;
 
 public class AutoDisposeLeakCheckerCustomClassPositiveCases extends ComponentWithLifeCycle {
-  public void observable_subscribeWithoutAutodispose() {
-    // BUG: Diagnostic contains: Always apply an Autodispose scope before subscribing
+  public void observable_subscribeWithoutAutoDispose() {
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
     Observable.empty().subscribe();
   }
 
-  public void single_subscribeWithoutAutodispose() {
-    // BUG: Diagnostic contains: Always apply an Autodispose scope before subscribing
+  public void single_subscribeWithoutAutoDispose() {
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
     Single.just(true).subscribe();
   }
 
-  public void completable_subscribeWithoutAutodispose() {
-    // BUG: Diagnostic contains: Always apply an Autodispose scope before subscribing
+  public void completable_subscribeWithoutAutoDispose() {
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
     Completable.complete().subscribe();
   }
 
-  public void maybe_subscribeWithoutAutodispose() {
-    // BUG: Diagnostic contains: Always apply an Autodispose scope before subscribing
+  public void maybe_subscribeWithoutAutoDispose() {
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
     Maybe.empty().subscribe();
   }
 
-  public void flowable_subscribeWithoutAutodispose() {
-    // BUG: Diagnostic contains: Always apply an Autodispose scope before subscribing
+  public void flowable_subscribeWithoutAutoDispose() {
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
     Flowable.empty().subscribe();
+  }
+
+  public void parallelFlowable_subscribeWithoutAutoDispose() {
+    Subscriber<Integer>[] subscribers = new Subscriber[] {};
+    Flowable.just(1, 2)
+        .parallel(2)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
+        .subscribe(subscribers);
   }
 }
