@@ -111,7 +111,15 @@ public final class AutoDisposeLeakChecker extends BugChecker
           }
           MethodInvocationTree invTree = (MethodInvocationTree) tree;
 
-          final MemberSelectTree memberTree = (MemberSelectTree) invTree.getMethodSelect();
+          ExpressionTree methodSelectTree = invTree.getMethodSelect();
+
+          // MemberSelectTree is used only for member access expression.
+          // This is not true for scenarios such as calling super constructor.
+          if (!(methodSelectTree instanceof MemberSelectTree)) {
+            return false;
+          }
+
+          final MemberSelectTree memberTree = (MemberSelectTree) methodSelectTree;
           if (!memberTree.getIdentifier().contentEquals(AS)) {
             return false;
           }
@@ -135,6 +143,14 @@ public final class AutoDisposeLeakChecker extends BugChecker
     return (Matcher<MethodInvocationTree>) (tree, state) -> {
 
       boolean matchFound = false;
+      ExpressionTree methodSelectTree = tree.getMethodSelect();
+
+      // MemberSelectTree is used only for member access expression.
+      // This is not true for scenarios such as calling super constructor.
+      if (!(methodSelectTree instanceof MemberSelectTree)) {
+        return false;
+      }
+
       final MemberSelectTree memberTree = (MemberSelectTree) tree.getMethodSelect();
       if (!memberTree.getIdentifier().contentEquals(SUBSCRIBE)) {
         return false;
