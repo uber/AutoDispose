@@ -17,7 +17,7 @@
 package com.uber.autodispose.error.prone.checker;
 
 import com.google.errorprone.CompilationTestHelper;
-import java.util.Arrays;
+import java.util.Collections;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,10 +41,6 @@ public class AutoDisposeLeakCheckerTest {
 
   @Test
   public void test_autodisposePositiveCasesWithDefaultClass() {
-    compilationHelper.setArgs(
-        Arrays.asList(
-            "-d",
-            temporaryFolder.getRoot().getAbsolutePath()));
     compilationHelper
         .addSourceFile("AutoDisposeLeakCheckerDefaultClassPositiveCases.java")
         .doTest();
@@ -53,11 +49,8 @@ public class AutoDisposeLeakCheckerTest {
   @Test
   public void test_autodisposePositiveCaseswithCustomClass() {
     compilationHelper.setArgs(
-        Arrays.asList(
-            "-d",
-            temporaryFolder.getRoot().getAbsolutePath(),
-            "-XepOpt:AutoDisposeLeakCheck"
-                + "=com.uber.autodispose.error.prone.checker.ComponentWithLifeCycle"));
+        Collections.singletonList("-XepOpt:AutoDisposeLeakCheck"
+            + "=com.uber.autodispose.error.prone.checker.ComponentWithLifeCycle"));
     compilationHelper
         .addSourceFile("AutoDisposeLeakCheckerCustomClassPositiveCases.java")
         .doTest();

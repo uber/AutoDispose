@@ -97,7 +97,9 @@ public final class AutoDisposeLeakChecker extends BugChecker
         .add(instanceMethod().onDescendantOf("io.reactivex.Completable").named(SUBSCRIBE))
         .add(instanceMethod().onDescendantOf("io.reactivex.Flowable").named(SUBSCRIBE))
         .add(instanceMethod().onDescendantOf("io.reactivex.Maybe").named(SUBSCRIBE))
-        .add(instanceMethod().onDescendantOf("io.reactivex.parallel.ParallelFlowable").named(SUBSCRIBE))
+        .add(instanceMethod()
+            .onDescendantOf("io.reactivex.parallel.ParallelFlowable")
+            .named(SUBSCRIBE))
         .build();
   }
 
