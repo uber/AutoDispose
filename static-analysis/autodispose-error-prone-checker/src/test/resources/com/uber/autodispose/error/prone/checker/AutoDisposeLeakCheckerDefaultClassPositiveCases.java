@@ -76,27 +76,27 @@ public class AutoDisposeLeakCheckerDefaultClassPositiveCases
   }
 
   public void observable_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
     Observable.empty().subscribe();
   }
 
   public void single_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
     Single.just(true).subscribe();
   }
 
   public void completable_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
     Completable.complete().subscribe();
   }
 
   public void maybe_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
     Maybe.empty().subscribe();
   }
 
   public void flowable_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
     Flowable.empty().subscribe();
   }
 
@@ -104,7 +104,7 @@ public class AutoDisposeLeakCheckerDefaultClassPositiveCases
     Subscriber<Integer>[] subscribers = new Subscriber[] {};
     Flowable.just(1, 2)
         .parallel(2)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
         .subscribe(subscribers);
   }
 }

@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.google.errorprone.BugPattern.SeverityLevel.ERROR;
+import static com.google.errorprone.BugPattern.StandardTags.CONCURRENCY;
 import static com.google.errorprone.matchers.Matchers.instanceMethod;
 
 /**
@@ -49,8 +50,8 @@ import static com.google.errorprone.matchers.Matchers.instanceMethod;
 @AutoService(BugChecker.class)
 @BugPattern(
     name = "AutoDisposeLeakChecker",
-    summary = "Always apply an AutoDispose scope before subscribing",
-    tags = {BugPattern.StandardTags.CONCURRENCY},
+    summary = "Always apply an AutoDispose scope before subscribing in lifecycle scopes",
+    tags = CONCURRENCY,
     severity = ERROR
 )
 public final class AutoDisposeLeakChecker extends BugChecker
