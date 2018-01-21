@@ -222,6 +222,7 @@ This pattern is *sort of* possible in RxJava 1, but only on `Subscriber` (via `o
 
 Static analysis
 -------
+
 There is an optional error-prone checker you can use to enforce use of AutoDispose.
 Integration steps and more details
 can be found on the [wiki](https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker)
