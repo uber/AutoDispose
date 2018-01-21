@@ -16,14 +16,7 @@
 
 package com.uber.autodispose.error.prone.checker;
 
-import com.uber.autodispose.AutoDispose;
-import com.uber.autodispose.AutoDisposeConverter;
-import com.uber.autodispose.CompletableScoper;
-import com.uber.autodispose.FlowableScoper;
 import com.uber.autodispose.LifecycleEndedException;
-import com.uber.autodispose.MaybeScoper;
-import com.uber.autodispose.ObservableScoper;
-import com.uber.autodispose.SingleScoper;
 import com.uber.autodispose.LifecycleScopeProvider;
 import com.uber.autodispose.TestLifecycleScopeProvider;
 
@@ -39,9 +32,9 @@ import javax.annotation.Nullable;
 import org.reactivestreams.Subscriber;
 
 /**
- * Cases that use {@link AutoDispose} and should not fail the {@link AutoDisposeLeakChecker} check.
+ * Cases that don't use autodispose and should fail the {@link UseAutoDispose} check.
  */
-public class AutoDisposeLeakCheckerNegativeCases
+public class UseAutoDisposeDefaultClassPositiveCases
     implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
 
   private final BehaviorSubject<TestLifecycleScopeProvider.TestLifecycle> lifecycleSubject =
@@ -82,31 +75,36 @@ public class AutoDisposeLeakCheckerNegativeCases
     return lifecycleSubject.getValue();
   }
 
-  public void observable_subscribeWithAutoDispose() {
-    Observable.just(1).as(AutoDispose.<Integer>autoDisposable(this)).subscribe();
+  public void observable_subscribeWithoutAutoDispose() {
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
+    Observable.empty().subscribe();
   }
 
-  public void single_subscribeWithAutoDispose() {
-    Single.just(true).as(AutoDispose.<Boolean>autoDisposable(this)).subscribe();
+  public void single_subscribeWithoutAutoDispose() {
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
+    Single.just(true).subscribe();
   }
 
-  public void completable_subscribeWithAutoDispose() {
-    Completable.complete().as(AutoDispose.autoDisposable(this)).subscribe();
+  public void completable_subscribeWithoutAutoDispose() {
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
+    Completable.complete().subscribe();
   }
 
-  public void maybe_subscribeWithAutoDispose() {
-    Maybe.just(1).as(AutoDispose.<Integer>autoDisposable(this)).subscribe();
+  public void maybe_subscribeWithoutAutoDispose() {
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
+    Maybe.empty().subscribe();
   }
 
-  public void flowable_subscribeWithAutoDispose() {
-    Flowable.just(1).as(AutoDispose.<Integer>autoDisposable(this)).subscribe();
+  public void flowable_subscribeWithoutAutoDispose() {
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
+    Flowable.empty().subscribe();
   }
 
-  public void parallelFlowable_subscribeWithAutoDispose() {
+  public void parallelFlowable_subscribeWithoutAutoDispose() {
     Subscriber<Integer>[] subscribers = new Subscriber[] {};
     Flowable.just(1, 2)
         .parallel(2)
-        .as(AutoDispose.<Integer>autoDisposable(this))
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
         .subscribe(subscribers);
   }
 }

@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class AutoDisposeLeakCheckerTest {
+public class UseAutoDisposeTest {
 
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -36,13 +36,13 @@ public class AutoDisposeLeakCheckerTest {
   public void setup() {
     compilationHelper =
         CompilationTestHelper
-            .newInstance(AutoDisposeLeakChecker.class, getClass());
+            .newInstance(UseAutoDispose.class, getClass());
   }
 
   @Test
   public void test_autodisposePositiveCasesWithDefaultClass() {
     compilationHelper
-        .addSourceFile("AutoDisposeLeakCheckerDefaultClassPositiveCases.java")
+        .addSourceFile("UseAutoDisposeDefaultClassPositiveCases.java")
         .doTest();
   }
 
@@ -52,14 +52,14 @@ public class AutoDisposeLeakCheckerTest {
         Collections.singletonList("-XepOpt:AutoDisposeLeakCheck"
             + "=com.uber.autodispose.error.prone.checker.ComponentWithLifeCycle"));
     compilationHelper
-        .addSourceFile("AutoDisposeLeakCheckerCustomClassPositiveCases.java")
+        .addSourceFile("UseAutoDisposeCustomClassPositiveCases.java")
         .doTest();
   }
 
   @Test
   public void test_autodisposeNegativeCases() {
     compilationHelper
-        .addSourceFile("AutoDisposeLeakCheckerNegativeCases.java")
+        .addSourceFile("UseAutoDisposeNegativeCases.java")
         .doTest();
   }
 }

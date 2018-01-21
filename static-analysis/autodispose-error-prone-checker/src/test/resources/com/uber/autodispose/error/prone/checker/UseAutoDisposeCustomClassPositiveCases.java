@@ -25,7 +25,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import org.reactivestreams.Subscriber;
 
-public class AutoDisposeLeakCheckerCustomClassPositiveCases extends ComponentWithLifeCycle {
+public class UseAutoDisposeCustomClassPositiveCases extends ComponentWithLifeCycle {
   public void observable_subscribeWithoutAutoDispose() {
     // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
     Observable.empty().subscribe();
