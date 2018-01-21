@@ -26,5 +26,5 @@ include ':autodispose-kotlin'
 include 'autodispose-rxlifecycle'
 include ':sample'
 include ':test-utils'
-include ':tooling:autodispose-error-prone-checker'
+include ':static-analysis:autodispose-error-prone-checker'
 
