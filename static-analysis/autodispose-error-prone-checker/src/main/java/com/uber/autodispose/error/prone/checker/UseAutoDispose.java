@@ -50,7 +50,8 @@ import static com.google.errorprone.matchers.Matchers.instanceMethod;
 @AutoService(BugChecker.class)
 @BugPattern(
     name = "UseAutoDispose",
-    summary = "Always apply an AutoDispose scope before subscribing in lifecycle scopes",
+    summary = "Always apply an AutoDispose scope before "
+        + "subscribing within defined scoped elements.",
     tags = CONCURRENCY,
     severity = ERROR
 )

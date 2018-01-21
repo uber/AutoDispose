@@ -27,27 +27,27 @@ import org.reactivestreams.Subscriber;
 
 public class UseAutoDisposeCustomClassPositiveCases extends ComponentWithLifeCycle {
   public void observable_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
     Observable.empty().subscribe();
   }
 
   public void single_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
     Single.just(true).subscribe();
   }
 
   public void completable_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
     Completable.complete().subscribe();
   }
 
   public void maybe_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
     Maybe.empty().subscribe();
   }
 
   public void flowable_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing
+    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
     Flowable.empty().subscribe();
   }
 
@@ -55,7 +55,7 @@ public class UseAutoDisposeCustomClassPositiveCases extends ComponentWithLifeCyc
     Subscriber<Integer>[] subscribers = new Subscriber[] {};
     Flowable.just(1, 2)
         .parallel(2)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing in lifecycle scopes
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
         .subscribe(subscribers);
   }
 }
