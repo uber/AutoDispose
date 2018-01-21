@@ -11,15 +11,14 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-  implementation deps.apt.autoService
-  testImplementation deps.rx.java
+  compileOnly deps.apt.autoService
+  compileOnly deps.build.errorProneCheckApi
 
-  implementation deps.build.errorProneCheckApi
-
-  testImplementation deps.test.junit
   testImplementation(deps.build.errorProneTestHelpers) {
     exclude group: "junit", module: "junit"
   }
+  testImplementation deps.rx.java
+  testImplementation deps.test.junit
   testImplementation project(':autodispose')
 
   epJavac deps.build.errorProneCheckApi
