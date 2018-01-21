@@ -137,7 +137,8 @@ public final class AutoDisposeLeakChecker extends BugChecker
                     .getTypeFromString("com.uber.autodispose.AutoDisposeConverter");
                 return ASTHelpers.isSubtype(ASTHelpers.getType(arg), scoper, state);
               })
-              .filter(Boolean::booleanValue)
+              .filter(Boolean::booleanValue) // Filtering the method invocation with name as
+              // and has an argument of type AutoDisposeConverter.
               .findFirst()
               .orElse(false);
         }
@@ -163,7 +164,7 @@ public final class AutoDisposeLeakChecker extends BugChecker
       matchFound = SUBSCRIBE_MATCHERS
           .stream()
           .map(methodNameMatcher -> methodNameMatcher.matches(tree, state))
-          .filter(Boolean::booleanValue)
+          .filter(Boolean::booleanValue) // Filtering the method invocation with name subscribe
           .findFirst()
           .orElse(false);
 
@@ -182,7 +183,8 @@ public final class AutoDisposeLeakChecker extends BugChecker
             return ASTHelpers.isSubtype(enclosingClassType, lifecycleType, state)
                 && !METHOD_NAME_MATCHERS.matches(memberTree.getExpression(), state);
           })
-          .filter(Boolean::booleanValue)
+          .filter(Boolean::booleanValue) // Filtering the method invocation
+          // which is a subtype of one of the classes with lifecycle and name as
           .findFirst()
           .orElse(false);
     };
