@@ -55,7 +55,6 @@ dependencies {
   provided deps.misc.errorProneAnnotations
   provided deps.misc.javaxExtras
 
-  errorprone deps.build.checkerFramework
   errorprone deps.build.errorProne
 }
 
