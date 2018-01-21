@@ -220,6 +220,12 @@ This pattern is *sort of* possible in RxJava 1, but only on `Subscriber` (via `o
 `CompletableObserver` (which matches RxJava 2's API). We are aggressively migrating our internal code
  to RxJava 2, and do not plan to try to backport this to RxJava 1.
 
+Static analysis
+-------
+There is an optional error-prone checker you can use to enforce use of AutoDispose.
+Integration steps and more details
+can be found on the [wiki](https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker)
+
 Download
 --------
 
@@ -284,12 +290,6 @@ compile 'com.uber.autodispose:autodispose-android-archcomponents-test-kotlin:x.y
 Javadocs and KDocs for the most recent release can be found here: https://uber.github.io/AutoDispose/0.x/
 
 Snapshots of the development version are available in [Sonatype's snapshots repository][snapshots].
-
-Static code analysis
--------
-There is an optional error-prone checker you can use to enforce use of AutoDispose.
-Integration steps and more details
-can be found on the [wiki](https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker)
 
 License
 -------
