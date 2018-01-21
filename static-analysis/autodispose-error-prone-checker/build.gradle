@@ -1,0 +1,31 @@
+plugins {
+  id "net.ltgt.errorprone" version "0.0.13"
+  id "java-library"
+}
+
+// we use this config to get the path of the JDK 9 javac jar, to
+// stick it in the bootclasspath when running tests
+configurations.maybeCreate("epJavac")
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+  compileOnly deps.apt.autoService
+  compileOnly deps.build.errorProneCheckApi
+
+  testImplementation(deps.build.errorProneTestHelpers) {
+    exclude group: "junit", module: "junit"
+  }
+  testImplementation deps.rx.java
+  testImplementation deps.test.junit
+  testImplementation project(':autodispose')
+
+  epJavac deps.build.errorProneCheckApi
+}
+
+test {
+  jvmArgs "-Xbootclasspath/p:${configurations.epJavac.asPath}"
+}
+
+apply from: rootProject.file("gradle/gradle-mvn-push.gradle")

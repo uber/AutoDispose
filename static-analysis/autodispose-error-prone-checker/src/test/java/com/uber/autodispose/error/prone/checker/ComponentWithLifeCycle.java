@@ -14,17 +14,6 @@
  * limitations under the License.
  */
 
-rootProject.name = 'autodispose-root'
-include ':android:autodispose-android'
-include ':android:autodispose-android-kotlin'
-include ':android:autodispose-android-archcomponents'
-include ':android:autodispose-android-archcomponents-kotlin'
-include ':android:autodispose-android-archcomponents-test'
-include ':android:autodispose-android-archcomponents-test-kotlin'
-include ':autodispose'
-include ':autodispose-kotlin'
-include 'autodispose-rxlifecycle'
-include ':sample'
-include ':test-utils'
-include ':static-analysis:autodispose-error-prone-checker'
+package com.uber.autodispose.error.prone.checker;
 
+public class ComponentWithLifeCycle { }
