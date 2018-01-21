@@ -137,7 +137,7 @@ public final class AutoDisposeLeakChecker extends BugChecker
                     .getTypeFromString("com.uber.autodispose.AutoDisposeConverter");
                 return ASTHelpers.isSubtype(ASTHelpers.getType(arg), scoper, state);
               })
-              .filter(aBoolean -> aBoolean)
+              .filter(Boolean::booleanValue)
               .findFirst()
               .orElse(false);
         }
@@ -160,12 +160,13 @@ public final class AutoDisposeLeakChecker extends BugChecker
         return false;
       }
 
-      for (MethodMatchers.MethodNameMatcher nameMatcher : SUBSCRIBE_MATCHERS) {
-        if (nameMatcher.matches(tree, state)) {
-          matchFound = true;
-          break;
-        }
-      }
+      matchFound = SUBSCRIBE_MATCHERS
+          .stream()
+          .map(methodNameMatcher -> methodNameMatcher.matches(tree, state))
+          .filter(Boolean::booleanValue)
+          .findFirst()
+          .orElse(false);
+
       if (!matchFound) {
         return false;
       }
@@ -176,12 +177,12 @@ public final class AutoDisposeLeakChecker extends BugChecker
 
       return classesWithLifecycle
           .stream()
-          .map(s -> {
-            Type lifecycleType = state.getTypeFromString(s);
+          .map(classWithLifecycle -> {
+            Type lifecycleType = state.getTypeFromString(classWithLifecycle);
             return ASTHelpers.isSubtype(enclosingClassType, lifecycleType, state)
                 && !METHOD_NAME_MATCHERS.matches(memberTree.getExpression(), state);
           })
-          .filter(aBoolean -> aBoolean)
+          .filter(Boolean::booleanValue)
           .findFirst()
           .orElse(false);
     };
