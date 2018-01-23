@@ -139,7 +139,7 @@ instances of these observers.
 
 ### Support/Extensions
 
-`Flowable`, `ParalleFlowable`, `Observable`, `Maybe`, `Single`, and `Completable` are all supported. Implementation is solely
+`Flowable`, `ParallelFlowable`, `Observable`, `Maybe`, `Single`, and `Completable` are all supported. Implementation is solely
 based on their `Observer` types, so conceivably any type that uses those for subscription should work.
 
 ####  Extensions
