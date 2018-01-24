@@ -22,6 +22,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.subscribers.TestSubscriber;
+
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -96,6 +98,27 @@ public class FlowableScoper<T> extends Scoper
 
       @Override public <E extends Subscriber<? super T>> E subscribeWith(E observer) {
         return new AutoDisposeFlowable<>(source, scope()).subscribeWith(observer);
+      }
+
+      @Override public TestSubscriber<T> test() {
+        TestSubscriber<T> subscriber = new TestSubscriber<>();
+        subscribe(subscriber);
+        return subscriber;
+      }
+
+      @Override public TestSubscriber<T> test(long initialRequest) {
+        TestSubscriber<T> subscriber = new TestSubscriber<>(initialRequest);
+        subscribe(subscriber);
+        return subscriber;
+      }
+
+      @Override public TestSubscriber<T> test(long initialRequest, boolean cancel) {
+        TestSubscriber<T> subscriber = new TestSubscriber<>(initialRequest);
+        if (cancel) {
+            subscriber.cancel();
+        }
+        subscribe(subscriber);
+        return subscriber;
       }
     };
   }

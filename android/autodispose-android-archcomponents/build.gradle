@@ -55,13 +55,11 @@ dependencies {
   annotationProcessor deps.support.arch.lifecycle.compiler
 
   compile project(':android:autodispose-android')
-  compile deps.support.arch.lifecycle.common
   compile deps.support.arch.lifecycle.runtime
 
   provided deps.misc.errorProneAnnotations
   provided deps.misc.javaxExtras
 
-  errorprone deps.build.checkerFramework
   errorprone deps.build.errorProne
 
   androidTestCompile project(':android:autodispose-android-archcomponents-test')
@@ -72,7 +70,8 @@ dependencies {
 
 tasks.withType(JavaCompile) {
   options.compilerArgs += ["-Xep:NullAway:ERROR",
-                           "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
+                           "-XepOpt:NullAway:AnnotatedPackages=com.uber",
+                           "-Xep:RestrictTo:OFF"]
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

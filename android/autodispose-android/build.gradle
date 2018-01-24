@@ -57,7 +57,6 @@ dependencies {
   provided deps.misc.errorProneAnnotations
   provided deps.misc.javaxExtras
 
-  errorprone deps.build.checkerFramework
   errorprone deps.build.errorProne
 
   androidTestCompile project(':test-utils')
@@ -67,7 +66,9 @@ dependencies {
 }
 
 tasks.withType(JavaCompile) {
-  options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
+  options.compilerArgs += ["-Xep:NullAway:ERROR",
+                           "-XepOpt:NullAway:AnnotatedPackages=com.uber",
+                           "-Xep:RestrictTo:OFF"]
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

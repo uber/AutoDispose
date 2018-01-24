@@ -50,19 +50,18 @@ dependencies {
 
   compile project(':autodispose')
   compile deps.support.arch.lifecycle.runtime
-  compile deps.support.arch.lifecycle.common
   compile deps.support.arch.lifecycle.extensions
 
   provided deps.misc.errorProneAnnotations
   provided deps.misc.javaxExtras
 
-  errorprone deps.build.checkerFramework
   errorprone deps.build.errorProne
 }
 
 tasks.withType(JavaCompile) {
   options.compilerArgs += ["-Xep:NullAway:ERROR",
-                           "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
+                           "-XepOpt:NullAway:AnnotatedPackages=com.uber",
+                           "-Xep:RestrictTo:OFF"]
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

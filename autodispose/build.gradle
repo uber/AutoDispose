@@ -43,7 +43,6 @@ dependencies {
   compileOnly deps.misc.errorProneAnnotations
   compileOnly deps.misc.javaxExtras
 
-  errorprone deps.build.checkerFramework
   errorprone deps.build.errorProne
 
   testCompile project(':test-utils')

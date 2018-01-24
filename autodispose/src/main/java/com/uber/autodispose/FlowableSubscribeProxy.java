@@ -21,6 +21,8 @@ import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.subscribers.TestSubscriber;
+
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -77,4 +79,25 @@ public interface FlowableSubscribeProxy<T> {
    * @return an {@link Subscriber}
    */
   @CheckReturnValue <E extends Subscriber<? super T>> E subscribeWith(E observer);
+
+  /**
+  * Proxy for {@link Flowable#test()}.
+  *
+  * @return a {@link TestSubscriber}
+  */
+  @CheckReturnValue TestSubscriber<T> test();
+
+  /**
+  * Proxy for {@link Flowable#test(long)}.
+  *
+  * @return a {@link TestSubscriber}
+  */
+  @CheckReturnValue TestSubscriber<T> test(long initialRequest);
+
+  /**
+   * Proxy for {@link Flowable#test(long, boolean)}.
+   *
+   * @return a {@link TestSubscriber}
+   */
+  @CheckReturnValue TestSubscriber<T> test(long initialRequest, boolean cancel);
 }

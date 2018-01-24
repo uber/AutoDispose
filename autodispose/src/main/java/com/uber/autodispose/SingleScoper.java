@@ -24,6 +24,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.observers.TestObserver;
 
 /**
  * Entry point for auto-disposing {@link Single}s.
@@ -86,6 +87,22 @@ public class SingleScoper<T> extends Scoper
 
       @Override public <E extends SingleObserver<? super T>> E subscribeWith(E observer) {
         return new AutoDisposeSingle<>(singleSource, scope()).subscribeWith(observer);
+      }
+
+      @Override public TestObserver<T> test() {
+        TestObserver<T> observer = new TestObserver<>();
+        subscribe(observer);
+        return observer;
+      }
+
+      @Override public TestObserver<T> test(boolean cancel) {
+        TestObserver<T> observer = new TestObserver<>();
+
+        if (cancel) {
+            observer.cancel();
+        }
+        subscribe(observer);
+        return observer;
       }
     };
   }

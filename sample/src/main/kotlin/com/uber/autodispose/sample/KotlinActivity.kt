@@ -21,7 +21,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.uber.autodispose.kotlin.autoDisposeWith
+import com.uber.autodispose.kotlin.autoDisposable
+import com.uber.autodispose.recipes.subscribeBy
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 
@@ -44,8 +45,8 @@ class KotlinActivity : AppCompatActivity() {
     // dispose is onDestroy (the opposite of onCreate).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onCreate()") }
-        .autoDisposeWith(scopeProvider)
-        .subscribe { num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): " + num) }
+        .autoDisposable(scopeProvider)
+        .subscribeBy { num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): $num") }
   }
 
   override fun onStart() {
@@ -57,8 +58,8 @@ class KotlinActivity : AppCompatActivity() {
     // dispose is onStop (the opposite of onStart).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onStart()") }
-        .autoDisposeWith(scopeProvider)
-        .subscribe { num -> Log.i(TAG, "Started in onStart(), running until in onStop(): " + num) }
+        .autoDisposable(scopeProvider)
+        .subscribeBy { num -> Log.i(TAG, "Started in onStart(), running until in onStop(): $num") }
   }
 
   override fun onResume() {
@@ -70,20 +71,16 @@ class KotlinActivity : AppCompatActivity() {
     // dispose is onPause (the opposite of onResume).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onResume()") }
-        .autoDisposeWith(scopeProvider)
-        .subscribe { num ->
-          Log.i(TAG, "Started in onResume(), running until in onPause(): " + num)
-        }
+        .autoDisposable(scopeProvider)
+        .subscribeBy { num -> Log.i(TAG, "Started in onResume(), running until in onPause(): $num") }
 
     // Setting a specific untilEvent, this should dispose in onDestroy.
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose {
           Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY")
         }
-        .autoDisposeWith(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
-        .subscribe{ num ->
-          Log.i(TAG, "Started in onResume(), running until in onDestroy(): " + num)
-        }
+        .autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
+        .subscribeBy { num -> Log.i(TAG, "Started in onResume(), running until in onDestroy(): $num") }
   }
 
   override fun onPause() {

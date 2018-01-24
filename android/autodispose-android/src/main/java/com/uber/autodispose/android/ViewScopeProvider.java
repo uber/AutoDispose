@@ -29,7 +29,7 @@ import static com.uber.autodispose.android.ViewLifecycleEvent.DETACH;
  * A {@link LifecycleScopeProvider} that can provide scoping for Android {@link View} classes.
  * <p>
  * <pre><code>
- *   AutoDispose.with(ViewScopeProvider.from(view));
+ *   AutoDispose.autoDisposable(ViewScopeProvider.from(view));
  * </code></pre>
  */
 public class ViewScopeProvider implements LifecycleScopeProvider<ViewLifecycleEvent> {

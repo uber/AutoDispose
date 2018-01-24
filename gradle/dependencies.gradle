@@ -15,24 +15,30 @@
  */
 
 def versions = [
-    androidTest: '0.5',
-    archComponents: '1.0.0-rc1',
+    androidTest: '1.0.1',
+    archComponents: '1.0.0',
+    archRuntime: '1.0.3',
     dokka: '0.9.15',
-    errorProne: '2.1.1',
-    kotlin: '1.1.51',
-    support: '26.1.0'
+    errorProne: '2.2.0',
+    kotlin: '1.2.20',
+    support: '27.0.2'
+]
+
+def apt = [
+    autoService : "com.google.auto.service:auto-service:1.0-rc4",
 ]
 
 def build = [
-    buildToolsVersion: '26.0.2',
-    compileSdkVersion: 26,
+    buildToolsVersion: '27.0.3',
+    compileSdkVersion: 27,
     ci: 'true' == System.getenv('CI'),
     minSdkVersion: 14,
-    targetSdkVersion: 26,
+    targetSdkVersion: 27,
 
-    checkerFramework: 'org.checkerframework:dataflow:2.1.14',
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
-    nullAway: 'com.uber.nullaway:nullaway:0.1.4',
+    errorProneCheckApi: "com.google.errorprone:error_prone_check_api:${versions.errorProne}",
+    errorProneTestHelpers: "com.google.errorprone:error_prone_test_helpers:${versions.errorProne}",
+    nullAway: 'com.uber.nullaway:nullaway:0.3.2',
 
     repositories: [
         plugins: 'https://plugins.gradle.org/m2/'
@@ -40,10 +46,10 @@ def build = [
 
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:2.3.0',
-        apt: 'net.ltgt.gradle:gradle-apt-plugin:0.11',
+        apt: 'net.ltgt.gradle:gradle-apt-plugin:0.13',
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
         dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
-        errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.11',
+        errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.13',
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     ]
 ]
@@ -56,22 +62,21 @@ def misc = [
     errorProneAnnotations: "com.google.errorprone:error_prone_annotations:${versions.errorProne}",
     javaxExtras: "com.uber.javaxextras:javax-extras:0.1.0",
     jsr305: 'com.google.code.findbugs:jsr305:3.0.2',
-    rxlifecycle: 'com.trello.rxlifecycle2:rxlifecycle:2.2.0'
+    rxlifecycle: 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
 ]
 
 def rx = [
     android: 'io.reactivex.rxjava2:rxandroid:2.0.1',
-    java: 'io.reactivex.rxjava2:rxjava:2.1.0'
+    java: 'io.reactivex.rxjava2:rxjava:2.1.7'
 ]
 
 def support = [
     annotations: "com.android.support:support-annotations:${versions.support}",
     arch: [
         lifecycle: [
-            common: "android.arch.lifecycle:common:1.0.3",
             compiler: "android.arch.lifecycle:compiler:${versions.archComponents}",
             extensions: "android.arch.lifecycle:extensions:${versions.archComponents}",
-            runtime: "android.arch.lifecycle:runtime:1.0.0"
+            runtime: "android.arch.lifecycle:runtime:${versions.archRuntime}"
         ]
     ]
 ]
@@ -80,10 +85,11 @@ def test = [
     androidRunner: "com.android.support.test:runner:${versions.androidTest}",
     androidRules: "com.android.support.test:rules:${versions.androidTest}",
     junit: 'junit:junit:4.12',
-    truth: 'com.google.truth:truth:0.36'
+    truth: 'com.google.truth:truth:0.39'
 ]
 
 ext.deps = [
+    "apt": apt,
     "build": build,
     "kotlin": kotlin,
     "misc": misc,

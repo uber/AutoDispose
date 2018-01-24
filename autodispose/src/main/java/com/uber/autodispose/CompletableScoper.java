@@ -24,6 +24,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.observers.TestObserver;
 
 /**
  * Entry point for auto-disposing {@link Completable}s.
@@ -79,6 +80,21 @@ public class CompletableScoper extends Scoper
 
       @Override public <E extends CompletableObserver> E subscribeWith(E observer) {
         return new AutoDisposeCompletable(maybeSource, scope()).subscribeWith(observer);
+      }
+
+      @Override public TestObserver<Void> test() {
+        TestObserver<Void> observer = new TestObserver<>();
+        subscribe(observer);
+        return observer;
+      }
+
+      @Override public TestObserver<Void> test(boolean cancel) {
+        TestObserver<Void> observer = new TestObserver<>();
+        if (cancel) {
+            observer.cancel();
+        }
+        subscribe(observer);
+        return observer;
       }
     };
   }

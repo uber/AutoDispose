@@ -20,7 +20,6 @@ import com.uber.autodispose.observers.AutoDisposingMaybeObserver;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposables;
 import io.reactivex.observers.DisposableMaybeObserver;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -41,27 +40,26 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
   }
 
   @Override public void onSubscribe(final Disposable d) {
-    if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable,
-        lifecycle.subscribeWith(new DisposableMaybeObserver<Object>() {
-          @Override public void onSuccess(Object o) {
-            callMainSubscribeIfNecessary(d);
-            AutoDisposingMaybeObserverImpl.this.dispose();
-          }
-
-          @Override public void onError(Throwable e) {
-            callMainSubscribeIfNecessary(d);
-            AutoDisposingMaybeObserverImpl.this.onError(e);
-          }
-
-          @Override public void onComplete() {
-            callMainSubscribeIfNecessary(d);
-            // Noop - we're unbound now
-          }
-        }),
-        getClass())) {
-      if (AutoDisposeEndConsumerHelper.setOnce(mainDisposable, d, getClass())) {
-        delegate.onSubscribe(this);
+    DisposableMaybeObserver<Object> o = new DisposableMaybeObserver<Object>() {
+      @Override public void onSuccess(Object o) {
+        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoDisposableHelper.dispose(mainDisposable);
       }
+
+      @Override public void onError(Throwable e) {
+        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoDisposingMaybeObserverImpl.this.onError(e);
+      }
+
+      @Override public void onComplete() {
+        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        // Noop - we're unbound now
+      }
+    };
+    if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable, o, getClass())) {
+      delegate.onSubscribe(this);
+      lifecycle.subscribe(o);
+      AutoDisposeEndConsumerHelper.setOnce(mainDisposable, d, getClass());
     }
   }
 
@@ -70,46 +68,30 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
   }
 
   @Override public void dispose() {
-    synchronized (this) {
-      AutoDisposableHelper.dispose(lifecycleDisposable);
-      AutoDisposableHelper.dispose(mainDisposable);
-    }
-  }
-
-  private void lazyDispose() {
-    synchronized (this) {
-      AutoDisposableHelper.dispose(lifecycleDisposable);
-      mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-    }
-  }
-
-  @SuppressWarnings("WeakerAccess") // Avoiding synthetic accessors
-  void callMainSubscribeIfNecessary(Disposable d) {
-    // If we've never actually called the downstream onSubscribe (i.e. requested immediately in
-    // onSubscribe and had a terminal event), we need to still send an empty disposable instance
-    // to abide by the Observer contract.
-    if (AutoDisposableHelper.setIfNotSet(mainDisposable, d)) {
-      delegate.onSubscribe(Disposables.disposed());
-    }
+    AutoDisposableHelper.dispose(lifecycleDisposable);
+    AutoDisposableHelper.dispose(mainDisposable);
   }
 
   @Override public void onSuccess(T value) {
     if (!isDisposed()) {
-      lazyDispose();
+      mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+      AutoDisposableHelper.dispose(lifecycleDisposable);
       delegate.onSuccess(value);
     }
   }
 
   @Override public void onError(Throwable e) {
     if (!isDisposed()) {
-      lazyDispose();
+      mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+      AutoDisposableHelper.dispose(lifecycleDisposable);
       delegate.onError(e);
     }
   }
 
   @Override public void onComplete() {
     if (!isDisposed()) {
-      lazyDispose();
+      mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+      AutoDisposableHelper.dispose(lifecycleDisposable);
       delegate.onComplete();
     }
   }

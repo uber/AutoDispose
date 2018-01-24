@@ -22,6 +22,7 @@ import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.observers.TestObserver;
 
 /**
  * Subscribe proxy that matches {@link Completable}'s subscribe overloads.
@@ -60,4 +61,18 @@ public interface CompletableSubscribeProxy {
    * @return a {@link CompletableObserver}
    */
   @CheckReturnValue <E extends CompletableObserver> E subscribeWith(E observer);
+
+  /**
+   * Proxy for {@link Completable#test()}.
+   *
+   * @return a {@link TestObserver}
+   */
+  @CheckReturnValue TestObserver<Void> test();
+
+  /**
+   * Proxy for {@link Completable#test(boolean)}.
+   *
+   * @return a {@link TestObserver}
+   */
+  @CheckReturnValue TestObserver<Void> test(boolean cancel);
 }

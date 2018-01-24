@@ -45,7 +45,7 @@ public abstract class AutoDisposeFragment extends Fragment
    * symmetric boundary conditions. Create -> Destroy, Start -> Stop, etc. For anything after Resume
    * we dispose on the next immediate destruction event. Subscribing after Detach is an error.
    */
-  private static Function<FragmentEvent, FragmentEvent> CORRESPONDING_EVENTS =
+  private static final Function<FragmentEvent, FragmentEvent> CORRESPONDING_EVENTS =
       new Function<FragmentEvent, FragmentEvent>() {
         @Override public FragmentEvent apply(FragmentEvent event) throws Exception {
           switch (event) {

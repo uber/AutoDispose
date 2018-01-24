@@ -19,35 +19,37 @@ package com.uber.autodispose;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
+import io.reactivex.ObservableConverter;
 import io.reactivex.Single;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.functions.Function;
+import io.reactivex.parallel.ParallelFlowable;
+
+import java.util.concurrent.Callable;
+
+import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
+import static com.uber.autodispose.ScopeUtil.deferredResolvedLifecycle;
 
 /**
- * Factories for autodispose transformation {@link Function}s that can be used with RxJava types'
- * corresponding {@code to(...)} methods to transform them into auto-disposing streams.
+ * Factories for autodispose converters that can be used with RxJava types' corresponding
+ * {@code as(...)} methods to transform them into auto-disposing streams.
  * <p>
- * There are several static {@code with(...)} entry points, with the most basic being a simple
- * {@link #with(Maybe)}. The provided {@link Maybe} is ultimately what every scope resolves to
- * under the hood, and AutoDispose has some built-in understanding for predefined types. The scope
- * is considered ended upon onSuccess emission of this {@link Maybe}.
+ * There are several static {@code autoDisposable(...)} entry points, with the most basic being a
+ * simple {@link #autoDisposable(Maybe)}. The provided {@link Maybe} is ultimately what every scope
+ * resolves to under the hood, and AutoDispose has some built-in understanding for predefined types.
+ * The scope is considered ended upon onSuccess emission of this {@link Maybe}.
  * <p>
- * Every factory method returns an instance of a {@link ScopeHandler} that serves as an indirection
- * to route to the corresponding RxJava types. This is structured in such a way to be friendly to
- * autocompletion in IDEs, where the no-parameter generic method will autocomplete with the
- * appropriate generic parameters in Java <7, or implicitly in >=8.
+ * This is structured in such a way to be friendly to autocompletion in IDEs, where the no-parameter
+ * generic method will autocomplete with the appropriate generic parameters in Java <7, or
+ * implicitly in >=8.
  *
- * @see Flowable#to(Function)
- * @see Observable#to(Function)
- * @see Maybe#to(Function)
- * @see Single#to(Function)
- * @see Completable#to(Function)
- * @see ScopeHandler#forFlowable()
- * @see ScopeHandler#forObservable()
- * @see ScopeHandler#forMaybe()
- * @see ScopeHandler#forSingle()
- * @see ScopeHandler#forCompletable()
+ * @see Flowable#as(io.reactivex.FlowableConverter)
+ * @see Observable#as(io.reactivex.ObservableConverter)
+ * @see Maybe#as(io.reactivex.MaybeConverter)
+ * @see Single#as(io.reactivex.SingleConverter)
+ * @see Completable#as(io.reactivex.CompletableConverter)
  */
 @SuppressWarnings("deprecation") // Temporary until we remove and inline the Scoper classes
 public final class AutoDispose {
@@ -56,7 +58,7 @@ public final class AutoDispose {
    * The intermediary return type of the {@code with(...)} factories in {@link AutoDispose}. See the
    * documentation on {@link AutoDispose} for more information on why this interface exists.
    */
-  public interface ScopeHandler {
+  @Deprecated public interface ScopeHandler {
     /**
      * Entry point for auto-disposing {@link Flowable}s.
      * <p>
@@ -139,8 +141,10 @@ public final class AutoDispose {
    * @param scope the target scope
    * @return a {@link ScopeHandler} for this scope to create AutoDisposing transformation
    * {@link Function}s
+   * @deprecated This will be removed in AutoDispose 1.0. Please use the {@code autoDisposable()}
+   *             APIs.
    */
-  @CheckReturnValue public static ScopeHandler with(Maybe<?> scope) {
+  @Deprecated @CheckReturnValue public static ScopeHandler with(Maybe<?> scope) {
     return new MaybeScopeHandlerImpl(scope);
   }
 
@@ -150,8 +154,10 @@ public final class AutoDispose {
    * @param scope the target scope
    * @return a {@link ScopeHandler} for this scope to create AutoDisposing transformation
    * {@link Function}s
+   * @deprecated This will be removed in AutoDispose 1.0. Please use the {@code autoDisposable()}
+   *             APIs.
    */
-  @CheckReturnValue public static ScopeHandler with(ScopeProvider scope) {
+  @Deprecated @CheckReturnValue public static ScopeHandler with(ScopeProvider scope) {
     return new ScopeProviderHandlerImpl(scope);
   }
 
@@ -161,14 +167,16 @@ public final class AutoDispose {
    * @param scope the target scope
    * @return a {@link ScopeHandler} for this scope to create AutoDisposing transformation
    * {@link Function}s
+   * @deprecated This will be removed in AutoDispose 1.0. Please use the {@code autoDisposable()}
+   *             APIs.
    */
-  @CheckReturnValue public static ScopeHandler with(LifecycleScopeProvider<?> scope) {
+  @Deprecated @CheckReturnValue public static ScopeHandler with(LifecycleScopeProvider<?> scope) {
     return new LifecycleScopeProviderHandlerImpl(scope);
   }
 
-  private static class MaybeScopeHandlerImpl implements ScopeHandler {
+  private static final class MaybeScopeHandlerImpl implements ScopeHandler {
 
-    private final Maybe<?> scope;
+    final Maybe<?> scope;
 
     MaybeScopeHandlerImpl(Maybe<?> scope) {
       this.scope = scope;
@@ -196,9 +204,9 @@ public final class AutoDispose {
     }
   }
 
-  private static class ScopeProviderHandlerImpl implements ScopeHandler {
+  private static final class ScopeProviderHandlerImpl implements ScopeHandler {
 
-    private final ScopeProvider scope;
+    final ScopeProvider scope;
 
     ScopeProviderHandlerImpl(ScopeProvider scope) {
       this.scope = scope;
@@ -226,9 +234,9 @@ public final class AutoDispose {
     }
   }
 
-  private static class LifecycleScopeProviderHandlerImpl implements ScopeHandler {
+  private static final class LifecycleScopeProviderHandlerImpl implements ScopeHandler {
 
-    private final LifecycleScopeProvider<?> scope;
+    final LifecycleScopeProvider<?> scope;
 
     LifecycleScopeProviderHandlerImpl(LifecycleScopeProvider<?> scope) {
       this.scope = scope;
@@ -254,6 +262,95 @@ public final class AutoDispose {
     @Override public Function<Completable, CompletableSubscribeProxy> forCompletable() {
       return new CompletableScoper(scope);
     }
+  }
+
+  /**
+   * Entry point for auto-disposing streams from a {@link ScopeProvider}.
+   * <p>
+   * Example usage:
+   * <pre><code>
+   *   Observable.just(1)
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
+   *        .subscribe(...)
+   * </code></pre>
+   *
+   * @param provider the target scope provider
+   * @param <T> the stream type.
+   * @return an {@link AutoDisposeConverter} to transform with operators like
+   * {@link Observable#as(ObservableConverter)}
+   */
+  public static <T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
+    checkNotNull(provider, "provider == null");
+    return autoDisposable(Maybe.defer(new Callable<MaybeSource<?>>() {
+      @Override public MaybeSource<?> call() {
+        return provider.requestScope();
+      }
+    }));
+  }
+
+  /**
+   * Entry point for auto-disposing streams from a {@link LifecycleScopeProvider}.
+   * <p>
+   * Example usage:
+   * <pre><code>
+   *   Observable.just(1)
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
+   *        .subscribe(...)
+   * </code></pre>
+   *
+   * @param provider the target lifecycle scope provider
+   * @param <T> the stream type.
+   * @return an {@link AutoDisposeConverter} to transform with operators like
+   * {@link Observable#as(ObservableConverter)}
+   */
+  public static <T> AutoDisposeConverter<T> autoDisposable(
+      final LifecycleScopeProvider<?> provider) {
+    return autoDisposable(deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
+  }
+
+  /**
+   * Entry point for auto-disposing streams from a {@link Maybe}.
+   * <p>
+   * Example usage:
+   * <pre><code>
+   *   Observable.just(1)
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
+   *        .subscribe(...)
+   * </code></pre>
+   *
+   * @param scope the target scope
+   * @param <T> the stream type.
+   * @return an {@link AutoDisposeConverter} to transform with operators like
+   * {@link Observable#as(ObservableConverter)}
+   */
+  public static <T> AutoDisposeConverter<T> autoDisposable(final Maybe<?> scope) {
+    checkNotNull(scope, "scope == null");
+    return new AutoDisposeConverter<T>() {
+      @Override
+      public ParallelFlowableSubscribeProxy<T> apply(ParallelFlowable<T> upstream) {
+        return upstream.as(new ParallelFlowableScoper<T>(scope));
+      }
+
+      @Override public CompletableSubscribeProxy apply(Completable upstream) {
+        return upstream.to(new CompletableScoper(scope));
+      }
+
+      @Override public FlowableSubscribeProxy<T> apply(Flowable<T> upstream) {
+        return upstream.to(new FlowableScoper<T>(scope));
+      }
+
+      @Override public MaybeSubscribeProxy<T> apply(Maybe<T> upstream) {
+        return upstream.to(new MaybeScoper<T>(scope));
+      }
+
+      @Override public ObservableSubscribeProxy<T> apply(Observable<T> upstream) {
+        return upstream.to(new ObservableScoper<T>(scope));
+      }
+
+      @Override public SingleSubscribeProxy<T> apply(Single<T> upstream) {
+        return upstream.to(new SingleScoper<T>(scope));
+      }
+    };
   }
 
   private AutoDispose() {

@@ -35,8 +35,7 @@ import org.junit.runner.RunWith;
 
 import static com.google.common.truth.Truth.assertThat;
 
-@RunWith(AndroidJUnit4.class)
-public final class ViewScopeProviderTest {
+@RunWith(AndroidJUnit4.class) public final class ViewScopeProviderTest {
 
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
     @Override public void log(String message) {
@@ -69,7 +68,7 @@ public final class ViewScopeProviderTest {
     });
     instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
-        subject.to(AutoDispose.with(ViewScopeProvider.from(child)).<Integer>forObservable())
+        subject.as(AutoDispose.<Integer>autoDisposable(ViewScopeProvider.from(child)))
             .subscribe(o);
       }
     });
@@ -105,7 +104,7 @@ public final class ViewScopeProviderTest {
         parent.addView(child);
       }
     });
-    subject.to(AutoDispose.with(ViewScopeProvider.from(child)).<Integer>forObservable())
+    subject.as(AutoDispose.<Integer>autoDisposable(ViewScopeProvider.from(child)))
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -122,7 +121,7 @@ public final class ViewScopeProviderTest {
 
     instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
-        subject.to(AutoDispose.with(ViewScopeProvider.from(child)).<Integer>forObservable())
+        subject.as(AutoDispose.<Integer>autoDisposable(ViewScopeProvider.from(child)))
             .subscribe(o);
       }
     });
@@ -150,7 +149,7 @@ public final class ViewScopeProviderTest {
     });
     instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
-        subject.to(AutoDispose.with(ViewScopeProvider.from(child)).<Integer>forObservable())
+        subject.as(AutoDispose.<Integer>autoDisposable(ViewScopeProvider.from(child)))
             .subscribe(o);
       }
     });

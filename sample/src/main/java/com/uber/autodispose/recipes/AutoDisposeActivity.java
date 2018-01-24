@@ -43,7 +43,7 @@ public abstract class AutoDisposeActivity extends Activity
    * symmetric boundary conditions. Create -> Destroy, Start -> Stop, etc. For anything after Resume
    * we dispose on the next immediate destruction event. Subscribing after Destroy is an error.
    */
-  private static Function<ActivityEvent, ActivityEvent> CORRESPONDING_EVENTS =
+  private static final Function<ActivityEvent, ActivityEvent> CORRESPONDING_EVENTS =
       new Function<ActivityEvent, ActivityEvent>() {
         @Override public ActivityEvent apply(ActivityEvent activityEvent) throws Exception {
           switch (activityEvent) {

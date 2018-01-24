@@ -16,6 +16,7 @@
 
 package com.uber.autodispose;
 
+import com.google.errorprone.annotations.DoNotMock;
 import io.reactivex.Observable;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.functions.Function;
@@ -28,6 +29,7 @@ import javax.annotation.Nullable;
  *
  * @param <E> the lifecycle event type.
  */
+@DoNotMock(value = "Use TestLifecycleScopeProvider instead")
 public interface LifecycleScopeProvider<E> {
 
   /**
