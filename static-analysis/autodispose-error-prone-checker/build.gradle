@@ -44,4 +44,5 @@ test {
   jvmArgs "-Xbootclasspath/p:${configurations.epJavac.asPath}"
 }
 
-apply from: rootProject.file("gradle/gradle-mvn-push.gradle")
+// Not ready for release yet
+//apply from: rootProject.file("gradle/gradle-mvn-push.gradle")
