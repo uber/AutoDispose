@@ -20,7 +20,7 @@ def versions = [
     archRuntime: '1.0.3',
     dokka: '0.9.15',
     errorProne: '2.2.0',
-    kotlin: '1.2.20',
+    kotlin: '1.2.21',
     support: '27.0.2'
 ]
 
