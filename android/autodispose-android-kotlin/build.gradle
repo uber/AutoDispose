@@ -17,7 +17,7 @@
 buildscript {
   repositories {
     jcenter()
-    deps.build.repositories.kotlinEap
+    maven { url deps.build.repositories.kotlinEap }
   }
 
   dependencies {
