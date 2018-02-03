@@ -16,11 +16,11 @@
 
 def versions = [
     androidTest: '1.0.1',
-    archComponents: '1.0.0',
+    archComponents: '1.1.0',
     archRuntime: '1.0.3',
-    dokka: '0.9.15',
+    dokka: '0.9.16-eap-3',
     errorProne: '2.2.0',
-    kotlin: '1.2.20',
+    kotlin: '1.2.21',
     support: '27.0.2'
 ]
 
@@ -41,6 +41,7 @@ def build = [
     nullAway: 'com.uber.nullaway:nullaway:0.3.2',
 
     repositories: [
+        kotlinEap: 'https://dl.bintray.com/kotlin/kotlin-eap',
         plugins: 'https://plugins.gradle.org/m2/'
     ],
 

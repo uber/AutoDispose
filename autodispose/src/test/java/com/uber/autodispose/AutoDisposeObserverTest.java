@@ -39,6 +39,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 public class AutoDisposeObserverTest {
 
@@ -322,7 +323,7 @@ public class AutoDisposeObserverTest {
 
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestObserver<Object> o = PublishSubject.create()
-              .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
+              .as(autoDisposable(ScopeProvider.UNBOUND))
               .test();
     o.assertNoValues();
     o.assertNoErrors();

@@ -13,18 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-buildscript {
-  repositories {
-    jcenter()
-    maven { url deps.build.repositories.plugins }
-  }
-  dependencies {
-    classpath deps.build.gradlePlugins.errorProne
-  }
-}
 
-apply plugin: 'java-library'
-apply plugin: 'net.ltgt.errorprone'
+plugins {
+  id 'java-library'
+  id 'net.ltgt.errorprone' version '0.0.13'
+}
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"

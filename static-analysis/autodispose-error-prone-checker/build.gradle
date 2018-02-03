@@ -15,8 +15,8 @@
  */
 
 plugins {
-  id "net.ltgt.errorprone" version "0.0.13"
-  id "java-library"
+  id 'java-library'
+  id 'net.ltgt.errorprone' version '0.0.13'
 }
 
 // we use this config to get the path of the JDK 9 javac jar, to
@@ -44,4 +44,5 @@ test {
   jvmArgs "-Xbootclasspath/p:${configurations.epJavac.asPath}"
 }
 
-apply from: rootProject.file("gradle/gradle-mvn-push.gradle")
+// Not ready for release yet
+//apply from: rootProject.file("gradle/gradle-mvn-push.gradle")
