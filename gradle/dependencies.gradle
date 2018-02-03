@@ -76,7 +76,7 @@ def support = [
     arch: [
         lifecycle: [
             compiler: "android.arch.lifecycle:compiler:${versions.archComponents}",
-            extensions: "android.arch.lifecycle:extensions:${versions.archComponents}",
+            common: "android.arch.lifecycle:common:${versions.archComponents}",
             runtime: "android.arch.lifecycle:runtime:${versions.archRuntime}"
         ]
     ]

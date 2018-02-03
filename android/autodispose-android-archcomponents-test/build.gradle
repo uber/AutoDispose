@@ -49,8 +49,8 @@ dependencies {
   testAnnotationProcessor deps.build.nullAway
 
   compile project(':autodispose')
+  compile deps.support.arch.lifecycle.common
   compile deps.support.arch.lifecycle.runtime
-  compile deps.support.arch.lifecycle.extensions
 
   provided deps.misc.errorProneAnnotations
   provided deps.misc.javaxExtras
