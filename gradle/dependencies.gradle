@@ -16,7 +16,7 @@
 
 def versions = [
     androidTest: '1.0.1',
-    archComponents: '1.0.0',
+    archComponents: '1.1.0',
     archRuntime: '1.0.3',
     dokka: '0.9.16-eap-3',
     errorProne: '2.2.0',
