@@ -33,7 +33,7 @@ dependencies {
 tasks.withType(JavaCompile) {
   // Only if you want to support custom configuration
   // Below is a sample configuration which include Conductor and Activity
-  options.compilerArgs += ["-XepOpt:AutoDisposeLeakCheck"
+  options.compilerArgs += ["-XepOpt:ClassesWithScope"
                                        + "=com.bluelinelabs.conductor.Controller,android.app.Activity"]
 }
 ```
@@ -63,7 +63,7 @@ dependencies {
 tasks.withType(JavaCompile) {
   // Only if you want to support custom configuration
   // Below is a sample configuration which include Conductor and Activity
-  options.compilerArgs += ["-XepOpt:AutoDisposeLeakCheck"
+  options.compilerArgs += ["-XepOpt:ClassesWithScope"
                                        + "=com.bluelinelabs.conductor.Controller,android.app.Activity"]
 }
 ```
@@ -94,7 +94,7 @@ tasks.withType(JavaCompile) {
         <compilerArgs>
           <!-- Only if you want to support custom configuration
           Below is a sample configuration which include Conductor and Activity -->
-          <arg>--XepOpt:AutoDisposeLeakCheck=com.bluelinelabs.conductor.Controller,android.app.Activity</arg>
+          <arg>--XepOpt:ClassesWithScope=com.bluelinelabs.conductor.Controller,android.app.Activity</arg>
         </compilerArgs>
       </configuration>
       <dependencies>
@@ -154,6 +154,6 @@ It can be configured by [Error-Prone's command line flags](http://errorprone.inf
 
 The following flag is supported and takes input in a form of comma separated list of fully qualified class names of Classes with scopes:
 
-- `-XepOpt:AutoDisposeLeakCheck=com.bluelinelabs.conductor.Controller,android.app.Activity`
+- `-XepOpt:ClassesWithScope=com.bluelinelabs.conductor.Controller,android.app.Activity`
 
 In this case, the check is now applied to `Controller` and `Activity` **only**.
