@@ -33,7 +33,7 @@ dependencies {
 tasks.withType(JavaCompile) {
   // Only if you want to support custom configuration
   // Below is a sample configuration which include Conductor and Activity
-  options.compilerArgs += ["-XepOpt:ClassesWithScope"
+  options.compilerArgs += ["-XepOpt:UseAutoDispose:ClassesWithScope"
                                        + "=com.bluelinelabs.conductor.Controller,android.app.Activity"]
 }
 ```
@@ -63,7 +63,7 @@ dependencies {
 tasks.withType(JavaCompile) {
   // Only if you want to support custom configuration
   // Below is a sample configuration which include Conductor and Activity
-  options.compilerArgs += ["-XepOpt:ClassesWithScope"
+  options.compilerArgs += ["-XepOpt:UseAutoDispose:ClassesWithScope"
                                        + "=com.bluelinelabs.conductor.Controller,android.app.Activity"]
 }
 ```
@@ -93,7 +93,7 @@ tasks.withType(JavaCompile) {
         <compilerArgs>
           <!-- Only if you want to support custom configuration
           Below is a sample configuration which include Conductor and Activity -->
-          <arg>--XepOpt:ClassesWithScope=com.bluelinelabs.conductor.Controller,android.app.Activity</arg>
+          <arg>--XepOpt:UseAutoDispose:ClassesWithScope=com.bluelinelabs.conductor.Controller,android.app.Activity</arg>
         </compilerArgs>
       </configuration>
       <dependencies>
