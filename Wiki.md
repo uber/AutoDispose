@@ -1,6 +1,7 @@
 # Error Prone Checker
 
-[Error Prone](https://github.com/google/error-prone) check to detect missing AutoDispose scope within defined scoped elements.
+UseAutoDispose is an [Error-Prone](https://github.com/google/error-prone)
+check to detect missing AutoDispose scope within defined scoped elements.
 
 ## Installation
 
@@ -36,6 +37,37 @@ tasks.withType(JavaCompile) {
                                        + "=com.bluelinelabs.conductor.Controller,android.app.Activity"]
 }
 ```
+
+For Android:
+
+```gradle
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+}
+
+plugins {
+  // we assume you are already using the Java plugin
+  id "net.ltgt.errorprone" version "0.0.13"
+}
+
+dependencies {
+  annotationProcessor "com.uber.autodispose:autodispose-error-prone-checker:x.y.z" // where x.y.z is the latest version.
+
+  errorprone "com.google.errorprone:error_prone_core:2.1.3"
+}
+
+tasks.withType(JavaCompile) {
+  // Only if you want to support custom configuration
+  // Below is a sample configuration which include Conductor and Activity
+  options.compilerArgs += ["-XepOpt:AutoDisposeLeakCheck"
+                                       + "=com.bluelinelabs.conductor.Controller,android.app.Activity"]
+}
+```
+
 
 ### Maven
 
@@ -106,16 +138,17 @@ error: [UseAutoDispose] Always apply an AutoDispose scope before subscribing wit
                   ^
     (see https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker)
 ```
+Would lead to this error at compile-time
 
 ## Configuration
 
 By default the checker is applied to standard android components with lifecycle and AutoDispose interfaces:
-1. Activity
-2. Fragment
-3. Support Fragment
-4. LifecycleScopeProvider
-5. ScopeProvider
-6. LifecycleOwner
+1. [Activity](https://developer.android.com/reference/android/app/Activity.html)
+2. [Fragment](https://developer.android.com/reference/android/app/Fragment.html)
+3. [Support Fragment](https://developer.android.com/reference/android/support/v4/app/Fragment.html)
+4. [LifecycleScopeProvider](https://uber.github.io/AutoDispose/0.x/autodispose/com/uber/autodispose/LifecycleScopeProvider.html)
+5. [ScopeProvider](https://uber.github.io/AutoDispose/0.x/autodispose/com/uber/autodispose/ScopeProvider.html)
+6. [LifecycleOwner](https://developer.android.com/reference/android/arch/lifecycle/LifecycleOwner.html)
 
 It can be configured by [Error-Prone's command line flags](http://errorprone.info/docs/flags).
 
