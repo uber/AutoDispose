@@ -50,7 +50,6 @@ buildscript {
 }
 
 plugins {
-  // we assume you are already using the Java plugin
   id "net.ltgt.errorprone" version "0.0.13"
 }
 
