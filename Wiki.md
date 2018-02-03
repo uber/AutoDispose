@@ -68,7 +68,6 @@ tasks.withType(JavaCompile) {
 }
 ```
 
-
 ### Maven
 
 ```xml
@@ -138,7 +137,7 @@ error: [UseAutoDispose] Always apply an AutoDispose scope before subscribing wit
                   ^
     (see https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker)
 ```
-Would lead to this error at compile-time
+Would lead to this error at compile-time.
 
 ## Configuration
 
