@@ -15,7 +15,7 @@
  */
 
 plugins {
-  id 'com.android.application' version '2.3.0'
+  id 'com.android.application'
   id 'org.jetbrains.kotlin.android'
 }
 

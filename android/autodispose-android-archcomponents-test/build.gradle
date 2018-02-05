@@ -16,7 +16,7 @@
 
 plugins {
   id 'com.android.library'
-  id 'net.ltgt.errorprone' version '0.0.13'
+  id 'net.ltgt.errorprone'
 }
 
 android {
