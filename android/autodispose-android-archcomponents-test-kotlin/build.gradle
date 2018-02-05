@@ -14,22 +14,11 @@
  * limitations under the License.
  */
 
-buildscript {
-  repositories {
-    jcenter()
-    maven { url deps.build.repositories.kotlinEap }
-  }
-
-  dependencies {
-    classpath deps.build.gradlePlugins.android
-    classpath deps.build.gradlePlugins.kotlin
-    classpath deps.build.gradlePlugins.dokkaAndroid
-  }
+plugins {
+  id 'com.android.library'
+  id 'org.jetbrains.kotlin.android'
+  id 'org.jetbrains.dokka-android'
 }
-
-apply plugin: 'com.android.library'
-apply plugin: 'org.jetbrains.kotlin.android'
-apply plugin: 'org.jetbrains.dokka-android'
 
 android {
   compileSdkVersion deps.build.compileSdkVersion

@@ -14,6 +14,41 @@
  * limitations under the License.
  */
 
+pluginManagement {
+  resolutionStrategy {
+    eachPlugin {
+      switch (requested.id.id) {
+        case 'org.jetbrains.dokka':
+          useModule('org.jetbrains.dokka:dokka-gradle-plugin:0.9.16-eap-3')
+          break
+        case 'org.jetbrains.dokka-android':
+          useModule('org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.16-eap-3')
+          break
+        case 'com.android.application':
+          useModule('com.android.tools.build:gradle:2.3.0')
+          break
+        case 'com.android.library':
+          useModule('com.android.tools.build:gradle:2.3.0')
+          break
+        case 'org.jetbrains.kotlin.jvm':
+          useModule('org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.21')
+          break
+        case 'org.jetbrains.kotlin.android':
+          useModule('org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.21')
+          break
+      }
+    }
+  }
+  repositories {
+    jcenter()
+    google()
+    maven {
+      url 'https://dl.bintray.com/kotlin/kotlin-eap'
+    }
+    gradlePluginPortal()
+  }
+}
+
 rootProject.name = 'autodispose-root'
 if (System.getenv("ANDROID_HOME") != null) {
   include ':android:autodispose-android'
