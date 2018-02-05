@@ -14,19 +14,10 @@
  * limitations under the License.
  */
 
-buildscript {
-  repositories {
-    jcenter()
-    maven { url deps.build.repositories.kotlinEap }
-  }
-  dependencies {
-    classpath deps.build.gradlePlugins.kotlin
-    classpath deps.build.gradlePlugins.dokka
-  }
+plugins {
+  id 'org.jetbrains.kotlin.jvm'
+  id 'org.jetbrains.dokka'
 }
-
-apply plugin: 'org.jetbrains.kotlin.jvm'
-apply plugin: 'org.jetbrains.dokka'
 
 dependencies {
   compile deps.kotlin.stdlib

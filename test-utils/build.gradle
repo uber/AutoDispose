@@ -16,11 +16,11 @@
 
 plugins {
   id 'java-library'
-  id 'net.ltgt.errorprone' version '0.0.13'
+  id 'net.ltgt.errorprone'
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
   compileOnly deps.misc.errorProneAnnotations

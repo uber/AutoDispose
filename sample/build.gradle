@@ -14,20 +14,10 @@
  * limitations under the License.
  */
 
-buildscript {
-  repositories {
-    jcenter()
-    google()
-  }
-
-  dependencies {
-    classpath deps.build.gradlePlugins.android
-    classpath deps.build.gradlePlugins.kotlin
-  }
+plugins {
+  id 'com.android.application'
+  id 'org.jetbrains.kotlin.android'
 }
-
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 
 android {
   compileSdkVersion deps.build.compileSdkVersion

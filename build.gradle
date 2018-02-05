@@ -15,9 +15,12 @@
  */
 
 subprojects {
+  apply from: rootProject.file('gradle/dependencies.gradle')
   buildscript {
     repositories {
       jcenter()
+      google()
+      maven { url deps.build.repositories.kotlinEap }
     }
   }
 
