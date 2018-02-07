@@ -39,7 +39,7 @@ the `as()` operator in RxJava types.
 #### Maybe (as a scope)
 
 The `Maybe` semantic is modeled after the `takeUntil()` operator, which accepts an `Observable` 
-whose first emission is used as a notification to signal completion. This is is logically the 
+whose first emission is used as a notification to signal completion. This is logically the 
 behavior of a `Single`, so we choose to make that explicit. Scope providers may want to dynamically
 indicate that a scope is "unbound" though, so we use a `Maybe` to indicate this via its completion.
 All scopes in AutoDispose eventually resolve to a `Maybe` that emits the end-of-scope notification
