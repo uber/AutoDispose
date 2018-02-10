@@ -38,10 +38,10 @@ pluginManagement {
           useModule(deps.build.gradlePlugins.kotlin)
           break
         case 'net.ltgt.errorprone':
-          useVersion('0.0.13')
+          useVersion(deps.versions.errorPronePlugin)
           break
         case 'net.ltgt.apt-idea':
-          useVersion('0.13')
+          useVersion(deps.versions.aptPlugin)
           break
       }
     }
