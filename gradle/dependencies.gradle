@@ -16,10 +16,12 @@
 
 def versions = [
     androidTest: '1.0.1',
+    aptPlugin: '0.13',
     archComponents: '1.1.0',
     archRuntime: '1.0.3',
     dokka: '0.9.16-eap-3',
     errorProne: '2.2.0',
+    errorPronePlugin: '0.0.13',
     kotlin: '1.2.21',
     support: '27.0.2'
 ]
@@ -42,15 +44,12 @@ def build = [
 
     repositories: [
         kotlinEap: 'https://dl.bintray.com/kotlin/kotlin-eap',
-        plugins: 'https://plugins.gradle.org/m2/'
     ],
 
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:2.3.0',
-        apt: 'net.ltgt.gradle:gradle-apt-plugin:0.13',
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
         dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
-        errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.13',
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     ]
 ]
