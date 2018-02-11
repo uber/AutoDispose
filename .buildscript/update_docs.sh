@@ -2,7 +2,7 @@
 
 echo "Cloning osstrich..."
 mkdir tmp
-cd osstrich-tmp
+cd tmp
 git clone git@github.com:square/osstrich.git
 cd osstrich
 echo "Packaging..."
