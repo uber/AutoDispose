@@ -28,8 +28,8 @@ test {
 }
 
 dependencies {
-    apt deps.build.nullAway
-    testApt deps.build.nullAway
+    annotationProcessor deps.build.nullAway
+    testAnnotationProcessor deps.build.nullAway
 
     api project(':autodispose')
     api deps.misc.rxlifecycle

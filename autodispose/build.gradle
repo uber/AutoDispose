@@ -28,8 +28,8 @@ test {
 }
 
 dependencies {
-  apt deps.build.nullAway
-  testApt deps.build.nullAway
+  annotationProcessor deps.build.nullAway
+  testAnnotationProcessor deps.build.nullAway
 
   api deps.rx.java
   compileOnly deps.misc.errorProneAnnotations
