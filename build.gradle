@@ -28,15 +28,20 @@ subprojects {
     jcenter()
     google()
   }
+
+  afterEvaluate {
+    if (plugins.hasPlugin('com.android.library')) {
+      // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
+      project.android.libraryVariants.all {
+        it.generateBuildConfig.enabled = false
+      }
+    }
+  }
 }
 
 task wrapper(type: Wrapper) {
   gradleVersion = '4.5.1'
   distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
-}
-
-task clean(type: Delete) {
-  delete rootProject.buildDir
 }
 
 apply from: 'gradle/dependencies.gradle'
