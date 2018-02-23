@@ -49,9 +49,6 @@ pluginManagement {
   repositories {
     jcenter()
     google()
-    maven {
-      url deps.build.repositories.kotlinEap
-    }
     gradlePluginPortal()
   }
 }
