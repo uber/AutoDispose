@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 0.6.1
+----------------------------
+
+_2018-2-23_
+
+This is patch release with a couple of QoL improvements:
+* Android artifacts' consumer proguard rules have been updated to not warn on the compiled error-prone annotations, like `@DoNotMock` ([#178](https://github.com/uber/autodispose/issues/178))
+  * Contributed by [@danh32](https://github.com/danh32)!
+* Android artifacts' no longer bundle a useless `BuildConfig.java` file ([#177](https://github.com/uber/autodispose/issues/177))
+
 Version 0.6.0
 ----------------------------
 
