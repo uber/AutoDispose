@@ -19,7 +19,7 @@ def versions = [
     aptPlugin: '0.14',
     archComponents: '1.1.0',
     archRuntime: '1.0.3',
-    dokka: '0.9.16-eap-3',
+    dokka: '0.9.16',
     errorProne: '2.2.0',
     errorPronePlugin: '0.0.13',
     kotlin: '1.2.21',
@@ -41,10 +41,6 @@ def build = [
     errorProneCheckApi: "com.google.errorprone:error_prone_check_api:${versions.errorProne}",
     errorProneTestHelpers: "com.google.errorprone:error_prone_test_helpers:${versions.errorProne}",
     nullAway: 'com.uber.nullaway:nullaway:0.3.2',
-
-    repositories: [
-        kotlinEap: 'https://dl.bintray.com/kotlin/kotlin-eap',
-    ],
 
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:2.3.0',

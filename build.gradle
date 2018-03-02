@@ -20,7 +20,6 @@ subprojects {
     repositories {
       jcenter()
       google()
-      maven { url deps.build.repositories.kotlinEap }
     }
   }
 
