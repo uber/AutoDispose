@@ -16,7 +16,6 @@
 
 plugins {
     id 'java-library'
-    id 'net.ltgt.apt-idea'
     id 'net.ltgt.errorprone'
 }
 

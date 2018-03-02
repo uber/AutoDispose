@@ -40,9 +40,6 @@ pluginManagement {
         case 'net.ltgt.errorprone':
           useVersion(deps.versions.errorPronePlugin)
           break
-        case 'net.ltgt.apt-idea':
-          useVersion(deps.versions.aptPlugin)
-          break
       }
     }
   }
