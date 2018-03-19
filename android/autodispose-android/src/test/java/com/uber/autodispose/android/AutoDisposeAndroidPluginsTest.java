@@ -63,7 +63,7 @@ public final class AutoDisposeAndroidPluginsTest {
       AutoDisposeAndroidUtil.isMainThread();
       throw new AssertionError("Expected to fail before this due to Looper not being stubbed!");
     } catch (Exception e) {
-      // "Method myLooper in android.os.Looper not mocked. See http://g.co/androidstudio/not-mocked for details."
+      // "Method myLooper in android.os.Looper not mocked..."
       // Not testing this exact message as it's an implementation detail of the test framework.
     }
   }
