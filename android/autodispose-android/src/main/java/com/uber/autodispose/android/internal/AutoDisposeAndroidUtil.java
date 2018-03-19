@@ -20,21 +20,24 @@ import android.os.Build;
 import android.os.Looper;
 import android.support.annotation.RestrictTo;
 import android.view.View;
+import com.uber.autodispose.android.AutoDisposeAndroidPlugins;
+import io.reactivex.functions.BooleanSupplier;
 
 import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 @RestrictTo(LIBRARY_GROUP)
 public class AutoDisposeAndroidUtil {
 
+  private static BooleanSupplier MAIN_THREAD_CHECK = new BooleanSupplier() {
+    @Override public boolean getAsBoolean() {
+      return Looper.myLooper() == Looper.getMainLooper();
+    }
+  };
+
   private AutoDisposeAndroidUtil() { }
 
   public static boolean isMainThread() {
-    try {
-      return Looper.myLooper() == Looper.getMainLooper();
-    } catch (Exception e) {
-      // Cover for tests
-      return true;
-    }
+    return AutoDisposeAndroidPlugins.onCheckMainThread(MAIN_THREAD_CHECK);
   }
 
   public static boolean isAttached(View view) {
