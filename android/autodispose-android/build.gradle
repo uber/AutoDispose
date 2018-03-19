@@ -49,6 +49,9 @@ dependencies {
 
   errorprone deps.build.errorProne
 
+  testCompile project(':test-utils')
+  testCompile deps.test.junit
+  testCompile deps.test.truth
   androidTestCompile project(':test-utils')
   androidTestCompile deps.support.annotations
   androidTestCompile deps.test.androidRunner
