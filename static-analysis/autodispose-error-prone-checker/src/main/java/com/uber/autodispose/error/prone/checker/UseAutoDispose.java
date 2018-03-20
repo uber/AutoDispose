@@ -41,10 +41,10 @@ import static com.google.errorprone.matchers.Matchers.instanceMethod;
 
 /**
  * Checker for subscriptions not binding to lifecycle in components with lifecycle.
- * Use -XepOpt:AutoDisposeLeakCheck flag to add support for custom components with lifecycle.
+ * Use -XepOpt:ClassesWithScope flag to add support for custom components with lifecycle.
  * The sample configuration for Conductor:
  * <pre><code>
- *   -XepOpt:AutoDisposeLeakCheck=com.bluelinelabs.conductor.Controller,android.app.Activity
+ *   -XepOpt:ClassesWithScope=com.bluelinelabs.conductor.Controller,android.app.Activity
  * </code></pre>
  */
 @AutoService(BugChecker.class)
@@ -70,7 +70,7 @@ public final class UseAutoDispose extends BugChecker
   }
 
   public UseAutoDispose(ErrorProneFlags flags) {
-    Optional<ImmutableList<String>> inputClasses = flags.getList("AutoDisposeLeakCheck");
+    Optional<ImmutableList<String>> inputClasses = flags.getList("ClassesWithScope");
     ImmutableList<String> defaultClassesWithLifecycle = new ImmutableList.Builder<String>()
         .add("android.app.Activity")
         .add("android.app.Fragment")

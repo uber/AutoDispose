@@ -49,7 +49,7 @@ public class UseAutoDisposeTest {
   @Test
   public void test_autodisposePositiveCaseswithCustomClass() {
     compilationHelper.setArgs(
-        Collections.singletonList("-XepOpt:AutoDisposeLeakCheck"
+        Collections.singletonList("-XepOpt:ClassesWithScope"
             + "=com.uber.autodispose.error.prone.checker.ComponentWithLifeCycle"));
     compilationHelper
         .addSourceFile("UseAutoDisposeCustomClassPositiveCases.java")

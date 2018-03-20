@@ -13,31 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-buildscript {
-  repositories {
-    jcenter()
-    maven { url deps.build.repositories.plugins }
-  }
-  dependencies {
-    classpath deps.build.gradlePlugins.apt
-    classpath deps.build.gradlePlugins.errorProne
-  }
+
+plugins {
+  id 'java-library'
+  id 'net.ltgt.errorprone'
 }
 
-apply plugin: 'java-library'
-apply plugin: 'net.ltgt.apt'
-apply plugin: 'net.ltgt.errorprone'
-
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
 
 test {
   testLogging.showStandardStreams = true
 }
 
 dependencies {
-  apt deps.build.nullAway
-  testApt deps.build.nullAway
+  annotationProcessor deps.build.nullAway
+  testAnnotationProcessor deps.build.nullAway
 
   api deps.rx.java
   compileOnly deps.misc.errorProneAnnotations

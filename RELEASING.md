@@ -13,10 +13,5 @@ Releasing
      - Select the artifact, click `close`, wait for it to close, then select again and click 
      `release`.
  10. After release propagates (wait ~1 hour), update Javadocs via [Osstrich](https://github.com/square/osstrich)
-     - Clone locally
-     - `mvn package`
-     - `rm -rf tmp/autodispose && java -jar target/osstrich-cli.jar tmp/autodispose git@github.com:uber/autodispose.git com.uber.autodispose`
-       - Note this step may [take a couple tries](https://github.com/square/osstrich/issues/17)
-       - If [this issue](https://github.com/square/osstrich/issues/18) is still open, edit the generated top-level `index.html` file to fix it and then push the fix after.
-         - To fix, adjust every kotlin artifact's `href` to point to the subdirectory of the same artifact name
-         - e.g. `<a href="autodispose-kotlin">autodispose-kotlin</a>` -> `<a href="autodispose-kotlin/autodispose-kotlin">autodispose-kotlin</a>`
+     - Make sure you have push access
+     - `./.buildscript/update_docs.sh`

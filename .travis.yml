@@ -22,7 +22,7 @@ before_install:
   - echo no | avdmanager create avd --force -n test -k "system-images;android-18;default;armeabi-v7a"
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
 
-install: ./gradlew clean assemble assembleAndroidTest --stacktrace
+install: ./gradlew build assembleAndroidTest --stacktrace
 
 before_script:
   - android-wait-for-emulator

@@ -1,6 +1,55 @@
 Changelog
 =========
 
+Version 0.6.1
+----------------------------
+
+_2018-2-23_
+
+This is patch release with a couple of QoL improvements:
+* Android artifacts' consumer proguard rules have been updated to not warn on the compiled error-prone annotations, like `@DoNotMock` ([#178](https://github.com/uber/autodispose/issues/178))
+  * Contributed by [@danh32](https://github.com/danh32)!
+* Android artifacts no longer bundle a useless `BuildConfig.java` file ([#177](https://github.com/uber/autodispose/issues/177))
+
+Version 0.6.0
+----------------------------
+
+_2018-2-5_
+
+### Error-Prone Checker artifact ([#156](https://github.com/uber/autodispose/issues/156))
+
+There is a new Error-Prone checker artifact that you can optionally apply to have error-prone enforced checks that rx chains are autodisposed when executing in a class that has scope. This is experimental in the public, but has been used extensively internally at Uber for nearly a year. Please let us know if you run into any issues!
+
+Wiki page with setup and configuration instructions: https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker
+
+We plan to add a UAST lint artifact in the future as well.
+
+### ParallelFlowable support ([#155](https://github.com/uber/autodispose/issues/155))
+
+AutoDispose now supports RxJava's `ParallelFlowable` type. Note that this only works through the new `as()` API, and there is no `ParallelScoper` API (since those are being removed in 1.0).
+
+### ScopeProvider and LifecycleScopeProvider are now annotated with `@DoNotMock` ([#153](https://github.com/uber/autodispose/issues/153))
+
+These types have specific test helpers that will be more robust for long term test usage, and thus should not be mocked.
+
+### Convenience `test()` methods added to all SubscribeProxy interfaces ([#160](https://github.com/uber/autodispose/issues/160))
+
+These are to match the convenience `test()` methods in regular RxJava types.
+
+### Misc
+
+- Archcomponents updated to 1.1.0 for compatibility with new artifacts ([#128](https://github.com/uber/autodispose/issues/128))
+- `autodispose-android-archcomponents-test` and `autodispose-android-archcomponents-test-kotlin` now only depend on the `common` arch components artifact rather than `extensions`, which removes the unused `livedata` and `viewmodel` transitive dependencies.
+- RxViewHolder examples now implement `LifecycleScopeProvider` instead of `ScopeProvider` ([#157](https://github.com/uber/autodispose/issues/157))
+- Deprecated Kotlin APIs are now `ERROR` level instead of `WARNING` ([#151](https://github.com/uber/autodispose/issues/151))
+- Various doc fixes ([#158](https://github.com/uber/autodispose/issues/158))
+- RxLifecycle updated to 2.2.1 ([#161](https://github.com/uber/autodispose/issues/161))
+- ErrorProne annotations updated to 2.2.0 ([#161](https://github.com/uber/autodispose/issues/161))
+- Android artifacts now compiled against SDK 27
+- Android support annotations updated to 27.0.2
+
+Thanks to the following contributors! [@VisheshVadhera](https://github.com/VisheshVadhera) [@bangarharshit](https://github.com/bangarharshit) [@mmallozzi](https://github.com/mmallozzi) [@0legg](https://github.com/0legg) [@shaunkawano](https://github.com/shaunkawano) 
+
 Version 0.5.1
 ----------------------------
 

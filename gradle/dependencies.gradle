@@ -16,11 +16,12 @@
 
 def versions = [
     androidTest: '1.0.1',
-    archComponents: '1.0.0',
+    archComponents: '1.1.0',
     archRuntime: '1.0.3',
-    dokka: '0.9.15',
+    dokka: '0.9.16',
     errorProne: '2.2.0',
-    kotlin: '1.2.20',
+    errorPronePlugin: '0.0.13',
+    kotlin: '1.2.21',
     support: '27.0.2'
 ]
 
@@ -40,16 +41,10 @@ def build = [
     errorProneTestHelpers: "com.google.errorprone:error_prone_test_helpers:${versions.errorProne}",
     nullAway: 'com.uber.nullaway:nullaway:0.3.2',
 
-    repositories: [
-        plugins: 'https://plugins.gradle.org/m2/'
-    ],
-
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:2.3.0',
-        apt: 'net.ltgt.gradle:gradle-apt-plugin:0.13',
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
         dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
-        errorProne: 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.13',
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     ]
 ]
@@ -75,7 +70,7 @@ def support = [
     arch: [
         lifecycle: [
             compiler: "android.arch.lifecycle:compiler:${versions.archComponents}",
-            extensions: "android.arch.lifecycle:extensions:${versions.archComponents}",
+            common: "android.arch.lifecycle:common:${versions.archComponents}",
             runtime: "android.arch.lifecycle:runtime:${versions.archRuntime}"
         ]
     ]
