@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.android;
 
+import android.support.annotation.Nullable;
 import android.view.View;
 import com.uber.autodispose.LifecycleScopeProvider;
 import com.uber.autodispose.OutsideLifecycleException;
@@ -54,7 +55,7 @@ public class ViewScopeProvider implements LifecycleScopeProvider<ViewLifecycleEv
    * @param view the view to scope for
    * @return a {@link LifecycleScopeProvider} against this view.
    */
-  public static LifecycleScopeProvider from(View view) {
+  public static LifecycleScopeProvider<ViewLifecycleEvent> from(@Nullable View view) {
     if (view == null) {
       throw new NullPointerException("view == null");
     }
