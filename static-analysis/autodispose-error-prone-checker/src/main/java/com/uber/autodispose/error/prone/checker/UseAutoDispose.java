@@ -150,7 +150,6 @@ public final class UseAutoDispose extends BugChecker
   private static Matcher<MethodInvocationTree> matcher(List<String> classesWithLifecycle) {
     return (Matcher<MethodInvocationTree>) (tree, state) -> {
 
-      boolean matchFound = false;
       ExpressionTree methodSelectTree = tree.getMethodSelect();
 
       // MemberSelectTree is used only for member access expression.
@@ -164,7 +163,7 @@ public final class UseAutoDispose extends BugChecker
         return false;
       }
 
-      matchFound = SUBSCRIBE_MATCHERS
+      boolean matchFound = SUBSCRIBE_MATCHERS
           .stream()
           .map(methodNameMatcher -> methodNameMatcher.matches(tree, state))
           .filter(Boolean::booleanValue) // Filtering the method invocation with name subscribe
