@@ -77,7 +77,7 @@ public abstract class AutoDisposeActivity extends Activity
     return lifecycleEvents.getValue();
   }
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     lifecycleEvents.onNext(ActivityEvent.CREATE);
   }
