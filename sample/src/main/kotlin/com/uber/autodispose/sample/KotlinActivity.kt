@@ -22,7 +22,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.kotlin.autoDisposable
-import com.uber.autodispose.recipes.subscribeBy
+import com.uber.autodispose.kotlin.subscribeBy
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 
