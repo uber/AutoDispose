@@ -85,12 +85,12 @@ public final class AutoDisposeAndroidPlugins {
     if (defaultChecker == null) {
       throw new NullPointerException("defaultChecker == null");
     }
-    BooleanSupplier c = onCheckMainThread;
+    BooleanSupplier current = onCheckMainThread;
     try {
-      if (c == null) {
+      if (current == null) {
         return defaultChecker.getAsBoolean();
       } else {
-        return c.getAsBoolean();
+        return current.getAsBoolean();
       }
     } catch (Exception ex) {
       throw Exceptions.propagate(ex);
