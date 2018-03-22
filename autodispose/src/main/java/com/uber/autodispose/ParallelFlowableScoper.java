@@ -36,6 +36,7 @@ class ParallelFlowableScoper<T> extends Scoper
         return;
       }
 
+      // there's no efficient way to avoid this warning due to generics
       @SuppressWarnings("unchecked") Subscriber<? super T>[] newSubscribers = new Subscriber[subscribers.length];
       for (int i = 0; i < subscribers.length; i++) {
         AutoDisposingSubscriberImpl<? super T> subscriber =
