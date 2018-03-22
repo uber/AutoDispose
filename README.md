@@ -118,6 +118,26 @@ If you have your own handling of exceptions in lifecycle boundary events, you ca
 `AutoDisposePlugins#setFillInOutsideLifecycleExceptionStacktraces` to `false`. This will result in 
 AutoDispose `not` filling in stacktraces for exceptions, for a potential minor performance boost.
 
+#### AutoDisposeAndroidPlugins
+
+Similar to `AutoDisposePlugins`, this allows you to customize the behavior of AutoDispose in Android environments.
+
+##### MainThreadChecker
+
+This plugin allows for supplying a custom `BooleanSupplier` that can customize how main thread 
+checks work. The conventional use case of this is Android JUnit tests, where the `Looper` class is 
+not stubbed in the mock android.jar and fails explosively when touched.
+
+Another potential use of this at runtime to customize checks for more fine-grained main thread 
+checks behavior.
+
+Example
+```java
+AutoDisposeAndroidPlugins.setOnCheckMainThread(() -> {
+    return true; // Use whatever heuristics you prefer.
+})
+```
+
 ### Behavior
 
 Under the hood, AutoDispose decorates RxJava's real observer with a custom *AutoDisposing* observer.
