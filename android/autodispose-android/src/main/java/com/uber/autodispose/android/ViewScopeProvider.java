@@ -54,7 +54,7 @@ public class ViewScopeProvider implements LifecycleScopeProvider<ViewLifecycleEv
    * @param view the view to scope for
    * @return a {@link LifecycleScopeProvider} against this view.
    */
-  public static LifecycleScopeProvider from(View view) {
+  public static LifecycleScopeProvider<ViewLifecycleEvent> from(View view) {
     if (view == null) {
       throw new NullPointerException("view == null");
     }

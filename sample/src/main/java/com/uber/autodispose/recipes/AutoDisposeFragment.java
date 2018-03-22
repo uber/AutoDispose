@@ -92,12 +92,12 @@ public abstract class AutoDisposeFragment extends Fragment
     lifecycleEvents.onNext(FragmentEvent.ATTACH);
   }
 
-  @Override public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     lifecycleEvents.onNext(FragmentEvent.CREATE);
   }
 
-  @Override public void onViewCreated(View view, Bundle savedInstanceState) {
+  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     lifecycleEvents.onNext(FragmentEvent.CREATE_VIEW);
   }
