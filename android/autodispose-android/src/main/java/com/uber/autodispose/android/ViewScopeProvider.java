@@ -55,9 +55,7 @@ public class ViewScopeProvider implements LifecycleScopeProvider<ViewLifecycleEv
    * @return a {@link LifecycleScopeProvider} against this view.
    */
   public static LifecycleScopeProvider<ViewLifecycleEvent> from(View view) {
-    //noinspection ConstantConditions
     if (view == null) {
-      // check for null anyway for callers that have subpar static analysis
       throw new NullPointerException("view == null");
     }
     return new ViewScopeProvider(view);
