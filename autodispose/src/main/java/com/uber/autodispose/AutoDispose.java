@@ -32,6 +32,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.parallel.ParallelFlowable;
 import java.util.concurrent.Callable;
+import org.reactivestreams.Subscriber;
 
 import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
 import static com.uber.autodispose.ScopeUtil.deferredResolvedLifecycle;
@@ -330,9 +331,12 @@ public final class AutoDispose {
   public static <T> AutoDisposeConverter<T> autoDisposable(final Maybe<?> scope) {
     checkNotNull(scope, "scope == null");
     return new AutoDisposeConverter<T>() {
-      @Override
-      public ParallelFlowableSubscribeProxy<T> apply(ParallelFlowable<T> upstream) {
-        return upstream.as(new AutoDisposeParallelFlowableConverter<T>(scope));
+      @Override public ParallelFlowableSubscribeProxy<T> apply(final ParallelFlowable<T> upstream) {
+        return new ParallelFlowableSubscribeProxy<T>() {
+          @Override public void subscribe(Subscriber<? super T>[] subscribers) {
+            new AutoDisposeParallelFlowable<>(upstream, scope).subscribe(subscribers);
+          }
+        };
       }
 
       @Override public CompletableSubscribeProxy apply(Completable upstream) {
@@ -357,8 +361,7 @@ public final class AutoDispose {
             return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext);
           }
 
-          @Override
-          public Disposable subscribe(Consumer<? super T> onNext,
+          @Override public Disposable subscribe(Consumer<? super T> onNext,
               Consumer<? super Throwable> onError) {
             return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext, onError);
           }
