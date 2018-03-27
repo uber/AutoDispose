@@ -46,7 +46,7 @@ import io.reactivex.observers.TestObserver;
  * @deprecated Use the static factories in {@link AutoDispose}. This will be removed in 1.0.
  */
 @Deprecated
-public class SingleScoper<T> extends Scoper
+public class SingleScoper<T> extends BaseAutoDisposeConverter
     implements Function<Single<? extends T>, SingleSubscribeProxy<T>> {
 
   public SingleScoper(ScopeProvider provider) {

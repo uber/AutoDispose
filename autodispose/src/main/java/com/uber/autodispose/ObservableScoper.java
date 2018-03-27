@@ -18,13 +18,7 @@ package com.uber.autodispose;
 
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.observers.TestObserver;
 
 /**
  * Entry point for auto-disposing {@link Observable}s.
@@ -46,7 +40,7 @@ import io.reactivex.observers.TestObserver;
  * @deprecated Use the static factories in {@link AutoDispose}. This will be removed in 1.0.
  */
 @Deprecated
-public class ObservableScoper<T> extends Scoper
+public class ObservableScoper<T> extends BaseAutoDisposeConverter
     implements Function<Observable<? extends T>, ObservableSubscribeProxy<T>> {
 
   public ObservableScoper(ScopeProvider provider) {
@@ -61,73 +55,11 @@ public class ObservableScoper<T> extends Scoper
     super(lifecycle);
   }
 
-  @Override public ObservableSubscribeProxy<T> apply(final Observable<? extends T> observableSource)
-      throws Exception {
-    return new ObservableSubscribeProxy<T>() {
-      @Override public Disposable subscribe() {
-        return new AutoDisposeObservable<>(observableSource, scope()).subscribe();
-      }
-
-      @Override public Disposable subscribe(Consumer<? super T> onNext) {
-        return new AutoDisposeObservable<>(observableSource, scope()).subscribe(onNext);
-      }
-
-      @Override
-      public Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError) {
-        return new AutoDisposeObservable<>(observableSource, scope()).subscribe(onNext, onError);
-      }
-
-      @Override
-      public Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
-          Action onComplete) {
-        return new AutoDisposeObservable<>(observableSource, scope()).subscribe(onNext, onError,
-            onComplete);
-      }
-
-      @Override
-      public Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
-          Action onComplete, Consumer<? super Disposable> onSubscribe) {
-        return new AutoDisposeObservable<>(observableSource, scope()).subscribe(onNext, onError,
-            onComplete, onSubscribe);
-      }
-
-      @Override public void subscribe(Observer<T> observer) {
-        new AutoDisposeObservable<>(observableSource, scope()).subscribe(observer);
-      }
-
-      @Override public <E extends Observer<? super T>> E subscribeWith(E observer) {
-        return new AutoDisposeObservable<>(observableSource, scope()).subscribeWith(observer);
-      }
-
-      @Override public TestObserver<T> test() {
-        TestObserver<T> observer = new TestObserver<>();
-        subscribe(observer);
-        return observer;
-      }
-
-      @Override public TestObserver<T> test(boolean dispose) {
-        TestObserver<T> observer = new TestObserver<>();
-        if (dispose) {
-            observer.dispose();
-        }
-        subscribe(observer);
-        return observer;
-      }
-    };
-  }
-
-  static final class AutoDisposeObservable<T> extends Observable<T> {
-    private final ObservableSource<T> source;
-    private final Maybe<?> scope;
-
-    AutoDisposeObservable(ObservableSource<T> source, Maybe<?> scope) {
-      this.source = source;
-      this.scope = scope;
-    }
-
-    @Override protected void subscribeActual(Observer<? super T> observer) {
-      source.subscribe(new AutoDisposingObserverImpl<>(scope, observer));
-    }
+  @Override
+  public ObservableSubscribeProxy<T> apply(final Observable<? extends T> observableSource) {
+    return observableSource
+        .map(BaseAutoDisposeConverter.<T>identityFunctionForGenerics())
+        .as(AutoDispose.<T>autoDisposable(scope()));
   }
 }
 

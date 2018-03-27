@@ -45,7 +45,7 @@ import io.reactivex.observers.TestObserver;
  * @deprecated Use the static factories in {@link AutoDispose}. This will be removed in 1.0.
  */
 @Deprecated
-public class CompletableScoper extends Scoper
+public class CompletableScoper extends BaseAutoDisposeConverter
     implements Function<Completable, CompletableSubscribeProxy> {
 
   public CompletableScoper(ScopeProvider provider) {
