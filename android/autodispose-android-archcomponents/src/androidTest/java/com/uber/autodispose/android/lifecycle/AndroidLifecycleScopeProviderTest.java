@@ -18,7 +18,6 @@ package com.uber.autodispose.android.lifecycle;
 
 import android.arch.lifecycle.Lifecycle;
 import android.support.test.annotation.UiThreadTest;
-import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 import com.uber.autodispose.AutoDispose;
@@ -27,7 +26,6 @@ import com.uber.autodispose.android.lifecycle.test.TestLifecycleOwner;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -40,8 +38,6 @@ import static com.google.common.truth.Truth.assertThat;
       Log.d(AndroidLifecycleScopeProviderTest.class.getSimpleName(), message);
     }
   };
-
-  @Rule public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
 
   @Test @UiThreadTest public void observable_beforeCreate() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
