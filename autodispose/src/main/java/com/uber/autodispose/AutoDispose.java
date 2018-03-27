@@ -344,7 +344,7 @@ public final class AutoDispose {
       }
 
       @Override public ObservableSubscribeProxy<T> apply(Observable<T> upstream) {
-        return upstream.to(new ObservableScoper<T>(scope));
+        return upstream.as(new AutoDisposeObservableConverter<T>(scope));
       }
 
       @Override public SingleSubscribeProxy<T> apply(Single<T> upstream) {
