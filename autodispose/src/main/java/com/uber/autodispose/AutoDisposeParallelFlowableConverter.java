@@ -6,10 +6,10 @@ import io.reactivex.Maybe;
 import io.reactivex.parallel.ParallelFlowable;
 import io.reactivex.parallel.ParallelFlowableConverter;
 
-class ParallelFlowableScoper<T> extends BaseAutoDisposeConverter
+class AutoDisposeParallelFlowableConverter<T> extends BaseAutoDisposeConverter
     implements ParallelFlowableConverter<T, ParallelFlowableSubscribeProxy<T>> {
 
-  ParallelFlowableScoper(Maybe<?> scope) {
+  AutoDisposeParallelFlowableConverter(Maybe<?> scope) {
     super(scope);
   }
 

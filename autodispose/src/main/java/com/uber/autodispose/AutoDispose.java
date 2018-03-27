@@ -328,7 +328,7 @@ public final class AutoDispose {
     return new AutoDisposeConverter<T>() {
       @Override
       public ParallelFlowableSubscribeProxy<T> apply(ParallelFlowable<T> upstream) {
-        return upstream.as(new ParallelFlowableScoper<T>(scope));
+        return upstream.as(new AutoDisposeParallelFlowableConverter<T>(scope));
       }
 
       @Override public CompletableSubscribeProxy apply(Completable upstream) {
