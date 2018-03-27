@@ -45,7 +45,7 @@ import io.reactivex.observers.TestObserver;
  * @deprecated Use the static factories in {@link AutoDispose}. This will be removed in 1.0.
  */
 @Deprecated
-public class MaybeScoper<T> extends Scoper
+public class MaybeScoper<T> extends BaseAutoDisposeConverter
     implements Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> {
 
   public MaybeScoper(ScopeProvider provider) {

@@ -48,7 +48,7 @@ import org.reactivestreams.Subscription;
  * @deprecated Use the static factories in {@link AutoDispose}. This will be removed in 1.0.
  */
 @Deprecated
-public class FlowableScoper<T> extends Scoper
+public class FlowableScoper<T> extends BaseAutoDisposeConverter
     implements Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> {
 
   public FlowableScoper(ScopeProvider provider) {
