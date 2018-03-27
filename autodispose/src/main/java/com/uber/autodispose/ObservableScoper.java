@@ -61,8 +61,8 @@ public class ObservableScoper<T> extends Scoper
     super(lifecycle);
   }
 
-  @Override public ObservableSubscribeProxy<T> apply(final Observable<? extends T> observableSource)
-      throws Exception {
+  @Override public ObservableSubscribeProxy<T> apply(
+      final Observable<? extends T> observableSource) {
     return new ObservableSubscribeProxy<T>() {
       @Override public Disposable subscribe() {
         return new AutoDisposeObservable<>(observableSource, scope()).subscribe();
