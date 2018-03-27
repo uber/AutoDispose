@@ -30,15 +30,15 @@ import io.reactivex.observers.TestObserver;
 class AutoDisposeObservableConverter<T> extends BaseAutoDisposeConverter
     implements ObservableConverter<T, ObservableSubscribeProxy<T>> {
 
-  public AutoDisposeObservableConverter(ScopeProvider provider) {
+  AutoDisposeObservableConverter(ScopeProvider provider) {
     super(provider);
   }
 
-  public AutoDisposeObservableConverter(LifecycleScopeProvider<?> provider) {
+  AutoDisposeObservableConverter(LifecycleScopeProvider<?> provider) {
     super(provider);
   }
 
-  public AutoDisposeObservableConverter(Maybe<?> lifecycle) {
+  AutoDisposeObservableConverter(Maybe<?> lifecycle) {
     super(lifecycle);
   }
 
