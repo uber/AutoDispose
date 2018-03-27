@@ -40,9 +40,8 @@ android {
 }
 
 dependencies {
-  compile deps.kotlin.stdlib
-  compile project(':android:autodispose-android-archcomponents-test')
-  androidTestCompile project(':test-utils')
+  api project(':android:autodispose-android-archcomponents-test')
+  androidTestImplementation project(':test-utils')
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
