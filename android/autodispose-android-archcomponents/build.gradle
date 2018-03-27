@@ -37,6 +37,9 @@ android {
   lintOptions {
     lintConfig file('lint.xml')
   }
+  testOptions {
+    execution 'ANDROID_TEST_ORCHESTRATOR'
+  }
 }
 
 dependencies {
@@ -61,6 +64,7 @@ dependencies {
   androidTestImplementation project(':test-utils')
   androidTestImplementation deps.test.androidRunner
   androidTestImplementation deps.test.androidRules
+  androidTestUtil deps.test.androidOrchestrator
 }
 
 tasks.withType(JavaCompile) {

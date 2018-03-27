@@ -37,12 +37,16 @@ android {
   sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
   }
+  testOptions {
+    execution 'ANDROID_TEST_ORCHESTRATOR'
+  }
 }
 
 dependencies {
   api deps.kotlin.stdlib
   implementation project(':android:autodispose-android')
   androidTestImplementation project(':test-utils')
+  androidTestUtil deps.test.androidOrchestrator
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
