@@ -27,40 +27,34 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.TestObserver;
 
-class AutoDisposeObservableConverter<T> extends BaseAutoDisposeConverter
+class AutoDisposeObservableConverter<T>
     implements ObservableConverter<T, ObservableSubscribeProxy<T>> {
 
-  AutoDisposeObservableConverter(ScopeProvider provider) {
-    super(provider);
-  }
+  private final Maybe<?> scope;
 
-  AutoDisposeObservableConverter(LifecycleScopeProvider<?> provider) {
-    super(provider);
-  }
-
-  AutoDisposeObservableConverter(Maybe<?> lifecycle) {
-    super(lifecycle);
+  AutoDisposeObservableConverter(Maybe<?> scope) {
+    this.scope = scope;
   }
 
   @Override public ObservableSubscribeProxy<T> apply(final Observable<T> upstream) {
     return new ObservableSubscribeProxy<T>() {
       @Override public Disposable subscribe() {
-        return new AutoDisposeObservable<>(upstream, scope()).subscribe();
+        return new AutoDisposeObservable<>(upstream, scope).subscribe();
       }
 
       @Override public Disposable subscribe(Consumer<? super T> onNext) {
-        return new AutoDisposeObservable<>(upstream, scope()).subscribe(onNext);
+        return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext);
       }
 
       @Override
       public Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError) {
-        return new AutoDisposeObservable<>(upstream, scope()).subscribe(onNext, onError);
+        return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext, onError);
       }
 
       @Override public Disposable subscribe(Consumer<? super T> onNext,
           Consumer<? super Throwable> onError,
           Action onComplete) {
-        return new AutoDisposeObservable<>(upstream, scope()).subscribe(onNext,
+        return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext,
             onError,
             onComplete);
       }
@@ -69,18 +63,18 @@ class AutoDisposeObservableConverter<T> extends BaseAutoDisposeConverter
           Consumer<? super Throwable> onError,
           Action onComplete,
           Consumer<? super Disposable> onSubscribe) {
-        return new AutoDisposeObservable<>(upstream, scope()).subscribe(onNext,
+        return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext,
             onError,
             onComplete,
             onSubscribe);
       }
 
       @Override public void subscribe(Observer<T> observer) {
-        new AutoDisposeObservable<>(upstream, scope()).subscribe(observer);
+        new AutoDisposeObservable<>(upstream, scope).subscribe(observer);
       }
 
       @Override public <E extends Observer<? super T>> E subscribeWith(E observer) {
-        return new AutoDisposeObservable<>(upstream, scope()).subscribeWith(observer);
+        return new AutoDisposeObservable<>(upstream, scope).subscribeWith(observer);
       }
 
       @Override public TestObserver<T> test() {

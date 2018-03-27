@@ -6,17 +6,19 @@ import io.reactivex.Maybe;
 import io.reactivex.parallel.ParallelFlowable;
 import io.reactivex.parallel.ParallelFlowableConverter;
 
-class AutoDisposeParallelFlowableConverter<T> extends BaseAutoDisposeConverter
+class AutoDisposeParallelFlowableConverter<T>
     implements ParallelFlowableConverter<T, ParallelFlowableSubscribeProxy<T>> {
 
+  private final Maybe<?> scope;
+
   AutoDisposeParallelFlowableConverter(Maybe<?> scope) {
-    super(scope);
+    this.scope = scope;
   }
 
   @Override public ParallelFlowableSubscribeProxy<T> apply(final ParallelFlowable<T> upstream) {
     return new ParallelFlowableSubscribeProxy<T>() {
       @Override public void subscribe(Subscriber<? super T>[] subscribers) {
-        new AutoDisposeParallelFlowable<>(upstream, scope()).subscribe(subscribers);
+        new AutoDisposeParallelFlowable<>(upstream, scope).subscribe(subscribers);
       }
     };
   }
