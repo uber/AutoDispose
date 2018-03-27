@@ -31,19 +31,9 @@ abstract class BaseAutoDisposeConverter {
     }
   };
 
-  /**
-   * Helper method for returning a generically typed {@link Function<T>} reusing the singleton
-   * {@link #IDENTITY_FUNCTION} instance. This is NOT considered public API, and only here so that
-   * migrated Scopers can safely cast to the new as() converter APIs.
-   *
-   * @param <T> the type parameter.
-   * @return the casted identity function.
-   * @deprecated Deprecated from inception as this is just temporary cover for deprecated Scopers
-   *             migrating to the new as() APIs.
-   */
   @Deprecated
   @SuppressWarnings("unchecked")
-  protected static <T> Function<T, T> identityFunctionForGenerics() {
+  static <T> Function<T, T> identityFunctionForGenerics() {
     return (Function<T, T>) IDENTITY_FUNCTION;
   }
 
