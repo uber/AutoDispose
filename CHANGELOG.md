@@ -1,6 +1,39 @@
 Changelog
 =========
 
+Version 0.7.0
+----------------------------
+
+_2018-3-26_
+
+### AutoDisposeAndroidPlugins ([#183](https://github.com/uber/AutoDispose/pull/183))
+
+New API! `AutoDisposeAndroidPlugins` API for plugin hooks to AutoDispose's android behavior at runtime. 
+The first plugin supported here is `MainThreadChecker`.
+
+This plugin allows for supplying a custom `BooleanSupplier` that can customize how main thread checks 
+work. The conventional use case of this is Android JUnit tests, where the `Looper` class is not 
+stubbed in the mock android.jar and fails explosively when touched.
+
+Another potential use of this at runtime to customize checks for more fine-grained main thread 
+checks behavior.
+
+Example
+
+```java
+AutoDisposeAndroidPlugins.setOnCheckMainThread(() -> {
+    return true; // Use whatever heuristics you prefer.
+})
+```
+
+This is available in the `autodispose-android` artifact, and all mainthread-checking APIs in android 
+artifacts will delegate to this plugin hook.
+
+### Misc
+
+* Fixed a few nullability and other minor warnings ([#187](https://github.com/uber/autodispose/pull/187))
+  * Contributed by [@tbsandee](https://github.com/tbsandee)!
+
 Version 0.6.1
 ----------------------------
 
