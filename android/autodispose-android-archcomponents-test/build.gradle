@@ -37,13 +37,15 @@ android {
 dependencies {
   annotationProcessor deps.build.nullAway
   testAnnotationProcessor deps.build.nullAway
+  androidTestAnnotationProcessor deps.build.nullAway
 
-  compile project(':autodispose')
-  compile deps.support.arch.lifecycle.common
-  compile deps.support.arch.lifecycle.runtime
+  api project(':autodispose')
+  api deps.support.annotations
+  api deps.support.arch.lifecycle.common
+  api deps.support.arch.lifecycle.runtime
 
-  provided deps.misc.errorProneAnnotations
-  provided deps.misc.javaxExtras
+  compileOnly deps.misc.errorProneAnnotations
+  compileOnly deps.misc.javaxExtras
 
   errorprone deps.build.errorProne
 }
