@@ -54,7 +54,12 @@ def kotlinAndroidArtifactTasks() {
 
     outputFormat = 'html'
     outputDirectory = "$buildDir/docs/kdoc"
-    sourceDirs = android.sourceSets.main.java.srcDirs
+
+    // Temporary until Dokka 0.9.17 due to https://github.com/Kotlin/dokka/issues/282
+//    sourceDirs = android.sourceSets.main.java.srcDirs
+    kotlinTasks { [] } // Disable Kotlin-Android based autoconfiguration
+    sourceDirs = project.files('src/main/java')
+    classpath = new ArrayList<File>(project.tasks['assemble'].outputs.files.files)
   }
 
   task docJar(type: Jar, dependsOn: dokka) {
