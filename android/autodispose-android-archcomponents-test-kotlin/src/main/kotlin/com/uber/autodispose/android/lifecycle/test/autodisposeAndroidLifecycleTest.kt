@@ -18,11 +18,13 @@
 
 package com.uber.autodispose.android.lifecycle.test
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.LifecycleRegistry
 import io.reactivex.annotations.CheckReturnValue
 
 /**
  * Extension that returns a [TestLifecycleOwner] for this [LifecycleRegistry].
  */
+@SuppressLint("RestrictedApi")
 @CheckReturnValue
 inline fun LifecycleRegistry.test(): TestLifecycleOwner = TestLifecycleOwner.create(this)
