@@ -20,12 +20,12 @@ import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Maybe;
 
-public class AutoDisposeCompleteable extends Completable {
+class AutoDisposeCompletable extends Completable {
 
   private final Completable source;
   private final Maybe<?> scope;
 
-  AutoDisposeCompleteable(Completable source, Maybe<?> scope) {
+  AutoDisposeCompletable(Completable source, Maybe<?> scope) {
     this.source = source;
     this.scope = scope;
   }

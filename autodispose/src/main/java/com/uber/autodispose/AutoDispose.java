@@ -343,24 +343,24 @@ public final class AutoDispose {
       @Override public CompletableSubscribeProxy apply(final Completable upstream) {
         return new CompletableSubscribeProxy() {
           @Override public Disposable subscribe() {
-            return new AutoDisposeCompleteable(upstream, scope).subscribe();
+            return new AutoDisposeCompletable(upstream, scope).subscribe();
           }
 
           @Override public Disposable subscribe(Action action) {
-            return new AutoDisposeCompleteable(upstream, scope).subscribe(action);
+            return new AutoDisposeCompletable(upstream, scope).subscribe(action);
           }
 
           @Override
           public Disposable subscribe(Action action, Consumer<? super Throwable> onError) {
-            return new AutoDisposeCompleteable(upstream, scope).subscribe(action, onError);
+            return new AutoDisposeCompletable(upstream, scope).subscribe(action, onError);
           }
 
           @Override public void subscribe(CompletableObserver observer) {
-            new AutoDisposeCompleteable(upstream, scope).subscribe(observer);
+            new AutoDisposeCompletable(upstream, scope).subscribe(observer);
           }
 
           @Override public <E extends CompletableObserver> E subscribeWith(E observer) {
-            return new AutoDisposeCompleteable(upstream, scope).subscribeWith(observer);
+            return new AutoDisposeCompletable(upstream, scope).subscribeWith(observer);
           }
 
           @Override public TestObserver<Void> test() {
