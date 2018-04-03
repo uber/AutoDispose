@@ -17,14 +17,8 @@
 package com.uber.autodispose;
 
 import io.reactivex.Completable;
-import io.reactivex.CompletableObserver;
-import io.reactivex.CompletableSource;
 import io.reactivex.Maybe;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.observers.TestObserver;
 
 /**
  * Entry point for auto-disposing {@link Completable}s.
@@ -45,8 +39,8 @@ import io.reactivex.observers.TestObserver;
  * @deprecated Use the static factories in {@link AutoDispose}. This will be removed in 1.0.
  */
 @Deprecated
-public class CompletableScoper extends BaseAutoDisposeConverter
-    implements Function<Completable, CompletableSubscribeProxy> {
+public class CompletableScoper extends BaseAutoDisposeConverter implements
+        Function<Completable, CompletableSubscribeProxy> {
 
   public CompletableScoper(ScopeProvider provider) {
     super(provider);
@@ -60,57 +54,8 @@ public class CompletableScoper extends BaseAutoDisposeConverter
     super(lifecycle);
   }
 
-  @Override public CompletableSubscribeProxy apply(final Completable maybeSource) throws Exception {
-    return new CompletableSubscribeProxy() {
-      @Override public Disposable subscribe() {
-        return new AutoDisposeCompletable(maybeSource, scope()).subscribe();
-      }
-
-      @Override public Disposable subscribe(Action action) {
-        return new AutoDisposeCompletable(maybeSource, scope()).subscribe(action);
-      }
-
-      @Override public Disposable subscribe(Action action, Consumer<? super Throwable> onError) {
-        return new AutoDisposeCompletable(maybeSource, scope()).subscribe(action, onError);
-      }
-
-      @Override public void subscribe(CompletableObserver observer) {
-        new AutoDisposeCompletable(maybeSource, scope()).subscribe(observer);
-      }
-
-      @Override public <E extends CompletableObserver> E subscribeWith(E observer) {
-        return new AutoDisposeCompletable(maybeSource, scope()).subscribeWith(observer);
-      }
-
-      @Override public TestObserver<Void> test() {
-        TestObserver<Void> observer = new TestObserver<>();
-        subscribe(observer);
-        return observer;
-      }
-
-      @Override public TestObserver<Void> test(boolean cancel) {
-        TestObserver<Void> observer = new TestObserver<>();
-        if (cancel) {
-            observer.cancel();
-        }
-        subscribe(observer);
-        return observer;
-      }
-    };
-  }
-
-  static final class AutoDisposeCompletable extends Completable {
-    private final CompletableSource source;
-    private final Maybe<?> scope;
-
-    AutoDisposeCompletable(CompletableSource source, Maybe<?> scope) {
-      this.source = source;
-      this.scope = scope;
-    }
-
-    @Override protected void subscribeActual(CompletableObserver observer) {
-      source.subscribe(new AutoDisposingCompletableObserverImpl(scope, observer));
-    }
+  @Override
+  public CompletableSubscribeProxy apply(final Completable maybeSource) {
+    return maybeSource.as(AutoDispose.autoDisposable(scope()));
   }
 }
-
