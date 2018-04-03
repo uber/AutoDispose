@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright (c) 2018. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Maybe;
 
-class AutoDisposeCompletable extends Completable {
+final class AutoDisposeCompletable extends Completable {
 
   private final Completable source;
   private final Maybe<?> scope;
