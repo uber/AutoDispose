@@ -17,6 +17,7 @@
 package com.uber.autodispose;
 
 import io.reactivex.Completable;
+import io.reactivex.CompletableObserver;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -339,8 +340,44 @@ public final class AutoDispose {
         };
       }
 
-      @Override public CompletableSubscribeProxy apply(Completable upstream) {
-        return upstream.to(new CompletableScoper(scope));
+      @Override public CompletableSubscribeProxy apply(final Completable upstream) {
+        return new CompletableSubscribeProxy() {
+          @Override public Disposable subscribe() {
+            return new AutoDisposeCompletable(upstream, scope).subscribe();
+          }
+
+          @Override public Disposable subscribe(Action action) {
+            return new AutoDisposeCompletable(upstream, scope).subscribe(action);
+          }
+
+          @Override
+          public Disposable subscribe(Action action, Consumer<? super Throwable> onError) {
+            return new AutoDisposeCompletable(upstream, scope).subscribe(action, onError);
+          }
+
+          @Override public void subscribe(CompletableObserver observer) {
+            new AutoDisposeCompletable(upstream, scope).subscribe(observer);
+          }
+
+          @Override public <E extends CompletableObserver> E subscribeWith(E observer) {
+            return new AutoDisposeCompletable(upstream, scope).subscribeWith(observer);
+          }
+
+          @Override public TestObserver<Void> test() {
+            TestObserver<Void> observer = new TestObserver<>();
+            subscribe(observer);
+            return observer;
+          }
+
+          @Override public TestObserver<Void> test(boolean cancel) {
+            TestObserver<Void> observer = new TestObserver<>();
+            if (cancel) {
+              observer.cancel();
+            }
+            subscribe(observer);
+            return observer;
+          }
+        };
       }
 
       @Override public FlowableSubscribeProxy<T> apply(Flowable<T> upstream) {
