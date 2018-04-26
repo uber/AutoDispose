@@ -17,44 +17,29 @@
 package com.uber.autodispose.android;
 
 import android.view.View;
-import com.uber.autodispose.LifecycleScopeProvider;
-import com.uber.autodispose.OutsideLifecycleException;
-import com.uber.autodispose.android.internal.AutoDisposeAndroidUtil;
-import io.reactivex.Observable;
-import io.reactivex.functions.Function;
-
-import static com.uber.autodispose.android.ViewLifecycleEvent.DETACH;
+import com.uber.autodispose.ScopeProvider;
+import io.reactivex.Maybe;
 
 /**
- * A {@link LifecycleScopeProvider} that can provide scoping for Android {@link View} classes.
+ * A {@link ScopeProvider} that can provide scoping for Android {@link View} classes.
+ *
  * <p>
+ *
  * <pre><code>
  *   AutoDispose.autoDisposable(ViewScopeProvider.from(view));
  * </code></pre>
  */
-public class ViewScopeProvider implements LifecycleScopeProvider<ViewLifecycleEvent> {
-  private static final Function<ViewLifecycleEvent, ViewLifecycleEvent> CORRESPONDING_EVENTS =
-      new Function<ViewLifecycleEvent, ViewLifecycleEvent>() {
-        @Override public ViewLifecycleEvent apply(ViewLifecycleEvent lastEvent) throws Exception {
-          switch (lastEvent) {
-            case ATTACH:
-              return DETACH;
-            default:
-              throw new OutsideLifecycleException("View is detached!");
-          }
-        }
-      };
+public final class ViewScopeProvider implements ScopeProvider {
 
-  private final Observable<ViewLifecycleEvent> lifecycle;
   private final View view;
 
   /**
-   * Creates a {@link LifecycleScopeProvider} for Android Views.
+   * Creates a {@link ScopeProvider} for Android Views.
    *
    * @param view the view to scope for
-   * @return a {@link LifecycleScopeProvider} against this view.
+   * @return a {@link ScopeProvider} against this view.
    */
-  public static LifecycleScopeProvider<ViewLifecycleEvent> from(View view) {
+  public static ScopeProvider from(View view) {
     if (view == null) {
       throw new NullPointerException("view == null");
     }
@@ -63,18 +48,10 @@ public class ViewScopeProvider implements LifecycleScopeProvider<ViewLifecycleEv
 
   private ViewScopeProvider(final View view) {
     this.view = view;
-    lifecycle = new ViewAttachEventsObservable(view);
   }
 
-  @Override public Observable<ViewLifecycleEvent> lifecycle() {
-    return lifecycle;
-  }
-
-  @Override public Function<ViewLifecycleEvent, ViewLifecycleEvent> correspondingEvents() {
-    return CORRESPONDING_EVENTS;
-  }
-
-  @Override public ViewLifecycleEvent peekLifecycle() {
-    return AutoDisposeAndroidUtil.isAttached(view) ? ViewLifecycleEvent.ATTACH : DETACH;
+  @Override
+  public Maybe<?> requestScope() {
+    return new DetachEventMaybe(view);
   }
 }
