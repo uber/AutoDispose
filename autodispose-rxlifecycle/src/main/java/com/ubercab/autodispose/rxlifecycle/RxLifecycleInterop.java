@@ -36,7 +36,8 @@ public final class RxLifecycleInterop {
     throw new AssertionError("No Instances");
   }
 
-  private static final Object DEFAULT_THROWAWAY_OBJECT = new Object();
+  @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
+  static final Object DEFAULT_THROWAWAY_OBJECT = new Object();
 
   /**
    * Factory creating a {@link ScopeProvider} representation of a {@link LifecycleProvider}.
