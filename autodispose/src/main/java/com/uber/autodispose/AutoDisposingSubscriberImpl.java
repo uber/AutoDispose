@@ -29,8 +29,10 @@ import org.reactivestreams.Subscription;
 final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
     implements AutoDisposingSubscriber<T> {
 
-  private final AtomicReference<Subscription> mainSubscription = new AtomicReference<>();
-  private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
+  @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
+  final AtomicReference<Subscription> mainSubscription = new AtomicReference<>();
+  @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
+  final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
   private final AtomicThrowable error = new AtomicThrowable();
   private final AtomicReference<Subscription> ref = new AtomicReference<>();
   private final AtomicLong requested = new AtomicLong();

@@ -25,8 +25,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 final class AutoDisposingCompletableObserverImpl implements AutoDisposingCompletableObserver {
 
-  private final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
-  private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
+  @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
+  final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
+  @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
+  final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
   private final Maybe<?> lifecycle;
   private final CompletableObserver delegate;
 

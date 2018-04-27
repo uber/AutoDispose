@@ -26,8 +26,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDisposingObserver<T> {
 
-  private final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
-  private final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
+  @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
+  final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
+  @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
+  final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
   private final AtomicThrowable error = new AtomicThrowable();
   private final Maybe<?> lifecycle;
   private final Observer<? super T> delegate;
