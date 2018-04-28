@@ -19,11 +19,11 @@
 package com.uber.autodispose.android
 
 import android.view.View
-import com.uber.autodispose.LifecycleScopeProvider
+import com.uber.autodispose.ScopeProvider
 import io.reactivex.annotations.CheckReturnValue
 
 /**
- * Extension that returns a [LifecycleScopeProvider] for this [View].
+ * Extension that returns a [ScopeProvider] for this [View].
  */
 @CheckReturnValue
-inline fun View.scope(): LifecycleScopeProvider<*> = ViewScopeProvider.from(this)
+inline fun View.scope(): ScopeProvider = ViewScopeProvider.from(this)

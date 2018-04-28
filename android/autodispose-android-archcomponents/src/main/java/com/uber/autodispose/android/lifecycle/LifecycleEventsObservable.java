@@ -106,7 +106,8 @@ import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMai
       lifecycle.removeObserver(this);
     }
 
-    @OnLifecycleEvent(Event.ON_ANY) void onStateChange(LifecycleOwner owner, Event event) {
+    @OnLifecycleEvent(Event.ON_ANY)
+    void onStateChange(@SuppressWarnings("unused") LifecycleOwner owner, Event event) {
       if (!isDisposed()) {
         if (!(event == ON_CREATE && eventsObservable.getValue() == event)) {
           // Due to the INITIALIZED->ON_CREATE mapping trick we do in backfill(),

@@ -16,10 +16,8 @@
 
 package com.uber.autodispose.android.internal;
 
-import android.os.Build;
 import android.os.Looper;
 import android.support.annotation.RestrictTo;
-import android.view.View;
 import com.uber.autodispose.android.AutoDisposeAndroidPlugins;
 import io.reactivex.functions.BooleanSupplier;
 
@@ -38,10 +36,5 @@ public class AutoDisposeAndroidUtil {
 
   public static boolean isMainThread() {
     return AutoDisposeAndroidPlugins.onCheckMainThread(MAIN_THREAD_CHECK);
-  }
-
-  public static boolean isAttached(View view) {
-    return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
-        || view.getWindowToken() != null;
   }
 }
