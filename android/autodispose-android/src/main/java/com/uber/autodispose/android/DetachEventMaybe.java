@@ -71,7 +71,7 @@ final class DetachEventMaybe extends Maybe<Object> {
       this.observer = observer;
     }
 
-    @Override public void onViewAttachedToWindow(View v) {}
+    @Override public void onViewAttachedToWindow(View v) { }
 
     @Override public void onViewDetachedFromWindow(View v) {
       if (!isDisposed()) {

@@ -32,7 +32,7 @@ public class AutoDisposeAndroidUtil {
     }
   };
 
-  private AutoDisposeAndroidUtil() {}
+  private AutoDisposeAndroidUtil() { }
 
   public static boolean isMainThread() {
     return AutoDisposeAndroidPlugins.onCheckMainThread(MAIN_THREAD_CHECK);
