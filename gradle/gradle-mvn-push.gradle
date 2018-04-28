@@ -231,7 +231,9 @@ afterEvaluate { project ->
     }
 
     if (project.plugins.hasPlugin('kotlin-android')) {
-      kotlinAndroidArtifactTasks()
+      // Disabled until Dokka actually updates
+//      kotlinAndroidArtifactTasks()
+      androidArtifactTasks()
     } else {
       androidArtifactTasks()
     }
@@ -273,7 +275,9 @@ afterEvaluate { project ->
     }
 
     if (project.plugins.hasPlugin('kotlin')) {
-      kotlinArtifactTasks()
+      // Disabled until Dokka actually updates
+//      kotlinArtifactTasks()
+      javaArtifactTasks()
     } else {
       javaArtifactTasks()
     }
