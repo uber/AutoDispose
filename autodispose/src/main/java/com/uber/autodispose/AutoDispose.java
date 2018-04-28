@@ -469,7 +469,7 @@ public final class AutoDispose {
           }
 
           @Override public void subscribe(SingleObserver<T> observer) {
-            new AutoDisposeSingle<>(upstream, scope).subscribe();
+            new AutoDisposeSingle<>(upstream, scope).subscribe(observer);
           }
 
           @Override public <E extends SingleObserver<? super T>> E subscribeWith(E observer) {
