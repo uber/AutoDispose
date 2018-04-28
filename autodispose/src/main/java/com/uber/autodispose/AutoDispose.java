@@ -20,6 +20,7 @@ import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.MaybeObserver;
 import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
 import io.reactivex.ObservableConverter;
@@ -384,8 +385,51 @@ public final class AutoDispose {
         return upstream.to(new FlowableScoper<T>(scope));
       }
 
-      @Override public MaybeSubscribeProxy<T> apply(Maybe<T> upstream) {
-        return upstream.to(new MaybeScoper<T>(scope));
+      @Override public MaybeSubscribeProxy<T> apply(final Maybe<T> upstream) {
+        return new MaybeSubscribeProxy<T>() {
+          @Override public Disposable subscribe() {
+            return new AutoDisposeMaybe<>(upstream, scope).subscribe();
+          }
+
+          @Override public Disposable subscribe(Consumer<? super T> onSuccess) {
+            return new AutoDisposeMaybe<>(upstream, scope).subscribe(onSuccess);
+          }
+
+          @Override public Disposable subscribe(Consumer<? super T> onSuccess,
+              Consumer<? super Throwable> onError) {
+            return new AutoDisposeMaybe<>(upstream, scope).subscribe(onSuccess, onError);
+          }
+
+          @Override public Disposable subscribe(Consumer<? super T> onSuccess,
+              Consumer<? super Throwable> onError,
+              Action onComplete) {
+            return new AutoDisposeMaybe<>(upstream, scope)
+                .subscribe(onSuccess, onError, onComplete);
+          }
+
+          @Override public void subscribe(MaybeObserver<T> observer) {
+            new AutoDisposeMaybe<>(upstream, scope).subscribe(observer);
+          }
+
+          @Override public <E extends MaybeObserver<? super T>> E subscribeWith(E observer) {
+            return new AutoDisposeMaybe<>(upstream, scope).subscribeWith(observer);
+          }
+
+          @Override public TestObserver<T> test() {
+            TestObserver<T> observer = new TestObserver<>();
+            subscribe(observer);
+            return observer;
+          }
+
+          @Override public TestObserver<T> test(boolean cancel) {
+            TestObserver<T> observer = new TestObserver<>();
+            if (cancel) {
+              observer.cancel();
+            }
+            subscribe(observer);
+            return observer;
+          }
+        };
       }
 
       @Override public ObservableSubscribeProxy<T> apply(final Observable<T> upstream) {
