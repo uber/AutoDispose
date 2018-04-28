@@ -32,8 +32,10 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.parallel.ParallelFlowable;
+import io.reactivex.subscribers.TestSubscriber;
 import java.util.concurrent.Callable;
 import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
 import static com.uber.autodispose.ScopeUtil.deferredResolvedLifecycle;
@@ -380,8 +382,65 @@ public final class AutoDispose {
         };
       }
 
-      @Override public FlowableSubscribeProxy<T> apply(Flowable<T> upstream) {
-        return upstream.to(new FlowableScoper<T>(scope));
+      @Override public FlowableSubscribeProxy<T> apply(final Flowable<T> upstream) {
+        return new FlowableSubscribeProxy<T>() {
+          @Override public Disposable subscribe() {
+            return new AutoDisposeFlowable<>(upstream, scope).subscribe();
+          }
+
+          @Override public Disposable subscribe(Consumer<? super T> onNext) {
+            return new AutoDisposeFlowable<>(upstream, scope).subscribe(onNext);
+          }
+
+          @Override public Disposable subscribe(Consumer<? super T> onNext,
+              Consumer<? super Throwable> onError) {
+            return new AutoDisposeFlowable<>(upstream, scope).subscribe(onNext, onError);
+          }
+
+          @Override public Disposable subscribe(Consumer<? super T> onNext,
+              Consumer<? super Throwable> onError,
+              Action onComplete) {
+            return new AutoDisposeFlowable<>(upstream, scope)
+                .subscribe(onNext, onError, onComplete);
+          }
+
+          @Override public Disposable subscribe(Consumer<? super T> onNext,
+              Consumer<? super Throwable> onError,
+              Action onComplete,
+              Consumer<? super Subscription> onSubscribe) {
+            return new AutoDisposeFlowable<>(upstream, scope)
+                .subscribe(onNext, onError, onComplete, onSubscribe);
+          }
+
+          @Override public void subscribe(Subscriber<T> observer) {
+            new AutoDisposeFlowable<>(upstream, scope).subscribe(observer);
+          }
+
+          @Override public <E extends Subscriber<? super T>> E subscribeWith(E observer) {
+            return new AutoDisposeFlowable<>(upstream, scope).subscribeWith(observer);
+          }
+
+          @Override public TestSubscriber<T> test() {
+            TestSubscriber<T> ts = new TestSubscriber<>();
+            subscribe(ts);
+            return ts;
+          }
+
+          @Override public TestSubscriber<T> test(long initialRequest) {
+            TestSubscriber<T> ts = new TestSubscriber<>(initialRequest);
+            subscribe(ts);
+            return ts;
+          }
+
+          @Override public TestSubscriber<T> test(long initialRequest, boolean cancel) {
+            TestSubscriber<T> ts = new TestSubscriber<>(initialRequest);
+            if (cancel) {
+              ts.cancel();
+            }
+            subscribe(ts);
+            return ts;
+          }
+        };
       }
 
       @Override public MaybeSubscribeProxy<T> apply(Maybe<T> upstream) {
