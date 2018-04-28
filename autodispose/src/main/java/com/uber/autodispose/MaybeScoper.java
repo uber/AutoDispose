@@ -18,7 +18,6 @@ package com.uber.autodispose;
 
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
-import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -106,20 +105,6 @@ public class MaybeScoper<T> extends BaseAutoDisposeConverter
         return observer;
       }
     };
-  }
-
-  static final class AutoDisposeMaybe<T> extends Maybe<T> {
-    private final MaybeSource<T> source;
-    private final Maybe<?> scope;
-
-    AutoDisposeMaybe(MaybeSource<T> source, Maybe<?> scope) {
-      this.source = source;
-      this.scope = scope;
-    }
-
-    @Override protected void subscribeActual(MaybeObserver<? super T> observer) {
-      source.subscribe(new AutoDisposingMaybeObserverImpl<>(scope, observer));
-    }
   }
 }
 
