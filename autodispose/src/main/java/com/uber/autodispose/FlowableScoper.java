@@ -24,7 +24,6 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.subscribers.TestSubscriber;
 
-import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -121,20 +120,6 @@ public class FlowableScoper<T> extends BaseAutoDisposeConverter
         return subscriber;
       }
     };
-  }
-
-  static final class AutoDisposeFlowable<T> extends Flowable<T> {
-    private final Publisher<T> source;
-    private final Maybe<?> scope;
-
-    AutoDisposeFlowable(Publisher<T> source, Maybe<?> scope) {
-      this.source = source;
-      this.scope = scope;
-    }
-
-    @Override protected void subscribeActual(Subscriber<? super T> observer) {
-      source.subscribe(new AutoDisposingSubscriberImpl<>(scope, observer));
-    }
   }
 }
 
