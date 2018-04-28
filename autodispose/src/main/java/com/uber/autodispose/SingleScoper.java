@@ -19,7 +19,6 @@ package com.uber.autodispose;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
-import io.reactivex.SingleSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
@@ -105,20 +104,6 @@ public class SingleScoper<T> extends BaseAutoDisposeConverter
         return observer;
       }
     };
-  }
-
-  static final class AutoDisposeSingle<T> extends Single<T> {
-    private final SingleSource<T> source;
-    private final Maybe<?> scope;
-
-    AutoDisposeSingle(SingleSource<T> source, Maybe<?> scope) {
-      this.source = source;
-      this.scope = scope;
-    }
-
-    @Override protected void subscribeActual(SingleObserver<? super T> observer) {
-      source.subscribe(new AutoDisposingSingleObserverImpl<>(scope, observer));
-    }
   }
 }
 
