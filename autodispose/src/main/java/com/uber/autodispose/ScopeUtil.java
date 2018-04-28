@@ -117,12 +117,25 @@ public final class ScopeUtil {
   public static <E> Maybe<LifecycleEndNotification> resolveScopeFromLifecycle(
       Observable<E> lifecycle,
       final E endEvent) {
+    Function<E, Boolean> equalityFunction;
+    if (endEvent instanceof Enum) {
+      // Match on enum ordinal in case we skip an event
+      final int targetOrdinal = ((Enum) endEvent).ordinal();
+      //noinspection unchecked
+      equalityFunction = (Function<E, Boolean>) new Function<Enum, Boolean>() {
+        @Override public Boolean apply(Enum e) {
+          return e.ordinal() >= targetOrdinal;
+        }
+      };
+    } else {
+      equalityFunction = new Function<E, Boolean>() {
+        @Override public Boolean apply(E e) {
+          return e.equals(endEvent);
+        }
+      };
+    }
     return lifecycle.skip(1)
-        .map(new Function<E, Boolean>() {
-          @Override public Boolean apply(E e) throws Exception {
-            return e.equals(endEvent);
-          }
-        })
+        .map(equalityFunction)
         .filter(IDENTITY_BOOLEAN_PREDICATE)
         .map(TRANSFORM_TO_END)
         .firstElement();

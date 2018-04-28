@@ -255,6 +255,33 @@ import static com.google.common.truth.Truth.assertThat;
     o.assertNoMoreEvents();
   }
 
+  @Test @UiThreadTest public void observable_offAfterOnDestroyView_shouldStopOnDestroy() {
+    final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
+    final PublishSubject<Integer> subject = PublishSubject.create();
+
+    TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
+    lifecycle.emit(Lifecycle.Event.ON_CREATE);
+    lifecycle.emit(Lifecycle.Event.ON_START);
+    lifecycle.emit(Lifecycle.Event.ON_RESUME);
+    lifecycle.emit(Lifecycle.Event.ON_PAUSE);
+    lifecycle.emit(Lifecycle.Event.ON_STOP);
+    // In a CREATED state now but the next event will be destroy
+    // This simulates subscribing in fragments' onDestroyView, where we want the subscription to
+    // still dispose properly in onDestroy.
+    subject.as(AutoDispose.<Integer>autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle)))
+        .subscribe(o);
+
+    Disposable d = o.takeSubscribe();
+
+    subject.onNext(2);
+    assertThat(o.takeNext()).isEqualTo(2);
+
+    // We should stop here
+    lifecycle.emit(Lifecycle.Event.ON_DESTROY);
+    subject.onNext(3);
+    o.assertNoMoreEvents();
+  }
+
   @Test public void observable_offMainThread_shouldFail() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> subject = PublishSubject.create();
