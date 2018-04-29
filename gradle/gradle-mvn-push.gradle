@@ -190,6 +190,7 @@ afterEvaluate { project ->
     sign configurations.archives
   }
 
+  boolean artifactsEnabled = true
   if (project.getPlugins().hasPlugin('com.android.application') ||
       project.getPlugins().hasPlugin('com.android.library')) {
     task install(type: Upload, dependsOn: assemble) {
@@ -231,7 +232,9 @@ afterEvaluate { project ->
     }
 
     if (project.plugins.hasPlugin('kotlin-android')) {
-      kotlinAndroidArtifactTasks()
+      // Disabled until Dokka actually updates
+//      kotlinAndroidArtifactTasks()
+      artifactsEnabled = false
     } else {
       androidArtifactTasks()
     }
@@ -273,14 +276,18 @@ afterEvaluate { project ->
     }
 
     if (project.plugins.hasPlugin('kotlin')) {
-      kotlinArtifactTasks()
+      // Disabled until Dokka actually updates
+//      kotlinArtifactTasks()
+      artifactsEnabled = false
     } else {
       javaArtifactTasks()
     }
   }
 
-  artifacts {
-    archives sourceJar
-    archives docJar
+  if (artifactsEnabled) {
+    artifacts {
+      archives sourceJar
+      archives docJar
+    }
   }
 }

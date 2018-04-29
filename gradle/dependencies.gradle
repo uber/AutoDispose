@@ -42,7 +42,7 @@ def build = [
     nullAway: 'com.uber.nullaway:nullaway:0.3.2',
 
     gradlePlugins: [
-        android: 'com.android.tools.build:gradle:2.3.0',
+        android: 'com.android.tools.build:gradle:3.1.2',
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
         dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
@@ -79,6 +79,7 @@ def support = [
 def test = [
     androidRunner: "com.android.support.test:runner:${versions.androidTest}",
     androidRules: "com.android.support.test:rules:${versions.androidTest}",
+    androidOrchestrator: "com.android.support.test:orchestrator:${versions.androidTest}",
     junit: 'junit:junit:4.12',
     truth: 'com.google.truth:truth:0.40'
 ]

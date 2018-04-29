@@ -38,12 +38,12 @@ android {
 }
 
 dependencies {
-  provided deps.misc.javaxExtras
-  compile project(':android:autodispose-android')
-  compile project(':android:autodispose-android-archcomponents')
-  compile project(':autodispose')
-  compile project(':autodispose-kotlin')
-  compile 'com.android.support:appcompat-v7:27.0.2'
-  compile 'com.android.support.constraint:constraint-layout:1.1.0-beta4'
-  compile 'com.android.support:design:27.0.2'
+  compileOnly deps.misc.javaxExtras
+  implementation project(':android:autodispose-android')
+  implementation project(':android:autodispose-android-archcomponents')
+  implementation project(':autodispose')
+  implementation project(':autodispose-kotlin')
+  implementation 'com.android.support:appcompat-v7:27.0.2'
+  implementation 'com.android.support.constraint:constraint-layout:1.1.0-beta4'
+  implementation 'com.android.support:design:27.0.2'
 }

@@ -33,29 +33,34 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_7
     targetCompatibility JavaVersion.VERSION_1_7
   }
+  testOptions {
+    execution 'ANDROID_TEST_ORCHESTRATOR'
+  }
 }
 
 dependencies {
   annotationProcessor deps.build.nullAway
   testAnnotationProcessor deps.build.nullAway
+  androidTestAnnotationProcessor deps.build.nullAway
 
-  compile project(':autodispose')
-  compile deps.rx.java
-  compile deps.rx.android
-  compile deps.support.annotations
+  api project(':autodispose')
+  api deps.rx.java
+  api deps.support.annotations
+  implementation deps.rx.android
 
-  provided deps.misc.errorProneAnnotations
-  provided deps.misc.javaxExtras
+  compileOnly deps.misc.errorProneAnnotations
+  compileOnly deps.misc.javaxExtras
 
   errorprone deps.build.errorProne
 
-  testCompile project(':test-utils')
-  testCompile deps.test.junit
-  testCompile deps.test.truth
-  androidTestCompile project(':test-utils')
-  androidTestCompile deps.support.annotations
-  androidTestCompile deps.test.androidRunner
-  androidTestCompile deps.test.androidRules
+  testImplementation project(':test-utils')
+  testImplementation deps.test.junit
+  testImplementation deps.test.truth
+  androidTestImplementation project(':test-utils')
+  androidTestImplementation deps.support.annotations
+  androidTestImplementation deps.test.androidRunner
+  androidTestImplementation deps.test.androidRules
+  androidTestUtil deps.test.androidOrchestrator
 }
 
 tasks.withType(JavaCompile) {

@@ -37,25 +37,34 @@ android {
   lintOptions {
     lintConfig file('lint.xml')
   }
+  testOptions {
+    execution 'ANDROID_TEST_ORCHESTRATOR'
+  }
 }
 
 dependencies {
   annotationProcessor deps.build.nullAway
   testAnnotationProcessor deps.build.nullAway
+  androidTestAnnotationProcessor deps.build.nullAway
   annotationProcessor deps.support.arch.lifecycle.compiler
 
-  compile project(':android:autodispose-android')
-  compile deps.support.arch.lifecycle.runtime
+  api project(':autodispose')
+  api deps.support.annotations
+  api deps.support.arch.lifecycle.runtime
 
-  provided deps.misc.errorProneAnnotations
-  provided deps.misc.javaxExtras
+  implementation project(':android:autodispose-android')
+  implementation deps.rx.android
+
+  compileOnly deps.misc.errorProneAnnotations
+  compileOnly deps.misc.javaxExtras
 
   errorprone deps.build.errorProne
 
-  androidTestCompile project(':android:autodispose-android-archcomponents-test')
-  androidTestCompile project(':test-utils')
-  androidTestCompile deps.test.androidRunner
-  androidTestCompile deps.test.androidRules
+  androidTestImplementation project(':android:autodispose-android-archcomponents-test')
+  androidTestImplementation project(':test-utils')
+  androidTestImplementation deps.test.androidRunner
+  androidTestImplementation deps.test.androidRules
+  androidTestUtil deps.test.androidOrchestrator
 }
 
 tasks.withType(JavaCompile) {
