@@ -18,13 +18,7 @@ package com.uber.autodispose;
 
 import io.reactivex.Maybe;
 import io.reactivex.Single;
-import io.reactivex.SingleObserver;
-import io.reactivex.SingleSource;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiConsumer;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.observers.TestObserver;
 
 /**
  * Entry point for auto-disposing {@link Single}s.
@@ -63,62 +57,9 @@ public class SingleScoper<T> extends BaseAutoDisposeConverter
 
   @Override public SingleSubscribeProxy<T> apply(final Single<? extends T> singleSource)
       throws Exception {
-    return new SingleSubscribeProxy<T>() {
-      @Override public Disposable subscribe() {
-        return new AutoDisposeSingle<>(singleSource, scope()).subscribe();
-      }
-
-      @Override public Disposable subscribe(Consumer<? super T> onNext) {
-        return new AutoDisposeSingle<>(singleSource, scope()).subscribe(onNext);
-      }
-
-      @Override public Disposable subscribe(BiConsumer<? super T, ? super Throwable> biConsumer) {
-        return new AutoDisposeSingle<>(singleSource, scope()).subscribe(biConsumer);
-      }
-
-      @Override
-      public Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError) {
-        return new AutoDisposeSingle<>(singleSource, scope()).subscribe(onNext, onError);
-      }
-
-      @Override public void subscribe(SingleObserver<T> observer) {
-        new AutoDisposeSingle<>(singleSource, scope()).subscribe(observer);
-      }
-
-      @Override public <E extends SingleObserver<? super T>> E subscribeWith(E observer) {
-        return new AutoDisposeSingle<>(singleSource, scope()).subscribeWith(observer);
-      }
-
-      @Override public TestObserver<T> test() {
-        TestObserver<T> observer = new TestObserver<>();
-        subscribe(observer);
-        return observer;
-      }
-
-      @Override public TestObserver<T> test(boolean cancel) {
-        TestObserver<T> observer = new TestObserver<>();
-
-        if (cancel) {
-            observer.cancel();
-        }
-        subscribe(observer);
-        return observer;
-      }
-    };
-  }
-
-  static final class AutoDisposeSingle<T> extends Single<T> {
-    private final SingleSource<T> source;
-    private final Maybe<?> scope;
-
-    AutoDisposeSingle(SingleSource<T> source, Maybe<?> scope) {
-      this.source = source;
-      this.scope = scope;
-    }
-
-    @Override protected void subscribeActual(SingleObserver<? super T> observer) {
-      source.subscribe(new AutoDisposingSingleObserverImpl<>(scope, observer));
-    }
+    return singleSource
+        .map(BaseAutoDisposeConverter.<T>identityFunctionForGenerics())
+        .as(AutoDispose.<T>autoDisposable(scope()));
   }
 }
 

@@ -25,9 +25,11 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableConverter;
 import io.reactivex.Observer;
 import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
+import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.TestObserver;
@@ -505,8 +507,49 @@ public final class AutoDispose {
         };
       }
 
-      @Override public SingleSubscribeProxy<T> apply(Single<T> upstream) {
-        return upstream.to(new SingleScoper<T>(scope));
+      @Override public SingleSubscribeProxy<T> apply(final Single<T> upstream) {
+        return new SingleSubscribeProxy<T>() {
+          @Override public Disposable subscribe() {
+            return new AutoDisposeSingle<>(upstream, scope).subscribe();
+          }
+
+          @Override public Disposable subscribe(Consumer<? super T> onSuccess) {
+            return new AutoDisposeSingle<>(upstream, scope).subscribe(onSuccess);
+          }
+
+          @Override
+          public Disposable subscribe(BiConsumer<? super T, ? super Throwable> biConsumer) {
+            return new AutoDisposeSingle<>(upstream, scope).subscribe(biConsumer);
+          }
+
+          @Override public Disposable subscribe(Consumer<? super T> onSuccess,
+              Consumer<? super Throwable> onError) {
+            return new AutoDisposeSingle<>(upstream, scope).subscribe(onSuccess, onError);
+          }
+
+          @Override public void subscribe(SingleObserver<T> observer) {
+            new AutoDisposeSingle<>(upstream, scope).subscribe(observer);
+          }
+
+          @Override public <E extends SingleObserver<? super T>> E subscribeWith(E observer) {
+            return new AutoDisposeSingle<>(upstream, scope).subscribeWith(observer);
+          }
+
+          @Override public TestObserver<T> test() {
+            TestObserver<T> observer = new TestObserver<>();
+            subscribe(observer);
+            return observer;
+          }
+
+          @Override public TestObserver<T> test(boolean dispose) {
+            TestObserver<T> observer = new TestObserver<>();
+            if (dispose) {
+              observer.dispose();
+            }
+            subscribe(observer);
+            return observer;
+          }
+        };
       }
     };
   }
