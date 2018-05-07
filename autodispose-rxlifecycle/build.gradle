@@ -32,8 +32,6 @@ dependencies {
 
     api project(':autodispose')
     api deps.misc.rxlifecycle
-    compileOnly deps.misc.errorProneAnnotations
-    compileOnly deps.misc.javaxExtras
 
     errorprone deps.build.errorProne
 

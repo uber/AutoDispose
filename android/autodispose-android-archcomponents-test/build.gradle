@@ -44,9 +44,6 @@ dependencies {
   api deps.support.arch.lifecycle.common
   api deps.support.arch.lifecycle.runtime
 
-  compileOnly deps.misc.errorProneAnnotations
-  compileOnly deps.misc.javaxExtras
-
   errorprone deps.build.errorProne
 }
 

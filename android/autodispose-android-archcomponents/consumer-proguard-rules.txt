@@ -1,3 +1,2 @@
--dontwarn com.uber.javaxextras.**
--dontwarn com.google.errorprone.annotations.**
+-dontwarn org.jetbrains.annotations.**
 -keep class * implements android.arch.lifecycle.GeneratedAdapter {<init>(...);}

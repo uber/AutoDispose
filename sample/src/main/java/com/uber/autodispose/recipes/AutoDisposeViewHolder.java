@@ -22,7 +22,7 @@ import android.view.View;
 import com.uber.autodispose.LifecycleEndedException;
 import com.uber.autodispose.LifecycleScopeProvider;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;

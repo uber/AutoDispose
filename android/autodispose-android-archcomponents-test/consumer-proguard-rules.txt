@@ -1,2 +1,1 @@
--dontwarn com.uber.javaxextras.**
--dontwarn com.google.errorprone.annotations.**
+-dontwarn org.jetbrains.annotations.**

@@ -17,7 +17,7 @@
 package com.uber.autodispose;
 
 import io.reactivex.functions.Consumer;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Utility class to inject handlers to certain standard AutoDispose operations.

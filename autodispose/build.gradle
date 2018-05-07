@@ -31,8 +31,8 @@ dependencies {
   testAnnotationProcessor deps.build.nullAway
 
   api deps.rx.java
-  compileOnly deps.misc.errorProneAnnotations
-  compileOnly deps.misc.javaxExtras
+
+  compileOnly deps.misc.jetbrainsAnnotations
 
   errorprone deps.build.errorProne
 

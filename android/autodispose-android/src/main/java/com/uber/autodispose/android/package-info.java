@@ -17,6 +17,5 @@
 /**
  * Android components for AutoDispose.
  */
-@com.uber.javaxextras.FieldsMethodsAndParametersAreNonNullByDefault
 package com.uber.autodispose.android;
 
