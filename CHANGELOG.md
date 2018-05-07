@@ -8,39 +8,57 @@ _2018-5-7_
 
 ### Deprecated Scoper APIs now use the converter API under the hood ([#188](https://github.com/uber/AutoDispose/issues/188))
 
-Up to this point, the new `as()`-based converter APIs just delegated to the existing deprecated `to()` APIs. In this release, they have been flipped, such that the `to()` APIs now just point to the `as()`-based APIs. This should be no visible user change, but please let us know if you see any issues.
+Up to this point, the new `as()`-based converter APIs just delegated to the existing deprecated 
+`to()` APIs. In this release, they have been flipped, such that the `to()` APIs now just point to 
+the `as()`-based APIs. This should be no visible user change, but please let us know if you see any 
+issues.
 
 ### ViewScopeProvider now implements ScopeProvider instead of LifecycleScopeProvider ([#196](https://github.com/uber/AutoDispose/issues/196))
 
-We believe this makes more sense, as there's no beginning boundary check for Views that we can check and the general attach state is quite simple. This also avoids leaking an unnecessary internal API.
+We believe this makes more sense, as there's no beginning boundary check for Views that we can 
+check and the general attach state is quite simple. This also avoids leaking an unnecessary 
+internal API.
 
 ### Defer to Comparable checks if LifecycleScopeProvider types implement it ([#196](https://github.com/uber/AutoDispose/issues/196))
 
-For better flexibility, if a type for `LifecycleScopeProvider` implements `Comparable`, we will defer to it rather than `equals()`. This allows for consumers to better convey event *ordering* to the scope provider, and allow AutoDispose to catch events *after* a target event as a fallback. This covers cases where the targeted "end" event is missed but a later event comes through, allowing AutoDispose to dispose anyway. Note that this may result in a behavior change if your lifecycle types implemented `Comparable` before.
+For better flexibility, if a type for `LifecycleScopeProvider` implements `Comparable`, we will 
+defer to it rather than `equals()`. This allows for consumers to better convey event *ordering* to 
+the scope provider, and allow AutoDispose to catch events *after* a target event as a fallback. 
+This covers cases where the targeted "end" event is missed but a later event comes through, 
+allowing AutoDispose to dispose anyway. Note that this may result in a behavior change if your 
+lifecycle types implemented `Comparable` before.
 
 ### Removed Error-Prone annotations ([#208](https://github.com/uber/AutoDispose/issues/208))
 
-As of Error-Prone 2.3.1, `@DoNotMock` was removed. We've switched to an internal copy of this annotation for documentation purposes and for any external checkers to still check this usage on their own (by name).
+As of Error-Prone 2.3.1, `@DoNotMock` was removed. We've switched to an internal copy of this 
+annotation for documentation purposes and for any external checkers to still check this usage on 
+their own (by name).
 
 ### Switch from JSR305 to Jetbrains annotations for nullability ([#208](https://github.com/uber/AutoDispose/issues/208))
 
-To be compatible with the Java 9 module system, we've switched away from the JSR 305 annotations/javax-extras on packages and now use the Jetbrains annotations for nullability instead. We still abide by a nonnull-by-default implementation, and only annotate nullable elements with `@Nullable`. This dependency, like JSR305/javax-extras, is `compileOnly`.
+To be compatible with the Java 9 module system, we've switched away from the JSR 305 
+annotations/javax-extras on packages and now use the Jetbrains annotations for nullability instead. 
+We still abide by a nonnull-by-default implementation, and only annotate nullable elements with 
+`@Nullable`. This dependency, like JSR305/javax-extras, is `compileOnly`.
 
 ### Misc changes
 
 * A few miscellaneous IDE warnings ([#208](https://github.com/uber/AutoDispose/issues/208))
 * We are now building against Android Gradle Plugin 3.1.x (latest stable) ([#190](https://github.com/uber/AutoDispose/issues/190))
-  * Due to ongoing Dokka issues and update latency, we've had to disable it for now. We plan to re-enable on the next release, which should add compatibility for AGP 3.x+.
+  * Due to ongoing Dokka issues and update latency, we've had to disable it on Kotlin artifacts for 
+  now. We plan to re-enable on the next release, which should add compatibility for AGP 3.x+.
 
 ### Call for input on next steps
 
-We have two major design proposals that we want community feedback on that would take shape in the next couple of releases. Please let us know if you have any thoughts!
+We have two major design proposals that we want community feedback on that would take shape in the 
+next couple of releases. Please let us know if you have any thoughts!
 
 **Kotlin rewrite:** [#198](https://github.com/uber/AutoDispose/issues/198)
 
 **Extract LifecycleScopeProvider to separate artifact, make it extend ScopeProvider:** [#197](https://github.com/uber/AutoDispose/issues/197)
 
-Thanks to the following contributors for this release: [@tbsandee](https://github.com/tbsandee), [@atexannamedbob](https://github.com/atexannamedbob)
+Thanks to the following contributors for this release: [@tbsandee](https://github.com/tbsandee), 
+[@atexannamedbob](https://github.com/atexannamedbob)
 
 Version 0.7.0
 ----------------------------

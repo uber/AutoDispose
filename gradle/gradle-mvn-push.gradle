@@ -48,12 +48,15 @@ def kotlinAndroidArtifactTasks() {
   }
 
   dokka {
+    // Disabled until Dokka actually updates. https://github.com/Kotlin/dokka/issues/282
+    kotlinTasks { [] }
     externalDocumentationLink {
       url = new URL("http://reactivex.io/RxJava/2.x/javadoc/")
     }
 
     outputFormat = 'html'
     outputDirectory = "$buildDir/docs/kdoc"
+    classpath = new ArrayList<File>(project.tasks['assemble'].outputs.files.files)
     sourceDirs = android.sourceSets.main.java.srcDirs
   }
 
@@ -190,7 +193,6 @@ afterEvaluate { project ->
     sign configurations.archives
   }
 
-  boolean artifactsEnabled = true
   if (project.getPlugins().hasPlugin('com.android.application') ||
       project.getPlugins().hasPlugin('com.android.library')) {
     task install(type: Upload, dependsOn: assemble) {
@@ -232,9 +234,7 @@ afterEvaluate { project ->
     }
 
     if (project.plugins.hasPlugin('kotlin-android')) {
-      // Disabled until Dokka actually updates
-//      kotlinAndroidArtifactTasks()
-      artifactsEnabled = false
+      kotlinAndroidArtifactTasks()
     } else {
       androidArtifactTasks()
     }
@@ -276,18 +276,14 @@ afterEvaluate { project ->
     }
 
     if (project.plugins.hasPlugin('kotlin')) {
-      // Disabled until Dokka actually updates
-//      kotlinArtifactTasks()
-      artifactsEnabled = false
+      kotlinArtifactTasks()
     } else {
       javaArtifactTasks()
     }
   }
 
-  if (artifactsEnabled) {
-    artifacts {
-      archives sourceJar
-      archives docJar
-    }
+  artifacts {
+    archives sourceJar
+    archives docJar
   }
 }
