@@ -29,7 +29,7 @@ import io.reactivex.Single;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Subscriber;
 
 /**

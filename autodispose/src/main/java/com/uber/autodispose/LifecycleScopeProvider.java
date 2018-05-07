@@ -19,7 +19,7 @@ package com.uber.autodispose;
 import io.reactivex.Observable;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.functions.Function;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * An interface that, when implemented, provides information to AutoDispose to allow it to resolve

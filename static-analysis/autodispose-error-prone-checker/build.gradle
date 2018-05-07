@@ -30,6 +30,7 @@ dependencies {
   compileOnly deps.apt.autoService
   compileOnly deps.build.errorProneCheckApi
 
+  testImplementation deps.misc.jetbrainsAnnotations
   testImplementation(deps.build.errorProneTestHelpers) {
     exclude group: "junit", module: "junit"
   }

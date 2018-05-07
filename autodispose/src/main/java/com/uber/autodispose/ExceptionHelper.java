@@ -19,7 +19,7 @@ package com.uber.autodispose;
 
 import io.reactivex.exceptions.CompositeException;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Terminal atomics for Throwable containers.

@@ -19,7 +19,7 @@ package com.uber.autodispose;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Subscription;
 
 /**
