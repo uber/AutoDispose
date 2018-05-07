@@ -19,7 +19,7 @@ We believe this makes more sense, as there's no beginning boundary check for Vie
 check and the general attach state is quite simple. This also avoids leaking an unnecessary 
 internal API.
 
-### Defer to Comparable checks if LifecycleScopeProvider types implement it ([#196](https://github.com/uber/AutoDispose/issues/196))
+### Defer to `Comparable` checks if `LifecycleScopeProvider` types implement it ([#196](https://github.com/uber/AutoDispose/issues/196))
 
 For better flexibility, if a type for `LifecycleScopeProvider` implements `Comparable`, we will 
 defer to it rather than `equals()`. This allows for consumers to better convey event *ordering* to 
@@ -53,9 +53,8 @@ We still abide by a nonnull-by-default implementation, and only annotate nullabl
 We have two major design proposals that we want community feedback on that would take shape in the 
 next couple of releases. Please let us know if you have any thoughts!
 
-**Kotlin rewrite:** [#198](https://github.com/uber/AutoDispose/issues/198)
-
-**Extract LifecycleScopeProvider to separate artifact, make it extend ScopeProvider:** [#197](https://github.com/uber/AutoDispose/issues/197)
+* **Kotlin rewrite:** [#198](https://github.com/uber/AutoDispose/issues/198)
+* **Extract LifecycleScopeProvider to separate artifact, make it extend ScopeProvider:** [#197](https://github.com/uber/AutoDispose/issues/197)
 
 Thanks to the following contributors for this release: [@tbsandee](https://github.com/tbsandee), 
 [@atexannamedbob](https://github.com/atexannamedbob)
