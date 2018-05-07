@@ -117,12 +117,23 @@ public final class ScopeUtil {
   public static <E> Maybe<LifecycleEndNotification> resolveScopeFromLifecycle(
       Observable<E> lifecycle,
       final E endEvent) {
+    Function<E, Boolean> equalityFunction;
+    if (endEvent instanceof Comparable) {
+      //noinspection unchecked
+      equalityFunction = (Function<E, Boolean>) new Function<Comparable<E>, Boolean>() {
+        @Override public Boolean apply(Comparable<E> e) {
+          return e.compareTo(endEvent) >= 0;
+        }
+      };
+    } else {
+      equalityFunction = new Function<E, Boolean>() {
+        @Override public Boolean apply(E e) {
+          return e.equals(endEvent);
+        }
+      };
+    }
     return lifecycle.skip(1)
-        .map(new Function<E, Boolean>() {
-          @Override public Boolean apply(E e) throws Exception {
-            return e.equals(endEvent);
-          }
-        })
+        .map(equalityFunction)
         .filter(IDENTITY_BOOLEAN_PREDICATE)
         .map(TRANSFORM_TO_END)
         .firstElement();
