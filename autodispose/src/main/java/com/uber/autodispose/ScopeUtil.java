@@ -118,13 +118,11 @@ public final class ScopeUtil {
       Observable<E> lifecycle,
       final E endEvent) {
     Function<E, Boolean> equalityFunction;
-    if (endEvent instanceof Enum) {
-      // Match on enum ordinal in case we skip an event
-      final int targetOrdinal = ((Enum) endEvent).ordinal();
+    if (endEvent instanceof Comparable) {
       //noinspection unchecked
-      equalityFunction = (Function<E, Boolean>) new Function<Enum, Boolean>() {
-        @Override public Boolean apply(Enum e) {
-          return e.ordinal() >= targetOrdinal;
+      equalityFunction = (Function<E, Boolean>) new Function<Comparable<E>, Boolean>() {
+        @Override public Boolean apply(Comparable<E> e) {
+          return e.compareTo(endEvent) >= 0;
         }
       };
     } else {
