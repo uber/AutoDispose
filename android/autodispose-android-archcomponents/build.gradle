@@ -55,9 +55,6 @@ dependencies {
   implementation project(':android:autodispose-android')
   implementation deps.rx.android
 
-  compileOnly deps.misc.errorProneAnnotations
-  compileOnly deps.misc.javaxExtras
-
   errorprone deps.build.errorProne
 
   androidTestImplementation project(':android:autodispose-android-archcomponents-test')

@@ -38,7 +38,6 @@ android {
 }
 
 dependencies {
-  compileOnly deps.misc.javaxExtras
   implementation project(':android:autodispose-android')
   implementation project(':android:autodispose-android-archcomponents')
   implementation project(':autodispose')

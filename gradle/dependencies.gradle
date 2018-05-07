@@ -54,9 +54,6 @@ def kotlin = [
 ]
 
 def misc = [
-    errorProneAnnotations: "com.google.errorprone:error_prone_annotations:${versions.errorProne}",
-    javaxExtras: "com.uber.javaxextras:javax-extras:0.1.0",
-    jsr305: 'com.google.code.findbugs:jsr305:3.0.2',
     rxlifecycle: 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
 ]
 

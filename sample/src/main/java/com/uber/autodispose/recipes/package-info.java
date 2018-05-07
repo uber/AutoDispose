@@ -17,6 +17,9 @@
 /**
  * Android recipes for AutoDispose.
  */
-@com.uber.javaxextras.FieldsMethodsAndParametersAreNonNullByDefault
+
+/**
+ * Recipes for AutoDispose.
+ */
 package com.uber.autodispose.recipes;
 

@@ -16,7 +16,6 @@
 
 package com.uber.autodispose;
 
-import com.google.errorprone.annotations.DoNotMock;
 import io.reactivex.Maybe;
 import io.reactivex.annotations.CheckReturnValue;
 

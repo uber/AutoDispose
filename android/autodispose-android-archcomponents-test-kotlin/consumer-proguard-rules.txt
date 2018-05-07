@@ -1,2 +1,0 @@
--dontwarn com.uber.javaxextras.**
--dontwarn com.google.errorprone.annotations.**

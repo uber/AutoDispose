@@ -48,9 +48,6 @@ dependencies {
   api deps.support.annotations
   implementation deps.rx.android
 
-  compileOnly deps.misc.errorProneAnnotations
-  compileOnly deps.misc.javaxExtras
-
   errorprone deps.build.errorProne
 
   testImplementation project(':test-utils')
