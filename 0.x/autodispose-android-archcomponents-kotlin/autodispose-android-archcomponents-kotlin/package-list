@@ -1,9 +1,4 @@
 $dokka.format:html
 $dokka.linkExtension:html
-$dokka.location:com.uber.autodispose.android.lifecycle$scope(android.arch.lifecycle.Lifecycle)com.uber.autodispose.android.lifecycle/android.arch.lifecycle.-lifecycle/scope.html
-$dokka.location:com.uber.autodispose.android.lifecycle$scope(android.arch.lifecycle.Lifecycle, android.arch.lifecycle.Lifecycle.Event)com.uber.autodispose.android.lifecycle/android.arch.lifecycle.-lifecycle/scope.html
-$dokka.location:com.uber.autodispose.android.lifecycle$scope(android.arch.lifecycle.Lifecycle, io.reactivex.functions.Function((android.arch.lifecycle.Lifecycle.Event, )))com.uber.autodispose.android.lifecycle/android.arch.lifecycle.-lifecycle/scope.html
-$dokka.location:com.uber.autodispose.android.lifecycle$scope(android.arch.lifecycle.LifecycleOwner)com.uber.autodispose.android.lifecycle/android.arch.lifecycle.-lifecycle-owner/scope.html
-$dokka.location:com.uber.autodispose.android.lifecycle$scope(android.arch.lifecycle.LifecycleOwner, android.arch.lifecycle.Lifecycle.Event)com.uber.autodispose.android.lifecycle/android.arch.lifecycle.-lifecycle-owner/scope.html
-$dokka.location:com.uber.autodispose.android.lifecycle$scope(android.arch.lifecycle.LifecycleOwner, io.reactivex.functions.Function((android.arch.lifecycle.Lifecycle.Event, )))com.uber.autodispose.android.lifecycle/android.arch.lifecycle.-lifecycle-owner/scope.html
+
 com.uber.autodispose.android.lifecycle

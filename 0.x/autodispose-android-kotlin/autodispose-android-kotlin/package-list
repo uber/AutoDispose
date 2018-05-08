@@ -1,4 +1,4 @@
 $dokka.format:html
 $dokka.linkExtension:html
-$dokka.location:com.uber.autodispose.android$scope(android.view.View)com.uber.autodispose.android/android.view.-view/scope.html
+
 com.uber.autodispose.android
