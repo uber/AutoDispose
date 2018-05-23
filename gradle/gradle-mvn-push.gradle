@@ -48,8 +48,6 @@ def kotlinAndroidArtifactTasks() {
   }
 
   dokka {
-    // Disabled until Dokka actually updates. https://github.com/Kotlin/dokka/issues/282
-    kotlinTasks { [] }
     externalDocumentationLink {
       url = new URL("http://reactivex.io/RxJava/2.x/javadoc/")
     }
