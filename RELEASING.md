@@ -12,6 +12,6 @@ Releasing
  9. Visit [Sonatype Nexus](https://oss.sonatype.org/) and promote the artifact.
      - Select the artifact, click `close`, wait for it to close, then select again and click 
      `release`.
- 10. After release propagates (wait ~1 hour), update Javadocs via [Osstrich](https://github.com/square/osstrich)
+ 10. After release propagates (wait ~1 hour), update Javadocs/KDocs via [Osstrich](https://github.com/square/osstrich)
      - Make sure you have push access
-     - `./.buildscript/update_docs.sh`
+     - `./gradlew publishDocs`
