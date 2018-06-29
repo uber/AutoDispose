@@ -54,3 +54,4 @@ task wrapper(type: Wrapper) {
 
 apply from: 'gradle/dependencies.gradle'
 apply from: 'gradle/checkstyle.gradle'
+apply from: 'gradle/publish-docs.gradle'
