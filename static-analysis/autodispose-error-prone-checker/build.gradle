@@ -16,7 +16,7 @@
 
 plugins {
   id 'java-library'
-  id 'net.ltgt.errorprone'
+  id 'net.ltgt.errorprone-javacplugin'
 }
 
 // we use this config to get the path of the JDK 9 javac jar, to

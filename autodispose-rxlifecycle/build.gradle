@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
+import net.ltgt.gradle.errorprone.javacplugin.CheckSeverity
+
 plugins {
     id 'java-library'
-    id 'net.ltgt.errorprone'
+    id 'net.ltgt.errorprone-javacplugin'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_7
@@ -39,7 +41,10 @@ dependencies {
 }
 
 tasks.withType(JavaCompile) {
-    options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
+    options.errorprone {
+        option("NullAway:AnnotatedPackages", "com.uber")
+        check("NullAway", CheckSeverity.ERROR)
+    }
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

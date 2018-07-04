@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
+import net.ltgt.gradle.errorprone.javacplugin.CheckSeverity
+
 plugins {
   id 'java-library'
-  id 'net.ltgt.errorprone'
+  id 'net.ltgt.errorprone-javacplugin'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_7
@@ -27,4 +29,11 @@ dependencies {
   api deps.rx.java
   api deps.test.junit
   api deps.test.truth
+}
+
+tasks.withType(JavaCompile) {
+  options.errorprone {
+    option("NullAway:AnnotatedPackages", "com.uber")
+    check("NullAway", CheckSeverity.ERROR)
+  }
 }
