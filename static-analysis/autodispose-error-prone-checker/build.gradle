@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import net.ltgt.gradle.errorprone.javacplugin.CheckSeverity
+
 plugins {
   id 'java-library'
   id 'net.ltgt.errorprone-javacplugin'
@@ -39,6 +41,13 @@ dependencies {
   testImplementation project(':autodispose')
 
   epJavac deps.build.errorProneCheckApi
+}
+
+tasks.withType(JavaCompile) {
+  options.errorprone {
+    option("NullAway:AnnotatedPackages", "com.uber")
+    check("NullAway", CheckSeverity.ERROR)
+  }
 }
 
 test {
