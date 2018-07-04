@@ -28,3 +28,7 @@ dependencies {
   api deps.test.junit
   api deps.test.truth
 }
+
+tasks.withType(JavaCompile) {
+  options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
+}

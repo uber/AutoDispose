@@ -19,7 +19,7 @@ def versions = [
     archComponents: '1.1.0',
     archRuntime: '1.0.3',
     dokka: '0.9.17',
-    errorProne: '2.2.0',
+    errorProne: '2.3.1',
     errorPronePlugin: '0.0.13',
     kotlin: '1.2.21',
     support: '27.0.2'
@@ -39,7 +39,7 @@ def build = [
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
     errorProneCheckApi: "com.google.errorprone:error_prone_check_api:${versions.errorProne}",
     errorProneTestHelpers: "com.google.errorprone:error_prone_test_helpers:${versions.errorProne}",
-    nullAway: 'com.uber.nullaway:nullaway:0.3.2',
+    nullAway: 'com.uber.nullaway:nullaway:0.4.7',
 
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:3.1.3',

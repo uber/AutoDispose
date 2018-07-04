@@ -41,6 +41,10 @@ dependencies {
   epJavac deps.build.errorProneCheckApi
 }
 
+tasks.withType(JavaCompile) {
+  options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
+}
+
 test {
   jvmArgs "-Xbootclasspath/p:${configurations.epJavac.asPath}"
 }
