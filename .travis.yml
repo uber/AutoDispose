@@ -7,7 +7,7 @@ android:
     - platform-tools
 
 jdk:
-  - oraclejdk9
+  - oraclejdk10
 
 before_install:
   # Install SDK license so Android Gradle plugin can install deps.
