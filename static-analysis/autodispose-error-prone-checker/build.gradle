@@ -27,6 +27,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+  annotationProcessor deps.build.nullAway
+  testAnnotationProcessor deps.build.nullAway
+
   compileOnly deps.apt.autoService
   compileOnly deps.build.errorProneCheckApi
 
@@ -39,6 +42,10 @@ dependencies {
   testImplementation project(':autodispose')
 
   epJavac deps.build.errorProneCheckApi
+}
+
+tasks.withType(JavaCompile) {
+  options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
 }
 
 test {

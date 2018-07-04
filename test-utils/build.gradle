@@ -23,8 +23,16 @@ sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
+  annotationProcessor deps.build.nullAway
+  testAnnotationProcessor deps.build.nullAway
+
   errorprone deps.build.errorProne
+
   api deps.rx.java
   api deps.test.junit
   api deps.test.truth
+}
+
+tasks.withType(JavaCompile) {
+  options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
 }
