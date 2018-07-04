@@ -39,7 +39,7 @@ def build = [
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
     errorProneCheckApi: "com.google.errorprone:error_prone_check_api:${versions.errorProne}",
     errorProneTestHelpers: "com.google.errorprone:error_prone_test_helpers:${versions.errorProne}",
-    nullAway: 'com.uber.nullaway:nullaway:0.3.2',
+    nullAway: 'com.uber.nullaway:nullaway:0.4.7',
 
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:3.1.3',
