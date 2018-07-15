@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright (c) 2018. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,40 @@
 package com.uber.autodispose.sample
 
 import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
+import android.graphics.Bitmap
 import io.reactivex.Observable
-import java.util.concurrent.TimeUnit
+
 
 /**
  * Demo Architecture Component ViewModel. The ViewModel
  * will expose your Rx stream which should be observed
  * by the view.
  */
-class ArchComponentViewModel: ViewModel() {
+class ArchComponentViewModel(private val imageRepository: ImageRepository): ViewModel() {
 
   /**
-   * Simple observable that emits a sequence of
-   * numbers ever second.
+   * Calls the repository to get a subscription of the Bitmap.
+   * The repository caches the last value of the Observable so that
+   * things like orientation changes don't trigger "reloading" of the
+   * Bitmap from the raw resource.
    */
-  fun observable(): Observable<Long> {
-    return Observable.interval(1, TimeUnit.SECONDS)
+  fun image(): Observable<Bitmap> {
+    return imageRepository.image()
+  }
+
+  /**
+   * Load the given [imageId] from resources.
+   */
+  fun loadBitmap(imageId: Int) {
+    imageRepository.loadImage(imageId)
+  }
+
+  class Factory(private val imageRepository: ImageRepository): ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+      return ArchComponentViewModel(imageRepository) as T
+    }
+
   }
 
 }

@@ -18,4 +18,6 @@
   <string name="app_name">AutoDispose Demo</string>
   <string name="app_name_kotlin">AutoDispose Kotlin Demo</string>
   <string name="title_activity_main">AutoDispose Demo</string>
+  <string name="title_activity_arch_component">Arch Component Demo</string>
+  <string name="load_image">Load Image</string>
 </resources>
