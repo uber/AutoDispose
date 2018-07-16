@@ -30,7 +30,7 @@ import io.reactivex.schedulers.Schedulers
 class ArchComponentActivity: AppCompatActivity() {
 
   companion object {
-    private val TAG = "AutoDispose-Kotlin"
+    private const val TAG = "AutoDispose-Kotlin"
   }
 
   private val scopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
@@ -60,6 +60,7 @@ class ArchComponentActivity: AppCompatActivity() {
         .observeOn(AndroidSchedulers.mainThread())
         .autoDisposable(scopeProvider)
         .subscribe { bitmap ->
+          Log.i(TAG, "Received bitmap")
           imageView.setImageBitmap(bitmap)
         }
 

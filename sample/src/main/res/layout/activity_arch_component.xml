@@ -22,8 +22,8 @@
 
   <ImageView
       android:id="@+id/imageView"
-      android:layout_width="100dp"
-      android:layout_height="100dp"
+      android:layout_width="200dp"
+      android:layout_height="200dp"
       android:contentDescription="@string/load_image"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintTop_toTopOf="parent"

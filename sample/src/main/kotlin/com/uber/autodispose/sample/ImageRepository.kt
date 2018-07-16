@@ -19,6 +19,7 @@ package com.uber.autodispose.sample
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.support.annotation.RawRes
 import com.jakewharton.rx.replayingShare
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
@@ -46,13 +47,14 @@ class ImageRepository(private val resources: Resources) {
    */
   private val imageObservable = relay
       .map {
-        val imageStream = resources.openRawResource(it)
-        return@map BitmapFactory.decodeStream(imageStream)
+        return@map BitmapFactory.decodeStream(resources.openRawResource(it))
       }.replayingShare()
 
   /**
    * Returns an Observable<Bitmap> that will be consumed in the
    * UI to subscribe to a stream of Bitmaps requested by the user.
+   *
+   * @return stream of Bitmaps
    */
   fun image(): Observable<Bitmap> {
     return imageObservable
@@ -60,9 +62,9 @@ class ImageRepository(private val resources: Resources) {
 
   /**
    * Fires off an event on the relay that will trigger the loading
-   * of the Bitmap from given resource id.
+   * of the Bitmap from given resource [id].
    */
-  fun loadImage(id: Int) {
+  fun loadImage(@RawRes id: Int) {
     relay.accept(id)
   }
 
