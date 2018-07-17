@@ -84,5 +84,4 @@ class ArchComponentActivity: AppCompatActivity() {
     Log.d(TAG, "onDestroy()")
     super.onDestroy()
   }
-
 }

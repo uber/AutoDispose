@@ -26,9 +26,9 @@ import io.reactivex.Observable
 
 /**
  * Repository layer for loading a Bitmap from res/raw.
- *  If you're using DI, this should be a singleton class,
- *  so that [imageObservable] can be reused across
- *  activities/fragments.
+ * If you're using DI, this should be a singleton class,
+ * so that [imageObservable] can be reused across
+ * activities/fragments.
  *
  * @param resources
  */
@@ -63,9 +63,10 @@ class ImageRepository(private val resources: Resources) {
   /**
    * Fires off an event on the relay that will trigger the loading
    * of the Bitmap from given resource [id].
+   *
+   * @param id the id of the raw resource
    */
   fun loadImage(@RawRes id: Int) {
     relay.accept(id)
   }
-
 }

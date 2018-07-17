@@ -50,7 +50,5 @@ class ArchComponentViewModel(private val imageRepository: ImageRepository): View
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
       return ArchComponentViewModel(imageRepository) as T
     }
-
   }
-
 }
