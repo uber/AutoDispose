@@ -32,28 +32,18 @@
     <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-      <intent-filter>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity>
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     <activity
         android:name=".KotlinActivity"
         android:label="@string/app_name_kotlin"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-      <intent-filter>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity>
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     <activity
         android:name=".ArchComponentActivity"
         android:label="@string/title_activity_arch_component"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+    <activity
+        android:name=".HomeActivity"
+        android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
       <intent-filter>

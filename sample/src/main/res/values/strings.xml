@@ -20,4 +20,7 @@
   <string name="title_activity_main">AutoDispose Demo</string>
   <string name="title_activity_arch_component">AutoDispose ArchComponents Demo</string>
   <string name="load_image">Load Image</string>
+  <string name="main_activity_description">Sample Java Activity which uses Architecture Components lifecycle to manage subscription</string>
+  <string name="kotlin_activity_description">Sample Kotlin Activity which uses Architecture Components lifecycle to manage subscription</string>
+  <string name="arch_components_activity_description">Sample Architecture Components Activity which uses ViewModel to expose Observables that are consumed in the Activity.</string>
 </resources>
