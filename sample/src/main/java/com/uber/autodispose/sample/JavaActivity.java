@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * This leverages the Architecture Components support for the demo.
  */
-public class MainActivity extends AppCompatActivity {
+public class JavaActivity extends AppCompatActivity {
 
   private static final String TAG = "AutoDispose";
 
