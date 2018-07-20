@@ -19,6 +19,7 @@ package com.uber.autodispose.sample
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.widget.Button
 
 /**
@@ -26,13 +27,21 @@ import android.widget.Button
  */
 class HomeActivity: AppCompatActivity() {
 
+  lateinit var toolbar: Toolbar
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_home)
 
-    val mainActivityButton: Button = findViewById(R.id.mainActivityButton)
+    toolbar = findViewById(R.id.toolbar)
+    setSupportActionBar(toolbar)
+    supportActionBar?.let {
+      setTitle(R.string.app_name)
+    }
+
+    val mainActivityButton: Button = findViewById(R.id.javaActivityButton)
     mainActivityButton.setOnClickListener {
-      startActivity(MainActivity::class.java)
+      startActivity(JavaActivity::class.java)
     }
 
     val archComponentsButton: Button = findViewById(R.id.archComponentsActivityButton)

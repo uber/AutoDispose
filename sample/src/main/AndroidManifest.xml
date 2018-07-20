@@ -30,7 +30,7 @@
       android:name=".AutoDisposeApplication"
       tools:ignore="GoogleAppIndexingWarning">
     <activity
-        android:name=".MainActivity"
+        android:name=".JavaActivity"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     <activity
