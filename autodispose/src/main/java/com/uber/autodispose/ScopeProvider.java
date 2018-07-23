@@ -16,6 +16,7 @@
 
 package com.uber.autodispose;
 
+import com.uber.autodispose.internal.DoNotMock;
 import io.reactivex.Maybe;
 import io.reactivex.annotations.CheckReturnValue;
 

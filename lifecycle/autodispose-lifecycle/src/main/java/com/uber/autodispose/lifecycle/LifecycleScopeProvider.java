@@ -16,7 +16,7 @@
 
 package com.uber.autodispose.lifecycle;
 
-import com.uber.autodispose.DoNotMock;
+import com.uber.autodispose.internal.DoNotMock;
 import io.reactivex.Observable;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.functions.Function;
