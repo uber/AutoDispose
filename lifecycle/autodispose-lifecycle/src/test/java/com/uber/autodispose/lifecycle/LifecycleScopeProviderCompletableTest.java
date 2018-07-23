@@ -19,9 +19,13 @@ package com.uber.autodispose.lifecycle;
 import com.uber.autodispose.RxErrorsRule;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.Completable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
+import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.CompletableSubject;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -40,7 +44,7 @@ public class LifecycleScopeProviderCompletableTest {
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
 
-  @After public void resetPlugins() {
+  @Before @After public void resetPlugins() {
     AutoDisposeLifecyclePlugins.reset();
   }
 
@@ -122,6 +126,68 @@ public class LifecycleScopeProviderCompletableTest {
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
+  }
+
+  @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
+    AutoDisposeLifecyclePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
+      @Override public void accept(OutsideLifecycleException e) { }
+    });
+    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
+    LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
+    CompletableSubject source = CompletableSubject.create();
+    TestObserver<Void> o = source
+        .as(autoDisposable(provider))
+        .test();
+
+    assertThat(source.hasObservers()).isFalse();
+    assertThat(lifecycle.hasObservers()).isFalse();
+    o.assertNoValues();
+    o.assertNoErrors();
+  }
+
+  @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
+    AutoDisposeLifecyclePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
+      @Override public void accept(OutsideLifecycleException e) {
+        // Noop
+      }
+    });
+    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
+    lifecycle.onNext(1);
+    lifecycle.onNext(2);
+    lifecycle.onNext(3);
+    LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
+    CompletableSubject source = CompletableSubject.create();
+    TestObserver<Void> o = source
+        .as(autoDisposable(provider))
+        .test();
+
+    assertThat(source.hasObservers()).isFalse();
+    assertThat(lifecycle.hasObservers()).isFalse();
+    o.assertNoValues();
+    o.assertNoErrors();
+  }
+
+  @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithWrappedExp() {
+    AutoDisposeLifecyclePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
+      @Override public void accept(OutsideLifecycleException e) {
+        // Wrap in an IllegalStateException so we can verify this is the exception we see on the
+        // other side
+        throw new IllegalStateException(e);
+      }
+    });
+    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
+    LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
+    TestObserver<Void> o = CompletableSubject.create()
+        .as(autoDisposable(provider))
+        .test();
+
+    o.assertNoValues();
+    o.assertError(new Predicate<Throwable>() {
+      @Override public boolean test(Throwable throwable) {
+        return throwable instanceof IllegalStateException
+            && throwable.getCause() instanceof OutsideLifecycleException;
+      }
+    });
   }
 
 }

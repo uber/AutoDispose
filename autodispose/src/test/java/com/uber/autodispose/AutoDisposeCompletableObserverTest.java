@@ -24,22 +24,17 @@ import io.reactivex.CompletableObserver;
 import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Cancellable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.MaybeSubject;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
-import static com.uber.autodispose.TestUtil.makeLifecycleProvider;
 import static com.uber.autodispose.TestUtil.makeProvider;
 
 public class AutoDisposeCompletableObserverTest {
@@ -51,10 +46,6 @@ public class AutoDisposeCompletableObserverTest {
   };
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
-
-  @After public void resetPlugins() {
-    AutoDisposePlugins.reset();
-  }
 
   @Test public void autoDispose_withMaybe_normal() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
@@ -139,68 +130,6 @@ public class AutoDisposeCompletableObserverTest {
     // No one is listening
     source.onComplete();
     o.assertNoMoreEvents();
-  }
-
-  @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
-    AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) { }
-    });
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    CompletableSubject source = CompletableSubject.create();
-    TestObserver<Void> o = source
-            .as(autoDisposable(provider))
-            .test();
-
-    assertThat(source.hasObservers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
-    o.assertNoValues();
-    o.assertNoErrors();
-  }
-
-  @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
-    AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) {
-        // Noop
-      }
-    });
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    lifecycle.onNext(1);
-    lifecycle.onNext(2);
-    lifecycle.onNext(3);
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    CompletableSubject source = CompletableSubject.create();
-    TestObserver<Void> o = source
-            .as(autoDisposable(provider))
-            .test();
-
-    assertThat(source.hasObservers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
-    o.assertNoValues();
-    o.assertNoErrors();
-  }
-
-  @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithWrappedExp() {
-    AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) {
-        // Wrap in an IllegalStateException so we can verify this is the exception we see on the
-        // other side
-        throw new IllegalStateException(e);
-      }
-    });
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    TestObserver<Void> o = CompletableSubject.create()
-              .as(autoDisposable(provider))
-              .test();
-
-    o.assertNoValues();
-    o.assertError(new Predicate<Throwable>() {
-      @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideLifecycleException;
-      }
-    });
   }
 
   @Test public void verifyObserverDelegate() {

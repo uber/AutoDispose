@@ -19,11 +19,14 @@ package com.uber.autodispose.lifecycle;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.RxErrorsRule;
 import io.reactivex.Flowable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subscribers.TestSubscriber;
 import java.util.List;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
@@ -37,7 +40,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
 
   @Rule public final RxErrorsRule rule = new RxErrorsRule();
 
-  @After public void resetPlugins() {
+  @Before @After public void resetPlugins() {
     AutoDisposeLifecyclePlugins.reset();
   }
 
@@ -130,6 +133,106 @@ public class LifecycleScopeProviderParallelFlowableTest {
     List<Throwable> errors2 = secondSubscriber.errors();
     assertThat(errors2).hasSize(1);
     assertThat(errors2.get(0)).isInstanceOf(LifecycleEndedException.class);
+  }
+
+  @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
+    AutoDisposeLifecyclePlugins.setOutsideLifecycleHandler(
+        new Consumer<OutsideLifecycleException>() {
+          @Override
+          public void accept(OutsideLifecycleException e) throws Exception {
+          }
+        });
+    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
+    TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
+    TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
+    LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
+    PublishProcessor<Integer> source = PublishProcessor.create();
+    //noinspection unchecked
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+
+    source
+        .parallel(DEFAULT_PARALLELISM)
+        .as(AutoDispose.<Integer>autoDisposable(provider))
+        .subscribe(subscribers);
+
+    assertThat(source.hasSubscribers()).isFalse();
+    assertThat(lifecycle.hasObservers()).isFalse();
+
+    firstSubscriber.assertNoValues();
+    firstSubscriber.assertNoErrors();
+    secondSubscriber.assertNoValues();
+    secondSubscriber.assertNoErrors();
+  }
+
+  @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
+    AutoDisposeLifecyclePlugins.setOutsideLifecycleHandler(
+        new Consumer<OutsideLifecycleException>() {
+          @Override
+          public void accept(OutsideLifecycleException e) {
+            // Noop
+          }
+        });
+    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
+    lifecycle.onNext(1);
+    lifecycle.onNext(2);
+    lifecycle.onNext(3);
+    TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
+    TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
+    LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
+    PublishProcessor<Integer> source = PublishProcessor.create();
+    //noinspection unchecked
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+
+    source
+        .parallel(DEFAULT_PARALLELISM)
+        .as(AutoDispose.<Integer>autoDisposable(provider))
+        .subscribe(subscribers);
+
+    assertThat(source.hasSubscribers()).isFalse();
+    assertThat(lifecycle.hasObservers()).isFalse();
+    firstSubscriber.assertNoValues();
+    firstSubscriber.assertNoErrors();
+  }
+
+  @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithExp() {
+    AutoDisposeLifecyclePlugins.setOutsideLifecycleHandler(
+        new Consumer<OutsideLifecycleException>() {
+          @Override
+          public void accept(OutsideLifecycleException e) {
+            throw new IllegalStateException(e);
+          }
+        });
+    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
+    TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
+    TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
+    LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
+    PublishProcessor<Integer> source = PublishProcessor.create();
+    //noinspection unchecked
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+
+    source
+        .parallel(DEFAULT_PARALLELISM)
+        .as(AutoDispose.<Integer>autoDisposable(provider))
+        .subscribe(subscribers);
+
+    firstSubscriber.assertNoValues();
+    firstSubscriber.assertError(
+        new Predicate<Throwable>() {
+          @Override
+          public boolean test(Throwable throwable) {
+            return throwable instanceof IllegalStateException
+                && throwable.getCause() instanceof OutsideLifecycleException;
+          }
+        });
+    secondSubscriber.assertNoValues();
+    secondSubscriber.assertError(
+        new Predicate<Throwable>() {
+          @Override
+          public boolean test(Throwable throwable) throws Exception {
+            return throwable instanceof IllegalStateException
+                && throwable.getCause() instanceof OutsideLifecycleException;
+          }
+        });
   }
 
 }
