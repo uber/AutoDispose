@@ -16,7 +16,6 @@
 
 package com.uber.autodispose.lifecycle;
 
-import com.uber.autodispose.AutoDisposePlugins;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
