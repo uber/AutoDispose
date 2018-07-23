@@ -17,6 +17,8 @@
 package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.AutoDisposePlugins;
+import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
@@ -41,7 +43,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
   @Rule public final RxErrorsRule rule = new RxErrorsRule();
 
   @Before @After public void resetPlugins() {
-    AutoDisposeLifecyclePlugins.reset();
+    AutoDisposePlugins.reset();
   }
 
   @Test public void autoDispose_withLifecycleProvider() {
@@ -136,10 +138,10 @@ public class LifecycleScopeProviderParallelFlowableTest {
   }
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
-    AutoDisposeLifecyclePlugins.setOutsideLifecycleHandler(
-        new Consumer<OutsideLifecycleException>() {
+    AutoDisposePlugins.setOutsideScopeHandler(
+        new Consumer<OutsideScopeException>() {
           @Override
-          public void accept(OutsideLifecycleException e) throws Exception {
+          public void accept(OutsideScopeException e) throws Exception {
           }
         });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
@@ -165,10 +167,10 @@ public class LifecycleScopeProviderParallelFlowableTest {
   }
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
-    AutoDisposeLifecyclePlugins.setOutsideLifecycleHandler(
-        new Consumer<OutsideLifecycleException>() {
+    AutoDisposePlugins.setOutsideScopeHandler(
+        new Consumer<OutsideScopeException>() {
           @Override
-          public void accept(OutsideLifecycleException e) {
+          public void accept(OutsideScopeException e) {
             // Noop
           }
         });
@@ -195,10 +197,10 @@ public class LifecycleScopeProviderParallelFlowableTest {
   }
 
   @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithExp() {
-    AutoDisposeLifecyclePlugins.setOutsideLifecycleHandler(
-        new Consumer<OutsideLifecycleException>() {
+    AutoDisposePlugins.setOutsideScopeHandler(
+        new Consumer<OutsideScopeException>() {
           @Override
-          public void accept(OutsideLifecycleException e) {
+          public void accept(OutsideScopeException e) {
             throw new IllegalStateException(e);
           }
         });
@@ -221,7 +223,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
           @Override
           public boolean test(Throwable throwable) {
             return throwable instanceof IllegalStateException
-                && throwable.getCause() instanceof OutsideLifecycleException;
+                && throwable.getCause() instanceof OutsideScopeException;
           }
         });
     secondSubscriber.assertNoValues();
@@ -230,7 +232,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
           @Override
           public boolean test(Throwable throwable) throws Exception {
             return throwable instanceof IllegalStateException
-                && throwable.getCause() instanceof OutsideLifecycleException;
+                && throwable.getCause() instanceof OutsideScopeException;
           }
         });
   }

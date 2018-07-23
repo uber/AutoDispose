@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.lifecycle;
+package com.uber.autodispose;
 
 /**
  * Signifies an error occurred due to execution starting outside the lifecycle.
  */
-public class OutsideLifecycleException extends RuntimeException {
+public class OutsideScopeException extends RuntimeException {
 
-  public OutsideLifecycleException(String s) {
+  public OutsideScopeException(String s) {
     super(s);
   }
 
   @Override public final synchronized Throwable fillInStackTrace() {
-    if (AutoDisposeLifecyclePlugins.getFillInOutsideLifecycleExceptionStacktraces()) {
+    if (AutoDisposePlugins.getFillInOutsideScopeExceptionStacktraces()) {
       return super.fillInStackTrace();
     } else {
       return this;

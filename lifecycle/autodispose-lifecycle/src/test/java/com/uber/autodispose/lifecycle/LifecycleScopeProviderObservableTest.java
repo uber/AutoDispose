@@ -17,6 +17,8 @@
 package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.AutoDisposePlugins;
+import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.test.RxErrorsRule;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.Observable;
@@ -44,7 +46,7 @@ public class LifecycleScopeProviderObservableTest {
   @Rule public RxErrorsRule rule = new RxErrorsRule();
 
   @Before @After public void resetPlugins() {
-    AutoDisposeLifecyclePlugins.reset();
+    AutoDisposePlugins.reset();
   }
 
   @Test public void autoDispose_withLifecycleProvider() {
@@ -105,8 +107,8 @@ public class LifecycleScopeProviderObservableTest {
   }
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
-    AutoDisposeLifecyclePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) { }
+    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
+      @Override public void accept(OutsideScopeException e) { }
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
@@ -122,8 +124,8 @@ public class LifecycleScopeProviderObservableTest {
   }
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
-    AutoDisposeLifecyclePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) {
+    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
+      @Override public void accept(OutsideScopeException e) {
         // Noop
       }
     });
@@ -144,8 +146,8 @@ public class LifecycleScopeProviderObservableTest {
   }
 
   @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithExp() {
-    AutoDisposeLifecyclePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) {
+    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
+      @Override public void accept(OutsideScopeException e) {
         // Wrap in an IllegalStateException so we can verify this is the exception we see on the
         // other side
         throw new IllegalStateException(e);
@@ -162,7 +164,7 @@ public class LifecycleScopeProviderObservableTest {
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
         return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideLifecycleException;
+            && throwable.getCause() instanceof OutsideScopeException;
       }
     });
   }

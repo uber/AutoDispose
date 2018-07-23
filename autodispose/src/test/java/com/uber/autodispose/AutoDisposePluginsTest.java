@@ -14,47 +14,43 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.lifecycle;
+package com.uber.autodispose;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
-public final class AutoDisposeLifecyclePluginsTest {
+public final class AutoDisposePluginsTest {
 
-  @After public void tearDown() {
-    AutoDisposeLifecyclePlugins.reset();
+  @Before @After public void tearDown() {
+    AutoDisposePlugins.reset();
   }
 
   @Test public void noStacktraceFill_shouldHaveNoStacktrace() {
-    AutoDisposeLifecyclePlugins.setFillInOutsideLifecycleExceptionStacktraces(false);
+    AutoDisposePlugins.setFillInOutsideScopeExceptionStacktraces(false);
 
-    LifecycleNotStartedException started =
-        new LifecycleNotStartedException("Lifecycle not started");
+    OutsideScopeException started =
+        new OutsideScopeException("Lifecycle not started");
     assertThat(started.getStackTrace()).isEmpty();
 
-    LifecycleEndedException ended = new LifecycleEndedException("Lifecycle ended");
-    assertThat(ended.getStackTrace()).isEmpty();
   }
 
   @Test public void defaultStacktraceFill_shouldHaveStacktrace() {
-    LifecycleNotStartedException started =
-        new LifecycleNotStartedException("Lifecycle not started");
+    OutsideScopeException started =
+        new OutsideScopeException("Lifecycle not started");
     assertThat(started.getStackTrace()).isNotEmpty();
 
-    LifecycleEndedException ended = new LifecycleEndedException("Lifecycle ended");
-    assertThat(ended.getStackTrace()).isNotEmpty();
   }
 
   @Test public void trueStacktraceFill_shouldHaveStacktrace() {
-    AutoDisposeLifecyclePlugins.setFillInOutsideLifecycleExceptionStacktraces(true);
+    AutoDisposePlugins.setFillInOutsideScopeExceptionStacktraces(true);
 
-    LifecycleNotStartedException started =
-        new LifecycleNotStartedException("Lifecycle not started");
+    OutsideScopeException started =
+        new OutsideScopeException("Lifecycle not started");
     assertThat(started.getStackTrace()).isNotEmpty();
 
-    LifecycleEndedException ended = new LifecycleEndedException("Lifecycle ended");
-    assertThat(ended.getStackTrace()).isNotEmpty();
   }
+
 }

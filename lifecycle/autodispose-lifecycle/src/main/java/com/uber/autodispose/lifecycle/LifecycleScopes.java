@@ -16,6 +16,8 @@
 
 package com.uber.autodispose.lifecycle;
 
+import com.uber.autodispose.AutoDisposePlugins;
+import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.internal.ScopeEndNotification;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -77,8 +79,8 @@ public final class LifecycleScopes {
         E lastEvent = provider.peekLifecycle();
         if (checkStartBoundary && lastEvent == null) {
           LifecycleNotStartedException exception = new LifecycleNotStartedException();
-          Consumer<? super OutsideLifecycleException> handler
-              = AutoDisposeLifecyclePlugins.getOutsideLifecycleHandler();
+          Consumer<? super OutsideScopeException> handler
+              = AutoDisposePlugins.getOutsideScopeHandler();
           if (handler != null) {
             handler.accept(exception);
             return Maybe.just(ScopeEndNotification.INSTANCE);
@@ -92,8 +94,8 @@ public final class LifecycleScopes {
               .apply(lastEvent);
         } catch (Exception e) {
           if (checkEndBoundary && e instanceof LifecycleEndedException) {
-            Consumer<? super OutsideLifecycleException> handler
-                = AutoDisposeLifecyclePlugins.getOutsideLifecycleHandler();
+            Consumer<? super OutsideScopeException> handler
+                = AutoDisposePlugins.getOutsideScopeHandler();
             if (handler != null) {
               handler.accept((LifecycleEndedException) e);
               return Maybe.just(ScopeEndNotification.INSTANCE);
