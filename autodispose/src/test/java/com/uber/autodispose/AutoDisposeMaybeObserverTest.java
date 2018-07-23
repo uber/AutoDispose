@@ -27,7 +27,6 @@ import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -35,7 +34,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.TestUtil.makeLifecycleProvider;
 import static com.uber.autodispose.TestUtil.makeProvider;
 
 public class AutoDisposeMaybeObserverTest {
@@ -109,26 +107,21 @@ public class AutoDisposeMaybeObserverTest {
   @Test public void autoDispose_withProvider_success() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
+    MaybeSubject<Integer> scope = MaybeSubject.create();
+    ScopeProvider provider = makeProvider(scope);
     source.as(AutoDispose.<Integer>autoDisposable(provider))
         .subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
-
-    lifecycle.onNext(1);
-
-    assertThat(source.hasObservers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
+    assertThat(scope.hasObservers()).isTrue();
 
     source.onSuccess(3);
     o.takeSuccess();
 
     o.assertNoMoreEvents();
     assertThat(source.hasObservers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
+    assertThat(scope.hasObservers()).isFalse();
   }
 
   @Test public void autoDispose_withProvider_completion() {
