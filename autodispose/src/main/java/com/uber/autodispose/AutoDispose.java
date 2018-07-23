@@ -16,6 +16,7 @@
 
 package com.uber.autodispose;
 
+import com.uber.autodispose.internal.ScopeEndNotification;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Flowable;
@@ -249,8 +250,19 @@ public final class AutoDispose {
   public static <T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
     checkNotNull(provider, "provider == null");
     return autoDisposable(Maybe.defer(new Callable<MaybeSource<?>>() {
-      @Override public MaybeSource<?> call() {
-        return provider.requestScope();
+      @Override public MaybeSource<?> call() throws Exception {
+        try {
+          return provider.requestScope();
+        } catch (OutsideScopeException e) {
+          Consumer<? super OutsideScopeException> handler
+              = AutoDisposePlugins.getOutsideScopeHandler();
+          if (handler != null) {
+            handler.accept(e);
+            return Maybe.just(ScopeEndNotification.INSTANCE);
+          } else {
+            return Maybe.error(e);
+          }
+        }
       }
     }));
   }
