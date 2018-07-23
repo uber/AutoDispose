@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright (C) 2018. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose;
+package com.uber.autodispose.lifecycle;
 
 import org.junit.After;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
-public final class AutoDisposePluginsTest {
+public final class AutoDisposeLifecyclePluginsTest {
 
   @After public void tearDown() {
-    AutoDisposePlugins.reset();
+    AutoDisposeLifecyclePlugins.reset();
   }
 
   @Test public void noStacktraceFill_shouldHaveNoStacktrace() {
-    AutoDisposePlugins.setFillInOutsideLifecycleExceptionStacktraces(false);
+    AutoDisposeLifecyclePlugins.setFillInOutsideLifecycleExceptionStacktraces(false);
 
     LifecycleNotStartedException started =
         new LifecycleNotStartedException("Lifecycle not started");
@@ -48,7 +48,7 @@ public final class AutoDisposePluginsTest {
   }
 
   @Test public void trueStacktraceFill_shouldHaveStacktrace() {
-    AutoDisposePlugins.setFillInOutsideLifecycleExceptionStacktraces(true);
+    AutoDisposeLifecyclePlugins.setFillInOutsideLifecycleExceptionStacktraces(true);
 
     LifecycleNotStartedException started =
         new LifecycleNotStartedException("Lifecycle not started");
