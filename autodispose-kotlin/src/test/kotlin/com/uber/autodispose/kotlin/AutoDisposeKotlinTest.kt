@@ -18,7 +18,7 @@ package com.uber.autodispose.kotlin
 
 import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleNotStartedException
-import com.uber.autodispose.TestLifecycleScopeProvider
+import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider
 import com.uber.autodispose.TestScopeProvider
 import io.reactivex.BackpressureStrategy.ERROR
 import io.reactivex.Completable
@@ -43,7 +43,7 @@ class AutoDisposeKotlinTest {
   private val s = TestSubscriber<String>()
   private val scopeMaybe = MaybeSubject.create<Any>()
   private val scopeProvider = TestScopeProvider.create()
-  private val lifecycleScopeProvider = TestLifecycleScopeProvider.create()
+  private val lifecycleScopeProvider = com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.create()
 
   @Test fun observable_maybeNormalCompletion() {
     Observable.just("Hello")
