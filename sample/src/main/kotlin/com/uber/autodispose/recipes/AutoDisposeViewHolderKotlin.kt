@@ -20,7 +20,8 @@ import android.support.v7.widget.BindAwareViewHolder
 import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.View
 import com.uber.autodispose.LifecycleEndedException
-import com.uber.autodispose.LifecycleScopeProvider
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider
+import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent
 import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent.BIND
 import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent.UNBIND
 import io.reactivex.Observable
@@ -35,7 +36,7 @@ private object NOTIFICATION
  * disposed upon unbinding or otherwise aren't overwritten in future binds.
  */
 abstract class AutoDisposeViewHolderKotlin(itemView: View)
-  : BindAwareViewHolder(itemView), LifecycleScopeProvider<AutoDisposeViewHolderKotlin.ViewHolderEvent> {
+  : BindAwareViewHolder(itemView), LifecycleScopeProvider<ViewHolderEvent> {
 
   private val lifecycleEvents by lazy { BehaviorSubject.create<ViewHolderEvent>() }
 

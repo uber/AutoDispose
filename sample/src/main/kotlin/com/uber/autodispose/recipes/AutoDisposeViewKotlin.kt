@@ -22,7 +22,7 @@ import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import android.view.View
 import com.uber.autodispose.LifecycleEndedException
-import com.uber.autodispose.LifecycleScopeProvider
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.android.ViewScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeViewKotlin.ViewEvent
 import io.reactivex.Observable

@@ -21,7 +21,7 @@ package com.uber.autodispose.android.lifecycle
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.Lifecycle.Event
 import android.arch.lifecycle.LifecycleOwner
-import com.uber.autodispose.LifecycleScopeProvider
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import io.reactivex.annotations.CheckReturnValue
 import io.reactivex.functions.Function
 

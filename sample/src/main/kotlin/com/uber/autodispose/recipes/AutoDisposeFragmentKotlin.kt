@@ -21,7 +21,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.uber.autodispose.LifecycleEndedException
-import com.uber.autodispose.LifecycleScopeProvider
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider
+import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.ATTACH
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.CREATE
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.CREATE_VIEW
@@ -40,7 +41,7 @@ import io.reactivex.subjects.BehaviorSubject
  * A [Fragment] example implementation for making one implement [LifecycleScopeProvider]. One would
  * normally use this as a base fragment class to extend others from.
  */
-abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<AutoDisposeFragmentKotlin.FragmentEvent> {
+abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<FragmentEvent> {
 
   private val lifecycleEvents = BehaviorSubject.create<FragmentEvent>()
 

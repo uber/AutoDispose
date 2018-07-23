@@ -19,7 +19,8 @@ package com.uber.autodispose.recipes
 import android.app.Activity
 import android.os.Bundle
 import com.uber.autodispose.LifecycleEndedException
-import com.uber.autodispose.LifecycleScopeProvider
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider
+import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.CREATE
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.DESTROY
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.PAUSE
@@ -34,7 +35,7 @@ import io.reactivex.subjects.BehaviorSubject
  * An [Activity] example implementation for making one implement [LifecycleScopeProvider]. One
  * would normally use this as a base activity class to extend others from.
  */
-abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<AutoDisposeActivityKotlin.ActivityEvent> {
+abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<ActivityEvent> {
 
   private val lifecycleEvents = BehaviorSubject.create<ActivityEvent>()
 
