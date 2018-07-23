@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.lifecycle;
 
+import com.uber.autodispose.internal.ScopeEndNotification;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
@@ -30,10 +31,10 @@ import java.util.concurrent.Callable;
  */
 public final class LifecycleScopes {
 
-  private static final Function<Object, LifecycleEndNotification> TRANSFORM_TO_END =
-      new Function<Object, LifecycleEndNotification>() {
-        @Override public LifecycleEndNotification apply(Object o) {
-          return LifecycleEndNotification.INSTANCE;
+  private static final Function<Object, ScopeEndNotification> TRANSFORM_TO_END =
+      new Function<Object, ScopeEndNotification>() {
+        @Override public ScopeEndNotification apply(Object o) {
+          return ScopeEndNotification.INSTANCE;
         }
       };
 
@@ -55,7 +56,7 @@ public final class LifecycleScopes {
    * @param <E> the lifecycle event type.
    * @return a resolved {@link Maybe} representation of a given provider
    */
-  public static <E> Maybe<LifecycleEndNotification> deferredResolvedLifecycle(
+  public static <E> Maybe<?> deferredResolvedLifecycle(
       LifecycleScopeProvider<E> provider) {
     return deferredResolvedLifecycle(provider, true, true);
   }
@@ -67,12 +68,12 @@ public final class LifecycleScopes {
    * @param <E> the lifecycle event type
    * @return a resolved {@link Maybe} representation of a given provider
    */
-  public static <E> Maybe<LifecycleEndNotification> deferredResolvedLifecycle(
+  public static <E> Maybe<?> deferredResolvedLifecycle(
       final LifecycleScopeProvider<E> provider,
       final boolean checkStartBoundary,
       final boolean checkEndBoundary) {
-    return Maybe.defer(new Callable<MaybeSource<? extends LifecycleEndNotification>>() {
-      @Override public MaybeSource<? extends LifecycleEndNotification> call() throws Exception {
+    return Maybe.defer(new Callable<MaybeSource<?>>() {
+      @Override public MaybeSource<?> call() throws Exception {
         E lastEvent = provider.peekLifecycle();
         if (checkStartBoundary && lastEvent == null) {
           LifecycleNotStartedException exception = new LifecycleNotStartedException();
@@ -80,7 +81,7 @@ public final class LifecycleScopes {
               = AutoDisposeLifecyclePlugins.getOutsideLifecycleHandler();
           if (handler != null) {
             handler.accept(exception);
-            return Maybe.just(LifecycleEndNotification.INSTANCE);
+            return Maybe.just(ScopeEndNotification.INSTANCE);
           } else {
             throw exception;
           }
@@ -95,7 +96,7 @@ public final class LifecycleScopes {
                 = AutoDisposeLifecyclePlugins.getOutsideLifecycleHandler();
             if (handler != null) {
               handler.accept((LifecycleEndedException) e);
-              return Maybe.just(LifecycleEndNotification.INSTANCE);
+              return Maybe.just(ScopeEndNotification.INSTANCE);
             } else {
               throw e;
             }
@@ -114,7 +115,7 @@ public final class LifecycleScopes {
    * @param <E> the lifecycle event type
    * @return a resolved {@link Maybe} representation of a given lifecycle, targeting the given event
    */
-  public static <E> Maybe<LifecycleEndNotification> resolveScopeFromLifecycle(
+  public static <E> Maybe<?> resolveScopeFromLifecycle(
       Observable<E> lifecycle,
       final E endEvent) {
     Function<E, Boolean> equalityFunction;
@@ -137,13 +138,5 @@ public final class LifecycleScopes {
         .filter(IDENTITY_BOOLEAN_PREDICATE)
         .map(TRANSFORM_TO_END)
         .firstElement();
-  }
-
-  /**
-   * A simple instance enum used to signify that the end of a lifecycle has occurred. This should
-   * be treated solely as a notification and does not have any real value.
-   */
-  public enum LifecycleEndNotification {
-    INSTANCE
   }
 }
