@@ -58,7 +58,7 @@ abstract class BaseAutoDisposeConverter {
    * @param provider the {@link LifecycleScopeProvider}.
    */
   BaseAutoDisposeConverter(LifecycleScopeProvider<?> provider) {
-    this(ScopeUtil.deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
+    this(LifecycleScopes.deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
   }
 
   /**

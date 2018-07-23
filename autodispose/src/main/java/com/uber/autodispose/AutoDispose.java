@@ -41,7 +41,7 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
-import static com.uber.autodispose.ScopeUtil.deferredResolvedLifecycle;
+import static com.uber.autodispose.LifecycleScopes.deferredResolvedLifecycle;
 
 /**
  * Factories for autodispose converters that can be used with RxJava types' corresponding

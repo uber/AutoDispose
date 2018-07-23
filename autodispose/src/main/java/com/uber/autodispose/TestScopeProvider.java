@@ -19,7 +19,7 @@ package com.uber.autodispose;
 import io.reactivex.Maybe;
 import io.reactivex.subjects.MaybeSubject;
 
-import static com.uber.autodispose.ScopeUtil.LifecycleEndNotification.INSTANCE;
+import static com.uber.autodispose.LifecycleScopes.LifecycleEndNotification.INSTANCE;
 
 /**
  * ScopeProvider implementation for testing. You can either back it with your own instance, or just
