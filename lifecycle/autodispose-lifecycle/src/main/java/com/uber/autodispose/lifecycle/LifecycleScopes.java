@@ -77,7 +77,7 @@ public final class LifecycleScopes {
         if (checkStartBoundary && lastEvent == null) {
           LifecycleNotStartedException exception = new LifecycleNotStartedException();
           Consumer<? super OutsideLifecycleException> handler
-              = AutoDisposePlugins.getOutsideLifecycleHandler();
+              = AutoDisposeLifecyclePlugins.getOutsideLifecycleHandler();
           if (handler != null) {
             handler.accept(exception);
             return Maybe.just(LifecycleEndNotification.INSTANCE);
@@ -92,7 +92,7 @@ public final class LifecycleScopes {
         } catch (Exception e) {
           if (checkEndBoundary && e instanceof LifecycleEndedException) {
             Consumer<? super OutsideLifecycleException> handler
-                = AutoDisposePlugins.getOutsideLifecycleHandler();
+                = AutoDisposeLifecyclePlugins.getOutsideLifecycleHandler();
             if (handler != null) {
               handler.accept((LifecycleEndedException) e);
               return Maybe.just(LifecycleEndNotification.INSTANCE);

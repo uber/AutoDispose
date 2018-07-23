@@ -20,11 +20,11 @@ import io.reactivex.functions.Consumer;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Utility class to inject handlers to certain standard AutoDispose operations.
+ * Utility class to inject handlers to certain standard autodispose-lifecycle operations.
  */
-public final class AutoDisposePlugins {
+public final class AutoDisposeLifecyclePlugins {
 
-  private AutoDisposePlugins() { }
+  private AutoDisposeLifecyclePlugins() { }
 
   @Nullable
   private static volatile Consumer<? super OutsideLifecycleException> outsideLifecycleHandler;

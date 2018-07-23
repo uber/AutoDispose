@@ -35,7 +35,7 @@ public class LifecycleScopeProviderSubscriberTest {
   @Rule public RxErrorsRule rule = new RxErrorsRule();
 
   @After public void resetPlugins() {
-    AutoDisposePlugins.reset();
+    AutoDisposeLifecyclePlugins.reset();
   }
 
   @Test public void autoDispose_withLifecycleProvider() {

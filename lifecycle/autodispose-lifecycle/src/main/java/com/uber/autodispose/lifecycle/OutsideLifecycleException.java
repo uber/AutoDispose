@@ -26,7 +26,7 @@ public class OutsideLifecycleException extends RuntimeException {
   }
 
   @Override public final synchronized Throwable fillInStackTrace() {
-    if (AutoDisposePlugins.getFillInOutsideLifecycleExceptionStacktraces()) {
+    if (AutoDisposeLifecyclePlugins.getFillInOutsideLifecycleExceptionStacktraces()) {
       return super.fillInStackTrace();
     } else {
       return this;
