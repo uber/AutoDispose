@@ -27,6 +27,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subjects.MaybeSubject;
@@ -38,6 +39,7 @@ import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.TestUtil.outsideScopeProvider;
 
 public class AutoDisposeObserverTest {
 
@@ -214,5 +216,42 @@ public class AutoDisposeObserverTest {
     s.onNext(1);
     o.assertValue(1);
     o.dispose();
+  }
+
+  @Test public void autoDispose_outsideScope_withProviderAndNoOpPlugin_shouldFailSilently() {
+    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
+      @Override public void accept(OutsideScopeException e) { }
+    });
+    ScopeProvider provider = outsideScopeProvider();
+    PublishSubject<Integer> source = PublishSubject.create();
+    TestObserver<Integer> o = source
+        .as(AutoDispose.<Integer>autoDisposable(provider))
+        .test();
+
+    assertThat(source.hasObservers()).isFalse();
+    o.assertNoValues();
+    o.assertNoErrors();
+  }
+
+  @Test public void autoDispose_outsideScope_withProviderAndPlugin_shouldFailWithWrappedExp() {
+    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
+      @Override public void accept(OutsideScopeException e) {
+        // Wrap in an IllegalStateException so we can verify this is the exception we see on the
+        // other side
+        throw new IllegalStateException(e);
+      }
+    });
+    ScopeProvider provider = outsideScopeProvider();
+    TestObserver<Integer> o = PublishSubject.<Integer>create()
+        .as(AutoDispose.<Integer>autoDisposable(provider))
+        .test();
+
+    o.assertNoValues();
+    o.assertError(new Predicate<Throwable>() {
+      @Override public boolean test(Throwable throwable) {
+        return throwable instanceof IllegalStateException
+            && throwable.getCause() instanceof OutsideScopeException;
+      }
+    });
   }
 }

@@ -25,6 +25,8 @@ import io.reactivex.CompletableObserver;
 import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Cancellable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subjects.CompletableSubject;
@@ -37,6 +39,7 @@ import org.junit.Test;
 import static com.google.common.truth.Truth.assertThat;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 import static com.uber.autodispose.TestUtil.makeProvider;
+import static com.uber.autodispose.TestUtil.outsideScopeProvider;
 
 public class AutoDisposeCompletableObserverTest {
 
@@ -212,5 +215,42 @@ public class AutoDisposeCompletableObserverTest {
 
     o.onComplete();
     o.assertComplete();
+  }
+
+  @Test public void autoDispose_outsideScope_withProviderAndNoOpPlugin_shouldFailSilently() {
+    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
+      @Override public void accept(OutsideScopeException e) { }
+    });
+    ScopeProvider provider = outsideScopeProvider();
+    CompletableSubject source = CompletableSubject.create();
+    TestObserver<Void> o = source
+        .as(autoDisposable(provider))
+        .test();
+
+    assertThat(source.hasObservers()).isFalse();
+    o.assertNoValues();
+    o.assertNoErrors();
+  }
+
+  @Test public void autoDispose_outsideScope_withProviderAndPlugin_shouldFailWithWrappedExp() {
+    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
+      @Override public void accept(OutsideScopeException e) {
+        // Wrap in an IllegalStateException so we can verify this is the exception we see on the
+        // other side
+        throw new IllegalStateException(e);
+      }
+    });
+    ScopeProvider provider = outsideScopeProvider();
+    TestObserver<Void> o = CompletableSubject.create()
+        .as(autoDisposable(provider))
+        .test();
+
+    o.assertNoValues();
+    o.assertError(new Predicate<Throwable>() {
+      @Override public boolean test(Throwable throwable) {
+        return throwable instanceof IllegalStateException
+            && throwable.getCause() instanceof OutsideScopeException;
+      }
+    });
   }
 }
