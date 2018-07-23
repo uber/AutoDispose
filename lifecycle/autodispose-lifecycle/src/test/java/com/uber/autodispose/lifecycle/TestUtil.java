@@ -55,8 +55,8 @@ final class TestUtil {
         return lifecycle.getValue();
       }
 
-      @Override public Maybe<?> requestScope() {
-        return LifecycleScopes.deferredResolvedLifecycle(this);
+      @Override public Maybe<?> requestScope() throws Exception {
+        return LifecycleScopes.resolveScopeFromLifecycle(this);
       }
     };
   }

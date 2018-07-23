@@ -83,8 +83,8 @@ public final class TestLifecycleScopeProvider
     return lifecycleSubject.getValue();
   }
 
-  @Override public Maybe<?> requestScope() {
-    return LifecycleScopes.deferredResolvedLifecycle(this);
+  @Override public Maybe<?> requestScope() throws Exception {
+    return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
   /**

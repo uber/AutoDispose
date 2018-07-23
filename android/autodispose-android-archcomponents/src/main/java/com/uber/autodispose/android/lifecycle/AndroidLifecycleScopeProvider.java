@@ -20,6 +20,8 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
+import com.uber.autodispose.lifecycle.LifecycleScopes;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
@@ -147,6 +149,10 @@ public final class AndroidLifecycleScopeProvider
   @Override public Lifecycle.Event peekLifecycle() {
     lifecycleObservable.backfillEvents();
     return lifecycleObservable.getValue();
+  }
+
+  @Override public Maybe<?> requestScope() throws Exception {
+    return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
   private static class UntilEventFunction implements Function<Lifecycle.Event, Lifecycle.Event> {

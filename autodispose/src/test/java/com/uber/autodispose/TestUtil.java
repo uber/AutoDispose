@@ -21,6 +21,12 @@ import io.reactivex.subjects.MaybeSubject;
 
 final class TestUtil {
 
+  private static final ScopeProvider OUTSIDE_SCOPE_PROVIDER = new ScopeProvider() {
+    @Override public Maybe<?> requestScope() {
+      throw new OutsideScopeException("Outside scope!");
+    }
+  };
+
   private TestUtil() {
     throw new InstantiationError();
   }
@@ -31,5 +37,9 @@ final class TestUtil {
         return scope;
       }
     };
+  }
+
+  static ScopeProvider outsideScopeProvider() {
+    return OUTSIDE_SCOPE_PROVIDER;
   }
 }
