@@ -17,7 +17,7 @@
 package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.AutoDispose;
-import com.uber.autodispose.RxErrorsRule;
+import com.uber.autodispose.test.RxErrorsRule;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.Single;
 import io.reactivex.functions.Consumer;

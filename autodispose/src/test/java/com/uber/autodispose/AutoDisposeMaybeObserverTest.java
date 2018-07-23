@@ -18,6 +18,7 @@ package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingMaybeObserver;
 import com.uber.autodispose.test.RecordingObserver;
+import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeEmitter;
 import io.reactivex.MaybeObserver;

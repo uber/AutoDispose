@@ -18,6 +18,7 @@ package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
 import com.uber.autodispose.test.RecordingObserver;
+import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
 import io.reactivex.CompletableObserver;

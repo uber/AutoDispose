@@ -1,5 +1,6 @@
 package com.uber.autodispose;
 
+import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Flowable;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.subjects.MaybeSubject;

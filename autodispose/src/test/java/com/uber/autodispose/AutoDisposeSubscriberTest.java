@@ -17,6 +17,7 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
+import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
