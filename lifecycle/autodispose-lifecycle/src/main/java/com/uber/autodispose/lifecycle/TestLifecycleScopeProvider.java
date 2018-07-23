@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.lifecycle;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
@@ -80,6 +81,10 @@ public final class TestLifecycleScopeProvider
 
   @Override public TestLifecycle peekLifecycle() {
     return lifecycleSubject.getValue();
+  }
+
+  @Override public Maybe<?> requestScope() {
+    return LifecycleScopes.deferredResolvedLifecycle(this);
   }
 
   /**
