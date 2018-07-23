@@ -53,15 +53,6 @@ abstract class BaseAutoDisposeConverter {
   }
 
   /**
-   * Accepts a {@link LifecycleScopeProvider} for scope resolution.
-   *
-   * @param provider the {@link LifecycleScopeProvider}.
-   */
-  BaseAutoDisposeConverter(LifecycleScopeProvider<?> provider) {
-    this(LifecycleScopes.deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
-  }
-
-  /**
    * Accepts a {@link Maybe} for scope resolution.
    *
    * @param scope the {@link Maybe}.

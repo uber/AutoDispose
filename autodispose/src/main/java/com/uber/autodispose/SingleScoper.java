@@ -47,10 +47,6 @@ public class SingleScoper<T> extends BaseAutoDisposeConverter
     super(provider);
   }
 
-  public SingleScoper(LifecycleScopeProvider<?> provider) {
-    super(provider);
-  }
-
   public SingleScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }
