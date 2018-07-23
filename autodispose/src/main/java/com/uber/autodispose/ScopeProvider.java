@@ -38,6 +38,7 @@ public interface ScopeProvider {
 
   /**
    * @return a Maybe that, upon emission, will trigger disposal.
+   * @throws Exception scope retrievals throws an exception, such as {@link OutsideScopeException}
    */
-  @CheckReturnValue Maybe<?> requestScope();
+  @CheckReturnValue Maybe<?> requestScope() throws Exception;
 }
