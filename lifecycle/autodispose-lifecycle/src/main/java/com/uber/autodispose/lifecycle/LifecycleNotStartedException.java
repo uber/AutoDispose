@@ -16,8 +16,6 @@
 
 package com.uber.autodispose.lifecycle;
 
-import com.uber.autodispose.OutsideLifecycleException;
-
 /**
  * Signifies an error occurred due to execution starting before the lifecycle has started.
  */
