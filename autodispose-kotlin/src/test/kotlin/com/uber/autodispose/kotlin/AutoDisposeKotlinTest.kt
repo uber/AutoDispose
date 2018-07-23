@@ -16,8 +16,8 @@
 
 package com.uber.autodispose.kotlin
 
-import com.uber.autodispose.LifecycleEndedException
-import com.uber.autodispose.LifecycleNotStartedException
+import com.uber.autodispose.lifecycle.LifecycleEndedException
+import com.uber.autodispose.lifecycle.LifecycleNotStartedException
 import com.uber.autodispose.TestLifecycleScopeProvider
 import com.uber.autodispose.TestScopeProvider
 import io.reactivex.BackpressureStrategy.ERROR
@@ -102,7 +102,7 @@ class AutoDisposeKotlinTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is LifecycleNotStartedException }
+    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
   }
 
   @Test fun observable_lifecycleNormalCompletion() {
@@ -140,7 +140,7 @@ class AutoDisposeKotlinTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is LifecycleEndedException }
+    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
   }
 
   @Test fun flowable_maybeNormalCompletion() {
@@ -200,7 +200,7 @@ class AutoDisposeKotlinTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(s)
 
-    s.assertError { it is LifecycleNotStartedException }
+    s.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
   }
 
   @Test fun flowable_lifecycleNormalCompletion() {
@@ -238,7 +238,7 @@ class AutoDisposeKotlinTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(s)
 
-    s.assertError { it is LifecycleEndedException }
+    s.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
   }
 
   @Test fun maybe_maybeNormalCompletion() {
@@ -298,7 +298,7 @@ class AutoDisposeKotlinTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is LifecycleNotStartedException }
+    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
   }
 
   @Test fun maybe_lifecycleNormalCompletion() {
@@ -332,7 +332,7 @@ class AutoDisposeKotlinTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is LifecycleEndedException }
+    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
   }
 
   @Test fun single_maybeNormalCompletion() {
@@ -392,7 +392,7 @@ class AutoDisposeKotlinTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is LifecycleNotStartedException }
+    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
   }
 
   @Test fun single_lifecycleNormalCompletion() {
@@ -426,7 +426,7 @@ class AutoDisposeKotlinTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is LifecycleEndedException }
+    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
   }
 
   @Test fun completable_maybeNormalCompletion() {
@@ -482,7 +482,7 @@ class AutoDisposeKotlinTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is LifecycleNotStartedException }
+    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
   }
 
   @Test fun completable_lifecycleNormalCompletion() {
@@ -515,7 +515,7 @@ class AutoDisposeKotlinTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is LifecycleEndedException }
+    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
   }
 
   @Test fun parallelFlowable_maybeNormalCompletion() {
@@ -593,8 +593,8 @@ class AutoDisposeKotlinTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(arrayOf(s, s2))
 
-    s.assertError { it is LifecycleNotStartedException }
-    s2.assertError { it is LifecycleNotStartedException }
+    s.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
+    s2.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
   }
 
   @Test fun parallelFlowable_lifecycleNormalCompletion() {
@@ -641,8 +641,8 @@ class AutoDisposeKotlinTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(arrayOf(s, s2))
 
-    s.assertError { it is LifecycleEndedException }
-    s2.assertError { it is LifecycleEndedException }
+    s.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
+    s2.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
   }
 
 }

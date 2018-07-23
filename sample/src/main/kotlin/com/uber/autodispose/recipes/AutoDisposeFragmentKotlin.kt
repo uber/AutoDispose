@@ -20,7 +20,7 @@ import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.uber.autodispose.LifecycleEndedException
+import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.ATTACH
@@ -131,7 +131,8 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Fr
         STOP -> DESTROY_VIEW
         DESTROY_VIEW -> DESTROY
         DESTROY -> DETACH
-        else -> throw LifecycleEndedException("Cannot bind to Fragment lifecycle after detach.")
+        else -> throw LifecycleEndedException(
+            "Cannot bind to Fragment lifecycle after detach.")
       }
     }
   }

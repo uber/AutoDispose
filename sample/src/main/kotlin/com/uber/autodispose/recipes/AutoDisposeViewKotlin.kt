@@ -21,7 +21,7 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import android.view.View
-import com.uber.autodispose.LifecycleEndedException
+import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.android.ViewScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeViewKotlin.ViewEvent
@@ -82,7 +82,8 @@ abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
     private val CORRESPONDING_EVENTS = Function<ViewEvent, ViewEvent> { viewEvent ->
       when (viewEvent) {
         ViewEvent.ATTACH -> ViewEvent.DETACH
-        else -> throw LifecycleEndedException("Cannot bind to View lifecycle after detach.")
+        else -> throw LifecycleEndedException(
+            "Cannot bind to View lifecycle after detach.")
       }
     }
   }

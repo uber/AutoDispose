@@ -19,7 +19,7 @@ package com.uber.autodispose.recipes
 import android.support.v7.widget.BindAwareViewHolder
 import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.View
-import com.uber.autodispose.LifecycleEndedException
+import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent
 import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent.BIND
@@ -59,7 +59,8 @@ abstract class AutoDisposeViewHolderKotlin(itemView: View)
     private val CORRESPONDING_EVENTS = Function<ViewHolderEvent, ViewHolderEvent> { viewHolderEvent ->
       when (viewHolderEvent) {
         BIND -> UNBIND
-        else -> throw LifecycleEndedException("Cannot use ViewHolder lifecycle after unbind.")
+        else -> throw LifecycleEndedException(
+            "Cannot use ViewHolder lifecycle after unbind.")
       }
     }
   }

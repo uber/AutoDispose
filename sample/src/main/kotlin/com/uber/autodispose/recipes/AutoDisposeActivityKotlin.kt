@@ -18,7 +18,7 @@ package com.uber.autodispose.recipes
 
 import android.app.Activity
 import android.os.Bundle
-import com.uber.autodispose.LifecycleEndedException
+import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.CREATE
@@ -101,7 +101,8 @@ abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<Ac
         RESUME -> PAUSE
         PAUSE -> STOP
         STOP -> DESTROY
-        else -> throw LifecycleEndedException("Cannot bind to Activity lifecycle after destroy.")
+        else -> throw LifecycleEndedException(
+            "Cannot bind to Activity lifecycle after destroy.")
       }
     }
   }

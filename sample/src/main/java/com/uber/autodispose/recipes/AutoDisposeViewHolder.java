@@ -19,7 +19,7 @@ package com.uber.autodispose.recipes;
 import android.support.v7.widget.BindAwareViewHolder;
 import android.view.View;
 
-import com.uber.autodispose.LifecycleEndedException;
+import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 
 import org.jetbrains.annotations.Nullable;

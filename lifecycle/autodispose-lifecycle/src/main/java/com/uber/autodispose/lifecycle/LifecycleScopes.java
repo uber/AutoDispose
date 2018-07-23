@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose;
+package com.uber.autodispose.lifecycle;
 
+import com.uber.autodispose.AutoDisposePlugins;
+import com.uber.autodispose.OutsideLifecycleException;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
