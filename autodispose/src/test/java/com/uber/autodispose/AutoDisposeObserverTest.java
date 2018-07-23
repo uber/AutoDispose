@@ -138,63 +138,6 @@ public class AutoDisposeObserverTest {
     assertThat(scope.hasObservers()).isFalse();
   }
 
-  @Test public void autoDispose_withLifecycleProvider() {
-    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
-    PublishSubject<Integer> source = PublishSubject.create();
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    source.as(AutoDispose.<Integer>autoDisposable(provider))
-        .subscribe(o);
-    o.takeSubscribe();
-
-    assertThat(source.hasObservers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
-
-    source.onNext(1);
-    assertThat(o.takeNext()).isEqualTo(1);
-
-    lifecycle.onNext(1);
-    source.onNext(2);
-
-    assertThat(source.hasObservers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
-    assertThat(o.takeNext()).isEqualTo(2);
-
-    lifecycle.onNext(3);
-    source.onNext(3);
-
-    o.assertNoMoreEvents();
-    assertThat(source.hasObservers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
-  }
-
-  @Test public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    Observable.just(1)
-        .as(AutoDispose.<Integer>autoDisposable(provider))
-        .subscribe(o);
-
-    o.takeSubscribe();
-    assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
-  }
-
-  @Test public void autoDispose_withProvider_afterLifecycle_shouldFail() {
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    lifecycle.onNext(1);
-    lifecycle.onNext(2);
-    lifecycle.onNext(3);
-    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    Observable.just(1)
-        .as(AutoDispose.<Integer>autoDisposable(provider))
-        .subscribe(o);
-
-    o.takeSubscribe();
-    assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
-  }
-
   @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
     AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
       @Override public void accept(OutsideLifecycleException e) { }

@@ -31,7 +31,6 @@ import io.reactivex.processors.PublishProcessor;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subscribers.TestSubscriber;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.After;
@@ -137,66 +136,6 @@ public class AutoDisposeSubscriberTest {
     // Unsubscribed
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(scope.hasObservers()).isFalse();
-  }
-
-  @Test public void autoDispose_withLifecycleProvider() {
-    PublishProcessor<Integer> source = PublishProcessor.create();
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    TestSubscriber<Integer> o = source
-            .as(AutoDispose.<Integer>autoDisposable(provider))
-            .test();
-    o.assertSubscribed();
-
-    assertThat(source.hasSubscribers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
-
-    source.onNext(1);
-    o.assertValue(1);
-
-    lifecycle.onNext(1);
-    source.onNext(2);
-
-    assertThat(source.hasSubscribers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
-    o.assertValues(1, 2);
-
-    lifecycle.onNext(3);
-    source.onNext(3);
-
-    // Nothing new
-    o.assertValues(1, 2);
-
-    // Unsubscribed
-    assertThat(source.hasSubscribers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
-  }
-
-  @Test public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    TestSubscriber<Integer> o = Flowable.just(1)
-            .as(AutoDispose.<Integer>autoDisposable(provider))
-            .test();
-
-    List<Throwable> errors = o.errors();
-    assertThat(errors).hasSize(1);
-    assertThat(errors.get(0)).isInstanceOf(LifecycleNotStartedException.class);
-  }
-
-  @Test public void autoDispose_withProvider_afterLifecycle_shouldFail() {
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    lifecycle.onNext(1);
-    lifecycle.onNext(2);
-    lifecycle.onNext(3);
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    TestSubscriber<Integer> o = Flowable.just(1)
-            .as(AutoDispose.<Integer>autoDisposable(provider))
-            .test();
-
-    List<Throwable> errors = o.errors();
-    assertThat(errors).hasSize(1);
-    assertThat(errors.get(0)).isInstanceOf(LifecycleEndedException.class);
   }
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
