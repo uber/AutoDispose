@@ -39,7 +39,8 @@ public class LifecycleScopeProviderObservableTest {
 
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
     @Override public void log(String message) {
-      System.out.println(LifecycleScopeProviderObservableTest.class.getSimpleName() + ": " + message);
+      System.out.println(
+          LifecycleScopeProviderObservableTest.class.getSimpleName() + ": " + message);
     }
   };
 

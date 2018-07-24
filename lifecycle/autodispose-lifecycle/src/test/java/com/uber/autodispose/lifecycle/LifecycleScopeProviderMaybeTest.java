@@ -41,7 +41,8 @@ public class LifecycleScopeProviderMaybeTest {
       new RecordingObserver.Logger() {
         @Override
         public void log(String message) {
-          System.out.println(LifecycleScopeProviderMaybeTest.class.getSimpleName() + ": " + message);
+          System.out.println(
+              LifecycleScopeProviderMaybeTest.class.getSimpleName() + ": " + message);
         }
       };
 
