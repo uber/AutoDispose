@@ -76,22 +76,19 @@ public final class LifecycleScopes {
     Function<E, Boolean> equalityFunction;
     if (endEvent instanceof Comparable) {
       //noinspection unchecked
-      equalityFunction =
-          (Function<E, Boolean>)
-              new Function<Comparable<E>, Boolean>() {
-                @Override
-                public Boolean apply(Comparable<E> e) {
-                  return e.compareTo(endEvent) >= 0;
-                }
-              };
+      equalityFunction = (Function<E, Boolean>) new Function<Comparable<E>, Boolean>() {
+          @Override
+          public Boolean apply(Comparable<E> e) {
+            return e.compareTo(endEvent) >= 0;
+          }
+      };
     } else {
-      equalityFunction =
-          new Function<E, Boolean>() {
-            @Override
-            public Boolean apply(E e) {
-              return e.equals(endEvent);
-            }
-          };
+      equalityFunction = new Function<E, Boolean>() {
+          @Override
+          public Boolean apply(E e) {
+            return e.equals(endEvent);
+          }
+      };
     }
     return lifecycle
         .skip(1)
