@@ -18,6 +18,8 @@
 
 package com.uber.autodispose.lifecycle.ktx
 
+import com.uber.autodispose.lifecycle.LifecycleEndedException
+import com.uber.autodispose.lifecycle.LifecycleNotStartedException
 import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider
 import io.reactivex.BackpressureStrategy.ERROR
 import io.reactivex.Completable
@@ -45,7 +47,7 @@ class AutoDisposeLifecycleTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
+    o.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun observable_lifecycleNormalCompletion() {
@@ -83,7 +85,7 @@ class AutoDisposeLifecycleTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
+    o.assertError { it is LifecycleEndedException }
   }
 
   @Test fun flowable_lifecycleNotStarted() {
@@ -91,7 +93,7 @@ class AutoDisposeLifecycleTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(s)
 
-    s.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
+    s.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun flowable_lifecycleNormalCompletion() {
@@ -129,7 +131,7 @@ class AutoDisposeLifecycleTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(s)
 
-    s.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
+    s.assertError { it is LifecycleEndedException }
   }
 
   @Test fun maybe_lifecycleNotStarted() {
@@ -137,7 +139,7 @@ class AutoDisposeLifecycleTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
+    o.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun maybe_lifecycleNormalCompletion() {
@@ -171,7 +173,7 @@ class AutoDisposeLifecycleTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
+    o.assertError { it is LifecycleEndedException }
   }
 
   @Test fun single_lifecycleNotStarted() {
@@ -179,7 +181,7 @@ class AutoDisposeLifecycleTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
+    o.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun single_lifecycleNormalCompletion() {
@@ -213,7 +215,7 @@ class AutoDisposeLifecycleTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
+    o.assertError { it is LifecycleEndedException }
   }
 
   @Test fun completable_lifecycleNotStarted() {
@@ -221,7 +223,7 @@ class AutoDisposeLifecycleTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
+    o.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun completable_lifecycleNormalCompletion() {
@@ -254,7 +256,7 @@ class AutoDisposeLifecycleTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(o)
 
-    o.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
+    o.assertError { it is LifecycleEndedException }
   }
 
   @Test fun parallelFlowable_lifecycleNotStarted() {
@@ -264,8 +266,8 @@ class AutoDisposeLifecycleTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(arrayOf(s, s2))
 
-    s.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
-    s2.assertError { it is com.uber.autodispose.lifecycle.LifecycleNotStartedException }
+    s.assertError { it is LifecycleNotStartedException }
+    s2.assertError { it is LifecycleNotStartedException }
   }
 
   @Test fun parallelFlowable_lifecycleNormalCompletion() {
@@ -312,7 +314,7 @@ class AutoDisposeLifecycleTest {
         .autoDisposable(lifecycleScopeProvider)
         .subscribe(arrayOf(s, s2))
 
-    s.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
-    s2.assertError { it is com.uber.autodispose.lifecycle.LifecycleEndedException }
+    s.assertError { it is LifecycleEndedException }
+    s2.assertError { it is LifecycleEndedException }
   }
 }

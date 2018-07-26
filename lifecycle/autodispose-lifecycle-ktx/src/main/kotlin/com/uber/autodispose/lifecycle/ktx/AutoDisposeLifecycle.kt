@@ -25,6 +25,7 @@ import com.uber.autodispose.MaybeSubscribeProxy
 import com.uber.autodispose.ObservableSubscribeProxy
 import com.uber.autodispose.ParallelFlowableSubscribeProxy
 import com.uber.autodispose.SingleSubscribeProxy
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -39,7 +40,7 @@ import io.reactivex.parallel.ParallelFlowable
  */
 @CheckReturnValue
 inline fun <T> Flowable<T>.autoDisposable(
-    provider: com.uber.autodispose.lifecycle.LifecycleScopeProvider<*>): FlowableSubscribeProxy<T>
+    provider: LifecycleScopeProvider<*>): FlowableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
@@ -47,7 +48,7 @@ inline fun <T> Flowable<T>.autoDisposable(
  */
 @CheckReturnValue
 inline fun <T> Observable<T>.autoDisposable(
-    provider: com.uber.autodispose.lifecycle.LifecycleScopeProvider<*>): ObservableSubscribeProxy<T>
+    provider: LifecycleScopeProvider<*>): ObservableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
@@ -55,14 +56,14 @@ inline fun <T> Observable<T>.autoDisposable(
  */
 @CheckReturnValue
 inline fun <T> Single<T>.autoDisposable(
-    provider: com.uber.autodispose.lifecycle.LifecycleScopeProvider<*>): SingleSubscribeProxy<T>
+    provider: LifecycleScopeProvider<*>): SingleSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
  * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Maybe<T>.autoDisposable(provider: com.uber.autodispose.lifecycle.LifecycleScopeProvider<*>): MaybeSubscribeProxy<T>
+inline fun <T> Maybe<T>.autoDisposable(provider: LifecycleScopeProvider<*>): MaybeSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
@@ -70,7 +71,7 @@ inline fun <T> Maybe<T>.autoDisposable(provider: com.uber.autodispose.lifecycle.
  */
 @CheckReturnValue
 inline fun Completable.autoDisposable(
-    provider: com.uber.autodispose.lifecycle.LifecycleScopeProvider<*>): CompletableSubscribeProxy
+    provider: LifecycleScopeProvider<*>): CompletableSubscribeProxy
     = this.`as`(AutoDispose.autoDisposable<Any>(provider))
 
 /**
@@ -78,5 +79,5 @@ inline fun Completable.autoDisposable(
  */
 @CheckReturnValue
 inline fun <T> ParallelFlowable<T>.autoDisposable(
-    provider: com.uber.autodispose.lifecycle.LifecycleScopeProvider<*>): ParallelFlowableSubscribeProxy<T>
+    provider: LifecycleScopeProvider<*>): ParallelFlowableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
