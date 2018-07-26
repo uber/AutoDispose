@@ -24,7 +24,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 public final class AutoDisposePluginsTest {
 
-  @Before @After public void tearDown() {
+  @Before @After public void resetPlugins() {
     AutoDisposePlugins.reset();
   }
 
