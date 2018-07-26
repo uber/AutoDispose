@@ -21,7 +21,6 @@ import com.uber.autodispose.internal.DoNotMock;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.annotations.CheckReturnValue;
-import io.reactivex.functions.Function;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -42,10 +41,14 @@ public interface LifecycleScopeProvider<E> extends ScopeProvider {
 
   /**
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
-   *     avoid unnecessary object allocation.
+   * avoid unnecessary object allocation.
    */
-  @CheckReturnValue Function<E, E> correspondingEvents();
+  @CheckReturnValue CorrespondingEventsFunction<E> correspondingEvents();
 
-  /** @return the last seen lifecycle event, or {@code null} if none. */
+  /**
+   * @return the last seen lifecycle event, or {@code null} if none. Note that is {@code null} is
+   * returned at subscribe-time, it will be used as a signal to throw a {@link
+   * LifecycleNotStartedException}.
+   */
   @Nullable E peekLifecycle();
 }

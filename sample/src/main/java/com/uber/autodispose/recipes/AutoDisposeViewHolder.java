@@ -18,15 +18,13 @@ package com.uber.autodispose.recipes;
 
 import android.support.v7.widget.BindAwareViewHolder;
 import android.view.View;
-
+import com.uber.autodispose.OutsideScopeException;
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
-
-import org.jetbrains.annotations.Nullable;
-
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Example implementation of a {@link android.support.v7.widget.RecyclerView.ViewHolder}
@@ -34,18 +32,17 @@ import io.reactivex.subjects.BehaviorSubject;
  * where you have subscriptions that should be disposed upon unbinding or otherwise aren't
  * overwritten in future binds.
  */
-public abstract class AutoDisposeViewHolder
-    extends BindAwareViewHolder
+public abstract class AutoDisposeViewHolder extends BindAwareViewHolder
     implements LifecycleScopeProvider<AutoDisposeViewHolder.ViewHolderEvent> {
 
   public enum ViewHolderEvent {
     BIND, UNBIND
   }
 
-  private static final Function<ViewHolderEvent, ViewHolderEvent> CORRESPONDING_EVENTS =
-      new Function<ViewHolderEvent, ViewHolderEvent>() {
-        @Override
-        public ViewHolderEvent apply(final ViewHolderEvent viewHolderEvent) throws Exception {
+  private static final CorrespondingEventsFunction<ViewHolderEvent> CORRESPONDING_EVENTS =
+      new CorrespondingEventsFunction<ViewHolderEvent>() {
+        @Override public ViewHolderEvent apply(final ViewHolderEvent viewHolderEvent)
+            throws OutsideScopeException {
           switch (viewHolderEvent) {
             case BIND:
               return ViewHolderEvent.UNBIND;
@@ -61,7 +58,7 @@ public abstract class AutoDisposeViewHolder
     super(itemView);
   }
 
-  @Override public Function<ViewHolderEvent, ViewHolderEvent> correspondingEvents() {
+  @Override public CorrespondingEventsFunction<ViewHolderEvent> correspondingEvents() {
     return CORRESPONDING_EVENTS;
   }
 

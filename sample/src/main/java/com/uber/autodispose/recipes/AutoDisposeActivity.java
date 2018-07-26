@@ -19,10 +19,11 @@ package com.uber.autodispose.recipes;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import com.uber.autodispose.OutsideScopeException;
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 
 /**
@@ -43,9 +44,10 @@ public abstract class AutoDisposeActivity extends Activity
    * symmetric boundary conditions. Create -> Destroy, Start -> Stop, etc. For anything after Resume
    * we dispose on the next immediate destruction event. Subscribing after Destroy is an error.
    */
-  private static final Function<ActivityEvent, ActivityEvent> CORRESPONDING_EVENTS =
-      new Function<ActivityEvent, ActivityEvent>() {
-        @Override public ActivityEvent apply(ActivityEvent activityEvent) throws Exception {
+  private static final CorrespondingEventsFunction<ActivityEvent> CORRESPONDING_EVENTS =
+      new CorrespondingEventsFunction<ActivityEvent>() {
+        @Override public ActivityEvent apply(ActivityEvent activityEvent)
+            throws OutsideScopeException {
           switch (activityEvent) {
             case CREATE:
               return ActivityEvent.DESTROY;
@@ -69,7 +71,7 @@ public abstract class AutoDisposeActivity extends Activity
     return lifecycleEvents.hide();
   }
 
-  @Override public Function<ActivityEvent, ActivityEvent> correspondingEvents() {
+  @Override public CorrespondingEventsFunction<ActivityEvent> correspondingEvents() {
     return CORRESPONDING_EVENTS;
   }
 

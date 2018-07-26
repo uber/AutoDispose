@@ -18,12 +18,11 @@ package com.uber.autodispose.lifecycle;
 
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 
 final class TestUtil {
-  private static final Function<Integer, Integer> CORRESPONDING_EVENTS =
-      new Function<Integer, Integer>() {
+  private static final CorrespondingEventsFunction<Integer> CORRESPONDING_EVENTS =
+      new CorrespondingEventsFunction<Integer>() {
         @Override public Integer apply(Integer lastEvent) {
           switch (lastEvent) {
             case 0:
@@ -47,7 +46,7 @@ final class TestUtil {
         return lifecycle;
       }
 
-      @Override public Function<Integer, Integer> correspondingEvents() {
+      @Override public CorrespondingEventsFunction<Integer> correspondingEvents() {
         return CORRESPONDING_EVENTS;
       }
 

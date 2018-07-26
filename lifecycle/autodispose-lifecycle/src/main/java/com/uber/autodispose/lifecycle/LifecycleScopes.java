@@ -16,11 +16,14 @@
 
 package com.uber.autodispose.lifecycle;
 
+import com.uber.autodispose.AutoDisposePlugins;
+import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.internal.ScopeEndNotification;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import java.util.concurrent.Callable;
 
 /**
  * Utilities for dealing with {@link LifecycleScopeProvider}s. This includes factories for resolving
@@ -30,39 +33,74 @@ public final class LifecycleScopes {
 
   private static final Function<Object, ScopeEndNotification> TRANSFORM_TO_END =
       new Function<Object, ScopeEndNotification>() {
-        @Override
-        public ScopeEndNotification apply(Object o) {
+        @Override public ScopeEndNotification apply(Object o) {
           return ScopeEndNotification.INSTANCE;
         }
       };
 
-  private static final Predicate<Boolean> IDENTITY_BOOLEAN_PREDICATE =
-      new Predicate<Boolean>() {
-        @Override
-        public boolean test(Boolean b) {
-          return b;
-        }
-      };
+  private static final Predicate<Boolean> IDENTITY_BOOLEAN_PREDICATE = new Predicate<Boolean>() {
+    @Override public boolean test(Boolean b) {
+      return b;
+    }
+  };
 
   private LifecycleScopes() {
     throw new InstantiationError();
   }
 
   /**
-   * Overload for resolving lifecycle providers that defaults to checking start and end boundaries *
-   * of lifecycles. That is, they will ensure that the lifecycle has both started and not ended. *
+   * Overload for resolving lifecycle providers that defaults to checking start and end boundaries
+   * of lifecycles. That is, they will ensure that the lifecycle has both started and not ended.
+   *
+   * <p><em>Note:</em> This resolves the scope immediately, so consider deferring execution as
+   * needed, such as using {@link Maybe#defer(Callable) defer}.
    *
    * @param provider the {@link LifecycleScopeProvider} to resolve.
    * @param <E> the lifecycle event type
    * @return a resolved {@link Maybe} representation of a given provider
+   * @throws OutsideScopeException if the {@link LifecycleScopeProvider#correspondingEvents()}
+   * throws an {@link OutsideScopeException} during resolution.
    */
   public static <E> Maybe<?> resolveScopeFromLifecycle(final LifecycleScopeProvider<E> provider)
-      throws Exception {
+      throws OutsideScopeException {
+    return resolveScopeFromLifecycle(provider, true);
+  }
+
+  /**
+   * Overload for resolving lifecycle providers allows configuration of checking "end" boundaries
+   * of lifecycles. That is, they will ensure that the lifecycle has both started and not ended,
+   * and otherwise will throw one of {@link LifecycleNotStartedException} (if {@link
+   * LifecycleScopeProvider#peekLifecycle() peekLifecycle} returns {@code null}) or
+   * {@link LifecycleEndedException} if the lifecycle is ended. To configure the runtime behavior
+   * of these exceptions, see {@link AutoDisposePlugins}.
+   *
+   * <p><em>Note:</em> This resolves the scope immediately, so consider deferring execution as
+   * needed, such as using {@link Maybe#defer(Callable) defer}.
+   *
+   * @param provider the {@link LifecycleScopeProvider} to resolve.
+   * @param checkEndBoundary whether or not to check that the lifecycle has ended
+   * @param <E> the lifecycle event type
+   * @return a resolved {@link Maybe} representation of a given provider
+   * @throws OutsideScopeException if the {@link LifecycleScopeProvider#correspondingEvents()}
+   * throws an {@link OutsideScopeException} during resolution.
+   */
+  public static <E> Maybe<?> resolveScopeFromLifecycle(final LifecycleScopeProvider<E> provider,
+      final boolean checkEndBoundary) throws OutsideScopeException {
     E lastEvent = provider.peekLifecycle();
+    CorrespondingEventsFunction<E> eventsFunction = provider.correspondingEvents();
     if (lastEvent == null) {
       throw new LifecycleNotStartedException();
     }
-    E endEvent = provider.correspondingEvents().apply(lastEvent);
+    E endEvent;
+    try {
+      endEvent = eventsFunction.apply(lastEvent);
+    } catch (Exception e) {
+      if (checkEndBoundary && e instanceof LifecycleEndedException) {
+        throw e;
+      } else {
+        return Maybe.error(e);
+      }
+    }
     return resolveScopeFromLifecycle(provider.lifecycle(), endEvent);
   }
 
@@ -77,21 +115,18 @@ public final class LifecycleScopes {
     if (endEvent instanceof Comparable) {
       //noinspection unchecked
       equalityFunction = (Function<E, Boolean>) new Function<Comparable<E>, Boolean>() {
-          @Override
-          public Boolean apply(Comparable<E> e) {
-            return e.compareTo(endEvent) >= 0;
-          }
+        @Override public Boolean apply(Comparable<E> e) {
+          return e.compareTo(endEvent) >= 0;
+        }
       };
     } else {
       equalityFunction = new Function<E, Boolean>() {
-          @Override
-          public Boolean apply(E e) {
-            return e.equals(endEvent);
-          }
+        @Override public Boolean apply(E e) {
+          return e.equals(endEvent);
+        }
       };
     }
-    return lifecycle
-        .skip(1)
+    return lifecycle.skip(1)
         .map(equalityFunction)
         .filter(IDENTITY_BOOLEAN_PREDICATE)
         .map(TRANSFORM_TO_END)

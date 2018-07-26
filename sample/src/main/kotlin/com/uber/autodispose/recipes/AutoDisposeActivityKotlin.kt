@@ -18,6 +18,7 @@ package com.uber.autodispose.recipes
 
 import android.app.Activity
 import android.os.Bundle
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
 import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent
@@ -28,7 +29,6 @@ import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.RESU
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.START
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.STOP
 import io.reactivex.Observable
-import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
 
 /**
@@ -47,7 +47,7 @@ abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<Ac
     return lifecycleEvents.hide()
   }
 
-  override fun correspondingEvents(): Function<ActivityEvent, ActivityEvent> {
+  override fun correspondingEvents(): CorrespondingEventsFunction<ActivityEvent> {
     return CORRESPONDING_EVENTS
   }
 
@@ -94,7 +94,7 @@ abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<Ac
      * Resume we dispose on the next immediate destruction event. Subscribing after Destroy is an
      * error.
      */
-    private val CORRESPONDING_EVENTS = Function<ActivityEvent, ActivityEvent> { activityEvent ->
+    private val CORRESPONDING_EVENTS = CorrespondingEventsFunction<ActivityEvent> { activityEvent ->
       when (activityEvent) {
         CREATE -> DESTROY
         START -> STOP

@@ -20,6 +20,7 @@ import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
 import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent
@@ -34,7 +35,6 @@ import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.RESU
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.START
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.STOP
 import io.reactivex.Observable
-import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
 
 /**
@@ -53,7 +53,7 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Fr
     return lifecycleEvents.hide()
   }
 
-  override fun correspondingEvents(): Function<FragmentEvent, FragmentEvent> {
+  override fun correspondingEvents(): CorrespondingEventsFunction<FragmentEvent> {
     return CORRESPONDING_EVENTS
   }
 
@@ -120,7 +120,7 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Fr
      * Resume we dispose on the next immediate destruction event. Subscribing after Detach is an
      * error.
      */
-    private val CORRESPONDING_EVENTS = Function<FragmentEvent, FragmentEvent> { event ->
+    private val CORRESPONDING_EVENTS = CorrespondingEventsFunction<FragmentEvent> { event ->
       when (event) {
         ATTACH -> DETACH
         CREATE -> DESTROY

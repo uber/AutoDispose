@@ -17,15 +17,14 @@
 package com.uber.autodispose.recipes
 
 import android.support.v7.widget.BindAwareViewHolder
-import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.View
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
 import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent
 import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent.BIND
 import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent.UNBIND
 import io.reactivex.Observable
-import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
 
 private object NOTIFICATION
@@ -50,13 +49,13 @@ abstract class AutoDisposeViewHolderKotlin(itemView: View)
 
   override fun lifecycle(): Observable<ViewHolderEvent> = lifecycleEvents.hide()
 
-  override fun correspondingEvents(): Function<ViewHolderEvent, ViewHolderEvent> = CORRESPONDING_EVENTS
+  override fun correspondingEvents(): CorrespondingEventsFunction<ViewHolderEvent> = CORRESPONDING_EVENTS
 
   override fun peekLifecycle(): ViewHolderEvent? = lifecycleEvents.value
 
   companion object {
 
-    private val CORRESPONDING_EVENTS = Function<ViewHolderEvent, ViewHolderEvent> { viewHolderEvent ->
+    private val CORRESPONDING_EVENTS = CorrespondingEventsFunction<ViewHolderEvent> { viewHolderEvent ->
       when (viewHolderEvent) {
         BIND -> UNBIND
         else -> throw LifecycleEndedException(

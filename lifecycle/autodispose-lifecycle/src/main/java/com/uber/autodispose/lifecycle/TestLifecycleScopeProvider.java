@@ -18,7 +18,6 @@ package com.uber.autodispose.lifecycle;
 
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 import org.jetbrains.annotations.Nullable;
 
@@ -64,8 +63,8 @@ public final class TestLifecycleScopeProvider
     return lifecycleSubject.hide();
   }
 
-  @Override public Function<TestLifecycle, TestLifecycle> correspondingEvents() {
-    return new Function<TestLifecycle, TestLifecycle>() {
+  @Override public CorrespondingEventsFunction<TestLifecycle> correspondingEvents() {
+    return new CorrespondingEventsFunction<TestLifecycle>() {
       @Override public TestLifecycle apply(TestLifecycle testLifecycle) {
         switch (testLifecycle) {
           case STARTED:
