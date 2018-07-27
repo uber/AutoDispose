@@ -21,7 +21,7 @@ import com.uber.autodispose.internal.DoNotMock;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.annotations.CheckReturnValue;
-import org.jetbrains.annotations.Nullable;
+import io.reactivex.annotations.Nullable;
 
 /**
  * A convenience interface that, when implemented, helps provide information to create {@link
