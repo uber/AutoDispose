@@ -21,8 +21,11 @@ import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.internal.ScopeEndNotification;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import io.reactivex.annotations.Nullable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import java.util.Comparator;
 import java.util.concurrent.Callable;
 
 /**
@@ -43,6 +46,13 @@ public final class LifecycleScopes {
       return b;
     }
   };
+
+  private static final Comparator<Comparable<Object>> COMPARABLE_COMPARATOR =
+      new Comparator<Comparable<Object>>() {
+        @Override public int compare(Comparable<Object> o1, Comparable<Object> o2) {
+          return o1.compareTo(o2);
+        }
+      };
 
   private LifecycleScopes() {
     throw new InstantiationError();
@@ -96,10 +106,21 @@ public final class LifecycleScopes {
       endEvent = eventsFunction.apply(lastEvent);
     } catch (Exception e) {
       if (checkEndBoundary && e instanceof LifecycleEndedException) {
+        Consumer<? super OutsideScopeException> handler =
+            AutoDisposePlugins.getOutsideScopeHandler();
+        if (handler != null) {
+          try {
+            handler.accept((LifecycleEndedException) e);
+
+            // Swallowed the end exception, just silently dispose immediately.
+            return Maybe.just(ScopeEndNotification.INSTANCE);
+          } catch (Exception e1) {
+            return Maybe.error(e1);
+          }
+        }
         throw e;
-      } else {
-        return Maybe.error(e);
       }
+      return Maybe.error(e);
     }
     return resolveScopeFromLifecycle(provider.lifecycle(), endEvent);
   }
@@ -111,12 +132,28 @@ public final class LifecycleScopes {
    * @return a resolved {@link Maybe} representation of a given lifecycle, targeting the given event
    */
   public static <E> Maybe<?> resolveScopeFromLifecycle(Observable<E> lifecycle, final E endEvent) {
-    Function<E, Boolean> equalityFunction;
+    @Nullable Comparator<E> comparator = null;
     if (endEvent instanceof Comparable) {
       //noinspection unchecked
-      equalityFunction = (Function<E, Boolean>) new Function<Comparable<E>, Boolean>() {
-        @Override public Boolean apply(Comparable<E> e) {
-          return e.compareTo(endEvent) >= 0;
+      comparator = (Comparator<E>) COMPARABLE_COMPARATOR;
+    }
+    return resolveScopeFromLifecycle(lifecycle, endEvent, comparator);
+  }
+
+  /**
+   * @param lifecycle the stream of lifecycle events
+   * @param endEvent the target end event
+   * @param comparator an optional comparator for checking event equality.
+   * @param <E> the lifecycle event type
+   * @return a resolved {@link Maybe} representation of a given lifecycle, targeting the given event
+   */
+  public static <E> Maybe<?> resolveScopeFromLifecycle(Observable<E> lifecycle, final E endEvent,
+      @Nullable final Comparator<E> comparator) {
+    Function<E, Boolean> equalityFunction;
+    if (comparator != null) {
+      equalityFunction = new Function<E, Boolean>() {
+        @Override public Boolean apply(E e) {
+          return comparator.compare(e, endEvent) >= 0;
         }
       };
     } else {
