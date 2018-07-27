@@ -22,7 +22,7 @@ def versions = [
     errorProne: '2.3.1',
     errorPronePlugin: '0.0.13',
     kotlin: '1.2.51',
-    support: '27.0.2'
+    support: '27.1.1'
 ]
 
 def apt = [
