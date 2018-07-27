@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright (C) 2018. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,15 +20,14 @@ import io.reactivex.functions.Consumer;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Utility class to inject handlers to certain standard AutoDispose operations.
+ * Utility class to inject handlers to certain standard autodispose-lifecycle operations.
  */
 public final class AutoDisposePlugins {
 
   private AutoDisposePlugins() { }
 
-  @Nullable
-  private static volatile Consumer<? super OutsideLifecycleException> outsideLifecycleHandler;
-  private static volatile boolean fillInOutsideLifecycleExceptionStacktraces;
+  @Nullable private static volatile Consumer<? super OutsideScopeException> outsideScopeHandler;
+  private static volatile boolean fillInOutsideScopeExceptionStacktraces;
 
   /**
    * Prevents changing the plugins.
@@ -55,48 +54,47 @@ public final class AutoDisposePlugins {
 
   /**
    * @return the value indicating whether or not to fill in stacktraces in
-   * {@link OutsideLifecycleException}.
+   * {@link OutsideScopeException}.
    */
-  public static boolean getFillInOutsideLifecycleExceptionStacktraces() {
-    return fillInOutsideLifecycleExceptionStacktraces;
+  public static boolean getFillInOutsideScopeExceptionStacktraces() {
+    return fillInOutsideScopeExceptionStacktraces;
   }
 
   /**
-   * @return the value for handling {@link OutsideLifecycleException}.
+   * @return the value for handling {@link OutsideScopeException}.
    */
-  @Nullable
-  public static Consumer<? super OutsideLifecycleException> getOutsideLifecycleHandler() {
-    return outsideLifecycleHandler;
+  @Nullable public static Consumer<? super OutsideScopeException> getOutsideScopeHandler() {
+    return outsideScopeHandler;
   }
 
   /**
-   * @param handler the consumer for handling {@link OutsideLifecycleException} to set, null allowed
+   * @param handler the consumer for handling {@link OutsideScopeException} to set, null allowed
    */
-  public static void setOutsideLifecycleHandler(
-          @Nullable Consumer<? super OutsideLifecycleException> handler) {
+  public static void setOutsideScopeHandler(
+      @Nullable Consumer<? super OutsideScopeException> handler) {
     if (lockdown) {
       throw new IllegalStateException("Plugins can't be changed anymore");
     }
-    outsideLifecycleHandler = handler;
+    outsideScopeHandler = handler;
   }
 
   /**
    * @param fillInStacktrace {@code true} to fill in stacktraces in
-   * {@link OutsideLifecycleException}s. {@code false} to disable them (and use them as signals
+   * {@link OutsideScopeException}s. {@code false} to disable them (and use them as signals
    * only). Disabling them, if you don't care about the stacktraces, can result in some minor
    * performance improvements.
    */
-  public static void setFillInOutsideLifecycleExceptionStacktraces(boolean fillInStacktrace) {
+  public static void setFillInOutsideScopeExceptionStacktraces(boolean fillInStacktrace) {
     if (lockdown) {
       throw new IllegalStateException("Plugins can't be changed anymore");
     }
-    fillInOutsideLifecycleExceptionStacktraces = fillInStacktrace;
+    fillInOutsideScopeExceptionStacktraces = fillInStacktrace;
   }
 
   /**
    * Removes all handlers and resets to default behavior.
    */
   public static void reset() {
-    setOutsideLifecycleHandler(null);
+    setOutsideScopeHandler(null);
   }
 }

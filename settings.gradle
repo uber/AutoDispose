@@ -62,6 +62,9 @@ if (System.getenv("ANDROID_HOME") != null) {
 }
 include ':autodispose'
 include ':autodispose-kotlin'
+include ':lifecycle:autodispose-lifecycle'
+include ':lifecycle:autodispose-lifecycle-jdk8'
+include ':lifecycle:autodispose-lifecycle-ktx'
 include 'autodispose-rxlifecycle'
 include ':test-utils'
 include ':static-analysis:autodispose-error-prone-checker'

@@ -46,10 +46,6 @@ public class MaybeScoper<T> extends BaseAutoDisposeConverter
     super(provider);
   }
 
-  public MaybeScoper(LifecycleScopeProvider<?> provider) {
-    super(provider);
-  }
-
   public MaybeScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }

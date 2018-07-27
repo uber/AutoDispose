@@ -24,7 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import com.uber.autodispose.AutoDispose;
-import com.uber.autodispose.OutsideLifecycleException;
+import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
@@ -128,7 +128,7 @@ import static com.google.common.truth.Truth.assertThat;
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
-    assertThat(t).isInstanceOf(OutsideLifecycleException.class);
+    assertThat(t).isInstanceOf(OutsideScopeException.class);
     o.assertNoMoreEvents();
     assertThat(d.isDisposed()).isTrue();
   }
@@ -156,7 +156,7 @@ import static com.google.common.truth.Truth.assertThat;
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
-    assertThat(t).isInstanceOf(OutsideLifecycleException.class);
+    assertThat(t).isInstanceOf(OutsideScopeException.class);
     o.assertNoMoreEvents();
     assertThat(d.isDisposed()).isTrue();
   }

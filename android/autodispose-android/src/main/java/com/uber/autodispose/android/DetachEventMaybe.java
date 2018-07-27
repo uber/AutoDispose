@@ -19,7 +19,7 @@ package com.uber.autodispose.android;
 import android.os.Build;
 import android.support.annotation.RestrictTo;
 import android.view.View;
-import com.uber.autodispose.LifecycleNotStartedException;
+import com.uber.autodispose.OutsideScopeException;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 import io.reactivex.android.MainThreadDisposable;
@@ -50,7 +50,7 @@ final class DetachEventMaybe extends Maybe<Object> {
         (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
             || view.getWindowToken() != null;
     if (!isAttached) {
-      observer.onError(new LifecycleNotStartedException("View is not attached!"));
+      observer.onError(new OutsideScopeException("View is not attached!"));
       return;
     }
 

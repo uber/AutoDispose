@@ -47,10 +47,6 @@ public class ObservableScoper<T> extends BaseAutoDisposeConverter
     super(provider);
   }
 
-  public ObservableScoper(LifecycleScopeProvider<?> provider) {
-    super(provider);
-  }
-
   public ObservableScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }

@@ -22,11 +22,12 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
-import com.uber.autodispose.LifecycleEndedException;
-import com.uber.autodispose.LifecycleScopeProvider;
+import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.android.ViewScopeProvider;
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
+import com.uber.autodispose.lifecycle.LifecycleEndedException;
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 
 /**
@@ -42,9 +43,9 @@ public abstract class AutoDisposeView extends View
    * "Attach" returns "Detach", then any stream subscribed to during Attach will autodispose on
    * Detach.
    */
-  private static final Function<ViewEvent, ViewEvent> CORRESPONDING_EVENTS =
-      new Function<ViewEvent, ViewEvent>() {
-        @Override public ViewEvent apply(ViewEvent viewEvent) throws Exception {
+  private static final CorrespondingEventsFunction<ViewEvent> CORRESPONDING_EVENTS =
+      new CorrespondingEventsFunction<ViewEvent>() {
+        @Override public ViewEvent apply(ViewEvent viewEvent) throws OutsideScopeException {
           switch (viewEvent) {
             case ATTACH:
               return ViewEvent.DETACH;
@@ -70,9 +71,7 @@ public abstract class AutoDisposeView extends View
   }
 
   @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-  public AutoDisposeView(Context context,
-      @Nullable AttributeSet attrs,
-      int defStyleAttr,
+  public AutoDisposeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr,
       int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
     init();
@@ -108,7 +107,7 @@ public abstract class AutoDisposeView extends View
     return lifecycleEvents.hide();
   }
 
-  @Override public Function<ViewEvent, ViewEvent> correspondingEvents() {
+  @Override public CorrespondingEventsFunction<ViewEvent> correspondingEvents() {
     return CORRESPONDING_EVENTS;
   }
 

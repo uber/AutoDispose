@@ -21,12 +21,14 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import android.view.View
-import com.uber.autodispose.LifecycleEndedException
-import com.uber.autodispose.LifecycleScopeProvider
 import com.uber.autodispose.android.ViewScopeProvider
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
+import com.uber.autodispose.lifecycle.LifecycleEndedException
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeViewKotlin.ViewEvent
+import com.uber.autodispose.recipes.AutoDisposeViewKotlin.ViewEvent.ATTACH
+import com.uber.autodispose.recipes.AutoDisposeViewKotlin.ViewEvent.DETACH
 import io.reactivex.Observable
-import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
 
 /**
@@ -64,7 +66,7 @@ abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
 
   override fun lifecycle(): Observable<ViewEvent> = lifecycleEvents.hide()
 
-  override fun correspondingEvents(): Function<ViewEvent, ViewEvent> {
+  override fun correspondingEvents(): CorrespondingEventsFunction<ViewEvent> {
     return CORRESPONDING_EVENTS
   }
 
@@ -79,10 +81,11 @@ abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
      * "Attach" returns "Detach", then any stream subscribed to during Attach will autodispose on
      * Detach.
      */
-    private val CORRESPONDING_EVENTS = Function<ViewEvent, ViewEvent> { viewEvent ->
+    private val CORRESPONDING_EVENTS = CorrespondingEventsFunction<ViewEvent> { viewEvent ->
       when (viewEvent) {
-        ViewEvent.ATTACH -> ViewEvent.DETACH
-        else -> throw LifecycleEndedException("Cannot bind to View lifecycle after detach.")
+        ATTACH -> DETACH
+        else -> throw LifecycleEndedException(
+            "Cannot bind to View lifecycle after detach.")
       }
     }
   }

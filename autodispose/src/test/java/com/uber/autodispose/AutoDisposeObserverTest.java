@@ -18,6 +18,7 @@ package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingObserver;
 import com.uber.autodispose.test.RecordingObserver;
+import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -29,17 +30,16 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.MaybeSubject;
 import io.reactivex.subjects.PublishSubject;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.TestUtil.outsideScopeProvider;
 
 public class AutoDisposeObserverTest {
 
@@ -50,10 +50,6 @@ public class AutoDisposeObserverTest {
   };
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
-
-  @After public void resetPlugins() {
-    AutoDisposePlugins.reset();
-  }
 
   @Test public void autoDispose_withMaybe_normal() {
     TestObserver<Integer> o = new TestObserver<>();
@@ -138,126 +134,6 @@ public class AutoDisposeObserverTest {
     assertThat(scope.hasObservers()).isFalse();
   }
 
-  @Test public void autoDispose_withLifecycleProvider() {
-    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
-    PublishSubject<Integer> source = PublishSubject.create();
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    source.as(AutoDispose.<Integer>autoDisposable(provider))
-        .subscribe(o);
-    o.takeSubscribe();
-
-    assertThat(source.hasObservers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
-
-    source.onNext(1);
-    assertThat(o.takeNext()).isEqualTo(1);
-
-    lifecycle.onNext(1);
-    source.onNext(2);
-
-    assertThat(source.hasObservers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
-    assertThat(o.takeNext()).isEqualTo(2);
-
-    lifecycle.onNext(3);
-    source.onNext(3);
-
-    o.assertNoMoreEvents();
-    assertThat(source.hasObservers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
-  }
-
-  @Test public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    Observable.just(1)
-        .as(AutoDispose.<Integer>autoDisposable(provider))
-        .subscribe(o);
-
-    o.takeSubscribe();
-    assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
-  }
-
-  @Test public void autoDispose_withProvider_afterLifecycle_shouldFail() {
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    lifecycle.onNext(1);
-    lifecycle.onNext(2);
-    lifecycle.onNext(3);
-    RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    Observable.just(1)
-        .as(AutoDispose.<Integer>autoDisposable(provider))
-        .subscribe(o);
-
-    o.takeSubscribe();
-    assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
-  }
-
-  @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
-    AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) { }
-    });
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    PublishSubject<Integer> source = PublishSubject.create();
-    TestObserver<Integer> o = source
-            .as(AutoDispose.<Integer>autoDisposable(provider))
-            .test();
-
-    assertThat(source.hasObservers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
-    o.assertNoValues();
-    o.assertNoErrors();
-  }
-
-  @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
-    AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) {
-        // Noop
-      }
-    });
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
-    lifecycle.onNext(1);
-    lifecycle.onNext(2);
-    lifecycle.onNext(3);
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    PublishSubject<Integer> source = PublishSubject.create();
-    TestObserver<Integer> o = source
-            .as(AutoDispose.<Integer>autoDisposable(provider))
-            .test();
-
-    assertThat(source.hasObservers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
-    o.assertNoValues();
-    o.assertNoErrors();
-  }
-
-  @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithExp() {
-    AutoDisposePlugins.setOutsideLifecycleHandler(new Consumer<OutsideLifecycleException>() {
-      @Override public void accept(OutsideLifecycleException e) {
-        // Wrap in an IllegalStateException so we can verify this is the exception we see on the
-        // other side
-        throw new IllegalStateException(e);
-      }
-    });
-    BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
-    LifecycleScopeProvider<Integer> provider = TestUtil.makeLifecycleProvider(lifecycle);
-    PublishSubject<Integer> source = PublishSubject.create();
-    TestObserver<Integer> o = source
-            .as(AutoDispose.<Integer>autoDisposable(provider))
-            .test();
-
-    o.assertNoValues();
-    o.assertError(new Predicate<Throwable>() {
-      @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideLifecycleException;
-      }
-    });
-  }
-
   @Test public void verifyObserverDelegate() {
     final AtomicReference<Observer> atomicObserver = new AtomicReference<>();
     final AtomicReference<Observer> atomicAutoDisposingObserver = new AtomicReference<>();
@@ -340,5 +216,42 @@ public class AutoDisposeObserverTest {
     s.onNext(1);
     o.assertValue(1);
     o.dispose();
+  }
+
+  @Test public void autoDispose_outsideScope_withProviderAndNoOpPlugin_shouldFailSilently() {
+    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
+      @Override public void accept(OutsideScopeException e) { }
+    });
+    ScopeProvider provider = outsideScopeProvider();
+    PublishSubject<Integer> source = PublishSubject.create();
+    TestObserver<Integer> o = source
+        .as(AutoDispose.<Integer>autoDisposable(provider))
+        .test();
+
+    assertThat(source.hasObservers()).isFalse();
+    o.assertNoValues();
+    o.assertNoErrors();
+  }
+
+  @Test public void autoDispose_outsideScope_withProviderAndPlugin_shouldFailWithWrappedExp() {
+    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
+      @Override public void accept(OutsideScopeException e) {
+        // Wrap in an IllegalStateException so we can verify this is the exception we see on the
+        // other side
+        throw new IllegalStateException(e);
+      }
+    });
+    ScopeProvider provider = outsideScopeProvider();
+    TestObserver<Integer> o = PublishSubject.<Integer>create()
+        .as(AutoDispose.<Integer>autoDisposable(provider))
+        .test();
+
+    o.assertNoValues();
+    o.assertError(new Predicate<Throwable>() {
+      @Override public boolean test(Throwable throwable) {
+        return throwable instanceof IllegalStateException
+            && throwable.getCause() instanceof OutsideScopeException;
+      }
+    });
   }
 }

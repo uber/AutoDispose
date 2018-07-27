@@ -21,10 +21,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import com.uber.autodispose.LifecycleEndedException;
-import com.uber.autodispose.LifecycleScopeProvider;
+import com.uber.autodispose.OutsideScopeException;
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
+import com.uber.autodispose.lifecycle.LifecycleEndedException;
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 
 /**
@@ -45,9 +46,9 @@ public abstract class AutoDisposeFragment extends Fragment
    * symmetric boundary conditions. Create -> Destroy, Start -> Stop, etc. For anything after Resume
    * we dispose on the next immediate destruction event. Subscribing after Detach is an error.
    */
-  private static final Function<FragmentEvent, FragmentEvent> CORRESPONDING_EVENTS =
-      new Function<FragmentEvent, FragmentEvent>() {
-        @Override public FragmentEvent apply(FragmentEvent event) throws Exception {
+  private static final CorrespondingEventsFunction<FragmentEvent> CORRESPONDING_EVENTS =
+      new CorrespondingEventsFunction<FragmentEvent>() {
+        @Override public FragmentEvent apply(FragmentEvent event) throws OutsideScopeException {
           switch (event) {
             case ATTACH:
               return FragmentEvent.DETACH;
@@ -79,7 +80,7 @@ public abstract class AutoDisposeFragment extends Fragment
     return lifecycleEvents.hide();
   }
 
-  @Override public Function<FragmentEvent, FragmentEvent> correspondingEvents() {
+  @Override public CorrespondingEventsFunction<FragmentEvent> correspondingEvents() {
     return CORRESPONDING_EVENTS;
   }
 

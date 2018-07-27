@@ -16,6 +16,7 @@
 
 package com.uber.autodispose;
 
+import com.uber.autodispose.internal.ScopeEndNotification;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Flowable;
@@ -41,7 +42,6 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
-import static com.uber.autodispose.ScopeUtil.deferredResolvedLifecycle;
 
 /**
  * Factories for autodispose converters that can be used with RxJava types' corresponding
@@ -172,19 +172,6 @@ public final class AutoDispose {
     return new ScopeProviderHandlerImpl(scope);
   }
 
-  /**
-   * The factory for {@link LifecycleScopeProvider} scopes.
-   *
-   * @param scope the target scope
-   * @return a {@link ScopeHandler} for this scope to create AutoDisposing transformation
-   * {@link Function}s
-   * @deprecated This will be removed in AutoDispose 1.0. Please use the {@code autoDisposable()}
-   *             APIs.
-   */
-  @Deprecated @CheckReturnValue public static ScopeHandler with(LifecycleScopeProvider<?> scope) {
-    return new LifecycleScopeProviderHandlerImpl(scope);
-  }
-
   private static final class MaybeScopeHandlerImpl implements ScopeHandler {
 
     final Maybe<?> scope;
@@ -245,36 +232,6 @@ public final class AutoDispose {
     }
   }
 
-  private static final class LifecycleScopeProviderHandlerImpl implements ScopeHandler {
-
-    final LifecycleScopeProvider<?> scope;
-
-    LifecycleScopeProviderHandlerImpl(LifecycleScopeProvider<?> scope) {
-      this.scope = scope;
-    }
-
-    @Override public <T> Function<Flowable<? extends T>, FlowableSubscribeProxy<T>> forFlowable() {
-      return new FlowableScoper<>(scope);
-    }
-
-    @Override
-    public <T> Function<Observable<? extends T>, ObservableSubscribeProxy<T>> forObservable() {
-      return new ObservableScoper<>(scope);
-    }
-
-    @Override public <T> Function<Maybe<? extends T>, MaybeSubscribeProxy<T>> forMaybe() {
-      return new MaybeScoper<>(scope);
-    }
-
-    @Override public <T> Function<Single<? extends T>, SingleSubscribeProxy<T>> forSingle() {
-      return new SingleScoper<>(scope);
-    }
-
-    @Override public Function<Completable, CompletableSubscribeProxy> forCompletable() {
-      return new CompletableScoper(scope);
-    }
-  }
-
   /**
    * Entry point for auto-disposing streams from a {@link ScopeProvider}.
    * <p>
@@ -293,30 +250,21 @@ public final class AutoDispose {
   public static <T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
     checkNotNull(provider, "provider == null");
     return autoDisposable(Maybe.defer(new Callable<MaybeSource<?>>() {
-      @Override public MaybeSource<?> call() {
-        return provider.requestScope();
+      @Override public MaybeSource<?> call() throws Exception {
+        try {
+          return provider.requestScope();
+        } catch (OutsideScopeException e) {
+          Consumer<? super OutsideScopeException> handler
+              = AutoDisposePlugins.getOutsideScopeHandler();
+          if (handler != null) {
+            handler.accept(e);
+            return Maybe.just(ScopeEndNotification.INSTANCE);
+          } else {
+            return Maybe.error(e);
+          }
+        }
       }
     }));
-  }
-
-  /**
-   * Entry point for auto-disposing streams from a {@link LifecycleScopeProvider}.
-   * <p>
-   * Example usage:
-   * <pre><code>
-   *   Observable.just(1)
-   *        .as(AutoDispose.<Integer>autoDisposable(scope))
-   *        .subscribe(...)
-   * </code></pre>
-   *
-   * @param provider the target lifecycle scope provider
-   * @param <T> the stream type.
-   * @return an {@link AutoDisposeConverter} to transform with operators like
-   * {@link Observable#as(ObservableConverter)}
-   */
-  public static <T> AutoDisposeConverter<T> autoDisposable(
-      final LifecycleScopeProvider<?> provider) {
-    return autoDisposable(deferredResolvedLifecycle(checkNotNull(provider, "provider == null")));
   }
 
   /**

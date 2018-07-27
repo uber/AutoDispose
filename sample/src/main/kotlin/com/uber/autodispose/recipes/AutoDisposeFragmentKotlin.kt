@@ -20,8 +20,10 @@ import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.uber.autodispose.LifecycleEndedException
-import com.uber.autodispose.LifecycleScopeProvider
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
+import com.uber.autodispose.lifecycle.LifecycleEndedException
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider
+import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.ATTACH
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.CREATE
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.CREATE_VIEW
@@ -33,14 +35,13 @@ import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.RESU
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.START
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.STOP
 import io.reactivex.Observable
-import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
 
 /**
  * A [Fragment] example implementation for making one implement [LifecycleScopeProvider]. One would
  * normally use this as a base fragment class to extend others from.
  */
-abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<AutoDisposeFragmentKotlin.FragmentEvent> {
+abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<FragmentEvent> {
 
   private val lifecycleEvents = BehaviorSubject.create<FragmentEvent>()
 
@@ -52,7 +53,7 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Au
     return lifecycleEvents.hide()
   }
 
-  override fun correspondingEvents(): Function<FragmentEvent, FragmentEvent> {
+  override fun correspondingEvents(): CorrespondingEventsFunction<FragmentEvent> {
     return CORRESPONDING_EVENTS
   }
 
@@ -119,7 +120,7 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Au
      * Resume we dispose on the next immediate destruction event. Subscribing after Detach is an
      * error.
      */
-    private val CORRESPONDING_EVENTS = Function<FragmentEvent, FragmentEvent> { event ->
+    private val CORRESPONDING_EVENTS = CorrespondingEventsFunction<FragmentEvent> { event ->
       when (event) {
         ATTACH -> DETACH
         CREATE -> DESTROY
@@ -130,7 +131,8 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Au
         STOP -> DESTROY_VIEW
         DESTROY_VIEW -> DESTROY
         DESTROY -> DETACH
-        else -> throw LifecycleEndedException("Cannot bind to Fragment lifecycle after detach.")
+        else -> throw LifecycleEndedException(
+            "Cannot bind to Fragment lifecycle after detach.")
       }
     }
   }

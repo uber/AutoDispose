@@ -47,10 +47,6 @@ public class FlowableScoper<T> extends BaseAutoDisposeConverter
     super(provider);
   }
 
-  public FlowableScoper(LifecycleScopeProvider<?> provider) {
-    super(provider);
-  }
-
   public FlowableScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }

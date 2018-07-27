@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (C) 2018. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose;
+package com.uber.autodispose.lifecycle;
+
+import com.uber.autodispose.OutsideScopeException;
 
 /**
  * Signifies an error occurred due to execution starting before the lifecycle has started.
  */
-public class LifecycleNotStartedException extends OutsideLifecycleException {
+public class LifecycleNotStartedException extends OutsideScopeException {
 
   public LifecycleNotStartedException() {
     this("Lifecycle hasn't started!");

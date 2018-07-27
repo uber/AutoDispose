@@ -20,13 +20,14 @@ import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.android.internal.AutoDisposeAndroidUtil;
 import io.reactivex.functions.BooleanSupplier;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
 public final class AutoDisposeAndroidPluginsTest {
 
-  @After public void tearDown() {
+  @Before @After public void resetPlugins() {
     AutoDisposePlugins.reset();
   }
 

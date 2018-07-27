@@ -18,7 +18,6 @@ package com.ubercab.autodispose.rxlifecycle;
 
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.OutsideLifecycleException;
-import com.uber.autodispose.LifecycleEndedException;
 import com.uber.autodispose.ScopeProvider;
 import io.reactivex.Maybe;
 
@@ -27,8 +26,7 @@ import io.reactivex.Maybe;
  * LifecycleProvider}s into {@link ScopeProvider} representations.
  *
  * <em>Note:</em> RxLifecycle treats the {@link OutsideLifecycleException}
- * as normal terminal event. There is no mapping to {@link LifecycleEndedException} and in such
- * cases the stream is just disposed.
+ * as normal terminal event. In such cases the stream is just disposed.
  */
 public final class RxLifecycleInterop {
 

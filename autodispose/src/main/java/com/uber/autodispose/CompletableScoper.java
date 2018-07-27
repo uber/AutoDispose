@@ -46,10 +46,6 @@ public class CompletableScoper extends BaseAutoDisposeConverter implements
     super(provider);
   }
 
-  public CompletableScoper(LifecycleScopeProvider<?> provider) {
-    super(provider);
-  }
-
   public CompletableScoper(Maybe<?> lifecycle) {
     super(lifecycle);
   }

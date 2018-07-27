@@ -56,35 +56,11 @@ corresponding events are for the current lifecycle state (e.g. `ATTACH` -> `DETA
 you to enforce lifecycle boundary requirements, and by default will error if the lifecycle has either
 not started yet or has already ended.
 
-##### LifecycleScopeProvider
-
-```java
-public interface LifecycleScopeProvider<E> {
-  Observable<E> lifecycle();
-
-  Function<E, E> correspondingEvents();
-
-  E peekLifecycle();
-}
-```
-
-`LifecycleScopeProvider` is a special case targeted at binding to things with lifecycles. Its API is
-as follows:
-  - `lifecycle()` - returns an `Observable` of lifecycle events. This should be backed by a `BehaviorSubject`
-  or something similar (`BehaviorRelay`, etc).
-  - `correspondingEvents()` - a mapping of events to corresponding ones, i.e. Attach -> Detach.
-  - `peekLifecycle()` - returns the current lifecycle state of the object.
-
-`AutoDispose` uses these pieces to construct a `Maybe` representation of the proper end scope, while
-also doing precondition checks for lifecycle boundaries. If a lifecycle has not started, it will send 
-you to `onError` with a `LifecycleNotStartedException`. If the lifecycle as ended, it is recommended to
-throw a `LifecycleEndedException` in your `correspondingEvents()` mapping, but it is up to the user.
-
 ##### ScopeProvider
 
 ```java
 public interface ScopeProvider {
-  Maybe<?> requestScope();
+  Maybe<?> requestScope() throws Exception;
 }
 ```
 
@@ -92,30 +68,36 @@ public interface ScopeProvider {
 This is particularly useful for objects with simple scopes ("stop when I stop") or very custom state
 that requires custom handling.
 
+Note that Exceptions can be thrown in this, and will be routed through `onError()`. If the thrown exception
+is an instance of `OutsideScopeException`, it will be routed through any `OutsideScopeHandler`s (more below)
+first, and sent through `onError()` if not handled.
+
 #### AutoDisposePlugins
 
 Modeled after RxJava's plugins, this allows you to customize the behavior of AutoDispose.
 
-##### OutsideLifecycleHandler
+##### OutsideScopeHandler
 
-When a lifecycle has not started or has already ended, `AutoDispose` will send an error event with an
- `OutsideLifecycleException` to downstream consumers. If you want to customize this behavior, you can use 
- `AutoDisposePlugins#setOutsideLifecycleHandler` to intercept these exceptions and rethrow something 
+When a scope is bound to outside of its allowable boundary, `AutoDispose` will send an error event with an
+ `OutsideScopeException` to downstream consumers. If you want to customize this behavior, you can use 
+ `AutoDisposePlugins#setOutsideScopeHandler` to intercept these exceptions and rethrow something 
  else or nothing at all.
 
 Example
 ```java
-AutoDisposePlugins.setOutsideLifecycleHandler(t -> {
+AutoDisposePlugins.setOutsideScopeHandler(t -> {
     // Swallow the exception, or rethrow it, or throw your own!
 })
 ```
 
 A good use case of this is, say, just silently disposing/logging observers outside of lifecycle exceptions in production but crashing on debug.
 
-##### FillInOutsideLifecycleExceptionStacktraces
+The supported mechanism to throw this is in `ScopeProvider#requestScope()` implementations.
+
+##### FillInOutsideScopeExceptionStacktraces
  
-If you have your own handling of exceptions in lifecycle boundary events, you can optionally set
-`AutoDisposePlugins#setFillInOutsideLifecycleExceptionStacktraces` to `false`. This will result in 
+If you have your own handling of exceptions in scope boundary events, you can optionally set
+`AutoDisposePlugins#setFillInOutsideScopeExceptionStacktraces` to `false`. This will result in 
 AutoDispose `not` filling in stacktraces for exceptions, for a potential minor performance boost.
 
 #### AutoDisposeAndroidPlugins
@@ -165,6 +147,44 @@ based on their `Observer` types, so conceivably any type that uses those for sub
 ####  Extensions
 
 There are also a number of extension artifacts available, detailed below.
+
+##### LifecycleScopeProvider
+
+```java
+public interface LifecycleScopeProvider<E> extends ScopeProvider {
+  Observable<E> lifecycle();
+
+  Function<E, E> correspondingEvents();
+
+  E peekLifecycle();
+  
+  // Inherited from ScopeProvider
+  Maybe<?> requestScope();
+}
+```
+
+`LifecycleScopeProvider` is a special case targeted at binding to things with lifecycles. Its API is
+as follows:
+  - `lifecycle()` - returns an `Observable` of lifecycle events. This should be backed by a `BehaviorSubject`
+  or something similar (`BehaviorRelay`, etc).
+  - `correspondingEvents()` - a mapping of events to corresponding ones, i.e. Attach -> Detach.
+  - `peekLifecycle()` - returns the current lifecycle state of the object.
+
+In `requestScope()`, the implementation expects to these pieces to construct a `Maybe` representation 
+of the proper end scope, while also doing precondition checks for lifecycle boundaries. If a 
+lifecycle has not started, it will send you to `onError` with a `LifecycleNotStartedException`. If 
+the lifecycle as ended, it is recommended to throw a `LifecycleEndedException` in your 
+`correspondingEvents()` mapping, but it is up to the user.
+
+To to simplify implementations, there's an included `LifecycleScopes` utility class with factories 
+for generating `Maybe<?>` representations from `LifecycleScopeProvider` instances.
+
+There are three artifacts with this support:
+- `autodispose-lifecycle`: Contains the core `LifecycleScopeProvider` and `LifecycleScopes` APIs. Also has a convenience test helper.
+- `autodispose-lifecycle-jdk8`: Contains a simple `DefaultLifecycleScopeProvider` with a Java 8 `default`
+method implementation of `requestScope()`.
+- `autodispose-lifecycle-ktx`: Contains convenience kotlin extension functions and a `KotlinLifecycleScopeProvider`
+that has a default implementation for `requestScope()` (similar to the jdk8 artifact, but for Kotlin).
 
 ##### Android
 
@@ -256,6 +276,15 @@ Java:
 
 ```gradle
 compile 'com.uber.autodispose:autodispose:x.y.z'
+```
+
+LifecycleScopeProvider:
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-lifecycle.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-lifecycle)
+```gradle
+compile 'com.uber.autodispose:autodispose-lifecycle:x.y.z'
+compile 'com.uber.autodispose:autodispose-lifecycle-jdk8:x.y.z'
+compile 'com.uber.autodispose:autodispose-lifecycle-ktx:x.y.z'
 ```
 
 Android extensions:

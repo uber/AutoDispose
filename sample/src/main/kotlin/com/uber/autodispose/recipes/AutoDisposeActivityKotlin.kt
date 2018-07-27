@@ -18,8 +18,10 @@ package com.uber.autodispose.recipes
 
 import android.app.Activity
 import android.os.Bundle
-import com.uber.autodispose.LifecycleEndedException
-import com.uber.autodispose.LifecycleScopeProvider
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
+import com.uber.autodispose.lifecycle.LifecycleEndedException
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider
+import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.CREATE
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.DESTROY
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.PAUSE
@@ -27,14 +29,13 @@ import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.RESU
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.START
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.STOP
 import io.reactivex.Observable
-import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
 
 /**
  * An [Activity] example implementation for making one implement [LifecycleScopeProvider]. One
  * would normally use this as a base activity class to extend others from.
  */
-abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<AutoDisposeActivityKotlin.ActivityEvent> {
+abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<ActivityEvent> {
 
   private val lifecycleEvents = BehaviorSubject.create<ActivityEvent>()
 
@@ -46,7 +47,7 @@ abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<Au
     return lifecycleEvents.hide()
   }
 
-  override fun correspondingEvents(): Function<ActivityEvent, ActivityEvent> {
+  override fun correspondingEvents(): CorrespondingEventsFunction<ActivityEvent> {
     return CORRESPONDING_EVENTS
   }
 
@@ -93,14 +94,15 @@ abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<Au
      * Resume we dispose on the next immediate destruction event. Subscribing after Destroy is an
      * error.
      */
-    private val CORRESPONDING_EVENTS = Function<ActivityEvent, ActivityEvent> { activityEvent ->
+    private val CORRESPONDING_EVENTS = CorrespondingEventsFunction<ActivityEvent> { activityEvent ->
       when (activityEvent) {
         CREATE -> DESTROY
         START -> STOP
         RESUME -> PAUSE
         PAUSE -> STOP
         STOP -> DESTROY
-        else -> throw LifecycleEndedException("Cannot bind to Activity lifecycle after destroy.")
+        else -> throw LifecycleEndedException(
+            "Cannot bind to Activity lifecycle after destroy.")
       }
     }
   }

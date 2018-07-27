@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (C) 2018. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose;
+package com.uber.autodispose.lifecycle;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Test utility to create {@link LifecycleScopeProvider} instances for tests.
  *
- * Supports a start and stop lifecycle. Subscribing when outside of the lifecycle will throw either
- * a {@link LifecycleNotStartedException} or {@link LifecycleEndedException}.
- * }
+ * <p>Supports a start and stop lifecycle. Subscribing when outside of the lifecycle will throw
+ * either a {@link LifecycleNotStartedException} or {@link LifecycleEndedException}.
  */
 public final class TestLifecycleScopeProvider
     implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
@@ -63,8 +62,8 @@ public final class TestLifecycleScopeProvider
     return lifecycleSubject.hide();
   }
 
-  @Override public Function<TestLifecycle, TestLifecycle> correspondingEvents() {
-    return new Function<TestLifecycle, TestLifecycle>() {
+  @Override public CorrespondingEventsFunction<TestLifecycle> correspondingEvents() {
+    return new CorrespondingEventsFunction<TestLifecycle>() {
       @Override public TestLifecycle apply(TestLifecycle testLifecycle) {
         switch (testLifecycle) {
           case STARTED:
@@ -80,6 +79,10 @@ public final class TestLifecycleScopeProvider
 
   @Override public TestLifecycle peekLifecycle() {
     return lifecycleSubject.getValue();
+  }
+
+  @Override public Maybe<?> requestScope() {
+    return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
   /**
