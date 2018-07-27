@@ -26,8 +26,7 @@ public final class AutoDisposePlugins {
 
   private AutoDisposePlugins() { }
 
-  @Nullable
-  private static volatile Consumer<? super OutsideScopeException> outsideScopeHandler;
+  @Nullable private static volatile Consumer<? super OutsideScopeException> outsideScopeHandler;
   private static volatile boolean fillInOutsideScopeExceptionStacktraces;
 
   /**
@@ -64,8 +63,7 @@ public final class AutoDisposePlugins {
   /**
    * @return the value for handling {@link OutsideScopeException}.
    */
-  @Nullable
-  public static Consumer<? super OutsideScopeException> getOutsideScopeHandler() {
+  @Nullable public static Consumer<? super OutsideScopeException> getOutsideScopeHandler() {
     return outsideScopeHandler;
   }
 
@@ -73,7 +71,7 @@ public final class AutoDisposePlugins {
    * @param handler the consumer for handling {@link OutsideScopeException} to set, null allowed
    */
   public static void setOutsideScopeHandler(
-          @Nullable Consumer<? super OutsideScopeException> handler) {
+      @Nullable Consumer<? super OutsideScopeException> handler) {
     if (lockdown) {
       throw new IllegalStateException("Plugins can't be changed anymore");
     }
