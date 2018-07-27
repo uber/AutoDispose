@@ -17,17 +17,17 @@
 package com.uber.autodispose.error.prone.checker;
 
 import com.uber.autodispose.AutoDispose;
-import com.uber.autodispose.LifecycleEndedException;
-import com.uber.autodispose.LifecycleScopeProvider;
-import com.uber.autodispose.TestLifecycleScopeProvider;
-
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
+import com.uber.autodispose.lifecycle.LifecycleEndedException;
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
+import com.uber.autodispose.lifecycle.LifecycleScopes;
+import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.annotations.CheckReturnValue;
-import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Subscriber;
@@ -53,8 +53,8 @@ public class UseAutoDisposeNegativeCases
    * avoid unnecessary object allocation.
    */
   @CheckReturnValue
-  public Function<TestLifecycleScopeProvider.TestLifecycle, TestLifecycleScopeProvider.TestLifecycle> correspondingEvents() {
-    return new Function<TestLifecycleScopeProvider.TestLifecycle, TestLifecycleScopeProvider.TestLifecycle>() {
+  public CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle> correspondingEvents() {
+    return new CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle>() {
       @Override public TestLifecycleScopeProvider.TestLifecycle apply(
           TestLifecycleScopeProvider.TestLifecycle testLifecycle) {
         switch (testLifecycle) {
@@ -76,24 +76,38 @@ public class UseAutoDisposeNegativeCases
     return lifecycleSubject.getValue();
   }
 
+  @Override public Maybe<?> requestScope() throws Exception {
+    return LifecycleScopes.resolveScopeFromLifecycle(this);
+  }
+
   public void observable_subscribeWithAutoDispose() {
-    Observable.just(1).as(AutoDispose.<Integer>autoDisposable(this)).subscribe();
+    Observable.just(1)
+        .as(AutoDispose.<Integer>autoDisposable(this))
+        .subscribe();
   }
 
   public void single_subscribeWithAutoDispose() {
-    Single.just(true).as(AutoDispose.<Boolean>autoDisposable(this)).subscribe();
+    Single.just(true)
+        .as(AutoDispose.<Boolean>autoDisposable(this))
+        .subscribe();
   }
 
   public void completable_subscribeWithAutoDispose() {
-    Completable.complete().as(AutoDispose.autoDisposable(this)).subscribe();
+    Completable.complete()
+        .as(AutoDispose.autoDisposable(this))
+        .subscribe();
   }
 
   public void maybe_subscribeWithAutoDispose() {
-    Maybe.just(1).as(AutoDispose.<Integer>autoDisposable(this)).subscribe();
+    Maybe.just(1)
+        .as(AutoDispose.<Integer>autoDisposable(this))
+        .subscribe();
   }
 
   public void flowable_subscribeWithAutoDispose() {
-    Flowable.just(1).as(AutoDispose.<Integer>autoDisposable(this)).subscribe();
+    Flowable.just(1)
+        .as(AutoDispose.<Integer>autoDisposable(this))
+        .subscribe();
   }
 
   public void parallelFlowable_subscribeWithAutoDispose() {

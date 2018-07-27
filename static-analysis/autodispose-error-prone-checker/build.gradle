@@ -40,6 +40,7 @@ dependencies {
   testImplementation deps.rx.java
   testImplementation deps.test.junit
   testImplementation project(':autodispose')
+  testImplementation project(':lifecycle:autodispose-lifecycle')
 
   epJavac deps.build.errorProneCheckApi
 }

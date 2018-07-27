@@ -16,17 +16,17 @@
 
 package com.uber.autodispose.error.prone.checker;
 
-import com.uber.autodispose.LifecycleEndedException;
-import com.uber.autodispose.LifecycleScopeProvider;
-import com.uber.autodispose.TestLifecycleScopeProvider;
-
+import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
+import com.uber.autodispose.lifecycle.LifecycleEndedException;
+import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
+import com.uber.autodispose.lifecycle.LifecycleScopes;
+import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.annotations.CheckReturnValue;
-import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Subscriber;
@@ -52,8 +52,8 @@ public class UseAutoDisposeDefaultClassPositiveCases
    * avoid unnecessary object allocation.
    */
   @CheckReturnValue
-  public Function<TestLifecycleScopeProvider.TestLifecycle, TestLifecycleScopeProvider.TestLifecycle> correspondingEvents() {
-    return new Function<TestLifecycleScopeProvider.TestLifecycle, TestLifecycleScopeProvider.TestLifecycle>() {
+  public CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle> correspondingEvents() {
+    return new CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle>() {
       @Override public TestLifecycleScopeProvider.TestLifecycle apply(
           TestLifecycleScopeProvider.TestLifecycle testLifecycle) {
         switch (testLifecycle) {
@@ -73,6 +73,10 @@ public class UseAutoDisposeDefaultClassPositiveCases
    */
   @Nullable public TestLifecycleScopeProvider.TestLifecycle peekLifecycle() {
     return lifecycleSubject.getValue();
+  }
+
+  @Override public Maybe<?> requestScope() throws Exception {
+    return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
   public void observable_subscribeWithoutAutoDispose() {
