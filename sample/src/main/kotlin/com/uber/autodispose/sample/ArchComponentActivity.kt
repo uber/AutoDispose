@@ -30,7 +30,7 @@ import io.reactivex.schedulers.Schedulers
 class ArchComponentActivity: AppCompatActivity() {
 
   companion object {
-    private const val TAG = "AutoDispose-Kotlin"
+    private const val TAG = "AutoDispose-ktx"
   }
 
   private val scopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }

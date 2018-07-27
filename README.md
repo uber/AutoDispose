@@ -194,11 +194,11 @@ There are three artifacts with extra support for Android:
 * `autodispose-android-archcomponents-test` has a `TestLifecycleOwner` for use in testing.
 
 For each artifact, there is a corresponding kotlin extensions artifact with it. Example:
-`autodispose-android` -> `autodispose-android-kotlin`.
+`autodispose-android` -> `autodispose-android-ktx`.
 
 ##### Kotlin
 
-Kotlin extension artifacts are available for almost every artifact by adding `-kotlin` to the ID like 
+Kotlin extension artifacts are available for almost every artifact by adding `-ktx` to the ID like 
 above.
 
 ##### RxLifecycle
@@ -317,24 +317,24 @@ compile 'com.uber.autodispose:autodispose-rxlifecycle:x.y.z'
 
 Kotlin extensions:
 
-`autodispose-kotlin` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-kotlin) 
+`autodispose-ktx` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-ktx.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-ktx) 
 ```gradle
-compile 'com.uber.autodispose:autodispose-kotlin:x.y.z'
+compile 'com.uber.autodispose:autodispose-ktx:x.y.z'
 ```
 
-`autodispose-android-kotlin` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-kotlin) 
+`autodispose-android-ktx` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-ktx.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-ktx) 
 ```gradle
-compile 'com.uber.autodispose:autodispose-android-kotlin:x.y.z'
+compile 'com.uber.autodispose:autodispose-android-ktx:x.y.z'
 ```
 
-`autodispose-android-archcomponents-kotlin` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-kotlin) 
+`autodispose-android-archcomponents-ktx` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-ktx.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-ktx) 
 ```gradle
-compile 'com.uber.autodispose:autodispose-android-archcomponents-kotlin:x.y.z'
+compile 'com.uber.autodispose:autodispose-android-archcomponents-ktx:x.y.z'
 ```
 
-`autodispose-android-archcomponents-test-kotlin` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin) 
+`autodispose-android-archcomponents-test-ktx` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test-ktx.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test-ktx) 
 ```gradle
-compile 'com.uber.autodispose:autodispose-android-archcomponents-test-kotlin:x.y.z'
+compile 'com.uber.autodispose:autodispose-android-archcomponents-test-ktx:x.y.z'
 ```
 
 Javadocs and KDocs for the most recent release can be found here: https://uber.github.io/AutoDispose/0.x/
