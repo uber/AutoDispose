@@ -24,9 +24,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Test utility to create {@link LifecycleScopeProvider} instances for tests.
  *
- * Supports a start and stop lifecycle. Subscribing when outside of the lifecycle will throw either
- * a {@link LifecycleNotStartedException} or {@link LifecycleEndedException}.
- * }
+ * <p>Supports a start and stop lifecycle. Subscribing when outside of the lifecycle will throw
+ * either a {@link LifecycleNotStartedException} or {@link LifecycleEndedException}.
  */
 public final class TestLifecycleScopeProvider
     implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
@@ -82,7 +81,7 @@ public final class TestLifecycleScopeProvider
     return lifecycleSubject.getValue();
   }
 
-  @Override public Maybe<?> requestScope() throws Exception {
+  @Override public Maybe<?> requestScope() {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 

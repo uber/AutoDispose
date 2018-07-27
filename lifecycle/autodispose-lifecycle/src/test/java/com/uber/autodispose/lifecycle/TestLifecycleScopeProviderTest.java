@@ -16,6 +16,8 @@
 
 package com.uber.autodispose.lifecycle;
 
+import io.reactivex.Observable;
+import io.reactivex.subjects.Subject;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -27,7 +29,7 @@ public class TestLifecycleScopeProviderTest {
   private final TestLifecycleScopeProvider testLifecycleScopeProvider =
       TestLifecycleScopeProvider.create();
 
-  @Test public void create_noArgs_shouldHaveNoState() throws Exception {
+  @Test public void create_noArgs_shouldHaveNoState() {
     assertThat(testLifecycleScopeProvider.peekLifecycle()).isNull();
   }
 
@@ -36,7 +38,7 @@ public class TestLifecycleScopeProviderTest {
         .peekLifecycle()).isEqualTo(STARTED);
   }
 
-  @Test public void start_shouldTriggerStartEvent() throws Exception {
+  @Test public void start_shouldTriggerStartEvent() {
     testLifecycleScopeProvider.start();
 
     assertThat(testLifecycleScopeProvider.peekLifecycle()).isEqualTo(STARTED);
@@ -45,7 +47,7 @@ public class TestLifecycleScopeProviderTest {
   }
 
   @Test(expected = LifecycleEndedException.class)
-  public void stop_afterStart_shouldTriggerStopEvent() throws Exception {
+  public void stop_afterStart_shouldTriggerStopEvent() {
     testLifecycleScopeProvider.start();
     testLifecycleScopeProvider.stop();
 
@@ -54,8 +56,13 @@ public class TestLifecycleScopeProviderTest {
         .apply(testLifecycleScopeProvider.peekLifecycle());
   }
 
-  @Test(expected = IllegalStateException.class) public void stop_beforeStart_shouldThrowException()
-      throws Exception {
+  @Test(expected = IllegalStateException.class)
+  public void stop_beforeStart_shouldThrowException() {
     testLifecycleScopeProvider.stop();
+  }
+
+  @Test
+  public void lifecycleShouldNotExposeUnderlyingDelegate() {
+    assertThat(testLifecycleScopeProvider.lifecycle()).isNotInstanceOf(Subject.class);
   }
 }
