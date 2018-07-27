@@ -16,7 +16,6 @@
 
 package com.uber.autodispose.lifecycle;
 
-import io.reactivex.Observable;
 import io.reactivex.subjects.Subject;
 import org.junit.Test;
 
@@ -61,8 +60,7 @@ public class TestLifecycleScopeProviderTest {
     testLifecycleScopeProvider.stop();
   }
 
-  @Test
-  public void lifecycleShouldNotExposeUnderlyingDelegate() {
+  @Test public void lifecycleShouldNotExposeUnderlyingDelegate() {
     assertThat(testLifecycleScopeProvider.lifecycle()).isNotInstanceOf(Subject.class);
   }
 }
