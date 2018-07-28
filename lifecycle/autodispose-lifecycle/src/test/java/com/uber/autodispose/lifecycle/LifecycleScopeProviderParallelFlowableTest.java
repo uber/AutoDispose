@@ -53,10 +53,9 @@ public class LifecycleScopeProviderParallelFlowableTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     //noinspection unchecked
-    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+    Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
 
-    source
-        .parallel(DEFAULT_PARALLELISM)
+    source.parallel(DEFAULT_PARALLELISM)
         .as(AutoDispose.<Integer>autoDisposable(provider))
         .subscribe(subscribers);
     firstSubscriber.assertSubscribed();
@@ -96,7 +95,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
     TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     //noinspection unchecked
-    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+    Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
 
     Flowable.just(1, 2)
         .parallel(DEFAULT_PARALLELISM)
@@ -121,7 +120,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
     TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     //noinspection unchecked
-    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+    Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
 
     Flowable.just(1, 2)
         .parallel(DEFAULT_PARALLELISM)
@@ -138,22 +137,19 @@ public class LifecycleScopeProviderParallelFlowableTest {
   }
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
-    AutoDisposePlugins.setOutsideScopeHandler(
-        new Consumer<OutsideScopeException>() {
-          @Override
-          public void accept(OutsideScopeException e) throws Exception {
-          }
-        });
+    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
+      @Override public void accept(OutsideScopeException e) {
+      }
+    });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
     TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
     //noinspection unchecked
-    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+    Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
 
-    source
-        .parallel(DEFAULT_PARALLELISM)
+    source.parallel(DEFAULT_PARALLELISM)
         .as(AutoDispose.<Integer>autoDisposable(provider))
         .subscribe(subscribers);
 
@@ -167,13 +163,11 @@ public class LifecycleScopeProviderParallelFlowableTest {
   }
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
-    AutoDisposePlugins.setOutsideScopeHandler(
-        new Consumer<OutsideScopeException>() {
-          @Override
-          public void accept(OutsideScopeException e) {
-            // Noop
-          }
-        });
+    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
+      @Override public void accept(OutsideScopeException e) {
+        // Noop
+      }
+    });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     lifecycle.onNext(1);
     lifecycle.onNext(2);
@@ -183,10 +177,9 @@ public class LifecycleScopeProviderParallelFlowableTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
     //noinspection unchecked
-    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+    Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
 
-    source
-        .parallel(DEFAULT_PARALLELISM)
+    source.parallel(DEFAULT_PARALLELISM)
         .as(AutoDispose.<Integer>autoDisposable(provider))
         .subscribe(subscribers);
 
@@ -197,44 +190,36 @@ public class LifecycleScopeProviderParallelFlowableTest {
   }
 
   @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithExp() {
-    AutoDisposePlugins.setOutsideScopeHandler(
-        new Consumer<OutsideScopeException>() {
-          @Override
-          public void accept(OutsideScopeException e) {
-            throw new IllegalStateException(e);
-          }
-        });
+    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
+      @Override public void accept(OutsideScopeException e) {
+        throw new IllegalStateException(e);
+      }
+    });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
     TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
     //noinspection unchecked
-    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+    Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
 
-    source
-        .parallel(DEFAULT_PARALLELISM)
+    source.parallel(DEFAULT_PARALLELISM)
         .as(AutoDispose.<Integer>autoDisposable(provider))
         .subscribe(subscribers);
 
     firstSubscriber.assertNoValues();
-    firstSubscriber.assertError(
-        new Predicate<Throwable>() {
-          @Override
-          public boolean test(Throwable throwable) {
-            return throwable instanceof IllegalStateException
-                && throwable.getCause() instanceof OutsideScopeException;
-          }
-        });
+    firstSubscriber.assertError(new Predicate<Throwable>() {
+      @Override public boolean test(Throwable throwable) {
+        return throwable instanceof IllegalStateException
+            && throwable.getCause() instanceof OutsideScopeException;
+      }
+    });
     secondSubscriber.assertNoValues();
-    secondSubscriber.assertError(
-        new Predicate<Throwable>() {
-          @Override
-          public boolean test(Throwable throwable) throws Exception {
-            return throwable instanceof IllegalStateException
-                && throwable.getCause() instanceof OutsideScopeException;
-          }
-        });
+    secondSubscriber.assertError(new Predicate<Throwable>() {
+      @Override public boolean test(Throwable throwable) {
+        return throwable instanceof IllegalStateException
+            && throwable.getCause() instanceof OutsideScopeException;
+      }
+    });
   }
-
 }

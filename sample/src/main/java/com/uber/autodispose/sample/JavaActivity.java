@@ -48,13 +48,13 @@ public class JavaActivity extends AppCompatActivity {
     // dispose is onDestroy (the opposite of onCreate).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(new Action() {
-          @Override public void run() throws Exception {
+          @Override public void run() {
             Log.i(TAG, "Disposing subscription from onCreate()");
           }
         })
         .as(AutoDispose.<Long>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(new Consumer<Long>() {
-          @Override public void accept(Long num) throws Exception {
+          @Override public void accept(Long num) {
             Log.i(TAG, "Started in onCreate(), running until onDestroy(): " + num);
           }
         });
@@ -69,13 +69,13 @@ public class JavaActivity extends AppCompatActivity {
     // dispose is onStop (the opposite of onStart).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(new Action() {
-          @Override public void run() throws Exception {
+          @Override public void run() {
             Log.i(TAG, "Disposing subscription from onStart()");
           }
         })
         .as(AutoDispose.<Long>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(new Consumer<Long>() {
-          @Override public void accept(Long num) throws Exception {
+          @Override public void accept(Long num) {
             Log.i(TAG, "Started in onStart(), running until in onStop(): " + num);
           }
         });
@@ -90,7 +90,7 @@ public class JavaActivity extends AppCompatActivity {
     // dispose is onPause (the opposite of onResume).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(new Action() {
-          @Override public void run() throws Exception {
+          @Override public void run() {
             Log.i(TAG, "Disposing subscription from onResume()");
           }
         })
@@ -98,7 +98,7 @@ public class JavaActivity extends AppCompatActivity {
         // If you're using JDK8+, then you can safely remove it.
         .as(AutoDispose.<Long>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(new Consumer<Long>() {
-          @Override public void accept(Long num) throws Exception {
+          @Override public void accept(Long num) {
             Log.i(TAG, "Started in onResume(), running until in onPause(): " + num);
           }
         });
@@ -106,14 +106,14 @@ public class JavaActivity extends AppCompatActivity {
     // Setting a specific untilEvent, this should dispose in onDestroy.
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(new Action() {
-          @Override public void run() throws Exception {
+          @Override public void run() {
             Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY");
           }
         })
         .as(AutoDispose.<Long>autoDisposable(
             AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
         .subscribe(new Consumer<Long>() {
-          @Override public void accept(Long num) throws Exception {
+          @Override public void accept(Long num) {
             Log.i(TAG, "Started in onResume(), running until in onDestroy(): " + num);
           }
         });
