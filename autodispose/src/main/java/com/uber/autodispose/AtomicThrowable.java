@@ -47,12 +47,7 @@ final class AtomicThrowable extends AtomicReference<Throwable> {
    *
    * @return the last Throwable
    */
-  @Nullable
-  public Throwable terminate() {
+  @Nullable public Throwable terminate() {
     return ExceptionHelper.terminate(this);
-  }
-
-  public boolean isTerminated() {
-    return get() == ExceptionHelper.TERMINATED;
   }
 }

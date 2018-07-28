@@ -16,8 +16,6 @@
 
 package com.uber.autodispose.error.prone.checker;
 
-import com.uber.autodispose.AutoDispose;
-import com.uber.autodispose.ObservableScoper;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
