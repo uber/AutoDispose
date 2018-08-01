@@ -16,13 +16,12 @@
 
 package com.uber.autodispose;
 
-import com.uber.autodispose.internal.ScopeEndNotification;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
+import io.reactivex.CompletableSource;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
-import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
 import io.reactivex.ObservableConverter;
 import io.reactivex.Observer;
@@ -46,9 +45,10 @@ import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
  * {@code as(...)} methods to transform them into auto-disposing streams.
  * <p>
  * There are several static {@code autoDisposable(...)} entry points, with the most basic being a
- * simple {@link #autoDisposable(Maybe)}. The provided {@link Maybe} is ultimately what every scope
- * resolves to under the hood, and AutoDispose has some built-in understanding for predefined types.
- * The scope is considered ended upon onSuccess emission of this {@link Maybe}.
+ * simple {@link #autoDisposable(Completable)}. The provided {@link Completable} is ultimately what
+ * every scope resolves to under the hood, and AutoDispose has some built-in understanding for
+ * predefined types. The scope is considered ended upon onComplete emission of this
+ * {@link Completable}.
  * <p>
  * This is structured in such a way to be friendly to autocompletion in IDEs, where the no-parameter
  * generic method will autocomplete with the appropriate generic parameters in Java <7, or
@@ -80,8 +80,8 @@ public final class AutoDispose {
    */
   public static <T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
     checkNotNull(provider, "provider == null");
-    return autoDisposable(Maybe.defer(new Callable<MaybeSource<?>>() {
-      @Override public MaybeSource<?> call() throws Exception {
+    return autoDisposable(Completable.defer(new Callable<CompletableSource>() {
+      @Override public CompletableSource call() throws Exception {
         try {
           return provider.requestScope();
         } catch (OutsideScopeException e) {
@@ -89,9 +89,9 @@ public final class AutoDispose {
               AutoDisposePlugins.getOutsideScopeHandler();
           if (handler != null) {
             handler.accept(e);
-            return Maybe.just(ScopeEndNotification.INSTANCE);
+            return Completable.complete();
           } else {
-            return Maybe.error(e);
+            return Completable.error(e);
           }
         }
       }
@@ -113,7 +113,7 @@ public final class AutoDispose {
    * @return an {@link AutoDisposeConverter} to transform with operators like
    * {@link Observable#as(ObservableConverter)}
    */
-  public static <T> AutoDisposeConverter<T> autoDisposable(final Maybe<?> scope) {
+  public static <T> AutoDisposeConverter<T> autoDisposable(final Completable scope) {
     checkNotNull(scope, "scope == null");
     return new AutoDisposeConverter<T>() {
       @Override public ParallelFlowableSubscribeProxy<T> apply(final ParallelFlowable<T> upstream) {
