@@ -29,6 +29,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subjects.MaybeSubject;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -52,22 +53,22 @@ public class AutoDisposeMaybeObserverTest {
   @Test public void autoDispose_withMaybe_normal() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(lifecycle))
+    CompletableSubject scope = CompletableSubject.create();
+    source.as(AutoDispose.<Integer>autoDisposable(scope))
         .subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
+    assertThat(scope.hasObservers()).isTrue();
 
     // Got the event
     source.onSuccess(1);
     assertThat(o.takeSuccess()).isEqualTo(1);
 
-    // Nothing more, lifecycle disposed too
+    // Nothing more, scope disposed too
     o.assertNoMoreEvents();
     assertThat(source.hasObservers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
+    assertThat(scope.hasObservers()).isFalse();
   }
 
   @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
@@ -83,10 +84,10 @@ public class AutoDisposeMaybeObserverTest {
   @Test public void autoDispose_withMaybe_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(lifecycle))
+    CompletableSubject scope = CompletableSubject.create();
+    source.as(AutoDispose.<Integer>autoDisposable(scope))
         .subscribe(o);
-    source.as(AutoDispose.<Integer>autoDisposable(lifecycle))
+    source.as(AutoDispose.<Integer>autoDisposable(scope))
         .subscribe(new Consumer<Integer>() {
           @Override public void accept(Integer integer) {
 
@@ -95,12 +96,12 @@ public class AutoDisposeMaybeObserverTest {
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
+    assertThat(scope.hasObservers()).isTrue();
 
     // Lifecycle ends
-    lifecycle.onSuccess(2);
+    scope.onComplete();
     assertThat(source.hasObservers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
+    assertThat(scope.hasObservers()).isFalse();
 
     // Event if upstream emits, no one is listening
     source.onSuccess(2);
@@ -110,7 +111,7 @@ public class AutoDisposeMaybeObserverTest {
   @Test public void autoDispose_withProvider_success() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    MaybeSubject<Integer> scope = MaybeSubject.create();
+    CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = makeProvider(scope);
     source.as(AutoDispose.<Integer>autoDisposable(provider))
         .subscribe(o);
@@ -130,7 +131,7 @@ public class AutoDisposeMaybeObserverTest {
   @Test public void autoDispose_withProvider_completion() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    MaybeSubject<Integer> scope = MaybeSubject.create();
+    CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = makeProvider(scope);
     source.as(AutoDispose.<Integer>autoDisposable(provider))
         .subscribe(o);
@@ -150,7 +151,7 @@ public class AutoDisposeMaybeObserverTest {
   @Test public void autoDispose_withProvider_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     MaybeSubject<Integer> source = MaybeSubject.create();
-    MaybeSubject<Integer> scope = MaybeSubject.create();
+    CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = makeProvider(scope);
     source.as(AutoDispose.<Integer>autoDisposable(provider))
         .subscribe(o);
@@ -159,7 +160,7 @@ public class AutoDisposeMaybeObserverTest {
     assertThat(source.hasObservers()).isTrue();
     assertThat(scope.hasObservers()).isTrue();
 
-    scope.onSuccess(1);
+    scope.onComplete();
 
     // All disposed
     assertThat(source.hasObservers()).isFalse();
@@ -192,11 +193,10 @@ public class AutoDisposeMaybeObserverTest {
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
       assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingMaybeObserver.class);
       assertThat(
-          ((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get()).delegateObserver())
-          .isNotNull();
+          ((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
       assertThat(
-          ((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get()).delegateObserver())
-          .isSameAs(atomicObserver.get());
+          ((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isSameAs(
+          atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
@@ -214,24 +214,24 @@ public class AutoDisposeMaybeObserverTest {
         });
       }
     });
-    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(lifecycle))
+    CompletableSubject scope = CompletableSubject.create();
+    source.as(AutoDispose.<Integer>autoDisposable(scope))
         .subscribe();
 
     assertThat(i.get()).isEqualTo(0);
-    assertThat(lifecycle.hasObservers()).isTrue();
+    assertThat(scope.hasObservers()).isTrue();
 
-    lifecycle.onSuccess(0);
+    scope.onComplete();
 
     // Verify cancellation was called
     assertThat(i.get()).isEqualTo(1);
-    assertThat(lifecycle.hasObservers()).isFalse();
+    assertThat(scope.hasObservers()).isFalse();
   }
 
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestObserver<Object> o = MaybeSubject.create()
-            .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
-            .test();
+        .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
+        .test();
     o.assertNoValues();
     o.assertNoErrors();
 
@@ -240,9 +240,8 @@ public class AutoDisposeMaybeObserverTest {
 
   @Test public void unbound_shouldStillPassValues() {
     MaybeSubject<Integer> s = MaybeSubject.create();
-    TestObserver<Integer> o = s
-            .as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
-            .test();
+    TestObserver<Integer> o = s.as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
+        .test();
 
     s.onSuccess(1);
     o.assertValue(1);
@@ -254,8 +253,7 @@ public class AutoDisposeMaybeObserverTest {
     });
     ScopeProvider provider = outsideScopeProvider();
     MaybeSubject<Integer> source = MaybeSubject.create();
-    TestObserver<Integer> o = source
-        .as(AutoDispose.<Integer>autoDisposable(provider))
+    TestObserver<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
         .test();
 
     assertThat(source.hasObservers()).isFalse();
@@ -272,9 +270,9 @@ public class AutoDisposeMaybeObserverTest {
       }
     });
     ScopeProvider provider = outsideScopeProvider();
-    TestObserver<Integer> o = MaybeSubject.<Integer>create()
-        .as(AutoDispose.<Integer>autoDisposable(provider))
-        .test();
+    TestObserver<Integer> o =
+        MaybeSubject.<Integer>create().as(AutoDispose.<Integer>autoDisposable(provider))
+            .test();
 
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {

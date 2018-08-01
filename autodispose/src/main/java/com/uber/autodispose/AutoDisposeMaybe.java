@@ -17,15 +17,16 @@
 
 package com.uber.autodispose;
 
+import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 import io.reactivex.MaybeSource;
 
 final class AutoDisposeMaybe<T> extends Maybe<T> {
   private final MaybeSource<T> source;
-  private final Maybe<?> scope;
+  private final Completable scope;
 
-  AutoDisposeMaybe(MaybeSource<T> source, Maybe<?> scope) {
+  AutoDisposeMaybe(MaybeSource<T> source, Completable scope) {
     this.source = source;
     this.scope = scope;
   }
