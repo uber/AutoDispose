@@ -19,6 +19,7 @@ package com.uber.autodispose.lifecycle;
 import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.OutsideScopeException;
 import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.functions.Consumer;
@@ -52,12 +53,12 @@ public final class LifecycleScopes {
    *
    * @param provider the {@link LifecycleScopeProvider} to resolve.
    * @param <E> the lifecycle event type
-   * @return a resolved {@link Completable} representation of a given provider
+   * @return a resolved {@link CompletableSource} representation of a given provider
    * @throws OutsideScopeException if the {@link LifecycleScopeProvider#correspondingEvents()}
    * throws an {@link OutsideScopeException} during resolution.
    */
-  public static <E> Completable resolveScopeFromLifecycle(final LifecycleScopeProvider<E> provider)
-      throws OutsideScopeException {
+  public static <E> CompletableSource resolveScopeFromLifecycle(
+      final LifecycleScopeProvider<E> provider) throws OutsideScopeException {
     return resolveScopeFromLifecycle(provider, true);
   }
 
@@ -75,12 +76,13 @@ public final class LifecycleScopes {
    * @param provider the {@link LifecycleScopeProvider} to resolve.
    * @param checkEndBoundary whether or not to check that the lifecycle has ended
    * @param <E> the lifecycle event type
-   * @return a resolved {@link Completable} representation of a given provider
+   * @return a resolved {@link CompletableSource} representation of a given provider
    * @throws OutsideScopeException if the {@link LifecycleScopeProvider#correspondingEvents()}
    * throws an {@link OutsideScopeException} during resolution.
    */
-  public static <E> Completable resolveScopeFromLifecycle(final LifecycleScopeProvider<E> provider,
-      final boolean checkEndBoundary) throws OutsideScopeException {
+  public static <E> CompletableSource resolveScopeFromLifecycle(
+      final LifecycleScopeProvider<E> provider, final boolean checkEndBoundary)
+      throws OutsideScopeException {
     E lastEvent = provider.peekLifecycle();
     CorrespondingEventsFunction<E> eventsFunction = provider.correspondingEvents();
     if (lastEvent == null) {
@@ -116,7 +118,7 @@ public final class LifecycleScopes {
    * @param <E> the lifecycle event type
    * @return a resolved {@link Completable} representation of a given lifecycle, targeting the given event
    */
-  public static <E> Completable resolveScopeFromLifecycle(Observable<E> lifecycle,
+  public static <E> CompletableSource resolveScopeFromLifecycle(Observable<E> lifecycle,
       final E endEvent) {
     @Nullable Comparator<E> comparator = null;
     if (endEvent instanceof Comparable) {
@@ -133,8 +135,8 @@ public final class LifecycleScopes {
    * @param <E> the lifecycle event type
    * @return a resolved {@link Completable} representation of a given lifecycle, targeting the given event
    */
-  public static <E> Completable resolveScopeFromLifecycle(Observable<E> lifecycle, final E endEvent,
-      @Nullable final Comparator<E> comparator) {
+  public static <E> CompletableSource resolveScopeFromLifecycle(Observable<E> lifecycle,
+      final E endEvent, @Nullable final Comparator<E> comparator) {
     Predicate<E> equalityPredicate;
     if (comparator != null) {
       equalityPredicate = new Predicate<E>() {

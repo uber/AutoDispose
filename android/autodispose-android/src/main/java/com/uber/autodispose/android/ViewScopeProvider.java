@@ -52,7 +52,7 @@ public final class ViewScopeProvider implements ScopeProvider {
   }
 
   @Override
-  public Completable requestScope() {
+  public CompletableSource requestScope() {
     return new DetachEventCompletable(view);
   }
 }

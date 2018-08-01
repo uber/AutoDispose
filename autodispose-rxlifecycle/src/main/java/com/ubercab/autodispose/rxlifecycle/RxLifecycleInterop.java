@@ -19,7 +19,7 @@ package com.ubercab.autodispose.rxlifecycle;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.OutsideLifecycleException;
 import com.uber.autodispose.ScopeProvider;
-import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 
 /**
  * Interop for RxLifecycle. This provides static factory methods to convert {@link
@@ -50,7 +50,7 @@ public final class RxLifecycleInterop {
    */
   public static <E> ScopeProvider from(final LifecycleProvider<E> provider) {
     return new ScopeProvider() {
-      @Override public Completable requestScope() {
+      @Override public CompletableSource requestScope() {
         return provider.lifecycle()
             .compose(provider.bindToLifecycle())
             .ignoreElements();
@@ -75,7 +75,7 @@ public final class RxLifecycleInterop {
    */
   public static <E> ScopeProvider from(final LifecycleProvider<E> provider, final E event) {
     return new ScopeProvider() {
-      @Override public Completable requestScope() {
+      @Override public CompletableSource requestScope() {
         return provider.lifecycle()
             .compose(provider.bindUntilEvent(event))
             .ignoreElements();

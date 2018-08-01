@@ -20,21 +20,22 @@ import android.os.Build;
 import android.support.annotation.RestrictTo;
 import android.view.View;
 import com.uber.autodispose.OutsideScopeException;
-import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
+import io.reactivex.CompletableSource;
 import io.reactivex.android.MainThreadDisposable;
 
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
 
-@RestrictTo(LIBRARY) final class DetachEventCompletable extends Completable {
+@RestrictTo(LIBRARY)
+final class DetachEventCompletable implements CompletableSource {
   private final View view;
 
   DetachEventCompletable(View view) {
     this.view = view;
   }
 
-  @Override protected void subscribeActual(CompletableObserver observer) {
+  @Override public void subscribe(CompletableObserver observer) {
     Listener listener = new Listener(view, observer);
     observer.onSubscribe(listener);
 

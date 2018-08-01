@@ -17,6 +17,7 @@
 package com.uber.autodispose;
 
 import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.subjects.CompletableSubject;
 
 /**
@@ -51,7 +52,7 @@ public final class TestScopeProvider implements ScopeProvider {
     delegate.subscribe(innerScope);
   }
 
-  @Override public Completable requestScope() {
+  @Override public CompletableSource requestScope() {
     return innerScope;
   }
 

@@ -24,6 +24,7 @@ import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.LifecycleScopes;
 import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 
 /**
@@ -149,7 +150,7 @@ public final class AndroidLifecycleScopeProvider
     return lifecycleObservable.getValue();
   }
 
-  @Override public Completable requestScope() {
+  @Override public CompletableSource requestScope() {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 

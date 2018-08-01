@@ -18,7 +18,7 @@ package com.uber.autodispose.lifecycle.jdk8;
 
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.LifecycleScopes;
-import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 
 /**
  * A convenience {@link LifecycleScopeProvider} that has a default implementation for
@@ -28,7 +28,7 @@ import io.reactivex.Completable;
  */
 public interface DefaultLifecycleScopeProvider<E> extends LifecycleScopeProvider<E> {
 
-  @Override default Completable requestScope() {
+  @Override default CompletableSource requestScope() {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 }
