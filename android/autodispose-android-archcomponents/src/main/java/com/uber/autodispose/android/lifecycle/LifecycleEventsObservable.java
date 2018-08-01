@@ -23,9 +23,9 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
+import com.uber.autodispose.android.internal.MainThreadDisposable;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
-import io.reactivex.android.MainThreadDisposable;
 import io.reactivex.subjects.BehaviorSubject;
 
 import static android.arch.lifecycle.Lifecycle.Event.ON_CREATE;
