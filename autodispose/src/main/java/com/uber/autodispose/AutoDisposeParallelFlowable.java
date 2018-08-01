@@ -1,15 +1,15 @@
 package com.uber.autodispose;
 
-import io.reactivex.Maybe;
+import io.reactivex.Completable;
 import io.reactivex.parallel.ParallelFlowable;
 import org.reactivestreams.Subscriber;
 
 final class AutoDisposeParallelFlowable<T> extends ParallelFlowable<T> {
 
   private final ParallelFlowable<T> source;
-  private final Maybe<?> scope;
+  private final Completable scope;
 
-  AutoDisposeParallelFlowable(ParallelFlowable<T> source, Maybe<?> scope) {
+  AutoDisposeParallelFlowable(ParallelFlowable<T> source, Completable scope) {
     this.source = source;
     this.scope = scope;
   }

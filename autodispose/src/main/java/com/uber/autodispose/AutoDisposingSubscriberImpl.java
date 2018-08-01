@@ -17,9 +17,9 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
-import io.reactivex.Maybe;
+import io.reactivex.Completable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableMaybeObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -32,15 +32,15 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
   final AtomicReference<Subscription> mainSubscription = new AtomicReference<>();
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
-  final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
+  final AtomicReference<Disposable> scopeDisposable = new AtomicReference<>();
   private final AtomicThrowable error = new AtomicThrowable();
   private final AtomicReference<Subscription> ref = new AtomicReference<>();
   private final AtomicLong requested = new AtomicLong();
-  private final Maybe<?> lifecycle;
+  private final Completable scope;
   private final Subscriber<? super T> delegate;
 
-  AutoDisposingSubscriberImpl(Maybe<?> lifecycle, Subscriber<? super T> delegate) {
-    this.lifecycle = lifecycle;
+  AutoDisposingSubscriberImpl(Completable scope, Subscriber<? super T> delegate) {
+    this.scope = scope;
     this.delegate = delegate;
   }
 
@@ -49,25 +49,20 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
   }
 
   @Override public void onSubscribe(final Subscription s) {
-    DisposableMaybeObserver<Object> o = new DisposableMaybeObserver<Object>() {
-      @Override public void onSuccess(Object o) {
-        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-        AutoSubscriptionHelper.cancel(mainSubscription);
-      }
-
+    DisposableCompletableObserver o = new DisposableCompletableObserver() {
       @Override public void onError(Throwable e) {
-        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        scopeDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         AutoDisposingSubscriberImpl.this.onError(e);
       }
 
       @Override public void onComplete() {
-        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-        // Noop - we're unbound now
+        scopeDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoSubscriptionHelper.cancel(mainSubscription);
       }
     };
-    if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable, o, getClass())) {
+    if (AutoDisposeEndConsumerHelper.setOnce(scopeDisposable, o, getClass())) {
       delegate.onSubscribe(this);
-      lifecycle.subscribe(o);
+      scope.subscribe(o);
       if (AutoDisposeEndConsumerHelper.setOnce(mainSubscription, s, getClass())) {
         AutoSubscriptionHelper.deferredSetOnce(ref, requested, s);
       }
@@ -93,7 +88,7 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
    * <p>This method is thread-safe and can be exposed as a public API.
    */
   @Override public void cancel() {
-    AutoDisposableHelper.dispose(lifecycleDisposable);
+    AutoDisposableHelper.dispose(scopeDisposable);
     AutoSubscriptionHelper.cancel(mainSubscription);
   }
 
@@ -110,7 +105,7 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
       if (HalfSerializer.onNext(delegate, value, this, error)) {
         // Terminal event occurred and was forwarded to the delegate, so clean up here
         mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
-        AutoDisposableHelper.dispose(lifecycleDisposable);
+        AutoDisposableHelper.dispose(scopeDisposable);
       }
     }
   }
@@ -118,7 +113,7 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
   @Override public void onError(Throwable e) {
     if (!isDisposed()) {
       mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
-      AutoDisposableHelper.dispose(lifecycleDisposable);
+      AutoDisposableHelper.dispose(scopeDisposable);
       HalfSerializer.onError(delegate, e, this, error);
     }
   }
@@ -126,7 +121,7 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
   @Override public void onComplete() {
     if (!isDisposed()) {
       mainSubscription.lazySet(AutoSubscriptionHelper.CANCELLED);
-      AutoDisposableHelper.dispose(lifecycleDisposable);
+      AutoDisposableHelper.dispose(scopeDisposable);
       HalfSerializer.onComplete(delegate, this, error);
     }
   }
