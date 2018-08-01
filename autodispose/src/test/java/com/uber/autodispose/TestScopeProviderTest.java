@@ -17,7 +17,7 @@
 package com.uber.autodispose;
 
 import io.reactivex.observers.TestObserver;
-import io.reactivex.subjects.MaybeSubject;
+import io.reactivex.subjects.CompletableSubject;
 import org.junit.Test;
 
 public class TestScopeProviderTest {
@@ -30,47 +30,36 @@ public class TestScopeProviderTest {
         .subscribe(o);
 
     provider.emit();
-    o.assertValueCount(1);
+    o.assertComplete();
   }
 
   @Test public void delegateArg() {
-    MaybeSubject<Integer> s = MaybeSubject.create();
+    CompletableSubject s = CompletableSubject.create();
     TestScopeProvider provider = TestScopeProvider.create(s);
     provider.requestScope()
         .subscribe(o);
 
     provider.emit();
-    o.assertValueCount(1);
+    o.assertComplete();
   }
 
   @Test public void delegateArgEmits() {
-    MaybeSubject<Integer> s = MaybeSubject.create();
-    TestScopeProvider provider = TestScopeProvider.create(s);
-    provider.requestScope()
-        .subscribe(o);
-
-    s.onSuccess(1);
-    o.assertValueCount(1);
-    o.assertValue(1);
-  }
-
-  @Test public void delegateArg_error() {
-    MaybeSubject<Integer> s = MaybeSubject.create();
-    TestScopeProvider provider = TestScopeProvider.create(s);
-    provider.requestScope()
-        .subscribe(o);
-
-    s.onError(new IllegalArgumentException());
-    o.assertError(IllegalArgumentException.class);
-  }
-
-  @Test public void delegateArg_complete() {
-    MaybeSubject<Integer> s = MaybeSubject.create();
+    CompletableSubject s = CompletableSubject.create();
     TestScopeProvider provider = TestScopeProvider.create(s);
     provider.requestScope()
         .subscribe(o);
 
     s.onComplete();
     o.assertComplete();
+  }
+
+  @Test public void delegateArg_error() {
+    CompletableSubject s = CompletableSubject.create();
+    TestScopeProvider provider = TestScopeProvider.create(s);
+    provider.requestScope()
+        .subscribe(o);
+
+    s.onError(new IllegalArgumentException());
+    o.assertError(IllegalArgumentException.class);
   }
 }
