@@ -22,7 +22,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
-import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.android.ViewScopeProvider;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
@@ -43,17 +42,14 @@ public abstract class AutoDisposeView extends View
    * "Attach" returns "Detach", then any stream subscribed to during Attach will autodispose on
    * Detach.
    */
-  private static final CorrespondingEventsFunction<ViewEvent> CORRESPONDING_EVENTS =
-      new CorrespondingEventsFunction<ViewEvent>() {
-        @Override public ViewEvent apply(ViewEvent viewEvent) throws OutsideScopeException {
-          switch (viewEvent) {
-            case ATTACH:
-              return ViewEvent.DETACH;
-            default:
-              throw new LifecycleEndedException("Cannot bind to View lifecycle after detach.");
-          }
-        }
-      };
+  private static final CorrespondingEventsFunction<ViewEvent> CORRESPONDING_EVENTS = viewEvent -> {
+    switch (viewEvent) {
+      case ATTACH:
+        return ViewEvent.DETACH;
+      default:
+        throw new LifecycleEndedException("Cannot bind to View lifecycle after detach.");
+    }
+  };
 
   @Nullable private BehaviorSubject<ViewEvent> lifecycleEvents = null;
 

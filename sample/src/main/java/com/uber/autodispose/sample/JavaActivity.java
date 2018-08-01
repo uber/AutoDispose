@@ -21,12 +21,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 import io.reactivex.Observable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import java.util.concurrent.TimeUnit;
+
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 /**
  * Demo activity, shamelessly borrowed from the RxLifecycle sample.
@@ -47,17 +46,9 @@ public class JavaActivity extends AppCompatActivity {
     // Using automatic disposal, this should determine that the correct time to
     // dispose is onDestroy (the opposite of onCreate).
     Observable.interval(1, TimeUnit.SECONDS)
-        .doOnDispose(new Action() {
-          @Override public void run() {
-            Log.i(TAG, "Disposing subscription from onCreate()");
-          }
-        })
-        .as(AutoDispose.<Long>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-        .subscribe(new Consumer<Long>() {
-          @Override public void accept(Long num) {
-            Log.i(TAG, "Started in onCreate(), running until onDestroy(): " + num);
-          }
-        });
+        .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onCreate()"))
+        .as(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+        .subscribe(num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): " + num));
   }
 
   @Override protected void onStart() {
@@ -68,17 +59,9 @@ public class JavaActivity extends AppCompatActivity {
     // Using automatic disposal, this should determine that the correct time to
     // dispose is onStop (the opposite of onStart).
     Observable.interval(1, TimeUnit.SECONDS)
-        .doOnDispose(new Action() {
-          @Override public void run() {
-            Log.i(TAG, "Disposing subscription from onStart()");
-          }
-        })
-        .as(AutoDispose.<Long>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-        .subscribe(new Consumer<Long>() {
-          @Override public void accept(Long num) {
-            Log.i(TAG, "Started in onStart(), running until in onStop(): " + num);
-          }
-        });
+        .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onStart()"))
+        .as(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+        .subscribe(num -> Log.i(TAG, "Started in onStart(), running until in onStop(): " + num));
   }
 
   @Override protected void onResume() {
@@ -89,34 +72,17 @@ public class JavaActivity extends AppCompatActivity {
     // Using automatic disposal, this should determine that the correct time to
     // dispose is onPause (the opposite of onResume).
     Observable.interval(1, TimeUnit.SECONDS)
-        .doOnDispose(new Action() {
-          @Override public void run() {
-            Log.i(TAG, "Disposing subscription from onResume()");
-          }
-        })
-        // `.<Long>forObservable` is necessary if you're compiling on JDK7 or below.
-        // If you're using JDK8+, then you can safely remove it.
-        .as(AutoDispose.<Long>autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-        .subscribe(new Consumer<Long>() {
-          @Override public void accept(Long num) {
-            Log.i(TAG, "Started in onResume(), running until in onPause(): " + num);
-          }
-        });
+        .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onResume()"))
+        .as(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+        .subscribe(num -> Log.i(TAG, "Started in onResume(), running until in onPause(): " + num));
 
     // Setting a specific untilEvent, this should dispose in onDestroy.
     Observable.interval(1, TimeUnit.SECONDS)
-        .doOnDispose(new Action() {
-          @Override public void run() {
-            Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY");
-          }
-        })
-        .as(AutoDispose.<Long>autoDisposable(
-            AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
-        .subscribe(new Consumer<Long>() {
-          @Override public void accept(Long num) {
-            Log.i(TAG, "Started in onResume(), running until in onDestroy(): " + num);
-          }
-        });
+        .doOnDispose(
+            () -> Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY"))
+        .as(autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
+        .subscribe(
+            num -> Log.i(TAG, "Started in onResume(), running until in onDestroy(): " + num));
   }
 
   @Override protected void onPause() {
