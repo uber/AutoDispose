@@ -23,9 +23,9 @@ import io.reactivex.Maybe;
 final class AutoDisposeCompletable extends Completable {
 
   private final Completable source;
-  private final Maybe<?> scope;
+  private final Completable scope;
 
-  AutoDisposeCompletable(Completable source, Maybe<?> scope) {
+  AutoDisposeCompletable(Completable source, Completable scope) {
     this.source = source;
     this.scope = scope;
   }

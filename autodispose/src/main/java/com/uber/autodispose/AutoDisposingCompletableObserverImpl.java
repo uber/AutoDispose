@@ -17,10 +17,10 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
+import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
-import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableMaybeObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
 import java.util.concurrent.atomic.AtomicReference;
 
 final class AutoDisposingCompletableObserverImpl implements AutoDisposingCompletableObserver {
@@ -28,12 +28,12 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
   final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
-  final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
-  private final Maybe<?> lifecycle;
+  final AtomicReference<Disposable> scopeDisposable = new AtomicReference<>();
+  private final Completable scope;
   private final CompletableObserver delegate;
 
-  AutoDisposingCompletableObserverImpl(Maybe<?> lifecycle, CompletableObserver delegate) {
-    this.lifecycle = lifecycle;
+  AutoDisposingCompletableObserverImpl(Completable scope, CompletableObserver delegate) {
+    this.scope = scope;
     this.delegate = delegate;
   }
 
@@ -42,25 +42,20 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
   }
 
   @Override public void onSubscribe(final Disposable d) {
-    DisposableMaybeObserver<Object> o = new DisposableMaybeObserver<Object>() {
-      @Override public void onSuccess(Object o) {
-        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-        AutoDisposableHelper.dispose(mainDisposable);
-      }
-
+    DisposableCompletableObserver o = new DisposableCompletableObserver() {
       @Override public void onError(Throwable e) {
-        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        scopeDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         AutoDisposingCompletableObserverImpl.this.onError(e);
       }
 
       @Override public void onComplete() {
-        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-        // Noop - we're unbound now
+        scopeDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoDisposableHelper.dispose(mainDisposable);
       }
     };
-    if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable, o, getClass())) {
+    if (AutoDisposeEndConsumerHelper.setOnce(scopeDisposable, o, getClass())) {
       delegate.onSubscribe(this);
-      lifecycle.subscribe(o);
+      scope.subscribe(o);
       AutoDisposeEndConsumerHelper.setOnce(mainDisposable, d, getClass());
     }
   }
@@ -70,14 +65,14 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
   }
 
   @Override public void dispose() {
-    AutoDisposableHelper.dispose(lifecycleDisposable);
+    AutoDisposableHelper.dispose(scopeDisposable);
     AutoDisposableHelper.dispose(mainDisposable);
   }
 
   @Override public void onComplete() {
     if (!isDisposed()) {
       mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-      AutoDisposableHelper.dispose(lifecycleDisposable);
+      AutoDisposableHelper.dispose(scopeDisposable);
       delegate.onComplete();
     }
   }
@@ -85,7 +80,7 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
   @Override public void onError(Throwable e) {
     if (!isDisposed()) {
       mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-      AutoDisposableHelper.dispose(lifecycleDisposable);
+      AutoDisposableHelper.dispose(scopeDisposable);
       delegate.onError(e);
     }
   }
