@@ -16,7 +16,7 @@
 
 package com.uber.autodispose.lifecycle;
 
-import io.reactivex.Maybe;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 import org.jetbrains.annotations.Nullable;
@@ -81,7 +81,7 @@ public final class TestLifecycleScopeProvider
     return lifecycleSubject.getValue();
   }
 
-  @Override public Maybe<?> requestScope() {
+  @Override public Completable requestScope() {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 

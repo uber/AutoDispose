@@ -18,7 +18,7 @@ package com.uber.autodispose.lifecycle.ktx
 
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.lifecycle.LifecycleScopes.resolveScopeFromLifecycle
-import io.reactivex.Maybe
+import io.reactivex.Completable
 
 /**
  * A convenience [LifecycleScopeProvider] that has a default implementation for
@@ -27,5 +27,5 @@ import io.reactivex.Maybe
  * @param <E> the lifecycle event type.
  */
 interface KotlinLifecycleScopeProvider<E> : LifecycleScopeProvider<E> {
-  override fun requestScope(): Maybe<*> = resolveScopeFromLifecycle(this)
+  override fun requestScope(): Completable = resolveScopeFromLifecycle(this)
 }

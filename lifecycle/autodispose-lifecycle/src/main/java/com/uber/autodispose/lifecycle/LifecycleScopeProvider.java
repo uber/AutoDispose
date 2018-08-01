@@ -18,7 +18,7 @@ package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.ScopeProvider;
 import com.uber.autodispose.internal.DoNotMock;
-import io.reactivex.Maybe;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.annotations.Nullable;
@@ -26,7 +26,7 @@ import io.reactivex.annotations.Nullable;
 /**
  * A convenience interface that, when implemented, helps provide information to create {@link
  * ScopeProvider} implementations that resolve the next corresponding lifecycle event and construct
- * a {@link Maybe} representation of it from the {@link #lifecycle()} stream.
+ * a {@link Completable} representation of it from the {@link #lifecycle()} stream.
  *
  * <p>Convenience resolver utilities for this can be found in {@link LifecycleScopes}.
  *
@@ -36,7 +36,10 @@ import io.reactivex.annotations.Nullable;
 @DoNotMock(value = "Use TestLifecycleScopeProvider instead")
 public interface LifecycleScopeProvider<E> extends ScopeProvider {
 
-  /** @return a sequence of lifecycle events. */
+  /**
+   * @return a sequence of lifecycle events. Note that completion of this lifecycle will also
+   * trigger disposal
+   */
   @CheckReturnValue Observable<E> lifecycle();
 
   /**

@@ -79,8 +79,7 @@ public final class LifecycleScopesTest {
 
     LifecycleScopes.resolveScopeFromLifecycle(lifecycle, true)
         .test()
-        .assertValueCount(1)
-        .assertTerminated(); // "success"
+        .assertComplete();
   }
 
   @Test public void lifecycleCheckEnd_shouldFailIfEndedWithThrowingHandler() {
@@ -124,8 +123,7 @@ public final class LifecycleScopesTest {
 
     // Now we end
     lifecycle.onNext(3);
-    o.assertValueCount(1)
-        .assertTerminated(); // "success"
+    o.assertComplete();
   }
 
   static class IntHolder {
@@ -166,8 +164,7 @@ public final class LifecycleScopesTest {
 
     // Now we end
     lifecycle.onNext(new IntHolder(3));
-    o.assertValueCount(1)
-        .assertTerminated(); // "success"
+    o.assertComplete();
   }
 
   /**
@@ -202,8 +199,7 @@ public final class LifecycleScopesTest {
 
     // Now we end
     lifecycle.onNext(new NegativeComparableInteger(-3));
-    o.assertValueCount(1)
-        .assertTerminated(); // "success"
+    o.assertComplete();
   }
 
   @Test public void resolveScopeFromLifecycle_normal_comparator() {
@@ -227,8 +223,7 @@ public final class LifecycleScopesTest {
 
     // Now we end
     lifecycle.onNext(-3);
-    o.assertValueCount(1)
-        .assertTerminated(); // "success"
+    o.assertComplete();
   }
 
   @Test public void resolveScopeFromLifecycle_error() {
