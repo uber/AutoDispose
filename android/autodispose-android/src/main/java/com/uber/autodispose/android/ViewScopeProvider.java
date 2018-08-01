@@ -18,7 +18,8 @@ package com.uber.autodispose.android;
 
 import android.view.View;
 import com.uber.autodispose.ScopeProvider;
-import io.reactivex.Maybe;
+import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 
 /**
  * A {@link ScopeProvider} that can provide scoping for Android {@link View} classes.
@@ -51,7 +52,7 @@ public final class ViewScopeProvider implements ScopeProvider {
   }
 
   @Override
-  public Maybe<?> requestScope() {
-    return new DetachEventMaybe(view);
+  public Completable requestScope() {
+    return new DetachEventCompletable(view);
   }
 }
