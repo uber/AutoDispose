@@ -22,6 +22,7 @@ import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.LifecycleScopes;
 import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider;
 import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -75,7 +76,7 @@ public class UseAutoDisposeDefaultClassPositiveCases
     return lifecycleSubject.getValue();
   }
 
-  @Override public Maybe<?> requestScope() throws Exception {
+  @Override public CompletableSource requestScope() throws Exception {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
