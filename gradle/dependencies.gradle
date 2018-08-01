@@ -55,7 +55,7 @@ def kotlin = [
 
 def misc = [
     jetbrainsAnnotations: 'org.jetbrains:annotations:13.0',
-    rxlifecycle: 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
+    rxlifecycle: 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
 ]
 
 def rx = [
