@@ -19,7 +19,7 @@ package com.ubercab.autodispose.rxlifecycle;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.OutsideLifecycleException;
 import com.uber.autodispose.ScopeProvider;
-import io.reactivex.Maybe;
+import io.reactivex.Completable;
 
 /**
  * Interop for RxLifecycle. This provides static factory methods to convert {@link
@@ -33,9 +33,6 @@ public final class RxLifecycleInterop {
   private RxLifecycleInterop() {
     throw new AssertionError("No Instances");
   }
-
-  @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
-  static final Object DEFAULT_THROWAWAY_OBJECT = new Object();
 
   /**
    * Factory creating a {@link ScopeProvider} representation of a {@link LifecycleProvider}.
@@ -53,12 +50,10 @@ public final class RxLifecycleInterop {
    */
   public static <E> ScopeProvider from(final LifecycleProvider<E> provider) {
     return new ScopeProvider() {
-      @Override public Maybe<?> requestScope() {
+      @Override public Completable requestScope() {
         return provider.lifecycle()
             .compose(provider.bindToLifecycle())
-            .ignoreElements()
-            .toMaybe()
-            .defaultIfEmpty(DEFAULT_THROWAWAY_OBJECT);
+            .ignoreElements();
       }
     };
   }
@@ -80,12 +75,10 @@ public final class RxLifecycleInterop {
    */
   public static <E> ScopeProvider from(final LifecycleProvider<E> provider, final E event) {
     return new ScopeProvider() {
-      @Override public Maybe<?> requestScope() {
+      @Override public Completable requestScope() {
         return provider.lifecycle()
             .compose(provider.bindUntilEvent(event))
-            .ignoreElements()
-            .toMaybe()
-            .defaultIfEmpty(DEFAULT_THROWAWAY_OBJECT);
+            .ignoreElements();
       }
     };
   }
