@@ -17,10 +17,10 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingObserver;
-import io.reactivex.Maybe;
+import io.reactivex.Completable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableMaybeObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -29,13 +29,13 @@ final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDi
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
   final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
-  final AtomicReference<Disposable> lifecycleDisposable = new AtomicReference<>();
+  final AtomicReference<Disposable> scopeDisposable = new AtomicReference<>();
   private final AtomicThrowable error = new AtomicThrowable();
-  private final Maybe<?> lifecycle;
+  private final Completable scope;
   private final Observer<? super T> delegate;
 
-  AutoDisposingObserverImpl(Maybe<?> lifecycle, Observer<? super T> delegate) {
-    this.lifecycle = lifecycle;
+  AutoDisposingObserverImpl(Completable scope, Observer<? super T> delegate) {
+    this.scope = scope;
     this.delegate = delegate;
   }
 
@@ -44,25 +44,20 @@ final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDi
   }
 
   @Override public void onSubscribe(final Disposable d) {
-    DisposableMaybeObserver<Object> o = new DisposableMaybeObserver<Object>() {
-      @Override public void onSuccess(Object o) {
-        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-        AutoDisposableHelper.dispose(mainDisposable);
-      }
-
+    DisposableCompletableObserver o = new DisposableCompletableObserver() {
       @Override public void onError(Throwable e) {
-        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        scopeDisposable.lazySet(AutoDisposableHelper.DISPOSED);
         AutoDisposingObserverImpl.this.onError(e);
       }
 
       @Override public void onComplete() {
-        lifecycleDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-        // Noop - we're unbound now
+        scopeDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+        AutoDisposableHelper.dispose(mainDisposable);
       }
     };
-    if (AutoDisposeEndConsumerHelper.setOnce(lifecycleDisposable, o, getClass())) {
+    if (AutoDisposeEndConsumerHelper.setOnce(scopeDisposable, o, getClass())) {
       delegate.onSubscribe(this);
-      lifecycle.subscribe(o);
+      scope.subscribe(o);
       AutoDisposeEndConsumerHelper.setOnce(mainDisposable, d, getClass());
     }
   }
@@ -72,7 +67,7 @@ final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDi
   }
 
   @Override public void dispose() {
-    AutoDisposableHelper.dispose(lifecycleDisposable);
+    AutoDisposableHelper.dispose(scopeDisposable);
     AutoDisposableHelper.dispose(mainDisposable);
   }
 
@@ -81,7 +76,7 @@ final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDi
       if (HalfSerializer.onNext(delegate, value, this, error)) {
         // Terminal event occurred and was forwarded to the delegate, so clean up here
         mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-        AutoDisposableHelper.dispose(lifecycleDisposable);
+        AutoDisposableHelper.dispose(scopeDisposable);
       }
     }
   }
@@ -89,7 +84,7 @@ final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDi
   @Override public void onError(Throwable e) {
     if (!isDisposed()) {
       mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-      AutoDisposableHelper.dispose(lifecycleDisposable);
+      AutoDisposableHelper.dispose(scopeDisposable);
       HalfSerializer.onError(delegate, e, this, error);
     }
   }
@@ -97,7 +92,7 @@ final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDi
   @Override public void onComplete() {
     if (!isDisposed()) {
       mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-      AutoDisposableHelper.dispose(lifecycleDisposable);
+      AutoDisposableHelper.dispose(scopeDisposable);
       HalfSerializer.onComplete(delegate, this, error);
     }
   }

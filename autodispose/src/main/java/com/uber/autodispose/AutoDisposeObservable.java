@@ -17,6 +17,7 @@
 
 package com.uber.autodispose;
 
+import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -24,9 +25,9 @@ import io.reactivex.Observer;
 
 final class AutoDisposeObservable<T> extends Observable<T> {
   private final ObservableSource<T> source;
-  private final Maybe<?> scope;
+  private final Completable scope;
 
-  AutoDisposeObservable(ObservableSource<T> source, Maybe<?> scope) {
+  AutoDisposeObservable(ObservableSource<T> source, Completable scope) {
     this.source = source;
     this.scope = scope;
   }
