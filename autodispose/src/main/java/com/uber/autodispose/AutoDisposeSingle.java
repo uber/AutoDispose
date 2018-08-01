@@ -16,6 +16,7 @@
 
 package com.uber.autodispose;
 
+import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
@@ -23,9 +24,9 @@ import io.reactivex.SingleSource;
 
 final class AutoDisposeSingle<T> extends Single<T> {
   private final SingleSource<T> source;
-  private final Maybe<?> scope;
+  private final Completable scope;
 
-  AutoDisposeSingle(SingleSource<T> source, Maybe<?> scope) {
+  AutoDisposeSingle(SingleSource<T> source, Completable scope) {
     this.source = source;
     this.scope = scope;
   }
