@@ -39,12 +39,12 @@ class AutoDisposeKotlinTest {
 
   private val o = TestObserver<String>()
   private val s = TestSubscriber<String>()
-  private val scopeMaybe = MaybeSubject.create<Any>()
+  private val scope = CompletableSubject.create()
   private val scopeProvider = TestScopeProvider.create()
 
   @Test fun observable_maybeNormalCompletion() {
     Observable.just("Hello")
-        .autoDisposable(scopeMaybe)
+        .autoDisposable(scope)
         .subscribe(o)
 
     o.assertValue { it == "Hello" }
@@ -54,14 +54,14 @@ class AutoDisposeKotlinTest {
   @Test fun observable_maybeNormalInterrupted() {
     val subject = PublishSubject.create<String>()
     subject
-        .autoDisposable(scopeMaybe)
+        .autoDisposable(scope)
         .subscribe(o)
 
     subject.onNext("Hello")
 
     o.assertValue { it == "Hello" }
 
-    scopeMaybe.onSuccess(Object())
+    scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
@@ -87,7 +87,7 @@ class AutoDisposeKotlinTest {
 
     o.assertValue { it == "Hello" }
 
-    scopeMaybe.onSuccess(Object())
+    scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
@@ -96,7 +96,7 @@ class AutoDisposeKotlinTest {
 
   @Test fun flowable_maybeNormalCompletion() {
     Flowable.just("Hello")
-        .autoDisposable(scopeMaybe)
+        .autoDisposable(scope)
         .subscribe(s)
 
     s.assertValue { it == "Hello" }
@@ -106,14 +106,14 @@ class AutoDisposeKotlinTest {
   @Test fun flowable_maybeNormalInterrupted() {
     val subject = PublishSubject.create<String>()
     subject.toFlowable(ERROR)
-        .autoDisposable(scopeMaybe)
+        .autoDisposable(scope)
         .subscribe(s)
 
     subject.onNext("Hello")
 
     s.assertValue { it == "Hello" }
 
-    scopeMaybe.onSuccess(Object())
+    scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(s.isDisposed).isTrue()
@@ -139,7 +139,7 @@ class AutoDisposeKotlinTest {
 
     s.assertValue { it == "Hello" }
 
-    scopeMaybe.onSuccess(Object())
+    scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(s.isDisposed).isTrue()
@@ -148,7 +148,7 @@ class AutoDisposeKotlinTest {
 
   @Test fun maybe_maybeNormalCompletion() {
     Maybe.just("Hello")
-        .autoDisposable(scopeMaybe)
+        .autoDisposable(scope)
         .subscribe(o)
 
     o.assertValue { it == "Hello" }
@@ -158,14 +158,14 @@ class AutoDisposeKotlinTest {
   @Test fun maybe_maybeNormalInterrupted() {
     val subject = MaybeSubject.create<String>()
     subject
-        .autoDisposable(scopeMaybe)
+        .autoDisposable(scope)
         .subscribe(o)
 
     subject.onSuccess("Hello")
 
     o.assertValue { it == "Hello" }
 
-    scopeMaybe.onSuccess(Object())
+    scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
@@ -200,7 +200,7 @@ class AutoDisposeKotlinTest {
 
   @Test fun single_maybeNormalCompletion() {
     Single.just("Hello")
-        .autoDisposable(scopeMaybe)
+        .autoDisposable(scope)
         .subscribe(o)
 
     o.assertValue { it == "Hello" }
@@ -210,14 +210,14 @@ class AutoDisposeKotlinTest {
   @Test fun single_maybeNormalInterrupted() {
     val subject = SingleSubject.create<String>()
     subject
-        .autoDisposable(scopeMaybe)
+        .autoDisposable(scope)
         .subscribe(o)
 
     subject.onSuccess("Hello")
 
     o.assertValue { it == "Hello" }
 
-    scopeMaybe.onSuccess(Object())
+    scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
@@ -243,7 +243,7 @@ class AutoDisposeKotlinTest {
 
     o.assertValue { it == "Hello" }
 
-    scopeMaybe.onSuccess(Object())
+    scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
@@ -252,7 +252,7 @@ class AutoDisposeKotlinTest {
 
   @Test fun completable_maybeNormalCompletion() {
     Completable.complete()
-        .autoDisposable(scopeMaybe)
+        .autoDisposable(scope)
         .subscribe(o)
 
     o.assertComplete()
@@ -261,14 +261,14 @@ class AutoDisposeKotlinTest {
   @Test fun completable_maybeNormalInterrupted() {
     val subject = PublishSubject.create<String>()
     subject
-        .autoDisposable(scopeMaybe)
+        .autoDisposable(scope)
         .subscribe(o)
 
     subject.onNext("Hello")
 
     o.assertValue { it == "Hello" }
 
-    scopeMaybe.onSuccess(Object())
+    scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
@@ -291,7 +291,7 @@ class AutoDisposeKotlinTest {
 
     subject.onComplete()
 
-    scopeMaybe.onSuccess(Object())
+    scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(o.isDisposed).isTrue()
@@ -302,7 +302,7 @@ class AutoDisposeKotlinTest {
     val s2 = TestSubscriber<String>()
     Flowable.just("Hello", "World")
         .parallel(DEFAULT_PARALLELISM)
-        .autoDisposable(scopeMaybe)
+        .autoDisposable(scope)
         .subscribe(arrayOf(s, s2))
 
     s.assertValue { it == "Hello" }
@@ -316,7 +316,7 @@ class AutoDisposeKotlinTest {
     val s2 = TestSubscriber<String>()
     subject.toFlowable(ERROR)
         .parallel(DEFAULT_PARALLELISM)
-        .autoDisposable(scopeMaybe)
+        .autoDisposable(scope)
         .subscribe(arrayOf(s, s2))
 
     subject.onNext("Hello")
@@ -325,7 +325,7 @@ class AutoDisposeKotlinTest {
     s.assertValue { it == "Hello" }
     s2.assertValue { it == "World" }
 
-    scopeMaybe.onSuccess(Object())
+    scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(s.isDisposed).isTrue()
@@ -359,7 +359,7 @@ class AutoDisposeKotlinTest {
     s.assertValue { it == "Hello" }
     s2.assertValue { it == "World" }
 
-    scopeMaybe.onSuccess(Object())
+    scope.onComplete()
 
 // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(s.isDisposed).isTrue()
