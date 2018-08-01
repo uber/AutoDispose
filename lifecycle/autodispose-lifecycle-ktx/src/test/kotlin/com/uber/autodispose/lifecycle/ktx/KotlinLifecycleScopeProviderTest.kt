@@ -55,7 +55,7 @@ class KotlinLifecycleScopeProviderTest {
       }
     }
 
-    override fun peekLifecycle(): LifecycleEvent {
+    override fun peekLifecycle(): LifecycleEvent? {
       return lifecycle.value
     }
   }

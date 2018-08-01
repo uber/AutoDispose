@@ -19,7 +19,6 @@ package com.uber.autodispose.recipes;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
@@ -45,23 +44,20 @@ public abstract class AutoDisposeActivity extends Activity
    * we dispose on the next immediate destruction event. Subscribing after Destroy is an error.
    */
   private static final CorrespondingEventsFunction<ActivityEvent> CORRESPONDING_EVENTS =
-      new CorrespondingEventsFunction<ActivityEvent>() {
-        @Override public ActivityEvent apply(ActivityEvent activityEvent)
-            throws OutsideScopeException {
-          switch (activityEvent) {
-            case CREATE:
-              return ActivityEvent.DESTROY;
-            case START:
-              return ActivityEvent.STOP;
-            case RESUME:
-              return ActivityEvent.PAUSE;
-            case PAUSE:
-              return ActivityEvent.STOP;
-            case STOP:
-              return ActivityEvent.DESTROY;
-            default:
-              throw new LifecycleEndedException("Cannot bind to Activity lifecycle after destroy.");
-          }
+      activityEvent -> {
+        switch (activityEvent) {
+          case CREATE:
+            return ActivityEvent.DESTROY;
+          case START:
+            return ActivityEvent.STOP;
+          case RESUME:
+            return ActivityEvent.PAUSE;
+          case PAUSE:
+            return ActivityEvent.STOP;
+          case STOP:
+            return ActivityEvent.DESTROY;
+          default:
+            throw new LifecycleEndedException("Cannot bind to Activity lifecycle after destroy.");
         }
       };
 

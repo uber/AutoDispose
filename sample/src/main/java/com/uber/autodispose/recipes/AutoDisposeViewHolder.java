@@ -18,7 +18,6 @@ package com.uber.autodispose.recipes;
 
 import android.support.v7.widget.BindAwareViewHolder;
 import android.view.View;
-import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
@@ -40,15 +39,12 @@ public abstract class AutoDisposeViewHolder extends BindAwareViewHolder
   }
 
   private static final CorrespondingEventsFunction<ViewHolderEvent> CORRESPONDING_EVENTS =
-      new CorrespondingEventsFunction<ViewHolderEvent>() {
-        @Override public ViewHolderEvent apply(final ViewHolderEvent viewHolderEvent)
-            throws OutsideScopeException {
-          switch (viewHolderEvent) {
-            case BIND:
-              return ViewHolderEvent.UNBIND;
-            default:
-              throw new LifecycleEndedException("Cannot use ViewHolder lifecycle after unbind.");
-          }
+      viewHolderEvent -> {
+        switch (viewHolderEvent) {
+          case BIND:
+            return ViewHolderEvent.UNBIND;
+          default:
+            throw new LifecycleEndedException("Cannot use ViewHolder lifecycle after unbind.");
         }
       };
 

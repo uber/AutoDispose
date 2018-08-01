@@ -21,7 +21,7 @@ def versions = [
     dokka: '0.9.17',
     errorProne: '2.3.1',
     errorPronePlugin: '0.0.13',
-    kotlin: '1.2.51',
+    kotlin: '1.2.60',
     support: '27.1.1'
 ]
 
@@ -55,12 +55,12 @@ def kotlin = [
 
 def misc = [
     jetbrainsAnnotations: 'org.jetbrains:annotations:13.0',
-    rxlifecycle: 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
+    rxlifecycle: 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
 ]
 
 def rx = [
-    android: 'io.reactivex.rxjava2:rxandroid:2.0.1',
-    java: 'io.reactivex.rxjava2:rxjava:2.1.7'
+    android: 'io.reactivex.rxjava2:rxandroid:2.0.2',
+    java: 'io.reactivex.rxjava2:rxjava:2.2.0'
 ]
 
 def support = [

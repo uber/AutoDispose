@@ -21,7 +21,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
@@ -46,33 +45,30 @@ public abstract class AutoDisposeFragment extends Fragment
    * symmetric boundary conditions. Create -> Destroy, Start -> Stop, etc. For anything after Resume
    * we dispose on the next immediate destruction event. Subscribing after Detach is an error.
    */
-  private static final CorrespondingEventsFunction<FragmentEvent> CORRESPONDING_EVENTS =
-      new CorrespondingEventsFunction<FragmentEvent>() {
-        @Override public FragmentEvent apply(FragmentEvent event) throws OutsideScopeException {
-          switch (event) {
-            case ATTACH:
-              return FragmentEvent.DETACH;
-            case CREATE:
-              return FragmentEvent.DESTROY;
-            case CREATE_VIEW:
-              return FragmentEvent.DESTROY_VIEW;
-            case START:
-              return FragmentEvent.STOP;
-            case RESUME:
-              return FragmentEvent.PAUSE;
-            case PAUSE:
-              return FragmentEvent.STOP;
-            case STOP:
-              return FragmentEvent.DESTROY_VIEW;
-            case DESTROY_VIEW:
-              return FragmentEvent.DESTROY;
-            case DESTROY:
-              return FragmentEvent.DETACH;
-            default:
-              throw new LifecycleEndedException("Cannot bind to Fragment lifecycle after detach.");
-          }
-        }
-      };
+  private static final CorrespondingEventsFunction<FragmentEvent> CORRESPONDING_EVENTS = event -> {
+    switch (event) {
+      case ATTACH:
+        return FragmentEvent.DETACH;
+      case CREATE:
+        return FragmentEvent.DESTROY;
+      case CREATE_VIEW:
+        return FragmentEvent.DESTROY_VIEW;
+      case START:
+        return FragmentEvent.STOP;
+      case RESUME:
+        return FragmentEvent.PAUSE;
+      case PAUSE:
+        return FragmentEvent.STOP;
+      case STOP:
+        return FragmentEvent.DESTROY_VIEW;
+      case DESTROY_VIEW:
+        return FragmentEvent.DESTROY;
+      case DESTROY:
+        return FragmentEvent.DETACH;
+      default:
+        throw new LifecycleEndedException("Cannot bind to Fragment lifecycle after detach.");
+    }
+  };
 
   private final BehaviorSubject<FragmentEvent> lifecycleEvents = BehaviorSubject.create();
 
