@@ -41,7 +41,7 @@ import static com.google.common.truth.Truth.assertThat;
 
   @Override protected void starting(Description description) {
     RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
-      @Override public void accept(Throwable t) throws Exception {
+      @Override public void accept(Throwable t) {
         errors.add(t);
       }
     });

@@ -28,7 +28,7 @@ import io.reactivex.Maybe;
  */
 public interface DefaultLifecycleScopeProvider<E> extends LifecycleScopeProvider<E> {
 
-  @Override default Maybe<?> requestScope() throws Exception {
+  @Override default Maybe<?> requestScope() {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 }

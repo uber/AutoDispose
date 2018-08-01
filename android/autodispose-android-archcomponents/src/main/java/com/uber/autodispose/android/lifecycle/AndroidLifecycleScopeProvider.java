@@ -149,7 +149,7 @@ public final class AndroidLifecycleScopeProvider
     return lifecycleObservable.getValue();
   }
 
-  @Override public Maybe<?> requestScope() throws Exception {
+  @Override public Maybe<?> requestScope() {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 

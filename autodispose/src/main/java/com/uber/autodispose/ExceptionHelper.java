@@ -35,9 +35,9 @@ final class ExceptionHelper {
    * A singleton instance of a Throwable indicating a terminal state for exceptions,
    * don't leak this.
    */
-  public static final Throwable TERMINATED = new Termination();
+  private static final Throwable TERMINATED = new Termination();
 
-  public static boolean addThrowable(AtomicReference<Throwable> field, Throwable exception) {
+  static boolean addThrowable(AtomicReference<Throwable> field, Throwable exception) {
     for (; ; ) {
       Throwable current = field.get();
 
@@ -58,8 +58,7 @@ final class ExceptionHelper {
     }
   }
 
-  @Nullable
-  public static Throwable terminate(AtomicReference<Throwable> field) {
+  @Nullable static Throwable terminate(AtomicReference<Throwable> field) {
     Throwable current = field.get();
     if (current != TERMINATED) {
       current = field.getAndSet(TERMINATED);
