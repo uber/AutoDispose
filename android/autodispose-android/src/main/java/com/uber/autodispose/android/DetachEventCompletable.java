@@ -20,22 +20,22 @@ import android.os.Build;
 import android.support.annotation.RestrictTo;
 import android.view.View;
 import com.uber.autodispose.OutsideScopeException;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeObserver;
+import io.reactivex.CompletableObserver;
+import io.reactivex.CompletableSource;
 import io.reactivex.android.MainThreadDisposable;
 
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
 
 @RestrictTo(LIBRARY)
-final class DetachEventMaybe extends Maybe<Object> {
+final class DetachEventCompletable implements CompletableSource {
   private final View view;
 
-  DetachEventMaybe(View view) {
+  DetachEventCompletable(View view) {
     this.view = view;
   }
 
-  @Override protected void subscribeActual(MaybeObserver<? super Object> observer) {
+  @Override public void subscribe(CompletableObserver observer) {
     Listener listener = new Listener(view, observer);
     observer.onSubscribe(listener);
 
@@ -46,9 +46,8 @@ final class DetachEventMaybe extends Maybe<Object> {
     }
 
     // Check that it's attached.
-    boolean isAttached =
-        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
-            || view.getWindowToken() != null;
+    boolean isAttached = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
+        || view.getWindowToken() != null;
     if (!isAttached) {
       observer.onError(new OutsideScopeException("View is not attached!"));
       return;
@@ -60,13 +59,11 @@ final class DetachEventMaybe extends Maybe<Object> {
     }
   }
 
-  static final class Listener extends MainThreadDisposable
-      implements View.OnAttachStateChangeListener {
-    private static final Object INSTANCE = new Object();
+  static final class Listener extends MainThreadDisposable implements View.OnAttachStateChangeListener {
     private final View view;
-    private final MaybeObserver<? super Object> observer;
+    private final CompletableObserver observer;
 
-    Listener(View view, MaybeObserver<? super Object> observer) {
+    Listener(View view, CompletableObserver observer) {
       this.view = view;
       this.observer = observer;
     }
@@ -75,7 +72,7 @@ final class DetachEventMaybe extends Maybe<Object> {
 
     @Override public void onViewDetachedFromWindow(View v) {
       if (!isDisposed()) {
-        observer.onSuccess(INSTANCE);
+        observer.onComplete();
       }
     }
 

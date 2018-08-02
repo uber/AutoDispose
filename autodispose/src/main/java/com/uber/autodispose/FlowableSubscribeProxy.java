@@ -22,7 +22,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.subscribers.TestSubscriber;
-
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -57,16 +56,17 @@ public interface FlowableSubscribeProxy<T> {
    *
    * @return a {@link Disposable}
    */
-  Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
-      Action onComplete);
+  Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete);
 
   /**
    * Proxy for {@link Flowable#subscribe(Consumer, Consumer, Action, Consumer)}.
    *
    * @return a {@link Disposable}
    */
-  Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
-      Action onComplete, Consumer<? super Subscription> onSubscribe);
+  Disposable subscribe(Consumer<? super T> onNext,
+      Consumer<? super Throwable> onError,
+      Action onComplete,
+      Consumer<? super Subscription> onSubscribe);
 
   /**
    * Proxy for {@link Flowable#subscribe(Subscriber)}.
@@ -81,17 +81,17 @@ public interface FlowableSubscribeProxy<T> {
   @CheckReturnValue <E extends Subscriber<? super T>> E subscribeWith(E observer);
 
   /**
-  * Proxy for {@link Flowable#test()}.
-  *
-  * @return a {@link TestSubscriber}
-  */
+   * Proxy for {@link Flowable#test()}.
+   *
+   * @return a {@link TestSubscriber}
+   */
   @CheckReturnValue TestSubscriber<T> test();
 
   /**
-  * Proxy for {@link Flowable#test(long)}.
-  *
-  * @return a {@link TestSubscriber}
-  */
+   * Proxy for {@link Flowable#test(long)}.
+   *
+   * @return a {@link TestSubscriber}
+   */
   @CheckReturnValue TestSubscriber<T> test(long initialRequest);
 
   /**

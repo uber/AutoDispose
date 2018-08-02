@@ -16,6 +16,16 @@
 
 /**
  * Android recipes for AutoDispose.
+ *
+ * Sample app for AutoDispose.
+ *
+ * Sample app for AutoDispose.
+ *
+ * Sample app for AutoDispose.
+ *
+ * Sample app for AutoDispose.
+ *
+ * Sample app for AutoDispose.
  */
 
 /**

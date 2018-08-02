@@ -15,59 +15,59 @@
  */
 
 subprojects {
-    apply plugin: 'checkstyle'
+  apply plugin: 'checkstyle'
 
-    afterEvaluate {
-        if (project.getPlugins().hasPlugin('com.android.application') ||
-                project.getPlugins().hasPlugin('com.android.library')) {
+  afterEvaluate {
+    if (project.getPlugins().hasPlugin('com.android.application') || project.getPlugins().
+        hasPlugin('com.android.library')) {
 
-            task checkstyleMain(type: Checkstyle) {
-                ignoreFailures = false
-                showViolations = true
-                source 'src/main', 'src/release'
-                include '**/*.java'
-                exclude '**/gen/**'
-                exclude '**/R.java'
-                exclude '**/BuildConfig.java'
-                reports {
-                    xml.destination new File("$project.buildDir/reports/checkstyle/main.xml")
-                }
-                classpath = files()
-                configFile = rootProject.file('checkstyle.xml')
-            }
-
-            task checkstyleTest(type: Checkstyle){
-                ignoreFailures = false
-                showViolations = true
-                source 'src/test', 'src/androidTest'
-                include '**/*.java'
-                exclude '**/gen/**'
-                exclude '**/R.java'
-                exclude '**/BuildConfig.java'
-                reports {
-                    xml.destination new File("$project.buildDir/reports/checkstyle/test.xml")
-                }
-                classpath = files()
-                configFile = rootProject.file('checkstyle.xml')
-            }
-
-            task checkstyle(dependsOn:['checkstyleMain', 'checkstyleTest']){
-                description 'Runs Checkstyle inspection against Android sourcesets.'
-                group = 'Code Quality'
-            }
-
-            project.tasks.getByName("check").dependsOn "checkstyle"
-        } else {
-            checkstyle {
-                ignoreFailures = false
-                showViolations = true
-                configFile rootProject.file('checkstyle.xml')
-            }                    
+      task checkstyleMain(type: Checkstyle) {
+        ignoreFailures = false
+        showViolations = true
+        source 'src/main', 'src/release'
+        include '**/*.java'
+        exclude '**/gen/**'
+        exclude '**/R.java'
+        exclude '**/BuildConfig.java'
+        reports {
+          xml.destination new File("$project.buildDir/reports/checkstyle/main.xml")
         }
+        classpath = files()
+        configFile = rootProject.file('checkstyle.xml')
+      }
 
-        tasks.withType(Checkstyle) {
-                configProperties = ['proj.module.dir'      : projectDir.absolutePath,
-                          'checkstyle.cache.file': './build/cache/checkstyle-cache']
-            }
+      task checkstyleTest(type: Checkstyle) {
+        ignoreFailures = false
+        showViolations = true
+        source 'src/test', 'src/androidTest'
+        include '**/*.java'
+        exclude '**/gen/**'
+        exclude '**/R.java'
+        exclude '**/BuildConfig.java'
+        reports {
+          xml.destination new File("$project.buildDir/reports/checkstyle/test.xml")
+        }
+        classpath = files()
+        configFile = rootProject.file('checkstyle.xml')
+      }
+
+      task checkstyle(dependsOn: ['checkstyleMain', 'checkstyleTest']) {
+        description 'Runs Checkstyle inspection against Android sourcesets.'
+        group = 'Code Quality'
+      }
+
+      project.tasks.getByName("check").dependsOn "checkstyle"
+    } else {
+      checkstyle {
+        ignoreFailures = false
+        showViolations = true
+        configFile rootProject.file('checkstyle.xml')
+      }
     }
+
+    tasks.withType(Checkstyle) {
+      configProperties = ['proj.module.dir'      : projectDir.absolutePath,
+                          'checkstyle.cache.file': './build/cache/checkstyle-cache']
+    }
+  }
 }

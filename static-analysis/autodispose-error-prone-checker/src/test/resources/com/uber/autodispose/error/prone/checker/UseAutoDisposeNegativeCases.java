@@ -23,6 +23,7 @@ import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.LifecycleScopes;
 import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider;
 import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -35,11 +36,9 @@ import org.reactivestreams.Subscriber;
 /**
  * Cases that use {@link AutoDispose} and should not fail the {@link UseAutoDispose} check.
  */
-public class UseAutoDisposeNegativeCases
-    implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
+public class UseAutoDisposeNegativeCases implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
 
-  private final BehaviorSubject<TestLifecycleScopeProvider.TestLifecycle> lifecycleSubject =
-      BehaviorSubject.create();
+  private final BehaviorSubject<TestLifecycleScopeProvider.TestLifecycle> lifecycleSubject = BehaviorSubject.create();
 
   /**
    * @return a sequence of lifecycle events.
@@ -52,11 +51,10 @@ public class UseAutoDisposeNegativeCases
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
    * avoid unnecessary object allocation.
    */
-  @CheckReturnValue
-  public CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle> correspondingEvents() {
+  @CheckReturnValue public CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle> correspondingEvents() {
     return new CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle>() {
-      @Override public TestLifecycleScopeProvider.TestLifecycle apply(
-          TestLifecycleScopeProvider.TestLifecycle testLifecycle) {
+      @Override
+      public TestLifecycleScopeProvider.TestLifecycle apply(TestLifecycleScopeProvider.TestLifecycle testLifecycle) {
         switch (testLifecycle) {
           case STARTED:
             return TestLifecycleScopeProvider.TestLifecycle.STOPPED;
@@ -76,7 +74,7 @@ public class UseAutoDisposeNegativeCases
     return lifecycleSubject.getValue();
   }
 
-  @Override public Maybe<?> requestScope() throws Exception {
+  @Override public CompletableSource requestScope() throws Exception {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 

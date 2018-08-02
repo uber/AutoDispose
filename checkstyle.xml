@@ -91,7 +91,7 @@
     <!-- Checks for Size Violations.                    -->
     <!-- See http://checkstyle.sf.net/config_sizes.html -->
     <module name="LineLength">
-      <property name="max" value="100"/>
+      <property name="max" value="120"/>
     </module>
 
     <!-- Indentation -->
@@ -112,7 +112,7 @@
     <module name="TypecastParenPad"/>
     <module name="WhitespaceAfter"/>
     <module name="WhitespaceAround">
-      <property name="allowEmptyTypes" value="true" />
+      <property name="allowEmptyTypes" value="true"/>
     </module>
 
 

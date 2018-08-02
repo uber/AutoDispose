@@ -16,4 +16,4 @@
 
 package com.uber.autodispose.error.prone.checker;
 
-public class ComponentWithLifeCycle { }
+public class ComponentWithLifeCycle {}

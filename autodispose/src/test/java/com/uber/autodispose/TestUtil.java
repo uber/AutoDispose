@@ -16,13 +16,13 @@
 
 package com.uber.autodispose;
 
-import io.reactivex.Maybe;
-import io.reactivex.subjects.MaybeSubject;
+import io.reactivex.CompletableSource;
+import io.reactivex.subjects.CompletableSubject;
 
 final class TestUtil {
 
   private static final ScopeProvider OUTSIDE_SCOPE_PROVIDER = new ScopeProvider() {
-    @Override public Maybe<?> requestScope() {
+    @Override public CompletableSource requestScope() {
       throw new OutsideScopeException("Outside scope!");
     }
   };
@@ -31,9 +31,9 @@ final class TestUtil {
     throw new InstantiationError();
   }
 
-  static ScopeProvider makeProvider(final MaybeSubject<Integer> scope) {
+  static ScopeProvider makeProvider(final CompletableSubject scope) {
     return new ScopeProvider() {
-      @Override public Maybe<?> requestScope() {
+      @Override public CompletableSource requestScope() {
         return scope;
       }
     };

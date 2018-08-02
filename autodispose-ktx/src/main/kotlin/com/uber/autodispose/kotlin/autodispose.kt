@@ -33,48 +33,47 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.annotations.CheckReturnValue
 import io.reactivex.parallel.ParallelFlowable
-import kotlin.DeprecationLevel.ERROR
 
 /**
  * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Flowable<T>.autoDisposable(scope: Maybe<*>): FlowableSubscribeProxy<T>
+inline fun <T> Flowable<T>.autoDisposable(scope: Completable): FlowableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**
  * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Observable<T>.autoDisposable(scope: Maybe<*>): ObservableSubscribeProxy<T>
+inline fun <T> Observable<T>.autoDisposable(scope: Completable): ObservableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**
  * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Single<T>.autoDisposable(scope: Maybe<*>): SingleSubscribeProxy<T>
+inline fun <T> Single<T>.autoDisposable(scope: Completable): SingleSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**
  * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Maybe<T>.autoDisposable(scope: Maybe<*>): MaybeSubscribeProxy<T>
+inline fun <T> Maybe<T>.autoDisposable(scope: Completable): MaybeSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**
  * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun Completable.autoDisposable(scope: Maybe<*>): CompletableSubscribeProxy
+inline fun Completable.autoDisposable(scope: Completable): CompletableSubscribeProxy
     = this.`as`(AutoDispose.autoDisposable<Any>(scope))
 
 /**
  * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> ParallelFlowable<T>.autoDisposable(scope: Maybe<*>): ParallelFlowableSubscribeProxy<T>
+inline fun <T> ParallelFlowable<T>.autoDisposable(scope: Completable): ParallelFlowableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
 
 /**

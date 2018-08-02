@@ -27,8 +27,6 @@ import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent.
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
-private object NOTIFICATION
-
 /**
  * Example implementation of a [ViewHolder] implementation that implements
  * [LifecycleScopeProvider]. This could be useful for cases where you have subscriptions that should be

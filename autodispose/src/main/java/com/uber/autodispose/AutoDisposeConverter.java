@@ -34,5 +34,4 @@ public interface AutoDisposeConverter<T> extends FlowableConverter<T, FlowableSu
     ObservableConverter<T, ObservableSubscribeProxy<T>>,
     MaybeConverter<T, MaybeSubscribeProxy<T>>,
     SingleConverter<T, SingleSubscribeProxy<T>>,
-    CompletableConverter<CompletableSubscribeProxy> {
-}
+    CompletableConverter<CompletableSubscribeProxy> {}

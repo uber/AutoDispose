@@ -17,6 +17,8 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.internal.DoNotMock;
+import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Maybe;
 import io.reactivex.annotations.CheckReturnValue;
 
@@ -31,14 +33,14 @@ public interface ScopeProvider {
    * scope is unbound.
    */
   ScopeProvider UNBOUND = new ScopeProvider() {
-    @Override public Maybe<?> requestScope() {
-      return Maybe.empty();
+    @Override public CompletableSource requestScope() {
+      return Completable.never();
     }
   };
 
   /**
-   * @return a Maybe that, upon emission, will trigger disposal.
+   * @return a {@link CompletableSource} that, upon completion, will trigger disposal.
    * @throws Exception scope retrievals throws an exception, such as {@link OutsideScopeException}
    */
-  @CheckReturnValue Maybe<?> requestScope() throws Exception;
+  @CheckReturnValue CompletableSource requestScope() throws Exception;
 }

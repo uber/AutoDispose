@@ -32,34 +32,24 @@ public class UseAutoDisposeTest {
 
   private CompilationTestHelper compilationHelper;
 
-  @Before
-  public void setup() {
-    compilationHelper =
-        CompilationTestHelper
-            .newInstance(UseAutoDispose.class, getClass());
+  @Before public void setup() {
+    compilationHelper = CompilationTestHelper.newInstance(UseAutoDispose.class, getClass());
   }
 
-  @Test
-  public void test_autodisposePositiveCasesWithDefaultClass() {
-    compilationHelper
-        .addSourceFile("UseAutoDisposeDefaultClassPositiveCases.java")
+  @Test public void test_autodisposePositiveCasesWithDefaultClass() {
+    compilationHelper.addSourceFile("UseAutoDisposeDefaultClassPositiveCases.java")
         .doTest();
   }
 
-  @Test
-  public void test_autodisposePositiveCaseswithCustomClass() {
-    compilationHelper.setArgs(
-        Collections.singletonList("-XepOpt:ClassesWithScope"
-            + "=com.uber.autodispose.error.prone.checker.ComponentWithLifeCycle"));
-    compilationHelper
-        .addSourceFile("UseAutoDisposeCustomClassPositiveCases.java")
+  @Test public void test_autodisposePositiveCaseswithCustomClass() {
+    compilationHelper.setArgs(Collections.singletonList(
+        "-XepOpt:ClassesWithScope" + "=com.uber.autodispose.error.prone.checker.ComponentWithLifeCycle"));
+    compilationHelper.addSourceFile("UseAutoDisposeCustomClassPositiveCases.java")
         .doTest();
   }
 
-  @Test
-  public void test_autodisposeNegativeCases() {
-    compilationHelper
-        .addSourceFile("UseAutoDisposeNegativeCases.java")
+  @Test public void test_autodisposeNegativeCases() {
+    compilationHelper.addSourceFile("UseAutoDisposeNegativeCases.java")
         .doTest();
   }
 }

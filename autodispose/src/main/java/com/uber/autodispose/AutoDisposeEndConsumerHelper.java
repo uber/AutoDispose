@@ -47,8 +47,7 @@ final class AutoDisposeEndConsumerHelper {
    * error message if the upstream already contains a non-cancelled Disposable.
    * @return true if successful, false if the content of the AtomicReference was non null
    */
-  public static boolean setOnce(AtomicReference<Disposable> upstream, Disposable next,
-      Class<?> observer) {
+  public static boolean setOnce(AtomicReference<Disposable> upstream, Disposable next, Class<?> observer) {
     AutoDisposeUtil.checkNotNull(next, "next is null");
     if (!upstream.compareAndSet(null, next)) {
       next.dispose();
@@ -71,8 +70,7 @@ final class AutoDisposeEndConsumerHelper {
    * error message if the upstream already contains a non-cancelled Subscription.
    * @return true if successful, false if the content of the AtomicReference was non null
    */
-  public static boolean setOnce(AtomicReference<Subscription> upstream, Subscription next,
-      Class<?> subscriber) {
+  public static boolean setOnce(AtomicReference<Subscription> upstream, Subscription next, Class<?> subscriber) {
     AutoDisposeUtil.checkNotNull(next, "next is null");
     if (!upstream.compareAndSet(null, next)) {
       next.cancel();

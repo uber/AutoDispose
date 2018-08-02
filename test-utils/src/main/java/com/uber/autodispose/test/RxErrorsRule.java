@@ -34,8 +34,8 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * JUnit rule to record RxJava errors.
  */
-@SuppressWarnings("ThrowableResultOfMethodCallIgnored") public class RxErrorsRule
-    extends TestWatcher {
+@SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+public class RxErrorsRule extends TestWatcher {
 
   private BlockingDeque<Throwable> errors = new LinkedBlockingDeque<>();
 

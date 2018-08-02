@@ -22,6 +22,7 @@ import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.LifecycleScopes;
 import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider;
 import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -37,8 +38,7 @@ import org.reactivestreams.Subscriber;
 public class UseAutoDisposeDefaultClassPositiveCases
     implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
 
-  private final BehaviorSubject<TestLifecycleScopeProvider.TestLifecycle> lifecycleSubject =
-      BehaviorSubject.create();
+  private final BehaviorSubject<TestLifecycleScopeProvider.TestLifecycle> lifecycleSubject = BehaviorSubject.create();
 
   /**
    * @return a sequence of lifecycle events.
@@ -51,11 +51,10 @@ public class UseAutoDisposeDefaultClassPositiveCases
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
    * avoid unnecessary object allocation.
    */
-  @CheckReturnValue
-  public CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle> correspondingEvents() {
+  @CheckReturnValue public CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle> correspondingEvents() {
     return new CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle>() {
-      @Override public TestLifecycleScopeProvider.TestLifecycle apply(
-          TestLifecycleScopeProvider.TestLifecycle testLifecycle) {
+      @Override
+      public TestLifecycleScopeProvider.TestLifecycle apply(TestLifecycleScopeProvider.TestLifecycle testLifecycle) {
         switch (testLifecycle) {
           case STARTED:
             return TestLifecycleScopeProvider.TestLifecycle.STOPPED;
@@ -75,33 +74,38 @@ public class UseAutoDisposeDefaultClassPositiveCases
     return lifecycleSubject.getValue();
   }
 
-  @Override public Maybe<?> requestScope() throws Exception {
+  @Override public CompletableSource requestScope() throws Exception {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
   public void observable_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
-    Observable.empty().subscribe();
+    Observable.empty()
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe();
   }
 
   public void single_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
-    Single.just(true).subscribe();
+    Single.just(true)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe();
   }
 
   public void completable_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
-    Completable.complete().subscribe();
+    Completable.complete()
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe();
   }
 
   public void maybe_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
-    Maybe.empty().subscribe();
+    Maybe.empty()
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe();
   }
 
   public void flowable_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
-    Flowable.empty().subscribe();
+    Flowable.empty()
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe();
   }
 
   public void parallelFlowable_subscribeWithoutAutoDispose() {

@@ -31,26 +31,19 @@ public final class AutoDisposePluginsTest {
   @Test public void noStacktraceFill_shouldHaveNoStacktrace() {
     AutoDisposePlugins.setFillInOutsideScopeExceptionStacktraces(false);
 
-    OutsideScopeException started =
-        new OutsideScopeException("Lifecycle not started");
+    OutsideScopeException started = new OutsideScopeException("Lifecycle not started");
     assertThat(started.getStackTrace()).isEmpty();
-
   }
 
   @Test public void defaultStacktraceFill_shouldHaveStacktrace() {
-    OutsideScopeException started =
-        new OutsideScopeException("Lifecycle not started");
+    OutsideScopeException started = new OutsideScopeException("Lifecycle not started");
     assertThat(started.getStackTrace()).isNotEmpty();
-
   }
 
   @Test public void trueStacktraceFill_shouldHaveStacktrace() {
     AutoDisposePlugins.setFillInOutsideScopeExceptionStacktraces(true);
 
-    OutsideScopeException started =
-        new OutsideScopeException("Lifecycle not started");
+    OutsideScopeException started = new OutsideScopeException("Lifecycle not started");
     assertThat(started.getStackTrace()).isNotEmpty();
-
   }
-
 }

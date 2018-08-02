@@ -30,7 +30,6 @@ import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subjects.CompletableSubject;
-import io.reactivex.subjects.MaybeSubject;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Rule;
@@ -54,39 +53,39 @@ public class AutoDisposeCompletableObserverTest {
   @Test public void autoDispose_withMaybe_normal() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     CompletableSubject source = CompletableSubject.create();
-    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.as(autoDisposable(lifecycle))
+    CompletableSubject scope = CompletableSubject.create();
+    source.as(autoDisposable(scope))
         .subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
+    assertThat(scope.hasObservers()).isTrue();
 
     // Got the event
     source.onComplete();
     o.assertOnComplete();
 
-    // Nothing more, lifecycle disposed too
+    // Nothing more, scope disposed too
     o.assertNoMoreEvents();
     assertThat(source.hasObservers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
+    assertThat(scope.hasObservers()).isFalse();
   }
 
   @Test public void autoDispose_withMaybe_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     CompletableSubject source = CompletableSubject.create();
-    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.as(autoDisposable(lifecycle))
+    CompletableSubject scope = CompletableSubject.create();
+    source.as(autoDisposable(scope))
         .subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
+    assertThat(scope.hasObservers()).isTrue();
 
     // Lifecycle ends
-    lifecycle.onSuccess(2);
+    scope.onComplete();
     assertThat(source.hasObservers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
+    assertThat(scope.hasObservers()).isFalse();
 
     // Event if upstream emits, no one is listening
     source.onComplete();
@@ -96,7 +95,7 @@ public class AutoDisposeCompletableObserverTest {
   @Test public void autoDispose_withProvider_completion() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     CompletableSubject source = CompletableSubject.create();
-    MaybeSubject<Integer> scope = MaybeSubject.create();
+    CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = makeProvider(scope);
     source.as(autoDisposable(provider))
         .subscribe(o);
@@ -116,7 +115,7 @@ public class AutoDisposeCompletableObserverTest {
   @Test public void autoDispose_withProvider_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     CompletableSubject source = CompletableSubject.create();
-    MaybeSubject<Integer> scope = MaybeSubject.create();
+    CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = makeProvider(scope);
     source.as(autoDisposable(provider))
         .subscribe(o);
@@ -125,7 +124,7 @@ public class AutoDisposeCompletableObserverTest {
     assertThat(source.hasObservers()).isTrue();
     assertThat(scope.hasObservers()).isTrue();
 
-    scope.onSuccess(1);
+    scope.onComplete();
 
     // All disposed
     assertThat(source.hasObservers()).isFalse();
@@ -138,35 +137,28 @@ public class AutoDisposeCompletableObserverTest {
 
   @Test public void verifyObserverDelegate() {
     final AtomicReference<CompletableObserver> atomicObserver = new AtomicReference<>();
-    final AtomicReference<CompletableObserver> atomicAutoDisposingObserver =
-        new AtomicReference<>();
+    final AtomicReference<CompletableObserver> atomicAutoDisposingObserver = new AtomicReference<>();
     try {
-      RxJavaPlugins.setOnCompletableSubscribe(
-          new BiFunction<Completable, CompletableObserver, CompletableObserver>() {
-            @Override
-            public CompletableObserver apply(Completable source, CompletableObserver observer) {
-              if (atomicObserver.get() == null) {
-                atomicObserver.set(observer);
-              } else if (atomicAutoDisposingObserver.get() == null) {
-                atomicAutoDisposingObserver.set(observer);
-                RxJavaPlugins.setOnObservableSubscribe(null);
-              }
-              return observer;
-            }
-          });
+      RxJavaPlugins.setOnCompletableSubscribe(new BiFunction<Completable, CompletableObserver, CompletableObserver>() {
+        @Override public CompletableObserver apply(Completable source, CompletableObserver observer) {
+          if (atomicObserver.get() == null) {
+            atomicObserver.set(observer);
+          } else if (atomicAutoDisposingObserver.get() == null) {
+            atomicAutoDisposingObserver.set(observer);
+            RxJavaPlugins.setOnObservableSubscribe(null);
+          }
+          return observer;
+        }
+      });
       Completable.complete()
           .as(autoDisposable(ScopeProvider.UNBOUND))
           .subscribe();
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
-      assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(
-          AutoDisposingCompletableObserver.class);
-      assertThat(
-          ((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver())
-          .isNotNull();
-      assertThat(
-          ((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver())
-          .isSameAs(atomicObserver.get());
+      assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingCompletableObserver.class);
+      assertThat(((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
+      assertThat(((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isSameAs(
+          atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
@@ -184,24 +176,24 @@ public class AutoDisposeCompletableObserverTest {
         });
       }
     });
-    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.as(autoDisposable(lifecycle))
+    CompletableSubject scope = CompletableSubject.create();
+    source.as(autoDisposable(scope))
         .subscribe();
 
     assertThat(i.get()).isEqualTo(0);
-    assertThat(lifecycle.hasObservers()).isTrue();
+    assertThat(scope.hasObservers()).isTrue();
 
-    lifecycle.onSuccess(0);
+    scope.onComplete();
 
     // Verify cancellation was called
     assertThat(i.get()).isEqualTo(1);
-    assertThat(lifecycle.hasObservers()).isFalse();
+    assertThat(scope.hasObservers()).isFalse();
   }
 
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestObserver<Void> o = CompletableSubject.create()
-              .as(autoDisposable(ScopeProvider.UNBOUND))
-              .test();
+        .as(autoDisposable(ScopeProvider.UNBOUND))
+        .test();
     o.assertNoValues();
     o.assertNoErrors();
 
@@ -210,8 +202,8 @@ public class AutoDisposeCompletableObserverTest {
 
   @Test public void unbound_shouldStillPassValues() {
     TestObserver<Void> o = CompletableSubject.create()
-            .as(autoDisposable(ScopeProvider.UNBOUND))
-            .test();
+        .as(autoDisposable(ScopeProvider.UNBOUND))
+        .test();
 
     o.onComplete();
     o.assertComplete();
@@ -223,8 +215,7 @@ public class AutoDisposeCompletableObserverTest {
     });
     ScopeProvider provider = outsideScopeProvider();
     CompletableSubject source = CompletableSubject.create();
-    TestObserver<Void> o = source
-        .as(autoDisposable(provider))
+    TestObserver<Void> o = source.as(autoDisposable(provider))
         .test();
 
     assertThat(source.hasObservers()).isFalse();
@@ -248,8 +239,7 @@ public class AutoDisposeCompletableObserverTest {
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideScopeException;
+        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
       }
     });
   }

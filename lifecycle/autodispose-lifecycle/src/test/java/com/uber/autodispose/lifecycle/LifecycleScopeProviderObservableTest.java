@@ -19,8 +19,8 @@ package com.uber.autodispose.lifecycle;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.OutsideScopeException;
-import com.uber.autodispose.test.RxErrorsRule;
 import com.uber.autodispose.test.RecordingObserver;
+import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
@@ -39,8 +39,7 @@ public class LifecycleScopeProviderObservableTest {
 
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
     @Override public void log(String message) {
-      System.out.println(
-          LifecycleScopeProviderObservableTest.class.getSimpleName() + ": " + message);
+      System.out.println(LifecycleScopeProviderObservableTest.class.getSimpleName() + ": " + message);
     }
   };
 
@@ -114,8 +113,7 @@ public class LifecycleScopeProviderObservableTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishSubject<Integer> source = PublishSubject.create();
-    TestObserver<Integer> o = source
-        .as(AutoDispose.<Integer>autoDisposable(provider))
+    TestObserver<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
         .test();
 
     assertThat(source.hasObservers()).isFalse();
@@ -136,8 +134,7 @@ public class LifecycleScopeProviderObservableTest {
     lifecycle.onNext(3);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishSubject<Integer> source = PublishSubject.create();
-    TestObserver<Integer> o = source
-        .as(AutoDispose.<Integer>autoDisposable(provider))
+    TestObserver<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
         .test();
 
     assertThat(source.hasObservers()).isFalse();
@@ -157,17 +154,14 @@ public class LifecycleScopeProviderObservableTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishSubject<Integer> source = PublishSubject.create();
-    TestObserver<Integer> o = source
-        .as(AutoDispose.<Integer>autoDisposable(provider))
+    TestObserver<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
         .test();
 
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideScopeException;
+        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
       }
     });
   }
-
 }

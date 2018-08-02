@@ -18,41 +18,26 @@ package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.OutsideScopeException;
-import com.uber.autodispose.internal.ScopeEndNotification;
-import io.reactivex.Maybe;
+import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import java.util.Comparator;
 import java.util.concurrent.Callable;
 
 /**
  * Utilities for dealing with {@link LifecycleScopeProvider}s. This includes factories for resolving
- * {@link Maybe} representations of scopes, corresponding events, etc.
+ * {@link Completable} representations of scopes, corresponding events, etc.
  */
 public final class LifecycleScopes {
 
-  private static final Function<Object, ScopeEndNotification> TRANSFORM_TO_END =
-      new Function<Object, ScopeEndNotification>() {
-        @Override public ScopeEndNotification apply(Object o) {
-          return ScopeEndNotification.INSTANCE;
-        }
-      };
-
-  private static final Predicate<Boolean> IDENTITY_BOOLEAN_PREDICATE = new Predicate<Boolean>() {
-    @Override public boolean test(Boolean b) {
-      return b;
+  private static final Comparator<Comparable<Object>> COMPARABLE_COMPARATOR = new Comparator<Comparable<Object>>() {
+    @Override public int compare(Comparable<Object> o1, Comparable<Object> o2) {
+      return o1.compareTo(o2);
     }
   };
-
-  private static final Comparator<Comparable<Object>> COMPARABLE_COMPARATOR =
-      new Comparator<Comparable<Object>>() {
-        @Override public int compare(Comparable<Object> o1, Comparable<Object> o2) {
-          return o1.compareTo(o2);
-        }
-      };
 
   private LifecycleScopes() {
     throw new InstantiationError();
@@ -63,15 +48,15 @@ public final class LifecycleScopes {
    * of lifecycles. That is, they will ensure that the lifecycle has both started and not ended.
    *
    * <p><em>Note:</em> This resolves the scope immediately, so consider deferring execution as
-   * needed, such as using {@link Maybe#defer(Callable) defer}.
+   * needed, such as using {@link Completable#defer(Callable) defer}.
    *
    * @param provider the {@link LifecycleScopeProvider} to resolve.
    * @param <E> the lifecycle event type
-   * @return a resolved {@link Maybe} representation of a given provider
+   * @return a resolved {@link CompletableSource} representation of a given provider
    * @throws OutsideScopeException if the {@link LifecycleScopeProvider#correspondingEvents()}
    * throws an {@link OutsideScopeException} during resolution.
    */
-  public static <E> Maybe<?> resolveScopeFromLifecycle(final LifecycleScopeProvider<E> provider)
+  public static <E> CompletableSource resolveScopeFromLifecycle(final LifecycleScopeProvider<E> provider)
       throws OutsideScopeException {
     return resolveScopeFromLifecycle(provider, true);
   }
@@ -85,16 +70,16 @@ public final class LifecycleScopes {
    * of these exceptions, see {@link AutoDisposePlugins}.
    *
    * <p><em>Note:</em> This resolves the scope immediately, so consider deferring execution as
-   * needed, such as using {@link Maybe#defer(Callable) defer}.
+   * needed, such as using {@link Completable#defer(Callable) defer}.
    *
    * @param provider the {@link LifecycleScopeProvider} to resolve.
    * @param checkEndBoundary whether or not to check that the lifecycle has ended
    * @param <E> the lifecycle event type
-   * @return a resolved {@link Maybe} representation of a given provider
+   * @return a resolved {@link CompletableSource} representation of a given provider
    * @throws OutsideScopeException if the {@link LifecycleScopeProvider#correspondingEvents()}
    * throws an {@link OutsideScopeException} during resolution.
    */
-  public static <E> Maybe<?> resolveScopeFromLifecycle(final LifecycleScopeProvider<E> provider,
+  public static <E> CompletableSource resolveScopeFromLifecycle(final LifecycleScopeProvider<E> provider,
       final boolean checkEndBoundary) throws OutsideScopeException {
     E lastEvent = provider.peekLifecycle();
     CorrespondingEventsFunction<E> eventsFunction = provider.correspondingEvents();
@@ -106,21 +91,20 @@ public final class LifecycleScopes {
       endEvent = eventsFunction.apply(lastEvent);
     } catch (Exception e) {
       if (checkEndBoundary && e instanceof LifecycleEndedException) {
-        Consumer<? super OutsideScopeException> handler =
-            AutoDisposePlugins.getOutsideScopeHandler();
+        Consumer<? super OutsideScopeException> handler = AutoDisposePlugins.getOutsideScopeHandler();
         if (handler != null) {
           try {
             handler.accept((LifecycleEndedException) e);
 
             // Swallowed the end exception, just silently dispose immediately.
-            return Maybe.just(ScopeEndNotification.INSTANCE);
+            return Completable.complete();
           } catch (Exception e1) {
-            return Maybe.error(e1);
+            return Completable.error(e1);
           }
         }
         throw e;
       }
-      return Maybe.error(e);
+      return Completable.error(e);
     }
     return resolveScopeFromLifecycle(provider.lifecycle(), endEvent);
   }
@@ -129,9 +113,9 @@ public final class LifecycleScopes {
    * @param lifecycle the stream of lifecycle events
    * @param endEvent the target end event
    * @param <E> the lifecycle event type
-   * @return a resolved {@link Maybe} representation of a given lifecycle, targeting the given event
+   * @return a resolved {@link Completable} representation of a given lifecycle, targeting the given event
    */
-  public static <E> Maybe<?> resolveScopeFromLifecycle(Observable<E> lifecycle, final E endEvent) {
+  public static <E> CompletableSource resolveScopeFromLifecycle(Observable<E> lifecycle, final E endEvent) {
     @Nullable Comparator<E> comparator = null;
     if (endEvent instanceof Comparable) {
       //noinspection unchecked
@@ -145,28 +129,27 @@ public final class LifecycleScopes {
    * @param endEvent the target end event
    * @param comparator an optional comparator for checking event equality.
    * @param <E> the lifecycle event type
-   * @return a resolved {@link Maybe} representation of a given lifecycle, targeting the given event
+   * @return a resolved {@link Completable} representation of a given lifecycle, targeting the given event
    */
-  public static <E> Maybe<?> resolveScopeFromLifecycle(Observable<E> lifecycle, final E endEvent,
+  public static <E> CompletableSource resolveScopeFromLifecycle(Observable<E> lifecycle,
+      final E endEvent,
       @Nullable final Comparator<E> comparator) {
-    Function<E, Boolean> equalityFunction;
+    Predicate<E> equalityPredicate;
     if (comparator != null) {
-      equalityFunction = new Function<E, Boolean>() {
-        @Override public Boolean apply(E e) {
+      equalityPredicate = new Predicate<E>() {
+        @Override public boolean test(E e) {
           return comparator.compare(e, endEvent) >= 0;
         }
       };
     } else {
-      equalityFunction = new Function<E, Boolean>() {
-        @Override public Boolean apply(E e) {
+      equalityPredicate = new Predicate<E>() {
+        @Override public boolean test(E e) {
           return e.equals(endEvent);
         }
       };
     }
     return lifecycle.skip(1)
-        .map(equalityFunction)
-        .filter(IDENTITY_BOOLEAN_PREDICATE)
-        .map(TRANSFORM_TO_END)
-        .firstElement();
+        .takeUntil(equalityPredicate)
+        .ignoreElements();
   }
 }

@@ -43,23 +43,22 @@ public abstract class AutoDisposeActivity extends Activity
    * symmetric boundary conditions. Create -> Destroy, Start -> Stop, etc. For anything after Resume
    * we dispose on the next immediate destruction event. Subscribing after Destroy is an error.
    */
-  private static final CorrespondingEventsFunction<ActivityEvent> CORRESPONDING_EVENTS =
-      activityEvent -> {
-        switch (activityEvent) {
-          case CREATE:
-            return ActivityEvent.DESTROY;
-          case START:
-            return ActivityEvent.STOP;
-          case RESUME:
-            return ActivityEvent.PAUSE;
-          case PAUSE:
-            return ActivityEvent.STOP;
-          case STOP:
-            return ActivityEvent.DESTROY;
-          default:
-            throw new LifecycleEndedException("Cannot bind to Activity lifecycle after destroy.");
-        }
-      };
+  private static final CorrespondingEventsFunction<ActivityEvent> CORRESPONDING_EVENTS = activityEvent -> {
+    switch (activityEvent) {
+      case CREATE:
+        return ActivityEvent.DESTROY;
+      case START:
+        return ActivityEvent.STOP;
+      case RESUME:
+        return ActivityEvent.PAUSE;
+      case PAUSE:
+        return ActivityEvent.STOP;
+      case STOP:
+        return ActivityEvent.DESTROY;
+      default:
+        throw new LifecycleEndedException("Cannot bind to Activity lifecycle after destroy.");
+    }
+  };
 
   private final BehaviorSubject<ActivityEvent> lifecycleEvents = BehaviorSubject.create();
 

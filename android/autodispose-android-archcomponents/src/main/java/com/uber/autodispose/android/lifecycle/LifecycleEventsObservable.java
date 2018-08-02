@@ -35,7 +35,8 @@ import static android.arch.lifecycle.Lifecycle.Event.ON_START;
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
 import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
 
-@RestrictTo(LIBRARY) class LifecycleEventsObservable extends Observable<Event> {
+@RestrictTo(LIBRARY)
+class LifecycleEventsObservable extends Observable<Event> {
 
   private final Lifecycle lifecycle;
   private final BehaviorSubject<Event> eventsObservable = BehaviorSubject.create();
@@ -75,12 +76,10 @@ import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMai
   }
 
   @Override protected void subscribeActual(Observer<? super Event> observer) {
-    ArchLifecycleObserver archObserver =
-        new ArchLifecycleObserver(lifecycle, observer, eventsObservable);
+    ArchLifecycleObserver archObserver = new ArchLifecycleObserver(lifecycle, observer, eventsObservable);
     observer.onSubscribe(archObserver);
     if (!isMainThread()) {
-      observer.onError(
-          new IllegalStateException("Lifecycles can only be bound to on the main thread!"));
+      observer.onError(new IllegalStateException("Lifecycles can only be bound to on the main thread!"));
       return;
     }
     lifecycle.addObserver(archObserver);
@@ -89,13 +88,13 @@ import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMai
     }
   }
 
-  static final class ArchLifecycleObserver extends MainThreadDisposable
-      implements LifecycleObserver {
+  static final class ArchLifecycleObserver extends MainThreadDisposable implements LifecycleObserver {
     private final Lifecycle lifecycle;
     private final Observer<? super Event> observer;
     private final BehaviorSubject<Event> eventsObservable;
 
-    ArchLifecycleObserver(Lifecycle lifecycle, Observer<? super Event> observer,
+    ArchLifecycleObserver(Lifecycle lifecycle,
+        Observer<? super Event> observer,
         BehaviorSubject<Event> eventsObservable) {
       this.lifecycle = lifecycle;
       this.observer = observer;
@@ -106,8 +105,7 @@ import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMai
       lifecycle.removeObserver(this);
     }
 
-    @OnLifecycleEvent(Event.ON_ANY)
-    void onStateChange(@SuppressWarnings("unused") LifecycleOwner owner, Event event) {
+    @OnLifecycleEvent(Event.ON_ANY) void onStateChange(@SuppressWarnings("unused") LifecycleOwner owner, Event event) {
       if (!isDisposed()) {
         if (!(event == ON_CREATE && eventsObservable.getValue() == event)) {
           // Due to the INITIALIZED->ON_CREATE mapping trick we do in backfill(),

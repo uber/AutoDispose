@@ -28,7 +28,8 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
  * A test {@link LifecycleOwner} implementation for testing. You can either back it with
  * your own instance or just stub it in place and use its public emit() API.
  */
-@RestrictTo(TESTS) public final class TestLifecycleOwner implements LifecycleOwner {
+@RestrictTo(TESTS)
+public final class TestLifecycleOwner implements LifecycleOwner {
 
   private final LifecycleRegistry registry;
 

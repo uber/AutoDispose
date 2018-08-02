@@ -70,8 +70,7 @@ public final class AutoDisposePlugins {
   /**
    * @param handler the consumer for handling {@link OutsideScopeException} to set, null allowed
    */
-  public static void setOutsideScopeHandler(
-      @Nullable Consumer<? super OutsideScopeException> handler) {
+  public static void setOutsideScopeHandler(@Nullable Consumer<? super OutsideScopeException> handler) {
     if (lockdown) {
       throw new IllegalStateException("Plugins can't be changed anymore");
     }

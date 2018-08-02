@@ -16,10 +16,9 @@
 
 package com.uber.autodispose;
 
-import io.reactivex.Maybe;
-import io.reactivex.subjects.MaybeSubject;
-
-import static com.uber.autodispose.internal.ScopeEndNotification.INSTANCE;
+import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
+import io.reactivex.subjects.CompletableSubject;
 
 /**
  * ScopeProvider implementation for testing. You can either back it with your own instance, or just
@@ -34,7 +33,7 @@ public final class TestScopeProvider implements ScopeProvider {
    * @return the created TestScopeProvider.
    */
   public static TestScopeProvider create() {
-    return create(MaybeSubject.create());
+    return create(CompletableSubject.create());
   }
 
   /**
@@ -43,24 +42,24 @@ public final class TestScopeProvider implements ScopeProvider {
    * @param delegate the delegate to back this with.
    * @return the created TestScopeProvider.
    */
-  public static TestScopeProvider create(Maybe<?> delegate) {
+  public static TestScopeProvider create(Completable delegate) {
     return new TestScopeProvider(delegate);
   }
 
-  private final MaybeSubject<Object> innerMaybe = MaybeSubject.create();
+  private final CompletableSubject innerScope = CompletableSubject.create();
 
-  private TestScopeProvider(Maybe<?> delegate) {
-    delegate.subscribe(innerMaybe);
+  private TestScopeProvider(Completable delegate) {
+    delegate.subscribe(innerScope);
   }
 
-  @Override public Maybe<?> requestScope() {
-    return innerMaybe;
+  @Override public CompletableSource requestScope() {
+    return innerScope;
   }
 
   /**
    * Emits a success event, just a simple Object.
    */
   public void emit() {
-    innerMaybe.onSuccess(INSTANCE);
+    innerScope.onComplete();
   }
 }

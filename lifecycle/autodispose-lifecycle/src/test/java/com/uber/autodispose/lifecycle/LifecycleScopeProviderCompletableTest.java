@@ -18,8 +18,8 @@ package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.OutsideScopeException;
-import com.uber.autodispose.test.RxErrorsRule;
 import com.uber.autodispose.test.RecordingObserver;
+import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Completable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
@@ -39,8 +39,7 @@ public class LifecycleScopeProviderCompletableTest {
 
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
     @Override public void log(String message) {
-      System.out.println(
-          LifecycleScopeProviderCompletableTest.class.getSimpleName() + ": " + message);
+      System.out.println(LifecycleScopeProviderCompletableTest.class.getSimpleName() + ": " + message);
     }
   };
 
@@ -137,8 +136,7 @@ public class LifecycleScopeProviderCompletableTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     CompletableSubject source = CompletableSubject.create();
-    TestObserver<Void> o = source
-        .as(autoDisposable(provider))
+    TestObserver<Void> o = source.as(autoDisposable(provider))
         .test();
 
     assertThat(source.hasObservers()).isFalse();
@@ -159,8 +157,7 @@ public class LifecycleScopeProviderCompletableTest {
     lifecycle.onNext(3);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     CompletableSubject source = CompletableSubject.create();
-    TestObserver<Void> o = source
-        .as(autoDisposable(provider))
+    TestObserver<Void> o = source.as(autoDisposable(provider))
         .test();
 
     assertThat(source.hasObservers()).isFalse();
@@ -186,10 +183,8 @@ public class LifecycleScopeProviderCompletableTest {
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideScopeException;
+        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
       }
     });
   }
-
 }

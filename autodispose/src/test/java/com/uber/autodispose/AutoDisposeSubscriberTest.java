@@ -29,7 +29,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.processors.PublishProcessor;
-import io.reactivex.subjects.MaybeSubject;
+import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subscribers.TestSubscriber;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -47,13 +47,13 @@ public class AutoDisposeSubscriberTest {
   @Test public void autoDispose_withMaybe_normal() {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
-    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    Disposable d = source.as(AutoDispose.<Integer>autoDisposable(lifecycle))
+    CompletableSubject scope = CompletableSubject.create();
+    Disposable d = source.as(AutoDispose.<Integer>autoDisposable(scope))
         .subscribeWith(o);
     o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
+    assertThat(scope.hasObservers()).isTrue();
 
     source.onNext(1);
     o.assertValue(1);
@@ -64,7 +64,7 @@ public class AutoDisposeSubscriberTest {
     o.assertComplete();
     assertThat(d.isDisposed()).isFalse();   // Because it completes normally
     assertThat(source.hasSubscribers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
+    assertThat(scope.hasObservers()).isFalse();
   }
 
   @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
@@ -79,19 +79,18 @@ public class AutoDisposeSubscriberTest {
 
   @Test public void autoDispose_withMaybe_interrupted() {
     PublishProcessor<Integer> source = PublishProcessor.create();
-    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    TestSubscriber<Integer> o = source
-            .as(AutoDispose.<Integer>autoDisposable(lifecycle))
-            .test();
+    CompletableSubject scope = CompletableSubject.create();
+    TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(scope))
+        .test();
     o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
-    assertThat(lifecycle.hasObservers()).isTrue();
+    assertThat(scope.hasObservers()).isTrue();
 
     source.onNext(1);
     o.assertValue(1);
 
-    lifecycle.onSuccess(2);
+    scope.onComplete();
     source.onNext(2);
 
     // No more events
@@ -99,16 +98,15 @@ public class AutoDisposeSubscriberTest {
 
     // Unsubscribed
     assertThat(source.hasSubscribers()).isFalse();
-    assertThat(lifecycle.hasObservers()).isFalse();
+    assertThat(scope.hasObservers()).isFalse();
   }
 
   @Test public void autoDispose_withProvider() {
     PublishProcessor<Integer> source = PublishProcessor.create();
-    MaybeSubject<Integer> scope = MaybeSubject.create();
+    CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = TestUtil.makeProvider(scope);
-    TestSubscriber<Integer> o = source
-            .as(AutoDispose.<Integer>autoDisposable(provider))
-            .test();
+    TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
+        .test();
     o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
@@ -123,7 +121,7 @@ public class AutoDisposeSubscriberTest {
     assertThat(scope.hasObservers()).isTrue();
     o.assertValues(1, 2);
 
-    scope.onSuccess(3);
+    scope.onComplete();
     source.onNext(3);
 
     // Nothing new
@@ -159,12 +157,9 @@ public class AutoDisposeSubscriberTest {
 
       assertThat(atomicAutoDisposingSubscriber.get()).isNotNull();
       assertThat(atomicAutoDisposingSubscriber.get()).isInstanceOf(AutoDisposingSubscriber.class);
-      assertThat(
-          ((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber())
-          .isNotNull();
-      assertThat(
-          ((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber())
-          .isSameAs(atomicSubscriber.get());
+      assertThat(((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber()).isNotNull();
+      assertThat(((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber()).isSameAs(
+          atomicSubscriber.get());
     } finally {
       RxJavaPlugins.reset();
     }
@@ -184,27 +179,27 @@ public class AutoDisposeSubscriberTest {
         emitter[0] = e;
       }
     }, BackpressureStrategy.LATEST);
-    MaybeSubject<Integer> lifecycle = MaybeSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(lifecycle))
+    CompletableSubject scope = CompletableSubject.create();
+    source.as(AutoDispose.<Integer>autoDisposable(scope))
         .subscribe();
 
     assertThat(i.get()).isEqualTo(0);
-    assertThat(lifecycle.hasObservers()).isTrue();
+    assertThat(scope.hasObservers()).isTrue();
 
     emitter[0].onNext(1);
 
-    lifecycle.onSuccess(0);
+    scope.onComplete();
     emitter[0].onNext(2);
 
     // Verify cancellation was called
     assertThat(i.get()).isEqualTo(1);
-    assertThat(lifecycle.hasObservers()).isFalse();
+    assertThat(scope.hasObservers()).isFalse();
   }
 
   @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestSubscriber<Object> o = PublishProcessor.create()
-              .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
-              .test();
+        .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
+        .test();
     o.assertNoValues();
     o.assertNoErrors();
 
@@ -213,9 +208,8 @@ public class AutoDisposeSubscriberTest {
 
   @Test public void unbound_shouldStillPassValues() {
     PublishProcessor<Integer> s = PublishProcessor.create();
-    TestSubscriber<Integer> o = s
-            .as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
-            .test();
+    TestSubscriber<Integer> o = s.as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
+        .test();
 
     s.onNext(1);
     o.assertValue(1);
@@ -228,8 +222,7 @@ public class AutoDisposeSubscriberTest {
     });
     ScopeProvider provider = outsideScopeProvider();
     PublishProcessor<Integer> source = PublishProcessor.create();
-    TestSubscriber<Integer> o = source
-        .as(AutoDispose.<Integer>autoDisposable(provider))
+    TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
         .test();
 
     assertThat(source.hasSubscribers()).isFalse();
@@ -246,15 +239,13 @@ public class AutoDisposeSubscriberTest {
       }
     });
     ScopeProvider provider = outsideScopeProvider();
-    TestSubscriber<Integer> o = PublishProcessor.<Integer>create()
-        .as(AutoDispose.<Integer>autoDisposable(provider))
+    TestSubscriber<Integer> o = PublishProcessor.<Integer>create().as(AutoDispose.<Integer>autoDisposable(provider))
         .test();
 
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideScopeException;
+        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
       }
     });
   }

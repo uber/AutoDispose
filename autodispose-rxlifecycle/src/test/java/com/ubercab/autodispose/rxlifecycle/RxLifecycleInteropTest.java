@@ -39,9 +39,8 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
-    Disposable d =
-        source.as(AutoDispose.<Integer>autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
-            .subscribeWith(o);
+    Disposable d = source.as(AutoDispose.<Integer>autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+        .subscribeWith(o);
     o.assertSubscribed();
 
     assertThat(source.hasObservers()).isTrue();

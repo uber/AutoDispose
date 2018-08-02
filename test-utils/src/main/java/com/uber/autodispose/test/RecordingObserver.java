@@ -75,8 +75,7 @@ public final class RecordingObserver<T>
       throw new RuntimeException(e);
     }
     if (event == null) {
-      throw new NoSuchElementException(
-          "No event found while waiting for " + wanted.getSimpleName());
+      throw new NoSuchElementException("No event found while waiting for " + wanted.getSimpleName());
     }
     assertThat(event).isInstanceOf(wanted);
     return wanted.cast(event);
