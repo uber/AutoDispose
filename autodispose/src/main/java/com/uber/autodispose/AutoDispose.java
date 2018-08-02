@@ -60,7 +60,6 @@ import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
  * @see Single#as(io.reactivex.SingleConverter)
  * @see Completable#as(io.reactivex.CompletableConverter)
  */
-@SuppressWarnings("deprecation") // Temporary until we remove and inline the Scoper classes
 public final class AutoDispose {
 
   /**
