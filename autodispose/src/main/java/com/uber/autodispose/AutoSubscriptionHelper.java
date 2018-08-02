@@ -16,10 +16,10 @@
 
 package com.uber.autodispose;
 
+import io.reactivex.annotations.Nullable;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
-import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Subscription;
 
 /**

@@ -18,8 +18,8 @@ package com.uber.autodispose.lifecycle;
 
 import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
+import io.reactivex.annotations.Nullable;
 import io.reactivex.subjects.BehaviorSubject;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Test utility to create {@link LifecycleScopeProvider} instances for tests.

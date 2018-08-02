@@ -16,7 +16,7 @@
 
 package com.uber.autodispose;
 
-import org.jetbrains.annotations.Nullable;
+import io.reactivex.annotations.Nullable;
 
 final class AutoDisposeUtil {
 

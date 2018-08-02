@@ -22,8 +22,8 @@ import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import io.reactivex.Observable;
+import io.reactivex.annotations.Nullable;
 import io.reactivex.subjects.BehaviorSubject;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Example implementation of a {@link android.support.v7.widget.RecyclerView.ViewHolder}

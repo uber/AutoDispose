@@ -17,8 +17,8 @@
 
 package com.uber.autodispose;
 
+import io.reactivex.annotations.Nullable;
 import java.util.concurrent.atomic.AtomicReference;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Atomic container for Throwables including combining and having a

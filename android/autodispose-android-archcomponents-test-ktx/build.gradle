@@ -27,7 +27,6 @@ android {
   defaultConfig {
     minSdkVersion deps.build.minSdkVersion
     targetSdkVersion deps.build.targetSdkVersion
-    consumerProguardFiles 'consumer-proguard-rules.txt'
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   compileOptions {
