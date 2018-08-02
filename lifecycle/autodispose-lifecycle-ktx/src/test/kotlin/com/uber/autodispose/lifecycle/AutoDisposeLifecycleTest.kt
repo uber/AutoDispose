@@ -16,11 +16,8 @@
 
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.uber.autodispose.lifecycle.ktx
+package com.uber.autodispose.lifecycle
 
-import com.uber.autodispose.lifecycle.LifecycleEndedException
-import com.uber.autodispose.lifecycle.LifecycleNotStartedException
-import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider
 import io.reactivex.BackpressureStrategy.ERROR
 import io.reactivex.Completable
 import io.reactivex.Flowable

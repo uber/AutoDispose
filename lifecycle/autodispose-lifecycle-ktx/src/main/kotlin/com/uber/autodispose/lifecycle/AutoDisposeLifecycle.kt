@@ -16,7 +16,7 @@
 
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.uber.autodispose.lifecycle.ktx
+package com.uber.autodispose.lifecycle
 
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.CompletableSubscribeProxy
@@ -25,7 +25,6 @@ import com.uber.autodispose.MaybeSubscribeProxy
 import com.uber.autodispose.ObservableSubscribeProxy
 import com.uber.autodispose.ParallelFlowableSubscribeProxy
 import com.uber.autodispose.SingleSubscribeProxy
-import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe

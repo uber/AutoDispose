@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.lifecycle.ktx
+package com.uber.autodispose.lifecycle
 
 import com.google.common.truth.Truth.assertThat
-import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
-import com.uber.autodispose.lifecycle.LifecycleEndedException
-import com.uber.autodispose.lifecycle.ktx.KotlinLifecycleScopeProviderTest.LifecycleEvent.START
-import com.uber.autodispose.lifecycle.ktx.KotlinLifecycleScopeProviderTest.LifecycleEvent.STOP
+import com.uber.autodispose.lifecycle.KotlinLifecycleScopeProviderTest.LifecycleEvent.START
+import com.uber.autodispose.lifecycle.KotlinLifecycleScopeProviderTest.LifecycleEvent.STOP
 import com.uber.autodispose.test.RecordingObserver
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
