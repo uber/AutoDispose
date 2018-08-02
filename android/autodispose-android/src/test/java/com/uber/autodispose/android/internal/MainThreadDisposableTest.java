@@ -29,7 +29,7 @@ public final class MainThreadDisposableTest {
     AutoDisposeAndroidPlugins.reset();
   }
 
-  @Test public void onDisposeRunsSyncWhenMainThreadSkipped() {
+  @Test public void onDispose_defersToMainThreadHook() {
     AutoDisposeAndroidPlugins.setOnCheckMainThread(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean() {
