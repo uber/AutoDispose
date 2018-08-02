@@ -23,9 +23,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 /**
- * Copy of the MainThreadDisposable from RxAndroid which makes use of the
- * {@link AutoDisposeAndroidUtil} to check for main thread. This allows
- * disposing on the JVM crashing due to the looper check.
+ * Copy of the MainThreadDisposable from RxAndroid which makes use of
+ * {@link AutoDisposeAndroidUtil#isMainThread()}. This allows
+ * disposing on the JVM without crashing due to the looper check (which is
+ * often stubbed in tests).
  */
 @RestrictTo(LIBRARY_GROUP)
 public abstract class MainThreadDisposable implements Disposable {
