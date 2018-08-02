@@ -32,8 +32,6 @@ dependencies {
 
   api project(":autodispose")
 
-  compileOnly deps.misc.jetbrainsAnnotations
-
   errorprone deps.build.errorProne
 
   testCompile project(':test-utils')

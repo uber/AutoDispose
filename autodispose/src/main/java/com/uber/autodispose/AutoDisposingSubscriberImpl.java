@@ -17,7 +17,7 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
-import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -35,10 +35,10 @@ final class AutoDisposingSubscriberImpl<T> extends AtomicInteger implements Auto
   private final AtomicThrowable error = new AtomicThrowable();
   private final AtomicReference<Subscription> ref = new AtomicReference<>();
   private final AtomicLong requested = new AtomicLong();
-  private final Completable scope;
+  private final CompletableSource scope;
   private final Subscriber<? super T> delegate;
 
-  AutoDisposingSubscriberImpl(Completable scope, Subscriber<? super T> delegate) {
+  AutoDisposingSubscriberImpl(CompletableSource scope, Subscriber<? super T> delegate) {
     this.scope = scope;
     this.delegate = delegate;
   }

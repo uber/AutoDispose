@@ -27,7 +27,7 @@ import io.reactivex.subjects.CompletableSubject;
 public final class TestScopeProvider implements ScopeProvider {
 
   /**
-   * Creates a new provider backed by an internal MaybeSubject. Useful for stubbing or if you only
+   * Creates a new provider backed by an internal {@link CompletableSubject}. Useful for stubbing or if you only
    * want to use the emit APIs
    *
    * @return the created TestScopeProvider.

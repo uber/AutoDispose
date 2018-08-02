@@ -16,16 +16,16 @@
 
 package com.uber.autodispose;
 
-import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Flowable;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 
 final class AutoDisposeFlowable<T> extends Flowable<T> {
   private final Publisher<T> source;
-  private final Completable scope;
+  private final CompletableSource scope;
 
-  AutoDisposeFlowable(Publisher<T> source, Completable scope) {
+  AutoDisposeFlowable(Publisher<T> source, CompletableSource scope) {
     this.source = source;
     this.scope = scope;
   }

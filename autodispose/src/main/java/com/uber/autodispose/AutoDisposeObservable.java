@@ -17,16 +17,16 @@
 
 package com.uber.autodispose;
 
-import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 
 final class AutoDisposeObservable<T> extends Observable<T> {
   private final ObservableSource<T> source;
-  private final Completable scope;
+  private final CompletableSource scope;
 
-  AutoDisposeObservable(ObservableSource<T> source, Completable scope) {
+  AutoDisposeObservable(ObservableSource<T> source, CompletableSource scope) {
     this.source = source;
     this.scope = scope;
   }

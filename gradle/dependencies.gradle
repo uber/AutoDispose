@@ -43,8 +43,7 @@ def build = [buildToolsVersion    : '28.0.0',
 
 def kotlin = [stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"]
 
-def misc = [jetbrainsAnnotations: 'org.jetbrains:annotations:13.0',
-            rxlifecycle         : 'com.trello.rxlifecycle2:rxlifecycle:2.2.2']
+def misc = [rxlifecycle: 'com.trello.rxlifecycle2:rxlifecycle:2.2.2']
 
 def rx = [android: 'io.reactivex.rxjava2:rxandroid:2.0.2',
           java   : 'io.reactivex.rxjava2:rxjava:2.2.0']

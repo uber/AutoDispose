@@ -28,8 +28,8 @@ import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.annotations.CheckReturnValue;
+import io.reactivex.annotations.Nullable;
 import io.reactivex.subjects.BehaviorSubject;
-import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Subscriber;
 
 /**
