@@ -32,35 +32,24 @@ taken in the subscription are no longer valid. For instance, if a network reques
 ### `autoDisposable()`
 
 The main entry point is via static factory `autoDisposable()` methods in the `AutoDispose` class. 
-There are three overloads: `Maybe`, `ScopeProvider`, and `LifecycleScopeProvider`. They return an 
+There are two overloads: `Completable` and `ScopeProvider`. They return an 
 `AutoDisposeConverter` object that implements all the RxJava `Converter` interfaces for use with
 the `as()` operator in RxJava types.
 
-#### Maybe (as a scope)
+#### Completable (as a scope)
 
-The `Maybe` semantic is modeled after the `takeUntil()` operator, which accepts an `Observable` 
+The `Completable` semantic is modeled after the `takeUntil()` operator, which accepts an `Observable` 
 whose first emission is used as a notification to signal completion. This is logically the 
-behavior of a `Single`, so we choose to make that explicit. Scope providers may want to dynamically
-indicate that a scope is "unbound" though, so we use a `Maybe` to indicate this via its completion.
-All scopes in AutoDispose eventually resolve to a `Maybe` that emits the end-of-scope notification
-in `onSuccess` or signals that execution is unbound via `onComplete`. `onError` will pass through to
-the underlying subscription.
+behavior of a `Single`, so we choose to make that explicit. Since the type doesn't matter, we 
+simplify this further to just be a `Completable`, where the scope-end emission is just a completion event.
+All scopes in AutoDispose eventually resolve to a `Completable` that emits the end-of-scope notification
+in `onComplete`. `onError` will pass through to the underlying subscription.
 
-#### Providers
-
-The provider options allow you to pass in an interface of something can provide a resolvable scope. 
-A common use case for this is objects that have implicit lifecycles, such as Android's `Activity`, 
-`Fragment`, and `View` classes. Internally at subscription-time, `AutoDispose` will resolve
-a `Maybe` representation of the target `end` event in the lifecycle, and exposes an API to dictate what
-corresponding events are for the current lifecycle state (e.g. `ATTACH` -> `DETACH`). This also allows
-you to enforce lifecycle boundary requirements, and by default will error if the lifecycle has either
-not started yet or has already ended.
-
-##### ScopeProvider
+#### ScopeProvider
 
 ```java
 public interface ScopeProvider {
-  Maybe<?> requestScope() throws Exception;
+  CompletableSource requestScope() throws Exception;
 }
 ```
 
@@ -72,11 +61,11 @@ Note that Exceptions can be thrown in this, and will be routed through `onError(
 is an instance of `OutsideScopeException`, it will be routed through any `OutsideScopeHandler`s (more below)
 first, and sent through `onError()` if not handled.
 
-#### AutoDisposePlugins
+### AutoDisposePlugins
 
 Modeled after RxJava's plugins, this allows you to customize the behavior of AutoDispose.
 
-##### OutsideScopeHandler
+#### OutsideScopeHandler
 
 When a scope is bound to outside of its allowable boundary, `AutoDispose` will send an error event with an
  `OutsideScopeException` to downstream consumers. If you want to customize this behavior, you can use 
@@ -94,17 +83,17 @@ A good use case of this is, say, just silently disposing/logging observers outsi
 
 The supported mechanism to throw this is in `ScopeProvider#requestScope()` implementations.
 
-##### FillInOutsideScopeExceptionStacktraces
+#### FillInOutsideScopeExceptionStacktraces
  
 If you have your own handling of exceptions in scope boundary events, you can optionally set
 `AutoDisposePlugins#setFillInOutsideScopeExceptionStacktraces` to `false`. This will result in 
 AutoDispose `not` filling in stacktraces for exceptions, for a potential minor performance boost.
 
-#### AutoDisposeAndroidPlugins
+### AutoDisposeAndroidPlugins
 
 Similar to `AutoDisposePlugins`, this allows you to customize the behavior of AutoDispose in Android environments.
 
-##### MainThreadChecker
+#### MainThreadChecker
 
 This plugin allows for supplying a custom `BooleanSupplier` that can customize how main thread 
 checks work. The conventional use case of this is Android JUnit tests, where the `Looper` class is 
@@ -124,12 +113,9 @@ AutoDisposeAndroidPlugins.setOnCheckMainThread(() -> {
 
 Under the hood, AutoDispose decorates RxJava's real observer with a custom *AutoDisposing* observer.
 This custom observer leverages the scope to create a disposable, auto-disposing observer that acts 
-as a lambda observer (pass-through) unless the underlying scope `Maybe` emits `onSuccess`. Both 
+as a lambda observer (pass-through) unless the underlying scope `CompletableSource` emits `onComplete`. Both 
 scope emission and upstream termination result in immediate disposable of both the underlying scope
-subscription and upstream disposable. 
-
-In the event that the scope `Maybe` emits `onComplete`, the execution is unbound (as if autodispose 
-was never enabled on the observation).
+subscription and upstream disposable.
 
 These custom `AutoDisposing` observers are considered public read-only API, and can be found under the 
 `observers` package. They also support retrieval of the underlying observer via `delegateObserver()`
@@ -159,9 +145,16 @@ public interface LifecycleScopeProvider<E> extends ScopeProvider {
   E peekLifecycle();
   
   // Inherited from ScopeProvider
-  Maybe<?> requestScope();
+  CompletableSource requestScope();
 }
 ```
+
+A common use case for this is objects that have implicit lifecycles, such as Android's `Activity`, 
+`Fragment`, and `View` classes. Internally at subscription-time, `AutoDispose` will resolve
+a `CompletableSource` representation of the target `end` event in the lifecycle, and exposes an API to dictate what
+corresponding events are for the current lifecycle state (e.g. `ATTACH` -> `DETACH`). This also allows
+you to enforce lifecycle boundary requirements, and by default will error if the lifecycle has either
+not started yet or has already ended.
 
 `LifecycleScopeProvider` is a special case targeted at binding to things with lifecycles. Its API is
 as follows:
@@ -170,14 +163,14 @@ as follows:
   - `correspondingEvents()` - a mapping of events to corresponding ones, i.e. Attach -> Detach.
   - `peekLifecycle()` - returns the current lifecycle state of the object.
 
-In `requestScope()`, the implementation expects to these pieces to construct a `Maybe` representation 
+In `requestScope()`, the implementation expects to these pieces to construct a `CompletableSource` representation 
 of the proper end scope, while also doing precondition checks for lifecycle boundaries. If a 
 lifecycle has not started, it will send you to `onError` with a `LifecycleNotStartedException`. If 
 the lifecycle as ended, it is recommended to throw a `LifecycleEndedException` in your 
 `correspondingEvents()` mapping, but it is up to the user.
 
 To to simplify implementations, there's an included `LifecycleScopes` utility class with factories 
-for generating `Maybe<?>` representations from `LifecycleScopeProvider` instances.
+for generating `CompletableSource` representations from `LifecycleScopeProvider` instances.
 
 There are three artifacts with this support:
 - `autodispose-lifecycle`: Contains the core `LifecycleScopeProvider` and `LifecycleScopes` APIs. Also has a convenience test helper.
