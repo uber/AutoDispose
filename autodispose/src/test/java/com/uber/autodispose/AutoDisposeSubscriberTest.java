@@ -157,10 +157,8 @@ public class AutoDisposeSubscriberTest {
 
       assertThat(atomicAutoDisposingSubscriber.get()).isNotNull();
       assertThat(atomicAutoDisposingSubscriber.get()).isInstanceOf(AutoDisposingSubscriber.class);
-      assertThat(
-          ((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber()).isNotNull();
-      assertThat(
-          ((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber()).isSameAs(
+      assertThat(((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber()).isNotNull();
+      assertThat(((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber()).isSameAs(
           atomicSubscriber.get());
     } finally {
       RxJavaPlugins.reset();
@@ -241,15 +239,13 @@ public class AutoDisposeSubscriberTest {
       }
     });
     ScopeProvider provider = outsideScopeProvider();
-    TestSubscriber<Integer> o =
-        PublishProcessor.<Integer>create().as(AutoDispose.<Integer>autoDisposable(provider))
-            .test();
+    TestSubscriber<Integer> o = PublishProcessor.<Integer>create().as(AutoDispose.<Integer>autoDisposable(provider))
+        .test();
 
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideScopeException;
+        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
       }
     });
   }

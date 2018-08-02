@@ -55,15 +55,15 @@ public interface ObservableSubscribeProxy<T> {
    *
    * @return a {@link Disposable}
    */
-  Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
-      Action onComplete);
+  Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete);
 
   /**
    * Proxy for {@link Observable#subscribe(Consumer, Consumer, Action, Consumer)}.
    *
    * @return a {@link Disposable}
    */
-  Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
+  Disposable subscribe(Consumer<? super T> onNext,
+      Consumer<? super Throwable> onError,
       Action onComplete,
       Consumer<? super Disposable> onSubscribe);
 
@@ -80,10 +80,10 @@ public interface ObservableSubscribeProxy<T> {
   @CheckReturnValue <E extends Observer<? super T>> E subscribeWith(E observer);
 
   /**
-  * Proxy for {@link Observable#test()}.
-  *
-  * @return a {@link TestObserver}
-  */
+   * Proxy for {@link Observable#test()}.
+   *
+   * @return a {@link TestObserver}
+   */
   @CheckReturnValue TestObserver<T> test();
 
   /**

@@ -192,10 +192,8 @@ public class AutoDisposeMaybeObserverTest {
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
       assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingMaybeObserver.class);
-      assertThat(
-          ((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
-      assertThat(
-          ((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isSameAs(
+      assertThat(((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
+      assertThat(((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isSameAs(
           atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
@@ -270,15 +268,13 @@ public class AutoDisposeMaybeObserverTest {
       }
     });
     ScopeProvider provider = outsideScopeProvider();
-    TestObserver<Integer> o =
-        MaybeSubject.<Integer>create().as(AutoDispose.<Integer>autoDisposable(provider))
-            .test();
+    TestObserver<Integer> o = MaybeSubject.<Integer>create().as(AutoDispose.<Integer>autoDisposable(provider))
+        .test();
 
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideScopeException;
+        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
       }
     });
   }

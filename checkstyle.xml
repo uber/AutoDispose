@@ -112,7 +112,7 @@
     <module name="TypecastParenPad"/>
     <module name="WhitespaceAfter"/>
     <module name="WhitespaceAround">
-      <property name="allowEmptyTypes" value="true" />
+      <property name="allowEmptyTypes" value="true"/>
     </module>
 
 

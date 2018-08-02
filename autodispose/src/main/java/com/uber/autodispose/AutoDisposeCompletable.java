@@ -29,8 +29,7 @@ final class AutoDisposeCompletable extends Completable {
     this.scope = scope;
   }
 
-  @Override
-  protected void subscribeActual(CompletableObserver completableObserver) {
+  @Override protected void subscribeActual(CompletableObserver completableObserver) {
     source.subscribe(new AutoDisposingCompletableObserverImpl(scope, completableObserver));
   }
 }

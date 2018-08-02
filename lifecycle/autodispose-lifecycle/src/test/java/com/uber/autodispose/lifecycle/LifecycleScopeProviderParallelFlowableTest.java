@@ -210,15 +210,13 @@ public class LifecycleScopeProviderParallelFlowableTest {
     firstSubscriber.assertNoValues();
     firstSubscriber.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideScopeException;
+        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
       }
     });
     secondSubscriber.assertNoValues();
     secondSubscriber.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideScopeException;
+        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
       }
     });
   }

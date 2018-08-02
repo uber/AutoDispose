@@ -33,12 +33,11 @@ import java.util.concurrent.Callable;
  */
 public final class LifecycleScopes {
 
-  private static final Comparator<Comparable<Object>> COMPARABLE_COMPARATOR =
-      new Comparator<Comparable<Object>>() {
-        @Override public int compare(Comparable<Object> o1, Comparable<Object> o2) {
-          return o1.compareTo(o2);
-        }
-      };
+  private static final Comparator<Comparable<Object>> COMPARABLE_COMPARATOR = new Comparator<Comparable<Object>>() {
+    @Override public int compare(Comparable<Object> o1, Comparable<Object> o2) {
+      return o1.compareTo(o2);
+    }
+  };
 
   private LifecycleScopes() {
     throw new InstantiationError();
@@ -57,8 +56,8 @@ public final class LifecycleScopes {
    * @throws OutsideScopeException if the {@link LifecycleScopeProvider#correspondingEvents()}
    * throws an {@link OutsideScopeException} during resolution.
    */
-  public static <E> CompletableSource resolveScopeFromLifecycle(
-      final LifecycleScopeProvider<E> provider) throws OutsideScopeException {
+  public static <E> CompletableSource resolveScopeFromLifecycle(final LifecycleScopeProvider<E> provider)
+      throws OutsideScopeException {
     return resolveScopeFromLifecycle(provider, true);
   }
 
@@ -80,9 +79,8 @@ public final class LifecycleScopes {
    * @throws OutsideScopeException if the {@link LifecycleScopeProvider#correspondingEvents()}
    * throws an {@link OutsideScopeException} during resolution.
    */
-  public static <E> CompletableSource resolveScopeFromLifecycle(
-      final LifecycleScopeProvider<E> provider, final boolean checkEndBoundary)
-      throws OutsideScopeException {
+  public static <E> CompletableSource resolveScopeFromLifecycle(final LifecycleScopeProvider<E> provider,
+      final boolean checkEndBoundary) throws OutsideScopeException {
     E lastEvent = provider.peekLifecycle();
     CorrespondingEventsFunction<E> eventsFunction = provider.correspondingEvents();
     if (lastEvent == null) {
@@ -93,8 +91,7 @@ public final class LifecycleScopes {
       endEvent = eventsFunction.apply(lastEvent);
     } catch (Exception e) {
       if (checkEndBoundary && e instanceof LifecycleEndedException) {
-        Consumer<? super OutsideScopeException> handler =
-            AutoDisposePlugins.getOutsideScopeHandler();
+        Consumer<? super OutsideScopeException> handler = AutoDisposePlugins.getOutsideScopeHandler();
         if (handler != null) {
           try {
             handler.accept((LifecycleEndedException) e);
@@ -118,8 +115,7 @@ public final class LifecycleScopes {
    * @param <E> the lifecycle event type
    * @return a resolved {@link Completable} representation of a given lifecycle, targeting the given event
    */
-  public static <E> CompletableSource resolveScopeFromLifecycle(Observable<E> lifecycle,
-      final E endEvent) {
+  public static <E> CompletableSource resolveScopeFromLifecycle(Observable<E> lifecycle, final E endEvent) {
     @Nullable Comparator<E> comparator = null;
     if (endEvent instanceof Comparable) {
       //noinspection unchecked
@@ -136,7 +132,8 @@ public final class LifecycleScopes {
    * @return a resolved {@link Completable} representation of a given lifecycle, targeting the given event
    */
   public static <E> CompletableSource resolveScopeFromLifecycle(Observable<E> lifecycle,
-      final E endEvent, @Nullable final Comparator<E> comparator) {
+      final E endEvent,
+      @Nullable final Comparator<E> comparator) {
     Predicate<E> equalityPredicate;
     if (comparator != null) {
       equalityPredicate = new Predicate<E>() {

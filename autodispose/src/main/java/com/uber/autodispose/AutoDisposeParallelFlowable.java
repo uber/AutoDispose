@@ -19,11 +19,9 @@ final class AutoDisposeParallelFlowable<T> extends ParallelFlowable<T> {
       return;
     }
 
-    @SuppressWarnings("unchecked") Subscriber<? super T>[] newSubscribers =
-        new Subscriber[subscribers.length];
+    @SuppressWarnings("unchecked") Subscriber<? super T>[] newSubscribers = new Subscriber[subscribers.length];
     for (int i = 0; i < subscribers.length; i++) {
-      AutoDisposingSubscriberImpl<? super T> subscriber =
-          new AutoDisposingSubscriberImpl<>(scope, subscribers[i]);
+      AutoDisposingSubscriberImpl<? super T> subscriber = new AutoDisposingSubscriberImpl<>(scope, subscribers[i]);
       newSubscribers[i] = subscriber;
     }
     source.subscribe(newSubscribers);

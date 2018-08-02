@@ -34,8 +34,7 @@ import io.reactivex.subjects.BehaviorSubject;
  * using {@link LifecycleScopeProvider}. The precondition checks here are only different from what
  * {@link ViewScopeProvider} provides in that it will check against subscription in the constructor.
  */
-public abstract class AutoDisposeView extends View
-    implements LifecycleScopeProvider<AutoDisposeView.ViewEvent> {
+public abstract class AutoDisposeView extends View implements LifecycleScopeProvider<AutoDisposeView.ViewEvent> {
 
   /**
    * This is a function of current event -> target disposal event. That is to say that if event
@@ -67,8 +66,7 @@ public abstract class AutoDisposeView extends View
   }
 
   @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-  public AutoDisposeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr,
-      int defStyleRes) {
+  public AutoDisposeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
     init();
   }

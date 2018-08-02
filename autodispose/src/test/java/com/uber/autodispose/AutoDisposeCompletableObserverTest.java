@@ -137,33 +137,27 @@ public class AutoDisposeCompletableObserverTest {
 
   @Test public void verifyObserverDelegate() {
     final AtomicReference<CompletableObserver> atomicObserver = new AtomicReference<>();
-    final AtomicReference<CompletableObserver> atomicAutoDisposingObserver =
-        new AtomicReference<>();
+    final AtomicReference<CompletableObserver> atomicAutoDisposingObserver = new AtomicReference<>();
     try {
-      RxJavaPlugins.setOnCompletableSubscribe(
-          new BiFunction<Completable, CompletableObserver, CompletableObserver>() {
-            @Override
-            public CompletableObserver apply(Completable source, CompletableObserver observer) {
-              if (atomicObserver.get() == null) {
-                atomicObserver.set(observer);
-              } else if (atomicAutoDisposingObserver.get() == null) {
-                atomicAutoDisposingObserver.set(observer);
-                RxJavaPlugins.setOnObservableSubscribe(null);
-              }
-              return observer;
-            }
-          });
+      RxJavaPlugins.setOnCompletableSubscribe(new BiFunction<Completable, CompletableObserver, CompletableObserver>() {
+        @Override public CompletableObserver apply(Completable source, CompletableObserver observer) {
+          if (atomicObserver.get() == null) {
+            atomicObserver.set(observer);
+          } else if (atomicAutoDisposingObserver.get() == null) {
+            atomicAutoDisposingObserver.set(observer);
+            RxJavaPlugins.setOnObservableSubscribe(null);
+          }
+          return observer;
+        }
+      });
       Completable.complete()
           .as(autoDisposable(ScopeProvider.UNBOUND))
           .subscribe();
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
-      assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(
-          AutoDisposingCompletableObserver.class);
-      assertThat(
-          ((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
-      assertThat(
-          ((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isSameAs(
+      assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingCompletableObserver.class);
+      assertThat(((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isNotNull();
+      assertThat(((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get()).delegateObserver()).isSameAs(
           atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
@@ -245,8 +239,7 @@ public class AutoDisposeCompletableObserverTest {
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideScopeException;
+        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
       }
     });
   }

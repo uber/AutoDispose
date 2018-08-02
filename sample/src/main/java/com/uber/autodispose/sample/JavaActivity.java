@@ -78,11 +78,9 @@ public class JavaActivity extends AppCompatActivity {
 
     // Setting a specific untilEvent, this should dispose in onDestroy.
     Observable.interval(1, TimeUnit.SECONDS)
-        .doOnDispose(
-            () -> Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY"))
+        .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY"))
         .as(autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
-        .subscribe(
-            num -> Log.i(TAG, "Started in onResume(), running until in onDestroy(): " + num));
+        .subscribe(num -> Log.i(TAG, "Started in onResume(), running until in onDestroy(): " + num));
   }
 
   @Override protected void onPause() {

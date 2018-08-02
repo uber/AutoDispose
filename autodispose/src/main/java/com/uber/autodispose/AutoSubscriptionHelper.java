@@ -224,9 +224,7 @@ enum AutoSubscriptionHelper implements Subscription {
    * @param s the new Subscription, not null (verified)
    * @return true if the Subscription was set the first time
    */
-  static boolean deferredSetOnce(AtomicReference<Subscription> field,
-      AtomicLong requested,
-      Subscription s) {
+  static boolean deferredSetOnce(AtomicReference<Subscription> field, AtomicLong requested, Subscription s) {
     if (AutoSubscriptionHelper.setOnce(field, s)) {
       long r = requested.getAndSet(0L);
       if (r != 0L) {

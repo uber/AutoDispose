@@ -46,9 +46,8 @@ final class DetachEventCompletable implements CompletableSource {
     }
 
     // Check that it's attached.
-    boolean isAttached =
-        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
-            || view.getWindowToken() != null;
+    boolean isAttached = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
+        || view.getWindowToken() != null;
     if (!isAttached) {
       observer.onError(new OutsideScopeException("View is not attached!"));
       return;
@@ -60,8 +59,7 @@ final class DetachEventCompletable implements CompletableSource {
     }
   }
 
-  static final class Listener extends MainThreadDisposable
-      implements View.OnAttachStateChangeListener {
+  static final class Listener extends MainThreadDisposable implements View.OnAttachStateChangeListener {
     private final View view;
     private final CompletableObserver observer;
 

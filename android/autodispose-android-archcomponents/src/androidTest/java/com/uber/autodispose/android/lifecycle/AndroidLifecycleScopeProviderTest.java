@@ -21,8 +21,8 @@ import android.support.test.annotation.UiThreadTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 import com.uber.autodispose.AutoDispose;
-import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.android.lifecycle.test.TestLifecycleOwner;
+import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
@@ -31,7 +31,8 @@ import org.junit.runner.RunWith;
 
 import static com.google.common.truth.Truth.assertThat;
 
-@RunWith(AndroidJUnit4.class) public final class AndroidLifecycleScopeProviderTest {
+@RunWith(AndroidJUnit4.class)
+public final class AndroidLifecycleScopeProviderTest {
 
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
     @Override public void log(String message) {
@@ -165,8 +166,8 @@ import static com.google.common.truth.Truth.assertThat;
     // Spin it up
     TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
-    subject.as(AutoDispose.<Integer>autoDisposable(
-        AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_PAUSE)))
+    subject.as(
+        AutoDispose.<Integer>autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_PAUSE)))
         .subscribe(o);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
@@ -198,8 +199,8 @@ import static com.google.common.truth.Truth.assertThat;
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.as(AutoDispose.<Integer>autoDisposable(
-        AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_DESTROY)))
+    subject.as(
+        AutoDispose.<Integer>autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_DESTROY)))
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();

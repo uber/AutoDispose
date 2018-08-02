@@ -85,8 +85,7 @@ public final class AutoDispose {
         try {
           return provider.requestScope();
         } catch (OutsideScopeException e) {
-          Consumer<? super OutsideScopeException> handler =
-              AutoDisposePlugins.getOutsideScopeHandler();
+          Consumer<? super OutsideScopeException> handler = AutoDisposePlugins.getOutsideScopeHandler();
           if (handler != null) {
             handler.accept(e);
             return Completable.complete();
@@ -134,8 +133,7 @@ public final class AutoDispose {
             return new AutoDisposeCompletable(upstream, scope).subscribe(action);
           }
 
-          @Override
-          public Disposable subscribe(Action action, Consumer<? super Throwable> onError) {
+          @Override public Disposable subscribe(Action action, Consumer<? super Throwable> onError) {
             return new AutoDisposeCompletable(upstream, scope).subscribe(action, onError);
           }
 
@@ -174,22 +172,21 @@ public final class AutoDispose {
             return new AutoDisposeFlowable<>(upstream, scope).subscribe(onNext);
           }
 
-          @Override public Disposable subscribe(Consumer<? super T> onNext,
-              Consumer<? super Throwable> onError) {
+          @Override public Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError) {
             return new AutoDisposeFlowable<>(upstream, scope).subscribe(onNext, onError);
           }
 
           @Override public Disposable subscribe(Consumer<? super T> onNext,
-              Consumer<? super Throwable> onError, Action onComplete) {
-            return new AutoDisposeFlowable<>(upstream, scope).subscribe(onNext, onError,
-                onComplete);
+              Consumer<? super Throwable> onError,
+              Action onComplete) {
+            return new AutoDisposeFlowable<>(upstream, scope).subscribe(onNext, onError, onComplete);
           }
 
           @Override public Disposable subscribe(Consumer<? super T> onNext,
-              Consumer<? super Throwable> onError, Action onComplete,
+              Consumer<? super Throwable> onError,
+              Action onComplete,
               Consumer<? super Subscription> onSubscribe) {
-            return new AutoDisposeFlowable<>(upstream, scope).subscribe(onNext, onError, onComplete,
-                onSubscribe);
+            return new AutoDisposeFlowable<>(upstream, scope).subscribe(onNext, onError, onComplete, onSubscribe);
           }
 
           @Override public void subscribe(Subscriber<T> observer) {
@@ -233,15 +230,14 @@ public final class AutoDispose {
             return new AutoDisposeMaybe<>(upstream, scope).subscribe(onSuccess);
           }
 
-          @Override public Disposable subscribe(Consumer<? super T> onSuccess,
-              Consumer<? super Throwable> onError) {
+          @Override public Disposable subscribe(Consumer<? super T> onSuccess, Consumer<? super Throwable> onError) {
             return new AutoDisposeMaybe<>(upstream, scope).subscribe(onSuccess, onError);
           }
 
           @Override public Disposable subscribe(Consumer<? super T> onSuccess,
-              Consumer<? super Throwable> onError, Action onComplete) {
-            return new AutoDisposeMaybe<>(upstream, scope).subscribe(onSuccess, onError,
-                onComplete);
+              Consumer<? super Throwable> onError,
+              Action onComplete) {
+            return new AutoDisposeMaybe<>(upstream, scope).subscribe(onSuccess, onError, onComplete);
           }
 
           @Override public void subscribe(MaybeObserver<T> observer) {
@@ -279,22 +275,21 @@ public final class AutoDispose {
             return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext);
           }
 
-          @Override public Disposable subscribe(Consumer<? super T> onNext,
-              Consumer<? super Throwable> onError) {
+          @Override public Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError) {
             return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext, onError);
           }
 
           @Override public Disposable subscribe(Consumer<? super T> onNext,
-              Consumer<? super Throwable> onError, Action onComplete) {
-            return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext, onError,
-                onComplete);
+              Consumer<? super Throwable> onError,
+              Action onComplete) {
+            return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext, onError, onComplete);
           }
 
           @Override public Disposable subscribe(Consumer<? super T> onNext,
-              Consumer<? super Throwable> onError, Action onComplete,
+              Consumer<? super Throwable> onError,
+              Action onComplete,
               Consumer<? super Disposable> onSubscribe) {
-            return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext, onError,
-                onComplete, onSubscribe);
+            return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext, onError, onComplete, onSubscribe);
           }
 
           @Override public void subscribe(Observer<T> observer) {
@@ -332,13 +327,11 @@ public final class AutoDispose {
             return new AutoDisposeSingle<>(upstream, scope).subscribe(onSuccess);
           }
 
-          @Override
-          public Disposable subscribe(BiConsumer<? super T, ? super Throwable> biConsumer) {
+          @Override public Disposable subscribe(BiConsumer<? super T, ? super Throwable> biConsumer) {
             return new AutoDisposeSingle<>(upstream, scope).subscribe(biConsumer);
           }
 
-          @Override public Disposable subscribe(Consumer<? super T> onSuccess,
-              Consumer<? super Throwable> onError) {
+          @Override public Disposable subscribe(Consumer<? super T> onSuccess, Consumer<? super Throwable> onError) {
             return new AutoDisposeSingle<>(upstream, scope).subscribe(onSuccess, onError);
           }
 

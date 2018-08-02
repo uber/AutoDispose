@@ -35,7 +35,8 @@ import org.junit.runner.RunWith;
 
 import static com.google.common.truth.Truth.assertThat;
 
-@RunWith(AndroidJUnit4.class) public final class ViewScopeProviderTest {
+@RunWith(AndroidJUnit4.class)
+public final class ViewScopeProviderTest {
 
   private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
     @Override public void log(String message) {

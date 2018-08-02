@@ -47,9 +47,8 @@ public class LifecycleScopeProviderSubscriberTest {
     PublishProcessor<Integer> source = PublishProcessor.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    TestSubscriber<Integer> o = source
-            .as(AutoDispose.<Integer>autoDisposable(provider))
-            .test();
+    TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
+        .test();
     o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
@@ -80,8 +79,8 @@ public class LifecycleScopeProviderSubscriberTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     TestSubscriber<Integer> o = Flowable.just(1)
-            .as(AutoDispose.<Integer>autoDisposable(provider))
-            .test();
+        .as(AutoDispose.<Integer>autoDisposable(provider))
+        .test();
 
     List<Throwable> errors = o.errors();
     assertThat(errors).hasSize(1);
@@ -95,8 +94,8 @@ public class LifecycleScopeProviderSubscriberTest {
     lifecycle.onNext(3);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     TestSubscriber<Integer> o = Flowable.just(1)
-            .as(AutoDispose.<Integer>autoDisposable(provider))
-            .test();
+        .as(AutoDispose.<Integer>autoDisposable(provider))
+        .test();
 
     List<Throwable> errors = o.errors();
     assertThat(errors).hasSize(1);
@@ -110,8 +109,7 @@ public class LifecycleScopeProviderSubscriberTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-    TestSubscriber<Integer> o = source
-        .as(AutoDispose.<Integer>autoDisposable(provider))
+    TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
         .test();
 
     assertThat(source.hasSubscribers()).isFalse();
@@ -132,8 +130,7 @@ public class LifecycleScopeProviderSubscriberTest {
     lifecycle.onNext(3);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-    TestSubscriber<Integer> o = source
-        .as(AutoDispose.<Integer>autoDisposable(provider))
+    TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
         .test();
 
     assertThat(source.hasSubscribers()).isFalse();
@@ -153,17 +150,14 @@ public class LifecycleScopeProviderSubscriberTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-    TestSubscriber<Integer> o = source
-        .as(AutoDispose.<Integer>autoDisposable(provider))
+    TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
         .test();
 
     o.assertNoValues();
     o.assertError(new Predicate<Throwable>() {
       @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException
-            && throwable.getCause() instanceof OutsideScopeException;
+        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
       }
     });
   }
-
 }

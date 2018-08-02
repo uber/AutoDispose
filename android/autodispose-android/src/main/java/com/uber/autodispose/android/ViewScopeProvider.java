@@ -18,7 +18,6 @@ package com.uber.autodispose.android;
 
 import android.view.View;
 import com.uber.autodispose.ScopeProvider;
-import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
 
 /**
@@ -51,8 +50,7 @@ public final class ViewScopeProvider implements ScopeProvider {
     this.view = view;
   }
 
-  @Override
-  public CompletableSource requestScope() {
+  @Override public CompletableSource requestScope() {
     return new DetachEventCompletable(view);
   }
 }

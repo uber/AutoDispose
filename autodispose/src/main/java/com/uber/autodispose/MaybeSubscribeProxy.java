@@ -55,8 +55,7 @@ public interface MaybeSubscribeProxy<T> {
    *
    * @return a {@link Disposable}
    */
-  Disposable subscribe(Consumer<? super T> onSuccess, Consumer<? super Throwable> onError,
-      Action onComplete);
+  Disposable subscribe(Consumer<? super T> onSuccess, Consumer<? super Throwable> onError, Action onComplete);
 
   /**
    * Proxy for {@link Maybe#subscribe(MaybeObserver)}.

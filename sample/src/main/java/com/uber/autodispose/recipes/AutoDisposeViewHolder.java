@@ -38,15 +38,14 @@ public abstract class AutoDisposeViewHolder extends BindAwareViewHolder
     BIND, UNBIND
   }
 
-  private static final CorrespondingEventsFunction<ViewHolderEvent> CORRESPONDING_EVENTS =
-      viewHolderEvent -> {
-        switch (viewHolderEvent) {
-          case BIND:
-            return ViewHolderEvent.UNBIND;
-          default:
-            throw new LifecycleEndedException("Cannot use ViewHolder lifecycle after unbind.");
-        }
-      };
+  private static final CorrespondingEventsFunction<ViewHolderEvent> CORRESPONDING_EVENTS = viewHolderEvent -> {
+    switch (viewHolderEvent) {
+      case BIND:
+        return ViewHolderEvent.UNBIND;
+      default:
+        throw new LifecycleEndedException("Cannot use ViewHolder lifecycle after unbind.");
+    }
+  };
 
   private final BehaviorSubject<ViewHolderEvent> lifecycleEvents = BehaviorSubject.create();
 

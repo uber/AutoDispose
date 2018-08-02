@@ -16,7 +16,7 @@
 
 /**
  * These are Observers AutoDispose uses when scoping an observable. They are exposed as a public API
- *  to allow for consumers to watch for them if they want, such as in RxJava plugins.
+ * to allow for consumers to watch for them if they want, such as in RxJava plugins.
  */
 package com.uber.autodispose.observers;
 

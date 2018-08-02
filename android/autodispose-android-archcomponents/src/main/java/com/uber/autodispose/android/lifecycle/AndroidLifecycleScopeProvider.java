@@ -23,7 +23,6 @@ import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.LifecycleScopes;
-import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 
@@ -35,13 +34,11 @@ import io.reactivex.Observable;
  *   AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner))
  * </code></pre>
  */
-public final class AndroidLifecycleScopeProvider
-    implements LifecycleScopeProvider<Lifecycle.Event> {
+public final class AndroidLifecycleScopeProvider implements LifecycleScopeProvider<Lifecycle.Event> {
 
   private static final CorrespondingEventsFunction<Lifecycle.Event> DEFAULT_CORRESPONDING_EVENTS =
       new CorrespondingEventsFunction<Lifecycle.Event>() {
-        @Override public Lifecycle.Event apply(Lifecycle.Event lastEvent)
-            throws OutsideScopeException {
+        @Override public Lifecycle.Event apply(Lifecycle.Event lastEvent) throws OutsideScopeException {
           switch (lastEvent) {
             case ON_CREATE:
               return Lifecycle.Event.ON_DESTROY;
@@ -78,8 +75,7 @@ public final class AndroidLifecycleScopeProvider
    * @param untilEvent the event until the scope is valid.
    * @return a {@link AndroidLifecycleScopeProvider} against this owner.
    */
-  public static AndroidLifecycleScopeProvider from(LifecycleOwner owner,
-      Lifecycle.Event untilEvent) {
+  public static AndroidLifecycleScopeProvider from(LifecycleOwner owner, Lifecycle.Event untilEvent) {
     return from(owner.getLifecycle(), untilEvent);
   }
 
@@ -100,8 +96,7 @@ public final class AndroidLifecycleScopeProvider
    * @param untilEvent the event until the scope is valid.
    * @return a {@link AndroidLifecycleScopeProvider} against this lifecycle.
    */
-  public static AndroidLifecycleScopeProvider from(Lifecycle lifecycle,
-      Lifecycle.Event untilEvent) {
+  public static AndroidLifecycleScopeProvider from(Lifecycle lifecycle, Lifecycle.Event untilEvent) {
     return from(lifecycle, new UntilEventFunction(untilEvent));
   }
 

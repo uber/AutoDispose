@@ -76,10 +76,7 @@ final class HalfSerializer {
    * @param wip the serialization work-in-progress counter/indicator
    * @param error the holder of Throwables
    */
-  public static void onError(Subscriber<?> subscriber,
-      Throwable ex,
-      AtomicInteger wip,
-      AtomicThrowable error) {
+  public static void onError(Subscriber<?> subscriber, Throwable ex, AtomicInteger wip, AtomicThrowable error) {
     if (error.addThrowable(ex)) {
       if (wip.getAndIncrement() == 0) {
         subscriber.onError(error.terminate());
@@ -97,9 +94,7 @@ final class HalfSerializer {
    * @param wip the serialization work-in-progress counter/indicator
    * @param error the holder of Throwables
    */
-  public static void onComplete(Subscriber<?> subscriber,
-      AtomicInteger wip,
-      AtomicThrowable error) {
+  public static void onComplete(Subscriber<?> subscriber, AtomicInteger wip, AtomicThrowable error) {
     if (wip.getAndIncrement() == 0) {
       Throwable ex = error.terminate();
       if (ex != null) {
@@ -121,10 +116,7 @@ final class HalfSerializer {
    * @param error the holder of Throwables
    * @return true if a terminal event was emitted to {@code observer}, false if not
    */
-  public static <T> boolean onNext(Observer<? super T> observer,
-      T value,
-      AtomicInteger wip,
-      AtomicThrowable error) {
+  public static <T> boolean onNext(Observer<? super T> observer, T value, AtomicInteger wip, AtomicThrowable error) {
     if (wip.get() == 0 && wip.compareAndSet(0, 1)) {
       observer.onNext(value);
       if (wip.decrementAndGet() != 0) {
@@ -150,10 +142,7 @@ final class HalfSerializer {
    * @param wip the serialization work-in-progress counter/indicator
    * @param error the holder of Throwables
    */
-  public static void onError(Observer<?> observer,
-      Throwable ex,
-      AtomicInteger wip,
-      AtomicThrowable error) {
+  public static void onError(Observer<?> observer, Throwable ex, AtomicInteger wip, AtomicThrowable error) {
     if (error.addThrowable(ex)) {
       if (wip.getAndIncrement() == 0) {
         observer.onError(error.terminate());

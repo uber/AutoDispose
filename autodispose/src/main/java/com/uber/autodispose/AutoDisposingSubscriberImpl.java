@@ -26,8 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
-final class AutoDisposingSubscriberImpl<T> extends AtomicInteger
-    implements AutoDisposingSubscriber<T> {
+final class AutoDisposingSubscriberImpl<T> extends AtomicInteger implements AutoDisposingSubscriber<T> {
 
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
   final AtomicReference<Subscription> mainSubscription = new AtomicReference<>();

@@ -36,11 +36,9 @@ import org.reactivestreams.Subscriber;
 /**
  * Cases that use {@link AutoDispose} and should not fail the {@link UseAutoDispose} check.
  */
-public class UseAutoDisposeNegativeCases
-    implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
+public class UseAutoDisposeNegativeCases implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
 
-  private final BehaviorSubject<TestLifecycleScopeProvider.TestLifecycle> lifecycleSubject =
-      BehaviorSubject.create();
+  private final BehaviorSubject<TestLifecycleScopeProvider.TestLifecycle> lifecycleSubject = BehaviorSubject.create();
 
   /**
    * @return a sequence of lifecycle events.
@@ -53,11 +51,10 @@ public class UseAutoDisposeNegativeCases
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
    * avoid unnecessary object allocation.
    */
-  @CheckReturnValue
-  public CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle> correspondingEvents() {
+  @CheckReturnValue public CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle> correspondingEvents() {
     return new CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle>() {
-      @Override public TestLifecycleScopeProvider.TestLifecycle apply(
-          TestLifecycleScopeProvider.TestLifecycle testLifecycle) {
+      @Override
+      public TestLifecycleScopeProvider.TestLifecycle apply(TestLifecycleScopeProvider.TestLifecycle testLifecycle) {
         switch (testLifecycle) {
           case STARTED:
             return TestLifecycleScopeProvider.TestLifecycle.STOPPED;
