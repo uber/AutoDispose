@@ -18,7 +18,6 @@ package com.uber.autodispose;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import io.reactivex.Maybe;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 

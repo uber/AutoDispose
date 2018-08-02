@@ -18,7 +18,6 @@ package com.uber.autodispose;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
-import io.reactivex.Maybe;
 
 final class AutoDisposeCompletable extends Completable {
 
