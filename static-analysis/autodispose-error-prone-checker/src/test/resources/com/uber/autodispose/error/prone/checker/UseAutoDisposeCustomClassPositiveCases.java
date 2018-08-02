@@ -25,32 +25,32 @@ import org.reactivestreams.Subscriber;
 
 public class UseAutoDisposeCustomClassPositiveCases extends ComponentWithLifeCycle {
   public void observable_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
     Observable.empty()
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
         .subscribe();
   }
 
   public void single_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
     Single.just(true)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
         .subscribe();
   }
 
   public void completable_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
     Completable.complete()
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
         .subscribe();
   }
 
   public void maybe_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
     Maybe.empty()
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
         .subscribe();
   }
 
   public void flowable_subscribeWithoutAutoDispose() {
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
     Flowable.empty()
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
         .subscribe();
   }
 
