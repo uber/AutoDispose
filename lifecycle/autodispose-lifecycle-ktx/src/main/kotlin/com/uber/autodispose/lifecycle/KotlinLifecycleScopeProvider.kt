@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.lifecycle.ktx
+package com.uber.autodispose.lifecycle
 
-import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.lifecycle.LifecycleScopes.resolveScopeFromLifecycle
 import io.reactivex.CompletableSource
 
