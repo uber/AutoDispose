@@ -15,13 +15,19 @@ package com.uber.autodispose.android.internal;
 
 import com.uber.autodispose.android.AutoDisposeAndroidPlugins;
 import io.reactivex.functions.BooleanSupplier;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 public final class MainThreadDisposableTest {
+
+  @Before @After public void resetPlugins() {
+    AutoDisposeAndroidPlugins.reset();
+  }
 
   @Test public void onDisposeRunsSyncWhenMainThreadSkipped() {
     AutoDisposeAndroidPlugins.setOnCheckMainThread(new BooleanSupplier() {
@@ -40,8 +46,7 @@ public final class MainThreadDisposableTest {
       }
     }.dispose();
 
-    assertTrue(called.get());
-    AutoDisposeAndroidPlugins.setOnCheckMainThread(null);
+    assertThat(called.get()).isTrue();
   }
 
   @Test
