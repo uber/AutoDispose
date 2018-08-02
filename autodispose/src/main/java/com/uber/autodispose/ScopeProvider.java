@@ -19,11 +19,10 @@ package com.uber.autodispose;
 import com.uber.autodispose.internal.DoNotMock;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
-import io.reactivex.Maybe;
 import io.reactivex.annotations.CheckReturnValue;
 
 /**
- * Proves a {@link Maybe} representation of a scope. The emission of this is the signal
+ * Provides a {@link CompletableSource} representation of a scope. The emission of this is the signal
  */
 @DoNotMock(value = "Use TestScopeProvider instead")
 public interface ScopeProvider {

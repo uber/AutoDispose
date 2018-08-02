@@ -45,7 +45,7 @@ import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
  * {@code as(...)} methods to transform them into auto-disposing streams.
  * <p>
  * There are several static {@code autoDisposable(...)} entry points, with the most basic being a
- * simple {@link #autoDisposable(Completable)}. The provided {@link Completable} is ultimately what
+ * simple {@link #autoDisposable(CompletableSource)}. The provided {@link CompletableSource} is ultimately what
  * every scope resolves to under the hood, and AutoDispose has some built-in understanding for
  * predefined types. The scope is considered ended upon onComplete emission of this
  * {@link Completable}.
@@ -98,7 +98,7 @@ public final class AutoDispose {
   }
 
   /**
-   * Entry point for auto-disposing streams from a {@link Maybe}.
+   * Entry point for auto-disposing streams from a {@link CompletableSource}.
    * <p>
    * Example usage:
    * <pre><code>
@@ -112,7 +112,7 @@ public final class AutoDispose {
    * @return an {@link AutoDisposeConverter} to transform with operators like
    * {@link Observable#as(ObservableConverter)}
    */
-  public static <T> AutoDisposeConverter<T> autoDisposable(final Completable scope) {
+  public static <T> AutoDisposeConverter<T> autoDisposable(final CompletableSource scope) {
     checkNotNull(scope, "scope == null");
     return new AutoDisposeConverter<T>() {
       @Override public ParallelFlowableSubscribeProxy<T> apply(final ParallelFlowable<T> upstream) {

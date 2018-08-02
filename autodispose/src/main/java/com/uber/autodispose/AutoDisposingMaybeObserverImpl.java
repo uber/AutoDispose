@@ -17,7 +17,7 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingMaybeObserver;
-import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.MaybeObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableCompletableObserver;
@@ -29,10 +29,10 @@ final class AutoDisposingMaybeObserverImpl<T> implements AutoDisposingMaybeObser
   final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
   final AtomicReference<Disposable> scopeDisposable = new AtomicReference<>();
-  private final Completable scope;
+  private final CompletableSource scope;
   private final MaybeObserver<? super T> delegate;
 
-  AutoDisposingMaybeObserverImpl(Completable scope, MaybeObserver<? super T> delegate) {
+  AutoDisposingMaybeObserverImpl(CompletableSource scope, MaybeObserver<? super T> delegate) {
     this.scope = scope;
     this.delegate = delegate;
   }

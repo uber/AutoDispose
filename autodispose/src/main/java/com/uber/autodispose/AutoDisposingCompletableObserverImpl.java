@@ -17,8 +17,8 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
-import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
+import io.reactivex.CompletableSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 import java.util.concurrent.atomic.AtomicReference;
@@ -29,10 +29,10 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
   final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
   final AtomicReference<Disposable> scopeDisposable = new AtomicReference<>();
-  private final Completable scope;
+  private final CompletableSource scope;
   private final CompletableObserver delegate;
 
-  AutoDisposingCompletableObserverImpl(Completable scope, CompletableObserver delegate) {
+  AutoDisposingCompletableObserverImpl(CompletableSource scope, CompletableObserver delegate) {
     this.scope = scope;
     this.delegate = delegate;
   }

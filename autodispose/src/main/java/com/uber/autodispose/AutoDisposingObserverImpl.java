@@ -17,7 +17,7 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingObserver;
-import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableCompletableObserver;
@@ -31,10 +31,10 @@ final class AutoDisposingObserverImpl<T> extends AtomicInteger implements AutoDi
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
   final AtomicReference<Disposable> scopeDisposable = new AtomicReference<>();
   private final AtomicThrowable error = new AtomicThrowable();
-  private final Completable scope;
+  private final CompletableSource scope;
   private final Observer<? super T> delegate;
 
-  AutoDisposingObserverImpl(Completable scope, Observer<? super T> delegate) {
+  AutoDisposingObserverImpl(CompletableSource scope, Observer<? super T> delegate) {
     this.scope = scope;
     this.delegate = delegate;
   }

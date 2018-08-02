@@ -17,7 +17,7 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingSingleObserver;
-import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableCompletableObserver;
@@ -29,10 +29,10 @@ final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObs
   final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
   final AtomicReference<Disposable> scopeDisposable = new AtomicReference<>();
-  private final Completable scope;
+  private final CompletableSource scope;
   private final SingleObserver<? super T> delegate;
 
-  AutoDisposingSingleObserverImpl(Completable scope, SingleObserver<? super T> delegate) {
+  AutoDisposingSingleObserverImpl(CompletableSource scope, SingleObserver<? super T> delegate) {
     this.scope = scope;
     this.delegate = delegate;
   }
