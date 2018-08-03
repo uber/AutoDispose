@@ -1,0 +1,27 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>scope - autodispose-android-archcomponents-ktx</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">autodispose-android-archcomponents-ktx</a>&nbsp;/&nbsp;<a href="../index.html">com.uber.autodispose.android.lifecycle</a>&nbsp;/&nbsp;<a href="index.html">android.arch.lifecycle.LifecycleOwner</a>&nbsp;/&nbsp;<a href="./scope.html">scope</a><br/>
+<br/>
+<h1>scope</h1>
+<a name="com.uber.autodispose.android.lifecycle$scope(android.arch.lifecycle.LifecycleOwner)"></a>
+<code><span class="identifier">@CheckReturnValue</span> <span class="keyword">inline</span> <span class="keyword">fun </span><span class="identifier">LifecycleOwner</span><span class="symbol">.</span><span class="identifier">scope</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">LifecycleScopeProvider</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></code>
+<p>Extension that returns a <a href="#">LifecycleScopeProvider</a> for this <a href="#">LifecycleOwner</a>.</p>
+<a name="com.uber.autodispose.android.lifecycle$scope(android.arch.lifecycle.LifecycleOwner, android.arch.lifecycle.Lifecycle.Event)"></a>
+<code><span class="identifier">@CheckReturnValue</span> <span class="keyword">inline</span> <span class="keyword">fun </span><span class="identifier">LifecycleOwner</span><span class="symbol">.</span><span class="identifier">scope</span><span class="symbol">(</span><span class="identifier" id="com.uber.autodispose.android.lifecycle$scope(android.arch.lifecycle.LifecycleOwner, android.arch.lifecycle.Lifecycle.Event)/untilEvent">untilEvent</span><span class="symbol">:</span>&nbsp;<span class="identifier">Event</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">LifecycleScopeProvider</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></code>
+<p>Extension that returns a <a href="#">LifecycleScopeProvider</a> for this <a href="#">LifecycleOwner</a>.</p>
+<h3>Parameters</h3>
+<p><a name="untilEvent"></a>
+<code>untilEvent</code> - the event until the scope is valid.</p>
+<a name="com.uber.autodispose.android.lifecycle$scope(android.arch.lifecycle.LifecycleOwner, com.uber.autodispose.lifecycle.CorrespondingEventsFunction((android.arch.lifecycle.Lifecycle.Event)))"></a>
+<code><span class="identifier">@CheckReturnValue</span> <span class="keyword">inline</span> <span class="keyword">fun </span><span class="identifier">LifecycleOwner</span><span class="symbol">.</span><span class="identifier">scope</span><span class="symbol">(</span><span class="identifier" id="com.uber.autodispose.android.lifecycle$scope(android.arch.lifecycle.LifecycleOwner, com.uber.autodispose.lifecycle.CorrespondingEventsFunction((android.arch.lifecycle.Lifecycle.Event)))/boundaryResolver">boundaryResolver</span><span class="symbol">:</span>&nbsp;<span class="identifier">CorrespondingEventsFunction</span><span class="symbol">&lt;</span><span class="identifier">Event</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">LifecycleScopeProvider</span><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></code>
+<p>Extension that returns a <a href="#">LifecycleScopeProvider</a> for this <a href="#">LifecycleOwner</a>.</p>
+<h3>Parameters</h3>
+<p><a name="boundaryResolver"></a>
+<code>boundaryResolver</code> - function that resolves the event boundary.</p>
+</BODY>
+</HTML>

@@ -1,0 +1,15 @@
+$dokka.format:html
+$dokka.linkExtension:html
+$dokka.location:com.uber.autodispose$autoDisposable(io.reactivex.Completable, com.uber.autodispose.ScopeProvider)com.uber.autodispose/io.reactivex.-completable/auto-disposable.html
+$dokka.location:com.uber.autodispose$autoDisposable(io.reactivex.Completable, io.reactivex.Completable)com.uber.autodispose/io.reactivex.-completable/auto-disposable.html
+$dokka.location:com.uber.autodispose$autoDisposable(io.reactivex.Flowable((com.uber.autodispose.autoDisposable.T)), com.uber.autodispose.ScopeProvider)com.uber.autodispose/io.reactivex.-flowable/auto-disposable.html
+$dokka.location:com.uber.autodispose$autoDisposable(io.reactivex.Flowable((com.uber.autodispose.autoDisposable.T)), io.reactivex.Completable)com.uber.autodispose/io.reactivex.-flowable/auto-disposable.html
+$dokka.location:com.uber.autodispose$autoDisposable(io.reactivex.Maybe((com.uber.autodispose.autoDisposable.T)), com.uber.autodispose.ScopeProvider)com.uber.autodispose/io.reactivex.-maybe/auto-disposable.html
+$dokka.location:com.uber.autodispose$autoDisposable(io.reactivex.Maybe((com.uber.autodispose.autoDisposable.T)), io.reactivex.Completable)com.uber.autodispose/io.reactivex.-maybe/auto-disposable.html
+$dokka.location:com.uber.autodispose$autoDisposable(io.reactivex.Observable((com.uber.autodispose.autoDisposable.T)), com.uber.autodispose.ScopeProvider)com.uber.autodispose/io.reactivex.-observable/auto-disposable.html
+$dokka.location:com.uber.autodispose$autoDisposable(io.reactivex.Observable((com.uber.autodispose.autoDisposable.T)), io.reactivex.Completable)com.uber.autodispose/io.reactivex.-observable/auto-disposable.html
+$dokka.location:com.uber.autodispose$autoDisposable(io.reactivex.Single((com.uber.autodispose.autoDisposable.T)), com.uber.autodispose.ScopeProvider)com.uber.autodispose/io.reactivex.-single/auto-disposable.html
+$dokka.location:com.uber.autodispose$autoDisposable(io.reactivex.Single((com.uber.autodispose.autoDisposable.T)), io.reactivex.Completable)com.uber.autodispose/io.reactivex.-single/auto-disposable.html
+$dokka.location:com.uber.autodispose$autoDisposable(io.reactivex.parallel.ParallelFlowable((com.uber.autodispose.autoDisposable.T)), com.uber.autodispose.ScopeProvider)com.uber.autodispose/io.reactivex.parallel.-parallel-flowable/auto-disposable.html
+$dokka.location:com.uber.autodispose$autoDisposable(io.reactivex.parallel.ParallelFlowable((com.uber.autodispose.autoDisposable.T)), io.reactivex.Completable)com.uber.autodispose/io.reactivex.parallel.-parallel-flowable/auto-disposable.html
+com.uber.autodispose
