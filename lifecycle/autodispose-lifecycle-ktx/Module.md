@@ -1,7 +1,7 @@
 # Module autodispose-lifecycle-ktx
 
-Kotlin extensions for AutoDispose.
+Kotlin extensions for `autodispose-lifecycle`.
 
-# Package com.uber.autodispose.ktx
+# Package com.uber.autodispose.lifecycle
 
-Kotlin extensions for AutoDispose.
+Kotlin extensions for `autodispose-lifecycle`.
