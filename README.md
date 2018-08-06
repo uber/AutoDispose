@@ -169,7 +169,7 @@ lifecycle has not started, it will send you to `onError` with a `LifecycleNotSta
 the lifecycle as ended, it is recommended to throw a `LifecycleEndedException` in your 
 `correspondingEvents()` mapping, but it is up to the user.
 
-To to simplify implementations, there's an included `LifecycleScopes` utility class with factories 
+To simplify implementations, there's an included `LifecycleScopes` utility class with factories 
 for generating `CompletableSource` representations from `LifecycleScopeProvider` instances.
 
 There are three artifacts with this support:
