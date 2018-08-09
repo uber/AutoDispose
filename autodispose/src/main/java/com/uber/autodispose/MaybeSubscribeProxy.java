@@ -60,7 +60,7 @@ public interface MaybeSubscribeProxy<T> {
   /**
    * Proxy for {@link Maybe#subscribe(MaybeObserver)}.
    */
-  void subscribe(MaybeObserver<T> observer);
+  void subscribe(MaybeObserver<? super T> observer);
 
   /**
    * Proxy for {@link Maybe#subscribeWith(MaybeObserver)}.

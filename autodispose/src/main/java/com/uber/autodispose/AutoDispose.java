@@ -188,7 +188,7 @@ public final class AutoDispose {
             return new AutoDisposeFlowable<>(upstream, scope).subscribe(onNext, onError, onComplete, onSubscribe);
           }
 
-          @Override public void subscribe(Subscriber<T> observer) {
+          @Override public void subscribe(Subscriber<? super T> observer) {
             new AutoDisposeFlowable<>(upstream, scope).subscribe(observer);
           }
 
@@ -239,7 +239,7 @@ public final class AutoDispose {
             return new AutoDisposeMaybe<>(upstream, scope).subscribe(onSuccess, onError, onComplete);
           }
 
-          @Override public void subscribe(MaybeObserver<T> observer) {
+          @Override public void subscribe(MaybeObserver<? super T> observer) {
             new AutoDisposeMaybe<>(upstream, scope).subscribe(observer);
           }
 
@@ -291,7 +291,7 @@ public final class AutoDispose {
             return new AutoDisposeObservable<>(upstream, scope).subscribe(onNext, onError, onComplete, onSubscribe);
           }
 
-          @Override public void subscribe(Observer<T> observer) {
+          @Override public void subscribe(Observer<? super T> observer) {
             new AutoDisposeObservable<>(upstream, scope).subscribe(observer);
           }
 
@@ -334,7 +334,7 @@ public final class AutoDispose {
             return new AutoDisposeSingle<>(upstream, scope).subscribe(onSuccess, onError);
           }
 
-          @Override public void subscribe(SingleObserver<T> observer) {
+          @Override public void subscribe(SingleObserver<? super T> observer) {
             new AutoDisposeSingle<>(upstream, scope).subscribe(observer);
           }
 

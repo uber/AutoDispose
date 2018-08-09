@@ -60,7 +60,7 @@ public interface SingleSubscribeProxy<T> {
   /**
    * Proxy for {@link Single#subscribe(SingleObserver)}.
    */
-  void subscribe(SingleObserver<T> observer);
+  void subscribe(SingleObserver<? super T> observer);
 
   /**
    * Proxy for {@link Single#subscribeWith(SingleObserver)}.
