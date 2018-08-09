@@ -16,9 +16,9 @@
 
 package com.uber.autodispose.recipes
 
-import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.View
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
 import com.uber.autodispose.lifecycle.LifecycleEndedException
@@ -66,12 +66,12 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Fr
     lifecycleEvents.onNext(FragmentEvent.ATTACH)
   }
 
-  override fun onCreate(savedInstanceState: Bundle) {
+  override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     lifecycleEvents.onNext(FragmentEvent.CREATE)
   }
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle) {
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     lifecycleEvents.onNext(FragmentEvent.CREATE_VIEW)
   }
