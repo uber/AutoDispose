@@ -33,6 +33,10 @@
         android:name=".JavaActivity"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+      <activity
+        android:name=".JavaFragmentActivity"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     <activity
         android:name=".KotlinActivity"
         android:label="@string/app_name_kotlin"

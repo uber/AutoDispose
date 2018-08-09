@@ -61,8 +61,15 @@
         android:id="@+id/javaActivityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="0dp"
         android:text="@string/java_demo"/>
+
+    <Button
+        android:id="@+id/javaFragmentActivityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/java_fragment_demo"/>
 
     <TextView
         android:layout_width="wrap_content"
