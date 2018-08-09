@@ -71,7 +71,7 @@ public interface FlowableSubscribeProxy<T> {
   /**
    * Proxy for {@link Flowable#subscribe(Subscriber)}.
    */
-  void subscribe(Subscriber<T> observer);
+  void subscribe(Subscriber<? super T> observer);
 
   /**
    * Proxy for {@link Flowable#subscribeWith(Subscriber)}.

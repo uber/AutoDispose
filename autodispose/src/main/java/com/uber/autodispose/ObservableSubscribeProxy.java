@@ -70,7 +70,7 @@ public interface ObservableSubscribeProxy<T> {
   /**
    * Proxy for {@link Observable#subscribe(Observer)}.
    */
-  void subscribe(Observer<T> observer);
+  void subscribe(Observer<? super T> observer);
 
   /**
    * Proxy for {@link Observable#subscribeWith(Observer)}.
