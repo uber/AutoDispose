@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 1.0.0-RC2
+----------------------------
+
+_2018-8-14_
+
+Small followup update to RC1
+
+* `subscribe(Observer)` methods in `SubscribeProxy` interfaces now accept wildcards for the observer type, matching their RxJava counterparts ([#244](https://github.com/uber/AutoDispose/issues/244))
+  * Example: `subscribe(Observer<T> observer)` -> `subscribe(Observer<? super T> observer)`
+* Kotlin artifacts now include `Module.md` files in dokka documentation ([#238](https://github.com/uber/AutoDispose/issues/238))
+* Android lifecycle Kotlin `scope()` extensions now return `ScopeProvider` instead of `LifecycleScopeProvider` ([#239](https://github.com/uber/AutoDispose/issues/239))
+
+Thanks to the following contributors for this release: [@shaishavgandhi05](https://github.com/shaishavgandhi05)
+
 Version 1.0.0-RC1
 ----------------------------
 
