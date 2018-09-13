@@ -15,12 +15,12 @@
  */
 
 def versions = [androidTest     : '1.0.1',
-                archComponents  : '1.1.0',
+                archComponents  : '1.1.1',
                 archRuntime     : '1.0.3',
                 dokka           : '0.9.17',
                 errorProne      : '2.3.1',
                 errorPronePlugin: '0.0.13',
-                kotlin          : '1.2.60',
+                kotlin          : '1.2.61',
                 support         : '27.1.1']
 
 def apt = [autoService: "com.google.auto.service:auto-service:1.0-rc4",]
@@ -36,7 +36,7 @@ def build = [buildToolsVersion    : '28.0.0',
              errorProneTestHelpers: "com.google.errorprone:error_prone_test_helpers:${versions.errorProne}",
              nullAway             : 'com.uber.nullaway:nullaway:0.4.7',
 
-             gradlePlugins        : [android     : 'com.android.tools.build:gradle:3.1.3',
+             gradlePlugins        : [android     : 'com.android.tools.build:gradle:3.1.4',
                                      dokka       : "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
                                      dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
                                      kotlin      : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"]]
@@ -45,8 +45,8 @@ def kotlin = [stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"]
 
 def misc = [rxlifecycle: 'com.trello.rxlifecycle2:rxlifecycle:2.2.2']
 
-def rx = [android: 'io.reactivex.rxjava2:rxandroid:2.0.2',
-          java   : 'io.reactivex.rxjava2:rxjava:2.2.0']
+def rx = [android: 'io.reactivex.rxjava2:rxandroid:2.1.0',
+          java   : 'io.reactivex.rxjava2:rxjava:2.2.2']
 
 def support = [annotations: "com.android.support:support-annotations:${versions.support}",
                arch       : [lifecycle: [compiler: "android.arch.lifecycle:compiler:${versions.archComponents}",
