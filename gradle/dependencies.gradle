@@ -20,7 +20,7 @@ def versions = [androidTest     : '1.0.1',
                 dokka           : '0.9.17',
                 errorProne      : '2.3.1',
                 errorPronePlugin: '0.0.13',
-                kotlin          : '1.2.61',
+                kotlin          : '1.2.70',
                 support         : '27.1.1']
 
 def apt = [autoService: "com.google.auto.service:auto-service:1.0-rc4",]
