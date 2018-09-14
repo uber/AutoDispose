@@ -25,9 +25,11 @@ import com.uber.autodispose.android.ViewScopeProvider
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
 import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
+import com.uber.autodispose.lifecycle.LifecycleScopes
 import com.uber.autodispose.recipes.AutoDisposeViewKotlin.ViewEvent
 import com.uber.autodispose.recipes.AutoDisposeViewKotlin.ViewEvent.ATTACH
 import com.uber.autodispose.recipes.AutoDisposeViewKotlin.ViewEvent.DETACH
+import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
@@ -72,6 +74,10 @@ abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
 
   override fun peekLifecycle(): ViewEvent? {
     return lifecycleEvents.value
+  }
+
+  override fun requestScope(): CompletableSource {
+    return LifecycleScopes.resolveScopeFromLifecycle(this)
   }
 
   companion object {
