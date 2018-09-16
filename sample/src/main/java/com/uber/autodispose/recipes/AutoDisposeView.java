@@ -26,6 +26,8 @@ import com.uber.autodispose.android.ViewScopeProvider;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
+import com.uber.autodispose.lifecycle.LifecycleScopes;
+import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 
@@ -108,5 +110,9 @@ public abstract class AutoDisposeView extends View implements LifecycleScopeProv
   @Nullable @Override public ViewEvent peekLifecycle() {
     //noinspection ConstantConditions only in layoutlib
     return lifecycleEvents.getValue();
+  }
+
+  @Override public CompletableSource requestScope() {
+    return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 }
