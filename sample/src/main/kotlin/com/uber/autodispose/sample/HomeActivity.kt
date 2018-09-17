@@ -53,6 +53,11 @@ class HomeActivity: AppCompatActivity() {
     kotlinActivityButton.setOnClickListener {
       startActivity(KotlinActivity::class.java)
     }
+
+    val disposingActivityButton: Button = findViewById(R.id.disposingActivity)
+    disposingActivityButton.setOnClickListener {
+      startActivity(DisposingViewModelActivity::class.java)
+    }
   }
 
   private fun startActivity(className: Class<*>) {

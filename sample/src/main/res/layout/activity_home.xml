@@ -93,5 +93,11 @@
         android:layout_height="wrap_content"
         android:text="@string/kotlin_demo"/>
 
+    <Button
+        android:id="@+id/disposingActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disposing Activity"/>
+
   </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
