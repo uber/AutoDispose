@@ -21,7 +21,7 @@ def versions = [
     dokka: '0.9.17',
     errorProne: '2.3.1',
     errorPronePlugin: '0.0.13',
-    kotlin: '1.2.70',
+    kotlin: '1.2.71',
     support: '28.0.0'
 ]
 
@@ -30,7 +30,7 @@ def apt = [
 ]
 
 def build = [
-    buildToolsVersion: '28.0.0',
+    buildToolsVersion: '28.0.3',
     compileSdkVersion: 28,
     ci: 'true' == System.getenv('CI'),
     minSdkVersion: 14,
@@ -42,7 +42,7 @@ def build = [
     nullAway: 'com.uber.nullaway:nullaway:0.4.7',
 
     gradlePlugins: [
-        android: 'com.android.tools.build:gradle:3.1.4',
+        android: 'com.android.tools.build:gradle:3.2.0',
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
         dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
