@@ -34,21 +34,13 @@ public final class AutoDisposeAndroidPluginsTest {
   @Test public void overridingMainThreadCheck_shouldWorkInUnitTests() {
     expectLooperError();
 
-    AutoDisposeAndroidPlugins.setOnCheckMainThread(new BooleanSupplier() {
-      @Override public boolean getAsBoolean() {
-        return true;
-      }
-    });
+    AutoDisposeAndroidPlugins.setOnCheckMainThread(() -> true);
 
     assertThat(AutoDisposeAndroidUtil.isMainThread()).isTrue();
 
     AutoDisposeAndroidPlugins.reset();
 
-    AutoDisposeAndroidPlugins.setOnCheckMainThread(new BooleanSupplier() {
-      @Override public boolean getAsBoolean() {
-        return false;
-      }
-    });
+    AutoDisposeAndroidPlugins.setOnCheckMainThread(() -> false);
 
     assertThat(AutoDisposeAndroidUtil.isMainThread()).isFalse();
 

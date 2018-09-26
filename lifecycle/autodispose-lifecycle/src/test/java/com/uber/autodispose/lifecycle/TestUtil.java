@@ -21,19 +21,16 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 
 final class TestUtil {
-  private static final CorrespondingEventsFunction<Integer> CORRESPONDING_EVENTS =
-      new CorrespondingEventsFunction<Integer>() {
-        @Override public Integer apply(Integer lastEvent) {
-          switch (lastEvent) {
-            case 0:
-              return 3;
-            case 1:
-              return 2;
-            default:
-              throw new LifecycleEndedException();
-          }
-        }
-      };
+  private static final CorrespondingEventsFunction<Integer> CORRESPONDING_EVENTS = lastEvent -> {
+    switch (lastEvent) {
+      case 0:
+        return 3;
+      case 1:
+        return 2;
+      default:
+        throw new LifecycleEndedException();
+    }
+  };
 
   private TestUtil() {
     throw new InstantiationError();

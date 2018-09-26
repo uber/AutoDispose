@@ -72,10 +72,8 @@ public final class LifecycleScopesTest {
   @Test public void lifecycleCheckEnd_shouldFailIfEndedWithHandler() {
     TestLifecycleScopeProvider lifecycle = TestLifecycleScopeProvider.createInitial(STOPPED);
 
-    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
-      @Override public void accept(OutsideScopeException e) {
-        // Swallow the exception.
-      }
+    AutoDisposePlugins.setOutsideScopeHandler(e -> {
+      // Swallow the exception.
     });
 
     testSource(resolveScopeFromLifecycle(lifecycle, true)).assertComplete();
@@ -85,11 +83,9 @@ public final class LifecycleScopesTest {
     TestLifecycleScopeProvider lifecycle = TestLifecycleScopeProvider.createInitial(STOPPED);
 
     final RuntimeException expected = new RuntimeException("Expected");
-    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
-      @Override public void accept(OutsideScopeException e) {
-        // Throw it back
-        throw expected;
-      }
+    AutoDisposePlugins.setOutsideScopeHandler(e -> {
+      // Throw it back
+      throw expected;
     });
 
     testSource(resolveScopeFromLifecycle(lifecycle, true)).assertError(expected);
@@ -196,11 +192,7 @@ public final class LifecycleScopesTest {
   @Test public void resolveScopeFromLifecycle_normal_comparator() {
     PublishSubject<Integer> lifecycle = PublishSubject.create();
 
-    Comparator<Integer> comparator = new Comparator<Integer>() {
-      @Override public int compare(Integer o1, Integer o2) {
-        return Integer.compare(-o1, o2);
-      }
-    };
+    Comparator<Integer> comparator = (o1, o2) -> Integer.compare(-o1, o2);
 
     TestObserver<?> o = testSource(resolveScopeFromLifecycle(lifecycle, 3, comparator));
 

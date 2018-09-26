@@ -37,11 +37,7 @@ import static com.uber.autodispose.lifecycle.TestUtil.makeLifecycleProvider;
 
 public class LifecycleScopeProviderCompletableTest {
 
-  private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
-    @Override public void log(String message) {
-      System.out.println(LifecycleScopeProviderCompletableTest.class.getSimpleName() + ": " + message);
-    }
-  };
+  private static final RecordingObserver.Logger LOGGER = message -> System.out.println(LifecycleScopeProviderCompletableTest.class.getSimpleName() + ": " + message);
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
 
@@ -130,9 +126,7 @@ public class LifecycleScopeProviderCompletableTest {
   }
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
-    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
-      @Override public void accept(OutsideScopeException e) { }
-    });
+    AutoDisposePlugins.setOutsideScopeHandler(e -> { });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     CompletableSubject source = CompletableSubject.create();
@@ -146,10 +140,8 @@ public class LifecycleScopeProviderCompletableTest {
   }
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
-    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
-      @Override public void accept(OutsideScopeException e) {
-        // Noop
-      }
+    AutoDisposePlugins.setOutsideScopeHandler(e -> {
+      // Noop
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     lifecycle.onNext(1);
@@ -167,12 +159,10 @@ public class LifecycleScopeProviderCompletableTest {
   }
 
   @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithWrappedExp() {
-    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
-      @Override public void accept(OutsideScopeException e) {
-        // Wrap in an IllegalStateException so we can verify this is the exception we see on the
-        // other side
-        throw new IllegalStateException(e);
-      }
+    AutoDisposePlugins.setOutsideScopeHandler(e -> {
+      // Wrap in an IllegalStateException so we can verify this is the exception we see on the
+      // other side
+      throw new IllegalStateException(e);
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
@@ -181,10 +171,6 @@ public class LifecycleScopeProviderCompletableTest {
         .test();
 
     o.assertNoValues();
-    o.assertError(new Predicate<Throwable>() {
-      @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
-      }
-    });
+    o.assertError(throwable -> throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException);
   }
 }

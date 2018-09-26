@@ -34,11 +34,8 @@ import static com.google.common.truth.Truth.assertThat;
 @RunWith(AndroidJUnit4.class)
 public final class AndroidLifecycleScopeProviderTest {
 
-  private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
-    @Override public void log(String message) {
-      Log.d(AndroidLifecycleScopeProviderTest.class.getSimpleName(), message);
-    }
-  };
+  private static final RecordingObserver.Logger LOGGER =
+      message -> Log.d(AndroidLifecycleScopeProviderTest.class.getSimpleName(), message);
 
   @Test @UiThreadTest public void observable_beforeCreate() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);

@@ -26,11 +26,8 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 @RestrictTo(LIBRARY_GROUP)
 public class AutoDisposeAndroidUtil {
 
-  private static final BooleanSupplier MAIN_THREAD_CHECK = new BooleanSupplier() {
-    @Override public boolean getAsBoolean() {
-      return Looper.myLooper() == Looper.getMainLooper();
-    }
-  };
+  private static final BooleanSupplier MAIN_THREAD_CHECK =
+      () -> Looper.myLooper() == Looper.getMainLooper();
 
   private AutoDisposeAndroidUtil() { }
 

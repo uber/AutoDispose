@@ -34,7 +34,6 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.parallel.ParallelFlowable;
 import io.reactivex.subscribers.TestSubscriber;
-import java.util.concurrent.Callable;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -79,18 +78,16 @@ public final class AutoDispose {
    */
   public static <T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
     checkNotNull(provider, "provider == null");
-    return autoDisposable(Completable.defer(new Callable<CompletableSource>() {
-      @Override public CompletableSource call() throws Exception {
-        try {
-          return provider.requestScope();
-        } catch (OutsideScopeException e) {
-          Consumer<? super OutsideScopeException> handler = AutoDisposePlugins.getOutsideScopeHandler();
-          if (handler != null) {
-            handler.accept(e);
-            return Completable.complete();
-          } else {
-            return Completable.error(e);
-          }
+    return autoDisposable(Completable.defer(() -> {
+      try {
+        return provider.requestScope();
+      } catch (OutsideScopeException e) {
+        Consumer<? super OutsideScopeException> handler = AutoDisposePlugins.getOutsideScopeHandler();
+        if (handler != null) {
+          handler.accept(e);
+          return Completable.complete();
+        } else {
+          return Completable.error(e);
         }
       }
     }));
@@ -115,11 +112,7 @@ public final class AutoDispose {
     checkNotNull(scope, "scope == null");
     return new AutoDisposeConverter<T>() {
       @Override public ParallelFlowableSubscribeProxy<T> apply(final ParallelFlowable<T> upstream) {
-        return new ParallelFlowableSubscribeProxy<T>() {
-          @Override public void subscribe(Subscriber<? super T>[] subscribers) {
-            new AutoDisposeParallelFlowable<>(upstream, scope).subscribe(subscribers);
-          }
-        };
+        return subscribers -> new AutoDisposeParallelFlowable<>(upstream, scope).subscribe(subscribers);
       }
 
       @Override public CompletableSubscribeProxy apply(final Completable upstream) {

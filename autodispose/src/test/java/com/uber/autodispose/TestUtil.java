@@ -21,10 +21,8 @@ import io.reactivex.subjects.CompletableSubject;
 
 final class TestUtil {
 
-  private static final ScopeProvider OUTSIDE_SCOPE_PROVIDER = new ScopeProvider() {
-    @Override public CompletableSource requestScope() {
-      throw new OutsideScopeException("Outside scope!");
-    }
+  private static final ScopeProvider OUTSIDE_SCOPE_PROVIDER = () -> {
+    throw new OutsideScopeException("Outside scope!");
   };
 
   private TestUtil() {
@@ -32,11 +30,7 @@ final class TestUtil {
   }
 
   static ScopeProvider makeProvider(final CompletableSubject scope) {
-    return new ScopeProvider() {
-      @Override public CompletableSource requestScope() {
-        return scope;
-      }
-    };
+    return () -> scope;
   }
 
   static ScopeProvider outsideScopeProvider() {

@@ -30,12 +30,7 @@ public final class MainThreadDisposableTest {
   }
 
   @Test public void onDispose_defersToMainThreadHook() {
-    AutoDisposeAndroidPlugins.setOnCheckMainThread(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean() {
-        return true;
-      }
-    });
+    AutoDisposeAndroidPlugins.setOnCheckMainThread(() -> true);
 
     final AtomicBoolean called = new AtomicBoolean();
 

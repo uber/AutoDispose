@@ -103,9 +103,7 @@ public class LifecycleScopeProviderSubscriberTest {
   }
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
-    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
-      @Override public void accept(OutsideScopeException e) { }
-    });
+    AutoDisposePlugins.setOutsideScopeHandler(e -> { });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
@@ -119,10 +117,8 @@ public class LifecycleScopeProviderSubscriberTest {
   }
 
   @Test public void autoDispose_withProviderAndNoOpPlugin_afterEnding_shouldFailSilently() {
-    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
-      @Override public void accept(OutsideScopeException e) {
-        // Noop
-      }
+    AutoDisposePlugins.setOutsideScopeHandler(e -> {
+      // Noop
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     lifecycle.onNext(1);
@@ -140,12 +136,10 @@ public class LifecycleScopeProviderSubscriberTest {
   }
 
   @Test public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithExp() {
-    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
-      @Override public void accept(OutsideScopeException e) {
-        // Wrap in an IllegalStateException so we can verify this is the exception we see on the
-        // other side
-        throw new IllegalStateException(e);
-      }
+    AutoDisposePlugins.setOutsideScopeHandler(e -> {
+      // Wrap in an IllegalStateException so we can verify this is the exception we see on the
+      // other side
+      throw new IllegalStateException(e);
     });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
@@ -154,10 +148,6 @@ public class LifecycleScopeProviderSubscriberTest {
         .test();
 
     o.assertNoValues();
-    o.assertError(new Predicate<Throwable>() {
-      @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
-      }
-    });
+    o.assertError(throwable -> throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException);
   }
 }

@@ -43,11 +43,8 @@ import static com.uber.autodispose.TestUtil.outsideScopeProvider;
 
 public class AutoDisposeObserverTest {
 
-  private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
-    @Override public void log(String message) {
-      System.out.println(AutoDisposeObserverTest.class.getSimpleName() + ": " + message);
-    }
-  };
+  private static final RecordingObserver.Logger LOGGER =
+      message -> System.out.println(AutoDisposeObserverTest.class.getSimpleName() + ": " + message);
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
 
@@ -77,10 +74,8 @@ public class AutoDisposeObserverTest {
   @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
     Observable.just(new BClass())
         .as(AutoDispose.<BClass>autoDisposable(ScopeProvider.UNBOUND))
-        .subscribe(new Consumer<AClass>() {
-          @Override public void accept(AClass aClass) {
+        .subscribe((Consumer<AClass>) aClass -> {
 
-          }
         });
   }
 
@@ -138,16 +133,14 @@ public class AutoDisposeObserverTest {
     final AtomicReference<Observer> atomicObserver = new AtomicReference<>();
     final AtomicReference<Observer> atomicAutoDisposingObserver = new AtomicReference<>();
     try {
-      RxJavaPlugins.setOnObservableSubscribe(new BiFunction<Observable, Observer, Observer>() {
-        @Override public Observer apply(Observable source, Observer observer) {
-          if (atomicObserver.get() == null) {
-            atomicObserver.set(observer);
-          } else if (atomicAutoDisposingObserver.get() == null) {
-            atomicAutoDisposingObserver.set(observer);
-            RxJavaPlugins.setOnObservableSubscribe(null);
-          }
-          return observer;
+      RxJavaPlugins.setOnObservableSubscribe((source, observer) -> {
+        if (atomicObserver.get() == null) {
+          atomicObserver.set(observer);
+        } else if (atomicAutoDisposingObserver.get() == null) {
+          atomicAutoDisposingObserver.set(observer);
+          RxJavaPlugins.setOnObservableSubscribe(null);
         }
+        return observer;
       });
       Observable.just(1)
           .as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
@@ -167,15 +160,9 @@ public class AutoDisposeObserverTest {
     final AtomicInteger i = new AtomicInteger();
     //noinspection unchecked because Java
     final ObservableEmitter<Integer>[] emitter = new ObservableEmitter[1];
-    Observable<Integer> source = Observable.create(new ObservableOnSubscribe<Integer>() {
-      @Override public void subscribe(ObservableEmitter<Integer> e) {
-        e.setCancellable(new Cancellable() {
-          @Override public void cancel() {
-            i.incrementAndGet();
-          }
-        });
-        emitter[0] = e;
-      }
+    Observable<Integer> source = Observable.create(e -> {
+      e.setCancellable(i::incrementAndGet);
+      emitter[0] = e;
     });
     CompletableSubject scope = CompletableSubject.create();
     source.as(AutoDispose.<Integer>autoDisposable(scope))
@@ -215,9 +202,7 @@ public class AutoDisposeObserverTest {
   }
 
   @Test public void autoDispose_outsideScope_withProviderAndNoOpPlugin_shouldFailSilently() {
-    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
-      @Override public void accept(OutsideScopeException e) { }
-    });
+    AutoDisposePlugins.setOutsideScopeHandler(e -> { });
     ScopeProvider provider = outsideScopeProvider();
     PublishSubject<Integer> source = PublishSubject.create();
     TestObserver<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
@@ -229,22 +214,16 @@ public class AutoDisposeObserverTest {
   }
 
   @Test public void autoDispose_outsideScope_withProviderAndPlugin_shouldFailWithWrappedExp() {
-    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
-      @Override public void accept(OutsideScopeException e) {
-        // Wrap in an IllegalStateException so we can verify this is the exception we see on the
-        // other side
-        throw new IllegalStateException(e);
-      }
+    AutoDisposePlugins.setOutsideScopeHandler(e -> {
+      // Wrap in an IllegalStateException so we can verify this is the exception we see on the
+      // other side
+      throw new IllegalStateException(e);
     });
     ScopeProvider provider = outsideScopeProvider();
     TestObserver<Integer> o = PublishSubject.<Integer>create().as(AutoDispose.<Integer>autoDisposable(provider))
         .test();
 
     o.assertNoValues();
-    o.assertError(new Predicate<Throwable>() {
-      @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
-      }
-    });
+    o.assertError(throwable -> throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException);
   }
 }

@@ -26,14 +26,12 @@ import io.reactivex.subjects.BehaviorSubject;
 
 final class TestLifecycleProvider implements LifecycleProvider<TestLifecycleProvider.Event> {
 
-  private static final Function<Event, Event> CORRESPONDING_EVENTS = new Function<Event, Event>() {
-    @Override public Event apply(Event event) {
-      switch (event) {
-        case CREATE:
-          return Event.DESTROY;
-        default:
-          throw new OutsideLifecycleException("Lifecycle ended");
-      }
+  private static final Function<Event, Event> CORRESPONDING_EVENTS = event -> {
+    switch (event) {
+      case CREATE:
+        return Event.DESTROY;
+      default:
+        throw new OutsideLifecycleException("Lifecycle ended");
     }
   };
 

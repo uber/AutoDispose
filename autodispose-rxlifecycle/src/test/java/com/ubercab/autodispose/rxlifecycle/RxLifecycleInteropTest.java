@@ -27,11 +27,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 public class RxLifecycleInteropTest {
 
-  private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
-    @Override public void log(String message) {
-      System.out.println(RxLifecycleInteropTest.class.getSimpleName() + ": " + message);
-    }
-  };
+  private static final RecordingObserver.Logger LOGGER =
+      message -> System.out.println(RxLifecycleInteropTest.class.getSimpleName() + ": " + message);
 
   private TestLifecycleProvider lifecycleProvider = new TestLifecycleProvider();
 

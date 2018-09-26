@@ -37,22 +37,20 @@ import io.reactivex.Observable;
 public final class AndroidLifecycleScopeProvider implements LifecycleScopeProvider<Lifecycle.Event> {
 
   private static final CorrespondingEventsFunction<Lifecycle.Event> DEFAULT_CORRESPONDING_EVENTS =
-      new CorrespondingEventsFunction<Lifecycle.Event>() {
-        @Override public Lifecycle.Event apply(Lifecycle.Event lastEvent) throws OutsideScopeException {
-          switch (lastEvent) {
-            case ON_CREATE:
-              return Lifecycle.Event.ON_DESTROY;
-            case ON_START:
-              return Lifecycle.Event.ON_STOP;
-            case ON_RESUME:
-              return Lifecycle.Event.ON_PAUSE;
-            case ON_PAUSE:
-              return Lifecycle.Event.ON_STOP;
-            case ON_STOP:
-            case ON_DESTROY:
-            default:
-              throw new LifecycleEndedException("Lifecycle has ended! Last event was " + lastEvent);
-          }
+      lastEvent -> {
+        switch (lastEvent) {
+          case ON_CREATE:
+            return Lifecycle.Event.ON_DESTROY;
+          case ON_START:
+            return Lifecycle.Event.ON_STOP;
+          case ON_RESUME:
+            return Lifecycle.Event.ON_PAUSE;
+          case ON_PAUSE:
+            return Lifecycle.Event.ON_STOP;
+          case ON_STOP:
+          case ON_DESTROY:
+          default:
+            throw new LifecycleEndedException("Lifecycle has ended! Last event was " + lastEvent);
         }
       };
 
