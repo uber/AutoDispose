@@ -21,13 +21,9 @@ import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subjects.CompletableSubject;
@@ -52,7 +48,7 @@ public class AutoDisposeObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     CompletableSubject scope = CompletableSubject.create();
-    Disposable d = source.as(AutoDispose.<Integer>autoDisposable(scope))
+    Disposable d = source.as(AutoDispose.autoDisposable(scope))
         .subscribeWith(o);
     o.assertSubscribed();
 
@@ -73,7 +69,7 @@ public class AutoDisposeObserverTest {
 
   @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
     Observable.just(new BClass())
-        .as(AutoDispose.<BClass>autoDisposable(ScopeProvider.UNBOUND))
+        .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
         .subscribe((Consumer<AClass>) aClass -> {
 
         });
@@ -83,7 +79,7 @@ public class AutoDisposeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
     CompletableSubject scope = CompletableSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(scope))
+    source.as(AutoDispose.autoDisposable(scope))
         .subscribe(o);
     o.takeSubscribe();
 
@@ -105,7 +101,7 @@ public class AutoDisposeObserverTest {
     PublishSubject<Integer> source = PublishSubject.create();
     CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = TestUtil.makeProvider(scope);
-    source.as(AutoDispose.<Integer>autoDisposable(provider))
+    source.as(AutoDispose.autoDisposable(provider))
         .subscribe(o);
     o.takeSubscribe();
 
@@ -143,7 +139,7 @@ public class AutoDisposeObserverTest {
         return observer;
       });
       Observable.just(1)
-          .as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
+          .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
           .subscribe();
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
@@ -165,7 +161,7 @@ public class AutoDisposeObserverTest {
       emitter[0] = e;
     });
     CompletableSubject scope = CompletableSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(scope))
+    source.as(AutoDispose.autoDisposable(scope))
         .subscribe();
 
     assertThat(i.get()).isEqualTo(0);
@@ -193,7 +189,7 @@ public class AutoDisposeObserverTest {
 
   @Test public void unbound_shouldStillPassValues() {
     PublishSubject<Integer> s = PublishSubject.create();
-    TestObserver<Integer> o = s.as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
+    TestObserver<Integer> o = s.as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
         .test();
 
     s.onNext(1);
@@ -205,7 +201,7 @@ public class AutoDisposeObserverTest {
     AutoDisposePlugins.setOutsideScopeHandler(e -> { });
     ScopeProvider provider = outsideScopeProvider();
     PublishSubject<Integer> source = PublishSubject.create();
-    TestObserver<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
+    TestObserver<Integer> o = source.as(AutoDispose.autoDisposable(provider))
         .test();
 
     assertThat(source.hasObservers()).isFalse();
@@ -220,7 +216,7 @@ public class AutoDisposeObserverTest {
       throw new IllegalStateException(e);
     });
     ScopeProvider provider = outsideScopeProvider();
-    TestObserver<Integer> o = PublishSubject.<Integer>create().as(AutoDispose.<Integer>autoDisposable(provider))
+    TestObserver<Integer> o = PublishSubject.<Integer>create().as(AutoDispose.autoDisposable(provider))
         .test();
 
     o.assertNoValues();

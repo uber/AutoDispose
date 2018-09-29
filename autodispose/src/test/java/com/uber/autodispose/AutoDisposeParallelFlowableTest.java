@@ -26,7 +26,7 @@ public class AutoDisposeParallelFlowableTest {
     Subscriber<Integer>[] subscribers = new Subscriber[] { subscriber };
     Flowable.just(1, 2)
         .parallel(DEFAULT_PARALLELISM)
-        .as(AutoDispose.<Integer>autoDisposable(scope))
+        .as(AutoDispose.autoDisposable(scope))
         .subscribe(subscribers);
 
     List<Throwable> errors = subscriber.errors();
@@ -43,7 +43,7 @@ public class AutoDisposeParallelFlowableTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
     source.parallel(DEFAULT_PARALLELISM)
-        .as(AutoDispose.<Integer>autoDisposable(scope))
+        .as(AutoDispose.autoDisposable(scope))
         .subscribe(subscribers);
     firstSubscriber.assertSubscribed();
     secondSubscriber.assertSubscribed();
@@ -76,7 +76,7 @@ public class AutoDisposeParallelFlowableTest {
     Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
 
     source.parallel(DEFAULT_PARALLELISM)
-        .as(AutoDispose.<Integer>autoDisposable(scope))
+        .as(AutoDispose.autoDisposable(scope))
         .subscribe(subscribers);
 
     firstSubscriber.assertSubscribed();
@@ -107,7 +107,7 @@ public class AutoDisposeParallelFlowableTest {
     Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
 
     source.parallel(DEFAULT_PARALLELISM)
-        .as(AutoDispose.<Integer>autoDisposable(provider))
+        .as(AutoDispose.autoDisposable(provider))
         .subscribe(subscribers);
     firstSubscriber.assertSubscribed();
     secondSubscriber.assertSubscribed();
@@ -164,7 +164,7 @@ public class AutoDisposeParallelFlowableTest {
     Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
 
     source.parallel(DEFAULT_PARALLELISM)
-        .as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
+        .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
         .subscribe(subscribers);
 
     source.onNext(1);

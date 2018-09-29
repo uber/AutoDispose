@@ -36,7 +36,7 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
-    Disposable d = source.as(AutoDispose.<Integer>autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+    Disposable d = source.as(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
         .subscribeWith(o);
     o.assertSubscribed();
 
@@ -57,7 +57,7 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+    source.as(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
         .subscribe(o);
     o.takeSubscribe();
 
@@ -77,7 +77,7 @@ public class RxLifecycleInteropTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
     lifecycleProvider.emitDestroy();
-    source.as(AutoDispose.<Integer>autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+    source.as(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
         .subscribe(o);
 
     o.takeSubscribe();
@@ -92,7 +92,7 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
-    Disposable d = source.as(AutoDispose.<Integer>autoDisposable(
+    Disposable d = source.as(AutoDispose.autoDisposable(
         RxLifecycleInterop.from(lifecycleProvider, TestLifecycleProvider.Event.DESTROY)))
         .subscribeWith(o);
     o.assertSubscribed();
@@ -114,7 +114,7 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(
+    source.as(AutoDispose.autoDisposable(
         RxLifecycleInterop.from(lifecycleProvider, TestLifecycleProvider.Event.DESTROY)))
         .subscribe(o);
     o.takeSubscribe();

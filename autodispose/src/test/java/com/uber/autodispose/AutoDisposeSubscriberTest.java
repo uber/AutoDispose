@@ -21,12 +21,8 @@ import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.subjects.CompletableSubject;
@@ -48,7 +44,7 @@ public class AutoDisposeSubscriberTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     CompletableSubject scope = CompletableSubject.create();
-    Disposable d = source.as(AutoDispose.<Integer>autoDisposable(scope))
+    Disposable d = source.as(AutoDispose.autoDisposable(scope))
         .subscribeWith(o);
     o.assertSubscribed();
 
@@ -69,7 +65,7 @@ public class AutoDisposeSubscriberTest {
 
   @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
     Flowable.just(new BClass())
-        .as(AutoDispose.<BClass>autoDisposable(ScopeProvider.UNBOUND))
+        .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
         .subscribe((Consumer<AClass>) aClass -> {
 
         });
@@ -78,7 +74,7 @@ public class AutoDisposeSubscriberTest {
   @Test public void autoDispose_withMaybe_interrupted() {
     PublishProcessor<Integer> source = PublishProcessor.create();
     CompletableSubject scope = CompletableSubject.create();
-    TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(scope))
+    TestSubscriber<Integer> o = source.as(AutoDispose.autoDisposable(scope))
         .test();
     o.assertSubscribed();
 
@@ -103,7 +99,7 @@ public class AutoDisposeSubscriberTest {
     PublishProcessor<Integer> source = PublishProcessor.create();
     CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = TestUtil.makeProvider(scope);
-    TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
+    TestSubscriber<Integer> o = source.as(AutoDispose.autoDisposable(provider))
         .test();
     o.assertSubscribed();
 
@@ -148,7 +144,7 @@ public class AutoDisposeSubscriberTest {
         return subscriber;
       });
       Flowable.just(1)
-          .as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
+          .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
           .subscribe();
 
       assertThat(atomicAutoDisposingSubscriber.get()).isNotNull();
@@ -170,7 +166,7 @@ public class AutoDisposeSubscriberTest {
       emitter[0] = e;
     }, BackpressureStrategy.LATEST);
     CompletableSubject scope = CompletableSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(scope))
+    source.as(AutoDispose.autoDisposable(scope))
         .subscribe();
 
     assertThat(i.get()).isEqualTo(0);
@@ -198,7 +194,7 @@ public class AutoDisposeSubscriberTest {
 
   @Test public void unbound_shouldStillPassValues() {
     PublishProcessor<Integer> s = PublishProcessor.create();
-    TestSubscriber<Integer> o = s.as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
+    TestSubscriber<Integer> o = s.as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
         .test();
 
     s.onNext(1);
@@ -210,7 +206,7 @@ public class AutoDisposeSubscriberTest {
     AutoDisposePlugins.setOutsideScopeHandler(e -> { });
     ScopeProvider provider = outsideScopeProvider();
     PublishProcessor<Integer> source = PublishProcessor.create();
-    TestSubscriber<Integer> o = source.as(AutoDispose.<Integer>autoDisposable(provider))
+    TestSubscriber<Integer> o = source.as(AutoDispose.autoDisposable(provider))
         .test();
 
     assertThat(source.hasSubscribers()).isFalse();
@@ -225,7 +221,7 @@ public class AutoDisposeSubscriberTest {
       throw new IllegalStateException(e);
     });
     ScopeProvider provider = outsideScopeProvider();
-    TestSubscriber<Integer> o = PublishProcessor.<Integer>create().as(AutoDispose.<Integer>autoDisposable(provider))
+    TestSubscriber<Integer> o = PublishProcessor.<Integer>create().as(AutoDispose.autoDisposable(provider))
         .test();
 
     o.assertNoValues();
