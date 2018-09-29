@@ -34,6 +34,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 @RunWith(AndroidJUnit4.class)
 public final class ViewScopeProviderTest {
@@ -60,7 +61,7 @@ public final class ViewScopeProviderTest {
 
     // Attach it
     instrumentation.runOnMainSync(() -> parent.addView(child));
-    instrumentation.runOnMainSync(() -> subject.as(AutoDispose.autoDisposable(ViewScopeProvider.from(child)))
+    instrumentation.runOnMainSync(() -> subject.as(autoDisposable(ViewScopeProvider.from(child)))
         .subscribe(o));
 
     Disposable d = o.takeSubscribe();
@@ -86,7 +87,7 @@ public final class ViewScopeProviderTest {
 
     // Attach it
     instrumentation.runOnMainSync(() -> parent.addView(child));
-    subject.as(AutoDispose.autoDisposable(ViewScopeProvider.from(child)))
+    subject.as(autoDisposable(ViewScopeProvider.from(child)))
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -101,7 +102,7 @@ public final class ViewScopeProviderTest {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
-    instrumentation.runOnMainSync(() -> subject.as(AutoDispose.autoDisposable(ViewScopeProvider.from(child)))
+    instrumentation.runOnMainSync(() -> subject.as(autoDisposable(ViewScopeProvider.from(child)))
         .subscribe(o));
 
     Disposable d = o.takeSubscribe();
@@ -117,7 +118,7 @@ public final class ViewScopeProviderTest {
 
     instrumentation.runOnMainSync(() -> parent.addView(child));
     instrumentation.runOnMainSync(() -> parent.removeView(child));
-    instrumentation.runOnMainSync(() -> subject.as(AutoDispose.autoDisposable(ViewScopeProvider.from(child)))
+    instrumentation.runOnMainSync(() -> subject.as(autoDisposable(ViewScopeProvider.from(child)))
         .subscribe(o));
 
     Disposable d = o.takeSubscribe();

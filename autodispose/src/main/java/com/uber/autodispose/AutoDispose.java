@@ -67,7 +67,7 @@ public final class AutoDispose {
    * Example usage:
    * <pre><code>
    *   Observable.just(1)
-   *        .as(AutoDispose.<Integer>autoDisposable(scope))
+   *        .as(autoDisposable(scope)) // Static import
    *        .subscribe(...)
    * </code></pre>
    *
@@ -99,7 +99,7 @@ public final class AutoDispose {
    * Example usage:
    * <pre><code>
    *   Observable.just(1)
-   *        .as(AutoDispose.<Integer>autoDisposable(scope))
+   *        .as(autoDisposable(scope)) // Static import
    *        .subscribe(...)
    * </code></pre>
    *

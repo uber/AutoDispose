@@ -48,7 +48,7 @@ public class AutoDisposeObserverTest {
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     CompletableSubject scope = CompletableSubject.create();
-    Disposable d = source.as(AutoDispose.autoDisposable(scope))
+    Disposable d = source.as(autoDisposable(scope))
         .subscribeWith(o);
     o.assertSubscribed();
 
@@ -69,7 +69,7 @@ public class AutoDisposeObserverTest {
 
   @Test public void autoDispose_withSuperClassGenerics_compilesFine() {
     Observable.just(new BClass())
-        .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
+        .as(autoDisposable(ScopeProvider.UNBOUND))
         .subscribe((Consumer<AClass>) aClass -> {
 
         });
@@ -79,7 +79,7 @@ public class AutoDisposeObserverTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
     CompletableSubject scope = CompletableSubject.create();
-    source.as(AutoDispose.autoDisposable(scope))
+    source.as(autoDisposable(scope))
         .subscribe(o);
     o.takeSubscribe();
 
@@ -101,7 +101,7 @@ public class AutoDisposeObserverTest {
     PublishSubject<Integer> source = PublishSubject.create();
     CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = TestUtil.makeProvider(scope);
-    source.as(AutoDispose.autoDisposable(provider))
+    source.as(autoDisposable(provider))
         .subscribe(o);
     o.takeSubscribe();
 
@@ -139,7 +139,7 @@ public class AutoDisposeObserverTest {
         return observer;
       });
       Observable.just(1)
-          .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
+          .as(autoDisposable(ScopeProvider.UNBOUND))
           .subscribe();
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
@@ -161,7 +161,7 @@ public class AutoDisposeObserverTest {
       emitter[0] = e;
     });
     CompletableSubject scope = CompletableSubject.create();
-    source.as(AutoDispose.autoDisposable(scope))
+    source.as(autoDisposable(scope))
         .subscribe();
 
     assertThat(i.get()).isEqualTo(0);
@@ -189,7 +189,7 @@ public class AutoDisposeObserverTest {
 
   @Test public void unbound_shouldStillPassValues() {
     PublishSubject<Integer> s = PublishSubject.create();
-    TestObserver<Integer> o = s.as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
+    TestObserver<Integer> o = s.as(autoDisposable(ScopeProvider.UNBOUND))
         .test();
 
     s.onNext(1);
@@ -201,7 +201,7 @@ public class AutoDisposeObserverTest {
     AutoDisposePlugins.setOutsideScopeHandler(e -> { });
     ScopeProvider provider = outsideScopeProvider();
     PublishSubject<Integer> source = PublishSubject.create();
-    TestObserver<Integer> o = source.as(AutoDispose.autoDisposable(provider))
+    TestObserver<Integer> o = source.as(autoDisposable(provider))
         .test();
 
     assertThat(source.hasObservers()).isFalse();
@@ -216,7 +216,7 @@ public class AutoDisposeObserverTest {
       throw new IllegalStateException(e);
     });
     ScopeProvider provider = outsideScopeProvider();
-    TestObserver<Integer> o = PublishSubject.<Integer>create().as(AutoDispose.autoDisposable(provider))
+    TestObserver<Integer> o = PublishSubject.<Integer>create().as(autoDisposable(provider))
         .test();
 
     o.assertNoValues();

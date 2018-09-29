@@ -16,7 +16,6 @@
 
 package com.uber.autodispose.lifecycle.jdk8;
 
-import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.test.RecordingObserver;
@@ -26,6 +25,7 @@ import io.reactivex.subjects.PublishSubject;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 public final class DefaultLifecycleScopeProviderTest {
 
@@ -67,7 +67,7 @@ public final class DefaultLifecycleScopeProviderTest {
     PublishSubject<Integer> source = PublishSubject.create();
     ThingWithALifecycle provider = new ThingWithALifecycle();
     BehaviorSubject<LifecycleEvent> lifecycle = provider.lifecycle;
-    source.as(AutoDispose.autoDisposable(provider))
+    source.as(autoDisposable(provider))
         .subscribe(o);
     o.takeSubscribe();
 
