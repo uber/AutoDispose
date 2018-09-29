@@ -22,19 +22,25 @@ import io.reactivex.CompletableSource;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
+import io.reactivex.MaybeSource;
 import io.reactivex.Observable;
 import io.reactivex.ObservableConverter;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
+import io.reactivex.SingleSource;
+import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.parallel.ParallelFlowable;
 import io.reactivex.subscribers.TestSubscriber;
 import java.util.concurrent.Callable;
+import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -62,6 +68,203 @@ import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
  */
 public final class AutoDispose {
 
+  private static final Predicate<?> FIRST_UNTIL_PREDICATE = new Predicate<Object>() {
+    @Override public boolean test(Object o) {
+      return true;
+    }
+  };
+
+  /**
+   * Entry point for auto-disposing streams from a {@link MaybeSource}. Disposable will be triggered
+   * when the given {@code source} completes.
+   * <p>
+   * Example usage:
+   * <pre><code>
+   *   Maybe<Integer> scope = Maybe.just(1);
+   *   Observable.just(1)
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
+   *        .subscribe()
+   * </code></pre>
+   *
+   * @param source the target {@link MaybeSource} source scope.
+   * @param <T> the stream type.
+   * @return an {@link AutoDisposeConverter} to transform with operators like
+   * {@link Observable#as(ObservableConverter)}
+   */
+  public static <T> AutoDisposeConverter<T> autoDisposable(final MaybeSource<?> source) {
+    checkNotNull(source, "source == null");
+    return autoDisposable(Completable.fromMaybe(source));
+  }
+
+  /**
+   * Entry point for auto-disposing streams from a {@link SingleSource}. Disposable will be triggered
+   * when the given {@code source} completes.
+   * <p>
+   * Example usage:
+   * <pre><code>
+   *   Single<Integer> scope = Single.just(1);
+   *   Observable.just(1)
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
+   *        .subscribe()
+   * </code></pre>
+   *
+   * @param source the target {@link SingleSource} source scope.
+   * @param <T> the stream type.
+   * @return an {@link AutoDisposeConverter} to transform with operators like
+   * {@link Observable#as(ObservableConverter)}
+   */
+  public static <T> AutoDisposeConverter<T> autoDisposable(final SingleSource<?> source) {
+    checkNotNull(source, "source == null");
+    return autoDisposable(Completable.fromSingle(source));
+  }
+
+  /**
+   * Entry point for auto-disposing streams from a {@link Publisher}. Disposable will be triggered
+   * when the given {@code source} completes.
+   * <p>
+   * Example usage:
+   * <pre><code>
+   *   Flowable<Integer> scope = Flowable.just(1);
+   *   Observable.just(1)
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
+   *        .subscribe()
+   * </code></pre>
+   *
+   * @param source the target {@link Publisher} source scope.
+   * @param <T> the stream type.
+   * @return an {@link AutoDisposeConverter} to transform with operators like
+   * {@link Observable#as(ObservableConverter)}
+   */
+  public static <T> AutoDisposeConverter<T> autoDisposable(final Publisher<?> source) {
+    checkNotNull(source, "source == null");
+    return autoDisposable(source, false);
+  }
+
+  /**
+   * Entry point for auto-disposing streams from a {@link Publisher}. Disposable will be triggered
+   * when the given {@code source} completes or (if {@code takeFirst} is true) when the first emission occurs.
+   * <p>
+   * Example usage:
+   * <pre><code>
+   *   Flowable<Integer> scope = Flowable.just(1);
+   *   Observable.just(1)
+   *        .as(AutoDispose.<Integer>autoDisposable(scope, true))
+   *        .subscribe()
+   * </code></pre>
+   *
+   * @param source the target {@link Publisher} source scope.
+   * @param takeFirst an optional flag to indicate whether the first emission should be considered completion.
+   * @param <T> the stream type.
+   * @param <E> the source stream type.
+   * @return an {@link AutoDisposeConverter} to transform with operators like
+   * {@link Observable#as(ObservableConverter)}
+   */
+  public static <T, E> AutoDisposeConverter<T> autoDisposable(final Publisher<E> source, boolean takeFirst) {
+    checkNotNull(source, "source == null");
+    //noinspection unchecked
+    Predicate<E> predicate = takeFirst ? (Predicate<E>) FIRST_UNTIL_PREDICATE : null;
+    return autoDisposable(source, predicate);
+  }
+
+  /**
+   * Entry point for auto-disposing streams from a {@link Publisher}. Disposable will be triggered
+   * when the given {@code source} completes or until {@code until} matches.
+   * <p>
+   * Example usage:
+   * <pre><code>
+   *   Flowable<Integer> scope = Flowable.just(1);
+   *   Observable.just(1)
+   *        .as(AutoDispose.<Integer, Integer>autoDisposable(scope, (integer) -> integer == 1))
+   *        .subscribe()
+   * </code></pre>
+   *
+   * @param source the target {@link Publisher} source scope.
+   * @param untilPredicate an optional predicate to indicate whether the first emission should be considered completion.
+   * @param <T> the stream type.
+   * @param <E> the source stream type.
+   * @return an {@link AutoDisposeConverter} to transform with operators like
+   * {@link Observable#as(ObservableConverter)}
+   */
+  public static <T, E> AutoDisposeConverter<T> autoDisposable(final Publisher<E> source,
+      @Nullable Predicate<E> untilPredicate) {
+    checkNotNull(source, "source == null");
+    final Publisher<?> finalSource =
+        untilPredicate == null ? source : Flowable.fromPublisher(source).takeUntil(untilPredicate);
+    return autoDisposable(Completable.fromPublisher(finalSource));
+  }
+
+  /**
+   * Entry point for auto-disposing streams from a {@link ObservableSource}. Disposable will be triggered
+   * when the given {@code source} completes.
+   * <p>
+   * Example usage:
+   * <pre><code>
+   *   Observable<Integer> scope = Observable.just(1);
+   *   Observable.just(1)
+   *        .as(AutoDispose.<Integer>autoDisposable(scope))
+   *        .subscribe()
+   * </code></pre>
+   *
+   * @param source the target {@link ObservableSource} source scope.
+   * @param <T> the stream type.
+   * @return an {@link AutoDisposeConverter} to transform with operators like
+   * {@link Observable#as(ObservableConverter)}
+   */
+  public static <T> AutoDisposeConverter<T> autoDisposable(final ObservableSource<?> source) {
+    return autoDisposable(source, false);
+  }
+
+  /**
+   * Entry point for auto-disposing streams from a {@link ObservableSource}. Disposable will be triggered
+   * when the given {@code source} completes or (if {@code takeFirst} is true) when the first emission occurs.
+   * <p>
+   * Example usage:
+   * <pre><code>
+   *   Observable<Integer> scope = Observable.just(1);
+   *   Observable.just(1)
+   *        .as(AutoDispose.<Integer>autoDisposable(scope, true))
+   *        .subscribe()
+   * </code></pre>
+   *
+   * @param source the target {@link ObservableSource} source scope.
+   * @param takeFirst an optional flag to indicate whether the first emission should be considered completion.
+   * @param <T> the stream type.
+   * @return an {@link AutoDisposeConverter} to transform with operators like
+   * {@link Observable#as(ObservableConverter)}
+   */
+  public static <T> AutoDisposeConverter<T> autoDisposable(final ObservableSource<?> source, boolean takeFirst) {
+    checkNotNull(source, "source == null");
+    final ObservableSource<?> finalSource = takeFirst ? Observable.wrap(source).take(1) : source;
+    return autoDisposable(Completable.fromObservable(finalSource));
+  }
+
+  /**
+   * Entry point for auto-disposing streams from a {@link ObservableSource}. Disposable will be triggered
+   * when the given {@code source} completes or until {@code until} matches.
+   * <p>
+   * Example usage:
+   * <pre><code>
+   *   Observable<Integer> scope = Observable.just(1);
+   *   Observable.just(1)
+   *        .as(AutoDispose.<Integer>autoDisposable(scope, (integer) -> integer == 1))
+   *        .subscribe()
+   * </code></pre>
+   *
+   * @param source the target {@link ObservableSource} source scope.
+   * @param untilPredicate an optional predicate to indicate whether the first emission should be considered completion.
+   * @param <T> the stream type.
+   * @param <E> the source stream type.
+   * @return an {@link AutoDisposeConverter} to transform with operators like
+   * {@link Observable#as(ObservableConverter)}
+   */
+  public static <T, E> AutoDisposeConverter<T> autoDisposable(final ObservableSource<E> source,
+      @Nullable Predicate<E> untilPredicate) {
+    checkNotNull(source, "source == null");
+    final ObservableSource<?> finalSource =
+        untilPredicate == null ? source : Observable.wrap(source).takeUntil(untilPredicate);
+    return autoDisposable(Completable.fromObservable(finalSource));
+  }
+
   /**
    * Entry point for auto-disposing streams from a {@link ScopeProvider}.
    * <p>
@@ -69,7 +272,7 @@ public final class AutoDispose {
    * <pre><code>
    *   Observable.just(1)
    *        .as(AutoDispose.<Integer>autoDisposable(scope))
-   *        .subscribe(...)
+   *        .subscribe()
    * </code></pre>
    *
    * @param provider the target scope provider
@@ -103,7 +306,7 @@ public final class AutoDispose {
    * <pre><code>
    *   Observable.just(1)
    *        .as(AutoDispose.<Integer>autoDisposable(scope))
-   *        .subscribe(...)
+   *        .subscribe()
    * </code></pre>
    *
    * @param scope the target scope
