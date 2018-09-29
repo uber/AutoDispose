@@ -21,8 +21,6 @@ import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Completable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.CompletableSubject;
@@ -37,7 +35,10 @@ import static com.uber.autodispose.lifecycle.TestUtil.makeLifecycleProvider;
 
 public class LifecycleScopeProviderCompletableTest {
 
-  private static final RecordingObserver.Logger LOGGER = message -> System.out.println(LifecycleScopeProviderCompletableTest.class.getSimpleName() + ": " + message);
+  private static final RecordingObserver.Logger LOGGER =
+      message -> System.out.println(LifecycleScopeProviderCompletableTest.class.getSimpleName()
+          + ": "
+          + message);
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
 
@@ -171,6 +172,7 @@ public class LifecycleScopeProviderCompletableTest {
         .test();
 
     o.assertNoValues();
-    o.assertError(throwable -> throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException);
+    o.assertError(throwable -> throwable instanceof IllegalStateException
+        && throwable.getCause() instanceof OutsideScopeException);
   }
 }

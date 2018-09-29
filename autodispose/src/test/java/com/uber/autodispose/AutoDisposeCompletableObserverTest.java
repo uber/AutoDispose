@@ -20,13 +20,7 @@ import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
 import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
 import io.reactivex.CompletableObserver;
-import io.reactivex.CompletableOnSubscribe;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Cancellable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subjects.CompletableSubject;
@@ -42,7 +36,10 @@ import static com.uber.autodispose.TestUtil.outsideScopeProvider;
 
 public class AutoDisposeCompletableObserverTest {
 
-  private static final RecordingObserver.Logger LOGGER = message -> System.out.println(AutoDisposeCompletableObserverTest.class.getSimpleName() + ": " + message);
+  private static final RecordingObserver.Logger LOGGER =
+      message -> System.out.println(AutoDisposeCompletableObserverTest.class.getSimpleName()
+          + ": "
+          + message);
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
 
@@ -133,7 +130,8 @@ public class AutoDisposeCompletableObserverTest {
 
   @Test public void verifyObserverDelegate() {
     final AtomicReference<CompletableObserver> atomicObserver = new AtomicReference<>();
-    final AtomicReference<CompletableObserver> atomicAutoDisposingObserver = new AtomicReference<>();
+    final AtomicReference<CompletableObserver> atomicAutoDisposingObserver =
+        new AtomicReference<>();
     try {
       RxJavaPlugins.setOnCompletableSubscribe((source, observer) -> {
         if (atomicObserver.get() == null) {
@@ -219,6 +217,7 @@ public class AutoDisposeCompletableObserverTest {
         .test();
 
     o.assertNoValues();
-    o.assertError(throwable -> throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException);
+    o.assertError(throwable -> throwable instanceof IllegalStateException
+        && throwable.getCause() instanceof OutsideScopeException);
   }
 }

@@ -220,6 +220,7 @@ public class AutoDisposeObserverTest {
         .test();
 
     o.assertNoValues();
-    o.assertError(throwable -> throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException);
+    o.assertError(throwable -> throwable instanceof IllegalStateException
+        && throwable.getCause() instanceof OutsideScopeException);
   }
 }

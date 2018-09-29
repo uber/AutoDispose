@@ -35,7 +35,10 @@ import static com.uber.autodispose.lifecycle.TestUtil.makeLifecycleProvider;
 
 public class LifecycleScopeProviderObservableTest {
 
-  private static final RecordingObserver.Logger LOGGER = message -> System.out.println(LifecycleScopeProviderObservableTest.class.getSimpleName() + ": " + message);
+  private static final RecordingObserver.Logger LOGGER =
+      message -> System.out.println(LifecycleScopeProviderObservableTest.class.getSimpleName()
+          + ": "
+          + message);
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
 
@@ -146,6 +149,7 @@ public class LifecycleScopeProviderObservableTest {
         .test();
 
     o.assertNoValues();
-    o.assertError(throwable -> throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException);
+    o.assertError(throwable -> throwable instanceof IllegalStateException
+        && throwable.getCause() instanceof OutsideScopeException);
   }
 }

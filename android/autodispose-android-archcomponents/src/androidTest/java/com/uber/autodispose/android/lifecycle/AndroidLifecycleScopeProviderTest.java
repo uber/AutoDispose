@@ -20,7 +20,6 @@ import android.arch.lifecycle.Lifecycle;
 import android.support.test.annotation.UiThreadTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
-import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.test.TestLifecycleOwner;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.test.RecordingObserver;

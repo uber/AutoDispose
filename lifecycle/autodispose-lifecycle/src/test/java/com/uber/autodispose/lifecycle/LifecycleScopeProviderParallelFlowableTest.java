@@ -200,8 +200,10 @@ public class LifecycleScopeProviderParallelFlowableTest {
         .subscribe(subscribers);
 
     firstSubscriber.assertNoValues();
-    firstSubscriber.assertError(throwable -> throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException);
+    firstSubscriber.assertError(throwable -> throwable instanceof IllegalStateException
+        && throwable.getCause() instanceof OutsideScopeException);
     secondSubscriber.assertNoValues();
-    secondSubscriber.assertError(throwable -> throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException);
+    secondSubscriber.assertError(throwable -> throwable instanceof IllegalStateException
+        && throwable.getCause() instanceof OutsideScopeException);
   }
 }

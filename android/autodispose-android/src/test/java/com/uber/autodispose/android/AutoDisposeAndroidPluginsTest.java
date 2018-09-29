@@ -18,7 +18,6 @@ package com.uber.autodispose.android;
 
 import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.android.internal.AutoDisposeAndroidUtil;
-import io.reactivex.functions.BooleanSupplier;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

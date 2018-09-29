@@ -39,7 +39,9 @@ import static com.uber.autodispose.TestUtil.outsideScopeProvider;
 public class AutoDisposeMaybeObserverTest {
 
   private static final RecordingObserver.Logger LOGGER =
-      message -> System.out.println(AutoDisposeMaybeObserverTest.class.getSimpleName() + ": " + message);
+      message -> System.out.println(AutoDisposeMaybeObserverTest.class.getSimpleName()
+          + ": "
+          + message);
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
 
@@ -247,6 +249,7 @@ public class AutoDisposeMaybeObserverTest {
         .test();
 
     o.assertNoValues();
-    o.assertError(throwable -> throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException);
+    o.assertError(throwable -> throwable instanceof IllegalStateException
+        && throwable.getCause() instanceof OutsideScopeException);
   }
 }

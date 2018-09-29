@@ -23,7 +23,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.disposables.Disposable;
@@ -36,8 +35,7 @@ import org.junit.runner.RunWith;
 import static com.google.common.truth.Truth.assertThat;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 
-@RunWith(AndroidJUnit4.class)
-public final class ViewScopeProviderTest {
+@RunWith(AndroidJUnit4.class) public final class ViewScopeProviderTest {
 
   private static final RecordingObserver.Logger LOGGER =
       message -> Log.d(ViewScopeProviderTest.class.getSimpleName(), message);
