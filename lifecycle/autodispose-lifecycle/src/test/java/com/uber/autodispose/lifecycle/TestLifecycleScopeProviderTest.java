@@ -25,7 +25,8 @@ import static com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLife
 
 public class TestLifecycleScopeProviderTest {
 
-  private final TestLifecycleScopeProvider testLifecycleScopeProvider = TestLifecycleScopeProvider.create();
+  private final TestLifecycleScopeProvider testLifecycleScopeProvider =
+      TestLifecycleScopeProvider.create();
 
   @Test public void create_noArgs_shouldHaveNoState() {
     assertThat(testLifecycleScopeProvider.peekLifecycle()).isNull();
@@ -44,7 +45,8 @@ public class TestLifecycleScopeProviderTest {
         .apply(testLifecycleScopeProvider.peekLifecycle())).isEqualTo(STOPPED);
   }
 
-  @Test(expected = LifecycleEndedException.class) public void stop_afterStart_shouldTriggerStopEvent() {
+  @Test(expected = LifecycleEndedException.class)
+  public void stop_afterStart_shouldTriggerStopEvent() {
     testLifecycleScopeProvider.start();
     testLifecycleScopeProvider.stop();
 
@@ -53,7 +55,8 @@ public class TestLifecycleScopeProviderTest {
         .apply(testLifecycleScopeProvider.peekLifecycle());
   }
 
-  @Test(expected = IllegalStateException.class) public void stop_beforeStart_shouldThrowException() {
+  @Test(expected = IllegalStateException.class)
+  public void stop_beforeStart_shouldThrowException() {
     testLifecycleScopeProvider.stop();
   }
 

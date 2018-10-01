@@ -189,6 +189,9 @@ There are three artifacts with extra support for Android:
 For each artifact, there is a corresponding kotlin extensions artifact with it. Example:
 `autodispose-android` -> `autodispose-android-ktx`.
 
+Note that the project is compiled against Java 8. If you need support for lower Java versions, you should
+use D8 (Android Gradle Plugin 3.2+) or desugar as needed (depending on the build system).
+
 ##### Kotlin
 
 Kotlin extension artifacts are available for almost every artifact by adding `-ktx` to the ID like 

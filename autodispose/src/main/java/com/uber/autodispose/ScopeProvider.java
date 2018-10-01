@@ -31,11 +31,7 @@ public interface ScopeProvider {
    * A new provider that is "unbound", e.g. will emit a completion event to signal that the
    * scope is unbound.
    */
-  ScopeProvider UNBOUND = new ScopeProvider() {
-    @Override public CompletableSource requestScope() {
-      return Completable.never();
-    }
-  };
+  ScopeProvider UNBOUND = Completable::never;
 
   /**
    * @return a {@link CompletableSource} that, upon completion, will trigger disposal.

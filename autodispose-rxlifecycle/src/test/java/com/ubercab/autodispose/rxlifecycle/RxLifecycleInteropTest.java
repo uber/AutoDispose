@@ -16,7 +16,6 @@
 
 package com.ubercab.autodispose.rxlifecycle;
 
-import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.TestObserver;
@@ -24,14 +23,12 @@ import io.reactivex.subjects.PublishSubject;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 public class RxLifecycleInteropTest {
 
-  private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
-    @Override public void log(String message) {
-      System.out.println(RxLifecycleInteropTest.class.getSimpleName() + ": " + message);
-    }
-  };
+  private static final RecordingObserver.Logger LOGGER =
+      message -> System.out.println(RxLifecycleInteropTest.class.getSimpleName() + ": " + message);
 
   private TestLifecycleProvider lifecycleProvider = new TestLifecycleProvider();
 
@@ -39,7 +36,7 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
-    Disposable d = source.as(AutoDispose.<Integer>autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+    Disposable d = source.as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
         .subscribeWith(o);
     o.assertSubscribed();
 
@@ -60,7 +57,7 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+    source.as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
         .subscribe(o);
     o.takeSubscribe();
 
@@ -80,7 +77,7 @@ public class RxLifecycleInteropTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
     lifecycleProvider.emitDestroy();
-    source.as(AutoDispose.<Integer>autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+    source.as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
         .subscribe(o);
 
     o.takeSubscribe();
@@ -95,7 +92,7 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
-    Disposable d = source.as(AutoDispose.<Integer>autoDisposable(
+    Disposable d = source.as(autoDisposable(
         RxLifecycleInterop.from(lifecycleProvider, TestLifecycleProvider.Event.DESTROY)))
         .subscribeWith(o);
     o.assertSubscribed();
@@ -117,7 +114,7 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
-    source.as(AutoDispose.<Integer>autoDisposable(
+    source.as(autoDisposable(
         RxLifecycleInterop.from(lifecycleProvider, TestLifecycleProvider.Event.DESTROY)))
         .subscribe(o);
     o.takeSubscribe();

@@ -18,7 +18,6 @@ package com.uber.autodispose.android;
 
 import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.android.internal.AutoDisposeAndroidUtil;
-import io.reactivex.functions.BooleanSupplier;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,21 +33,13 @@ public final class AutoDisposeAndroidPluginsTest {
   @Test public void overridingMainThreadCheck_shouldWorkInUnitTests() {
     expectLooperError();
 
-    AutoDisposeAndroidPlugins.setOnCheckMainThread(new BooleanSupplier() {
-      @Override public boolean getAsBoolean() {
-        return true;
-      }
-    });
+    AutoDisposeAndroidPlugins.setOnCheckMainThread(() -> true);
 
     assertThat(AutoDisposeAndroidUtil.isMainThread()).isTrue();
 
     AutoDisposeAndroidPlugins.reset();
 
-    AutoDisposeAndroidPlugins.setOnCheckMainThread(new BooleanSupplier() {
-      @Override public boolean getAsBoolean() {
-        return false;
-      }
-    });
+    AutoDisposeAndroidPlugins.setOnCheckMainThread(() -> false);
 
     assertThat(AutoDisposeAndroidUtil.isMainThread()).isFalse();
 

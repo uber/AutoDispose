@@ -20,13 +20,7 @@ import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
 import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
 import io.reactivex.CompletableObserver;
-import io.reactivex.CompletableOnSubscribe;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Cancellable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.subjects.CompletableSubject;
@@ -42,11 +36,10 @@ import static com.uber.autodispose.TestUtil.outsideScopeProvider;
 
 public class AutoDisposeCompletableObserverTest {
 
-  private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
-    @Override public void log(String message) {
-      System.out.println(AutoDisposeCompletableObserverTest.class.getSimpleName() + ": " + message);
-    }
-  };
+  private static final RecordingObserver.Logger LOGGER =
+      message -> System.out.println(AutoDisposeCompletableObserverTest.class.getSimpleName()
+          + ": "
+          + message);
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
 
@@ -137,18 +130,17 @@ public class AutoDisposeCompletableObserverTest {
 
   @Test public void verifyObserverDelegate() {
     final AtomicReference<CompletableObserver> atomicObserver = new AtomicReference<>();
-    final AtomicReference<CompletableObserver> atomicAutoDisposingObserver = new AtomicReference<>();
+    final AtomicReference<CompletableObserver> atomicAutoDisposingObserver =
+        new AtomicReference<>();
     try {
-      RxJavaPlugins.setOnCompletableSubscribe(new BiFunction<Completable, CompletableObserver, CompletableObserver>() {
-        @Override public CompletableObserver apply(Completable source, CompletableObserver observer) {
-          if (atomicObserver.get() == null) {
-            atomicObserver.set(observer);
-          } else if (atomicAutoDisposingObserver.get() == null) {
-            atomicAutoDisposingObserver.set(observer);
-            RxJavaPlugins.setOnObservableSubscribe(null);
-          }
-          return observer;
+      RxJavaPlugins.setOnCompletableSubscribe((source, observer) -> {
+        if (atomicObserver.get() == null) {
+          atomicObserver.set(observer);
+        } else if (atomicAutoDisposingObserver.get() == null) {
+          atomicAutoDisposingObserver.set(observer);
+          RxJavaPlugins.setOnObservableSubscribe(null);
         }
+        return observer;
       });
       Completable.complete()
           .as(autoDisposable(ScopeProvider.UNBOUND))
@@ -167,15 +159,7 @@ public class AutoDisposeCompletableObserverTest {
   @Test public void verifyCancellation() {
     final AtomicInteger i = new AtomicInteger();
     //noinspection unchecked because Java
-    Completable source = Completable.create(new CompletableOnSubscribe() {
-      @Override public void subscribe(CompletableEmitter e) {
-        e.setCancellable(new Cancellable() {
-          @Override public void cancel() {
-            i.incrementAndGet();
-          }
-        });
-      }
-    });
+    Completable source = Completable.create(e -> e.setCancellable(i::incrementAndGet));
     CompletableSubject scope = CompletableSubject.create();
     source.as(autoDisposable(scope))
         .subscribe();
@@ -210,9 +194,7 @@ public class AutoDisposeCompletableObserverTest {
   }
 
   @Test public void autoDispose_outsideScope_withProviderAndNoOpPlugin_shouldFailSilently() {
-    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
-      @Override public void accept(OutsideScopeException e) { }
-    });
+    AutoDisposePlugins.setOutsideScopeHandler(e -> { });
     ScopeProvider provider = outsideScopeProvider();
     CompletableSubject source = CompletableSubject.create();
     TestObserver<Void> o = source.as(autoDisposable(provider))
@@ -224,12 +206,10 @@ public class AutoDisposeCompletableObserverTest {
   }
 
   @Test public void autoDispose_outsideScope_withProviderAndPlugin_shouldFailWithWrappedExp() {
-    AutoDisposePlugins.setOutsideScopeHandler(new Consumer<OutsideScopeException>() {
-      @Override public void accept(OutsideScopeException e) {
-        // Wrap in an IllegalStateException so we can verify this is the exception we see on the
-        // other side
-        throw new IllegalStateException(e);
-      }
+    AutoDisposePlugins.setOutsideScopeHandler(e -> {
+      // Wrap in an IllegalStateException so we can verify this is the exception we see on the
+      // other side
+      throw new IllegalStateException(e);
     });
     ScopeProvider provider = outsideScopeProvider();
     TestObserver<Void> o = CompletableSubject.create()
@@ -237,10 +217,7 @@ public class AutoDisposeCompletableObserverTest {
         .test();
 
     o.assertNoValues();
-    o.assertError(new Predicate<Throwable>() {
-      @Override public boolean test(Throwable throwable) {
-        return throwable instanceof IllegalStateException && throwable.getCause() instanceof OutsideScopeException;
-      }
-    });
+    o.assertError(throwable -> throwable instanceof IllegalStateException
+        && throwable.getCause() instanceof OutsideScopeException);
   }
 }

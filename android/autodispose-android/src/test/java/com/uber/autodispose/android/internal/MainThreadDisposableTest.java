@@ -14,12 +14,10 @@
 package com.uber.autodispose.android.internal;
 
 import com.uber.autodispose.android.AutoDisposeAndroidPlugins;
-import io.reactivex.functions.BooleanSupplier;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -30,18 +28,12 @@ public final class MainThreadDisposableTest {
   }
 
   @Test public void onDispose_defersToMainThreadHook() {
-    AutoDisposeAndroidPlugins.setOnCheckMainThread(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean() {
-        return true;
-      }
-    });
+    AutoDisposeAndroidPlugins.setOnCheckMainThread(() -> true);
 
     final AtomicBoolean called = new AtomicBoolean();
 
     new MainThreadDisposable() {
-      @Override
-      protected void onDispose() {
+      @Override protected void onDispose() {
         called.set(true);
       }
     }.dispose();
@@ -49,12 +41,10 @@ public final class MainThreadDisposableTest {
     assertThat(called.get()).isTrue();
   }
 
-  @Test
-  public void onDisposeFailsWhenMainThreadCheckNotSet() {
+  @Test public void onDisposeFailsWhenMainThreadCheckNotSet() {
     try {
       new MainThreadDisposable() {
-        @Override
-        protected void onDispose() { }
+        @Override protected void onDispose() { }
       }.dispose();
       throw new AssertionError("Expected to fail before this due to Looper not being stubbed!");
     } catch (RuntimeException e) {

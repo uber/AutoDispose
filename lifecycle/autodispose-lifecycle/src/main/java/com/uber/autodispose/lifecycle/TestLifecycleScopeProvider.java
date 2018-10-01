@@ -63,16 +63,14 @@ public final class TestLifecycleScopeProvider
   }
 
   @Override public CorrespondingEventsFunction<TestLifecycle> correspondingEvents() {
-    return new CorrespondingEventsFunction<TestLifecycle>() {
-      @Override public TestLifecycle apply(TestLifecycle testLifecycle) {
-        switch (testLifecycle) {
-          case STARTED:
-            return TestLifecycle.STOPPED;
-          case STOPPED:
-            throw new LifecycleEndedException();
-          default:
-            throw new IllegalStateException("Unknown lifecycle event.");
-        }
+    return testLifecycle -> {
+      switch (testLifecycle) {
+        case STARTED:
+          return TestLifecycle.STOPPED;
+        case STOPPED:
+          throw new LifecycleEndedException();
+        default:
+          throw new IllegalStateException("Unknown lifecycle event.");
       }
     };
   }

@@ -23,7 +23,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.disposables.Disposable;
@@ -34,15 +33,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
-@RunWith(AndroidJUnit4.class)
-public final class ViewScopeProviderTest {
+@RunWith(AndroidJUnit4.class) public final class ViewScopeProviderTest {
 
-  private static final RecordingObserver.Logger LOGGER = new RecordingObserver.Logger() {
-    @Override public void log(String message) {
-      Log.d(ViewScopeProviderTest.class.getSimpleName(), message);
-    }
-  };
+  private static final RecordingObserver.Logger LOGGER =
+      message -> Log.d(ViewScopeProviderTest.class.getSimpleName(), message);
 
   @Rule public final ActivityTestRule<AutoDisposeTestActivity> activityRule =
       new ActivityTestRule<>(AutoDisposeTestActivity.class);
@@ -62,17 +58,9 @@ public final class ViewScopeProviderTest {
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Attach it
-    instrumentation.runOnMainSync(new Runnable() {
-      @Override public void run() {
-        parent.addView(child);
-      }
-    });
-    instrumentation.runOnMainSync(new Runnable() {
-      @Override public void run() {
-        subject.as(AutoDispose.<Integer>autoDisposable(ViewScopeProvider.from(child)))
-            .subscribe(o);
-      }
-    });
+    instrumentation.runOnMainSync(() -> parent.addView(child));
+    instrumentation.runOnMainSync(() -> subject.as(autoDisposable(ViewScopeProvider.from(child)))
+        .subscribe(o));
 
     Disposable d = o.takeSubscribe();
     o.assertNoMoreEvents(); // No initial value.
@@ -83,11 +71,7 @@ public final class ViewScopeProviderTest {
     subject.onNext(1);
     assertThat(o.takeNext()).isEqualTo(1);
 
-    instrumentation.runOnMainSync(new Runnable() {
-      @Override public void run() {
-        parent.removeView(child);
-      }
-    });
+    instrumentation.runOnMainSync(() -> parent.removeView(child));
 
     subject.onNext(2);
     o.assertNoMoreEvents();
@@ -100,12 +84,8 @@ public final class ViewScopeProviderTest {
     PublishSubject<Integer> subject = PublishSubject.create();
 
     // Attach it
-    instrumentation.runOnMainSync(new Runnable() {
-      @Override public void run() {
-        parent.addView(child);
-      }
-    });
-    subject.as(AutoDispose.<Integer>autoDisposable(ViewScopeProvider.from(child)))
+    instrumentation.runOnMainSync(() -> parent.addView(child));
+    subject.as(autoDisposable(ViewScopeProvider.from(child)))
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -120,12 +100,8 @@ public final class ViewScopeProviderTest {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
-    instrumentation.runOnMainSync(new Runnable() {
-      @Override public void run() {
-        subject.as(AutoDispose.<Integer>autoDisposable(ViewScopeProvider.from(child)))
-            .subscribe(o);
-      }
-    });
+    instrumentation.runOnMainSync(() -> subject.as(autoDisposable(ViewScopeProvider.from(child)))
+        .subscribe(o));
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
@@ -138,22 +114,10 @@ public final class ViewScopeProviderTest {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
-    instrumentation.runOnMainSync(new Runnable() {
-      @Override public void run() {
-        parent.addView(child);
-      }
-    });
-    instrumentation.runOnMainSync(new Runnable() {
-      @Override public void run() {
-        parent.removeView(child);
-      }
-    });
-    instrumentation.runOnMainSync(new Runnable() {
-      @Override public void run() {
-        subject.as(AutoDispose.<Integer>autoDisposable(ViewScopeProvider.from(child)))
-            .subscribe(o);
-      }
-    });
+    instrumentation.runOnMainSync(() -> parent.addView(child));
+    instrumentation.runOnMainSync(() -> parent.removeView(child));
+    instrumentation.runOnMainSync(() -> subject.as(autoDisposable(ViewScopeProvider.from(child)))
+        .subscribe(o));
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();

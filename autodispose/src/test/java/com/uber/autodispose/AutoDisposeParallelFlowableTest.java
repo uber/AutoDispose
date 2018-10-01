@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.reactivestreams.Subscriber;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 public class AutoDisposeParallelFlowableTest {
 
@@ -26,7 +27,7 @@ public class AutoDisposeParallelFlowableTest {
     Subscriber<Integer>[] subscribers = new Subscriber[] { subscriber };
     Flowable.just(1, 2)
         .parallel(DEFAULT_PARALLELISM)
-        .as(AutoDispose.<Integer>autoDisposable(scope))
+        .as(autoDisposable(scope))
         .subscribe(subscribers);
 
     List<Throwable> errors = subscriber.errors();
@@ -43,7 +44,7 @@ public class AutoDisposeParallelFlowableTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
     source.parallel(DEFAULT_PARALLELISM)
-        .as(AutoDispose.<Integer>autoDisposable(scope))
+        .as(autoDisposable(scope))
         .subscribe(subscribers);
     firstSubscriber.assertSubscribed();
     secondSubscriber.assertSubscribed();
@@ -76,7 +77,7 @@ public class AutoDisposeParallelFlowableTest {
     Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
 
     source.parallel(DEFAULT_PARALLELISM)
-        .as(AutoDispose.<Integer>autoDisposable(scope))
+        .as(autoDisposable(scope))
         .subscribe(subscribers);
 
     firstSubscriber.assertSubscribed();
@@ -107,7 +108,7 @@ public class AutoDisposeParallelFlowableTest {
     Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
 
     source.parallel(DEFAULT_PARALLELISM)
-        .as(AutoDispose.<Integer>autoDisposable(provider))
+        .as(autoDisposable(provider))
         .subscribe(subscribers);
     firstSubscriber.assertSubscribed();
     secondSubscriber.assertSubscribed();
@@ -147,7 +148,7 @@ public class AutoDisposeParallelFlowableTest {
     Subscriber<Object>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
     PublishProcessor.create()
         .parallel(DEFAULT_PARALLELISM)
-        .as(AutoDispose.autoDisposable(ScopeProvider.UNBOUND))
+        .as(autoDisposable(ScopeProvider.UNBOUND))
         .subscribe(subscribers);
     firstSubscriber.assertNoValues();
     firstSubscriber.assertNoErrors();
@@ -164,7 +165,7 @@ public class AutoDisposeParallelFlowableTest {
     Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
 
     source.parallel(DEFAULT_PARALLELISM)
-        .as(AutoDispose.<Integer>autoDisposable(ScopeProvider.UNBOUND))
+        .as(autoDisposable(ScopeProvider.UNBOUND))
         .subscribe(subscribers);
 
     source.onNext(1);

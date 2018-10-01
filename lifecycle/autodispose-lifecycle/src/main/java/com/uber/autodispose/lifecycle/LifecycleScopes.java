@@ -33,11 +33,7 @@ import java.util.concurrent.Callable;
  */
 public final class LifecycleScopes {
 
-  private static final Comparator<Comparable<Object>> COMPARABLE_COMPARATOR = new Comparator<Comparable<Object>>() {
-    @Override public int compare(Comparable<Object> o1, Comparable<Object> o2) {
-      return o1.compareTo(o2);
-    }
-  };
+  private static final Comparator<Comparable<Object>> COMPARABLE_COMPARATOR = Comparable::compareTo;
 
   private LifecycleScopes() {
     throw new InstantiationError();
@@ -136,17 +132,9 @@ public final class LifecycleScopes {
       @Nullable final Comparator<E> comparator) {
     Predicate<E> equalityPredicate;
     if (comparator != null) {
-      equalityPredicate = new Predicate<E>() {
-        @Override public boolean test(E e) {
-          return comparator.compare(e, endEvent) >= 0;
-        }
-      };
+      equalityPredicate = e -> comparator.compare(e, endEvent) >= 0;
     } else {
-      equalityPredicate = new Predicate<E>() {
-        @Override public boolean test(E e) {
-          return e.equals(endEvent);
-        }
-      };
+      equalityPredicate = e -> e.equals(endEvent);
     }
     return lifecycle.skip(1)
         .takeUntil(equalityPredicate)

@@ -33,6 +33,8 @@ import io.reactivex.annotations.Nullable;
 import io.reactivex.subjects.BehaviorSubject;
 import org.reactivestreams.Subscriber;
 
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+
 /**
  * Cases that use {@link AutoDispose} and should not fail the {@link UseAutoDispose} check.
  */
@@ -80,31 +82,31 @@ public class UseAutoDisposeNegativeCases implements LifecycleScopeProvider<TestL
 
   public void observable_subscribeWithAutoDispose() {
     Observable.just(1)
-        .as(AutoDispose.<Integer>autoDisposable(this))
+        .as(autoDisposable(this))
         .subscribe();
   }
 
   public void single_subscribeWithAutoDispose() {
     Single.just(true)
-        .as(AutoDispose.<Boolean>autoDisposable(this))
+        .as(autoDisposable(this))
         .subscribe();
   }
 
   public void completable_subscribeWithAutoDispose() {
     Completable.complete()
-        .as(AutoDispose.autoDisposable(this))
+        .as(autoDisposable(this))
         .subscribe();
   }
 
   public void maybe_subscribeWithAutoDispose() {
     Maybe.just(1)
-        .as(AutoDispose.<Integer>autoDisposable(this))
+        .as(autoDisposable(this))
         .subscribe();
   }
 
   public void flowable_subscribeWithAutoDispose() {
     Flowable.just(1)
-        .as(AutoDispose.<Integer>autoDisposable(this))
+        .as(autoDisposable(this))
         .subscribe();
   }
 
@@ -112,7 +114,7 @@ public class UseAutoDisposeNegativeCases implements LifecycleScopeProvider<TestL
     Subscriber<Integer>[] subscribers = new Subscriber[] {};
     Flowable.just(1, 2)
         .parallel(2)
-        .as(AutoDispose.<Integer>autoDisposable(this))
+        .as(autoDisposable(this))
         .subscribe(subscribers);
   }
 }

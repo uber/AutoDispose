@@ -18,7 +18,6 @@ package com.uber.autodispose.test;
 
 import io.reactivex.exceptions.CompositeException;
 import io.reactivex.exceptions.UndeliverableException;
-import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +39,7 @@ public class RxErrorsRule extends TestWatcher {
   private BlockingDeque<Throwable> errors = new LinkedBlockingDeque<>();
 
   @Override protected void starting(Description description) {
-    RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
-      @Override public void accept(Throwable t) {
-        errors.add(t);
-      }
-    });
+    RxJavaPlugins.setErrorHandler(t -> errors.add(t));
   }
 
   @Override protected void finished(Description description) {
