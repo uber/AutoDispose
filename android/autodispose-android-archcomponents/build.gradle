@@ -31,8 +31,8 @@ android {
     testApplicationId "com.uber.autodispose.android.lifecycle.androidTest"
   }
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility deps.build.javaVersion
+    targetCompatibility deps.build.javaVersion
   }
   lintOptions {
     lintConfig file('lint.xml')
