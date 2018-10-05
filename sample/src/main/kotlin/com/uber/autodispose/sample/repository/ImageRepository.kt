@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.sample
+package com.uber.autodispose.sample.repository
 
 import android.content.res.Resources
 import android.graphics.Bitmap

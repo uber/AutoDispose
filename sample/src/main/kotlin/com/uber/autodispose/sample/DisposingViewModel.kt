@@ -16,45 +16,80 @@
 
 package com.uber.autodispose.sample
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
 import android.util.Log
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.uber.autodispose.autoDisposable
 import com.uber.autodispose.recipes.AutoDisposeViewModel
-import com.uber.autodispose.recipes.subscribeBy
+import com.uber.autodispose.sample.repository.NetworkRepository
+import com.uber.autodispose.sample.state.DownloadState
 import io.reactivex.Observable
-import java.util.concurrent.TimeUnit
+import io.reactivex.schedulers.Schedulers
 
-class DisposingViewModel: AutoDisposeViewModel() {
+/**
+ * Demo AutoDisposing ViewModel.
+ *
+ * This ViewModel will subscribe to Rx streams for you and pass along
+ * the values through the [viewRelay].
+ *
+ * Often times, like in the case of network calls, we want our network
+ * requests to go on even if there are orientation changes. If you subscribe
+ * to your network Rx stream in the view, the request will be cancelled on
+ * orientation change (since your streams are disposed) and you will likely
+ * have to make a new network call.
+ *
+ * Since the ViewModel survives configuration changes, it is an ideal place
+ * to subscribe to network Rx streams and then pass it along to the UI
+ * using a [BehaviorRelay] or LiveData. Since both of them cache the last
+ * emitted value, as soon as your Activity/Fragment comes back and resubscribes
+ * to the [viewRelay] after orientation change, it will safely get the most
+ * updated value.
+ *
+ * AutoDispose will automatically dispose any pending subscriptions when
+ * the [onCleared] method is called since it extends from [AutoDisposeViewModel].
+ */
+class DisposingViewModel(private val repository: NetworkRepository): AutoDisposeViewModel() {
 
   /**
    * The relay to communicate state to the UI.
    *
    * This should be subscribed by the UI to get the latest
    * state updates unaffected by config changes.
-   * This could easily be substituted by a LiveData instance.
+   * This could easily be substituted by a LiveData instance
+   * since both of them cache the last emitted value.
    */
-  private val viewRelay = BehaviorRelay.create<String>()
+  private val viewRelay = BehaviorRelay.create<DownloadState>()
 
   /**
-   * Meant to model a long standing operation.
+   * Downloads a large image over the network.
    *
-   * We first tell the UI that we're loading from network.
-   * We introduce a artificial delay of 10s to load the actual
-   * network. If the config changes, the network will still continue
-   * to fetch the resource, unaffected by disposal of the [viewRelay].
-   * Whenever it's ready, it will pass it along to the [viewRelay].
+   * This could take some time and we wish to show
+   * a progress indicator to the user. We setup a
+   * [DownloadState] which we will pass to the UI to
+   * show our state.
+   *
+   * We subscribe in ViewModel to survive configuration
+   * changes and keep the download request going. As the
+   * view will resubscribe to the [viewRelay], it will get
+   * the most updated [DownloadState].
+   *
+   * @see repository
    */
-  fun loadNetworkResource() {
+  fun downloadLargeImage() {
     // Notify UI that we're loading network
-    viewRelay.accept("Loading from network")
-    Observable.just("Network loaded")
-        .delay(10, TimeUnit.SECONDS)
+    viewRelay.accept(DownloadState.Started)
+    repository.downloadProgress()
+        .subscribeOn(Schedulers.io())
         .doOnDispose { Log.i(TAG, "Disposing subscription from the ViewModel") }
         .autoDisposable(this)
-        .subscribe({
-          // Loading done. Pass along to the UI
-          viewRelay.accept(it)
-        }, { _ ->})
+        .subscribe({ progress ->
+          viewRelay.accept(DownloadState.InProgress(progress))
+        }, { error ->
+          error.printStackTrace()
+        }, {
+          viewRelay.accept(DownloadState.Completed)
+        })
   }
 
   /**
@@ -64,11 +99,18 @@ class DisposingViewModel: AutoDisposeViewModel() {
    * but you can model your own ViewState with a sealed class
    * and expose that.
    */
-  fun viewState(): Observable<String> {
+  fun downloadState(): Observable<DownloadState> {
     return viewRelay.hide()
   }
 
   companion object {
     const val TAG = "DisposingViewModel"
+  }
+
+  class Factory(private val networkRepository: NetworkRepository): ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+      @Suppress("UNCHECKED_CAST")
+      return DisposingViewModel(networkRepository) as T
+    }
   }
 }

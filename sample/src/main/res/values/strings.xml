@@ -22,8 +22,14 @@
   <string name="java_demo">Java Demo</string>
   <string name="kotlin_demo">Kotlin Demo</string>
   <string name="arch_components_demo">Arch Components Demo</string>
+  <string name="disposing_viewmodel_demo">Disposing ViewModel Demo</string>
   <string name="load_image">Load Image</string>
+  <string name="download_started">Download started</string>
+  <string name="download_in_progress">Download in progress</string>
+  <string name="download_completed">Download completed.</string>
+  <string name="disposing_viewmodel_activity_message">We are downloading a large image. You can see the progress of that image in the progress bar below. \n\nSince we\'re subscribing in the ViewModel, you can rotate your device and the download will still continue and you will get the updated download state of the image.</string>
   <string name="java_activity_description">Sample Java Activity demonstrating integration with Architecture Components Lifecycle</string>
   <string name="kotlin_activity_description">Sample Kotlin Activity demonstrating integration with Architecture Components Lifecycle</string>
   <string name="arch_components_activity_description">Sample Architecture Components Activity which uses ViewModel to expose Observables that are consumed in the Activity.</string>
+  <string name="disposing_viewmodel_activity_description">Sample Activity which demonstrates avoiding cancellation of network calls by subscribing in the ViewModel</string>
 </resources>

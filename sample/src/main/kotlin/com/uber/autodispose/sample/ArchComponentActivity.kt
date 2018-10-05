@@ -24,6 +24,7 @@ import android.widget.Button
 import android.widget.ImageView
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.sample.repository.ImageRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 

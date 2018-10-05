@@ -19,6 +19,7 @@ package com.uber.autodispose.sample
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.graphics.Bitmap
+import com.uber.autodispose.sample.repository.ImageRepository
 import io.reactivex.Observable
 
 

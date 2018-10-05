@@ -19,38 +19,69 @@ package com.uber.autodispose.sample
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.uber.autodispose.ScopeProvider
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.sample.repository.NetworkRepository
+import com.uber.autodispose.sample.state.DownloadState
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 class DisposingViewModelActivity: AppCompatActivity() {
 
-  private val viewModel: DisposingViewModel by lazy { ViewModelProviders.of(this).get(DisposingViewModel::class.java) }
+  // Network repository. Can be substituted by DI
+  private val networkRepository: NetworkRepository by lazy { NetworkRepository() }
+  // The view model factory
+  private val viewModelFactory by lazy { DisposingViewModel.Factory(networkRepository) }
+  // The ViewModel for this Activity.
+  private val viewModel: DisposingViewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(DisposingViewModel::class.java) }
 
   private val scope: ScopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
 
-  lateinit var textView: TextView
+  private lateinit var textView: TextView
+  private lateinit var progressBar: ProgressBar
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_disposing_viewmodel)
 
     textView = findViewById(R.id.textView)
+    progressBar = findViewById(R.id.downloadProgress)
+    progressBar.max = 50
 
     // If we're coming from a configuration change, no need to
     // start the stream again.
     if (savedInstanceState == null) {
-      viewModel.loadNetworkResource()
+      viewModel.downloadLargeImage()
     }
 
     // Get latest value from ViewModel unaffected by any config changes.
-    viewModel.viewState()
+    viewModel.downloadState()
         .observeOn(AndroidSchedulers.mainThread())
         .autoDisposable(scope)
-        .subscribe({ value ->
-          textView.text = value
+        .subscribe({ state ->
+          resolveState(state)
         }, {})
+  }
+
+  /**
+   * State resolver for the UI.
+   *
+   * @param state the download state.
+   */
+  private fun resolveState(state: DownloadState) {
+    when(state) {
+      is DownloadState.Started -> {
+        textView.setText(R.string.download_started)
+      }
+      is DownloadState.InProgress -> {
+        textView.setText(R.string.download_in_progress)
+        progressBar.progress = state.progress
+      }
+      is DownloadState.Completed -> {
+        textView.setText(R.string.download_completed)
+      }
+    }
   }
 }
