@@ -35,6 +35,7 @@ def build = [
     ci: 'true' == System.getenv('CI'),
     minSdkVersion: 14,
     targetSdkVersion: 28,
+    javaVersion: JavaVersion.VERSION_1_8,
 
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
     errorProneCheckApi: "com.google.errorprone:error_prone_check_api:${versions.errorProne}",
