@@ -91,7 +91,22 @@
         android:id="@+id/kotlinActivityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:text="@string/kotlin_demo"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginBottom="8dp"
+        android:text="@string/disposing_viewmodel_activity_description"/>
+
+    <Button
+        android:id="@+id/disposingActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/disposing_viewmodel_demo"/>
 
   </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
