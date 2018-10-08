@@ -20,6 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.view.View
 import android.widget.Button
 
 /**
@@ -42,6 +43,11 @@ class HomeActivity: AppCompatActivity() {
     val mainActivityButton: Button = findViewById(R.id.javaActivityButton)
     mainActivityButton.setOnClickListener {
       startActivity(JavaActivity::class.java)
+    }
+
+    val mainFragmentActivityButton = findViewById<View>(R.id.javaFragmentActivityButton)
+    mainFragmentActivityButton.setOnClickListener {
+      startActivity(JavaFragmentActivity::class.java)
     }
 
     val archComponentsButton: Button = findViewById(R.id.archComponentsActivityButton)

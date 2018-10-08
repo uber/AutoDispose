@@ -20,6 +20,7 @@
   <string name="title_activity_main">AutoDispose Demo</string>
   <string name="title_activity_arch_component">AutoDispose ArchComponents Demo</string>
   <string name="java_demo">Java Demo</string>
+  <string name="java_fragment_demo">Java Fragment Demo</string>
   <string name="kotlin_demo">Kotlin Demo</string>
   <string name="arch_components_demo">Arch Components Demo</string>
   <string name="disposing_viewmodel_demo">Disposing ViewModel Demo</string>
