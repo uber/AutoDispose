@@ -15,14 +15,12 @@
  */
 
 def versions = [
-    androidTest: '1.0.1',
-    archComponents: '1.1.1',
-    archRuntime: '1.1.1',
+    androidTest: '1.1.0-beta01',
+    archLifecycle: '2.0.0',
     dokka: '0.9.17',
     errorProne: '2.3.1',
     errorPronePlugin: '0.0.13',
-    kotlin: '1.2.71',
-    support: '28.0.0'
+    kotlin: '1.2.71'
 ]
 
 def apt = [
@@ -63,32 +61,32 @@ def rx = [
     java: 'io.reactivex.rxjava2:rxjava:2.2.2'
 ]
 
-def support = [
-    annotations: "com.android.support:support-annotations:${versions.support}",
+def androidx = [
+    annotations: "androidx.annotation:annotation:1.0.0",
     arch: [
         lifecycle: [
-            compiler: "android.arch.lifecycle:compiler:${versions.archComponents}",
-            common: "android.arch.lifecycle:common:${versions.archComponents}",
-            runtime: "android.arch.lifecycle:runtime:${versions.archRuntime}"
+            compiler: "androidx.lifecycle:lifecycle-compiler:${versions.archLifecycle}",
+            common: "androidx.lifecycle:lifecycle-common:${versions.archLifecycle}",
+            runtime: "androidx.lifecycle:lifecycle-runtime:${versions.archLifecycle}"
         ]
     ]
 ]
 
 def test = [
-    androidRunner: "com.android.support.test:runner:${versions.androidTest}",
-    androidRules: "com.android.support.test:rules:${versions.androidTest}",
-    androidOrchestrator: "com.android.support.test:orchestrator:${versions.androidTest}",
+    androidRunner: "androidx.test:runner:${versions.androidTest}",
+    androidRules: "androidx.test:rules:${versions.androidTest}",
+    androidOrchestrator: "androidx.test:orchestrator:${versions.androidTest}",
     junit: 'junit:junit:4.12',
     truth: 'com.google.truth:truth:0.40'
 ]
 
 ext.deps = [
+    "androidx": androidx,
     "apt": apt,
     "build": build,
     "kotlin": kotlin,
     "misc": misc,
     "rx": rx,
-    "support": support,
     "test": test,
     "versions": versions
 ]
