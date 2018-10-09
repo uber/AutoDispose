@@ -21,7 +21,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.uber.autodispose.sample.JavaActivity"
+    tools:context="com.uber.autodispose.sample.HomeActivity"
     >
 
   <com.google.android.material.appbar.AppBarLayout
@@ -36,89 +36,97 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/PopupOverlay"
-        app:titleTextColor="@android:color/black"
+        app:titleTextColor="@android:color/white"
         />
 
   </com.google.android.material.appbar.AppBarLayout>
 
-  <LinearLayout
-      xmlns:android="http://schemas.android.com/apk/res/android"
+  <ScrollView
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="wrap_content"
       android:layout_gravity="center"
       android:layout_marginEnd="16dp"
       android:layout_marginStart="16dp"
-      android:layout_marginTop="?attr/actionBarSize"
+      android:clipToPadding="false"
       android:gravity="center"
-      android:orientation="vertical"
+      android:paddingTop="?attr/actionBarSize"
       >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
         android:gravity="center"
-        android:text="@string/java_activity_description"
-        />
+        >
 
-    <Button
-        android:id="@+id/javaActivityButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/java_demo"
-        />
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginBottom="8dp"
+          android:gravity="center"
+          android:text="@string/java_activity_description"
+          />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:text="@string/arch_components_activity_description"
-        />
+      <Button
+          android:id="@+id/javaActivityButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="32dp"
+          android:text="@string/java_demo"
+          />
 
-    <Button
-        android:id="@+id/archComponentsActivityButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/arch_components_demo"
-        />
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginBottom="8dp"
+          android:gravity="center"
+          android:text="@string/arch_components_activity_description"
+          />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:text="@string/kotlin_activity_description"
-        />
+      <Button
+          android:id="@+id/archComponentsActivityButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="32dp"
+          android:text="@string/arch_components_demo"
+          />
 
-    <Button
-        android:id="@+id/kotlinActivityButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/kotlin_demo"
-        />
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginBottom="8dp"
+          android:gravity="center"
+          android:text="@string/kotlin_activity_description"
+          />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:text="@string/disposing_viewmodel_activity_description"
-        />
+      <Button
+          android:id="@+id/kotlinActivityButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="32dp"
+          android:text="@string/kotlin_demo"
+          />
 
-    <Button
-        android:id="@+id/disposingActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/disposing_viewmodel_demo"
-        />
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginBottom="8dp"
+          android:gravity="center"
+          android:text="@string/disposing_viewmodel_activity_description"
+          />
 
-  </LinearLayout>
+      <Button
+          android:id="@+id/disposingActivity"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/disposing_viewmodel_demo"
+          />
+
+    </LinearLayout>
+  </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

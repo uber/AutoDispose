@@ -16,11 +16,14 @@
 
 package com.uber.autodispose.sample;
 
-import androidx.lifecycle.Lifecycle;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 import io.reactivex.Observable;
 import java.util.concurrent.TimeUnit;
@@ -28,20 +31,18 @@ import java.util.concurrent.TimeUnit;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 /**
- * Demo activity, shamelessly borrowed from the RxLifecycle sample.
+ * Demo Fragment showing both conventional lifecycle management as well as the new
+ * {@link #getViewLifecycleOwner()} API.
  * <p>
  * This leverages the Architecture Components support for the demo.
  */
-public class JavaActivity extends AppCompatActivity {
+public class JavaFragment extends Fragment {
 
-  private static final String TAG = "JavaActivity";
+  private static final String TAG = "JavaFragment";
 
-  @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
     Log.d(TAG, "onCreate()");
-
-    setContentView(R.layout.activity_main);
 
     // Using automatic disposal, this should determine that the correct time to
     // dispose is onDestroy (the opposite of onCreate).
@@ -49,13 +50,30 @@ public class JavaActivity extends AppCompatActivity {
         .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onCreate()"))
         .as(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): " + num));
-
-    getSupportFragmentManager().beginTransaction()
-        .add(R.id.fragment_container, new JavaFragment())
-        .commitNow();
   }
 
-  @Override protected void onStart() {
+  @Nullable @Override public View onCreateView(LayoutInflater inflater,
+      @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
+    Log.d(TAG, "onCreateView()");
+    return inflater.inflate(R.layout.content_main, container, false);
+  }
+
+  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    Log.d(TAG, "onViewCreated()");
+    // Using automatic disposal, this should determine that the correct time to
+    // dispose is onDestroyView (the opposite of onCreateView).
+    // Note we do this in onViewCreated to defer until after the view is created
+    Observable.interval(1, TimeUnit.SECONDS)
+        .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onViewCreated()"))
+        .as(autoDisposable(AndroidLifecycleScopeProvider.from(getViewLifecycleOwner())))
+        .subscribe(num -> Log.i(
+            TAG,
+            "Started in onViewCreated(), running until onDestroyView(): " + num));
+  }
+
+  @Override public void onStart() {
     super.onStart();
 
     Log.d(TAG, "onStart()");
@@ -68,7 +86,7 @@ public class JavaActivity extends AppCompatActivity {
         .subscribe(num -> Log.i(TAG, "Started in onStart(), running until in onStop(): " + num));
   }
 
-  @Override protected void onResume() {
+  @Override public void onResume() {
     super.onResume();
 
     Log.d(TAG, "onResume()");
@@ -82,22 +100,31 @@ public class JavaActivity extends AppCompatActivity {
 
     // Setting a specific untilEvent, this should dispose in onDestroy.
     Observable.interval(1, TimeUnit.SECONDS)
-        .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY"))
+        .doOnDispose(() -> Log.i(
+            TAG,
+            "Disposing subscription from onResume() with untilEvent ON_DESTROY"))
         .as(autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
-        .subscribe(num -> Log.i(TAG, "Started in onResume(), running until in onDestroy(): " + num));
+        .subscribe(num -> Log.i(
+            TAG,
+            "Started in onResume(), running until in onDestroy(): " + num));
   }
 
-  @Override protected void onPause() {
+  @Override public void onPause() {
     Log.d(TAG, "onPause()");
     super.onPause();
   }
 
-  @Override protected void onStop() {
+  @Override public void onStop() {
     Log.d(TAG, "onStop()");
     super.onStop();
   }
 
-  @Override protected void onDestroy() {
+  @Override public void onDestroyView() {
+    Log.d(TAG, "onDestroyView()");
+    super.onDestroyView();
+  }
+
+  @Override public void onDestroy() {
     Log.d(TAG, "onDestroy()");
     super.onDestroy();
   }
