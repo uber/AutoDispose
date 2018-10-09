@@ -17,14 +17,14 @@
 package com.uber.autodispose.android;
 
 import android.os.Build;
-import android.support.annotation.RestrictTo;
+import androidx.annotation.RestrictTo;
 import android.view.View;
 import com.uber.autodispose.OutsideScopeException;
 import io.reactivex.CompletableObserver;
 import io.reactivex.CompletableSource;
 import io.reactivex.android.MainThreadDisposable;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+import static androidx.annotation.RestrictTo.Scope.LIBRARY;
 import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
 
 @RestrictTo(LIBRARY)

@@ -16,7 +16,7 @@
 
 package com.uber.autodispose.android.lifecycle;
 
-import android.arch.lifecycle.Lifecycle;
+import androidx.lifecycle.Lifecycle;
 import android.support.test.annotation.UiThreadTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;

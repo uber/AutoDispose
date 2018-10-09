@@ -19,7 +19,7 @@ package com.uber.autodispose.sample.repository
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.support.annotation.RawRes
+import androidx.annotation.RawRes
 import com.jakewharton.rx.replayingShare
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable

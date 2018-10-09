@@ -16,7 +16,7 @@
 
 package com.uber.autodispose.android;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import io.reactivex.exceptions.Exceptions;
 import io.reactivex.functions.BooleanSupplier;
 

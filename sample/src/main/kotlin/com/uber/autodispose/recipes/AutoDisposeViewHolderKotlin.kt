@@ -16,7 +16,7 @@
 
 package com.uber.autodispose.recipes
 
-import android.support.v7.widget.BindAwareViewHolder
+import androidx.appcompat.widget.BindAwareViewHolder
 import android.view.View
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
 import com.uber.autodispose.lifecycle.LifecycleEndedException

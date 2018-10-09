@@ -16,13 +16,12 @@
 
 package com.uber.autodispose.sample
 
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDisposable
-import com.uber.autodispose.recipes.subscribeBy
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 

@@ -16,13 +16,13 @@
 
 package com.uber.autodispose.android.lifecycle.test;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LifecycleRegistry;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleRegistry;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 
-import static android.support.annotation.RestrictTo.Scope.TESTS;
+import static androidx.annotation.RestrictTo.Scope.TESTS;
 
 /**
  * A test {@link LifecycleOwner} implementation for testing. You can either back it with

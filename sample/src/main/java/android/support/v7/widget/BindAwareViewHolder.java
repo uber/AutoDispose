@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package android.support.v7.widget;
+package androidx.appcompat.widget;
 
 import android.view.View;
 
