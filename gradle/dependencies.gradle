@@ -73,6 +73,7 @@ def androidx = [
 ]
 
 def test = [
+    androidExtJunit: "androidx.test.ext:junit:1.0.0-beta01",
     androidRunner: "androidx.test:runner:${versions.androidTest}",
     androidRules: "androidx.test:rules:${versions.androidTest}",
     androidOrchestrator: "androidx.test:orchestrator:${versions.androidTest}",

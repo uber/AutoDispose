@@ -19,7 +19,7 @@
 package com.uber.autodispose.android.lifecycle.test
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.LifecycleRegistry
+import androidx.lifecycle.LifecycleRegistry
 import io.reactivex.annotations.CheckReturnValue
 
 /**

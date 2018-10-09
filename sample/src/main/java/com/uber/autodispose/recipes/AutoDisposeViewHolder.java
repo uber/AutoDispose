@@ -16,8 +16,8 @@
 
 package com.uber.autodispose.recipes;
 
-import androidx.appcompat.widget.BindAwareViewHolder;
 import android.view.View;
+import androidx.recyclerview.widget.BindAwareViewHolder;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
@@ -28,7 +28,7 @@ import io.reactivex.annotations.Nullable;
 import io.reactivex.subjects.BehaviorSubject;
 
 /**
- * Example implementation of a {@link androidx.appcompat.widget.RecyclerView.ViewHolder}
+ * Example implementation of a {@link androidx.recyclerview.widget.RecyclerView.ViewHolder}
  * implementation that implements {@link LifecycleScopeProvider}. This could be useful for cases
  * where you have subscriptions that should be disposed upon unbinding or otherwise aren't
  * overwritten in future binds.

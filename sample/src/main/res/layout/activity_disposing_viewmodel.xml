@@ -16,32 +16,37 @@
   -->
 <androidx.constraintlayout.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp">
+    android:padding="16dp"
+    >
 
   <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="@string/disposing_viewmodel_activity_message"/>
+      android:text="@string/disposing_viewmodel_activity_message"
+      />
 
   <TextView
       android:id="@+id/textView"
-      tools:text="24"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintBottom_toBottomOf="parent"
-      android:textAlignment="center"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+      android:layout_height="wrap_content"
+      android:textAlignment="center"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="24"
+      />
 
   <ProgressBar
       android:id="@+id/downloadProgress"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="16dp"
-      style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+      android:indeterminate="false"
       app:layout_constraintTop_toBottomOf="@+id/textView"
-      android:indeterminate="false"/>
+      style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+      />
 
 </androidx.constraintlayout.ConstraintLayout>

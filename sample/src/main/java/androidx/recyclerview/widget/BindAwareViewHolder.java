@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package androidx.appcompat.widget;
+package androidx.recyclerview.widget;
 
 import android.view.View;
 

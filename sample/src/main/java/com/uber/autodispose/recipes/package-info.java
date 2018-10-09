@@ -16,20 +16,6 @@
 
 /**
  * Android recipes for AutoDispose.
- *
- * Recipes for AutoDispose.
- *
- * Recipes for AutoDispose.
- *
- * Recipes for AutoDispose.
- *
- * Recipes for AutoDispose.
- *
- * Recipes for AutoDispose.
- */
-
-/**
- * Recipes for AutoDispose.
  */
 package com.uber.autodispose.recipes;
 

@@ -27,7 +27,7 @@ android {
   defaultConfig {
     minSdkVersion deps.build.minSdkVersion
     targetSdkVersion deps.build.targetSdkVersion
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "androidx.test.ext.junit.runners.AndroidJUnit4"
   }
   compileOptions {
     sourceCompatibility deps.build.javaVersion

@@ -18,8 +18,8 @@ package com.uber.autodispose.recipes
 
 import android.content.Context
 import android.os.Bundle
-import androidx.core.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
 import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider

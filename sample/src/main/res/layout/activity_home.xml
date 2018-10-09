@@ -15,98 +15,110 @@
   ~ limitations under the License.
   -->
 
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.uber.autodispose.sample.JavaActivity">
+    tools:context="com.uber.autodispose.sample.JavaActivity"
+    >
 
-  <android.support.design.widget.AppBarLayout
+  <com.google.android.material.appbar.AppBarLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:theme="@style/AppBarOverlay">
+      android:theme="@style/AppBarOverlay"
+      >
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:titleTextColor="@android:color/black"
         android:background="?attr/colorPrimary"
-        app:popupTheme="@style/PopupOverlay"/>
+        app:popupTheme="@style/PopupOverlay"
+        app:titleTextColor="@android:color/black"
+        />
 
-  </android.support.design.widget.AppBarLayout>
+  </com.google.android.material.appbar.AppBarLayout>
 
   <LinearLayout
       xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_gravity="center"
+      android:layout_marginEnd="16dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="?attr/actionBarSize"
       android:gravity="center"
       android:orientation="vertical"
-      android:layout_marginTop="?attr/actionBarSize"
-      android:layout_marginStart="16dp"
-      android:layout_marginEnd="16dp">
+      >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginBottom="8dp"
-        android:text="@string/java_activity_description"/>
+        android:gravity="center"
+        android:text="@string/java_activity_description"
+        />
 
     <Button
         android:id="@+id/javaActivityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="@string/java_demo"/>
+        android:text="@string/java_demo"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginBottom="8dp"
-        android:text="@string/arch_components_activity_description"/>
+        android:gravity="center"
+        android:text="@string/arch_components_activity_description"
+        />
 
     <Button
         android:id="@+id/archComponentsActivityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="@string/arch_components_demo"/>
+        android:text="@string/arch_components_demo"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginBottom="8dp"
-        android:text="@string/kotlin_activity_description"/>
+        android:gravity="center"
+        android:text="@string/kotlin_activity_description"
+        />
 
     <Button
         android:id="@+id/kotlinActivityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="@string/kotlin_demo"/>
+        android:text="@string/kotlin_demo"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_marginBottom="8dp"
-        android:text="@string/disposing_viewmodel_activity_description"/>
+        android:gravity="center"
+        android:text="@string/disposing_viewmodel_activity_description"
+        />
 
     <Button
         android:id="@+id/disposingActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/disposing_viewmodel_demo"/>
+        android:text="@string/disposing_viewmodel_demo"
+        />
 
   </LinearLayout>
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
