@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2017. Uber Technologies
+  ~ Copyright (C) 2017. Uber Technologies
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,7 +14,11 @@
   ~ limitations under the License.
   -->
 
-<resources>
-  <style name="AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
-  <style name="PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
-</resources>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.uber.autodispose.android.lifecycle">
+
+  <uses-sdk
+      android:minSdkVersion="14"
+      tools:overrideLibrary="androidx.test.ext.junit"/>
+</manifest>

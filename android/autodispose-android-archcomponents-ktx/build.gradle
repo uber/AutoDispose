@@ -27,7 +27,7 @@ android {
   defaultConfig {
     minSdkVersion deps.build.minSdkVersion
     targetSdkVersion deps.build.targetSdkVersion
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "androidx.test.ext.junit.runners.AndroidJUnit4"
   }
   compileOptions {
     sourceCompatibility deps.build.javaVersion
@@ -37,7 +37,7 @@ android {
     main.java.srcDirs += 'src/main/kotlin'
   }
   testOptions {
-    execution 'ANDROID_TEST_ORCHESTRATOR'
+    execution 'ANDROIDX_TEST_ORCHESTRATOR'
   }
 }
 

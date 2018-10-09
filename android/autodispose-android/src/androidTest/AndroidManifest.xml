@@ -14,8 +14,13 @@
   ~ limitations under the License.
   -->
 
-<manifest package="com.uber.autodispose.android"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.uber.autodispose.android">
+
+  <uses-sdk
+      android:minSdkVersion="14"
+      tools:overrideLibrary="androidx.test.ext.junit"/>
 
   <application>
     <activity android:name=".AutoDisposeTestActivity"/>

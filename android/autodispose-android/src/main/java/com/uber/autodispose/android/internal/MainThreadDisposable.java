@@ -14,13 +14,13 @@
 
 package com.uber.autodispose.android.internal;
 
-import android.support.annotation.RestrictTo;
+import androidx.annotation.RestrictTo;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
+import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 /**
  * Copy of the MainThreadDisposable from RxAndroid which makes use of

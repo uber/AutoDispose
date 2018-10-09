@@ -16,10 +16,10 @@
 
 package com.uber.autodispose.sample
 
-import android.arch.lifecycle.Lifecycle
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDisposable
 import com.uber.autodispose.recipes.subscribeBy
@@ -99,6 +99,6 @@ class KotlinActivity : AppCompatActivity() {
   }
 
   companion object {
-    private val TAG = "AutoDispose-Kotlin"
+    private const val TAG = "AutoDispose-Kotlin"
   }
 }

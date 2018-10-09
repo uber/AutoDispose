@@ -26,14 +26,14 @@ android {
   defaultConfig {
     minSdkVersion deps.build.minSdkVersion
     targetSdkVersion deps.build.targetSdkVersion
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
   compileOptions {
     sourceCompatibility deps.build.javaVersion
     targetCompatibility deps.build.javaVersion
   }
   testOptions {
-    execution 'ANDROID_TEST_ORCHESTRATOR'
+    execution 'ANDROIDX_TEST_ORCHESTRATOR'
   }
 }
 
@@ -44,7 +44,7 @@ dependencies {
 
   api project(':autodispose')
   api deps.rx.java
-  api deps.support.annotations
+  api deps.androidx.annotations
   implementation deps.rx.android
 
   errorprone deps.build.errorProne
@@ -53,7 +53,11 @@ dependencies {
   testImplementation deps.test.junit
   testImplementation deps.test.truth
   androidTestImplementation project(':test-utils')
-  androidTestImplementation deps.support.annotations
+  androidTestImplementation deps.androidx.annotations
+  androidTestImplementation(deps.test.androidExtJunit) {
+    // https://issuetracker.google.com/issues/117486311
+    exclude group: "org.junit"
+  }
   androidTestImplementation deps.test.androidRunner
   androidTestImplementation deps.test.androidRules
   androidTestUtil deps.test.androidOrchestrator

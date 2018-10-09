@@ -39,9 +39,9 @@ dependencies {
   androidTestAnnotationProcessor deps.build.nullAway
 
   api project(':autodispose')
-  api deps.support.annotations
-  api deps.support.arch.lifecycle.common
-  api deps.support.arch.lifecycle.runtime
+  api deps.androidx.annotations
+  api deps.androidx.arch.lifecycle.common
+  api deps.androidx.arch.lifecycle.runtime
 
   errorprone deps.build.errorProne
 }
