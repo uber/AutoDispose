@@ -69,6 +69,7 @@ public final class UseAutoDispose extends BugChecker implements MethodInvocation
         .add("android.app.Fragment")
         .add("com.uber.autodispose.LifecycleScopeProvider")
         .add("android.support.v4.app.Fragment")
+        .add("androidx.app.Fragment")
         .add("android.arch.lifecycle.LifecycleOwner")
         .add("com.uber.autodispose.ScopeProvider")
         .build();
