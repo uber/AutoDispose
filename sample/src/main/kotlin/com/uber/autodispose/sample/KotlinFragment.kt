@@ -18,7 +18,10 @@ package com.uber.autodispose.sample
 
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDisposable
@@ -26,12 +29,14 @@ import com.uber.autodispose.recipes.subscribeBy
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 
+
 /**
- * Demo activity, shamelessly borrowed from RxLifecycle's demo.
+ * Demo Fragment showing both conventional lifecycle management as well as the new
+ * [getViewLifecycleOwner] API.
  *
  * This leverages the Architecture Components support for the demo
  */
-class KotlinActivity : AppCompatActivity() {
+class KotlinFragment : Fragment() {
 
   // Can be reused
   private val scopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
@@ -39,7 +44,6 @@ class KotlinActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     Log.d(TAG, "onCreate()")
-    setContentView(R.layout.activity_main)
 
     // Using automatic disposal, this should determine that the correct time to
     // dispose is onDestroy (the opposite of onCreate).
@@ -47,10 +51,26 @@ class KotlinActivity : AppCompatActivity() {
         .doOnDispose { Log.i(TAG, "Disposing subscription from onCreate()") }
         .autoDisposable(scopeProvider)
         .subscribeBy { num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): $num") }
+  }
 
-    supportFragmentManager.beginTransaction()
-        .add(R.id.fragment_container, KotlinFragment())
-        .commitNow()
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+      savedInstanceState: Bundle?): View? {
+    Log.d(TAG, "onCreateView()")
+    return inflater.inflate(R.layout.content_main, container, false)
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    Log.d(TAG, "onViewCreated()")
+    // Using automatic disposal, this should determine that the correct time to
+    // dispose is onDestroyView (the opposite of onCreateView).
+    // Note we do this in onViewCreated to defer until after the view is created
+    Observable.interval(1, TimeUnit.SECONDS)
+        .doOnDispose { Log.i(TAG, "Disposing subscription from onViewCreated()") }
+        .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner))
+        .subscribeBy { num ->
+          Log.i(TAG, "Started in onViewCreated(), running until onDestroyView(): $num")
+        }
   }
 
   override fun onStart() {
@@ -76,7 +96,9 @@ class KotlinActivity : AppCompatActivity() {
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onResume()") }
         .autoDisposable(scopeProvider)
-        .subscribeBy { num -> Log.i(TAG, "Started in onResume(), running until in onPause(): $num") }
+        .subscribeBy { num ->
+          Log.i(TAG, "Started in onResume(), running until in onPause(): $num")
+        }
 
     // Setting a specific untilEvent, this should dispose in onDestroy.
     Observable.interval(1, TimeUnit.SECONDS)
@@ -84,7 +106,9 @@ class KotlinActivity : AppCompatActivity() {
           Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY")
         }
         .autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
-        .subscribeBy { num -> Log.i(TAG, "Started in onResume(), running until in onDestroy(): $num") }
+        .subscribeBy { num ->
+          Log.i(TAG, "Started in onResume(), running until in onDestroy(): $num")
+        }
   }
 
   override fun onPause() {
@@ -97,12 +121,17 @@ class KotlinActivity : AppCompatActivity() {
     super.onStop()
   }
 
+  override fun onDestroyView() {
+    Log.d(TAG, "onDestroyView()")
+    super.onDestroyView()
+  }
+
   override fun onDestroy() {
     Log.d(TAG, "onDestroy()")
     super.onDestroy()
   }
 
   companion object {
-    private const val TAG = "KotlinActivity"
+    private const val TAG = "KotlinFragment"
   }
 }
