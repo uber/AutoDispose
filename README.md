@@ -330,7 +330,7 @@ compile 'com.uber.autodispose:autodispose-android-archcomponents-ktx:x.y.z'
 compile 'com.uber.autodispose:autodispose-android-archcomponents-test-ktx:x.y.z'
 ```
 
-Javadocs and KDocs for the most recent release can be found here: https://uber.github.io/AutoDispose/0.x/
+Javadocs and KDocs for the most recent release can be found here: https://uber.github.io/AutoDispose/1.x/
 
 Snapshots of the development version are available in [Sonatype's snapshots repository][snapshots].
 
