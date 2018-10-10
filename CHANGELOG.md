@@ -1,6 +1,33 @@
 Changelog
 =========
 
+Version 1.0.0
+----------------------------
+
+_2018-10-10_
+
+* Stable release!
+* This is identical in functionality to 1.0.0-RC3 but completely migrated to the new AndroidX artifacts. From this point forward for Android projects, you must be on AndroidX artifacts. You can use 1.0.0-RC3 to ease migration if need be.
+
+Version 1.0.0-RC3
+----------------------------
+
+_2018-10-10_
+
+* The project now targets Java 8 bytecode, with the expectation that projects are either on Java 8 or (if on Android) use D8 via Android Gradle Plugin 3.2.0. ([#257](https://github.com/uber/AutoDispose/pull/257))
+* More sample recipes for Android ViewModels and Fragments ([#254](https://github.com/uber/AutoDispose/pull/254)) ([#260](https://github.com/uber/AutoDispose/pull/260))
+* Various dependency updates
+
+```
+Support library 28.0.0
+Architecture Components (runtime) 1.1.1
+Kotlin 1.2.71
+RxJava 2.2.2
+RxAndroid 2.1.0
+```
+
+Thanks to the following contributors for this release: [@shaishavgandhi05](https://github.com/shaishavgandhi05)
+
 Version 1.0.0-RC2
 ----------------------------
 
