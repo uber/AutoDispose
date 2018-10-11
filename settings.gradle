@@ -40,6 +40,9 @@ pluginManagement {
         case 'net.ltgt.errorprone':
           useVersion(deps.versions.errorPronePlugin)
           break
+        case 'ru.vyarus.animalsniffer':
+          useVersion(deps.versions.animalSniffer)
+          break
       }
     }
   }

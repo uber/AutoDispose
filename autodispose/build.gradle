@@ -17,6 +17,7 @@
 plugins {
   id 'java-library'
   id 'net.ltgt.errorprone'
+  id 'ru.vyarus.animalsniffer'
 }
 
 sourceCompatibility = deps.build.javaVersion
@@ -32,6 +33,7 @@ dependencies {
 
   api deps.rx.java
 
+  signature deps.build.animalSniffer
   errorprone deps.build.errorProne
 
   testCompile project(':test-utils')

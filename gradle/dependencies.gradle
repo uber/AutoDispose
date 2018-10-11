@@ -20,7 +20,8 @@ def versions = [
     dokka: '0.9.17',
     errorProne: '2.3.1',
     errorPronePlugin: '0.0.13',
-    kotlin: '1.2.71'
+    kotlin: '1.2.71',
+    animalSniffer: '1.4.6'
 ]
 
 def apt = [
@@ -39,6 +40,7 @@ def build = [
     errorProneCheckApi: "com.google.errorprone:error_prone_check_api:${versions.errorProne}",
     errorProneTestHelpers: "com.google.errorprone:error_prone_test_helpers:${versions.errorProne}",
     nullAway: 'com.uber.nullaway:nullaway:0.4.7',
+    animalSniffer: 'org.codehaus.mojo.signature:java17:1.0@signature',
 
     gradlePlugins: [
         android: 'com.android.tools.build:gradle:3.2.0',
