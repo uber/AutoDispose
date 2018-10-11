@@ -18,6 +18,7 @@ import net.ltgt.gradle.errorprone.CheckSeverity
 plugins {
   id 'java-library'
   id 'net.ltgt.errorprone'
+  id 'ru.vyarus.animalsniffer'
 }
 
 sourceCompatibility = deps.build.javaVersion
@@ -32,6 +33,7 @@ dependencies {
 
   errorproneJavac deps.build.errorProneJavac
   errorprone deps.build.nullAway
+  signature deps.build.animalSniffer
   errorprone deps.build.errorProne
 
   testCompile project(':test-utils')
