@@ -29,7 +29,6 @@ subprojects {
       classpath deps.build.gradlePlugins.kotlin
       classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${deps.versions.dokka}"
       classpath "org.jetbrains.dokka:dokka-gradle-plugin:${deps.versions.dokka}"
-      classpath "ru.vyarus:gradle-animalsniffer-plugin:${deps.versions.animalSniffer}"
     }
   }
 
