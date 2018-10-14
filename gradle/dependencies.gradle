@@ -41,7 +41,7 @@ def build = [
     nullAway: 'com.uber.nullaway:nullaway:0.6.0',
 
     gradlePlugins: [
-        android: 'com.android.tools.build:gradle:3.2.0',
+        android: 'com.android.tools.build:gradle:3.2.1',
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
         dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
