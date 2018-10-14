@@ -36,6 +36,7 @@ def build = [
     javaVersion: JavaVersion.VERSION_1_8,
 
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
+    errorProneJavac: "com.google.errorprone:javac:9+181-r4173-1",
     errorProneCheckApi: "com.google.errorprone:error_prone_check_api:${versions.errorProne}",
     errorProneTestHelpers: "com.google.errorprone:error_prone_test_helpers:${versions.errorProne}",
     nullAway: 'com.uber.nullaway:nullaway:0.6.0',
