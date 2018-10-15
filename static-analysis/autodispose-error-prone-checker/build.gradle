@@ -41,7 +41,7 @@ dependencies {
   testImplementation project(':autodispose')
   testImplementation project(':lifecycle:autodispose-lifecycle')
 
-  epJavac deps.build.errorProneCheckApi
+  epJavac deps.build.errorProneJavac
 }
 
 tasks.withType(JavaCompile) {
