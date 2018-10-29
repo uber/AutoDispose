@@ -16,8 +16,7 @@
 
 package com.uber.autodispose.lifecycle
 
-import com.uber.autodispose.lifecycle.LifecycleScopes.resolveScopeFromLifecycle
-import io.reactivex.CompletableSource
+import kotlin.DeprecationLevel.HIDDEN
 
 /**
  * A convenience [LifecycleScopeProvider] that has a default implementation for
@@ -25,6 +24,12 @@ import io.reactivex.CompletableSource
  *
  * @param <E> the lifecycle event type.
  */
-interface KotlinLifecycleScopeProvider<E> : LifecycleScopeProvider<E> {
-  override fun requestScope(): CompletableSource = resolveScopeFromLifecycle(this)
-}
+@Deprecated(
+    message = "This functionality is now pushed up into LifecycleScopeProvider directly.",
+    replaceWith = ReplaceWith(
+        expression = "LifecycleScopeProvider<FIXME>", // Unfortunately we can't make this better yet https://youtrack.jetbrains.com/issue/KT-21195
+        imports = ["com.uber.autodispose.lifecycle.LifecycleScopeProvider"]
+    ),
+    level = HIDDEN
+)
+interface KotlinLifecycleScopeProvider<E> : LifecycleScopeProvider<E>
