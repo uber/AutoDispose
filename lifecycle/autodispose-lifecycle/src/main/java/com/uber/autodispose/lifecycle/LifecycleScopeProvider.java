@@ -19,6 +19,7 @@ package com.uber.autodispose.lifecycle;
 import com.uber.autodispose.ScopeProvider;
 import com.uber.autodispose.internal.DoNotMock;
 import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.annotations.Nullable;
@@ -54,4 +55,9 @@ public interface LifecycleScopeProvider<E> extends ScopeProvider {
    * LifecycleNotStartedException}.
    */
   @Nullable E peekLifecycle();
+
+
+  @Override default CompletableSource requestScope() {
+    return LifecycleScopes.resolveScopeFromLifecycle(this);
+  }
 }
