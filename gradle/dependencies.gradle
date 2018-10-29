@@ -20,7 +20,7 @@ def versions = [
     dokka: '0.9.17',
     errorProne: '2.3.2',
     errorPronePlugin: '0.0.13',
-    kotlin: '1.2.71'
+    kotlin: '1.3.0'
 ]
 
 def apt = [
