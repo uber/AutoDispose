@@ -56,7 +56,6 @@ public interface LifecycleScopeProvider<E> extends ScopeProvider {
    */
   @Nullable E peekLifecycle();
 
-
   @Override default CompletableSource requestScope() {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
