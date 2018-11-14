@@ -20,10 +20,10 @@ plugins {
 }
 
 dependencies {
-  compile deps.kotlin.stdlib
-  compile project(':autodispose')
+  api deps.kotlin.stdlib
+  implementation project(':autodispose')
 
-  testCompile project(':test-utils')
+  testImplementation project(':test-utils')
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
