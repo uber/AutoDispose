@@ -39,7 +39,7 @@ public final class RxLifecycleInterop {
    * Example usage:
    * <pre><code>
    *   Observable.just(1)
-   *        .to(AutoDispose.with(RxLifecycleInterop.from(lifecycleProvider)).forObservable())
+   *        .as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
    *        .subscribe(...)
    * </code></pre>
    *
@@ -59,7 +59,7 @@ public final class RxLifecycleInterop {
    * Example usage:
    * <pre><code>
    *   Observable.just(1)
-   *        .to(AutoDispose.with(RxLifecycleInterop.from(lifecycleProvider, event)).forObservable())
+   *        .as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider, event)))
    *        .subscribe(...)
    * </code></pre>
    *
