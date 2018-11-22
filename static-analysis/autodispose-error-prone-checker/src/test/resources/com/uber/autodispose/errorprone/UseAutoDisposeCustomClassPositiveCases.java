@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.error.prone.checker;
+package com.uber.autodispose.errorprone;
 
+import com.uber.autodispose.errorprone.ComponentWithLifecycle;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -23,7 +24,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import org.reactivestreams.Subscriber;
 
-public class UseAutoDisposeCustomClassPositiveCases extends ComponentWithLifeCycle {
+public class UseAutoDisposeCustomClassPositiveCases extends ComponentWithLifecycle {
   public void observable_subscribeWithoutAutoDispose() {
     Observable.empty()
         // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
