@@ -49,7 +49,11 @@ def build = [
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     ],
 
-    lintApi: "com.android.tools.lint:lint-api:${versions.lint}"
+    lint: [
+        api: "com.android.tools.lint:lint-api:${versions.lint}",
+        core: "com.android.tools.lint:lint:${versions.lint}",
+        tests: "com.android.tools.lint:lint-tests:${versions.lint}"
+    ]
 ]
 
 def kotlin = [

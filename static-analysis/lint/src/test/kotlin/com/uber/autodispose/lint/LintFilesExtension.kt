@@ -16,9 +16,6 @@
 
 package com.uber.autodispose.lint
 
-import com.android.tools.lint.client.api.IssueRegistry
-import com.android.tools.lint.detector.api.Issue
+import com.android.tools.lint.checks.infrastructure.TestFiles.bytes
 
-class AutoDisposeIssueRegistry(override val issues: List<Issue> = listOf()) : IssueRegistry() {
-
-}
+fun Any.rxJava2() = bytes("libs/rxjava-2.1.7.jar", javaClass.getResourceAsStream("/rxjava-2.1.7.jar").readBytes())

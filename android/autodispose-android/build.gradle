@@ -48,6 +48,8 @@ dependencies {
   errorprone deps.build.nullAway
   errorprone deps.build.errorProne
 
+  lintChecks project(':static-analysis:lint')
+
   testImplementation project(':test-utils')
   testImplementation deps.test.junit
   testImplementation deps.test.truth

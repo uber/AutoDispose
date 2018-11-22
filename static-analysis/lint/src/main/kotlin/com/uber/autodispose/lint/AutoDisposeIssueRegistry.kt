@@ -16,10 +16,10 @@
 
 package com.uber.autodispose.lint
 
-import com.android.tools.lint.detector.api.Detector
-import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.client.api.IssueRegistry
+import com.android.tools.lint.detector.api.CURRENT_API
+import com.android.tools.lint.detector.api.Issue
 
-class AutoDisposeObservableDetector(): Detector(), SourceCodeScanner {
-
-
+class AutoDisposeIssueRegistry(override val issues: List<Issue> = listOf(AutoDisposeDetector.ISSUE)) : IssueRegistry() {
+  override val api: Int = CURRENT_API
 }

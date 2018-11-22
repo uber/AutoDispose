@@ -24,6 +24,14 @@ targetCompatibility = deps.build.javaVersion
 
 dependencies {
   compileOnly deps.kotlin.stdlib
-  compileOnly deps.build.lintApi
+  compileOnly deps.build.lint.api
 
+  testImplementation deps.build.lint.core
+  testImplementation deps.build.lint.tests
+}
+
+jar {
+  manifest {
+    attributes("Lint-Registry-v2": "com.uber.autodispose.lint.AutoDisposeIssueRegistry")
+  }
 }
