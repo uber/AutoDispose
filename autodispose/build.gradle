@@ -39,7 +39,7 @@ dependencies {
   errorproneJavac deps.build.errorProneJavac
   errorprone deps.build.nullAway
   errorprone deps.build.errorProne
-  lintChecks project(':static-analysis:lint')
+  lintChecks project(':static-analysis:autodispose-lint')
 
   testCompile project(':test-utils')
 }

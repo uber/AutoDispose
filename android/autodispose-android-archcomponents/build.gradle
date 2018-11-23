@@ -58,7 +58,7 @@ dependencies {
   errorprone deps.build.nullAway
   errorprone deps.build.errorProne
 
-  lintChecks project(':static-analysis:lint')
+  lintChecks project(':static-analysis:autodispose-lint')
 
   androidTestImplementation project(':android:autodispose-android-archcomponents-test')
   androidTestImplementation project(':test-utils')

@@ -18,8 +18,12 @@ package com.uber.autodispose.lint
 
 import com.android.tools.lint.client.api.JavaEvaluator
 import com.android.tools.lint.detector.api.*
+import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import org.jetbrains.uast.UCallExpression
+import org.jetbrains.uast.getContainingClass
+import org.jetbrains.uast.getContainingUClass
+import java.lang.IllegalStateException
 import java.util.EnumSet
 
 /**
@@ -30,17 +34,18 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
   companion object {
     val ISSUE: Issue = Issue.create(
         "AutoDisposeUsage",
-        "Subscription not managed with AutoDispose",
-        "You're subscribing to an observable but not handling it's subscription. This " +
-            "can result in memory leaks. You can avoid memory leaks by appending " +
+        "Always apply an AutoDispose scope before subscribing within defined scoped elements.",
+        "You're subscribing to an observable but not handling it's subscription. This "
+            + "can result in memory leaks. You can avoid memory leaks by appending " +
             "`.as(autoDisposable(this))` before you subscribe.",
         Category.CORRECTNESS,
-        8,
+        10,
         Severity.ERROR,
         Implementation(AutoDisposeDetector::class.java, EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES)))
 
     private const val OBSERVABLE = "io.reactivex.Observable"
     private const val FLOWABLE = "io.reactivex.Flowable"
+    private const val PARALLEL_FLOWABLE = "io.reactivex.parallel.ParallelFlowable"
     private const val SINGLE = "io.reactivex.Single"
     private const val MAYBE = "io.reactivex.Maybe"
     private const val COMPLETABLE = "io.reactivex.Completable"
@@ -51,9 +56,19 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
   override fun visitMethod(context: JavaContext, node: UCallExpression, method: PsiMethod) {
     val evaluator = context.evaluator
 
-    if (isReactiveType(evaluator, method)) {
-      context.report(ISSUE, node, context.getLocation(node), "Subscription not managed by AutoDispose.")
+    if (isReactiveType(evaluator, method) && isInScope(evaluator, node.getContainingUClass())) {
+      context.report(ISSUE, node, context.getLocation(node), "Always apply an AutoDispose " +
+          "scope before subscribing within defined scoped elements.")
     }
+  }
+
+  private fun isInScope(evaluator: JavaEvaluator, psiClass: PsiClass?): Boolean {
+    psiClass?.let {
+      return evaluator.inheritsFrom(psiClass, "androidx.lifecycle.LifecycleOwner", false) ||
+          evaluator.inheritsFrom(psiClass, "com.uber.autodispose.ScopeProvider", false) ||
+          evaluator.inheritsFrom(psiClass, "com.uber.autodispose.lifecycle.LifecycleScopeProvider", false)
+    }
+    return false
   }
 
   private fun isReactiveType(evaluator: JavaEvaluator, method: PsiMethod): Boolean {
@@ -61,6 +76,7 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
         evaluator.isMemberInClass(method, FLOWABLE) ||
         evaluator.isMemberInClass(method, SINGLE) ||
         evaluator.isMemberInClass(method, MAYBE) ||
-        evaluator.isMemberInClass(method, COMPLETABLE)
+        evaluator.isMemberInClass(method, COMPLETABLE) ||
+        evaluator.isMemberInClass(method, PARALLEL_FLOWABLE)
   }
 }

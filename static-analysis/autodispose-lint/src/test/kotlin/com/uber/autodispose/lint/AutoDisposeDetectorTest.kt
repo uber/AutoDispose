@@ -23,13 +23,55 @@ import org.junit.Test
 
 class AutoDisposeDetectorTest {
 
+  companion object {
+    // Stub activity
+    private val ACTIVITY = java("""
+      package androidx.appcompat.app;
+      import androidx.lifecycle.LifecycleOwner;
+
+      public class AppCompatActivity implements LifecycleOwner {
+      }
+    """).indented()
+
+    // Stub LifecycleOwner
+    private val LIFECYCLE_OWNER = java("""
+      package androidx.lifecycle;
+
+      public interface LifecycleOwner {}
+    """).indented()
+
+    // Stub Fragment
+    private val FRAGMENT = java("""
+      package androidx.fragment.app;
+      import androidx.lifecycle.LifecycleOwner;
+
+      public class Fragment implements LifecycleOwner {}
+    """).indented()
+
+    // Stub Scope Provider
+    private val SCOPE_PROVIDER = kotlin("""
+      package com.uber.autodispose
+
+      interface ScopeProvider
+    """).indented()
+
+    // Stub LifecycleScopeProvider
+    private val LIFECYCLE_SCOPE_PROVIDER = kotlin("""
+      package com.uber.autodispose.lifecycle
+      import com.uber.autodispose.ScopeProvider
+
+      interface LifecycleScopeProvider: ScopeProvider
+    """).indented()
+  }
+
   @Test fun observableErrorsOutOnOmittingAutoDispose() {
     lint()
-        .files(rxJava2(), java("""
+        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
           package foo;
           import io.reactivex.Observable;
+          import androidx.fragment.app.Fragment;
 
-          class ExampleClass {
+          class ExampleClass extends Fragment {
             void names() {
               Observable obs = Observable.just(1, 2, 3, 4);
               obs.subscribe();
@@ -38,7 +80,7 @@ class AutoDisposeDetectorTest {
         """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.java:7: Error: Subscription not managed by AutoDispose. [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.java:8: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
           |    obs.subscribe();
           |    ~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
@@ -86,11 +128,12 @@ class AutoDisposeDetectorTest {
 
   @Test fun singleErrorsOutOnOmittingAutoDispose() {
     lint()
-        .files(rxJava2(), java("""
+        .files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, java("""
           package foo;
           import io.reactivex.Single;
+          import androidx.appcompat.app.AppCompatActivity;
 
-          class ExampleClass {
+          class ExampleClass extends AppCompatActivity {
             void names() {
               Single single = Single.just(1);
               single.subscribe();
@@ -99,7 +142,7 @@ class AutoDisposeDetectorTest {
         """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.java:7: Error: Subscription not managed by AutoDispose. [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.java:8: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
           |    single.subscribe();
           |    ~~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
@@ -147,11 +190,12 @@ class AutoDisposeDetectorTest {
 
   @Test fun flowableErrorsOutOnOmittingAutoDispose() {
     lint()
-        .files(rxJava2(), java("""
+        .files(rxJava2(), LIFECYCLE_OWNER, java("""
           package foo;
           import io.reactivex.Flowable;
+          import androidx.lifecycle.LifecycleOwner;
 
-          class ExampleClass {
+          class ExampleClass implements LifecycleOwner {
             void names() {
               Flowable flowable = Flowable.just(1);
               flowable.subscribe();
@@ -160,7 +204,7 @@ class AutoDisposeDetectorTest {
         """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.java:7: Error: Subscription not managed by AutoDispose. [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.java:8: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
           |    flowable.subscribe();
           |    ~~~~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
@@ -191,13 +235,12 @@ class AutoDisposeDetectorTest {
         .files(rxJava2(), kotlin("""
           package foo
           import io.reactivex.Observable
-          import com.uber.autodispose.ScopeProvider
+          import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 
-          class ExampleClass {
-            lateinit var scopeProvider: ScopeProvider
+          class ExampleClass: LifecycleScopeProvider {
             fun names() {
               val flowable = Flowable.just(1, 2, 3, 4)
-              flowable.autoDisposable(scopeProvider).subscribe()
+              flowable.autoDisposable(this).subscribe()
             }
           }
         """).indented())
@@ -208,11 +251,12 @@ class AutoDisposeDetectorTest {
 
   @Test fun completableErrorsOutOnOmittingAutoDispose() {
     lint()
-        .files(rxJava2(), kotlin("""
+        .files(rxJava2(), SCOPE_PROVIDER, kotlin("""
           package foo
           import io.reactivex.Completable
+          import com.uber.autodispose.ScopeProvider
 
-          class ExampleClass {
+          class ExampleClass: ScopeProvider {
             fun names() {
               val completable = Completable.complete()
               completable.subscribe()
@@ -221,13 +265,13 @@ class AutoDisposeDetectorTest {
         """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.kt:7: Error: Subscription not managed by AutoDispose. [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.kt:8: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
           |    completable.subscribe()
           |    ~~~~~~~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
   }
 
-  @Test fun completableDisposesSubscriptionJava() {
+  @Test fun completableSubscriptionNonScopedClass() {
     lint()
         .files(rxJava2(), java("""
           package foo;
@@ -238,7 +282,7 @@ class AutoDisposeDetectorTest {
             private ScopeProvider scopeProvider;
             void names() {
               Completable completable = Completable.complete();
-              completable.as(AutoDispose.autoDisposable(scopeProvider)).subscribe();
+              completable.subscribe();
             }
           }
         """).indented())
@@ -269,11 +313,12 @@ class AutoDisposeDetectorTest {
 
   @Test fun maybeErrorsOutOnOmittingAutoDispose() {
     lint()
-        .files(rxJava2(), kotlin("""
+        .files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, kotlin("""
           package foo
           import io.reactivex.Maybe
+          import androidx.appcompat.app.AppCompatActivity
 
-          class ExampleClass {
+          class ExampleClass: AppCompatActivity {
             fun names() {
               val maybe = Maybe.just(1)
               maybe.subscribe()
@@ -282,7 +327,7 @@ class AutoDisposeDetectorTest {
         """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.kt:7: Error: Subscription not managed by AutoDispose. [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.kt:8: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
           |    maybe.subscribe()
           |    ~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())

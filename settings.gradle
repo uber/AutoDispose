@@ -67,5 +67,4 @@ include ':lifecycle:autodispose-lifecycle-ktx'
 include 'autodispose-rxlifecycle'
 include ':test-utils'
 include ':static-analysis:autodispose-error-prone-checker'
-include ':static-analysis:lint'
-
+include ':static-analysis:autodispose-lint'

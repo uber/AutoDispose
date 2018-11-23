@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-plugins {
-  id 'java-library'
-  id 'org.jetbrains.kotlin.jvm'
-}
+package com.uber.autodispose.lint
 
-sourceCompatibility = deps.build.javaVersion
-targetCompatibility = deps.build.javaVersion
+import com.android.tools.lint.client.api.IssueRegistry
+import com.android.tools.lint.detector.api.CURRENT_API
+import com.android.tools.lint.detector.api.Issue
+import com.google.auto.service.AutoService
 
-dependencies {
-  compileOnly deps.kotlin.stdlib
-  compileOnly deps.build.lint.api
-
-  testImplementation deps.build.lint.core
-  testImplementation deps.build.lint.tests
-}
-
-jar {
-  manifest {
-    attributes("Lint-Registry-v2": "com.uber.autodispose.lint.AutoDisposeIssueRegistry")
-  }
+@AutoService(IssueRegistry::class)
+class AutoDisposeIssueRegistry(override val issues: List<Issue> = listOf(AutoDisposeDetector.ISSUE)) : IssueRegistry() {
+  override val api: Int = CURRENT_API
+  override val minApi = 2
 }
