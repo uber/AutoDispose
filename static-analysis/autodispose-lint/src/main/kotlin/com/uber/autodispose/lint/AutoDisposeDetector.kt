@@ -41,7 +41,7 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
         Category.CORRECTNESS,
         10,
         Severity.ERROR,
-        Implementation(AutoDisposeDetector::class.java, EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES)))
+        Implementation(AutoDisposeDetector::class.java, EnumSet.of(Scope.JAVA_FILE)))
 
     private const val OBSERVABLE = "io.reactivex.Observable"
     private const val FLOWABLE = "io.reactivex.Flowable"
