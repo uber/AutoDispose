@@ -158,6 +158,18 @@ public final class UseAutoDispose extends BugChecker
     matcher = matcher(classesWithLifecycle);
   }
 
+  @Override public Description matchMethodInvocation(MethodInvocationTree tree, VisitorState state) {
+    if (matcher.matches(tree, state)) {
+      return buildDescription(tree).build();
+    } else {
+      return Description.NO_MATCH;
+    }
+  }
+
+  @Override public String linkUrl() {
+    return "https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker";
+  }
+
   private static Matcher<MethodInvocationTree> matcher(Set<String> classesWithLifecycle) {
     return (Matcher<MethodInvocationTree>) (tree, state) -> {
 
@@ -200,17 +212,5 @@ public final class UseAutoDispose extends BugChecker
           .findFirst()
           .orElse(false);
     };
-  }
-
-  @Override public Description matchMethodInvocation(MethodInvocationTree tree, VisitorState state) {
-    if (matcher.matches(tree, state)) {
-      return buildDescription(tree).build();
-    } else {
-      return Description.NO_MATCH;
-    }
-  }
-
-  @Override public String linkUrl() {
-    return "https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker";
   }
 }
