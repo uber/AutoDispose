@@ -23,8 +23,11 @@ import com.intellij.psi.PsiMethod
 import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.getContainingClass
 import org.jetbrains.uast.getContainingUClass
+import java.io.StringReader
 import java.lang.IllegalStateException
-import java.util.EnumSet
+import java.util.*
+
+internal const val CUSTOM_SCOPE_KEY = "autodispose.classes_with_scope"
 
 /**
  * Detector which checks if your stream subscriptions are handled by AutoDispose.
@@ -51,6 +54,22 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     private const val COMPLETABLE = "io.reactivex.Completable"
   }
 
+  private val defaultScopes = mutableSetOf("androidx.lifecycle.LifecycleOwner",
+      "com.uber.autodispose.ScopeProvider",
+      "com.uber.autodispose.lifecycle.LifecycleScopeProvider",
+      "android.app.Activity",
+      "android.app.Fragment")
+
+  override fun beforeCheckRootProject(context: Context) {
+    val props = Properties()
+    context.project.propertyFiles.find { it.name == "local.properties" }?.apply {
+      val content = StringReader(context.client.readFile(this).toString())
+      props.load(content)
+      val scopes = props.getProperty(CUSTOM_SCOPE_KEY).split(",").map { it.trim() }
+      defaultScopes.addAll(scopes)
+    }
+  }
+
   override fun getApplicableMethodNames(): List<String> = listOf("subscribe")
 
   override fun visitMethod(context: JavaContext, node: UCallExpression, method: PsiMethod) {
@@ -63,10 +82,10 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
   }
 
   private fun isInScope(evaluator: JavaEvaluator, psiClass: PsiClass?): Boolean {
-    psiClass?.let {
-      return evaluator.inheritsFrom(psiClass, "androidx.lifecycle.LifecycleOwner", false) ||
-          evaluator.inheritsFrom(psiClass, "com.uber.autodispose.ScopeProvider", false) ||
-          evaluator.inheritsFrom(psiClass, "com.uber.autodispose.lifecycle.LifecycleScopeProvider", false)
+    psiClass?.let { callingClass ->
+      return defaultScopes.any {
+        evaluator.inheritsFrom(callingClass, it, false)
+      }
     }
     return false
   }

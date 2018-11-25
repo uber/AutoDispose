@@ -22,7 +22,8 @@ import com.android.tools.lint.detector.api.Issue
 import com.google.auto.service.AutoService
 
 @AutoService(IssueRegistry::class)
-class AutoDisposeIssueRegistry(override val issues: List<Issue> = listOf(AutoDisposeDetector.ISSUE)) : IssueRegistry() {
+class AutoDisposeIssueRegistry() : IssueRegistry() {
+  override val issues: List<Issue> = listOf(AutoDisposeDetector.ISSUE)
   override val api: Int = CURRENT_API
   override val minApi = 2
 }

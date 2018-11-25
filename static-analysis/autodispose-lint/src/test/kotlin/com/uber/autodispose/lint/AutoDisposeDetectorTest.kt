@@ -16,8 +16,7 @@
 
 package com.uber.autodispose.lint
 
-import com.android.tools.lint.checks.infrastructure.TestFiles.java
-import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
+import com.android.tools.lint.checks.infrastructure.TestFiles.*
 import com.android.tools.lint.checks.infrastructure.TestLintTask.lint
 import org.junit.Test
 
@@ -61,6 +60,13 @@ class AutoDisposeDetectorTest {
       import com.uber.autodispose.ScopeProvider
 
       interface LifecycleScopeProvider: ScopeProvider
+    """).indented()
+
+    // Custom Scope
+    private val CUSTOM_SCOPE = kotlin("""
+      package com.uber.autodispose.sample
+
+      class ClassWithCustomScope {}
     """).indented()
   }
 
@@ -368,6 +374,56 @@ class AutoDisposeDetectorTest {
             }
           }
         """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun customScopeWithoutAutoDispose() {
+    val properties = projectProperties()
+    properties.property(CUSTOM_SCOPE_KEY, "com.uber.autodispose.sample.ClassWithCustomScope")
+    properties.to("local.properties")
+
+    lint().files(rxJava2(), CUSTOM_SCOPE, properties, kotlin("""
+      package com.uber.autodispose.sample
+      import com.uber.autodispose.sample.ClassWithCustomScope
+      import io.reactivex.Observable
+
+      class MyCustomClass: ClassWithCustomScope {
+        fun doSomething() {
+          val observable = Observable.just(1, 2, 3)
+          observable.subscribe()
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expect("""
+          src/com/uber/autodispose/sample/MyCustomClass.kt:8: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
+          |    observable.subscribe()
+          |    ~~~~~~~~~~~~~~~~~~~~~~
+          |1 errors, 0 warnings""".trimMargin())
+  }
+
+  @Test fun customScopeWithAutoDispose() {
+    val properties = projectProperties()
+    properties.property(CUSTOM_SCOPE_KEY, "com.uber.autodispose.sample.ClassWithCustomScope")
+    properties.to("local.properties")
+
+    lint().files(rxJava2(), CUSTOM_SCOPE, properties, kotlin("""
+      package com.uber.autodispose.sample
+      import com.uber.autodispose.sample.ClassWithCustomScope
+      import io.reactivex.Observable
+      import com.uber.autodispose.ScopeProvider
+
+      class MyCustomClass: ClassWithCustomScope {
+        lateinit var scopeProvider: ScopeProvider
+        fun doSomething() {
+          val observable = Observable.just(1, 2, 3)
+          observable.autoDisposable(scopeProvider).subscribe()
+        }
+      }
+    """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
         .expectClean()
