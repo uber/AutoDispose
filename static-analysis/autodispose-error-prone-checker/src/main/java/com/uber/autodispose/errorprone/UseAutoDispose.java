@@ -61,6 +61,7 @@ public final class UseAutoDispose extends BugChecker
 
   private static final String AS = "as";
   private static final String SUBSCRIBE = "subscribe";
+  private static final String SUBSCRIBE_WITH = "subscribeWith";
   private static final ImmutableList<MethodMatchers.MethodNameMatcher> AS_CALL_MATCHERS =
       ImmutableList.<MethodMatchers.MethodNameMatcher>builder()
           .add(instanceMethod().onDescendantOf("io.reactivex.Single")
@@ -79,15 +80,15 @@ public final class UseAutoDispose extends BugChecker
   private static final ImmutableList<MethodMatchers.MethodNameMatcher> SUBSCRIBE_MATCHERS =
       ImmutableList.<MethodMatchers.MethodNameMatcher>builder()
           .add(instanceMethod().onDescendantOf("io.reactivex.Single")
-              .named(SUBSCRIBE))
+              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH))
           .add(instanceMethod().onDescendantOf("io.reactivex.Observable")
-              .named(SUBSCRIBE))
+              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH))
           .add(instanceMethod().onDescendantOf("io.reactivex.Completable")
-              .named(SUBSCRIBE))
+              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH))
           .add(instanceMethod().onDescendantOf("io.reactivex.Flowable")
-              .named(SUBSCRIBE))
+              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH))
           .add(instanceMethod().onDescendantOf("io.reactivex.Maybe")
-              .named(SUBSCRIBE))
+              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH))
           .add(instanceMethod().onDescendantOf("io.reactivex.parallel.ParallelFlowable")
               .named(SUBSCRIBE))
           .build();
