@@ -71,12 +71,6 @@ import javax.lang.model.type.TypeKind;
 abstract class AbstractReturnValueIgnored extends BugChecker
     implements MethodInvocationTreeMatcher, MemberReferenceTreeMatcher {
 
-  /**
-   * @return {@code true} if this should be lenient and only run the checks if the return value is
-   * ignored, {@code false} if it should always check {@link #specializedMatcher()}.
-   */
-  abstract boolean lenient();
-
   @Override public Description matchMethodInvocation(MethodInvocationTree methodInvocationTree,
       VisitorState state) {
     if (!lenient()) {
@@ -192,6 +186,12 @@ abstract class AbstractReturnValueIgnored extends BugChecker
    * side-effect-free methods, has a @OptionalCheckReturnValue annotation, etc.).
    */
   public abstract Matcher<? super ExpressionTree> specializedMatcher();
+
+  /**
+   * @return {@code true} if this should be lenient and only run the checks if the return value is
+   * ignored, {@code false} if it should always check {@link #specializedMatcher()}.
+   */
+  abstract boolean lenient();
 
   private static Matcher<IdentifierTree> identifierHasName(final String name) {
     return (item, state) -> item.getName()
