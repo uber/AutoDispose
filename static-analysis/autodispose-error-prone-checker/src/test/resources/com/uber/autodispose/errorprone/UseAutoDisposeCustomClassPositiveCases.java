@@ -32,7 +32,7 @@ public class UseAutoDisposeCustomClassPositiveCases extends ComponentWithLifecyc
   }
 
   public void single_subscribeWithoutAutoDispose() {
-    Single.just(true)
+    Single.just(1)
         // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
         .subscribe();
   }

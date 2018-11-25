@@ -25,13 +25,16 @@ import com.uber.autodispose.lifecycle.LifecycleScopes;
 import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.annotations.Nullable;
+import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
 
 import static com.uber.autodispose.AutoDispose.autoDisposable;
@@ -88,7 +91,7 @@ public class UseAutoDisposeNegativeCases implements LifecycleScopeProvider<TestL
   }
 
   public void single_subscribeWithAutoDispose() {
-    Single.just(true)
+    Single.just(1)
         .as(autoDisposable(this))
         .subscribe();
   }
@@ -117,5 +120,115 @@ public class UseAutoDisposeNegativeCases implements LifecycleScopeProvider<TestL
         .parallel(2)
         .as(autoDisposable(this))
         .subscribe(subscribers);
+  }
+
+  public void observable_subscribeKeepingDisposable() {
+    Disposable d = Observable.just(1)
+        .subscribe();
+  }
+
+  public void single_subscribeKeepingDisposable() {
+    Disposable d = Single.just(1)
+        .subscribe();
+  }
+
+  public void completable_subscribeKeepingDisposable() {
+    Disposable d = Completable.complete()
+        .subscribe();
+  }
+
+  public void maybe_subscribeKeepingDisposable() {
+    Disposable d = Maybe.just(1)
+        .subscribe();
+  }
+
+  public void flowable_subscribeKeepingDisposable() {
+    Disposable d = Flowable.just(1)
+        .subscribe();
+  }
+
+  public void observable_subscribeVoidSubscribe() {
+    Observable.just(1)
+        .as(autoDisposable(this))
+        .subscribe(new TestObserver<>());
+  }
+
+  public void single_subscribeVoidSubscribe() {
+    Single.just(1)
+        .as(autoDisposable(this))
+        .subscribe(new TestObserver<>());
+  }
+
+  public void completable_subscribeVoidSubscribe() {
+    Completable.complete()
+        .as(autoDisposable(this))
+        .subscribe(new TestObserver<>());
+  }
+
+  public void maybe_subscribeVoidSubscribe() {
+    Maybe.just(1)
+        .as(autoDisposable(this))
+        .subscribe(new TestObserver<>());
+  }
+
+  public void flowable_subscribeVoidSubscribe() {
+    Flowable.just(1)
+        .as(autoDisposable(this))
+        .subscribe(new TestSubscriber<>());
+  }
+
+  public void observable_subscribeWith_useReturnValue() {
+    TestObserver<Integer> o = Observable.just(1)
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void single_subscribeWith_useReturnValue() {
+    TestObserver<Integer> o = Single.just(1)
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void completable_subscribeWith_useReturnValue() {
+    TestObserver<Object> o = Completable.complete()
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void maybe_subscribeWith_useReturnValue() {
+    TestObserver<Integer> o = Maybe.just(1)
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void flowable_subscribeWith_useReturnValue() {
+    TestSubscriber<Integer> o = Flowable.just(1)
+        .subscribeWith(new TestSubscriber<>());
+  }
+
+  public void observable_subscribeWith() {
+    Observable.just(1)
+        .as(autoDisposable(this))
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void single_subscribeWith() {
+    Single.just(1)
+        .as(autoDisposable(this))
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void completable_subscribeWith() {
+    Completable.complete()
+        .as(autoDisposable(this))
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void maybe_subscribeWith() {
+    Maybe.just(1)
+        .as(autoDisposable(this))
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void flowable_subscribeWith() {
+    Flowable.just(1)
+        .as(autoDisposable(this))
+        .subscribeWith(new TestSubscriber<>());
   }
 }
