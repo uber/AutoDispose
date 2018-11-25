@@ -28,6 +28,7 @@ targetCompatibility = 1.8
 
 dependencies {
   annotationProcessor deps.build.nullAway
+  annotationProcessor deps.apt.autoService
   testAnnotationProcessor deps.build.nullAway
 
   compileOnly deps.apt.autoService
