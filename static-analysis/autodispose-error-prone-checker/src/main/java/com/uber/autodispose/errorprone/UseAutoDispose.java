@@ -84,6 +84,7 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
               .named(SUBSCRIBE));
 
   private final Matcher<ExpressionTree> matcher;
+  private final boolean lenient;
 
   public UseAutoDispose() {
     this(ErrorProneFlags.empty());
@@ -95,6 +96,11 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
 
     ImmutableSet<String> classesWithLifecycle = inputClasses.orElse(DEFAULT_CLASSES_WITH_LIFECYCLE);
     matcher = allOf(SUBSCRIBE_METHOD, matcher(classesWithLifecycle));
+    lenient = flags.getBoolean("Lenient").orElse(false);
+  }
+
+  @Override boolean lenient() {
+    return lenient;
   }
 
   @Override public Matcher<? super ExpressionTree> specializedMatcher() {

@@ -16,7 +16,6 @@
 
 package com.uber.autodispose.errorprone;
 
-import com.uber.autodispose.errorprone.ComponentWithLifecycle;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;

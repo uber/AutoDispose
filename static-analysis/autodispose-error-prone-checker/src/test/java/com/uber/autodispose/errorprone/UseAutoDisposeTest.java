@@ -52,4 +52,16 @@ public class UseAutoDisposeTest {
     compilationHelper.addSourceFile("UseAutoDisposeNegativeCases.java")
         .doTest();
   }
+
+  @Test public void test_autodisposePositiveCasesWithDefaultClassLenient() {
+    compilationHelper.setArgs(ImmutableList.of("-XepOpt:Lenient=true"));
+    compilationHelper.addSourceFile("UseAutoDisposeDefaultClassPositiveCasesLenient.java")
+        .doTest();
+  }
+
+  @Test public void test_autodisposeNegativeCasesLenient() {
+    compilationHelper.setArgs(ImmutableList.of("-XepOpt:Lenient=true"));
+    compilationHelper.addSourceFile("UseAutoDisposeNegativeCasesLenient.java")
+        .doTest();
+  }
 }

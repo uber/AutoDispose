@@ -71,9 +71,19 @@ import javax.lang.model.type.TypeKind;
 abstract class AbstractReturnValueIgnored extends BugChecker
     implements MethodInvocationTreeMatcher, MemberReferenceTreeMatcher {
 
+  /**
+   * @return {@code true} if this should be lenient and only run the checks if the return value is
+   * ignored, {@code false} if it should always check {@link #specializedMatcher()}.
+   */
+  abstract boolean lenient();
+
   @Override public Description matchMethodInvocation(MethodInvocationTree methodInvocationTree,
       VisitorState state) {
-    if (allOf(parentNode(anyOf(AbstractReturnValueIgnored::isVoidReturningLambdaExpression,
+    if (!lenient()) {
+      if (specializedMatcher().matches(methodInvocationTree, state)) {
+        return describe(methodInvocationTree, state);
+      }
+    } else if (allOf(parentNode(anyOf(AbstractReturnValueIgnored::isVoidReturningLambdaExpression,
         Matchers.kindIs(Kind.EXPRESSION_STATEMENT))),
         not(methodSelect(toType(IdentifierTree.class, identifierHasName("super")))),
         // NOTE left for ref, but we have to allow void types for subscribeWith() methods
@@ -87,7 +97,11 @@ abstract class AbstractReturnValueIgnored extends BugChecker
   }
 
   @Override public Description matchMemberReference(MemberReferenceTree tree, VisitorState state) {
-    if (allOf((t, s) -> t.getMode() == ReferenceMode.INVOKE,
+    if (!lenient()) {
+      if (specializedMatcher().matches(tree, state)) {
+        return describeMatch(tree);
+      }
+    } else if (allOf((t, s) -> t.getMode() == ReferenceMode.INVOKE,
         AbstractReturnValueIgnored::isVoidReturningMethodReferenceExpression,
         // Skip cases where the method we're referencing really does return void. We're only
         // looking for cases where the referenced method does not return void, but it's being

@@ -31,6 +31,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.annotations.Nullable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subscribers.TestSubscriber;
@@ -41,7 +42,7 @@ import static com.uber.autodispose.AutoDispose.autoDisposable;
 /**
  * Cases that use {@link AutoDispose} and should not fail the {@link UseAutoDispose} check.
  */
-public class UseAutoDisposeNegativeCases
+public class UseAutoDisposeNegativeCasesLenient
     implements LifecycleScopeProvider<TestLifecycle> {
 
   private final BehaviorSubject<TestLifecycle> lifecycleSubject =
@@ -119,6 +120,56 @@ public class UseAutoDisposeNegativeCases
         .parallel(2)
         .as(autoDisposable(this))
         .subscribe(subscribers);
+  }
+
+  public void observable_subscribeKeepingDisposable() {
+    Disposable d = Observable.just(1)
+        .subscribe();
+  }
+
+  public void single_subscribeKeepingDisposable() {
+    Disposable d = Single.just(1)
+        .subscribe();
+  }
+
+  public void completable_subscribeKeepingDisposable() {
+    Disposable d = Completable.complete()
+        .subscribe();
+  }
+
+  public void maybe_subscribeKeepingDisposable() {
+    Disposable d = Maybe.just(1)
+        .subscribe();
+  }
+
+  public void flowable_subscribeKeepingDisposable() {
+    Disposable d = Flowable.just(1)
+        .subscribe();
+  }
+
+  public void observable_subscribeWith_useReturnValue() {
+    TestObserver<Integer> o = Observable.just(1)
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void single_subscribeWith_useReturnValue() {
+    TestObserver<Integer> o = Single.just(1)
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void completable_subscribeWith_useReturnValue() {
+    TestObserver<Object> o = Completable.complete()
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void maybe_subscribeWith_useReturnValue() {
+    TestObserver<Integer> o = Maybe.just(1)
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void flowable_subscribeWith_useReturnValue() {
+    TestSubscriber<Integer> o = Flowable.just(1)
+        .subscribeWith(new TestSubscriber<>());
   }
 
   public void observable_subscribeVoidSubscribe() {
