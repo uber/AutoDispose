@@ -17,27 +17,23 @@
 package com.uber.autodispose.errorprone;
 
 import com.google.auto.service.AutoService;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.BugPattern;
 import com.google.errorprone.ErrorProneFlags;
-import com.google.errorprone.VisitorState;
 import com.google.errorprone.bugpatterns.BugChecker;
 import com.google.errorprone.bugpatterns.BugChecker.MethodInvocationTreeMatcher;
-import com.google.errorprone.matchers.Description;
 import com.google.errorprone.matchers.Matcher;
-import com.google.errorprone.matchers.method.MethodMatchers;
 import com.google.errorprone.util.ASTHelpers;
 import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.ExpressionTree;
-import com.sun.source.tree.MemberSelectTree;
-import com.sun.source.tree.MethodInvocationTree;
 import com.sun.tools.javac.code.Type;
 import java.util.Optional;
 import java.util.Set;
 
 import static com.google.errorprone.BugPattern.SeverityLevel.ERROR;
 import static com.google.errorprone.BugPattern.StandardTags.CONCURRENCY;
+import static com.google.errorprone.matchers.Matchers.allOf;
+import static com.google.errorprone.matchers.Matchers.anyOf;
 import static com.google.errorprone.matchers.Matchers.instanceMethod;
 
 /**
@@ -56,42 +52,12 @@ import static com.google.errorprone.matchers.Matchers.instanceMethod;
     tags = CONCURRENCY,
     severity = ERROR
 )
-public final class UseAutoDispose extends BugChecker
+public final class UseAutoDispose extends AbstractReturnValueIgnored
     implements MethodInvocationTreeMatcher {
 
   private static final String AS = "as";
   private static final String SUBSCRIBE = "subscribe";
   private static final String SUBSCRIBE_WITH = "subscribeWith";
-  private static final ImmutableList<MethodMatchers.MethodNameMatcher> AS_CALL_MATCHERS =
-      ImmutableList.<MethodMatchers.MethodNameMatcher>builder()
-          .add(instanceMethod().onDescendantOf("io.reactivex.Single")
-              .named(AS))
-          .add(instanceMethod().onDescendantOf("io.reactivex.Observable")
-              .named(AS))
-          .add(instanceMethod().onDescendantOf("io.reactivex.Completable")
-              .named(AS))
-          .add(instanceMethod().onDescendantOf("io.reactivex.Flowable")
-              .named(AS))
-          .add(instanceMethod().onDescendantOf("io.reactivex.Maybe")
-              .named(AS))
-          .add(instanceMethod().onDescendantOf("io.reactivex.parallel.ParallelFlowable")
-              .named(AS))
-          .build();
-  private static final ImmutableList<MethodMatchers.MethodNameMatcher> SUBSCRIBE_MATCHERS =
-      ImmutableList.<MethodMatchers.MethodNameMatcher>builder()
-          .add(instanceMethod().onDescendantOf("io.reactivex.Single")
-              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH))
-          .add(instanceMethod().onDescendantOf("io.reactivex.Observable")
-              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH))
-          .add(instanceMethod().onDescendantOf("io.reactivex.Completable")
-              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH))
-          .add(instanceMethod().onDescendantOf("io.reactivex.Flowable")
-              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH))
-          .add(instanceMethod().onDescendantOf("io.reactivex.Maybe")
-              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH))
-          .add(instanceMethod().onDescendantOf("io.reactivex.parallel.ParallelFlowable")
-              .named(SUBSCRIBE))
-          .build();
   private static final ImmutableSet<String> DEFAULT_CLASSES_WITH_LIFECYCLE =
       new ImmutableSet.Builder<String>().add("android.app.Activity")
           .add("android.app.Fragment")
@@ -103,108 +69,51 @@ public final class UseAutoDispose extends BugChecker
           .add("com.uber.autodispose.ScopeProvider")
           .build();
 
-  /**
-   * Matcher to find the as operator in the observable chain.
-   */
-  private static final Matcher<ExpressionTree> METHOD_NAME_MATCHERS =
-      (Matcher<ExpressionTree>) (tree, state) -> {
-        if (!(tree instanceof MethodInvocationTree)) {
-          return false;
-        }
-        MethodInvocationTree invTree = (MethodInvocationTree) tree;
+  private static final Matcher<ExpressionTree> SUBSCRIBE_METHOD =
+      anyOf(instanceMethod().onDescendantOf("io.reactivex.Single")
+              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH),
+          instanceMethod().onDescendantOf("io.reactivex.Observable")
+              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH),
+          instanceMethod().onDescendantOf("io.reactivex.Completable")
+              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH),
+          instanceMethod().onDescendantOf("io.reactivex.Flowable")
+              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH),
+          instanceMethod().onDescendantOf("io.reactivex.Maybe")
+              .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH),
+          instanceMethod().onDescendantOf("io.reactivex.parallel.ParallelFlowable")
+              .named(SUBSCRIBE));
 
-        ExpressionTree methodSelectTree = invTree.getMethodSelect();
-
-        // MemberSelectTree is used only for member access expression.
-        // This is not true for scenarios such as calling super constructor.
-        if (!(methodSelectTree instanceof MemberSelectTree)) {
-          return false;
-        }
-
-        final MemberSelectTree memberTree = (MemberSelectTree) methodSelectTree;
-        if (!memberTree.getIdentifier()
-            .contentEquals(AS)) {
-          return false;
-        }
-
-        return AS_CALL_MATCHERS.stream()
-            .filter(methodNameMatcher -> methodNameMatcher.matches(invTree, state))
-            .map(methodNameMatcher -> {
-              ExpressionTree arg = invTree.getArguments()
-                  .get(0);
-              final Type scoper =
-                  state.getTypeFromString("com.uber.autodispose.AutoDisposeConverter");
-              return ASTHelpers.isSubtype(ASTHelpers.getType(arg), scoper, state);
-            })
-            // Filtering the method invocation with name as
-            // and has an argument of type AutoDisposeConverter.
-            .filter(Boolean::booleanValue)
-            .findFirst()
-            .orElse(false);
-      };
-
-  private final Matcher<MethodInvocationTree> matcher;
+  private final Matcher<ExpressionTree> matcher;
 
   public UseAutoDispose() {
     this(ErrorProneFlags.empty());
   }
 
   public UseAutoDispose(ErrorProneFlags flags) {
-    // Borrowed from getList() impl
     Optional<ImmutableSet<String>> inputClasses = flags.getList("ClassesWithScope")
         .map(ImmutableSet::copyOf);
 
     ImmutableSet<String> classesWithLifecycle = inputClasses.orElse(DEFAULT_CLASSES_WITH_LIFECYCLE);
-    matcher = matcher(classesWithLifecycle);
+    matcher = allOf(SUBSCRIBE_METHOD, matcher(classesWithLifecycle));
   }
 
-  @Override public Description matchMethodInvocation(MethodInvocationTree tree, VisitorState state) {
-    if (matcher.matches(tree, state)) {
-      return buildDescription(tree).build();
-    } else {
-      return Description.NO_MATCH;
-    }
+  @Override public Matcher<? super ExpressionTree> specializedMatcher() {
+    return matcher;
   }
 
   @Override public String linkUrl() {
     return "https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker";
   }
 
-  private static Matcher<MethodInvocationTree> matcher(Set<String> classesWithLifecycle) {
-    return (Matcher<MethodInvocationTree>) (tree, state) -> {
-
-      ExpressionTree methodSelectTree = tree.getMethodSelect();
-
-      // MemberSelectTree is used only for member access expression.
-      // This is not true for scenarios such as calling super constructor.
-      if (!(methodSelectTree instanceof MemberSelectTree)) {
-        return false;
-      }
-
-      final MemberSelectTree memberTree = (MemberSelectTree) tree.getMethodSelect();
-      if (!memberTree.getIdentifier()
-          .contentEquals(SUBSCRIBE)) {
-        return false;
-      }
-
-      boolean matchFound = SUBSCRIBE_MATCHERS.stream()
-          .map(methodNameMatcher -> methodNameMatcher.matches(tree, state))
-          .filter(Boolean::booleanValue) // Filtering the method invocation with name subscribe
-          .findFirst()
-          .orElse(false);
-
-      if (!matchFound) {
-        return false;
-      }
-
+  private static Matcher<ExpressionTree> matcher(Set<String> classesWithLifecycle) {
+    return (Matcher<ExpressionTree>) (tree, state) -> {
       ClassTree enclosingClass = ASTHelpers.findEnclosingNode(state.getPath(), ClassTree.class);
       Type.ClassType enclosingClassType = ASTHelpers.getType(enclosingClass);
 
       return classesWithLifecycle.stream()
           .map(classWithLifecycle -> {
             Type lifecycleType = state.getTypeFromString(classWithLifecycle);
-            return ASTHelpers.isSubtype(enclosingClassType, lifecycleType, state)
-                && !METHOD_NAME_MATCHERS.matches(memberTree.getExpression(), state);
+            return ASTHelpers.isSubtype(enclosingClassType, lifecycleType, state);
           })
           // Filtering the method invocation which is a
           // subtype of one of the classes with lifecycle and name as
