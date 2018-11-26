@@ -61,7 +61,7 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
   private static final ImmutableSet<String> DEFAULT_CLASSES_WITH_LIFECYCLE =
       new ImmutableSet.Builder<String>().add("android.app.Activity")
           .add("android.app.Fragment")
-          .add("com.uber.autodispose.LifecycleScopeProvider")
+          .add("com.uber.autodispose.lifecycle.LifecycleScopeProvider")
           .add("android.support.v4.app.Fragment")
           .add("androidx.fragment.app.Fragment")
           .add("android.arch.lifecycle.LifecycleOwner")
