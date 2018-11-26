@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.error.prone.checker;
+package com.uber.autodispose.errorprone;
 
+import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.errorprone.UseAutoDispose;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
@@ -32,11 +34,12 @@ import io.reactivex.annotations.Nullable;
 import io.reactivex.subjects.BehaviorSubject;
 import org.reactivestreams.Subscriber;
 
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+
 /**
- * Cases that don't use autodispose and should fail the {@link UseAutoDispose} check.
+ * Cases that use {@link AutoDispose} and should not fail the {@link UseAutoDispose} check.
  */
-public class UseAutoDisposeDefaultClassPositiveCases
-    implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
+public class UseAutoDisposeNegativeCases implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
 
   private final BehaviorSubject<TestLifecycleScopeProvider.TestLifecycle> lifecycleSubject = BehaviorSubject.create();
 
@@ -78,41 +81,41 @@ public class UseAutoDisposeDefaultClassPositiveCases
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
-  public void observable_subscribeWithoutAutoDispose() {
-    Observable.empty()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+  public void observable_subscribeWithAutoDispose() {
+    Observable.just(1)
+        .as(autoDisposable(this))
         .subscribe();
   }
 
-  public void single_subscribeWithoutAutoDispose() {
+  public void single_subscribeWithAutoDispose() {
     Single.just(true)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .as(autoDisposable(this))
         .subscribe();
   }
 
-  public void completable_subscribeWithoutAutoDispose() {
+  public void completable_subscribeWithAutoDispose() {
     Completable.complete()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .as(autoDisposable(this))
         .subscribe();
   }
 
-  public void maybe_subscribeWithoutAutoDispose() {
-    Maybe.empty()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+  public void maybe_subscribeWithAutoDispose() {
+    Maybe.just(1)
+        .as(autoDisposable(this))
         .subscribe();
   }
 
-  public void flowable_subscribeWithoutAutoDispose() {
-    Flowable.empty()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+  public void flowable_subscribeWithAutoDispose() {
+    Flowable.just(1)
+        .as(autoDisposable(this))
         .subscribe();
   }
 
-  public void parallelFlowable_subscribeWithoutAutoDispose() {
+  public void parallelFlowable_subscribeWithAutoDispose() {
     Subscriber<Integer>[] subscribers = new Subscriber[] {};
     Flowable.just(1, 2)
         .parallel(2)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .as(autoDisposable(this))
         .subscribe(subscribers);
   }
 }

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.error.prone.checker;
+package com.uber.autodispose.errorprone;
 
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.CompilationTestHelper;
-import java.util.Collections;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,8 +42,8 @@ public class UseAutoDisposeTest {
   }
 
   @Test public void test_autodisposePositiveCaseswithCustomClass() {
-    compilationHelper.setArgs(Collections.singletonList(
-        "-XepOpt:ClassesWithScope" + "=com.uber.autodispose.error.prone.checker.ComponentWithLifeCycle"));
+    compilationHelper.setArgs(ImmutableList.of("-XepOpt:ClassesWithScope"
+        + "=com.uber.autodispose.errorprone.ComponentWithLifecycle"));
     compilationHelper.addSourceFile("UseAutoDisposeCustomClassPositiveCases.java")
         .doTest();
   }

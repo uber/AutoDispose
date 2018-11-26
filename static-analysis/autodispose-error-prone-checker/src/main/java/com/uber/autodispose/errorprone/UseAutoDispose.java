@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.error.prone.checker;
+package com.uber.autodispose.errorprone;
 
 import com.google.auto.service.AutoService;
 import com.google.common.collect.ImmutableList;

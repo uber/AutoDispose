@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package com.uber.autodispose.error.prone.checker;
+package com.uber.autodispose.errorprone;
 
-public class ComponentWithLifeCycle {}
+public class ComponentWithLifecycle {}
