@@ -238,7 +238,7 @@ class AutoDisposeDetectorTest {
 
   @Test fun flowableDisposesSubscriptionKotlin() {
     lint()
-        .files(rxJava2(), kotlin("""
+        .files(rxJava2(), LIFECYCLE_SCOPE_PROVIDER, kotlin("""
           package foo
           import io.reactivex.Observable
           import com.uber.autodispose.lifecycle.LifecycleScopeProvider
