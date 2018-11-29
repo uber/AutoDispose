@@ -77,7 +77,7 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     }
   }
 
-  override fun getApplicableMethodNames(): List<String> = listOf("subscribe")
+  override fun getApplicableMethodNames(): List<String> = listOf("subscribe", "subscribeWith")
 
   override fun visitMethod(context: JavaContext, node: UCallExpression, method: PsiMethod) {
     val evaluator = context.evaluator

@@ -16,7 +16,9 @@
 
 package com.uber.autodispose.lint
 
-import com.android.tools.lint.checks.infrastructure.TestFiles.*
+import com.android.tools.lint.checks.infrastructure.TestFiles.java
+import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
+import com.android.tools.lint.checks.infrastructure.TestFiles.projectProperties
 import com.android.tools.lint.checks.infrastructure.TestLintTask.lint
 import org.junit.Test
 
@@ -107,6 +109,74 @@ class AutoDisposeDetectorTest {
             }
           }
         """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun observableSubscribeWithNotHandled() {
+    lint()
+        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
+          package foo;
+          import io.reactivex.Observable;
+          import io.reactivex.observers.DisposableObserver;
+          import androidx.fragment.app.Fragment;
+
+          class ExampleClass extends Fragment {
+            void names() {
+              Observable obs = Observable.just(1, 2, 3, 4);
+              obs.subscribeWith(new DisposableObserver<Integer>() {
+                @Override
+                public void onNext(Integer integer) {
+                }
+
+                @Override
+                public void onError(Throwable e) {}
+
+                @Override
+                public void onComplete() {}
+              });
+            }
+          }
+        """).indented())
+        .allowCompilationErrors(false)
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expect("""src/foo/ExampleClass.java:9: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
+          |    obs.subscribeWith(new DisposableObserver<Integer>() {
+          |    ^
+          |1 errors, 0 warnings""".trimMargin())
+  }
+
+  @Test fun observableSubscribeWithDisposed() {
+    lint()
+        .files(rxJava2(), SCOPE_PROVIDER, LIFECYCLE_OWNER, FRAGMENT, java("""
+          package foo;
+          import io.reactivex.Observable;
+          import io.reactivex.observers.DisposableObserver;
+          import androidx.fragment.app.Fragment;
+          import com.uber.autodispose.ScopeProvider;
+
+          class ExampleClass extends Fragment {
+            ScopeProvider scopeProvider;
+            void names() {
+              Observable obs = Observable.just(1, 2, 3, 4);
+              obs.as(AutoDispose.autoDisposable(scopeProvider)).subscribeWith(
+              new DisposableObserver<Integer>() {
+                @Override
+                public void onNext(Integer integer) {
+                }
+
+                @Override
+                public void onError(Throwable e) {}
+
+                @Override
+                public void onComplete() {}
+              });
+            }
+          }
+        """).indented())
+        .allowCompilationErrors(false)
         .issues(AutoDisposeDetector.ISSUE)
         .run()
         .expectClean()
