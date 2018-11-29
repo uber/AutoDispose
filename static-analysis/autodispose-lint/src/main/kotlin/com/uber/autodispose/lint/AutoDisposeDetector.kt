@@ -72,8 +72,12 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     context.project.propertyFiles.find { it.name == PROPERTY_FILE }?.apply {
       val content = StringReader(context.client.readFile(this).toString())
       props.load(content)
-      val scopes = props.getProperty(CUSTOM_SCOPE_KEY).split(",").map { it.trim() }
-      defaultScopes.addAll(scopes)
+      props.getProperty(CUSTOM_SCOPE_KEY)?.let { scopeProperty ->
+        val scopes = scopeProperty.split(",")
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
+        defaultScopes.addAll(scopes)
+      }
     }
   }
 
