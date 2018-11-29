@@ -63,11 +63,13 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
 
     private val reactiveTypes = mutableSetOf(OBSERVABLE, FLOWABLE, PARALLEL_FLOWABLE, SINGLE, MAYBE,
         COMPLETABLE)
+
+    const val PROPERTY_FILE = "gradle.properties"
   }
 
   override fun beforeCheckRootProject(context: Context) {
     val props = Properties()
-    context.project.propertyFiles.find { it.name == "local.properties" }?.apply {
+    context.project.propertyFiles.find { it.name == PROPERTY_FILE }?.apply {
       val content = StringReader(context.client.readFile(this).toString())
       props.load(content)
       val scopes = props.getProperty(CUSTOM_SCOPE_KEY).split(",").map { it.trim() }

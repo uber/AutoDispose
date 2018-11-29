@@ -382,7 +382,7 @@ class AutoDisposeDetectorTest {
   @Test fun customScopeWithoutAutoDispose() {
     val properties = projectProperties()
     properties.property(CUSTOM_SCOPE_KEY, "com.uber.autodispose.sample.ClassWithCustomScope")
-    properties.to("local.properties")
+    properties.to(AutoDisposeDetector.PROPERTY_FILE)
 
     lint().files(rxJava2(), CUSTOM_SCOPE, properties, kotlin("""
       package com.uber.autodispose.sample
