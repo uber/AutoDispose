@@ -21,11 +21,10 @@ import com.android.tools.lint.detector.api.*
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import org.jetbrains.uast.UCallExpression
-import org.jetbrains.uast.getContainingClass
 import org.jetbrains.uast.getContainingUClass
 import java.io.StringReader
-import java.lang.IllegalStateException
-import java.util.*
+import java.util.Properties
+import java.util.EnumSet
 
 internal const val CUSTOM_SCOPE_KEY = "autodispose.classes_with_scope"
 
@@ -35,9 +34,12 @@ internal const val CUSTOM_SCOPE_KEY = "autodispose.classes_with_scope"
 class AutoDisposeDetector: Detector(), SourceCodeScanner {
 
   companion object {
+    private const val LINT_DESCRIPTION = "Always apply an AutoDispose scope before subscribing " +
+        "within defined scoped elements."
+
     val ISSUE: Issue = Issue.create(
         "AutoDisposeUsage",
-        "Always apply an AutoDispose scope before subscribing within defined scoped elements.",
+        LINT_DESCRIPTION,
         "You're subscribing to an observable but not handling it's subscription. This "
             + "can result in memory leaks. You can avoid memory leaks by appending " +
             "`.as(autoDisposable(this))` before you subscribe.",
@@ -52,13 +54,16 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     private const val SINGLE = "io.reactivex.Single"
     private const val MAYBE = "io.reactivex.Maybe"
     private const val COMPLETABLE = "io.reactivex.Completable"
-  }
 
-  private val defaultScopes = mutableSetOf("androidx.lifecycle.LifecycleOwner",
-      "com.uber.autodispose.ScopeProvider",
-      "com.uber.autodispose.lifecycle.LifecycleScopeProvider",
-      "android.app.Activity",
-      "android.app.Fragment")
+    private val defaultScopes = mutableSetOf("androidx.lifecycle.LifecycleOwner",
+        "com.uber.autodispose.ScopeProvider",
+        "com.uber.autodispose.lifecycle.LifecycleScopeProvider",
+        "android.app.Activity",
+        "android.app.Fragment")
+
+    private val reactiveTypes = mutableSetOf(OBSERVABLE, FLOWABLE, PARALLEL_FLOWABLE, SINGLE, MAYBE,
+        COMPLETABLE)
+  }
 
   override fun beforeCheckRootProject(context: Context) {
     val props = Properties()
@@ -76,11 +81,24 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     val evaluator = context.evaluator
 
     if (isReactiveType(evaluator, method) && isInScope(evaluator, node.getContainingUClass())) {
-      context.report(ISSUE, node, context.getLocation(node), "Always apply an AutoDispose " +
-          "scope before subscribing within defined scoped elements.")
+      context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
     }
   }
 
+  /**
+   * Checks if the calling method is in "scope" that can be handled by AutoDispose.
+   *
+   * If your subscribe/subscribeWith method is called in a scope
+   * that is recognized by AutoDispose, this returns true. This indicates that
+   * you're subscribing in a scope and therefore, you must handle the subscription.
+   * Default scopes include Android activities, fragments and custom classes that
+   * implement ScopeProvider.
+   *
+   * @see defaultScopes
+   * @param evaluator the java evaluator.
+   * @param psiClass the calling class.
+   * @return whether the subscribe method is called "in-scope".
+   */
   private fun isInScope(evaluator: JavaEvaluator, psiClass: PsiClass?): Boolean {
     psiClass?.let { callingClass ->
       return defaultScopes.any {
@@ -91,11 +109,6 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
   }
 
   private fun isReactiveType(evaluator: JavaEvaluator, method: PsiMethod): Boolean {
-    return evaluator.isMemberInClass(method, OBSERVABLE) ||
-        evaluator.isMemberInClass(method, FLOWABLE) ||
-        evaluator.isMemberInClass(method, SINGLE) ||
-        evaluator.isMemberInClass(method, MAYBE) ||
-        evaluator.isMemberInClass(method, COMPLETABLE) ||
-        evaluator.isMemberInClass(method, PARALLEL_FLOWABLE)
+    return reactiveTypes.any { evaluator.isMemberInClass(method, it) }
   }
 }
