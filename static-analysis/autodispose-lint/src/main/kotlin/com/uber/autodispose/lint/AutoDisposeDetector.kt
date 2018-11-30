@@ -55,11 +55,17 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     private const val MAYBE = "io.reactivex.Maybe"
     private const val COMPLETABLE = "io.reactivex.Completable"
 
-    private val defaultScopes = mutableSetOf("androidx.lifecycle.LifecycleOwner",
+    // The default scopes for Android.
+    private val defaultScopes = listOf("androidx.lifecycle.LifecycleOwner",
         "com.uber.autodispose.ScopeProvider",
         "com.uber.autodispose.lifecycle.LifecycleScopeProvider",
         "android.app.Activity",
         "android.app.Fragment")
+
+    // The scopes that are applicable for the lint check.
+    // This includes the defaultScopes as well as any custom scopes
+    // defined by the consumer.
+    private val appliedScopes = mutableSetOf<String>()
 
     private val reactiveTypes = mutableSetOf(OBSERVABLE, FLOWABLE, PARALLEL_FLOWABLE, SINGLE, MAYBE,
         COMPLETABLE)
@@ -68,6 +74,10 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
   }
 
   override fun beforeCheckRootProject(context: Context) {
+    // Add the default scopes.
+    addDefaultScopes(appliedScopes, defaultScopes)
+
+    // Add the custom scopes defined in configuration.
     val props = Properties()
     context.project.propertyFiles.find { it.name == PROPERTY_FILE }?.apply {
       val content = StringReader(context.client.readFile(this).toString())
@@ -76,7 +86,7 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
         val scopes = scopeProperty.split(",")
             .map { it.trim() }
             .filter { it.isNotBlank() }
-        defaultScopes.addAll(scopes)
+        appliedScopes.addAll(scopes)
       }
     }
   }
@@ -103,15 +113,29 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
    * @param evaluator the java evaluator.
    * @param psiClass the calling class.
    * @return whether the `subscribe` method is called "in-scope".
-   * @see defaultScopes
+   * @see appliedScopes
    */
   private fun isInScope(evaluator: JavaEvaluator, psiClass: PsiClass?): Boolean {
     psiClass?.let { callingClass ->
-      return defaultScopes.any {
+      return appliedScopes.any {
         evaluator.inheritsFrom(callingClass, it, false)
       }
     }
     return false
+  }
+
+  /**
+   * Adds Android's default scopes to [appliedScopes].
+   *
+   * We clear the [appliedScopes] to remove any previous state and
+   * add Android's [defaultScopes].
+   *
+   * @param appliedScopes the scopes applied to this lint check.
+   * @param defaultScopes the default Android scopes.
+   */
+  private fun addDefaultScopes(appliedScopes: MutableSet<String>, defaultScopes: List<String>) {
+    appliedScopes.clear()
+    appliedScopes.addAll(defaultScopes)
   }
 
   private fun isReactiveType(evaluator: JavaEvaluator, method: PsiMethod): Boolean {
