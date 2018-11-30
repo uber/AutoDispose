@@ -64,7 +64,7 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     private val reactiveTypes = mutableSetOf(OBSERVABLE, FLOWABLE, PARALLEL_FLOWABLE, SINGLE, MAYBE,
         COMPLETABLE)
 
-    const val PROPERTY_FILE = "gradle.properties"
+    internal const val PROPERTY_FILE = "gradle.properties"
   }
 
   override fun beforeCheckRootProject(context: Context) {
@@ -94,16 +94,16 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
   /**
    * Checks if the calling method is in "scope" that can be handled by AutoDispose.
    *
-   * If your subscribe/subscribeWith method is called in a scope
+   * If your `subscribe`/`subscribeWith` method is called in a scope
    * that is recognized by AutoDispose, this returns true. This indicates that
    * you're subscribing in a scope and therefore, you must handle the subscription.
    * Default scopes include Android activities, fragments and custom classes that
    * implement ScopeProvider.
    *
-   * @see defaultScopes
    * @param evaluator the java evaluator.
    * @param psiClass the calling class.
-   * @return whether the subscribe method is called "in-scope".
+   * @return whether the `subscribe` method is called "in-scope".
+   * @see defaultScopes
    */
   private fun isInScope(evaluator: JavaEvaluator, psiClass: PsiClass?): Boolean {
     psiClass?.let { callingClass ->

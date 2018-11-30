@@ -81,7 +81,7 @@ class AutoDisposeDetectorTest {
 
           class ExampleClass extends Fragment {
             void names() {
-              Observable obs = Observable.just(1, 2, 3, 4);
+              Observable<Integer> obs = Observable.just(1, 2, 3, 4);
               obs.subscribe();
             }
           }
@@ -104,7 +104,7 @@ class AutoDisposeDetectorTest {
           class ExampleClass {
             private ScopeProvider scopeProvider;
             void names() {
-              Observable obs = Observable.just(1, 2, 3, 4);
+              Observable<Integer> obs = Observable.just(1, 2, 3, 4);
               obs.as(AutoDispose.autoDisposable(scopeProvider)).subscribe();
             }
           }
@@ -124,7 +124,7 @@ class AutoDisposeDetectorTest {
 
           class ExampleClass extends Fragment {
             void names() {
-              Observable obs = Observable.just(1, 2, 3, 4);
+              Observable<Integer> obs = Observable.just(1, 2, 3, 4);
               obs.subscribeWith(new DisposableObserver<Integer>() {
                 @Override
                 public void onNext(Integer integer) {
@@ -160,7 +160,7 @@ class AutoDisposeDetectorTest {
           class ExampleClass extends Fragment {
             ScopeProvider scopeProvider;
             void names() {
-              Observable obs = Observable.just(1, 2, 3, 4);
+              Observable<Integer> obs = Observable.just(1, 2, 3, 4);
               obs.as(AutoDispose.autoDisposable(scopeProvider)).subscribeWith(
               new DisposableObserver<Integer>() {
                 @Override
@@ -211,7 +211,7 @@ class AutoDisposeDetectorTest {
 
           class ExampleClass extends AppCompatActivity {
             void names() {
-              Single single = Single.just(1);
+              Single<Integer> single = Single.just(1);
               single.subscribe();
             }
           }
@@ -234,7 +234,7 @@ class AutoDisposeDetectorTest {
           class ExampleClass {
             private ScopeProvider scopeProvider;
             void names() {
-              Single single = Single.just(1);
+              Single<Integer> single = Single.just(1);
               single.as(AutoDispose.autoDisposable(scopeProvider)).subscribe();
             }
           }
@@ -273,7 +273,7 @@ class AutoDisposeDetectorTest {
 
           class ExampleClass implements LifecycleOwner {
             void names() {
-              Flowable flowable = Flowable.just(1);
+              Flowable<Integer> flowable = Flowable.just(1);
               flowable.subscribe();
             }
           }
@@ -296,7 +296,7 @@ class AutoDisposeDetectorTest {
           class ExampleClass {
             private ScopeProvider scopeProvider;
             void names() {
-              Flowable flowable = Flowable.just(1, 2, 3, 4);
+              Flowable<Integer> flowable = Flowable.just(1, 2, 3, 4);
               flowable.as(AutoDispose.autoDisposable(scopeProvider)).subscribe();
             }
           }
@@ -419,7 +419,7 @@ class AutoDisposeDetectorTest {
           class ExampleClass {
             private ScopeProvider scopeProvider;
             void names() {
-              Maybe maybe = Maybe.just(1);
+              Maybe<Integer> maybe = Maybe.just(1);
               maybe.as(AutoDispose.autoDisposable(scopeProvider)).subscribe();
             }
           }
