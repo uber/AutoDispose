@@ -478,7 +478,7 @@ class AutoDisposeDetectorTest {
   @Test fun customScopeWithAutoDispose() {
     val properties = projectProperties()
     properties.property(CUSTOM_SCOPE_KEY, "com.uber.autodispose.sample.ClassWithCustomScope")
-    properties.to("local.properties")
+    properties.to(AutoDisposeDetector.PROPERTY_FILE)
 
     lint().files(rxJava2(), CUSTOM_SCOPE, properties, kotlin("""
       package com.uber.autodispose.sample
@@ -491,6 +491,29 @@ class AutoDisposeDetectorTest {
         fun doSomething() {
           val observable = Observable.just(1, 2, 3)
           observable.autoDisposable(scopeProvider).subscribe()
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun emptyCustomScopeWithoutAutoDispose() {
+    val properties = projectProperties()
+    properties.to(AutoDisposeDetector.PROPERTY_FILE)
+
+    lint().files(rxJava2(), CUSTOM_SCOPE, properties, kotlin("""
+      package com.uber.autodispose.sample
+      import com.uber.autodispose.sample.ClassWithCustomScope
+      import io.reactivex.Observable
+      import com.uber.autodispose.ScopeProvider
+
+      class MyCustomClass: ClassWithCustomScope {
+        lateinit var scopeProvider: ScopeProvider
+        fun doSomething() {
+          val observable = Observable.just(1, 2, 3)
+          observable.subscribe() // No error since custom scope not defined in properties file.
         }
       }
     """).indented())
