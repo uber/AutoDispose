@@ -56,26 +56,26 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     private const val COMPLETABLE = "io.reactivex.Completable"
 
     // The default scopes for Android.
-    private val defaultScopes = listOf("androidx.lifecycle.LifecycleOwner",
+    private val DEFAULT_SCOPES = listOf("androidx.lifecycle.LifecycleOwner",
         "com.uber.autodispose.ScopeProvider",
         "com.uber.autodispose.lifecycle.LifecycleScopeProvider",
         "android.app.Activity",
         "android.app.Fragment")
 
-    // The scopes that are applicable for the lint check.
-    // This includes the defaultScopes as well as any custom scopes
-    // defined by the consumer.
-    private val appliedScopes = mutableSetOf<String>()
-
-    private val reactiveTypes = mutableSetOf(OBSERVABLE, FLOWABLE, PARALLEL_FLOWABLE, SINGLE, MAYBE,
+    private val REACTIVE_TYPES = mutableSetOf(OBSERVABLE, FLOWABLE, PARALLEL_FLOWABLE, SINGLE, MAYBE,
         COMPLETABLE)
 
     internal const val PROPERTY_FILE = "gradle.properties"
   }
 
+  // The scopes that are applicable for the lint check.
+  // This includes the DEFAULT_SCOPES as well as any custom scopes
+  // defined by the consumer.
+  private val appliedScopes = mutableSetOf<String>()
+
   override fun beforeCheckRootProject(context: Context) {
-    // Add the default scopes.
-    addDefaultScopes(appliedScopes, defaultScopes)
+    // Add the default Android scopes.
+    appliedScopes.addAll(DEFAULT_SCOPES)
 
     // Add the custom scopes defined in configuration.
     val props = Properties()
@@ -124,21 +124,7 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     return false
   }
 
-  /**
-   * Adds Android's default scopes to [appliedScopes].
-   *
-   * We clear the [appliedScopes] to remove any previous state and
-   * add Android's [defaultScopes].
-   *
-   * @param appliedScopes the scopes applied to this lint check.
-   * @param defaultScopes the default Android scopes.
-   */
-  private fun addDefaultScopes(appliedScopes: MutableSet<String>, defaultScopes: List<String>) {
-    appliedScopes.clear()
-    appliedScopes.addAll(defaultScopes)
-  }
-
   private fun isReactiveType(evaluator: JavaEvaluator, method: PsiMethod): Boolean {
-    return reactiveTypes.any { evaluator.isMemberInClass(method, it) }
+    return REACTIVE_TYPES.any { evaluator.isMemberInClass(method, it) }
   }
 }
