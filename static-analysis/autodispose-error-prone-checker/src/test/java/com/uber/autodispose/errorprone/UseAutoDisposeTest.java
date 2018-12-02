@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class UseAutoDisposeTest {
+public final class UseAutoDisposeTest {
 
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -37,31 +37,26 @@ public class UseAutoDisposeTest {
   }
 
   @Test public void test_autodisposePositiveCasesWithDefaultClass() {
-    compilationHelper.addSourceFile("UseAutoDisposeDefaultClassPositiveCases.java")
-        .doTest();
+    compilationHelper.addSourceFile("UseAutoDisposeDefaultClassPositiveCases.java").doTest();
   }
 
-  @Test public void test_autodisposePositiveCaseswithCustomClass() {
+  @Test public void test_autodisposePositiveCasesWithCustomClass() {
     compilationHelper.setArgs(ImmutableList.of("-XepOpt:ClassesWithScope"
         + "=com.uber.autodispose.errorprone.ComponentWithLifecycle"));
-    compilationHelper.addSourceFile("UseAutoDisposeCustomClassPositiveCases.java")
-        .doTest();
+    compilationHelper.addSourceFile("UseAutoDisposeCustomClassPositiveCases.java").doTest();
   }
 
   @Test public void test_autodisposeNegativeCases() {
-    compilationHelper.addSourceFile("UseAutoDisposeNegativeCases.java")
-        .doTest();
+    compilationHelper.addSourceFile("UseAutoDisposeNegativeCases.java").doTest();
   }
 
   @Test public void test_autodisposePositiveCasesWithDefaultClassLenient() {
     compilationHelper.setArgs(ImmutableList.of("-XepOpt:Lenient=true"));
-    compilationHelper.addSourceFile("UseAutoDisposeDefaultClassPositiveCasesLenient.java")
-        .doTest();
+    compilationHelper.addSourceFile("UseAutoDisposeDefaultClassPositiveCasesLenient.java").doTest();
   }
 
   @Test public void test_autodisposeNegativeCasesLenient() {
     compilationHelper.setArgs(ImmutableList.of("-XepOpt:Lenient=true"));
-    compilationHelper.addSourceFile("UseAutoDisposeNegativeCasesLenient.java")
-        .doTest();
+    compilationHelper.addSourceFile("UseAutoDisposeNegativeCasesLenient.java").doTest();
   }
 }
