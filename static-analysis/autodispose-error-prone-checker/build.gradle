@@ -13,23 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
   id 'java-library'
   id 'net.ltgt.errorprone'
 }
 
-// we use this config to get the path of the JDK 9 javac jar, to
-// stick it in the bootclasspath when running tests
-configurations.maybeCreate("epJavac")
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-  annotationProcessor deps.build.nullAway
-  testAnnotationProcessor deps.build.nullAway
-
   compileOnly deps.apt.autoService
   compileOnly deps.build.errorProneCheckApi
 
@@ -41,15 +35,20 @@ dependencies {
   testImplementation project(':autodispose')
   testImplementation project(':lifecycle:autodispose-lifecycle')
 
-  epJavac deps.build.errorProneJavac
+  errorproneJavac deps.build.errorProneJavac
+  errorprone deps.build.nullAway
+  errorprone deps.build.errorProne
 }
 
-tasks.withType(JavaCompile) {
-  options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
+tasks.withType(JavaCompile).configureEach {
+  options.errorprone {
+    option("NullAway:AnnotatedPackages", "com.uber")
+    check("NullAway", CheckSeverity.ERROR)
+  }
 }
 
 test {
-  jvmArgs "-Xbootclasspath/p:${configurations.epJavac.asPath}"
+  jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
 }
 
 apply from: rootProject.file("gradle/gradle-mvn-push.gradle")
