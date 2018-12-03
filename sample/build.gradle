@@ -57,7 +57,7 @@ dependencies {
   errorproneJavac deps.build.errorProneJavac
   errorprone deps.build.errorProne
   errorprone deps.build.nullAway
-  errorprone project(':static-analysis:autodispose-error-prone-checker')
+  errorprone project(':static-analysis:autodispose-error-prone')
 
   debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
   releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
