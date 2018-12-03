@@ -62,7 +62,7 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
         "android.app.Activity",
         "android.app.Fragment")
 
-    private val REACTIVE_TYPES = mutableSetOf(OBSERVABLE, FLOWABLE, PARALLEL_FLOWABLE, SINGLE, MAYBE,
+    private val REACTIVE_TYPES = setOf(OBSERVABLE, FLOWABLE, PARALLEL_FLOWABLE, SINGLE, MAYBE,
         COMPLETABLE)
 
     internal const val PROPERTY_FILE = "gradle.properties"
@@ -71,11 +71,11 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
   // The scopes that are applicable for the lint check.
   // This includes the DEFAULT_SCOPES as well as any custom scopes
   // defined by the consumer.
-  private val appliedScopes = mutableSetOf<String>()
+  private lateinit var appliedScopes: Set<String>
 
   override fun beforeCheckRootProject(context: Context) {
     // Add the default Android scopes.
-    appliedScopes.addAll(DEFAULT_SCOPES)
+    val scopes = HashSet(DEFAULT_SCOPES)
 
     // Add the custom scopes defined in configuration.
     val props = Properties()
@@ -83,12 +83,13 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
       val content = StringReader(context.client.readFile(this).toString())
       props.load(content)
       props.getProperty(CUSTOM_SCOPE_KEY)?.let { scopeProperty ->
-        val scopes = scopeProperty.split(",")
+        val customScopes = scopeProperty.split(",")
             .map { it.trim() }
             .filter { it.isNotBlank() }
-        appliedScopes.addAll(scopes)
+        scopes.addAll(customScopes)
       }
     }
+    appliedScopes = scopes
   }
 
   override fun getApplicableMethodNames(): List<String> = listOf("subscribe", "subscribeWith")
