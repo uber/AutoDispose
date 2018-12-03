@@ -107,6 +107,7 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
 
   override fun getApplicableMethodNames(): List<String> = listOf("subscribe", "subscribeWith")
 
+  @Suppress("OverridingDeprecatedMember") // We support AGP 3.2. Switch when 3.3 stable
   override fun visitMethod(context: JavaContext, node: UCallExpression, method: PsiMethod) {
     val evaluator = context.evaluator
 
