@@ -52,8 +52,8 @@ task clean(type: Delete) {
   delete rootProject.buildDir
 }
 
-task wrapper(type: Wrapper) {
-  gradleVersion = '4.10.2'
+tasks.withType(Wrapper) {
+  gradleVersion = '5.0'
   distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
