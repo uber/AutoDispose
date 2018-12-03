@@ -79,7 +79,7 @@ afterEvaluate {
       check("NullAway", CheckSeverity.ERROR)
       check("RestrictTo", CheckSeverity.OFF)
       check("UseAutoDispose", CheckSeverity.ERROR)
-      option("UseAutoDispose:ClassesWithScope", classesWithScope.join(","))
+      option("UseAutoDispose:TypesWithScope", classesWithScope.join(","))
     }
   }
 }
