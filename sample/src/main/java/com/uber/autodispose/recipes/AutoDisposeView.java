@@ -98,7 +98,9 @@ public abstract class AutoDisposeView extends View implements LifecycleScopeProv
     }
   }
 
-  @Override public Observable<ViewEvent> lifecycle() {
+  @SuppressWarnings("NullAway") // only null in layoutlib
+  @Override
+  public Observable<ViewEvent> lifecycle() {
     //noinspection ConstantConditions only in layoutlib
     return lifecycleEvents.hide();
   }
@@ -107,7 +109,10 @@ public abstract class AutoDisposeView extends View implements LifecycleScopeProv
     return CORRESPONDING_EVENTS;
   }
 
-  @Nullable @Override public ViewEvent peekLifecycle() {
+  @SuppressWarnings("NullAway") // only null in layoutlib
+  @Nullable
+  @Override
+  public ViewEvent peekLifecycle() {
     //noinspection ConstantConditions only in layoutlib
     return lifecycleEvents.getValue();
   }
