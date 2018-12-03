@@ -24,6 +24,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+  annotationProcessor deps.apt.autoService
+
   compileOnly deps.apt.autoService
   compileOnly deps.build.errorProneCheckApi
 

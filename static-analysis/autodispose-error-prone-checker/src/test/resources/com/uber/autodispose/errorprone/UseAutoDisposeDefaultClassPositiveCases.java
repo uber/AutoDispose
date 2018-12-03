@@ -16,12 +16,12 @@
 
 package com.uber.autodispose.errorprone;
 
-import com.uber.autodispose.errorprone.UseAutoDispose;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.LifecycleScopes;
 import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider;
+import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
 import io.reactivex.Flowable;
@@ -30,21 +30,25 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.annotations.Nullable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
 
 /**
  * Cases that don't use autodispose and should fail the {@link UseAutoDispose} check.
  */
 public class UseAutoDisposeDefaultClassPositiveCases
-    implements LifecycleScopeProvider<TestLifecycleScopeProvider.TestLifecycle> {
+    implements LifecycleScopeProvider<TestLifecycle> {
 
-  private final BehaviorSubject<TestLifecycleScopeProvider.TestLifecycle> lifecycleSubject = BehaviorSubject.create();
+  private final BehaviorSubject<TestLifecycle> lifecycleSubject =
+      BehaviorSubject.create();
 
   /**
    * @return a sequence of lifecycle events.
    */
-  @CheckReturnValue public Observable<TestLifecycleScopeProvider.TestLifecycle> lifecycle() {
+  @CheckReturnValue public Observable<TestLifecycle> lifecycle() {
     return lifecycleSubject.hide();
   }
 
@@ -52,18 +56,16 @@ public class UseAutoDisposeDefaultClassPositiveCases
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
    * avoid unnecessary object allocation.
    */
-  @CheckReturnValue public CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle> correspondingEvents() {
-    return new CorrespondingEventsFunction<TestLifecycleScopeProvider.TestLifecycle>() {
-      @Override
-      public TestLifecycleScopeProvider.TestLifecycle apply(TestLifecycleScopeProvider.TestLifecycle testLifecycle) {
-        switch (testLifecycle) {
-          case STARTED:
-            return TestLifecycleScopeProvider.TestLifecycle.STOPPED;
-          case STOPPED:
-            throw new LifecycleEndedException();
-          default:
-            throw new IllegalStateException("Unknown lifecycle event.");
-        }
+  @CheckReturnValue
+  public CorrespondingEventsFunction<TestLifecycle> correspondingEvents() {
+    return testLifecycle -> {
+      switch (testLifecycle) {
+        case STARTED:
+          return TestLifecycle.STOPPED;
+        case STOPPED:
+          throw new LifecycleEndedException();
+        default:
+          throw new IllegalStateException("Unknown lifecycle event.");
       }
     };
   }
@@ -71,11 +73,11 @@ public class UseAutoDisposeDefaultClassPositiveCases
   /**
    * @return the last seen lifecycle event, or {@code null} if none.
    */
-  @Nullable public TestLifecycleScopeProvider.TestLifecycle peekLifecycle() {
+  @Nullable public TestLifecycle peekLifecycle() {
     return lifecycleSubject.getValue();
   }
 
-  @Override public CompletableSource requestScope() throws Exception {
+  @Override public CompletableSource requestScope()  {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
@@ -86,7 +88,7 @@ public class UseAutoDisposeDefaultClassPositiveCases
   }
 
   public void single_subscribeWithoutAutoDispose() {
-    Single.just(true)
+    Single.just(1)
         // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
         .subscribe();
   }
@@ -115,5 +117,125 @@ public class UseAutoDisposeDefaultClassPositiveCases
         .parallel(2)
         // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
         .subscribe(subscribers);
+  }
+
+  public void observable_subscribeVoidSubscribe_withoutAutoDispose() {
+    Observable.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe(new TestObserver<>());
+  }
+
+  public void single_subscribeVoidSubscribe_withoutAutoDispose() {
+    Single.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe(new TestObserver<>());
+  }
+
+  public void completable_subscribeVoidSubscribe_withoutAutoDispose() {
+    Completable.complete()
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe(new TestObserver<>());
+  }
+
+  public void maybe_subscribeVoidSubscribe_withoutAutoDispose() {
+    Maybe.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe(new TestObserver<>());
+  }
+
+  public void flowable_subscribeVoidSubscribe_withoutAutoDispose() {
+    Flowable.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe(new TestSubscriber<>());
+  }
+
+  public void observable_subscribeWith_notKeepingResult() {
+    Observable.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void single_subscribeWith_notKeepingResult() {
+    Single.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void completable_subscribeWith_notKeepingResult() {
+    Completable.complete()
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void maybe_subscribeWith_notKeepingResult() {
+    Maybe.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void flowable_subscribeWith_notKeepingResult() {
+    Flowable.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribeWith(new TestSubscriber<>());
+  }
+
+  public void observable_subscribeKeepingDisposable() {
+    Disposable d = Observable.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe();
+  }
+
+  public void single_subscribeKeepingDisposable() {
+    Disposable d = Single.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe();
+  }
+
+  public void completable_subscribeKeepingDisposable() {
+    Disposable d = Completable.complete()
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe();
+  }
+
+  public void maybe_subscribeKeepingDisposable() {
+    Disposable d = Maybe.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe();
+  }
+
+  public void flowable_subscribeKeepingDisposable() {
+    Disposable d = Flowable.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribe();
+  }
+
+  public void observable_subscribeWith_useReturnValue() {
+    TestObserver<Integer> o = Observable.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void single_subscribeWith_useReturnValue() {
+    TestObserver<Integer> o = Single.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void completable_subscribeWith_useReturnValue() {
+    TestObserver<Object> o = Completable.complete()
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void maybe_subscribeWith_useReturnValue() {
+    TestObserver<Integer> o = Maybe.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void flowable_subscribeWith_useReturnValue() {
+    TestSubscriber<Integer> o = Flowable.just(1)
+        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        .subscribeWith(new TestSubscriber<>());
   }
 }

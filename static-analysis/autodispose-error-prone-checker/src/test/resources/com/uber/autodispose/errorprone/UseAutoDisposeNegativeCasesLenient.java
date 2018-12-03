@@ -21,16 +21,18 @@ import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.LifecycleScopes;
-import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.Single;
 import io.reactivex.annotations.CheckReturnValue;
 import io.reactivex.annotations.Nullable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subscribers.TestSubscriber;
@@ -41,11 +43,9 @@ import static com.uber.autodispose.AutoDispose.autoDisposable;
 /**
  * Cases that use {@link AutoDispose} and should not fail the {@link UseAutoDispose} check.
  */
-public class UseAutoDisposeNegativeCases
-    implements LifecycleScopeProvider<TestLifecycle> {
+public class UseAutoDisposeNegativeCasesLenient implements LifecycleScopeProvider<TestLifecycle> {
 
-  private final BehaviorSubject<TestLifecycle> lifecycleSubject =
-      BehaviorSubject.create();
+  private final BehaviorSubject<TestLifecycle> lifecycleSubject = BehaviorSubject.create();
 
   /**
    * @return a sequence of lifecycle events.
@@ -58,8 +58,7 @@ public class UseAutoDisposeNegativeCases
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
    * avoid unnecessary object allocation.
    */
-  @CheckReturnValue
-  public CorrespondingEventsFunction<TestLifecycle> correspondingEvents() {
+  @CheckReturnValue public CorrespondingEventsFunction<TestLifecycle> correspondingEvents() {
     return testLifecycle -> {
       switch (testLifecycle) {
         case STARTED:
@@ -121,6 +120,56 @@ public class UseAutoDisposeNegativeCases
         .subscribe(subscribers);
   }
 
+  public void observable_subscribeKeepingDisposable() {
+    Disposable d = Observable.just(1)
+        .subscribe();
+  }
+
+  public void single_subscribeKeepingDisposable() {
+    Disposable d = Single.just(1)
+        .subscribe();
+  }
+
+  public void completable_subscribeKeepingDisposable() {
+    Disposable d = Completable.complete()
+        .subscribe();
+  }
+
+  public void maybe_subscribeKeepingDisposable() {
+    Disposable d = Maybe.just(1)
+        .subscribe();
+  }
+
+  public void flowable_subscribeKeepingDisposable() {
+    Disposable d = Flowable.just(1)
+        .subscribe();
+  }
+
+  public void observable_subscribeWith_useReturnValue() {
+    TestObserver<Integer> o = Observable.just(1)
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void single_subscribeWith_useReturnValue() {
+    TestObserver<Integer> o = Single.just(1)
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void completable_subscribeWith_useReturnValue() {
+    TestObserver<Object> o = Completable.complete()
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void maybe_subscribeWith_useReturnValue() {
+    TestObserver<Integer> o = Maybe.just(1)
+        .subscribeWith(new TestObserver<>());
+  }
+
+  public void flowable_subscribeWith_useReturnValue() {
+    TestSubscriber<Integer> o = Flowable.just(1)
+        .subscribeWith(new TestSubscriber<>());
+  }
+
   public void observable_subscribeVoidSubscribe() {
     Observable.just(1)
         .as(autoDisposable(this))
@@ -179,5 +228,39 @@ public class UseAutoDisposeNegativeCases
     Flowable.just(1)
         .as(autoDisposable(this))
         .subscribeWith(new TestSubscriber<>());
+  }
+
+  // subscribeWith only works IFF the argument passed implements Disposable
+  public void subscribeWithOnlyDisposable() {
+    Observer<Integer> o = Observable.just(1)
+        .subscribeWith(new DisposableObserver<Integer>() {
+
+          @Override public void onNext(Integer integer) {
+
+          }
+
+          @Override public void onError(Throwable e) {
+
+          }
+
+          @Override public void onComplete() {
+
+          }
+        });
+    DisposableObserver<Integer> o2 = Observable.just(1)
+        .subscribeWith(new DisposableObserver<Integer>() {
+
+          @Override public void onNext(Integer integer) {
+
+          }
+
+          @Override public void onError(Throwable e) {
+
+          }
+
+          @Override public void onComplete() {
+
+          }
+        });
   }
 }
