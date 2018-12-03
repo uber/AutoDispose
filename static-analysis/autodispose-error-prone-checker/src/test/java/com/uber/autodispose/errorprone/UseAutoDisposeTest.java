@@ -41,7 +41,7 @@ public final class UseAutoDisposeTest {
   }
 
   @Test public void test_autodisposePositiveCasesWithCustomClass() {
-    compilationHelper.setArgs(ImmutableList.of("-XepOpt:ClassesWithScope"
+    compilationHelper.setArgs(ImmutableList.of("-XepOpt:TypesWithScope"
         + "=com.uber.autodispose.errorprone.ComponentWithLifecycle"));
     compilationHelper.addSourceFile("UseAutoDisposeCustomClassPositiveCases.java").doTest();
   }

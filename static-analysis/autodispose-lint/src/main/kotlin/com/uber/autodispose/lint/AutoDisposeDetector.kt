@@ -26,7 +26,7 @@ import java.io.StringReader
 import java.util.Properties
 import java.util.EnumSet
 
-internal const val CUSTOM_SCOPE_KEY = "autodispose.classes_with_scope"
+internal const val CUSTOM_SCOPE_KEY = "autodispose.typesWithScope"
 
 /**
  * Detector which checks if your stream subscriptions are handled by AutoDispose.
