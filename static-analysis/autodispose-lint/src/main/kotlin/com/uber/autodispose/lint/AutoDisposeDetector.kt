@@ -46,6 +46,11 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
         Category.CORRECTNESS,
         10,
         Severity.ERROR,
+        // We use the overloaded constructor that takes a varargs of `Scope` as the last param.
+        // This is to enable on-the-fly IDE checks. We are telling lint to run on both
+        // JAVA and TEST_SOURCES in the `scope` parameter but by providing the `analysisScopes`
+        // params, we're indicating that this check can run on either JAVA or TEST_SOURCES and
+        // doesn't require both of them together.
         Implementation(AutoDisposeDetector::class.java,
             EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES),
             EnumSet.of(Scope.JAVA_FILE),
