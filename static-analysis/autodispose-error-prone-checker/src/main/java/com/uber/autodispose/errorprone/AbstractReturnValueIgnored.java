@@ -80,9 +80,6 @@ abstract class AbstractReturnValueIgnored extends BugChecker
     return matchMethodInvocationNew(tree, state);
   }
 
-  /**
-   * This is what I want to do, but am messing up some sort of logic here
-   */
   private Description matchMethodInvocationNew(MethodInvocationTree tree, VisitorState state) {
     boolean matches = specializedMatcher().matches(tree, state);
     if (!matches) {
