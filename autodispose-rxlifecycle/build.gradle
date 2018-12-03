@@ -13,33 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
-    id 'java-library'
-    id 'net.ltgt.errorprone'
+  id 'java-library'
+  id 'net.ltgt.errorprone'
 }
 
 sourceCompatibility = deps.build.javaVersion
 targetCompatibility = deps.build.javaVersion
 
 test {
-    testLogging.showStandardStreams = true
+  testLogging.showStandardStreams = true
 }
 
 dependencies {
-    annotationProcessor deps.build.nullAway
-    testAnnotationProcessor deps.build.nullAway
+  api project(':autodispose')
+  api deps.misc.rxlifecycle
 
-    api project(':autodispose')
-    api deps.misc.rxlifecycle
+  errorproneJavac deps.build.errorProneJavac
+  errorprone deps.build.nullAway
+  errorprone deps.build.errorProne
 
-    errorprone deps.build.errorProne
-
-    testCompile project(':test-utils')
+  testCompile project(':test-utils')
 }
 
-tasks.withType(JavaCompile) {
-    options.compilerArgs += ["-Xep:NullAway:ERROR", "-XepOpt:NullAway:AnnotatedPackages=com.uber"]
+tasks.withType(JavaCompile).configureEach {
+  options.errorprone {
+    option("NullAway:AnnotatedPackages", "com.uber")
+    check("NullAway", CheckSeverity.ERROR)
+  }
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
