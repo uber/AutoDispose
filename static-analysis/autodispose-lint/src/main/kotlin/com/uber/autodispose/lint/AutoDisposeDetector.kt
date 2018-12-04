@@ -95,8 +95,10 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
       props.load(content)
       props.getProperty(CUSTOM_SCOPE_KEY)?.let { scopeProperty ->
         val customScopes = scopeProperty.split(",")
-            .map { it.trim() }
-            .filter { it.isNotBlank() }
+            .asSequence()
+            .map(String::trim)
+            .filter(String::isNotBlank)
+            .toList()
         scopes.addAll(customScopes)
       }
     }
@@ -105,6 +107,7 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
 
   override fun getApplicableMethodNames(): List<String> = listOf("subscribe", "subscribeWith")
 
+  @Suppress("OverridingDeprecatedMember") // We support AGP 3.2. Switch when 3.3 stable
   override fun visitMethod(context: JavaContext, node: UCallExpression, method: PsiMethod) {
     val evaluator = context.evaluator
 
