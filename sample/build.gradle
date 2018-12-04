@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import net.ltgt.gradle.errorprone.CheckSeverity
+//import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
   id 'com.android.application'
   id 'org.jetbrains.kotlin.android'
-  id 'net.ltgt.errorprone'
+//  id 'net.ltgt.errorprone'
 }
 
 android {
@@ -54,32 +54,32 @@ dependencies {
   implementation 'com.jakewharton.rx2:replaying-share-kotlin:2.0.1'
   implementation 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
 
-  errorproneJavac deps.build.errorProneJavac
-  errorprone deps.build.errorProne
-  errorprone deps.build.nullAway
-  errorprone project(':static-analysis:autodispose-error-prone')
+//  errorproneJavac deps.build.errorProneJavac
+//  errorprone deps.build.errorProne
+//  errorprone deps.build.nullAway
+//  errorprone project(':static-analysis:autodispose-error-prone')
 
   debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
   releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
 }
 
-afterEvaluate {
-  tasks.withType(JavaCompile).configureEach {
-    def classesWithScope = [
-        "android.app.Activity",
-        "android.app.Fragment",
-        "com.uber.autodispose.LifecycleScopeProvider",
-        "android.arch.lifecycle.LifecycleOwner",
-        "androidx.lifecycle.LifecycleOwner",
-        "com.uber.autodispose.ScopeProvider",
-        "com.uber.autodispose.sample.CustomScope"
-    ]
-    options.errorprone {
-      option("NullAway:AnnotatedPackages", "com.uber")
-      check("NullAway", CheckSeverity.ERROR)
-      check("RestrictTo", CheckSeverity.OFF)
-      check("UseAutoDispose", CheckSeverity.ERROR)
-      option("UseAutoDispose:TypesWithScope", classesWithScope.join(","))
-    }
-  }
-}
+//afterEvaluate {
+//  tasks.withType(JavaCompile).configureEach {
+//    def classesWithScope = [
+//        "android.app.Activity",
+//        "android.app.Fragment",
+//        "com.uber.autodispose.LifecycleScopeProvider",
+//        "android.arch.lifecycle.LifecycleOwner",
+//        "androidx.lifecycle.LifecycleOwner",
+//        "com.uber.autodispose.ScopeProvider",
+//        "com.uber.autodispose.sample.CustomScope"
+//    ]
+//    options.errorprone {
+//      option("NullAway:AnnotatedPackages", "com.uber")
+//      check("NullAway", CheckSeverity.ERROR)
+//      check("RestrictTo", CheckSeverity.OFF)
+//      check("UseAutoDispose", CheckSeverity.ERROR)
+//      option("UseAutoDispose:TypesWithScope", classesWithScope.join(","))
+//    }
+//  }
+//}
