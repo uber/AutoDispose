@@ -621,4 +621,36 @@ class AutoDisposeDetectorTest {
         .run()
         .expectClean()
   }
+
+  @Test fun subscribeWithCapturedDisposable() {
+    lint()
+        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
+          package foo;
+          import io.reactivex.Observable;
+          import io.reactivex.observers.DisposableObserver;
+          import io.reactivex.disposables.Disposable;
+          import androidx.fragment.app.Fragment;
+
+          class ExampleClass extends Fragment {
+            void names() {
+              Observable<Integer> obs = Observable.just(1, 2, 3, 4);
+              Disposable disposable = obs.subscribeWith(new DisposableObserver<Integer>() {
+                @Override
+                public void onNext(Integer integer) {
+                }
+
+                @Override
+                public void onError(Throwable e) {}
+
+                @Override
+                public void onComplete() {}
+              });
+            }
+          }
+        """).indented())
+        .allowCompilationErrors(false)
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
 }
