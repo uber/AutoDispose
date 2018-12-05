@@ -69,7 +69,6 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     // The default scopes for Android.
     private val DEFAULT_SCOPES = listOf("androidx.lifecycle.LifecycleOwner",
         "com.uber.autodispose.ScopeProvider",
-        "com.uber.autodispose.lifecycle.LifecycleScopeProvider",
         "android.app.Activity",
         "android.app.Fragment")
 
