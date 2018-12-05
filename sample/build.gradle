@@ -69,7 +69,6 @@ dependencies {
 //    def classesWithScope = [
 //        "android.app.Activity",
 //        "android.app.Fragment",
-//        "com.uber.autodispose.LifecycleScopeProvider",
 //        "android.arch.lifecycle.LifecycleOwner",
 //        "androidx.lifecycle.LifecycleOwner",
 //        "com.uber.autodispose.ScopeProvider",
