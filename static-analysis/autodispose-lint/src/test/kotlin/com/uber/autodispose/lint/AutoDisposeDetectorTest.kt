@@ -521,4 +521,104 @@ class AutoDisposeDetectorTest {
         .run()
         .expectClean()
   }
+
+  @Test fun capturedDisposable() {
+    lint().files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.Observable
+
+      class MyActivity: AppCompatActivity {
+        fun doSomething() {
+          val disposable = Observable.just(1, 2, 3).subscribe()
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun nestedDisposable() {
+    lint().files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.Observable
+      import io.reactivex.disposables.CompositeDisposable
+
+      class MyActivity: AppCompatActivity {
+        private val disposables = CompositeDisposable()
+        fun doSomething() {
+          disposables.add(
+            Observable.just(1, 2, 3).subscribe()
+          )
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun subscribeWithLambda() {
+    lint().files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.Observable
+      import io.reactivex.disposables.CompositeDisposable
+      import io.reactive.disposables.Disposable
+
+      class MyActivity: AppCompatActivity {
+        private val disposables = CompositeDisposable()
+        fun doSomething() {
+          Observable.just(1,2,3).subscribe {}
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expect("""src/foo/MyActivity.kt:10: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
+          |    Observable.just(1,2,3).subscribe {}
+          |    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          |1 errors, 0 warnings""".trimMargin())
+  }
+
+  @Test fun checkLenientLintWithLambdas() {
+    lint().files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.Observable
+      import io.reactivex.disposables.CompositeDisposable
+
+      class MyActivity: AppCompatActivity {
+        private val disposables = CompositeDisposable()
+        fun doSomething(list: List<String>) {
+          list.map {
+            Observable.just(1, 2, 3).subscribe()
+          }
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun javaCapturedDisposable() {
+    lint().files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, java("""
+      package foo;
+      import androidx.appcompat.app.AppCompatActivity;
+      import io.reactivex.Observable;
+      import io.reactivex.disposables.Disposable;
+
+      class MyActivity extends AppCompatActivity {
+        fun doSomething() {
+          Disposable disposable = Observable.just(1, 2, 3).subscribe();
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
 }

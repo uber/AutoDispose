@@ -17,10 +17,26 @@
 package com.uber.autodispose.lint
 
 import com.android.tools.lint.client.api.JavaEvaluator
-import com.android.tools.lint.detector.api.*
+import com.android.tools.lint.detector.api.Category
+import com.android.tools.lint.detector.api.Detector
+import com.android.tools.lint.detector.api.Issue
+import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.Severity
+import com.android.tools.lint.detector.api.Implementation
+import com.android.tools.lint.detector.api.Scope
+import com.android.tools.lint.detector.api.JavaContext
+import com.android.tools.lint.detector.api.Context
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import org.jetbrains.uast.UCallExpression
+import org.jetbrains.uast.UElement
+import org.jetbrains.uast.getParentOfType
+import org.jetbrains.uast.UExpression
+import org.jetbrains.uast.UQualifiedReferenceExpression
+import org.jetbrains.uast.ULambdaExpression
+import org.jetbrains.uast.UMethod
+import org.jetbrains.uast.UClassInitializer
+import org.jetbrains.uast.UBlockExpression
 import org.jetbrains.uast.getContainingUClass
 import java.io.StringReader
 import java.util.Properties
@@ -110,7 +126,10 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
   override fun visitMethod(context: JavaContext, node: UCallExpression, method: PsiMethod) {
     val evaluator = context.evaluator
 
-    if (isReactiveType(evaluator, method) && isInScope(evaluator, node.getContainingUClass())) {
+    if (isReactiveType(evaluator, method)
+        && isInScope(evaluator, node.getContainingUClass())
+        && isExpressionValueUnused(node)
+    ) {
       context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
     }
   }
@@ -140,5 +159,67 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
 
   private fun isReactiveType(evaluator: JavaEvaluator, method: PsiMethod): Boolean {
     return REACTIVE_TYPES.any { evaluator.isMemberInClass(method, it) }
+  }
+
+  /**
+   * Checks whether the given expression's return value is unused.
+   *
+   * Borrowed from https://android.googlesource.com/platform/tools/base/+/studio-master-dev/lint/libs/lint-checks/src/main/java/com/android/tools/lint/checks/CheckResultDetector.kt
+   *
+   * @param element the element to be analyzed.
+   * @return whether the expression is unused.
+   */
+  private fun isExpressionValueUnused(element: UElement): Boolean {
+    var prev = element.getParentOfType<UExpression>(
+        UExpression::class.java, false
+    ) ?: return true
+    var curr = prev.uastParent ?: return true
+    while (curr is UQualifiedReferenceExpression && curr.selector === prev) {
+      prev = curr
+      curr = curr.uastParent ?: return true
+    }
+    @Suppress("RedundantIf")
+    if (curr is UBlockExpression) {
+      if (curr.uastParent is ULambdaExpression) {
+        // Lambda block: for now assume used (e.g. parameter
+        // in call. Later consider recursing here to
+        // detect if the lambda itself is unused.
+        return false
+      }
+      // In Java, it's apparent when an expression is unused:
+      // the parent is a block expression. However, in Kotlin it's
+      // much trickier: values can flow through blocks and up through
+      // if statements, try statements.
+      //
+      // In Kotlin, we consider an expression unused if its parent
+      // is not a block, OR, the expression is not the last statement
+      // in the block, OR, recursively the parent expression is not
+      // used (e.g. you're in an if, but that if statement is itself
+      // not doing anything with the value.)
+      val block = curr
+      val expression = prev
+      val index = block.expressions.indexOf(expression)
+      if (index == -1) {
+        return true
+      }
+      if (index < block.expressions.size - 1) {
+        // Not last child
+        return true
+      }
+      // It's the last child: see if the parent is unused
+      val parent = curr.uastParent ?: return true
+      if (parent is UMethod || parent is UClassInitializer) {
+        return true
+      }
+      return isExpressionValueUnused(parent)
+    } else if (curr is UMethod && curr.isConstructor) {
+      return true
+    } else {
+      // Some other non block node type, such as assignment,
+      // method declaration etc: not unused
+      // TODO: Make sure that a void/unit method inline declaration
+      // works correctly
+      return false
+    }
   }
 }
