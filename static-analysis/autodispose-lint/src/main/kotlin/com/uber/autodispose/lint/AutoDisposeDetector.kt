@@ -18,15 +18,7 @@ package com.uber.autodispose.lint
 
 import com.android.tools.lint.client.api.JavaEvaluator
 import com.android.tools.lint.client.api.UElementHandler
-import com.android.tools.lint.detector.api.Category
-import com.android.tools.lint.detector.api.Detector
-import com.android.tools.lint.detector.api.Issue
-import com.android.tools.lint.detector.api.SourceCodeScanner
-import com.android.tools.lint.detector.api.Severity
-import com.android.tools.lint.detector.api.Implementation
-import com.android.tools.lint.detector.api.Scope
-import com.android.tools.lint.detector.api.JavaContext
-import com.android.tools.lint.detector.api.Context
+import com.android.tools.lint.detector.api.*
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiType
@@ -42,6 +34,7 @@ import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.UClassInitializer
 import org.jetbrains.uast.UBlockExpression
 import org.jetbrains.uast.getContainingUClass
+import org.jetbrains.uast.getContainingUFile
 import java.io.StringReader
 import java.util.Properties
 import java.util.EnumSet
@@ -90,10 +83,17 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     private const val COMPLETABLE = "io.reactivex.Completable"
 
     // The default scopes for Android.
-    private val DEFAULT_SCOPES = listOf("androidx.lifecycle.LifecycleOwner",
-        "com.uber.autodispose.ScopeProvider",
+    private val ANDROID_SCOPES = setOf("androidx.lifecycle.LifecycleOwner",
         "android.app.Activity",
         "android.app.Fragment")
+
+    // The default scopes for AutoDispose
+    private val AUTODISPOSE_SCOPES = setOf("com.uber.autodispose.ScopeProvider",
+        "com.uber.autodispose.lifecycle.LifecycleScopeProvider")
+
+    // The default scopes
+    private val DEFAULT_SCOPES: Collection<String> = listOf(*ANDROID_SCOPES.toTypedArray(),
+        *AUTODISPOSE_SCOPES.toTypedArray())
 
     private val REACTIVE_TYPES = setOf(OBSERVABLE, FLOWABLE, PARALLEL_FLOWABLE, SINGLE, MAYBE,
         COMPLETABLE)
@@ -186,6 +186,15 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     return false
   }
 
+  private fun isInAutoDisposeScope(evaluator: JavaEvaluator, psiClass: PsiClass?): Boolean {
+    psiClass?.let { callingClass ->
+      return AUTODISPOSE_SCOPES.any {
+        evaluator.inheritsFrom(callingClass, it, false)
+      }
+    }
+    return false
+  }
+
   private fun isReactiveType(evaluator: JavaEvaluator, method: PsiMethod): Boolean {
     return REACTIVE_TYPES.any { evaluator.isMemberInClass(method, it) }
   }
@@ -224,6 +233,19 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
         && isInScope(evaluator, node.getContainingUClass())
     ) {
       if (!lenient) {
+        val replace = if (node.getContainingUFile()?.psi?.name?.contains("kt") == true) {
+          "autoDisposable(this)"
+        } else {
+          "as(com.uber.autodispose.AutoDispose.autoDisposable(this))"
+        }
+        val fix = LintFix.create()
+            .name("Handle scope with AutoDispose")
+            .replace()
+            .text(method.name)
+            .with("$replace\n.${method.name}")
+            .reformat(true)
+            .shortenNames()
+            .build()
         context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
       } else {
         val isUnusedReturnValue = isExpressionValueUnused(node)
