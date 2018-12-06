@@ -124,8 +124,8 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
    * @param exclusiveScope whether the custom scopes are exclusive.
    * @return the classes on which to apply the error-prone check.
    */
-  private ImmutableSet<String> getClassesWithScope(Optional<ImmutableSet<String>> inputClasses,
-                                                   Optional<Boolean> exclusiveScope) {
+  private static ImmutableSet<String> getClassesWithScope(Optional<ImmutableSet<String>> inputClasses,
+          Optional<Boolean> exclusiveScope) {
     if (inputClasses.isPresent()) {
       if (exclusiveScope.isPresent() && exclusiveScope.get()) {
         // The custom scopes are exclusive, just return that.
