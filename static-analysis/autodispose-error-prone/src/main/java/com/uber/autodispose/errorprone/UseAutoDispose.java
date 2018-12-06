@@ -96,8 +96,8 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
         flags.getList("TypesWithScope").map(ImmutableSet::copyOf);
     Optional<Boolean> overrideScopes = flags.getBoolean("OverrideScopes");
 
-    ImmutableSet<String> classesWithLifecycle = getClassesWithLifecycle(inputClasses, overrideScopes);
-    matcher = allOf(SUBSCRIBE_METHOD, matcher(classesWithLifecycle));
+    ImmutableSet<String> classesWithScope = getClassesWithScope(inputClasses, overrideScopes);
+    matcher = allOf(SUBSCRIBE_METHOD, matcher(classesWithScope));
     lenient = flags.getBoolean("Lenient").orElse(false);
   }
 
@@ -124,8 +124,8 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
    * @param exclusiveScope whether the custom scopes are exclusive.
    * @return the classes on which to apply the error-prone check.
    */
-  private ImmutableSet<String> getClassesWithLifecycle(Optional<ImmutableSet<String>> inputClasses,
-                                                       Optional<Boolean> exclusiveScope) {
+  private ImmutableSet<String> getClassesWithScope(Optional<ImmutableSet<String>> inputClasses,
+                                                   Optional<Boolean> exclusiveScope) {
     if (inputClasses.isPresent()) {
       if (exclusiveScope.isPresent() && exclusiveScope.get()) {
         // The custom scopes are exclusive, just return that.
