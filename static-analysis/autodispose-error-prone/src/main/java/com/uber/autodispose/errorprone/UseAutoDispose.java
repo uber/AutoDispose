@@ -121,13 +121,13 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
    * Return the lifecycle classes on which to apply the Error-Prone check.
    *
    * @param inputClasses the custom scopes defined by user.
-   * @param exclusiveScope whether the custom scopes are exclusive.
+   * @param overrideScopes whether the custom scopes are exclusive.
    * @return the classes on which to apply the error-prone check.
    */
   private static ImmutableSet<String> getClassesWithScope(Optional<ImmutableSet<String>> inputClasses,
-          Optional<Boolean> exclusiveScope) {
+          Optional<Boolean> overrideScopes) {
     if (inputClasses.isPresent()) {
-      if (exclusiveScope.isPresent() && exclusiveScope.get()) {
+      if (overrideScopes.isPresent() && overrideScopes.get()) {
         // The custom scopes are exclusive, just return that.
         return inputClasses.get();
       } else {
