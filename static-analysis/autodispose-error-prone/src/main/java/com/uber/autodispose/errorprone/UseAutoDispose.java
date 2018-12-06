@@ -41,12 +41,12 @@ import static com.google.errorprone.util.ASTHelpers.isSubtype;
 
 /**
  * Checker for subscriptions not binding to lifecycle in components with lifecycle.
- * Use -XepOpt:TypesWithScope flag to add support for custom components with lifecycle.
- * Use -XepOpt:OverrideScopes to only run the EP check on your custom components with lifecycle.
+ * Use -XepOpt:TypesWithScope flag to add support for custom types with scope.
+ * Use -XepOpt:OverrideScopes to only run the EP check on your custom types with scope.
  * The sample configuration for Conductor:
  * <pre><code>
  *   -XepOpt:TypesWithScope=com.bluelinelabs.conductor.Controller,android.app.Activity
- *   -XepOpt:OverrideScopes=true/false
+ *   -XepOpt:OverrideScopes=<true|false>
  * </code></pre>
  */
 @AutoService(BugChecker.class)
