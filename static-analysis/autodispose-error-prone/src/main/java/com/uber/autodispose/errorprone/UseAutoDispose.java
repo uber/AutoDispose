@@ -42,9 +42,11 @@ import static com.google.errorprone.util.ASTHelpers.isSubtype;
 /**
  * Checker for subscriptions not binding to lifecycle in components with lifecycle.
  * Use -XepOpt:TypesWithScope flag to add support for custom components with lifecycle.
+ * Use -XepOpt:IsScopeExclusive to only run the EP check on your custom components with lifecycle.
  * The sample configuration for Conductor:
  * <pre><code>
  *   -XepOpt:TypesWithScope=com.bluelinelabs.conductor.Controller,android.app.Activity
+ *   -XepOpt:IsScopeExclusive=true/false
  * </code></pre>
  */
 @AutoService(BugChecker.class)
@@ -92,8 +94,9 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
   public UseAutoDispose(ErrorProneFlags flags) {
     Optional<ImmutableSet<String>> inputClasses =
         flags.getList("TypesWithScope").map(ImmutableSet::copyOf);
+    Optional<Boolean> exclusiveScope = flags.getBoolean("IsScopeExclusive");
 
-    ImmutableSet<String> classesWithLifecycle = inputClasses.orElse(DEFAULT_CLASSES_WITH_LIFECYCLE);
+    ImmutableSet<String> classesWithLifecycle = getClassesWithLifecycle(inputClasses, exclusiveScope);
     matcher = allOf(SUBSCRIBE_METHOD, matcher(classesWithLifecycle));
     lenient = flags.getBoolean("Lenient").orElse(false);
   }
@@ -112,6 +115,32 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
 
   @Override public String linkUrl() {
     return "https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker";
+  }
+
+  /**
+   * Return the lifecycle classes on which to apply the Error-Prone check.
+   *
+   * @param inputClasses the custom scopes defined by user.
+   * @param exclusiveScope whether the custom scopes are exclusive.
+   * @return the classes on which to apply the error-prone check.
+   */
+  private ImmutableSet<String> getClassesWithLifecycle(Optional<ImmutableSet<String>> inputClasses,
+                                                       Optional<Boolean> exclusiveScope) {
+    if (inputClasses.isPresent()) {
+      if (exclusiveScope.isPresent() && exclusiveScope.get()) {
+        // The custom scopes are exclusive, just return that.
+        return inputClasses.get();
+      } else {
+        // The custom scopes aren't exclusive, so bundle them together with default scopes.
+        return ImmutableSet.<String>builder()
+            .addAll(DEFAULT_CLASSES_WITH_LIFECYCLE)
+            .addAll(inputClasses.get())
+            .build();
+      }
+    } else {
+      // No custom scopes. Return default scopes.
+      return DEFAULT_CLASSES_WITH_LIFECYCLE;
+    }
   }
 
   private static Matcher<ExpressionTree> matcher(Set<String> classesWithLifecycle) {
