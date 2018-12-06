@@ -42,11 +42,11 @@ import static com.google.errorprone.util.ASTHelpers.isSubtype;
 /**
  * Checker for subscriptions not binding to lifecycle in components with lifecycle.
  * Use -XepOpt:TypesWithScope flag to add support for custom components with lifecycle.
- * Use -XepOpt:IsScopeExclusive to only run the EP check on your custom components with lifecycle.
+ * Use -XepOpt:OverrideScopes to only run the EP check on your custom components with lifecycle.
  * The sample configuration for Conductor:
  * <pre><code>
  *   -XepOpt:TypesWithScope=com.bluelinelabs.conductor.Controller,android.app.Activity
- *   -XepOpt:IsScopeExclusive=true/false
+ *   -XepOpt:OverrideScopes=true/false
  * </code></pre>
  */
 @AutoService(BugChecker.class)
@@ -94,9 +94,9 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
   public UseAutoDispose(ErrorProneFlags flags) {
     Optional<ImmutableSet<String>> inputClasses =
         flags.getList("TypesWithScope").map(ImmutableSet::copyOf);
-    Optional<Boolean> exclusiveScope = flags.getBoolean("IsScopeExclusive");
+    Optional<Boolean> overrideScopes = flags.getBoolean("OverrideScopes");
 
-    ImmutableSet<String> classesWithLifecycle = getClassesWithLifecycle(inputClasses, exclusiveScope);
+    ImmutableSet<String> classesWithLifecycle = getClassesWithLifecycle(inputClasses, overrideScopes);
     matcher = allOf(SUBSCRIBE_METHOD, matcher(classesWithLifecycle));
     lenient = flags.getBoolean("Lenient").orElse(false);
   }

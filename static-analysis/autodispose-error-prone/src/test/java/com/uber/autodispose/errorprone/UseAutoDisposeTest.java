@@ -48,7 +48,7 @@ public final class UseAutoDisposeTest {
 
   @Test public void test_autodisposeNegativeCasesWithDefaultClassGivenExclusiveScope() {
     compilationHelper.setArgs(ImmutableList.of("-XepOpt:TypesWithScope"
-        + "=com.uber.autodispose.errorprone.ComponentWithLifecycle", "-XepOpt:IsScopeExclusive"));
+        + "=com.uber.autodispose.errorprone.ComponentWithLifecycle", "-XepOpt:OverrideScopes"));
     compilationHelper.addSourceFile("UseAutoDisposeNegativeCasesExcluded.java").doTest();
   }
 
