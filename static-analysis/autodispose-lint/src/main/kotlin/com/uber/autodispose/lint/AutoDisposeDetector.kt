@@ -27,7 +27,9 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Context
 import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
+import com.intellij.psi.PsiType
 import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.getParentOfType
@@ -128,9 +130,13 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
 
     if (isReactiveType(evaluator, method)
         && isInScope(evaluator, node.getContainingUClass())
-        && isExpressionValueUnused(node)
     ) {
-      context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
+      val isUnusedReturnValue = isExpressionValueUnused(node)
+      if (isUnusedReturnValue || !isCapturedTypeAllowed(node.returnType, method)) {
+        // The subscribe return type isn't handled by consumer or the returned type
+        // doesn't implement Disposable.
+        context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
+      }
     }
   }
 
@@ -160,6 +166,28 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
   private fun isReactiveType(evaluator: JavaEvaluator, method: PsiMethod): Boolean {
     return REACTIVE_TYPES.any { evaluator.isMemberInClass(method, it) }
   }
+
+  /**
+   * Returns whether the given [returnType] is allowed to bypass the lint check.
+   *
+   * If a `subscribe`/`subscribeWith` method return type is captured by the consumer
+   * AND the return type implements Disposable, we let it bypass the lint check.
+   * For example, subscribing with a plain Observer instead of a DiposableObserver will
+   * not bypass the lint check since Observer doesn't extend Disposable.
+   *
+   * @param returnType the return type of the `subscribe`/`subscribeWith` call.
+   * @param element the element (typically the [PsiMethod] which is analyzed for the return type.
+   * @return whether the return type is allowed to bypass the lint check.
+   */
+  private fun isCapturedTypeAllowed(returnType: PsiType?, element: PsiElement): Boolean {
+    returnType?.let {
+      return it.isConvertibleFrom(PsiType.getTypeByName("io.reactivex.disposables.Disposable",
+          element.project,
+          element.resolveScope))
+    }
+    return false
+  }
+
 
   /**
    * Checks whether the given expression's return value is unused.

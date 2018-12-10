@@ -622,6 +622,45 @@ class AutoDisposeDetectorTest {
         .expectClean()
   }
 
+  @Test fun subscribeWithCapturedNonDisposableType() {
+    lint()
+        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
+          package foo;
+          import io.reactivex.Observable;
+          import io.reactivex.observers.DisposableObserver;
+          import io.reactivex.disposables.Disposable;
+          import io.reactivex.Observer;
+          import androidx.fragment.app.Fragment;
+
+          class ExampleClass extends Fragment {
+            void names() {
+              Observable<Integer> obs = Observable.just(1, 2, 3, 4);
+              Observer<Integer> disposable = obs.subscribeWith(new Observer<Integer>() {
+                @Override
+                public void onSubscribe(Disposable d) {
+                }
+                @Override
+                public void onNext(Integer integer) {
+                }
+
+                @Override
+                public void onError(Throwable e) {}
+
+                @Override
+                public void onComplete() {}
+              });
+            }
+          }
+        """).indented())
+        .allowCompilationErrors(false)
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expect("""src/foo/ExampleClass.java:11: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
+          |    Observer<Integer> disposable = obs.subscribeWith(new Observer<Integer>() {
+          |                                   ^
+          |1 errors, 0 warnings""".trimMargin())
+  }
+
   @Test fun subscribeWithCapturedDisposable() {
     lint()
         .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
