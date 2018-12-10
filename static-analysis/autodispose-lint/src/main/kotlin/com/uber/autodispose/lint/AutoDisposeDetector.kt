@@ -17,6 +17,7 @@
 package com.uber.autodispose.lint
 
 import com.android.tools.lint.client.api.JavaEvaluator
+import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.Category
 import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Issue
@@ -27,10 +28,11 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Context
 import com.intellij.psi.PsiClass
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiType
+import com.intellij.psi.util.PsiUtil
 import org.jetbrains.uast.UCallExpression
+import org.jetbrains.uast.UCallableReferenceExpression
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.getParentOfType
 import org.jetbrains.uast.UExpression
@@ -124,21 +126,27 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
 
   override fun getApplicableMethodNames(): List<String> = listOf("subscribe", "subscribeWith")
 
-  @Suppress("OverridingDeprecatedMember") // We support AGP 3.2. Switch when 3.3 stable
-  override fun visitMethod(context: JavaContext, node: UCallExpression, method: PsiMethod) {
-    val evaluator = context.evaluator
+  override fun createUastHandler(context: JavaContext): UElementHandler? {
+    return object : UElementHandler() {
+      override fun visitCallableReferenceExpression(node: UCallableReferenceExpression) {
+        val method = node.resolve()
+        // Check if the resolved call reference is method and check that it's invocation is a
+        // call expression so that we can get it's return type etc.
+        if (method is PsiMethod && node.uastParent != null && node.uastParent is UCallExpression) {
+          evaluateMethodCall(node.uastParent as UCallExpression, method, context)
+        }
+      }
 
-    if (isReactiveType(evaluator, method)
-        && isInScope(evaluator, node.getContainingUClass())
-    ) {
-      val isUnusedReturnValue = isExpressionValueUnused(node)
-      if (isUnusedReturnValue || !isCapturedTypeAllowed(node.returnType, method)) {
-        // The subscribe return type isn't handled by consumer or the returned type
-        // doesn't implement Disposable.
-        context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
+      override fun visitCallExpression(node: UCallExpression) {
+        node.resolve()?.let {
+          evaluateMethodCall(node, it, context)
+        }
       }
     }
   }
+
+  override fun getApplicableUastTypes(): List<Class<out UElement>> =
+      listOf(UCallExpression::class.java, UCallableReferenceExpression::class.java)
 
   /**
    * Checks if the calling method is in "scope" that can be handled by AutoDispose.
@@ -176,18 +184,38 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
    * not bypass the lint check since Observer doesn't extend Disposable.
    *
    * @param returnType the return type of the `subscribe`/`subscribeWith` call.
-   * @param element the element (typically the [PsiMethod] which is analyzed for the return type.
+   * @param evaluator the evaluator.
    * @return whether the return type is allowed to bypass the lint check.
    */
-  private fun isCapturedTypeAllowed(returnType: PsiType?, element: PsiElement): Boolean {
-    returnType?.let {
-      return it.isConvertibleFrom(PsiType.getTypeByName("io.reactivex.disposables.Disposable",
-          element.project,
-          element.resolveScope))
+  private fun isCapturedTypeAllowed(returnType: PsiType?, evaluator: JavaEvaluator): Boolean {
+    PsiUtil.resolveClassInType(returnType)?.let {
+      return evaluator.inheritsFrom(it, "io.reactivex.disposables.Disposable", false)
     }
     return false
   }
 
+  /**
+   * Evaluates the given [method] and it's expression.
+   *
+   * @param node the node which calls the method.
+   * @param method the method representation.
+   * @param context project context.
+   */
+  private fun evaluateMethodCall(node: UCallExpression, method: PsiMethod, context: JavaContext) {
+    if (!getApplicableMethodNames().contains(method.name)) return
+    val evaluator = context.evaluator
+
+    if (isReactiveType(evaluator, method)
+        && isInScope(evaluator, node.getContainingUClass())
+    ) {
+      val isUnusedReturnValue = isExpressionValueUnused(node)
+      if (isUnusedReturnValue || !isCapturedTypeAllowed(node.returnType, evaluator)) {
+        // The subscribe return type isn't handled by consumer or the returned type
+        // doesn't implement Disposable.
+        context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
+      }
+    }
+  }
 
   /**
    * Checks whether the given expression's return value is unused.
