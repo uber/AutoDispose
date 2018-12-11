@@ -47,6 +47,7 @@ import java.util.Properties
 import java.util.EnumSet
 
 internal const val CUSTOM_SCOPE_KEY = "autodispose.typesWithScope"
+internal const val LENIENT = "autodispose.lenient"
 
 /**
  * Detector which checks if your stream subscriptions are handled by AutoDispose.
@@ -103,6 +104,8 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
   // defined by the consumer.
   private lateinit var appliedScopes: Set<String>
 
+  private var lenient: Boolean = false
+
   override fun beforeCheckRootProject(context: Context) {
     // Add the default Android scopes.
     val scopes = HashSet(DEFAULT_SCOPES)
@@ -119,6 +122,9 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
             .filter(String::isNotBlank)
             .toList()
         scopes.addAll(customScopes)
+      }
+      props.getProperty(LENIENT)?.toBoolean()?.let {
+        lenient = it
       }
     }
     appliedScopes = scopes
@@ -208,11 +214,15 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     if (isReactiveType(evaluator, method)
         && isInScope(evaluator, node.getContainingUClass())
     ) {
-      val isUnusedReturnValue = isExpressionValueUnused(node)
-      if (isUnusedReturnValue || !isCapturedTypeAllowed(node.returnType, evaluator)) {
-        // The subscribe return type isn't handled by consumer or the returned type
-        // doesn't implement Disposable.
+      if (!lenient) {
         context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
+      } else {
+        val isUnusedReturnValue = isExpressionValueUnused(node)
+        if (isUnusedReturnValue || !isCapturedTypeAllowed(node.returnType, evaluator)) {
+          // The subscribe return type isn't handled by consumer or the returned type
+          // doesn't implement Disposable.
+          context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
+        }
       }
     }
   }

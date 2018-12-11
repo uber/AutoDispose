@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.lint
 
+import com.android.tools.lint.checks.infrastructure.TestFile
 import com.android.tools.lint.checks.infrastructure.TestFiles.java
 import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
 import com.android.tools.lint.checks.infrastructure.TestFiles.projectProperties
@@ -70,6 +71,13 @@ class AutoDisposeDetectorTest {
 
       class ClassWithCustomScope {}
     """).indented()
+
+    private fun lenientPropertiesFile(lenient: Boolean = true): TestFile.PropertyTestFile {
+      val properties = projectProperties()
+      properties.property(LENIENT, lenient.toString())
+      properties.to(AutoDisposeDetector.PROPERTY_FILE)
+      return properties
+    }
   }
 
   @Test fun observableErrorsOutOnOmittingAutoDispose() {
@@ -523,7 +531,8 @@ class AutoDisposeDetectorTest {
   }
 
   @Test fun capturedDisposable() {
-    lint().files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, kotlin("""
       package foo
       import androidx.appcompat.app.AppCompatActivity
       import io.reactivex.Observable
@@ -540,7 +549,8 @@ class AutoDisposeDetectorTest {
   }
 
   @Test fun nestedDisposable() {
-    lint().files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, kotlin("""
       package foo
       import androidx.appcompat.app.AppCompatActivity
       import io.reactivex.Observable
@@ -584,7 +594,8 @@ class AutoDisposeDetectorTest {
   }
 
   @Test fun checkLenientLintWithLambdas() {
-    lint().files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, kotlin("""
       package foo
       import androidx.appcompat.app.AppCompatActivity
       import io.reactivex.Observable
@@ -605,7 +616,8 @@ class AutoDisposeDetectorTest {
   }
 
   @Test fun javaCapturedDisposable() {
-    lint().files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, java("""
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, java("""
       package foo;
       import androidx.appcompat.app.AppCompatActivity;
       import io.reactivex.Observable;
@@ -620,6 +632,28 @@ class AutoDisposeDetectorTest {
         .issues(AutoDisposeDetector.ISSUE)
         .run()
         .expectClean()
+  }
+
+  @Test fun javaCapturedDisposableWithoutLenientProperty() {
+    val propertiesFile = lenientPropertiesFile(false)
+    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, java("""
+      package foo;
+      import androidx.appcompat.app.AppCompatActivity;
+      import io.reactivex.Observable;
+      import io.reactivex.disposables.Disposable;
+
+      class MyActivity extends AppCompatActivity {
+        fun doSomething() {
+          Disposable disposable = Observable.just(1, 2, 3).subscribe();
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expect("""src/foo/MyActivity.java:8: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
+        |    Disposable disposable = Observable.just(1, 2, 3).subscribe();
+        |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        |1 errors, 0 warnings""".trimMargin())
   }
 
   @Test fun subscribeWithCapturedNonDisposableFromMethodReference() {
@@ -672,8 +706,9 @@ class AutoDisposeDetectorTest {
   }
 
   @Test fun subscribeWithCapturedDisposableFromMethodReference() {
+    val propertiesFile = lenientPropertiesFile()
     lint()
-        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
+        .files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, FRAGMENT, java("""
           package foo;
           import io.reactivex.Observable;
           import io.reactivex.observers.DisposableObserver;
@@ -717,8 +752,9 @@ class AutoDisposeDetectorTest {
   }
 
   @Test fun kotlinSubscribeWithCapturedNonDisposableFromMethodReference() {
+    val propertiesFile = lenientPropertiesFile()
     lint()
-        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, kotlin("""
+        .files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, FRAGMENT, kotlin("""
           package foo
           import io.reactivex.Observable
           import io.reactivex.observers.DisposableObserver
@@ -758,13 +794,14 @@ class AutoDisposeDetectorTest {
         .run()
         .expect("""src/foo/ExampleClass.kt:12: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
           |    val observer: Observer<Int> = methodReferencable(Function { observable.subscribeWith(it) })
-          |                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          |                                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
   }
 
   @Test fun kotlinSubscribeWithCapturedDisposableFromMethodReference() {
+    val propertiesFile = lenientPropertiesFile()
     lint()
-        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, kotlin("""
+        .files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, FRAGMENT, kotlin("""
           package foo
           import io.reactivex.Observable
           import io.reactivex.observers.DisposableObserver
@@ -842,8 +879,9 @@ class AutoDisposeDetectorTest {
   }
 
   @Test fun subscribeWithCapturedDisposable() {
+    val propertiesFile = lenientPropertiesFile()
     lint()
-        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
+        .files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, FRAGMENT, java("""
           package foo;
           import io.reactivex.Observable;
           import io.reactivex.observers.DisposableObserver;
