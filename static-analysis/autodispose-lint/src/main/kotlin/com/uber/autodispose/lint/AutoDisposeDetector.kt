@@ -48,6 +48,7 @@ import java.util.EnumSet
 
 internal const val CUSTOM_SCOPE_KEY = "autodispose.typesWithScope"
 internal const val LENIENT = "autodispose.lenient"
+internal const val OVERRIDE_SCOPES = "autodispose.overrideScopes"
 
 /**
  * Detector which checks if your stream subscriptions are handled by AutoDispose.
@@ -107,8 +108,8 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
   private var lenient: Boolean = false
 
   override fun beforeCheckRootProject(context: Context) {
-    // Add the default Android scopes.
-    val scopes = HashSet(DEFAULT_SCOPES)
+    var overrideScopes = false
+    val scopes = mutableSetOf<String>()
 
     // Add the custom scopes defined in configuration.
     val props = Properties()
@@ -126,6 +127,13 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
       props.getProperty(LENIENT)?.toBoolean()?.let {
         lenient = it
       }
+      props.getProperty(OVERRIDE_SCOPES)?.toBoolean()?.let {
+        overrideScopes = it
+      }
+    }
+    // If scopes are not overriden, add the default ones.
+    if (!overrideScopes) {
+      scopes.addAll(DEFAULT_SCOPES)
     }
     appliedScopes = scopes
   }

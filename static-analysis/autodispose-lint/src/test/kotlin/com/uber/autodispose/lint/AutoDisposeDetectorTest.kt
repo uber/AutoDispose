@@ -530,6 +530,64 @@ class AutoDisposeDetectorTest {
         .expectClean()
   }
 
+  @Test fun overrideCustomScopeWithoutAutoDispose() {
+    val properties = projectProperties()
+    properties.property(CUSTOM_SCOPE_KEY, "com.uber.autodispose.sample.ClassWithCustomScope")
+    properties.property(OVERRIDE_SCOPES, "true")
+    properties.to(AutoDisposeDetector.PROPERTY_FILE)
+
+    lint().files(rxJava2(),
+        LIFECYCLE_OWNER,
+        ACTIVITY,
+        properties,
+        kotlin("""
+      package com.uber.autodispose.sample
+      import com.uber.autodispose.sample.ClassWithCustomScope
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.Observable
+      import com.uber.autodispose.ScopeProvider
+
+      class MyCustomClass: AppCompatActivity {
+        lateinit var scopeProvider: ScopeProvider
+        fun doSomething() {
+          val observable = Observable.just(1, 2, 3)
+          observable.subscribe() // No error since the scopes are being overriden and only custom ones are considered.
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun overrideCustomScopeWithAutoDispose() {
+    val properties = projectProperties()
+    properties.property(CUSTOM_SCOPE_KEY, "com.uber.autodispose.sample.ClassWithCustomScope")
+    properties.property(OVERRIDE_SCOPES, "true")
+    properties.to(AutoDisposeDetector.PROPERTY_FILE)
+
+    lint().files(rxJava2(),
+        CUSTOM_SCOPE,
+        properties,
+        kotlin("""
+      package com.uber.autodispose.sample
+      import com.uber.autodispose.sample.ClassWithCustomScope
+      import io.reactivex.Observable
+      import com.uber.autodispose.ScopeProvider
+
+      class MyCustomClass: ClassWithCustomScope {
+        lateinit var scopeProvider: ScopeProvider
+        fun doSomething() {
+          val observable = Observable.just(1, 2, 3)
+          observable.autoDisposable(scopeProvider).subscribe()
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
   @Test fun capturedDisposable() {
     val propertiesFile = lenientPropertiesFile()
     lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, kotlin("""
