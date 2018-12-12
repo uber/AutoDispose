@@ -536,7 +536,11 @@ class AutoDisposeDetectorTest {
     properties.property(OVERRIDE_SCOPES, "true")
     properties.to(AutoDisposeDetector.PROPERTY_FILE)
 
-    lint().files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, properties, kotlin("""
+    lint().files(rxJava2(),
+        LIFECYCLE_OWNER,
+        ACTIVITY,
+        properties,
+        kotlin("""
       package com.uber.autodispose.sample
       import com.uber.autodispose.sample.ClassWithCustomScope
       import androidx.appcompat.app.AppCompatActivity
@@ -562,7 +566,10 @@ class AutoDisposeDetectorTest {
     properties.property(OVERRIDE_SCOPES, "true")
     properties.to(AutoDisposeDetector.PROPERTY_FILE)
 
-    lint().files(rxJava2(), CUSTOM_SCOPE, properties, kotlin("""
+    lint().files(rxJava2(),
+        CUSTOM_SCOPE,
+        properties,
+        kotlin("""
       package com.uber.autodispose.sample
       import com.uber.autodispose.sample.ClassWithCustomScope
       import io.reactivex.Observable
