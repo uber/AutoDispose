@@ -256,12 +256,17 @@ This pattern is *sort of* possible in RxJava 1, but only on `Subscriber` (via `o
 `CompletableObserver` (which matches RxJava 2's API). We are aggressively migrating our internal code
  to RxJava 2, and do not plan to try to backport this to RxJava 1.
 
-Static analysis
--------
+## Static analysis
+
+### Error Prone
 
 There is an optional error-prone checker you can use to enforce use of AutoDispose.
 Integration steps and more details
 can be found on the [wiki](https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker)
+
+### Lint Check
+
+AutoDispose ships with a lint check that detects missing AutoDispose scope within defined scoped elements. Integration steps and more details can be found on the [wiki](https://github.com/uber/AutoDispose/wiki/Lint-Check)
 
 Download
 --------
