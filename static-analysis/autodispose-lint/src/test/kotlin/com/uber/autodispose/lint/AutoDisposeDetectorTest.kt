@@ -16,6 +16,7 @@
 
 package com.uber.autodispose.lint
 
+import com.android.tools.lint.checks.infrastructure.TestFile
 import com.android.tools.lint.checks.infrastructure.TestFiles.java
 import com.android.tools.lint.checks.infrastructure.TestFiles.kotlin
 import com.android.tools.lint.checks.infrastructure.TestFiles.projectProperties
@@ -70,6 +71,13 @@ class AutoDisposeDetectorTest {
 
       class ClassWithCustomScope {}
     """).indented()
+
+    private fun lenientPropertiesFile(lenient: Boolean = true): TestFile.PropertyTestFile {
+      val properties = projectProperties()
+      properties.property(LENIENT, lenient.toString())
+      properties.to(AutoDisposeDetector.PROPERTY_FILE)
+      return properties
+    }
   }
 
   @Test fun observableErrorsOutOnOmittingAutoDispose() {
@@ -517,6 +525,387 @@ class AutoDisposeDetectorTest {
         }
       }
     """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun capturedDisposable() {
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.Observable
+
+      class MyActivity: AppCompatActivity {
+        fun doSomething() {
+          val disposable = Observable.just(1, 2, 3).subscribe()
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun nestedDisposable() {
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.Observable
+      import io.reactivex.disposables.CompositeDisposable
+
+      class MyActivity: AppCompatActivity {
+        private val disposables = CompositeDisposable()
+        fun doSomething() {
+          disposables.add(
+            Observable.just(1, 2, 3).subscribe()
+          )
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun subscribeWithLambda() {
+    lint().files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.Observable
+      import io.reactivex.disposables.CompositeDisposable
+      import io.reactive.disposables.Disposable
+
+      class MyActivity: AppCompatActivity {
+        private val disposables = CompositeDisposable()
+        fun doSomething() {
+          Observable.just(1,2,3).subscribe {}
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expect("""src/foo/MyActivity.kt:10: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
+          |    Observable.just(1,2,3).subscribe {}
+          |    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          |1 errors, 0 warnings""".trimMargin())
+  }
+
+  @Test fun checkLenientLintWithLambdas() {
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.Observable
+      import io.reactivex.disposables.CompositeDisposable
+
+      class MyActivity: AppCompatActivity {
+        private val disposables = CompositeDisposable()
+        fun doSomething(list: List<String>) {
+          list.map {
+            Observable.just(1, 2, 3).subscribe()
+          }
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun javaCapturedDisposable() {
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, java("""
+      package foo;
+      import androidx.appcompat.app.AppCompatActivity;
+      import io.reactivex.Observable;
+      import io.reactivex.disposables.Disposable;
+
+      class MyActivity extends AppCompatActivity {
+        fun doSomething() {
+          Disposable disposable = Observable.just(1, 2, 3).subscribe();
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun javaCapturedDisposableWithoutLenientProperty() {
+    val propertiesFile = lenientPropertiesFile(false)
+    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, java("""
+      package foo;
+      import androidx.appcompat.app.AppCompatActivity;
+      import io.reactivex.Observable;
+      import io.reactivex.disposables.Disposable;
+
+      class MyActivity extends AppCompatActivity {
+        fun doSomething() {
+          Disposable disposable = Observable.just(1, 2, 3).subscribe();
+        }
+      }
+    """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expect("""src/foo/MyActivity.java:8: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
+        |    Disposable disposable = Observable.just(1, 2, 3).subscribe();
+        |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        |1 errors, 0 warnings""".trimMargin())
+  }
+
+  @Test fun subscribeWithCapturedNonDisposableFromMethodReference() {
+    lint()
+        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
+          package foo;
+          import io.reactivex.Observable;
+          import io.reactivex.observers.DisposableObserver;
+          import io.reactivex.disposables.Disposable;
+          import io.reactivex.Observer;
+          import androidx.fragment.app.Fragment;
+          import io.reactivex.functions.Function;
+
+          class ExampleClass extends Fragment {
+            void names() {
+              Observable<Integer> obs = Observable.just(1, 2, 3, 4);
+              try {
+                Observer<Integer> observer = methodReferencable(obs::subscribeWith);
+              } catch (Exception e){
+              }
+            }
+
+            Observer<Integer> methodReferencable(Function<Observer<Integer>, Observer<Integer>> func) throws Exception {
+              return func.apply(new Observer<Integer>() {
+                @Override public void onSubscribe(Disposable d) {
+
+                }
+
+                @Override public void onNext(Integer integer) {
+
+                }
+
+                @Override public void onError(Throwable e) {
+
+                }
+
+                @Override public void onComplete() {
+
+                }
+              });
+            }
+          }
+        """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expect("""src/foo/ExampleClass.java:13: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
+          |      Observer<Integer> observer = methodReferencable(obs::subscribeWith);
+          |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          |1 errors, 0 warnings""".trimMargin())
+  }
+
+  @Test fun subscribeWithCapturedDisposableFromMethodReference() {
+    val propertiesFile = lenientPropertiesFile()
+    lint()
+        .files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, FRAGMENT, java("""
+          package foo;
+          import io.reactivex.Observable;
+          import io.reactivex.observers.DisposableObserver;
+          import io.reactivex.disposables.Disposable;
+          import io.reactivex.Observer;
+          import androidx.fragment.app.Fragment;
+          import io.reactivex.functions.Function;
+
+          class ExampleClass extends Fragment {
+            void names() {
+              Observable<Integer> obs = Observable.just(1, 2, 3, 4);
+              try {
+                Disposable disposable = methodReferencable(obs::subscribeWith);
+              } catch (Exception e){
+              }
+            }
+
+            DisposableObserver<Integer> methodReferencable(Function<DisposableObserver<Integer>, DisposableObserver<Integer>> func) throws Exception {
+              return func.apply(new DisposableObserver<Integer>() {
+                @Override
+                public void onNext(Integer integer) {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+              });
+            }
+          }
+        """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun kotlinSubscribeWithCapturedNonDisposableFromMethodReference() {
+    val propertiesFile = lenientPropertiesFile()
+    lint()
+        .files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, FRAGMENT, kotlin("""
+          package foo
+          import io.reactivex.Observable
+          import io.reactivex.observers.DisposableObserver
+          import io.reactivex.disposables.Disposable
+          import io.reactivex.Observer
+          import androidx.fragment.app.Fragment
+          import io.reactivex.functions.Function
+
+          class ExampleClass: Fragment {
+            fun names() {
+              val observable: Observable<Int> = Observable.just(1)
+              val observer: Observer<Int> = methodReferencable(Function { observable.subscribeWith(it) })
+            }
+
+            @Throws(Exception::class)
+            internal fun methodReferencable(func: Function<Observer<Int>, Observer<Int>>): Observer<Int> {
+              return func.apply(object : Observer<Int> {
+                override fun onSubscribe(d: Disposable) {
+                }
+
+                override fun onNext(integer: Int) {
+
+                }
+
+                override fun onError(e: Throwable) {
+
+                }
+
+                override fun onComplete() {
+
+                }
+              })
+            }
+          }
+        """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expect("""src/foo/ExampleClass.kt:12: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
+          |    val observer: Observer<Int> = methodReferencable(Function { observable.subscribeWith(it) })
+          |                                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          |1 errors, 0 warnings""".trimMargin())
+  }
+
+  @Test fun kotlinSubscribeWithCapturedDisposableFromMethodReference() {
+    val propertiesFile = lenientPropertiesFile()
+    lint()
+        .files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, FRAGMENT, kotlin("""
+          package foo
+          import io.reactivex.Observable
+          import io.reactivex.observers.DisposableObserver
+          import io.reactivex.disposables.Disposable
+          import io.reactivex.Observer
+          import androidx.fragment.app.Fragment
+          import io.reactivex.functions.Function
+
+          class ExampleClass: Fragment {
+            fun names() {
+              val observable: Observable<Int> = Observable.just(1)
+              val disposable: Disposable = methodReferencable(Function { observable.subscribeWith(it) })
+            }
+
+            @Throws(Exception::class)
+            internal fun methodReferencable(func: Function<DisposableObserver<Int>, DisposableObserver<Int>>): DisposableObserver<Int> {
+              return func.apply(object : DisposableObserver<Int>() {
+                override fun onNext(integer: Int) {
+
+                }
+
+                override fun onError(e: Throwable) {
+
+                }
+
+                override fun onComplete() {
+
+                }
+              })
+            }
+          }
+        """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun subscribeWithCapturedNonDisposableType() {
+    lint()
+        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
+          package foo;
+          import io.reactivex.Observable;
+          import io.reactivex.observers.DisposableObserver;
+          import io.reactivex.disposables.Disposable;
+          import io.reactivex.Observer;
+          import androidx.fragment.app.Fragment;
+
+          class ExampleClass extends Fragment {
+            void names() {
+              Observable<Integer> obs = Observable.just(1, 2, 3, 4);
+              Observer<Integer> disposable = obs.subscribeWith(new Observer<Integer>() {
+                @Override
+                public void onSubscribe(Disposable d) {
+                }
+                @Override
+                public void onNext(Integer integer) {
+                }
+
+                @Override
+                public void onError(Throwable e) {}
+
+                @Override
+                public void onComplete() {}
+              });
+            }
+          }
+        """).indented())
+        .allowCompilationErrors(false)
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expect("""src/foo/ExampleClass.java:11: Error: Always apply an AutoDispose scope before subscribing within defined scoped elements. [AutoDisposeUsage]
+          |    Observer<Integer> disposable = obs.subscribeWith(new Observer<Integer>() {
+          |                                   ^
+          |1 errors, 0 warnings""".trimMargin())
+  }
+
+  @Test fun subscribeWithCapturedDisposable() {
+    val propertiesFile = lenientPropertiesFile()
+    lint()
+        .files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, FRAGMENT, java("""
+          package foo;
+          import io.reactivex.Observable;
+          import io.reactivex.observers.DisposableObserver;
+          import io.reactivex.disposables.Disposable;
+          import androidx.fragment.app.Fragment;
+
+          class ExampleClass extends Fragment {
+            void names() {
+              Observable<Integer> obs = Observable.just(1, 2, 3, 4);
+              Disposable disposable = obs.subscribeWith(new DisposableObserver<Integer>() {
+                @Override
+                public void onNext(Integer integer) {
+                }
+
+                @Override
+                public void onError(Throwable e) {}
+
+                @Override
+                public void onComplete() {}
+              });
+            }
+          }
+        """).indented())
+        .allowCompilationErrors(false)
         .issues(AutoDisposeDetector.ISSUE)
         .run()
         .expectClean()
