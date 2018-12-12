@@ -82,7 +82,10 @@ class AutoDisposeDetectorTest {
 
   @Test fun observableErrorsOutOnOmittingAutoDispose() {
     lint()
-        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
+        .files(rxJava2(),
+            LIFECYCLE_OWNER,
+            FRAGMENT,
+            java("""
           package foo;
           import io.reactivex.Observable;
           import androidx.fragment.app.Fragment;
@@ -104,7 +107,8 @@ class AutoDisposeDetectorTest {
 
   @Test fun observableDisposesSubscriptionJava() {
     lint()
-        .files(rxJava2(), java("""
+        .files(rxJava2(),
+            java("""
           package foo;
           import io.reactivex.Observable;
           import com.uber.autodispose.ScopeProvider;
@@ -124,7 +128,10 @@ class AutoDisposeDetectorTest {
 
   @Test fun observableSubscribeWithNotHandled() {
     lint()
-        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
+        .files(rxJava2(),
+            LIFECYCLE_OWNER,
+            FRAGMENT,
+            java("""
           package foo;
           import io.reactivex.Observable;
           import io.reactivex.observers.DisposableObserver;
@@ -158,7 +165,11 @@ class AutoDisposeDetectorTest {
 
   @Test fun observableSubscribeWithDisposed() {
     lint()
-        .files(rxJava2(), SCOPE_PROVIDER, LIFECYCLE_OWNER, FRAGMENT, java("""
+        .files(rxJava2(),
+            SCOPE_PROVIDER,
+            LIFECYCLE_OWNER,
+            FRAGMENT,
+            java("""
           package foo;
           import io.reactivex.Observable;
           import io.reactivex.observers.DisposableObserver;
@@ -192,7 +203,8 @@ class AutoDisposeDetectorTest {
 
   @Test fun observableDisposesSubscriptionKotlin() {
     lint()
-        .files(rxJava2(), kotlin("""
+        .files(rxJava2(),
+            kotlin("""
           package foo
           import io.reactivex.Observable
           import com.uber.autodispose.ScopeProvider
@@ -212,7 +224,10 @@ class AutoDisposeDetectorTest {
 
   @Test fun singleErrorsOutOnOmittingAutoDispose() {
     lint()
-        .files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, java("""
+        .files(rxJava2(),
+            LIFECYCLE_OWNER,
+            ACTIVITY,
+            java("""
           package foo;
           import io.reactivex.Single;
           import androidx.appcompat.app.AppCompatActivity;
@@ -234,7 +249,8 @@ class AutoDisposeDetectorTest {
 
   @Test fun singleDisposesSubscriptionJava() {
     lint()
-        .files(rxJava2(), java("""
+        .files(rxJava2(),
+            java("""
           package foo;
           import io.reactivex.Single;
           import com.uber.autodispose.ScopeProvider;
@@ -254,7 +270,8 @@ class AutoDisposeDetectorTest {
 
   @Test fun singleDisposesSubscriptionKotlin() {
     lint()
-        .files(rxJava2(), kotlin("""
+        .files(rxJava2(),
+            kotlin("""
           package foo
           import io.reactivex.Single
           import com.uber.autodispose.ScopeProvider
@@ -274,7 +291,9 @@ class AutoDisposeDetectorTest {
 
   @Test fun flowableErrorsOutOnOmittingAutoDispose() {
     lint()
-        .files(rxJava2(), LIFECYCLE_OWNER, java("""
+        .files(rxJava2(),
+            LIFECYCLE_OWNER,
+            java("""
           package foo;
           import io.reactivex.Flowable;
           import androidx.lifecycle.LifecycleOwner;
@@ -296,7 +315,8 @@ class AutoDisposeDetectorTest {
 
   @Test fun flowableDisposesSubscriptionJava() {
     lint()
-        .files(rxJava2(), java("""
+        .files(rxJava2(),
+            java("""
           package foo;
           import io.reactivex.Flowable;
           import com.uber.autodispose.ScopeProvider;
@@ -316,7 +336,9 @@ class AutoDisposeDetectorTest {
 
   @Test fun flowableDisposesSubscriptionKotlin() {
     lint()
-        .files(rxJava2(), LIFECYCLE_SCOPE_PROVIDER, kotlin("""
+        .files(rxJava2(),
+            LIFECYCLE_SCOPE_PROVIDER,
+            kotlin("""
           package foo
           import io.reactivex.Observable
           import com.uber.autodispose.lifecycle.LifecycleScopeProvider
@@ -335,7 +357,9 @@ class AutoDisposeDetectorTest {
 
   @Test fun completableErrorsOutOnOmittingAutoDispose() {
     lint()
-        .files(rxJava2(), SCOPE_PROVIDER, kotlin("""
+        .files(rxJava2(),
+            SCOPE_PROVIDER,
+            kotlin("""
           package foo
           import io.reactivex.Completable
           import com.uber.autodispose.ScopeProvider
@@ -357,7 +381,8 @@ class AutoDisposeDetectorTest {
 
   @Test fun completableSubscriptionNonScopedClass() {
     lint()
-        .files(rxJava2(), java("""
+        .files(rxJava2(),
+            java("""
           package foo;
           import io.reactivex.Completable;
           import com.uber.autodispose.ScopeProvider;
@@ -377,7 +402,8 @@ class AutoDisposeDetectorTest {
 
   @Test fun completableDisposesSubscriptionKotlin() {
     lint()
-        .files(rxJava2(), kotlin("""
+        .files(rxJava2(),
+            kotlin("""
           package foo
           import io.reactivex.Observable
           import com.uber.autodispose.ScopeProvider
@@ -397,7 +423,10 @@ class AutoDisposeDetectorTest {
 
   @Test fun maybeErrorsOutOnOmittingAutoDispose() {
     lint()
-        .files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+        .files(rxJava2(),
+            LIFECYCLE_OWNER,
+            ACTIVITY,
+            kotlin("""
           package foo
           import io.reactivex.Maybe
           import androidx.appcompat.app.AppCompatActivity
@@ -419,7 +448,8 @@ class AutoDisposeDetectorTest {
 
   @Test fun maybeDisposesSubscriptionJava() {
     lint()
-        .files(rxJava2(), java("""
+        .files(rxJava2(),
+            java("""
           package foo;
           import io.reactivex.Maybe;
           import com.uber.autodispose.ScopeProvider;
@@ -439,7 +469,8 @@ class AutoDisposeDetectorTest {
 
   @Test fun maybeDisposesSubscriptionKotlin() {
     lint()
-        .files(rxJava2(), kotlin("""
+        .files(rxJava2(),
+            kotlin("""
           package foo
           import io.reactivex.Maybe
           import com.uber.autodispose.ScopeProvider
@@ -462,7 +493,10 @@ class AutoDisposeDetectorTest {
     properties.property(CUSTOM_SCOPE_KEY, "com.uber.autodispose.sample.ClassWithCustomScope")
     properties.to(AutoDisposeDetector.PROPERTY_FILE)
 
-    lint().files(rxJava2(), CUSTOM_SCOPE, properties, kotlin("""
+    lint().files(rxJava2(),
+        CUSTOM_SCOPE,
+        properties,
+        kotlin("""
       package com.uber.autodispose.sample
       import com.uber.autodispose.sample.ClassWithCustomScope
       import io.reactivex.Observable
@@ -488,7 +522,10 @@ class AutoDisposeDetectorTest {
     properties.property(CUSTOM_SCOPE_KEY, "com.uber.autodispose.sample.ClassWithCustomScope")
     properties.to(AutoDisposeDetector.PROPERTY_FILE)
 
-    lint().files(rxJava2(), CUSTOM_SCOPE, properties, kotlin("""
+    lint().files(rxJava2(),
+        CUSTOM_SCOPE,
+        properties,
+        kotlin("""
       package com.uber.autodispose.sample
       import com.uber.autodispose.sample.ClassWithCustomScope
       import io.reactivex.Observable
@@ -511,7 +548,10 @@ class AutoDisposeDetectorTest {
     val properties = projectProperties()
     properties.to(AutoDisposeDetector.PROPERTY_FILE)
 
-    lint().files(rxJava2(), CUSTOM_SCOPE, properties, kotlin("""
+    lint().files(rxJava2(),
+        CUSTOM_SCOPE,
+        properties,
+        kotlin("""
       package com.uber.autodispose.sample
       import com.uber.autodispose.sample.ClassWithCustomScope
       import io.reactivex.Observable
@@ -590,7 +630,11 @@ class AutoDisposeDetectorTest {
 
   @Test fun capturedDisposable() {
     val propertiesFile = lenientPropertiesFile()
-    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+    lint().files(rxJava2(),
+        propertiesFile,
+        LIFECYCLE_OWNER,
+        ACTIVITY,
+        kotlin("""
       package foo
       import androidx.appcompat.app.AppCompatActivity
       import io.reactivex.Observable
@@ -608,7 +652,11 @@ class AutoDisposeDetectorTest {
 
   @Test fun nestedDisposable() {
     val propertiesFile = lenientPropertiesFile()
-    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+    lint().files(rxJava2(),
+        propertiesFile,
+        LIFECYCLE_OWNER,
+        ACTIVITY,
+        kotlin("""
       package foo
       import androidx.appcompat.app.AppCompatActivity
       import io.reactivex.Observable
@@ -629,7 +677,10 @@ class AutoDisposeDetectorTest {
   }
 
   @Test fun subscribeWithLambda() {
-    lint().files(rxJava2(), LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+    lint().files(rxJava2(),
+        LIFECYCLE_OWNER,
+        ACTIVITY,
+        kotlin("""
       package foo
       import androidx.appcompat.app.AppCompatActivity
       import io.reactivex.Observable
@@ -653,7 +704,11 @@ class AutoDisposeDetectorTest {
 
   @Test fun checkLenientLintWithLambdas() {
     val propertiesFile = lenientPropertiesFile()
-    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, kotlin("""
+    lint().files(rxJava2(),
+        propertiesFile,
+        LIFECYCLE_OWNER,
+        ACTIVITY,
+        kotlin("""
       package foo
       import androidx.appcompat.app.AppCompatActivity
       import io.reactivex.Observable
@@ -675,7 +730,11 @@ class AutoDisposeDetectorTest {
 
   @Test fun javaCapturedDisposable() {
     val propertiesFile = lenientPropertiesFile()
-    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, java("""
+    lint().files(rxJava2(),
+        propertiesFile,
+        LIFECYCLE_OWNER,
+        ACTIVITY,
+        java("""
       package foo;
       import androidx.appcompat.app.AppCompatActivity;
       import io.reactivex.Observable;
@@ -694,7 +753,11 @@ class AutoDisposeDetectorTest {
 
   @Test fun javaCapturedDisposableWithoutLenientProperty() {
     val propertiesFile = lenientPropertiesFile(false)
-    lint().files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, ACTIVITY, java("""
+    lint().files(rxJava2(),
+        propertiesFile,
+        LIFECYCLE_OWNER,
+        ACTIVITY,
+        java("""
       package foo;
       import androidx.appcompat.app.AppCompatActivity;
       import io.reactivex.Observable;
@@ -716,7 +779,10 @@ class AutoDisposeDetectorTest {
 
   @Test fun subscribeWithCapturedNonDisposableFromMethodReference() {
     lint()
-        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
+        .files(rxJava2(),
+            LIFECYCLE_OWNER,
+            FRAGMENT,
+            java("""
           package foo;
           import io.reactivex.Observable;
           import io.reactivex.observers.DisposableObserver;
@@ -766,7 +832,11 @@ class AutoDisposeDetectorTest {
   @Test fun subscribeWithCapturedDisposableFromMethodReference() {
     val propertiesFile = lenientPropertiesFile()
     lint()
-        .files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, FRAGMENT, java("""
+        .files(rxJava2(),
+            propertiesFile,
+            LIFECYCLE_OWNER,
+            FRAGMENT,
+            java("""
           package foo;
           import io.reactivex.Observable;
           import io.reactivex.observers.DisposableObserver;
@@ -812,7 +882,11 @@ class AutoDisposeDetectorTest {
   @Test fun kotlinSubscribeWithCapturedNonDisposableFromMethodReference() {
     val propertiesFile = lenientPropertiesFile()
     lint()
-        .files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, FRAGMENT, kotlin("""
+        .files(rxJava2(),
+            propertiesFile,
+            LIFECYCLE_OWNER,
+            FRAGMENT,
+            kotlin("""
           package foo
           import io.reactivex.Observable
           import io.reactivex.observers.DisposableObserver
@@ -859,7 +933,11 @@ class AutoDisposeDetectorTest {
   @Test fun kotlinSubscribeWithCapturedDisposableFromMethodReference() {
     val propertiesFile = lenientPropertiesFile()
     lint()
-        .files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, FRAGMENT, kotlin("""
+        .files(rxJava2(),
+            propertiesFile,
+            LIFECYCLE_OWNER,
+            FRAGMENT,
+            kotlin("""
           package foo
           import io.reactivex.Observable
           import io.reactivex.observers.DisposableObserver
@@ -899,7 +977,10 @@ class AutoDisposeDetectorTest {
 
   @Test fun subscribeWithCapturedNonDisposableType() {
     lint()
-        .files(rxJava2(), LIFECYCLE_OWNER, FRAGMENT, java("""
+        .files(rxJava2(),
+            LIFECYCLE_OWNER,
+            FRAGMENT,
+            java("""
           package foo;
           import io.reactivex.Observable;
           import io.reactivex.observers.DisposableObserver;
@@ -939,7 +1020,11 @@ class AutoDisposeDetectorTest {
   @Test fun subscribeWithCapturedDisposable() {
     val propertiesFile = lenientPropertiesFile()
     lint()
-        .files(rxJava2(), propertiesFile, LIFECYCLE_OWNER, FRAGMENT, java("""
+        .files(rxJava2(),
+            propertiesFile,
+            LIFECYCLE_OWNER,
+            FRAGMENT,
+            java("""
           package foo;
           import io.reactivex.Observable;
           import io.reactivex.observers.DisposableObserver;
