@@ -109,7 +109,7 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
 
   override fun beforeCheckRootProject(context: Context) {
     var overrideScopes = false
-    val scopes = HashSet<String>()
+    val scopes = mutableSetOf<String>()
 
     // Add the custom scopes defined in configuration.
     val props = Properties()
