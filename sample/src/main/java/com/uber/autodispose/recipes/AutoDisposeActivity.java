@@ -22,8 +22,6 @@ import androidx.annotation.Nullable;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
-import com.uber.autodispose.lifecycle.LifecycleScopes;
-import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 
@@ -74,10 +72,6 @@ public abstract class AutoDisposeActivity extends Activity
 
   @Nullable @Override public ActivityEvent peekLifecycle() {
     return lifecycleEvents.getValue();
-  }
-
-  @Override public CompletableSource requestScope() {
-    return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {

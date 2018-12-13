@@ -20,10 +20,8 @@ import androidx.lifecycle.ViewModel
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
 import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
-import com.uber.autodispose.lifecycle.LifecycleScopes
 import com.uber.autodispose.recipes.AutoDisposeViewModel.ViewModelEvent
 import com.uber.autodispose.recipes.AutoDisposeViewModel.ViewModelEvent.CREATED
-import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
@@ -76,10 +74,6 @@ abstract class AutoDisposeViewModel: ViewModel(), LifecycleScopeProvider<ViewMod
   override fun onCleared() {
     lifecycleEvents.onNext(ViewModelEvent.CLEARED)
     super.onCleared()
-  }
-
-  override fun requestScope(): CompletableSource {
-    return LifecycleScopes.resolveScopeFromLifecycle(this)
   }
 
   companion object {
