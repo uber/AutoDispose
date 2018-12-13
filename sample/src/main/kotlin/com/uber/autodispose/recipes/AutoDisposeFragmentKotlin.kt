@@ -23,7 +23,6 @@ import androidx.fragment.app.Fragment
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
 import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
-import com.uber.autodispose.lifecycle.LifecycleScopes
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.ATTACH
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.CREATE
@@ -35,7 +34,6 @@ import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.PAUS
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.RESUME
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.START
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.STOP
-import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
@@ -61,10 +59,6 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Fr
 
   override fun peekLifecycle(): FragmentEvent? {
     return lifecycleEvents.value
-  }
-
-  override fun requestScope(): CompletableSource {
-    return LifecycleScopes.resolveScopeFromLifecycle(this)
   }
 
   override fun onAttach(context: Context) {

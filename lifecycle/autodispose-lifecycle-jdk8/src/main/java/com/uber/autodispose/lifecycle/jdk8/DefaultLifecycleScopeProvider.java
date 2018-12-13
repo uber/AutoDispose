@@ -17,18 +17,14 @@
 package com.uber.autodispose.lifecycle.jdk8;
 
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
-import com.uber.autodispose.lifecycle.LifecycleScopes;
-import io.reactivex.CompletableSource;
 
 /**
  * A convenience {@link LifecycleScopeProvider} that has a default implementation for
  * {@link #requestScope()}.
  *
  * @param <E> the lifecycle event type.
+ * @deprecated this functionality is lifted directly into {@link LifecycleScopeProvider} now.
  */
+@Deprecated
 public interface DefaultLifecycleScopeProvider<E> extends LifecycleScopeProvider<E> {
-
-  @Override default CompletableSource requestScope() {
-    return LifecycleScopes.resolveScopeFromLifecycle(this);
-  }
 }

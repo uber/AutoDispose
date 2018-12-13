@@ -20,11 +20,8 @@ import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
-import com.uber.autodispose.lifecycle.LifecycleScopes;
-import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle;
 import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -77,10 +74,6 @@ public class UseAutoDisposeNegativeCases
    */
   @Nullable public TestLifecycle peekLifecycle() {
     return lifecycleSubject.getValue();
-  }
-
-  @Override public CompletableSource requestScope() throws Exception {
-    return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
   public void observable_subscribeWithAutoDispose() {

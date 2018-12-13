@@ -21,8 +21,6 @@ import androidx.recyclerview.widget.BindAwareViewHolder;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
-import com.uber.autodispose.lifecycle.LifecycleScopes;
-import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.subjects.BehaviorSubject;
@@ -65,10 +63,6 @@ public abstract class AutoDisposeViewHolder extends BindAwareViewHolder
 
   @Nullable @Override public ViewHolderEvent peekLifecycle() {
     return lifecycleEvents.getValue();
-  }
-
-  @Override public CompletableSource requestScope() {
-    return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
   @Override protected void onBind() {

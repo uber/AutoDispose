@@ -21,7 +21,6 @@ import android.os.Bundle
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
 import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
-import com.uber.autodispose.lifecycle.LifecycleScopes
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.CREATE
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.DESTROY
@@ -29,7 +28,6 @@ import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.PAUS
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.RESUME
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.START
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.STOP
-import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
@@ -80,10 +78,6 @@ abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<Ac
   override fun onStop() {
     lifecycleEvents.onNext(ActivityEvent.STOP)
     super.onStop()
-  }
-
-  override fun requestScope(): CompletableSource {
-    return LifecycleScopes.resolveScopeFromLifecycle(this)
   }
 
   override fun onDestroy() {
