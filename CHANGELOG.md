@@ -12,7 +12,7 @@ This is a big static analysis release. AutoDispose now ships with two static
 analysis artifacts: `autodispose-lint` for Android Lint and `autodispose-error-prone` for Error-Prone.
 
 Both of these checks operate by detecting uses of standard RxJava `subscribe`/`subscribeWith`
-calls in the context of something that has scope (such as a `ScopeProvider`. If they’re
+calls in the context of something that has scope (such as a `ScopeProvider`). If they’re
 detected, the lint/checker will mark them as missing `Disposable` handling and
 suggest either using AutoDispose or (if `lenient` mode enabled) manually handle
 the returned `Disposable`.
