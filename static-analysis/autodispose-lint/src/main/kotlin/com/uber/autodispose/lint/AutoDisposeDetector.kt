@@ -60,7 +60,7 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
         "the Disposable instance manually and enable lenient mode."
 
     val ISSUE: Issue = Issue.create(
-        "AutoDisposeUsage",
+        "AutoDispose",
         LINT_DESCRIPTION,
         "You're subscribing to an observable but not handling its subscription. This "
             + "can result in memory leaks. You can avoid memory leaks by appending " +

@@ -99,7 +99,7 @@ class AutoDisposeDetectorTest {
         """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.java:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.java:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
           |    obs.subscribe();
           |    ~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
@@ -157,7 +157,7 @@ class AutoDisposeDetectorTest {
         .allowCompilationErrors(false)
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.java:9: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.java:9: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
           |    obs.subscribeWith(new DisposableObserver<Integer>() {
           |    ^
           |1 errors, 0 warnings""".trimMargin())
@@ -241,7 +241,7 @@ class AutoDisposeDetectorTest {
         """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.java:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.java:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
           |    single.subscribe();
           |    ~~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
@@ -307,7 +307,7 @@ class AutoDisposeDetectorTest {
         """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.java:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.java:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
           |    flowable.subscribe();
           |    ~~~~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
@@ -373,7 +373,7 @@ class AutoDisposeDetectorTest {
         """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.kt:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.kt:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
           |    completable.subscribe()
           |    ~~~~~~~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
@@ -440,7 +440,7 @@ class AutoDisposeDetectorTest {
         """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.kt:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.kt:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
           |    maybe.subscribe()
           |    ~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
@@ -511,7 +511,7 @@ class AutoDisposeDetectorTest {
         .issues(AutoDisposeDetector.ISSUE)
         .run()
         .expect("""
-          src/com/uber/autodispose/sample/MyCustomClass.kt:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDisposeUsage]
+          src/com/uber/autodispose/sample/MyCustomClass.kt:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
           |    observable.subscribe()
           |    ~~~~~~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
@@ -696,7 +696,7 @@ class AutoDisposeDetectorTest {
     """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/MyActivity.kt:10: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDisposeUsage]
+        .expect("""src/foo/MyActivity.kt:10: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
           |    Observable.just(1,2,3).subscribe {}
           |    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
@@ -771,7 +771,7 @@ class AutoDisposeDetectorTest {
     """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/MyActivity.java:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDisposeUsage]
+        .expect("""src/foo/MyActivity.java:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
         |    Disposable disposable = Observable.just(1, 2, 3).subscribe();
         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         |1 errors, 0 warnings""".trimMargin())
@@ -823,7 +823,7 @@ class AutoDisposeDetectorTest {
         """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.java:13: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.java:13: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
           |      Observer<Integer> observer = methodReferencable(obs::subscribeWith);
           |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
@@ -924,7 +924,7 @@ class AutoDisposeDetectorTest {
         """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.kt:12: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.kt:12: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
           |    val observer: Observer<Int> = methodReferencable(Function { observable.subscribeWith(it) })
           |                                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
@@ -1011,7 +1011,7 @@ class AutoDisposeDetectorTest {
         .allowCompilationErrors(false)
         .issues(AutoDisposeDetector.ISSUE)
         .run()
-        .expect("""src/foo/ExampleClass.java:11: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDisposeUsage]
+        .expect("""src/foo/ExampleClass.java:11: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
           |    Observer<Integer> disposable = obs.subscribeWith(new Observer<Integer>() {
           |                                   ^
           |1 errors, 0 warnings""".trimMargin())
