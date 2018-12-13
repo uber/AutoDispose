@@ -1,6 +1,57 @@
 Changelog
 =========
 
+Version 1.1.0
+-------------
+
+_2018-12-13_
+
+### Static Analysis
+
+This is a big static analysis release. AutoDispose now ships with two static
+analysis artifacts: `autodispose-lint` for Android Lint and `autodispose-error-prone` for Error-Prone.
+
+Both of these checks operate by detecting uses of standard RxJava `subscribe`/`subscribeWith`
+calls in the context of something that has scope (such as a `ScopeProvider`. If they’re
+detected, the lint/checker will mark them as missing `Disposable` handling and
+suggest either using AutoDispose or (if `lenient` mode enabled) manually handle
+the returned `Disposable`.
+
+Both checks have configuration support:
+
+* `TypesWithScope` - a comma-separated list of custom types with scope. By default, this is additive to default scopes.
+* `OverrideScopes` - a boolean flag indicating if `TypesWithScope` should override the built-in scopes. `false` by default.
+* `Lenient` - a boolean flag to enable a lenient mode that tells the linter to ignore cases where the returned `Disposable` is captured (aka “I know what I’m doing” mode). `false` by default.
+
+Both checkers should have feature parity. They have different advantages: the Error-Prone check runs at compile-time, and lint will show up in the
+IDE and run on Kotlin code. You should use whichever one fits your stack best.
+
+Full integration instructions can be found on their respective wikis:
+
+* https://github.com/uber/AutoDispose/wiki/Lint-Check
+* https://github.com/uber/AutoDispose/wiki/Error-Prone
+
+Prior to this release, the Error Prone checker was missing a required service file
+to run, so the new artifact is different than the previous one (but not conflicting since the old one never worked!).
+
+This was a major project and contribution from a new maintainer to the project! [@shaishavgandhi05](https://github.com/shaishavgandhi05)
+
+All PRs: [#316](https://github.com/uber/AutoDispose/pull/316), [#315](https://github.com/uber/AutoDispose/pull/315), [#313](https://github.com/uber/AutoDispose/pull/313), [#312](https://github.com/uber/AutoDispose/pull/312), [#310](https://github.com/uber/AutoDispose/pull/310), [#307](https://github.com/uber/AutoDispose/pull/307), [#308](https://github.com/uber/AutoDispose/pull/308), [#306](https://github.com/uber/AutoDispose/pull/306), [#299](https://github.com/uber/AutoDispose/pull/299), [#303](https://github.com/uber/AutoDispose/pull/303), [#301](https://github.com/uber/AutoDispose/pull/301), [#300](https://github.com/uber/AutoDispose/pull/300), [#282](https://github.com/uber/AutoDispose/pull/282), [#291](https://github.com/uber/AutoDispose/pull/291), [#292](https://github.com/uber/AutoDispose/pull/292)
+
+### DefaultLifecycleScopeProvider and KotlinLifecycleScopeProvider Deprecation ([#275](https://github.com/uber/AutoDispose/pull/275))
+
+`DefaultLifecycleScopeProvider` and `KotlinLifecycleScopeProvider` are now deprecated, and their default `requestScope()` behavior now elevated into the based
+`LifecycleScopeProvider` class. This is implemented as a Java 8 `default` interface method.
+
+### Misc
+
+* Non-android `-ktx` artifacts now use `implementation`/`api` dependencies ([#277](https://github.com/uber/AutoDispose/pull/277))
+* `automatic-module-name` is added to relevant JDK modules ([#281](https://github.com/uber/AutoDispose/pull/281))
+* Updated doc on `RxLifecycleInterop` ([#280](https://github.com/uber/AutoDispose/pull/280))
+* Kotlin is updated to 1.3.11 [#274](https://github.com/uber/AutoDispose/pull/274), [#309](https://github.com/uber/AutoDispose/pull/309)
+
+Thanks to the following external contributors for this release: [@MarkyC](https://github.com/MarkyC)
+
 Version 1.0.0
 ----------------------------
 
