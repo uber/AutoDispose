@@ -56,15 +56,16 @@ internal const val OVERRIDE_SCOPES = "autodispose.overrideScopes"
 class AutoDisposeDetector: Detector(), SourceCodeScanner {
 
   companion object {
-    private const val LINT_DESCRIPTION = "Always apply an AutoDispose scope before subscribing " +
-        "within defined scoped elements."
+    internal const val LINT_DESCRIPTION = "Missing Disposable handling: Apply AutoDispose or cache " +
+        "the Disposable instance manually and enable lenient mode."
 
     val ISSUE: Issue = Issue.create(
         "AutoDisposeUsage",
         LINT_DESCRIPTION,
-        "You're subscribing to an observable but not handling it's subscription. This "
+        "You're subscribing to an observable but not handling its subscription. This "
             + "can result in memory leaks. You can avoid memory leaks by appending " +
-            "`.as(autoDisposable(this))` before you subscribe.",
+            "`.as(autoDisposable(this))` before you subscribe or cache the Disposable instance" +
+            " manually and enable lenient mode. More: https://github.com/uber/AutoDispose/wiki/Lint-Check",
         Category.CORRECTNESS,
         10,
         Severity.ERROR,

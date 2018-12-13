@@ -26,31 +26,36 @@ import org.reactivestreams.Subscriber;
 public class UseAutoDisposeCustomClassPositiveCases extends ComponentWithLifecycle {
   public void observable_subscribeWithoutAutoDispose() {
     Observable.empty()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+        // Disposable instance manually and enable lenient mode.
         .subscribe();
   }
 
   public void single_subscribeWithoutAutoDispose() {
     Single.just(1)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+        // Disposable instance manually and enable lenient mode.
         .subscribe();
   }
 
   public void completable_subscribeWithoutAutoDispose() {
     Completable.complete()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+        // Disposable instance manually and enable lenient mode.
         .subscribe();
   }
 
   public void maybe_subscribeWithoutAutoDispose() {
     Maybe.empty()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+        // Disposable instance manually and enable lenient mode.
         .subscribe();
   }
 
   public void flowable_subscribeWithoutAutoDispose() {
     Flowable.empty()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+        // Disposable instance manually and enable lenient mode.
         .subscribe();
   }
 
@@ -58,7 +63,8 @@ public class UseAutoDisposeCustomClassPositiveCases extends ComponentWithLifecyc
     Subscriber<Integer>[] subscribers = new Subscriber[] {};
     Flowable.just(1, 2)
         .parallel(2)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+        // Disposable instance manually and enable lenient mode.
         .subscribe(subscribers);
   }
 }
