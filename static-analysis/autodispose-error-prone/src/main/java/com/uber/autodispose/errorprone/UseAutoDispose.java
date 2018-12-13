@@ -50,7 +50,7 @@ import static com.google.errorprone.util.ASTHelpers.isSubtype;
  * </code></pre>
  */
 @AutoService(BugChecker.class)
-@BugPattern(name = "UseAutoDispose",
+@BugPattern(name = "AutoDispose",
     summary = "Missing Disposable handling: Apply AutoDispose or cache "
         + "the Disposable instance manually and enable lenient mode.",
     tags = CONCURRENCY,

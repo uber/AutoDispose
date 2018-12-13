@@ -48,7 +48,7 @@ public final class TestScopeProvider implements ScopeProvider {
 
   private final CompletableSubject innerScope = CompletableSubject.create();
 
-  @SuppressWarnings("AutoDisposeUsage")
+  @SuppressWarnings("AutoDispose")
   private TestScopeProvider(Completable delegate) {
     delegate.subscribe(innerScope);
   }
