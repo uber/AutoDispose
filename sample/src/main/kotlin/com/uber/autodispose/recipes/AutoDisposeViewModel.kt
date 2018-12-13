@@ -26,7 +26,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
 /**
- *
+ * Demo base [ViewModel] that can automatically dispose itself in [onCleared].
  */
 abstract class AutoDisposeViewModel: ViewModel(), LifecycleScopeProvider<ViewModelEvent> {
 
