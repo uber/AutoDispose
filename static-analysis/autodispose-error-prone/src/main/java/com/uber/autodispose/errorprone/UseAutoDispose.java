@@ -51,8 +51,8 @@ import static com.google.errorprone.util.ASTHelpers.isSubtype;
  */
 @AutoService(BugChecker.class)
 @BugPattern(name = "UseAutoDispose",
-    summary = "Always apply an AutoDispose scope before "
-        + "subscribing within defined scoped elements.",
+    summary = "Missing Disposable handling: Apply AutoDispose or cache "
+        + "the Disposable instance manually and enable lenient mode.",
     tags = CONCURRENCY,
     severity = ERROR)
 public final class UseAutoDispose extends AbstractReturnValueIgnored

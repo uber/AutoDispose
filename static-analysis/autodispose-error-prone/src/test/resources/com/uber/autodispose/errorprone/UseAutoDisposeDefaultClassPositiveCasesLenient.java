@@ -76,122 +76,122 @@ public class UseAutoDisposeDefaultClassPositiveCasesLenient
 
   public void observable_subscribeWithoutAutoDispose() {
     Observable.empty()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribe();
   }
 
   public void single_subscribeWithoutAutoDispose() {
     Single.just(1)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribe();
   }
 
   public void completable_subscribeWithoutAutoDispose() {
     Completable.complete()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribe();
   }
 
   public void maybe_subscribeWithoutAutoDispose() {
     Maybe.empty()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribe();
   }
 
   public void flowable_subscribeWithoutAutoDispose() {
     Flowable.empty()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribe();
   }
 
   public void parallelFlowable_subscribeWithoutAutoDispose() {
     Subscriber<Integer>[] subscribers = new Subscriber[] {};
     Flowable.just(1, 2).parallel(2)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribe(subscribers);
   }
 
   public void observable_subscribeVoidSubscribe_withoutAutoDispose() {
     Observable.just(1)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribe(new TestObserver<>());
   }
 
   public void single_subscribeVoidSubscribe_withoutAutoDispose() {
     Single.just(1)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribe(new TestObserver<>());
   }
 
   public void completable_subscribeVoidSubscribe_withoutAutoDispose() {
     Completable.complete()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribe(new TestObserver<>());
   }
 
   public void maybe_subscribeVoidSubscribe_withoutAutoDispose() {
     Maybe.just(1)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribe(new TestObserver<>());
   }
 
   public void flowable_subscribeVoidSubscribe_withoutAutoDispose() {
     Flowable.just(1)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribe(new TestSubscriber<>());
   }
 
   public void observable_subscribeWith_notKeepingResult() {
     Observable.just(1)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribeWith(new TestObserver<>());
   }
 
   public void single_subscribeWith_notKeepingResult() {
     Single.just(1)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribeWith(new TestObserver<>());
   }
 
   public void completable_subscribeWith_notKeepingResult() {
     Completable.complete()
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribeWith(new TestObserver<>());
   }
 
   public void maybe_subscribeWith_notKeepingResult() {
     Maybe.just(1)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribeWith(new TestObserver<>());
   }
 
   public void flowable_subscribeWith_notKeepingResult() {
     Flowable.just(1)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribeWith(new TestSubscriber<>());
   }
 
   // subscribeWith only works IFF the argument passed implements Disposable
   public void subscribeWithOnlyDisposable() {
     Observer<Integer> o = Observable.just(1)
-        // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-        // defined scoped elements.
+        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+        // the Disposable instance manually and enable lenient mode.
         .subscribeWith(new Observer<Integer>() {
           @Override public void onSubscribe(Disposable d) {
 
@@ -216,8 +216,8 @@ public class UseAutoDisposeDefaultClassPositiveCasesLenient
   // being able to detect how the return type is used.
   public void subscribeWithOnlyDisposable_asReference() {
     Observable<Integer> source = Observable.just(1);
-    // BUG: Diagnostic contains: Always apply an AutoDispose scope before subscribing within
-    // defined scoped elements.
+    // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+    // the Disposable instance manually and enable lenient mode.
     Observer<Integer> o = methodReferencable(source::subscribeWith);
   }
 
