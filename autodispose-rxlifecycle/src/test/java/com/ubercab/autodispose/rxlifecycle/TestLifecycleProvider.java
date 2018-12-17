@@ -16,10 +16,10 @@
 
 package com.ubercab.autodispose.rxlifecycle;
 
-import com.trello.rxlifecycle2.LifecycleProvider;
-import com.trello.rxlifecycle2.LifecycleTransformer;
-import com.trello.rxlifecycle2.OutsideLifecycleException;
-import com.trello.rxlifecycle2.RxLifecycle;
+import com.trello.rxlifecycle3.LifecycleProvider;
+import com.trello.rxlifecycle3.LifecycleTransformer;
+import com.trello.rxlifecycle3.OutsideLifecycleException;
+import com.trello.rxlifecycle3.RxLifecycle;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;

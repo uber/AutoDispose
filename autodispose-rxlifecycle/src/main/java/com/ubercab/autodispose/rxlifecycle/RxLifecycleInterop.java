@@ -16,8 +16,8 @@
 
 package com.ubercab.autodispose.rxlifecycle;
 
-import com.trello.rxlifecycle2.LifecycleProvider;
-import com.trello.rxlifecycle2.OutsideLifecycleException;
+import com.trello.rxlifecycle3.LifecycleProvider;
+import com.trello.rxlifecycle3.OutsideLifecycleException;
 import com.uber.autodispose.ScopeProvider;
 
 /**
@@ -27,6 +27,7 @@ import com.uber.autodispose.ScopeProvider;
  * <em>Note:</em> RxLifecycle treats the {@link OutsideLifecycleException}
  * as normal terminal event. In such cases the stream is just disposed.
  */
+@SuppressWarnings("WeakerAccess")
 public final class RxLifecycleInterop {
 
   private RxLifecycleInterop() {

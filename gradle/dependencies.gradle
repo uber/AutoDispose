@@ -61,7 +61,7 @@ def kotlin = [
 ]
 
 def misc = [
-    rxlifecycle: 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
+    rxlifecycle: 'com.trello.rxlifecycle3:rxlifecycle:3.0.0'
 ]
 
 def rx = [
