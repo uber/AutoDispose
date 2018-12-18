@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright (c) 2018. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.ubercab.autodispose.rxlifecycle;
+package com.ubercab.autodispose.rxlifecycle3;
 
-import com.trello.rxlifecycle2.LifecycleProvider;
-import com.trello.rxlifecycle2.OutsideLifecycleException;
+import com.trello.rxlifecycle3.LifecycleProvider;
+import com.trello.rxlifecycle3.OutsideLifecycleException;
 import com.uber.autodispose.ScopeProvider;
 
 /**
@@ -29,7 +29,6 @@ import com.uber.autodispose.ScopeProvider;
  */
 @SuppressWarnings("WeakerAccess")
 public final class RxLifecycleInterop {
-
   private RxLifecycleInterop() {
     throw new AssertionError("No Instances");
   }
