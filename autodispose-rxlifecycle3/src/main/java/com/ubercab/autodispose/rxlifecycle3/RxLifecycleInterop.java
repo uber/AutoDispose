@@ -28,7 +28,7 @@ import com.uber.autodispose.ScopeProvider;
  * as normal terminal event. In such cases the stream is just disposed.
  */
 @SuppressWarnings("WeakerAccess")
-public class RxLifecycleInterop {
+public final class RxLifecycleInterop {
   private RxLifecycleInterop() {
     throw new AssertionError("No Instances");
   }
