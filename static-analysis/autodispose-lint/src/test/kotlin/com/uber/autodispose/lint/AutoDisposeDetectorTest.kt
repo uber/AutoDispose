@@ -1053,4 +1053,32 @@ class AutoDisposeDetectorTest {
         .run()
         .expectClean()
   }
+
+  @Test fun javaFileGivesSuggestions() {
+    lint()
+        .files(rxJava2(),
+            SCOPE_PROVIDER,
+            java("""
+          package foo;
+          import io.reactivex.Observable;
+          import com.uber.autodispose.ScopeProvider;
+
+          class ExampleClass implements ScopeProvider {
+            void names() {
+              Observable<Integer> observable = Observable.just(1);
+              observable.subscribe();
+            }
+          }
+        """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expect("""src/foo/ExampleClass.java:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
+          |    observable.subscribe();
+          |    ~~~~~~~~~~~~~~~~~~~~~~
+          |1 errors, 0 warnings""".trimMargin())
+        .expectFixDiffs("""Fix for src/foo/ExampleClass.java line 8: Handle scope with AutoDispose:
+          |@@ -8 +8
+          |-     observable.subscribe();
+          |+     observable.as(com.uber.autodispose.AutoDispose.autoDisposable(this)).subscribe();""".trimMargin())
+  }
 }

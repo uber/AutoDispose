@@ -186,6 +186,11 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     return false
   }
 
+  /**
+   * @return whether the [psiClass] is in an AutoDispose scopes.
+   *
+   * @see AUTODISPOSE_SCOPES
+   */
   private fun isInAutoDisposeScope(evaluator: JavaEvaluator, psiClass: PsiClass?): Boolean {
     psiClass?.let { callingClass ->
       return AUTODISPOSE_SCOPES.any {
@@ -233,28 +238,61 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
         && isInScope(evaluator, node.getContainingUClass())
     ) {
       if (!lenient) {
-        val replace = if (node.getContainingUFile()?.psi?.name?.contains("kt") == true) {
-          "autoDisposable(this)"
-        } else {
-          "as(com.uber.autodispose.AutoDispose.autoDisposable(this))"
-        }
-        val fix = LintFix.create()
-            .name("Handle scope with AutoDispose")
-            .replace()
-            .text(method.name)
-            .with("$replace\n.${method.name}")
-            .reformat(true)
-            .shortenNames()
-            .build()
-        context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
+        val quickFix = lintFix(context, node, method)
+        context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION, quickFix)
       } else {
         val isUnusedReturnValue = isExpressionValueUnused(node)
         if (isUnusedReturnValue || !isCapturedTypeAllowed(node.returnType, evaluator)) {
           // The subscribe return type isn't handled by consumer or the returned type
           // doesn't implement Disposable.
-          context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
+          val quickFix = lintFix(context, node, method)
+          context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION, quickFix)
         }
       }
+    }
+  }
+
+  /**
+   * @return [LintFix] for the given call expression and method.
+   *
+   * Takes into account various factors (the [FileType] etc) to suggest
+   * a lint fix. Right now only supports lint fixes for AutoDispose scopes
+   * and java files.
+   *
+   * @param context the project context
+   * @param node the calling expression for `subscribe`/`subscribeWith`.
+   * @param method the resolved method.
+   */
+  private fun lintFix(context: JavaContext, node: UCallExpression, method: PsiMethod): LintFix? {
+    if (isInAutoDisposeScope(context.evaluator, node.getContainingUClass())) {
+      val fileType = fileType(context)
+
+      if (fileType is FileType.Java) {
+        val replace = "as(com.uber.autodispose.AutoDispose.autoDisposable(this))"
+        return LintFix.create()
+            .name("Handle scope with AutoDispose")
+            .replace()
+            .text(method.name)
+            .with("$replace.${method.name}")
+            .reformat(true)
+            .shortenNames()
+            .build()
+      }
+    }
+    return null
+  }
+
+  /**
+   * @return the [FileType] for the corresponding extension.
+   *
+   * @param context the context of the lint used to get the extension.
+   */
+  private fun fileType(context: JavaContext): FileType {
+    val extension = context.file.extension
+    return when (extension) {
+      "kt" -> FileType.Kotlin(extension)
+      "java" -> FileType.Java(extension)
+      else -> FileType.Other(extension)
     }
   }
 
@@ -319,4 +357,11 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
       return false
     }
   }
+
+  internal sealed class FileType(val extension: String) {
+    class Kotlin(extension: String): FileType(extension)
+    class Java(extension: String): FileType(extension)
+    class Other(extension: String): FileType(extension)
+  }
+
 }
