@@ -311,9 +311,14 @@ compile 'com.uber.autodispose:autodispose-android-archcomponents-test:x.y.z'
 
 RxLifecycle interop:
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-rxlifecycle.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-rxlifecycle)
+`autodispose-rxlifecycle`[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-rxlifecycle.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-rxlifecycle)
 ```gradle
 compile 'com.uber.autodispose:autodispose-rxlifecycle:x.y.z'
+```
+
+`autodispose-rxlifecycle3`[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-rxlifecycle3.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-rxlifecycle3)
+```gradle
+compile 'com.uber.autodispose:autodispose-rxlifecycle3:x.y.z'
 ```
 
 Kotlin extensions:
