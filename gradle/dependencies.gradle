@@ -19,7 +19,7 @@ def versions = [
     archLifecycle: '2.0.0',
     dokka: '0.9.17',
     errorProne: '2.3.2',
-    errorPronePlugin: '0.6',
+    errorPronePlugin: '0.6.1',
     kotlin: '1.3.20',
     lint: '26.3.0',
     animalSniffer: '1.4.6'
