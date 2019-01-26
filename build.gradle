@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-// https://github.com/gradle/gradle/issues/4848
-gradle.startParameter.configureOnDemand = false
-
 subprojects {
   apply from: rootProject.file('gradle/dependencies.gradle')
   buildscript {
