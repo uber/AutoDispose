@@ -32,6 +32,15 @@ android {
     sourceCompatibility deps.build.javaVersion
     targetCompatibility deps.build.javaVersion
   }
+  getLibraryVariants().configureEach { variant ->
+    variant.getJavaCompileProvider().configure {
+      options.errorprone {
+        option("NullAway:AnnotatedPackages", "com.uber")
+        check("NullAway", CheckSeverity.ERROR)
+        check("RestrictTo", CheckSeverity.OFF)
+      }
+    }
+  }
 }
 
 dependencies {
@@ -43,16 +52,6 @@ dependencies {
   errorproneJavac deps.build.errorProneJavac
   errorprone deps.build.nullAway
   errorprone deps.build.errorProne
-}
-
-afterEvaluate {
-  tasks.withType(JavaCompile).configureEach {
-    options.errorprone {
-      option("NullAway:AnnotatedPackages", "com.uber")
-      check("NullAway", CheckSeverity.ERROR)
-      check("RestrictTo", CheckSeverity.OFF)
-    }
-  }
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

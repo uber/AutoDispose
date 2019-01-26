@@ -36,6 +36,15 @@ android {
   testOptions {
     execution 'ANDROIDX_TEST_ORCHESTRATOR'
   }
+  getLibraryVariants().configureEach { variant ->
+    variant.getJavaCompileProvider().configure {
+      options.errorprone {
+        option("NullAway:AnnotatedPackages", "com.uber")
+        check("NullAway", CheckSeverity.ERROR)
+        check("RestrictTo", CheckSeverity.OFF)
+      }
+    }
+  }
 }
 
 dependencies {
@@ -62,16 +71,6 @@ dependencies {
   androidTestImplementation deps.test.androidRunner
   androidTestImplementation deps.test.androidRules
   androidTestUtil deps.test.androidOrchestrator
-}
-
-afterEvaluate {
-  tasks.withType(JavaCompile).configureEach {
-    options.errorprone {
-      option("NullAway:AnnotatedPackages", "com.uber")
-      check("NullAway", CheckSeverity.ERROR)
-      check("RestrictTo", CheckSeverity.OFF)
-    }
-  }
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
