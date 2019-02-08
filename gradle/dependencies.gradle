@@ -45,7 +45,7 @@ def build = [
     animalSniffer: 'org.codehaus.mojo.signature:java17:1.0@signature',
 
     gradlePlugins: [
-        android: 'com.android.tools.build:gradle:3.3.0',
+        android: 'com.android.tools.build:gradle:3.3.1',
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
         dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
