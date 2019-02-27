@@ -25,5 +25,4 @@ import com.google.auto.service.AutoService
 class AutoDisposeIssueRegistry() : IssueRegistry() {
   override val issues: List<Issue> = listOf(AutoDisposeDetector.ISSUE)
   override val api: Int = CURRENT_API
-  override val minApi = 2
 }
