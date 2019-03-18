@@ -36,6 +36,10 @@ android {
   sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
   }
+
+  lintOptions {
+    checkDependencies true
+  }
 }
 
 dependencies {
