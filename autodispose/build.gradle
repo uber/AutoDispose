@@ -19,6 +19,7 @@ plugins {
   id 'java-library'
   id 'net.ltgt.errorprone'
   id 'com.android.lint'
+  id 'ru.vyarus.animalsniffer'
 }
 
 sourceCompatibility = deps.build.javaVersion
@@ -38,6 +39,7 @@ dependencies {
 
   errorproneJavac deps.build.errorProneJavac
   errorprone deps.build.nullAway
+  signature deps.build.animalSniffer
   errorprone deps.build.errorProne
   lintChecks project(':static-analysis:autodispose-lint')
 
