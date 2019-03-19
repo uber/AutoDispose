@@ -18,8 +18,9 @@ subprojects {
   apply from: rootProject.file('gradle/dependencies.gradle')
   buildscript {
     repositories {
-      jcenter()
       google()
+      mavenCentral()
+      jcenter()
     }
     dependencies {
       classpath deps.build.gradlePlugins.android
@@ -31,8 +32,9 @@ subprojects {
   }
 
   repositories {
-    jcenter()
     google()
+    mavenCentral()
+    jcenter()
   }
 
   afterEvaluate {
