@@ -41,7 +41,6 @@ android {
       options.errorprone {
         option("NullAway:AnnotatedPackages", "com.uber")
         check("NullAway", CheckSeverity.ERROR)
-        check("RestrictTo", CheckSeverity.OFF)
       }
     }
   }
