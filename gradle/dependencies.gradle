@@ -22,7 +22,7 @@ def versions = [
     errorPronePlugin: '0.7',
     kotlin: '1.3.21',
     lint: '26.3.2',
-    animalSniffer: '1.4.6'
+    animalSniffer: '1.5.0'
 ]
 
 def apt = [
