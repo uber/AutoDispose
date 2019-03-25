@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import net.ltgt.gradle.errorprone.CheckSeverity
+//import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
   id 'com.android.application'
   id 'org.jetbrains.kotlin.android'
-  id 'net.ltgt.errorprone'
+//  id 'net.ltgt.errorprone'
 }
 
 android {
@@ -54,16 +54,16 @@ android {
       variant.setIgnore(true)
     }
   }
-  getApplicationVariants().configureEach { variant ->
-    variant.getJavaCompileProvider().configure {
-      options.errorprone {
-        option("NullAway:AnnotatedPackages", "com.uber")
-        check("NullAway", CheckSeverity.ERROR)
-        check("AutoDispose", CheckSeverity.ERROR)
-        option("AutoDispose:TypesWithScope", classesWithScope.join(","))
-      }
-    }
-  }
+//  getApplicationVariants().configureEach { variant ->
+//    variant.getJavaCompileProvider().configure {
+//      options.errorprone {
+//        option("NullAway:AnnotatedPackages", "com.uber")
+//        check("NullAway", CheckSeverity.ERROR)
+//        check("AutoDispose", CheckSeverity.ERROR)
+//        option("AutoDispose:TypesWithScope", classesWithScope.join(","))
+//      }
+//    }
+//  }
 }
 
 dependencies {
@@ -82,10 +82,10 @@ dependencies {
   implementation 'com.jakewharton.rx2:replaying-share-kotlin:2.0.1'
   implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.0'
 
-  errorproneJavac deps.build.errorProneJavac
-  errorprone deps.build.errorProne
-  errorprone deps.build.nullAway
-  errorprone project(':static-analysis:autodispose-error-prone')
+//  errorproneJavac deps.build.errorProneJavac
+//  errorprone deps.build.errorProne
+//  errorprone deps.build.nullAway
+//  errorprone project(':static-analysis:autodispose-error-prone')
 
   def leakcanaryVersion = '1.6.2'
   debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
