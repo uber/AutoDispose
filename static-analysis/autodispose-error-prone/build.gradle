@@ -18,10 +18,11 @@ import net.ltgt.gradle.errorprone.CheckSeverity
 plugins {
   id 'java-library'
   id 'net.ltgt.errorprone'
+  id 'net.ltgt.nullaway'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = deps.build.javaVersion
+targetCompatibility = deps.build.javaVersion
 
 dependencies {
   annotationProcessor deps.apt.autoService
@@ -43,9 +44,9 @@ dependencies {
 }
 
 tasks.withType(JavaCompile).configureEach {
-  options.errorprone {
-    option("NullAway:AnnotatedPackages", "com.uber")
-    check("NullAway", CheckSeverity.ERROR)
+  options.errorprone.nullaway {
+    severity = CheckSeverity.ERROR
+    annotatedPackages.add("com.uber")
   }
 }
 

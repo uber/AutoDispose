@@ -39,6 +39,11 @@ android {
   testOptions {
     execution 'ANDROIDX_TEST_ORCHESTRATOR'
   }
+  variantFilter { variant ->
+    if (variant.buildType.name == 'debug') {
+      variant.setIgnore(true)
+    }
+  }
 }
 
 dependencies {

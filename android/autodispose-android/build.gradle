@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import com.android.build.gradle.api.BaseVariant
 import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
   id 'com.android.library'
   id 'net.ltgt.errorprone'
+  id 'net.ltgt.nullaway'
 }
 
 android {
@@ -36,11 +39,19 @@ android {
   testOptions {
     execution 'ANDROIDX_TEST_ORCHESTRATOR'
   }
-  getLibraryVariants().configureEach { variant ->
+  variantFilter { variant ->
+    if (variant.buildType.name == 'debug') {
+      variant.setIgnore(true)
+    }
+  }
+  DomainObjectSet<BaseVariant> variants = getLibraryVariants()
+  variants.addAll(getTestVariants())
+  variants.addAll(getUnitTestVariants())
+  variants.configureEach { variant ->
     variant.getJavaCompileProvider().configure {
-      options.errorprone {
-        option("NullAway:AnnotatedPackages", "com.uber")
-        check("NullAway", CheckSeverity.ERROR)
+      options.errorprone.nullaway {
+        severity = CheckSeverity.ERROR
+        annotatedPackages.add("com.uber")
       }
     }
   }
