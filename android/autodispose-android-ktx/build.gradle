@@ -15,7 +15,6 @@
  */
 
 dependencies {
-  api deps.kotlin.stdlib
   implementation project(':android:autodispose-android')
   androidTestImplementation project(':test-utils')
   androidTestUtil deps.test.androidOrchestrator

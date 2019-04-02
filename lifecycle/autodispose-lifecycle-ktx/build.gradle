@@ -15,7 +15,6 @@
  */
 
 dependencies {
-  api deps.kotlin.stdlib
   implementation project(':lifecycle:autodispose-lifecycle')
 
   testImplementation project(':test-utils')

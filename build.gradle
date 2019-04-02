@@ -43,7 +43,8 @@ subprojects {
   }
 
   boolean isAndroidLibrary = project.path.startsWith(":android:")
-  boolean isKotlin = project.path.endsWith("-ktx") || project.path.endsWith("-lint")
+  boolean isLint = project.path.endsWith("-lint")
+  boolean isKotlin = project.path.endsWith("-ktx") || isLint
   boolean isSample = project.name == "sample"
   boolean isJavaLibrary = !isAndroidLibrary && !isKotlin && !isSample
   boolean usesErrorProne = !isKotlin && !isSample
@@ -79,6 +80,11 @@ subprojects {
     } else {
       project.apply plugin: 'org.jetbrains.kotlin.jvm'
       project.apply plugin: 'org.jetbrains.dokka'
+    }
+    if (!isLint) {
+      project.dependencies {
+        api deps.kotlin.stdlib
+      }
     }
   }
   if (isJavaLibrary) {
