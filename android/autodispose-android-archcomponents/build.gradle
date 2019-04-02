@@ -13,35 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import net.ltgt.gradle.errorprone.CheckSeverity
-
-plugins {
-  id 'com.android.library'
-  id 'net.ltgt.errorprone'
-}
-
-android {
-  compileSdkVersion deps.build.compileSdkVersion
-  buildToolsVersion deps.build.buildToolsVersion
-
-  defaultConfig {
-    minSdkVersion deps.build.minSdkVersion
-    targetSdkVersion deps.build.targetSdkVersion
-    consumerProguardFiles 'consumer-proguard-rules.txt'
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    testApplicationId "com.uber.autodispose.android.lifecycle.androidTest"
-  }
-  compileOptions {
-    sourceCompatibility deps.build.javaVersion
-    targetCompatibility deps.build.javaVersion
-  }
-  lintOptions {
-    lintConfig file('lint.xml')
-  }
-  testOptions {
-    execution 'ANDROIDX_TEST_ORCHESTRATOR'
-  }
-}
 
 dependencies {
   annotationProcessor deps.androidx.arch.lifecycle.compiler
@@ -54,10 +25,6 @@ dependencies {
   implementation project(':android:autodispose-android')
   implementation deps.rx.android
 
-  errorproneJavac deps.build.errorProneJavac
-  errorprone deps.build.nullAway
-  errorprone deps.build.errorProne
-
   lintChecks project(':static-analysis:autodispose-lint')
 
   androidTestImplementation project(':android:autodispose-android-archcomponents-test')
@@ -69,17 +36,6 @@ dependencies {
   androidTestImplementation deps.test.androidRunner
   androidTestImplementation deps.test.androidRules
   androidTestUtil deps.test.androidOrchestrator
-}
-
-afterEvaluate {
-  tasks.withType(JavaCompile).configureEach {
-    options.errorprone {
-      disableWarningsInGeneratedCode = true
-      option("NullAway:AnnotatedPackages", "com.uber")
-      check("NullAway", CheckSeverity.ERROR)
-      check("RestrictTo", CheckSeverity.OFF)
-    }
-  }
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

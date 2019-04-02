@@ -261,7 +261,7 @@ abstract class AbstractReturnValueIgnored extends BugChecker
     String identifierStr = null;
     Type identifierType = null;
     if (identifierExpr != null) {
-      identifierStr = identifierExpr.toString();
+      identifierStr = state.getSourceForNode(identifierExpr);
       if (identifierExpr instanceof JCIdent) {
         identifierType = ((JCIdent) identifierExpr).sym.type;
       } else if (identifierExpr instanceof JCFieldAccess) {

@@ -14,33 +14,6 @@
  * limitations under the License.
  */
 
-plugins {
-  id 'com.android.library'
-  id 'org.jetbrains.kotlin.android'
-  id 'org.jetbrains.dokka-android'
-}
-
-android {
-  compileSdkVersion deps.build.compileSdkVersion
-  buildToolsVersion deps.build.buildToolsVersion
-
-  defaultConfig {
-    minSdkVersion deps.build.minSdkVersion
-    targetSdkVersion deps.build.targetSdkVersion
-    testInstrumentationRunner "androidx.test.ext.junit.runners.AndroidJUnit4"
-  }
-  compileOptions {
-    sourceCompatibility deps.build.javaVersion
-    targetCompatibility deps.build.javaVersion
-  }
-  sourceSets {
-    main.java.srcDirs += 'src/main/kotlin'
-  }
-  testOptions {
-    execution 'ANDROIDX_TEST_ORCHESTRATOR'
-  }
-}
-
 dependencies {
   implementation project(':android:autodispose-android-archcomponents')
   androidTestImplementation project(':test-utils')

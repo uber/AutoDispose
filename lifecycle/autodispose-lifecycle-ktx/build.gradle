@@ -14,13 +14,7 @@
  * limitations under the License.
  */
 
-plugins {
-  id 'org.jetbrains.kotlin.jvm'
-  id 'org.jetbrains.dokka'
-}
-
 dependencies {
-  api deps.kotlin.stdlib
   implementation project(':lifecycle:autodispose-lifecycle')
 
   testImplementation project(':test-utils')

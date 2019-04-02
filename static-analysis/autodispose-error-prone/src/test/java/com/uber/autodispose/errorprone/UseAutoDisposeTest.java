@@ -32,43 +32,68 @@ public final class UseAutoDisposeTest {
 
   private CompilationTestHelper compilationHelper;
 
-  @Before public void setup() {
+  @Before
+  public void setup() {
     compilationHelper = CompilationTestHelper.newInstance(UseAutoDispose.class, getClass());
   }
 
-  @Test public void test_autodisposePositiveCasesWithDefaultClass() {
+  @Test
+  public void test_autodisposePositiveCasesWithDefaultClass() {
     compilationHelper.addSourceFile("UseAutoDisposeDefaultClassPositiveCases.java").doTest();
   }
 
-  @Test public void test_autodisposePositiveCasesWithDefaultClassGivenCustomTypes() {
-    compilationHelper.setArgs(ImmutableList.of("-XepOpt:TypesWithScope"
-        + "=com.uber.autodispose.errorprone.ComponentWithLifecycle"));
-    compilationHelper.addSourceFile("UseAutoDisposeDefaultClassPositiveCases.java").doTest();
+  @Test
+  public void test_autodisposePositiveCasesWithDefaultClassGivenCustomTypes() {
+    compilationHelper
+        .setArgs(
+            ImmutableList.of(
+                "-XepOpt:TypesWithScope"
+                    + "=com.uber.autodispose.errorprone.ComponentWithLifecycle"))
+        .addSourceFile("UseAutoDisposeDefaultClassPositiveCases.java")
+        .doTest();
   }
 
-  @Test public void test_autodisposeNegativeCasesWithDefaultClassGivenExclusiveScope() {
-    compilationHelper.setArgs(ImmutableList.of("-XepOpt:TypesWithScope"
-        + "=com.uber.autodispose.errorprone.ComponentWithLifecycle", "-XepOpt:OverrideScopes"));
-    compilationHelper.addSourceFile("UseAutoDisposeNegativeCasesExcluded.java").doTest();
+  @Test
+  public void test_autodisposeNegativeCasesWithDefaultClassGivenExclusiveScope() {
+    compilationHelper
+        .setArgs(
+            ImmutableList.of(
+                "-XepOpt:TypesWithScope"
+                    + "=com.uber.autodispose.errorprone.ComponentWithLifecycle",
+                "-XepOpt:OverrideScopes"))
+        .addSourceFile("UseAutoDisposeNegativeCasesExcluded.java")
+        .doTest();
   }
 
-  @Test public void test_autodisposePositiveCasesWithCustomClass() {
-    compilationHelper.setArgs(ImmutableList.of("-XepOpt:TypesWithScope"
-        + "=com.uber.autodispose.errorprone.ComponentWithLifecycle"));
-    compilationHelper.addSourceFile("UseAutoDisposeCustomClassPositiveCases.java").doTest();
+  @Test
+  public void test_autodisposePositiveCasesWithCustomClass() {
+    compilationHelper
+        .setArgs(
+            ImmutableList.of(
+                "-XepOpt:TypesWithScope"
+                    + "=com.uber.autodispose.errorprone.ComponentWithLifecycle"))
+        .addSourceFile("UseAutoDisposeCustomClassPositiveCases.java")
+        .doTest();
   }
 
-  @Test public void test_autodisposeNegativeCases() {
+  @Test
+  public void test_autodisposeNegativeCases() {
     compilationHelper.addSourceFile("UseAutoDisposeNegativeCases.java").doTest();
   }
 
-  @Test public void test_autodisposePositiveCasesWithDefaultClassLenient() {
-    compilationHelper.setArgs(ImmutableList.of("-XepOpt:Lenient=true"));
-    compilationHelper.addSourceFile("UseAutoDisposeDefaultClassPositiveCasesLenient.java").doTest();
+  @Test
+  public void test_autodisposePositiveCasesWithDefaultClassLenient() {
+    compilationHelper
+        .setArgs(ImmutableList.of("-XepOpt:Lenient=true"))
+        .addSourceFile("UseAutoDisposeDefaultClassPositiveCasesLenient.java")
+        .doTest();
   }
 
-  @Test public void test_autodisposeNegativeCasesLenient() {
-    compilationHelper.setArgs(ImmutableList.of("-XepOpt:Lenient=true"));
-    compilationHelper.addSourceFile("UseAutoDisposeNegativeCasesLenient.java").doTest();
+  @Test
+  public void test_autodisposeNegativeCasesLenient() {
+    compilationHelper
+        .setArgs(ImmutableList.of("-XepOpt:Lenient=true"))
+        .addSourceFile("UseAutoDisposeNegativeCasesLenient.java")
+        .doTest();
   }
 }

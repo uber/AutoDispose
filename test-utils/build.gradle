@@ -13,29 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import net.ltgt.gradle.errorprone.CheckSeverity
-
-plugins {
-  id 'java-library'
-  id 'net.ltgt.errorprone'
-}
-
-sourceCompatibility = deps.build.javaVersion
-targetCompatibility = deps.build.javaVersion
 
 dependencies {
-  errorproneJavac deps.build.errorProneJavac
-  errorprone deps.build.nullAway
-  errorprone deps.build.errorProne
-
   api deps.rx.java
   api deps.test.junit
   api deps.test.truth
-}
-
-tasks.withType(JavaCompile).configureEach {
-  options.errorprone {
-    option("NullAway:AnnotatedPackages", "com.uber")
-    check("NullAway", CheckSeverity.ERROR)
-  }
 }

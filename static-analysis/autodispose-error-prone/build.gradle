@@ -13,15 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import net.ltgt.gradle.errorprone.CheckSeverity
-
-plugins {
-  id 'java-library'
-  id 'net.ltgt.errorprone'
-}
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 dependencies {
   annotationProcessor deps.apt.autoService
@@ -36,17 +27,6 @@ dependencies {
   testImplementation deps.test.junit
   testImplementation project(':autodispose')
   testImplementation project(':lifecycle:autodispose-lifecycle')
-
-  errorproneJavac deps.build.errorProneJavac
-  errorprone deps.build.nullAway
-  errorprone deps.build.errorProne
-}
-
-tasks.withType(JavaCompile).configureEach {
-  options.errorprone {
-    option("NullAway:AnnotatedPackages", "com.uber")
-    check("NullAway", CheckSeverity.ERROR)
-  }
 }
 
 test {

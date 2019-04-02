@@ -18,33 +18,29 @@ pluginManagement {
   apply from: file('gradle/dependencies.gradle')
   resolutionStrategy {
     eachPlugin {
-      switch (requested.id.id) {
-        case 'org.jetbrains.dokka':
-          useModule("org.jetbrains.dokka:dokka-gradle-plugin:${deps.versions.dokka}")
-          break
-        case 'org.jetbrains.dokka-android':
-          useModule("org.jetbrains.dokka:dokka-android-gradle-plugin:${deps.versions.dokka}")
-          break
-        case 'com.android.application':
-        case 'com.android.library':
-        case 'com.android.lint':
-          useModule(deps.build.gradlePlugins.android)
-          break
-        case 'org.jetbrains.kotlin.jvm':
-          useModule(deps.build.gradlePlugins.kotlin)
-          break
-        case 'org.jetbrains.kotlin.android':
-          useModule(deps.build.gradlePlugins.kotlin)
-          break
-        case 'org.jetbrains.kotlin.kapt':
-          useModule(deps.build.gradlePlugins.kotlin)
-          break
-        case 'net.ltgt.errorprone':
-          useVersion(deps.versions.errorPronePlugin)
-          break
-        case 'ru.vyarus.animalsniffer':
-          useVersion(deps.versions.animalSniffer)
-          break
+      String id = requested.id.id
+      if (id.startsWith("com.android")) {
+        useModule(deps.build.gradlePlugins.android)
+      } else if (id.startsWith("org.jetbrains.kotlin")) {
+        useModule(deps.build.gradlePlugins.kotlin)
+      } else {
+        switch (id) {
+          case 'org.jetbrains.dokka':
+            useModule("org.jetbrains.dokka:dokka-gradle-plugin:${deps.versions.dokka}")
+            break
+          case 'org.jetbrains.dokka-android':
+            useModule("org.jetbrains.dokka:dokka-android-gradle-plugin:${deps.versions.dokka}")
+            break
+          case 'net.ltgt.errorprone':
+            useVersion(deps.versions.errorPronePlugin)
+            break
+          case 'net.ltgt.nullaway':
+            useVersion(deps.versions.nullawayPlugin)
+            break
+          case 'ru.vyarus.animalsniffer':
+            useVersion(deps.versions.animalSniffer)
+            break
+        }
       }
     }
   }

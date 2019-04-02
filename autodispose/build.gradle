@@ -13,20 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
-  id 'java-library'
-  id 'net.ltgt.errorprone'
   id 'com.android.lint'
   id 'ru.vyarus.animalsniffer'
-}
-
-sourceCompatibility = deps.build.javaVersion
-targetCompatibility = deps.build.javaVersion
-
-test {
-  testLogging.showStandardStreams = true
 }
 
 lintOptions {
@@ -37,24 +27,10 @@ lintOptions {
 dependencies {
   api deps.rx.java
 
-  errorproneJavac deps.build.errorProneJavac
-  errorprone deps.build.nullAway
   signature deps.build.animalSniffer
-  errorprone deps.build.errorProne
   lintChecks project(':static-analysis:autodispose-lint')
 
   testCompile project(':test-utils')
-}
-
-tasks.withType(JavaCompile).configureEach {
-  options.errorprone {
-    option("NullAway:AnnotatedPackages", "com.uber")
-    check("NullAway", CheckSeverity.ERROR)
-  }
-}
-
-tasks.withType(Test) {
-  setMaxParallelForks(Runtime.runtime.availableProcessors().intdiv(2) ?: 1)
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

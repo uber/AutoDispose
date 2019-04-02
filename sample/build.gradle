@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//import com.android.build.gradle.api.BaseVariant
 //import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
   id 'com.android.application'
   id 'org.jetbrains.kotlin.android'
 //  id 'net.ltgt.errorprone'
+//  id 'net.ltgt.nullaway'
 }
 
 android {
@@ -36,10 +38,43 @@ android {
   sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
   }
-
   lintOptions {
     checkDependencies true
   }
+  variantFilter { variant ->
+    if (variant.buildType.name == "release") {
+      variant.setIgnore(true)
+    }
+  }
+  buildTypes {
+    debug {
+      matchingFallbacks = ['release']
+    }
+  }
+
+//  def classesWithScope = [
+//      "android.app.Activity",
+//      "android.app.Fragment",
+//      "android.arch.lifecycle.LifecycleOwner",
+//      "androidx.lifecycle.LifecycleOwner",
+//      "com.uber.autodispose.ScopeProvider",
+//      "com.uber.autodispose.sample.CustomScope"
+//  ]
+//  DomainObjectSet<BaseVariant> variants = getApplicationVariants()
+//  variants.addAll(getTestVariants())
+//  variants.addAll(getUnitTestVariants())
+//  variants.configureEach { variant ->
+//    variant.getJavaCompileProvider().configure {
+//      options.errorprone {
+//        nullaway {
+//          severity = CheckSeverity.ERROR
+//          annotatedPackages.add("com.uber")
+//        }
+//        check("AutoDispose", CheckSeverity.ERROR)
+//        option("AutoDispose:TypesWithScope", classesWithScope.join(","))
+//      }
+//    }
+//  }
 }
 
 dependencies {
@@ -49,7 +84,7 @@ dependencies {
   implementation project(':autodispose-ktx')
   implementation project(':lifecycle:autodispose-lifecycle')
   implementation 'androidx.appcompat:appcompat:1.0.2'
-  implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+  implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
   implementation 'com.google.android.material:material:1.0.0'
   implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
   implementation "androidx.fragment:fragment:1.0.0"
@@ -67,23 +102,3 @@ dependencies {
   debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
   releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
 }
-
-//afterEvaluate {
-//  tasks.withType(JavaCompile).configureEach {
-//    def classesWithScope = [
-//        "android.app.Activity",
-//        "android.app.Fragment",
-//        "android.arch.lifecycle.LifecycleOwner",
-//        "androidx.lifecycle.LifecycleOwner",
-//        "com.uber.autodispose.ScopeProvider",
-//        "com.uber.autodispose.sample.CustomScope"
-//    ]
-//    options.errorprone {
-//      option("NullAway:AnnotatedPackages", "com.uber")
-//      check("NullAway", CheckSeverity.ERROR)
-//      check("RestrictTo", CheckSeverity.OFF)
-//      check("UseAutoDispose", CheckSeverity.ERROR)
-//      option("UseAutoDispose:TypesWithScope", classesWithScope.join(","))
-//    }
-//  }
-//}
