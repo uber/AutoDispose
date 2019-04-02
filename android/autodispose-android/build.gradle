@@ -44,17 +44,6 @@ android {
       variant.setIgnore(true)
     }
   }
-  DomainObjectSet<BaseVariant> variants = getLibraryVariants()
-  variants.addAll(getTestVariants())
-  variants.addAll(getUnitTestVariants())
-  variants.configureEach { variant ->
-    variant.getJavaCompileProvider().configure {
-      options.errorprone.nullaway {
-        severity = CheckSeverity.ERROR
-        annotatedPackages.add("com.uber")
-      }
-    }
-  }
 }
 
 dependencies {

@@ -13,24 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-subprojects {
+import net.ltgt.gradle.errorprone.CheckSeverity
+buildscript {
   apply from: rootProject.file('gradle/dependencies.gradle')
   buildscript {
     repositories {
       google()
       mavenCentral()
+      maven { url "https://plugins.gradle.org/m2/" }
       jcenter()
     }
     dependencies {
       classpath deps.build.gradlePlugins.android
       classpath deps.build.gradlePlugins.kotlin
+      classpath "net.ltgt.gradle:gradle-errorprone-plugin:${deps.versions.errorPronePlugin}"
       classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${deps.versions.dokka}"
       classpath "org.jetbrains.dokka:dokka-gradle-plugin:${deps.versions.dokka}"
       classpath "ru.vyarus:gradle-animalsniffer-plugin:${deps.versions.animalSniffer}"
     }
   }
+}
 
+subprojects {
   repositories {
     google()
     mavenCentral()
@@ -38,7 +42,22 @@ subprojects {
   }
 
   afterEvaluate {
-    if (plugins.hasPlugin('com.android.library')) {
+    boolean isAndroidLibrary = plugins.hasPlugin('com.android.library')
+    boolean usesErrorProne = plugins.hasPlugin('net.ltgt.errorprone')
+    if (isAndroidLibrary && usesErrorProne) {
+      def configurer = { variant ->
+        variant.getJavaCompileProvider().configure {
+          options.errorprone.nullaway {
+            severity = CheckSeverity.ERROR
+            annotatedPackages.add("com.uber")
+          }
+        }
+      }
+      project.android.libraryVariants.configureEach(configurer)
+      project.android.testVariants.configureEach(configurer)
+      project.android.unitTestVariants.configureEach(configurer)
+    }
+    if (isAndroidLibrary) {
       // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
       project.android.libraryVariants.all {
         it.generateBuildConfigProvider.configure {
