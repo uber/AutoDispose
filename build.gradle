@@ -20,13 +20,14 @@ buildscript {
     repositories {
       google()
       mavenCentral()
-      maven { url "https://plugins.gradle.org/m2/" }
+      gradlePluginPortal()
       jcenter()
     }
     dependencies {
       classpath deps.build.gradlePlugins.android
       classpath deps.build.gradlePlugins.kotlin
       classpath "net.ltgt.gradle:gradle-errorprone-plugin:${deps.versions.errorPronePlugin}"
+      classpath "net.ltgt.gradle:gradle-nullaway-plugin:${deps.versions.nullawayPlugin}"
       classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${deps.versions.dokka}"
       classpath "org.jetbrains.dokka:dokka-gradle-plugin:${deps.versions.dokka}"
       classpath "ru.vyarus:gradle-animalsniffer-plugin:${deps.versions.animalSniffer}"
@@ -41,9 +42,74 @@ subprojects {
     jcenter()
   }
 
+  boolean isAndroidLibrary = project.path.startsWith(":android:")
+  boolean isKotlin = project.path.endsWith("-ktx") || project.path.endsWith("-lint")
+  boolean isSample = project.name == "sample"
+  boolean isJavaLibrary = !isAndroidLibrary && !isKotlin && !isSample
+  boolean usesErrorProne = !isKotlin && !isSample
+  if (isAndroidLibrary) {
+    project.apply plugin: 'com.android.library'
+    project.android {
+      compileSdkVersion deps.build.compileSdkVersion
+      buildToolsVersion deps.build.buildToolsVersion
+
+      defaultConfig {
+        minSdkVersion deps.build.minSdkVersion
+        targetSdkVersion deps.build.targetSdkVersion
+        consumerProguardFiles 'consumer-proguard-rules.txt'
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testApplicationId "com.uber.autodispose.android.lifecycle.androidTest"
+      }
+      compileOptions {
+        sourceCompatibility deps.build.javaVersion
+        targetCompatibility deps.build.javaVersion
+      }
+      lintOptions {
+        lintConfig file('lint.xml')
+      }
+      testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+      }
+    }
+  }
+  if (isKotlin) {
+    if (isAndroidLibrary) {
+      project.apply plugin: 'org.jetbrains.kotlin.android'
+      project.apply plugin: 'org.jetbrains.dokka-android'
+    } else {
+      project.apply plugin: 'org.jetbrains.kotlin.jvm'
+      project.apply plugin: 'org.jetbrains.dokka'
+    }
+  }
+  if (isJavaLibrary) {
+    project.apply plugin: 'java-library'
+    project.sourceCompatibility = deps.build.javaVersion
+    project.targetCompatibility = deps.build.javaVersion
+    project.test {
+      testLogging.showStandardStreams = true
+    }
+  }
+  if (usesErrorProne) {
+    project.apply plugin: 'net.ltgt.errorprone'
+    project.apply plugin: 'net.ltgt.nullaway'
+    project.dependencies {
+      errorproneJavac deps.build.errorProneJavac
+      errorprone deps.build.nullAway
+      errorprone deps.build.errorProne
+    }
+    if (isJavaLibrary) {
+      project.tasks.withType(JavaCompile).configureEach {
+        options.errorprone.nullaway {
+          severity = CheckSeverity.ERROR
+          annotatedPackages.add("com.uber")
+        }
+      }
+      project.tasks.withType(Test) {
+        setMaxParallelForks(Runtime.runtime.availableProcessors().intdiv(2) ?: 1)
+      }
+    }
+  }
   afterEvaluate {
-    boolean isAndroidLibrary = plugins.hasPlugin('com.android.library')
-    boolean usesErrorProne = plugins.hasPlugin('net.ltgt.errorprone')
     if (isAndroidLibrary && usesErrorProne) {
       def configurer = { variant ->
         variant.getJavaCompileProvider().configure {
@@ -59,9 +125,16 @@ subprojects {
     }
     if (isAndroidLibrary) {
       // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
-      project.android.libraryVariants.all {
-        it.generateBuildConfigProvider.configure {
-          it.enabled = false
+      project.android {
+        libraryVariants.all {
+          it.generateBuildConfigProvider.configure {
+            it.enabled = false
+          }
+        }
+        variantFilter { variant ->
+          if (variant.buildType.name == 'debug') {
+            variant.setIgnore(true)
+          }
         }
       }
     }

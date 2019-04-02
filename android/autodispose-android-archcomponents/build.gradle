@@ -14,43 +14,6 @@
  * limitations under the License.
  */
 
-import com.android.build.gradle.api.BaseVariant
-import net.ltgt.gradle.errorprone.CheckSeverity
-
-plugins {
-  id 'com.android.library'
-  id 'net.ltgt.errorprone'
-  id 'net.ltgt.nullaway'
-}
-
-android {
-  compileSdkVersion deps.build.compileSdkVersion
-  buildToolsVersion deps.build.buildToolsVersion
-
-  defaultConfig {
-    minSdkVersion deps.build.minSdkVersion
-    targetSdkVersion deps.build.targetSdkVersion
-    consumerProguardFiles 'consumer-proguard-rules.txt'
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    testApplicationId "com.uber.autodispose.android.lifecycle.androidTest"
-  }
-  compileOptions {
-    sourceCompatibility deps.build.javaVersion
-    targetCompatibility deps.build.javaVersion
-  }
-  lintOptions {
-    lintConfig file('lint.xml')
-  }
-  testOptions {
-    execution 'ANDROIDX_TEST_ORCHESTRATOR'
-  }
-  variantFilter { variant ->
-    if (variant.buildType.name == 'debug') {
-      variant.setIgnore(true)
-    }
-  }
-}
-
 dependencies {
   annotationProcessor deps.androidx.arch.lifecycle.compiler
 
@@ -61,10 +24,6 @@ dependencies {
 
   implementation project(':android:autodispose-android')
   implementation deps.rx.android
-
-  errorproneJavac deps.build.errorProneJavac
-  errorprone deps.build.nullAway
-  errorprone deps.build.errorProne
 
   lintChecks project(':static-analysis:autodispose-lint')
 

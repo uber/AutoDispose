@@ -13,39 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
-  id 'java-library'
-  id 'net.ltgt.errorprone'
-  id 'net.ltgt.nullaway'
   id 'ru.vyarus.animalsniffer'
-}
-
-sourceCompatibility = deps.build.javaVersion
-targetCompatibility = deps.build.javaVersion
-
-test {
-  testLogging.showStandardStreams = true
 }
 
 dependencies {
   api project(':autodispose')
   api deps.misc.rxlifecycle2
 
-  errorproneJavac deps.build.errorProneJavac
-  errorprone deps.build.nullAway
-  errorprone deps.build.errorProne
   signature deps.build.animalSniffer
 
   testCompile project(':test-utils')
-}
-
-tasks.withType(JavaCompile).configureEach {
-  options.errorprone.nullaway {
-    severity = CheckSeverity.ERROR
-    annotatedPackages.add("com.uber")
-  }
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

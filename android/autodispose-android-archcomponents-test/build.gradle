@@ -14,43 +14,11 @@
  * limitations under the License.
  */
 
-import com.android.build.gradle.api.BaseVariant
-import net.ltgt.gradle.errorprone.CheckSeverity
-
-plugins {
-  id 'com.android.library'
-  id 'net.ltgt.errorprone'
-  id 'net.ltgt.nullaway'
-}
-
-android {
-  compileSdkVersion deps.build.compileSdkVersion
-  buildToolsVersion deps.build.buildToolsVersion
-
-  defaultConfig {
-    minSdkVersion deps.build.minSdkVersion
-    targetSdkVersion deps.build.targetSdkVersion
-  }
-  compileOptions {
-    sourceCompatibility deps.build.javaVersion
-    targetCompatibility deps.build.javaVersion
-  }
-  variantFilter { variant ->
-    if (variant.buildType.name == 'debug') {
-      variant.setIgnore(true)
-    }
-  }
-}
-
 dependencies {
   api project(':autodispose')
   api deps.androidx.annotations
   api deps.androidx.arch.lifecycle.common
   api deps.androidx.arch.lifecycle.runtime
-
-  errorproneJavac deps.build.errorProneJavac
-  errorprone deps.build.nullAway
-  errorprone deps.build.errorProne
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
