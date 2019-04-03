@@ -1,6 +1,21 @@
 Changelog
 =========
 
+Version 1.2.0
+-------------
+
+_2019-04-03_
+
+* Fixes a bug which allows Lint to refer to the app level `gradle.properties` file for configuration support. [#335](https://github.com/uber/AutoDispose/pull/335)
+* New `autodispose-rxlifeycle3` artifact for interop with RxLifecycle3. [#319](https://github.com/uber/AutoDispose/pull/319)
+* Various dependency updates
+```
+Lint: 26.3.2
+Kotlin 1.3.21
+```
+
+All PRs: [#319](https://github.com/uber/AutoDispose/pull/319), [#320](https://github.com/uber/AutoDispose/pull/320), [#322](https://github.com/uber/AutoDispose/pull/322), [#326](https://github.com/uber/AutoDispose/pull/326), [#327](https://github.com/uber/AutoDispose/pull/327) [#328](https://github.com/uber/AutoDispose/pull/328), [#329](https://github.com/uber/AutoDispose/pull/329), [#330](https://github.com/uber/AutoDispose/pull/330), [#334](https://github.com/uber/AutoDispose/pull/334), [#335](https://github.com/uber/AutoDispose/pull/335), [#336](https://github.com/uber/AutoDispose/pull/336)
+
 Version 1.1.0
 -------------
 
