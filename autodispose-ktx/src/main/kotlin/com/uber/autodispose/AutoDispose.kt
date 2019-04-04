@@ -25,10 +25,15 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.annotations.CheckReturnValue
 import io.reactivex.parallel.ParallelFlowable
+import kotlin.DeprecationLevel.HIDDEN
 
 /**
  * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    message = "Use the top-level autodispose extensions in the core autodispose artifact",
+    level = HIDDEN
+)
 @CheckReturnValue
 inline fun <T> Flowable<T>.autoDisposable(scope: Completable): FlowableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
@@ -36,6 +41,10 @@ inline fun <T> Flowable<T>.autoDisposable(scope: Completable): FlowableSubscribe
 /**
  * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    message = "Use the top-level autodispose extensions in the core autodispose artifact",
+    level = HIDDEN
+)
 @CheckReturnValue
 inline fun <T> Observable<T>.autoDisposable(scope: Completable): ObservableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
@@ -43,6 +52,10 @@ inline fun <T> Observable<T>.autoDisposable(scope: Completable): ObservableSubsc
 /**
  * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    message = "Use the top-level autodispose extensions in the core autodispose artifact",
+    level = HIDDEN
+)
 @CheckReturnValue
 inline fun <T> Single<T>.autoDisposable(scope: Completable): SingleSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
@@ -50,6 +63,10 @@ inline fun <T> Single<T>.autoDisposable(scope: Completable): SingleSubscribeProx
 /**
  * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    message = "Use the top-level autodispose extensions in the core autodispose artifact",
+    level = HIDDEN
+)
 @CheckReturnValue
 inline fun <T> Maybe<T>.autoDisposable(scope: Completable): MaybeSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
@@ -57,6 +74,10 @@ inline fun <T> Maybe<T>.autoDisposable(scope: Completable): MaybeSubscribeProxy<
 /**
  * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    message = "Use the top-level autodispose extensions in the core autodispose artifact",
+    level = HIDDEN
+)
 @CheckReturnValue
 inline fun Completable.autoDisposable(scope: Completable): CompletableSubscribeProxy
     = this.`as`(AutoDispose.autoDisposable<Any>(scope))
@@ -64,6 +85,10 @@ inline fun Completable.autoDisposable(scope: Completable): CompletableSubscribeP
 /**
  * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    message = "Use the top-level autodispose extensions in the core autodispose artifact",
+    level = HIDDEN
+)
 @CheckReturnValue
 inline fun <T> ParallelFlowable<T>.autoDisposable(scope: Completable): ParallelFlowableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(scope))
@@ -71,6 +96,10 @@ inline fun <T> ParallelFlowable<T>.autoDisposable(scope: Completable): ParallelF
 /**
  * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    message = "Use the top-level autodispose extensions in the core autodispose artifact",
+    level = HIDDEN
+)
 @CheckReturnValue
 inline fun <T> Flowable<T>.autoDisposable(provider: ScopeProvider): FlowableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
@@ -78,6 +107,10 @@ inline fun <T> Flowable<T>.autoDisposable(provider: ScopeProvider): FlowableSubs
 /**
  * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    message = "Use the top-level autodispose extensions in the core autodispose artifact",
+    level = HIDDEN
+)
 @CheckReturnValue
 inline fun <T> Observable<T>.autoDisposable(provider: ScopeProvider): ObservableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
@@ -85,6 +118,10 @@ inline fun <T> Observable<T>.autoDisposable(provider: ScopeProvider): Observable
 /**
  * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    message = "Use the top-level autodispose extensions in the core autodispose artifact",
+    level = HIDDEN
+)
 @CheckReturnValue
 inline fun <T> Single<T>.autoDisposable(provider: ScopeProvider): SingleSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
@@ -92,6 +129,10 @@ inline fun <T> Single<T>.autoDisposable(provider: ScopeProvider): SingleSubscrib
 /**
  * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    message = "Use the top-level autodispose extensions in the core autodispose artifact",
+    level = HIDDEN
+)
 @CheckReturnValue
 inline fun <T> Maybe<T>.autoDisposable(provider: ScopeProvider): MaybeSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
@@ -99,6 +140,10 @@ inline fun <T> Maybe<T>.autoDisposable(provider: ScopeProvider): MaybeSubscribeP
 /**
  * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    message = "Use the top-level autodispose extensions in the core autodispose artifact",
+    level = HIDDEN
+)
 @CheckReturnValue
 inline fun Completable.autoDisposable(provider: ScopeProvider): CompletableSubscribeProxy
     = this.`as`(AutoDispose.autoDisposable<Any>(provider))
@@ -106,6 +151,10 @@ inline fun Completable.autoDisposable(provider: ScopeProvider): CompletableSubsc
 /**
  * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
  */
+@Deprecated(
+    message = "Use the top-level autodispose extensions in the core autodispose artifact",
+    level = HIDDEN
+)
 @CheckReturnValue
 inline fun <T> ParallelFlowable<T>.autoDisposable(provider: ScopeProvider): ParallelFlowableSubscribeProxy<T>
     = this.`as`(AutoDispose.autoDisposable(provider))
