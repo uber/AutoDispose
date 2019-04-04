@@ -25,6 +25,7 @@ lintOptions {
 }
 
 dependencies {
+  compileOnly deps.kotlin.stdlib
   api deps.rx.java
 
   signature deps.build.animalSniffer

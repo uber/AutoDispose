@@ -35,6 +35,9 @@ buildscript {
   }
 }
 
+Set<String> mixedSourcesArtifacts = [
+    "autodispose"
+]
 subprojects {
   repositories {
     google()
@@ -42,12 +45,13 @@ subprojects {
     jcenter()
   }
 
+  boolean isMixedSourceSet = project.name in mixedSourcesArtifacts
   boolean isAndroidLibrary = project.path.startsWith(":android:")
   boolean isLint = project.path.endsWith("-lint")
-  boolean isKotlin = project.path.endsWith("-ktx") || isLint
+  boolean isKotlin = project.path.endsWith("-ktx") || isLint || isMixedSourceSet
   boolean isSample = project.name == "sample"
-  boolean isJavaLibrary = !isAndroidLibrary && !isKotlin && !isSample
-  boolean usesErrorProne = !isKotlin && !isSample
+  boolean isJavaLibrary = !isAndroidLibrary && !isKotlin && !isSample || isMixedSourceSet
+  boolean usesErrorProne = !isKotlin && !isSample || isMixedSourceSet
   if (isAndroidLibrary) {
     project.apply plugin: 'com.android.library'
     project.android {
@@ -81,7 +85,8 @@ subprojects {
       project.apply plugin: 'org.jetbrains.kotlin.jvm'
       project.apply plugin: 'org.jetbrains.dokka'
     }
-    if (!isLint) {
+    // Lint must be compileOnly, mixed source sets (for now) must manually specify depending on needs
+    if (!(isLint || isMixedSourceSet)) {
       project.dependencies {
         api deps.kotlin.stdlib
       }
