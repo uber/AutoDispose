@@ -25,8 +25,8 @@ lintOptions {
 }
 
 dependencies {
-  compileOnly deps.kotlin.stdlib
   api deps.rx.java
+  implementation deps.kotlin.stdlib
 
   signature deps.build.animalSniffer
   lintChecks project(':static-analysis:autodispose-lint')
