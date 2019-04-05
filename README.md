@@ -323,11 +323,6 @@ implementation 'com.uber.autodispose:autodispose-rxlifecycle3:x.y.z'
 
 Kotlin extensions:
 
-`autodispose-ktx` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-ktx.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-ktx) 
-```gradle
-implementation 'com.uber.autodispose:autodispose-ktx:x.y.z'
-```
-
 `autodispose-android-ktx` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-ktx.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-ktx) 
 ```gradle
 implementation 'com.uber.autodispose:autodispose-android-ktx:x.y.z'

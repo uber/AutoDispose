@@ -63,7 +63,6 @@ if (System.getenv("ANDROID_HOME") != null) {
   include ':sample'
 }
 include ':autodispose'
-include ':autodispose-ktx'
 include ':lifecycle:autodispose-lifecycle'
 include ':lifecycle:autodispose-lifecycle-jdk8'
 include ':lifecycle:autodispose-lifecycle-ktx'
