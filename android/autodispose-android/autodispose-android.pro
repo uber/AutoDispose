@@ -1,0 +1,1 @@
+-dontwarn com.uber.autodispose.android.AutoDisposeAndroid
