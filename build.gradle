@@ -31,6 +31,7 @@ buildscript {
       classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${deps.versions.dokka}"
       classpath "org.jetbrains.dokka:dokka-gradle-plugin:${deps.versions.dokka}"
       classpath "ru.vyarus:gradle-animalsniffer-plugin:${deps.versions.animalSniffer}"
+      classpath "com.diffplug.spotless:spotless-plugin-gradle:${deps.versions.spotless}"
     }
   }
 }
@@ -38,11 +39,54 @@ buildscript {
 Set<String> mixedSourcesArtifacts = [
     "autodispose"
 ]
+// These are files with different copyright headers that should not be modified automatically.
+String[] copiedFiles = [
+    "AtomicThrowable",
+    "AutoDisposableHelper",
+    "AutoDisposeBackpressureHelper",
+    "AutoDisposeEndConsumerHelper",
+    "AutoSubscriptionHelper",
+    "ExceptionHelper",
+    "HalfSerializer",
+].collect { "**/*${it}.java" } as String[]
 subprojects {
   repositories {
     google()
     mavenCentral()
     jcenter()
+  }
+
+  apply from: rootProject.file('gradle/dependencies.gradle')
+  apply plugin: 'com.diffplug.gradle.spotless'
+  spotless {
+    format 'misc', {
+      target '**/*.md', '**/.gitignore'
+
+      indentWithTabs()
+      trimTrailingWhitespace()
+      endWithNewline()
+    }
+    kotlin {
+      target "**/*.kt"
+      ktlint(deps.versions.ktlint).userData(['indent_size': '2', 'continuation_indent_size' : '2'])
+      licenseHeaderFile rootProject.file('spotless/copyright.kt')
+      trimTrailingWhitespace()
+      endWithNewline()
+    }
+    java {
+      target "**/*.java"
+      targetExclude(copiedFiles)
+      googleJavaFormat(deps.versions.gjf)
+      licenseHeaderFile rootProject.file('spotless/copyright.java')
+      removeUnusedImports()
+      trimTrailingWhitespace()
+      endWithNewline()
+    }
+    groovyGradle {
+      target '**/*.gradle'
+      trimTrailingWhitespace()
+      endWithNewline()
+    }
   }
 
   boolean isMixedSourceSet = project.name in mixedSourcesArtifacts
