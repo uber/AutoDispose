@@ -16,6 +16,20 @@ investing a lot of time on a feature that might need reworking.
 
 Small pull requests for things like typos, bugfixes, etc are always welcome.
 
+### Code style
+
+This project uses [ktlint](https://github.com/pinterest/ktlint) and [GJF](https://github.com/google/google-java-format), 
+provided via the [spotless](https://github.com/diffplug/spotless) gradle plugin.
+
+If you find that one of your pull reviews does not pass the CI server check due to a code style 
+conflict, you can easily fix it by running: ./gradlew spotlessApply.
+
+Generally speaking - we use vanilla ktlint + 2space indents, and vanilla GJF. You can integrate both of
+these in IntelliJ code style via either [GJF's official plugin](https://plugins.jetbrains.com/plugin/8527-google-java-format)
+or applying code style from Jetbrains' official style.
+
+No star imports please!
+
 DOs and DON'Ts
 --------------
 
