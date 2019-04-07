@@ -33,7 +33,7 @@ No star imports please!
 DOs and DON'Ts
 --------------
 
-* DO follow our coding style (link eventually goes here)
+* DO follow our coding style
 * DO include tests when adding new features. When fixing bugs, start with adding a test that highlights how the current behavior is broken.
 * DO keep the discussions focused. When a new or related topic comes up it's often better to create new issue than to side track the discussion.
 * DO run all Gradle verification tasks (`./gradlew check`) before submitting a pull request
