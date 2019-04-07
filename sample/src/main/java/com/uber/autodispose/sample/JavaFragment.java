@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.sample;
+
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -28,19 +29,18 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 import io.reactivex.Observable;
 import java.util.concurrent.TimeUnit;
 
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-
 /**
- * Demo Fragment showing both conventional lifecycle management as well as the new
- * {@link #getViewLifecycleOwner()} API.
- * <p>
- * This leverages the Architecture Components support for the demo.
+ * Demo Fragment showing both conventional lifecycle management as well as the new {@link
+ * #getViewLifecycleOwner()} API.
+ *
+ * <p>This leverages the Architecture Components support for the demo.
  */
 public class JavaFragment extends Fragment {
 
   private static final String TAG = "JavaFragment";
 
-  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Log.d(TAG, "onCreate()");
 
@@ -52,14 +52,16 @@ public class JavaFragment extends Fragment {
         .subscribe(num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): " + num));
   }
 
-  @Nullable @Override public View onCreateView(LayoutInflater inflater,
-      @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
+  @Nullable
+  @Override
+  public View onCreateView(
+      LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     Log.d(TAG, "onCreateView()");
     return inflater.inflate(R.layout.content_main, container, false);
   }
 
-  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+  @Override
+  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     Log.d(TAG, "onViewCreated()");
     // Using automatic disposal, this should determine that the correct time to
@@ -68,12 +70,12 @@ public class JavaFragment extends Fragment {
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onViewCreated()"))
         .as(autoDisposable(AndroidLifecycleScopeProvider.from(getViewLifecycleOwner())))
-        .subscribe(num -> Log.i(
-            TAG,
-            "Started in onViewCreated(), running until onDestroyView(): " + num));
+        .subscribe(
+            num -> Log.i(TAG, "Started in onViewCreated(), running until onDestroyView(): " + num));
   }
 
-  @Override public void onStart() {
+  @Override
+  public void onStart() {
     super.onStart();
 
     Log.d(TAG, "onStart()");
@@ -86,7 +88,8 @@ public class JavaFragment extends Fragment {
         .subscribe(num -> Log.i(TAG, "Started in onStart(), running until in onStop(): " + num));
   }
 
-  @Override public void onResume() {
+  @Override
+  public void onResume() {
     super.onResume();
 
     Log.d(TAG, "onResume()");
@@ -100,31 +103,33 @@ public class JavaFragment extends Fragment {
 
     // Setting a specific untilEvent, this should dispose in onDestroy.
     Observable.interval(1, TimeUnit.SECONDS)
-        .doOnDispose(() -> Log.i(
-            TAG,
-            "Disposing subscription from onResume() with untilEvent ON_DESTROY"))
+        .doOnDispose(
+            () -> Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY"))
         .as(autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
-        .subscribe(num -> Log.i(
-            TAG,
-            "Started in onResume(), running until in onDestroy(): " + num));
+        .subscribe(
+            num -> Log.i(TAG, "Started in onResume(), running until in onDestroy(): " + num));
   }
 
-  @Override public void onPause() {
+  @Override
+  public void onPause() {
     Log.d(TAG, "onPause()");
     super.onPause();
   }
 
-  @Override public void onStop() {
+  @Override
+  public void onStop() {
     Log.d(TAG, "onStop()");
     super.onStop();
   }
 
-  @Override public void onDestroyView() {
+  @Override
+  public void onDestroyView() {
     Log.d(TAG, "onDestroyView()");
     super.onDestroyView();
   }
 
-  @Override public void onDestroy() {
+  @Override
+  public void onDestroy() {
     Log.d(TAG, "onDestroy()");
     super.onDestroy();
   }

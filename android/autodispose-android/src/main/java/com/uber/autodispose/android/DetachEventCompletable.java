@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.android;
 
+import static androidx.annotation.RestrictTo.Scope.LIBRARY;
+import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
+
 import android.os.Build;
-import androidx.annotation.RestrictTo;
 import android.view.View;
+import androidx.annotation.RestrictTo;
 import com.uber.autodispose.OutsideScopeException;
 import io.reactivex.CompletableObserver;
 import io.reactivex.CompletableSource;
 import io.reactivex.android.MainThreadDisposable;
-
-import static androidx.annotation.RestrictTo.Scope.LIBRARY;
-import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
 
 @RestrictTo(LIBRARY)
 final class DetachEventCompletable implements CompletableSource {
@@ -35,7 +34,8 @@ final class DetachEventCompletable implements CompletableSource {
     this.view = view;
   }
 
-  @Override public void subscribe(CompletableObserver observer) {
+  @Override
+  public void subscribe(CompletableObserver observer) {
     Listener listener = new Listener(view, observer);
     observer.onSubscribe(listener);
 
@@ -46,8 +46,9 @@ final class DetachEventCompletable implements CompletableSource {
     }
 
     // Check that it's attached.
-    boolean isAttached = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
-        || view.getWindowToken() != null;
+    boolean isAttached =
+        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && view.isAttachedToWindow())
+            || view.getWindowToken() != null;
     if (!isAttached) {
       observer.onError(new OutsideScopeException("View is not attached!"));
       return;
@@ -59,7 +60,8 @@ final class DetachEventCompletable implements CompletableSource {
     }
   }
 
-  static final class Listener extends MainThreadDisposable implements View.OnAttachStateChangeListener {
+  static final class Listener extends MainThreadDisposable
+      implements View.OnAttachStateChangeListener {
     private final View view;
     private final CompletableObserver observer;
 
@@ -68,15 +70,18 @@ final class DetachEventCompletable implements CompletableSource {
       this.observer = observer;
     }
 
-    @Override public void onViewAttachedToWindow(View v) { }
+    @Override
+    public void onViewAttachedToWindow(View v) {}
 
-    @Override public void onViewDetachedFromWindow(View v) {
+    @Override
+    public void onViewDetachedFromWindow(View v) {
       if (!isDisposed()) {
         observer.onComplete();
       }
     }
 
-    @Override protected void onDispose() {
+    @Override
+    protected void onDispose() {
       view.removeOnAttachStateChangeListener(this);
     }
   }

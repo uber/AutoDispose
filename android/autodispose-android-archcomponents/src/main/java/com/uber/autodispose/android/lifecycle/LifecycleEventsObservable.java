@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,27 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.android.lifecycle;
 
+import static androidx.annotation.RestrictTo.Scope.LIBRARY;
+import static androidx.lifecycle.Lifecycle.Event.ON_CREATE;
+import static androidx.lifecycle.Lifecycle.Event.ON_DESTROY;
+import static androidx.lifecycle.Lifecycle.Event.ON_RESUME;
+import static androidx.lifecycle.Lifecycle.Event.ON_START;
+import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Lifecycle.Event;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
-import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
 import com.uber.autodispose.android.internal.MainThreadDisposable;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.subjects.BehaviorSubject;
-
-import static androidx.lifecycle.Lifecycle.Event.ON_CREATE;
-import static androidx.lifecycle.Lifecycle.Event.ON_DESTROY;
-import static androidx.lifecycle.Lifecycle.Event.ON_RESUME;
-import static androidx.lifecycle.Lifecycle.Event.ON_START;
-import static androidx.annotation.RestrictTo.Scope.LIBRARY;
-import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
 
 @RestrictTo(LIBRARY)
 class LifecycleEventsObservable extends Observable<Event> {
@@ -41,7 +40,8 @@ class LifecycleEventsObservable extends Observable<Event> {
   private final Lifecycle lifecycle;
   private final BehaviorSubject<Event> eventsObservable = BehaviorSubject.create();
 
-  @SuppressWarnings("CheckReturnValue") LifecycleEventsObservable(Lifecycle lifecycle) {
+  @SuppressWarnings("CheckReturnValue")
+  LifecycleEventsObservable(Lifecycle lifecycle) {
     this.lifecycle = lifecycle;
   }
 
@@ -75,11 +75,14 @@ class LifecycleEventsObservable extends Observable<Event> {
     eventsObservable.onNext(correspondingEvent);
   }
 
-  @Override protected void subscribeActual(Observer<? super Event> observer) {
-    ArchLifecycleObserver archObserver = new ArchLifecycleObserver(lifecycle, observer, eventsObservable);
+  @Override
+  protected void subscribeActual(Observer<? super Event> observer) {
+    ArchLifecycleObserver archObserver =
+        new ArchLifecycleObserver(lifecycle, observer, eventsObservable);
     observer.onSubscribe(archObserver);
     if (!isMainThread()) {
-      observer.onError(new IllegalStateException("Lifecycles can only be bound to on the main thread!"));
+      observer.onError(
+          new IllegalStateException("Lifecycles can only be bound to on the main thread!"));
       return;
     }
     lifecycle.addObserver(archObserver);
@@ -88,12 +91,14 @@ class LifecycleEventsObservable extends Observable<Event> {
     }
   }
 
-  static final class ArchLifecycleObserver extends MainThreadDisposable implements LifecycleObserver {
+  static final class ArchLifecycleObserver extends MainThreadDisposable
+      implements LifecycleObserver {
     private final Lifecycle lifecycle;
     private final Observer<? super Event> observer;
     private final BehaviorSubject<Event> eventsObservable;
 
-    ArchLifecycleObserver(Lifecycle lifecycle,
+    ArchLifecycleObserver(
+        Lifecycle lifecycle,
         Observer<? super Event> observer,
         BehaviorSubject<Event> eventsObservable) {
       this.lifecycle = lifecycle;
@@ -101,11 +106,13 @@ class LifecycleEventsObservable extends Observable<Event> {
       this.eventsObservable = eventsObservable;
     }
 
-    @Override protected void onDispose() {
+    @Override
+    protected void onDispose() {
       lifecycle.removeObserver(this);
     }
 
-    @OnLifecycleEvent(Event.ON_ANY) void onStateChange(@SuppressWarnings("unused") LifecycleOwner owner, Event event) {
+    @OnLifecycleEvent(Event.ON_ANY)
+    void onStateChange(@SuppressWarnings("unused") LifecycleOwner owner, Event event) {
       if (!isDisposed()) {
         if (!(event == ON_CREATE && eventsObservable.getValue() == event)) {
           // Due to the INITIALIZED->ON_CREATE mapping trick we do in backfill(),

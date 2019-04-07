@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.ScopeProvider;
@@ -39,24 +38,28 @@ public interface LifecycleScopeProvider<E> extends ScopeProvider {
 
   /**
    * @return a sequence of lifecycle events. Note that completion of this lifecycle will also
-   * trigger disposal
+   *     trigger disposal
    */
-  @CheckReturnValue Observable<E> lifecycle();
+  @CheckReturnValue
+  Observable<E> lifecycle();
 
   /**
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
-   * avoid unnecessary object allocation.
+   *     avoid unnecessary object allocation.
    */
-  @CheckReturnValue CorrespondingEventsFunction<E> correspondingEvents();
+  @CheckReturnValue
+  CorrespondingEventsFunction<E> correspondingEvents();
 
   /**
    * @return the last seen lifecycle event, or {@code null} if none. Note that is {@code null} is
-   * returned at subscribe-time, it will be used as a signal to throw a {@link
-   * LifecycleNotStartedException}.
+   *     returned at subscribe-time, it will be used as a signal to throw a {@link
+   *     LifecycleNotStartedException}.
    */
-  @Nullable E peekLifecycle();
+  @Nullable
+  E peekLifecycle();
 
-  @Override default CompletableSource requestScope() {
+  @Override
+  default CompletableSource requestScope() {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 }

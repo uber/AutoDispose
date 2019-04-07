@@ -1,4 +1,22 @@
+/*
+ * Copyright (C) 2019. Uber Technologies
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.uber.autodispose;
+
+import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Flowable;
@@ -10,21 +28,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-
 public class AutoDisposeParallelFlowableTest {
 
   private static final int DEFAULT_PARALLELISM = 2;
 
   @Rule public final RxErrorsRule rule = new RxErrorsRule();
 
-  @Test public void ifParallelism_and_subscribersCount_dontMatch_shouldFail() {
+  @Test
+  public void ifParallelism_and_subscribersCount_dontMatch_shouldFail() {
     TestSubscriber<Integer> subscriber = new TestSubscriber<>();
     CompletableSubject scope = CompletableSubject.create();
 
     //noinspection unchecked
-    Subscriber<Integer>[] subscribers = new Subscriber[] { subscriber };
+    Subscriber<Integer>[] subscribers = new Subscriber[] {subscriber};
     Flowable.just(1, 2)
         .parallel(DEFAULT_PARALLELISM)
         .as(autoDisposable(scope))
@@ -35,17 +51,16 @@ public class AutoDisposeParallelFlowableTest {
     assertThat(errors.get(0)).isInstanceOf(IllegalArgumentException.class);
   }
 
-  @Test public void autoDispose_withMaybe_normal() {
+  @Test
+  public void autoDispose_withMaybe_normal() {
     TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
     TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     CompletableSubject scope = CompletableSubject.create();
 
     //noinspection unchecked
-    Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
-    source.parallel(DEFAULT_PARALLELISM)
-        .as(autoDisposable(scope))
-        .subscribe(subscribers);
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(scope)).subscribe(subscribers);
     firstSubscriber.assertSubscribed();
     secondSubscriber.assertSubscribed();
 
@@ -68,17 +83,16 @@ public class AutoDisposeParallelFlowableTest {
     assertThat(scope.hasObservers()).isFalse();
   }
 
-  @Test public void autoDispose_withMaybe_interrupted() {
+  @Test
+  public void autoDispose_withMaybe_interrupted() {
     TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
     TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     CompletableSubject scope = CompletableSubject.create();
     //noinspection unchecked
-    Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM)
-        .as(autoDisposable(scope))
-        .subscribe(subscribers);
+    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(scope)).subscribe(subscribers);
 
     firstSubscriber.assertSubscribed();
     secondSubscriber.assertSubscribed();
@@ -98,18 +112,17 @@ public class AutoDisposeParallelFlowableTest {
     assertThat(scope.hasObservers()).isFalse();
   }
 
-  @Test public void autoDispose_withProvider() {
+  @Test
+  public void autoDispose_withProvider() {
     TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
     TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = TestUtil.makeProvider(scope);
     //noinspection unchecked
-    Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM)
-        .as(autoDisposable(provider))
-        .subscribe(subscribers);
+    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(provider)).subscribe(subscribers);
     firstSubscriber.assertSubscribed();
     secondSubscriber.assertSubscribed();
 
@@ -141,11 +154,12 @@ public class AutoDisposeParallelFlowableTest {
     assertThat(scope.hasObservers()).isFalse();
   }
 
-  @Test public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
+  @Test
+  public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestSubscriber<Object> firstSubscriber = new TestSubscriber<>();
     TestSubscriber<Object> secondSubscriber = new TestSubscriber<>();
     //noinspection unchecked
-    Subscriber<Object>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
+    Subscriber<Object>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
     PublishProcessor.create()
         .parallel(DEFAULT_PARALLELISM)
         .as(autoDisposable(ScopeProvider.UNBOUND))
@@ -157,14 +171,16 @@ public class AutoDisposeParallelFlowableTest {
     rule.assertNoErrors();
   }
 
-  @Test public void unbound_shouldStillPassValues() {
+  @Test
+  public void unbound_shouldStillPassValues() {
     TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
     TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     //noinspection unchecked
-    Subscriber<Integer>[] subscribers = new Subscriber[] { firstSubscriber, secondSubscriber };
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM)
+    source
+        .parallel(DEFAULT_PARALLELISM)
         .as(autoDisposable(ScopeProvider.UNBOUND))
         .subscribe(subscribers);
 

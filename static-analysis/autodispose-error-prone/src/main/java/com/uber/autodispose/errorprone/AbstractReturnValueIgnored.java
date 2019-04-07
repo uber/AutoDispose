@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 The Error Prone Authors.
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.errorprone;
+
+import static com.google.errorprone.matchers.Matchers.allOf;
+import static com.google.errorprone.matchers.Matchers.anyOf;
+import static com.google.errorprone.matchers.Matchers.enclosingNode;
+import static com.google.errorprone.matchers.Matchers.expressionStatement;
+import static com.google.errorprone.matchers.Matchers.isLastStatementInBlock;
+import static com.google.errorprone.matchers.Matchers.kindIs;
+import static com.google.errorprone.matchers.Matchers.methodSelect;
+import static com.google.errorprone.matchers.Matchers.nextStatement;
+import static com.google.errorprone.matchers.Matchers.not;
+import static com.google.errorprone.matchers.Matchers.parentNode;
+import static com.google.errorprone.matchers.Matchers.previousStatement;
+import static com.google.errorprone.matchers.Matchers.toType;
+import static com.google.errorprone.matchers.method.MethodMatchers.instanceMethod;
+import static com.google.errorprone.matchers.method.MethodMatchers.staticMethod;
+import static com.google.errorprone.util.ASTHelpers.getReturnType;
+import static com.google.errorprone.util.ASTHelpers.getSymbol;
+import static com.google.errorprone.util.ASTHelpers.getType;
+import static com.google.errorprone.util.ASTHelpers.isVoidType;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.VisitorState;
@@ -44,29 +62,10 @@ import com.sun.tools.javac.tree.JCTree.JCMemberReference;
 import com.sun.tools.javac.tree.JCTree.JCMethodInvocation;
 import javax.lang.model.type.TypeKind;
 
-import static com.google.errorprone.matchers.Matchers.allOf;
-import static com.google.errorprone.matchers.Matchers.anyOf;
-import static com.google.errorprone.matchers.Matchers.enclosingNode;
-import static com.google.errorprone.matchers.Matchers.expressionStatement;
-import static com.google.errorprone.matchers.Matchers.isLastStatementInBlock;
-import static com.google.errorprone.matchers.Matchers.kindIs;
-import static com.google.errorprone.matchers.Matchers.methodSelect;
-import static com.google.errorprone.matchers.Matchers.nextStatement;
-import static com.google.errorprone.matchers.Matchers.not;
-import static com.google.errorprone.matchers.Matchers.parentNode;
-import static com.google.errorprone.matchers.Matchers.previousStatement;
-import static com.google.errorprone.matchers.Matchers.toType;
-import static com.google.errorprone.matchers.method.MethodMatchers.instanceMethod;
-import static com.google.errorprone.matchers.method.MethodMatchers.staticMethod;
-import static com.google.errorprone.util.ASTHelpers.getReturnType;
-import static com.google.errorprone.util.ASTHelpers.getSymbol;
-import static com.google.errorprone.util.ASTHelpers.getType;
-import static com.google.errorprone.util.ASTHelpers.isVoidType;
-
 /**
  * An abstract base class to match method invocations in which the return value is not used.
- * <p>
- * Adapted from https://github
+ *
+ * <p>Adapted from https://github
  * .com/google/error-prone/blob/976ab7c62771d54dfe11bde9b01dc301d364957b/core/src/main/java/com
  * /google/errorprone/bugpatterns/AbstractReturnValueIgnored.java
  *
@@ -87,15 +86,16 @@ abstract class AbstractReturnValueIgnored extends BugChecker
     }
 
     if (lenient()) {
-      boolean isUnusedReturnValue = allOf(
-          parentNode(anyOf(
-              AbstractReturnValueIgnored::isVoidReturningLambdaExpression,
-              Matchers.kindIs(Kind.EXPRESSION_STATEMENT)
-          )),
-          not(methodSelect(toType(IdentifierTree.class, identifierHasName("super")))),
-          not((t, s) -> isVoidType(getType(t), s)),
-          not(AbstractReturnValueIgnored::expectedExceptionTest)
-      ).matches(tree, state);
+      boolean isUnusedReturnValue =
+          allOf(
+                  parentNode(
+                      anyOf(
+                          AbstractReturnValueIgnored::isVoidReturningLambdaExpression,
+                          Matchers.kindIs(Kind.EXPRESSION_STATEMENT))),
+                  not(methodSelect(toType(IdentifierTree.class, identifierHasName("super")))),
+                  not((t, s) -> isVoidType(getType(t), s)),
+                  not(AbstractReturnValueIgnored::expectedExceptionTest))
+              .matches(tree, state);
       if (!isUnusedReturnValue) {
         if (isValidReturnValueType(tree, state)) {
           return Description.NO_MATCH;
@@ -105,22 +105,26 @@ abstract class AbstractReturnValueIgnored extends BugChecker
     return describe(tree, state);
   }
 
-  @Override public Description matchMemberReference(MemberReferenceTree tree, VisitorState state) {
+  @Override
+  public Description matchMemberReference(MemberReferenceTree tree, VisitorState state) {
     boolean matches = specializedMatcher().matches(tree, state);
     if (!matches) {
       return Description.NO_MATCH;
     }
 
     if (lenient()) {
-      boolean isUnusedReturnValue = allOf(
-          AbstractReturnValueIgnored::isNotConstructorReference,
-          AbstractReturnValueIgnored::isVoidReturningMethodReferenceExpression,
-          // Skip cases where the method we're referencing really does return void. We're only
-          // looking for cases where the referenced method does not return void, but it's being
-          // used on a void-returning functional interface.
-          not((t, s) -> isVoidType(getSymbol(tree).getReturnType(), s)),
-          not((t, s) -> isThrowingFunctionalInterface(s, ((JCMemberReference) t).type))
-      ).matches(tree, state);
+      boolean isUnusedReturnValue =
+          allOf(
+                  AbstractReturnValueIgnored::isNotConstructorReference,
+                  AbstractReturnValueIgnored::isVoidReturningMethodReferenceExpression,
+                  // Skip cases where the method we're referencing really does return void. We're
+                  // only
+                  // looking for cases where the referenced method does not return void, but it's
+                  // being
+                  // used on a void-returning functional interface.
+                  not((t, s) -> isVoidType(getSymbol(tree).getReturnType(), s)),
+                  not((t, s) -> isThrowingFunctionalInterface(s, ((JCMemberReference) t).type)))
+              .matches(tree, state);
       if (!isUnusedReturnValue) {
         if (isValidReturnValueType(tree, state)) {
           return Description.NO_MATCH;
@@ -134,8 +138,8 @@ abstract class AbstractReturnValueIgnored extends BugChecker
     return tree.getMode() == ReferenceMode.INVOKE;
   }
 
-  private static boolean isVoidReturningMethodReferenceExpression(MemberReferenceTree tree,
-      VisitorState state) {
+  private static boolean isVoidReturningMethodReferenceExpression(
+      MemberReferenceTree tree, VisitorState state) {
     return functionalInterfaceReturnsExactlyVoid(((JCMemberReference) tree).type, state);
   }
 
@@ -152,8 +156,8 @@ abstract class AbstractReturnValueIgnored extends BugChecker
    * ASTHelpers.isVoidType here, return values of Void are actually type-checked. Only
    * void-returning functions silently ignore return values of any type.
    */
-  private static boolean functionalInterfaceReturnsExactlyVoid(Type interfaceType,
-      VisitorState state) {
+  private static boolean functionalInterfaceReturnsExactlyVoid(
+      Type interfaceType, VisitorState state) {
     return state.getTypes().findDescriptorType(interfaceType).getReturnType().getKind()
         == TypeKind.VOID;
   }
@@ -194,15 +198,15 @@ abstract class AbstractReturnValueIgnored extends BugChecker
    *
    * <p>// TODO(glorioso): Consider a meta-annotation like @LikelyToThrow instead/in addition?
    */
-  private static final ImmutableSet<String> CLASSES_CONSIDERED_THROWING = ImmutableSet.of(
-      "org.junit.function.ThrowingRunnable",
-      "org.junit.jupiter.api.function.Executable",
-      "org.assertj.core.api.ThrowableAssert$ThrowingCallable",
-      "com.google.truth.ExpectFailure.AssertionCallback",
-      "com.google.truth.ExpectFailure.DelegatedAssertionCallback",
-      "com.google.truth.ExpectFailure.StandardSubjectBuilderCallback",
-      "com.google.truth.ExpectFailure.SimpleSubjectBuilderCallback"
-  );
+  private static final ImmutableSet<String> CLASSES_CONSIDERED_THROWING =
+      ImmutableSet.of(
+          "org.junit.function.ThrowingRunnable",
+          "org.junit.jupiter.api.function.Executable",
+          "org.assertj.core.api.ThrowableAssert$ThrowingCallable",
+          "com.google.truth.ExpectFailure.AssertionCallback",
+          "com.google.truth.ExpectFailure.DelegatedAssertionCallback",
+          "com.google.truth.ExpectFailure.StandardSubjectBuilderCallback",
+          "com.google.truth.ExpectFailure.SimpleSubjectBuilderCallback");
 
   /**
    * Match whatever additional conditions concrete subclasses want to match (a list of known
@@ -309,37 +313,37 @@ abstract class AbstractReturnValueIgnored extends BugChecker
     return false;
   }
 
-  private static final Matcher<ExpressionTree> FAIL_METHOD = anyOf(
-      instanceMethod().onDescendantOf("com.google.common.truth.AbstractVerb").named("fail"),
-      instanceMethod().onDescendantOf("com.google.common.truth.StandardSubjectBuilder")
-          .named("fail"),
-      staticMethod().onClass("org.junit.Assert").named("fail"),
-      staticMethod().onClass("junit.framework.Assert").named("fail"),
-      staticMethod().onClass("junit.framework.TestCase").named("fail")
-  );
+  private static final Matcher<ExpressionTree> FAIL_METHOD =
+      anyOf(
+          instanceMethod().onDescendantOf("com.google.common.truth.AbstractVerb").named("fail"),
+          instanceMethod()
+              .onDescendantOf("com.google.common.truth.StandardSubjectBuilder")
+              .named("fail"),
+          staticMethod().onClass("org.junit.Assert").named("fail"),
+          staticMethod().onClass("junit.framework.Assert").named("fail"),
+          staticMethod().onClass("junit.framework.TestCase").named("fail"));
 
-  private static final Matcher<StatementTree> EXPECTED_EXCEPTION_MATCHER = anyOf(
-      // expectedException.expect(Foo.class); me();
-      allOf(
-          isLastStatementInBlock(),
-          previousStatement(expressionStatement(anyOf(instanceMethod().onExactClass(
-              "org.junit.rules.ExpectedException"))))
-      ),
-      // try { me(); fail(); } catch (Throwable t) {}
-      allOf(enclosingNode(kindIs(Kind.TRY)), nextStatement(expressionStatement(FAIL_METHOD))),
-      // assertThrows(Throwable.class, () => { me(); })
-      allOf(
-          anyOf(isLastStatementInBlock(), parentNode(kindIs(Kind.LAMBDA_EXPRESSION))),
-          // Within the context of a ThrowingRunnable/Executable:
-          (t, s) -> methodCallInDeclarationOfThrowingRunnable(s)
-      )
-  );
+  private static final Matcher<StatementTree> EXPECTED_EXCEPTION_MATCHER =
+      anyOf(
+          // expectedException.expect(Foo.class); me();
+          allOf(
+              isLastStatementInBlock(),
+              previousStatement(
+                  expressionStatement(
+                      anyOf(instanceMethod().onExactClass("org.junit.rules.ExpectedException"))))),
+          // try { me(); fail(); } catch (Throwable t) {}
+          allOf(enclosingNode(kindIs(Kind.TRY)), nextStatement(expressionStatement(FAIL_METHOD))),
+          // assertThrows(Throwable.class, () => { me(); })
+          allOf(
+              anyOf(isLastStatementInBlock(), parentNode(kindIs(Kind.LAMBDA_EXPRESSION))),
+              // Within the context of a ThrowingRunnable/Executable:
+              (t, s) -> methodCallInDeclarationOfThrowingRunnable(s)));
 
-  private static final Matcher<ExpressionTree> MOCKITO_MATCHER = anyOf(
-      staticMethod().onClass("org.mockito.Mockito").named("verify"),
-      instanceMethod().onDescendantOf("org.mockito.stubbing.Stubber").named("when"),
-      instanceMethod().onDescendantOf("org.mockito.InOrder").named("verify")
-  );
+  private static final Matcher<ExpressionTree> MOCKITO_MATCHER =
+      anyOf(
+          staticMethod().onClass("org.mockito.Mockito").named("verify"),
+          instanceMethod().onDescendantOf("org.mockito.stubbing.Stubber").named("when"),
+          instanceMethod().onDescendantOf("org.mockito.InOrder").named("verify"));
 
   /**
    * Don't match the method that is invoked through {@code Mockito.verify(t)} or {@code

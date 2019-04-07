@@ -14,8 +14,5 @@
  * limitations under the License.
  */
 
-/**
- * Android Architecture Components extensions for AutoDispose.
- */
+/** Android Architecture Components extensions for AutoDispose. */
 package com.uber.autodispose.android.lifecycle;
-

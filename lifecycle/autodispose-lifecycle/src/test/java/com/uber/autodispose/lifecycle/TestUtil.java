@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.lifecycle;
 
 import io.reactivex.CompletableSource;
@@ -21,36 +20,42 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 
 final class TestUtil {
-  private static final CorrespondingEventsFunction<Integer> CORRESPONDING_EVENTS = lastEvent -> {
-    switch (lastEvent) {
-      case 0:
-        return 3;
-      case 1:
-        return 2;
-      default:
-        throw new LifecycleEndedException();
-    }
-  };
+  private static final CorrespondingEventsFunction<Integer> CORRESPONDING_EVENTS =
+      lastEvent -> {
+        switch (lastEvent) {
+          case 0:
+            return 3;
+          case 1:
+            return 2;
+          default:
+            throw new LifecycleEndedException();
+        }
+      };
 
   private TestUtil() {
     throw new InstantiationError();
   }
 
-  static LifecycleScopeProvider<Integer> makeLifecycleProvider(final BehaviorSubject<Integer> lifecycle) {
+  static LifecycleScopeProvider<Integer> makeLifecycleProvider(
+      final BehaviorSubject<Integer> lifecycle) {
     return new LifecycleScopeProvider<Integer>() {
-      @Override public Observable<Integer> lifecycle() {
+      @Override
+      public Observable<Integer> lifecycle() {
         return lifecycle;
       }
 
-      @Override public CorrespondingEventsFunction<Integer> correspondingEvents() {
+      @Override
+      public CorrespondingEventsFunction<Integer> correspondingEvents() {
         return CORRESPONDING_EVENTS;
       }
 
-      @Override public Integer peekLifecycle() {
+      @Override
+      public Integer peekLifecycle() {
         return lifecycle.getValue();
       }
 
-      @Override public CompletableSource requestScope() {
+      @Override
+      public CompletableSource requestScope() {
         return LifecycleScopes.resolveScopeFromLifecycle(this);
       }
     };

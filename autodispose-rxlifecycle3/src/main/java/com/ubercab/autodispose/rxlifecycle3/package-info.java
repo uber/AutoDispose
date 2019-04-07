@@ -15,8 +15,7 @@
  */
 
 /**
- * AutoDispose extensions for interop with RxLifecycle. This namely supports
- * {@link com.trello.rxlifecycle3.LifecycleProvider}.
+ * AutoDispose extensions for interop with RxLifecycle. This namely supports {@link
+ * com.trello.rxlifecycle3.LifecycleProvider}.
  */
 package com.ubercab.autodispose.rxlifecycle3;
-

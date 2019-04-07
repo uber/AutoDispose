@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.lifecycle.jdk8;
 
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 
 /**
- * A convenience {@link LifecycleScopeProvider} that has a default implementation for
- * {@link #requestScope()}.
+ * A convenience {@link LifecycleScopeProvider} that has a default implementation for {@link
+ * #requestScope()}.
  *
  * @param <E> the lifecycle event type.
  * @deprecated this functionality is lifted directly into {@link LifecycleScopeProvider} now.
  */
 @Deprecated
-public interface DefaultLifecycleScopeProvider<E> extends LifecycleScopeProvider<E> {
-}
+public interface DefaultLifecycleScopeProvider<E> extends LifecycleScopeProvider<E> {}

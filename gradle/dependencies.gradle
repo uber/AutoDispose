@@ -16,14 +16,17 @@
 
 def versions = [
     androidTest: '1.1.2-alpha02',
+    animalSniffer: '1.5.0',
     archLifecycle: '2.0.0',
     dokka: '0.9.17',
     errorProne: '2.3.3',
     errorPronePlugin: '0.7.1',
+    gjf: '1.7',
     nullawayPlugin: '0.1',
     kotlin: '1.3.21',
     lint: '26.3.2',
-    animalSniffer: '1.5.0'
+    ktlint: '0.31.0',
+    spotless: '3.21.1'
 ]
 
 def apt = [

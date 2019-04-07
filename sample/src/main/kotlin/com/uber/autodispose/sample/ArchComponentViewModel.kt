@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2018. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.sample
 
 import androidx.lifecycle.ViewModel
@@ -22,13 +21,12 @@ import android.graphics.Bitmap
 import com.uber.autodispose.sample.repository.ImageRepository
 import io.reactivex.Observable
 
-
 /**
  * Demo Architecture Component ViewModel. The ViewModel
  * will expose your Rx stream which should be observed
  * by the view.
  */
-class ArchComponentViewModel(private val imageRepository: ImageRepository): ViewModel() {
+class ArchComponentViewModel(private val imageRepository: ImageRepository) : ViewModel() {
 
   /**
    * Calls the repository to get a subscription of the Bitmap.
@@ -47,7 +45,7 @@ class ArchComponentViewModel(private val imageRepository: ImageRepository): View
     imageRepository.loadImage(imageId)
   }
 
-  class Factory(private val imageRepository: ImageRepository): ViewModelProvider.Factory {
+  class Factory(private val imageRepository: ImageRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
       @Suppress("UNCHECKED_CAST")
       return ArchComponentViewModel(imageRepository) as T

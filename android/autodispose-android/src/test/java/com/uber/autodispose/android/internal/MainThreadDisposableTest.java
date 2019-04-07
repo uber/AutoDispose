@@ -1,9 +1,11 @@
 /*
+ * Copyright (C) 2019. Uber Technologies
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,27 +15,31 @@
  */
 package com.uber.autodispose.android.internal;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.uber.autodispose.android.AutoDisposeAndroidPlugins;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.google.common.truth.Truth.assertThat;
-
 public final class MainThreadDisposableTest {
 
-  @Before @After public void resetPlugins() {
+  @Before
+  @After
+  public void resetPlugins() {
     AutoDisposeAndroidPlugins.reset();
   }
 
-  @Test public void onDispose_defersToMainThreadHook() {
+  @Test
+  public void onDispose_defersToMainThreadHook() {
     AutoDisposeAndroidPlugins.setOnCheckMainThread(() -> true);
 
     final AtomicBoolean called = new AtomicBoolean();
 
     new MainThreadDisposable() {
-      @Override protected void onDispose() {
+      @Override
+      protected void onDispose() {
         called.set(true);
       }
     }.dispose();
@@ -41,10 +47,12 @@ public final class MainThreadDisposableTest {
     assertThat(called.get()).isTrue();
   }
 
-  @Test public void onDisposeFailsWhenMainThreadCheckNotSet() {
+  @Test
+  public void onDisposeFailsWhenMainThreadCheckNotSet() {
     try {
       new MainThreadDisposable() {
-        @Override protected void onDispose() { }
+        @Override
+        protected void onDispose() {}
       }.dispose();
       throw new AssertionError("Expected to fail before this due to Looper not being stubbed!");
     } catch (RuntimeException e) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.internal;
 
 import java.lang.annotation.Documented;
@@ -26,8 +25,8 @@ import java.lang.annotation.Target;
 /**
  * This annotation indicates that a given type should not be mocked. This is a copy of what was in
  * Error-Prone's annotations artifact before it was removed, but left for documentation purposes.
- * <p>
- * This has been modified to have CLASS retention and is only applicable to TYPE targets.
+ *
+ * <p>This has been modified to have CLASS retention and is only applicable to TYPE targets.
  */
 @Inherited
 @Documented

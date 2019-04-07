@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.OutsideScopeException;
@@ -35,5 +34,6 @@ public interface CorrespondingEventsFunction<E> extends Function<E, E> {
    * @return the target event that should signal disposal.
    * @throws OutsideScopeException if the lifecycle exceeds its scope boundaries.
    */
-  @Override E apply(E event) throws OutsideScopeException;
+  @Override
+  E apply(E event) throws OutsideScopeException;
 }

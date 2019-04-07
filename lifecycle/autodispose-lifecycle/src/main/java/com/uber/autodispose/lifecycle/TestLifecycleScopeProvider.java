@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.lifecycle;
 
 import io.reactivex.CompletableSource;
@@ -40,29 +39,28 @@ public final class TestLifecycleScopeProvider
     }
   }
 
-  /**
-   * @return a new {@link TestLifecycleScopeProvider} instance.
-   */
+  /** @return a new {@link TestLifecycleScopeProvider} instance. */
   public static TestLifecycleScopeProvider create() {
     return new TestLifecycleScopeProvider(null);
   }
 
   /**
    * @param initialValue the initial lifecycle event to create the {@link
-   * TestLifecycleScopeProvider} with.
+   *     TestLifecycleScopeProvider} with.
    * @return a new {@link TestLifecycleScopeProvider} instance with {@param initialValue} as its
-   * initial lifecycle
-   * event.
+   *     initial lifecycle event.
    */
   public static TestLifecycleScopeProvider createInitial(TestLifecycle initialValue) {
     return new TestLifecycleScopeProvider(initialValue);
   }
 
-  @Override public Observable<TestLifecycle> lifecycle() {
+  @Override
+  public Observable<TestLifecycle> lifecycle() {
     return lifecycleSubject.hide();
   }
 
-  @Override public CorrespondingEventsFunction<TestLifecycle> correspondingEvents() {
+  @Override
+  public CorrespondingEventsFunction<TestLifecycle> correspondingEvents() {
     return testLifecycle -> {
       switch (testLifecycle) {
         case STARTED:
@@ -75,24 +73,22 @@ public final class TestLifecycleScopeProvider
     };
   }
 
-  @Override public TestLifecycle peekLifecycle() {
+  @Override
+  public TestLifecycle peekLifecycle() {
     return lifecycleSubject.getValue();
   }
 
-  @Override public CompletableSource requestScope() {
+  @Override
+  public CompletableSource requestScope() {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
-  /**
-   * Start the test lifecycle.
-   */
+  /** Start the test lifecycle. */
   public void start() {
     lifecycleSubject.onNext(TestLifecycle.STARTED);
   }
 
-  /**
-   * Stop the test lifecycle.
-   */
+  /** Stop the test lifecycle. */
   public void stop() {
     if (lifecycleSubject.getValue() != TestLifecycle.STARTED) {
       throw new IllegalStateException("Attempting to stop lifecycle before starting it.");
@@ -101,6 +97,7 @@ public final class TestLifecycleScopeProvider
   }
 
   public enum TestLifecycle {
-    STARTED, STOPPED
+    STARTED,
+    STOPPED
   }
 }

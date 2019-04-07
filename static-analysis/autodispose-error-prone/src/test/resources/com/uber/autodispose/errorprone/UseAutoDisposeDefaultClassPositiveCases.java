@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.errorprone;
 
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
@@ -33,25 +32,21 @@ import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
 
-/**
- * Cases that don't use autodispose and should fail the {@link UseAutoDispose} check.
- */
+/** Cases that don't use autodispose and should fail the {@link UseAutoDispose} check. */
 public class UseAutoDisposeDefaultClassPositiveCases
     implements LifecycleScopeProvider<TestLifecycle> {
 
-  private final BehaviorSubject<TestLifecycle> lifecycleSubject =
-      BehaviorSubject.create();
+  private final BehaviorSubject<TestLifecycle> lifecycleSubject = BehaviorSubject.create();
 
-  /**
-   * @return a sequence of lifecycle events.
-   */
-  @CheckReturnValue public Observable<TestLifecycle> lifecycle() {
+  /** @return a sequence of lifecycle events. */
+  @CheckReturnValue
+  public Observable<TestLifecycle> lifecycle() {
     return lifecycleSubject.hide();
   }
 
   /**
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
-   * avoid unnecessary object allocation.
+   *     avoid unnecessary object allocation.
    */
   @CheckReturnValue
   public CorrespondingEventsFunction<TestLifecycle> correspondingEvents() {
@@ -67,10 +62,9 @@ public class UseAutoDisposeDefaultClassPositiveCases
     };
   }
 
-  /**
-   * @return the last seen lifecycle event, or {@code null} if none.
-   */
-  @Nullable public TestLifecycle peekLifecycle() {
+  /** @return the last seen lifecycle event, or {@code null} if none. */
+  @Nullable
+  public TestLifecycle peekLifecycle() {
     return lifecycleSubject.getValue();
   }
 
@@ -189,72 +183,82 @@ public class UseAutoDisposeDefaultClassPositiveCases
   }
 
   public void observable_subscribeKeepingDisposable() {
-    Disposable d = Observable.just(1)
-        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
-        // Disposable instance manually and enable lenient mode.
-        .subscribe();
+    Disposable d =
+        Observable.just(1)
+            // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+            // Disposable instance manually and enable lenient mode.
+            .subscribe();
   }
 
   public void single_subscribeKeepingDisposable() {
-    Disposable d = Single.just(1)
-        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
-        // Disposable instance manually and enable lenient mode.
-        .subscribe();
+    Disposable d =
+        Single.just(1)
+            // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+            // Disposable instance manually and enable lenient mode.
+            .subscribe();
   }
 
   public void completable_subscribeKeepingDisposable() {
-    Disposable d = Completable.complete()
-        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
-        // Disposable instance manually and enable lenient mode.
-        .subscribe();
+    Disposable d =
+        Completable.complete()
+            // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+            // Disposable instance manually and enable lenient mode.
+            .subscribe();
   }
 
   public void maybe_subscribeKeepingDisposable() {
-    Disposable d = Maybe.just(1)
-        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
-        // Disposable instance manually and enable lenient mode.
-        .subscribe();
+    Disposable d =
+        Maybe.just(1)
+            // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+            // Disposable instance manually and enable lenient mode.
+            .subscribe();
   }
 
   public void flowable_subscribeKeepingDisposable() {
-    Disposable d = Flowable.just(1)
-        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
-        // Disposable instance manually and enable lenient mode.
-        .subscribe();
+    Disposable d =
+        Flowable.just(1)
+            // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+            // Disposable instance manually and enable lenient mode.
+            .subscribe();
   }
 
   public void observable_subscribeWith_useReturnValue() {
-    TestObserver<Integer> o = Observable.just(1)
-        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
-        // Disposable instance manually and enable lenient mode.
-        .subscribeWith(new TestObserver<>());
+    TestObserver<Integer> o =
+        Observable.just(1)
+            // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+            // Disposable instance manually and enable lenient mode.
+            .subscribeWith(new TestObserver<>());
   }
 
   public void single_subscribeWith_useReturnValue() {
-    TestObserver<Integer> o = Single.just(1)
-        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
-        // Disposable instance manually and enable lenient mode.
-        .subscribeWith(new TestObserver<>());
+    TestObserver<Integer> o =
+        Single.just(1)
+            // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+            // Disposable instance manually and enable lenient mode.
+            .subscribeWith(new TestObserver<>());
   }
 
   public void completable_subscribeWith_useReturnValue() {
-    TestObserver<Object> o = Completable.complete()
-        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
-        // Disposable instance manually and enable lenient mode.
-        .subscribeWith(new TestObserver<>());
+    TestObserver<Object> o =
+        Completable.complete()
+            // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+            // Disposable instance manually and enable lenient mode.
+            .subscribeWith(new TestObserver<>());
   }
 
   public void maybe_subscribeWith_useReturnValue() {
-    TestObserver<Integer> o = Maybe.just(1)
-        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
-        // Disposable instance manually and enable lenient mode.
-        .subscribeWith(new TestObserver<>());
+    TestObserver<Integer> o =
+        Maybe.just(1)
+            // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+            // Disposable instance manually and enable lenient mode.
+            .subscribeWith(new TestObserver<>());
   }
 
   public void flowable_subscribeWith_useReturnValue() {
-    TestSubscriber<Integer> o = Flowable.just(1)
-        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
-        // Disposable instance manually and enable lenient mode.
-        .subscribeWith(new TestSubscriber<>());
+    TestSubscriber<Integer> o =
+        Flowable.just(1)
+            // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache the
+            // Disposable instance manually and enable lenient mode.
+            .subscribeWith(new TestSubscriber<>());
   }
 }

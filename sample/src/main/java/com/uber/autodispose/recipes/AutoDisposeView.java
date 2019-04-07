@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.recipes;
 
 import android.content.Context;
@@ -34,21 +33,23 @@ import io.reactivex.subjects.BehaviorSubject;
  * using {@link LifecycleScopeProvider}. The precondition checks here are only different from what
  * {@link ViewScopeProvider} provides in that it will check against subscription in the constructor.
  */
-public abstract class AutoDisposeView extends View implements LifecycleScopeProvider<AutoDisposeView.ViewEvent> {
+public abstract class AutoDisposeView extends View
+    implements LifecycleScopeProvider<AutoDisposeView.ViewEvent> {
 
   /**
    * This is a function of current event -> target disposal event. That is to say that if event
    * "Attach" returns "Detach", then any stream subscribed to during Attach will autodispose on
    * Detach.
    */
-  private static final CorrespondingEventsFunction<ViewEvent> CORRESPONDING_EVENTS = viewEvent -> {
-    switch (viewEvent) {
-      case ATTACH:
-        return ViewEvent.DETACH;
-      default:
-        throw new LifecycleEndedException("Cannot bind to View lifecycle after detach.");
-    }
-  };
+  private static final CorrespondingEventsFunction<ViewEvent> CORRESPONDING_EVENTS =
+      viewEvent -> {
+        switch (viewEvent) {
+          case ATTACH:
+            return ViewEvent.DETACH;
+          default:
+            throw new LifecycleEndedException("Cannot bind to View lifecycle after detach.");
+        }
+      };
 
   @Nullable private BehaviorSubject<ViewEvent> lifecycleEvents = null;
 
@@ -66,7 +67,8 @@ public abstract class AutoDisposeView extends View implements LifecycleScopeProv
   }
 
   @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-  public AutoDisposeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+  public AutoDisposeView(
+      Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
     init();
   }
@@ -79,17 +81,20 @@ public abstract class AutoDisposeView extends View implements LifecycleScopeProv
   }
 
   public enum ViewEvent {
-    ATTACH, DETACH
+    ATTACH,
+    DETACH
   }
 
-  @Override protected void onAttachedToWindow() {
+  @Override
+  protected void onAttachedToWindow() {
     super.onAttachedToWindow();
     if (lifecycleEvents != null) {
       lifecycleEvents.onNext(ViewEvent.ATTACH);
     }
   }
 
-  @Override protected void onDetachedFromWindow() {
+  @Override
+  protected void onDetachedFromWindow() {
     super.onDetachedFromWindow();
     if (lifecycleEvents != null) {
       lifecycleEvents.onNext(ViewEvent.DETACH);
@@ -103,7 +108,8 @@ public abstract class AutoDisposeView extends View implements LifecycleScopeProv
     return lifecycleEvents.hide();
   }
 
-  @Override public CorrespondingEventsFunction<ViewEvent> correspondingEvents() {
+  @Override
+  public CorrespondingEventsFunction<ViewEvent> correspondingEvents() {
     return CORRESPONDING_EVENTS;
   }
 

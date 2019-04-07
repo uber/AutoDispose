@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.test;
+
+import static com.google.common.truth.Truth.assertThat;
 
 import io.reactivex.exceptions.CompositeException;
 import io.reactivex.exceptions.UndeliverableException;
@@ -28,21 +29,19 @@ import java.util.concurrent.TimeUnit;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
-import static com.google.common.truth.Truth.assertThat;
-
-/**
- * JUnit rule to record RxJava errors.
- */
+/** JUnit rule to record RxJava errors. */
 @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
 public class RxErrorsRule extends TestWatcher {
 
   private BlockingDeque<Throwable> errors = new LinkedBlockingDeque<>();
 
-  @Override protected void starting(Description description) {
+  @Override
+  protected void starting(Description description) {
     RxJavaPlugins.setErrorHandler(t -> errors.add(t));
   }
 
-  @Override protected void finished(Description description) {
+  @Override
+  protected void finished(Description description) {
     RxJavaPlugins.setErrorHandler(null);
   }
 

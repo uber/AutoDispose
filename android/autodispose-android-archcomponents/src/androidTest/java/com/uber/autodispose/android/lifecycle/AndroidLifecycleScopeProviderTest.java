@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.android.lifecycle;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+
+import android.util.Log;
 import androidx.lifecycle.Lifecycle;
 import androidx.test.annotation.UiThreadTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import android.util.Log;
 import com.uber.autodispose.android.lifecycle.test.TestLifecycleOwner;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.test.RecordingObserver;
@@ -28,23 +30,21 @@ import io.reactivex.subjects.PublishSubject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-
 @RunWith(AndroidJUnit4.class)
 public final class AndroidLifecycleScopeProviderTest {
 
   private static final RecordingObserver.Logger LOGGER =
       message -> Log.d(AndroidLifecycleScopeProviderTest.class.getSimpleName(), message);
 
-  @Test @UiThreadTest public void observable_beforeCreate() {
+  @Test
+  @UiThreadTest
+  public void observable_beforeCreate() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
     TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
-    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle)))
-        .subscribe(o);
+    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
@@ -66,15 +66,16 @@ public final class AndroidLifecycleScopeProviderTest {
     o.assertNoMoreEvents();
   }
 
-  @Test @UiThreadTest public void observable_createDestroy() {
+  @Test
+  @UiThreadTest
+  public void observable_createDestroy() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
     TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
-    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle)))
-        .subscribe(o);
+    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
 
@@ -95,7 +96,9 @@ public final class AndroidLifecycleScopeProviderTest {
     o.assertNoMoreEvents();
   }
 
-  @Test @UiThreadTest public void observable_startStop() {
+  @Test
+  @UiThreadTest
+  public void observable_startStop() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
@@ -103,8 +106,7 @@ public final class AndroidLifecycleScopeProviderTest {
     TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
-    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle)))
-        .subscribe(o);
+    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
 
     Disposable d = o.takeSubscribe();
@@ -126,7 +128,9 @@ public final class AndroidLifecycleScopeProviderTest {
     lifecycle.emit(Lifecycle.Event.ON_DESTROY);
   }
 
-  @Test @UiThreadTest public void observable_resumePause() {
+  @Test
+  @UiThreadTest
+  public void observable_resumePause() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
@@ -135,8 +139,7 @@ public final class AndroidLifecycleScopeProviderTest {
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle)))
-        .subscribe(o);
+    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
 
     Disposable d = o.takeSubscribe();
     o.assertNoMoreEvents(); // No initial value.
@@ -156,15 +159,17 @@ public final class AndroidLifecycleScopeProviderTest {
     lifecycle.emit(Lifecycle.Event.ON_DESTROY);
   }
 
-  @Test @UiThreadTest public void observable_createPause() {
+  @Test
+  @UiThreadTest
+  public void observable_createPause() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
     TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
-    subject.as(
-        autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_PAUSE)))
+    subject
+        .as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_PAUSE)))
         .subscribe(o);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
@@ -187,7 +192,9 @@ public final class AndroidLifecycleScopeProviderTest {
     lifecycle.emit(Lifecycle.Event.ON_DESTROY);
   }
 
-  @Test @UiThreadTest public void observable_resumeDestroy() {
+  @Test
+  @UiThreadTest
+  public void observable_resumeDestroy() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
@@ -196,8 +203,10 @@ public final class AndroidLifecycleScopeProviderTest {
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.as(
-        autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_DESTROY)))
+    subject
+        .as(
+            autoDisposable(
+                AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_DESTROY)))
         .subscribe(o);
 
     Disposable d = o.takeSubscribe();
@@ -221,7 +230,9 @@ public final class AndroidLifecycleScopeProviderTest {
     o.assertNoMoreEvents();
   }
 
-  @Test @UiThreadTest public void observable_offAfterPause_shouldStopOnStop() {
+  @Test
+  @UiThreadTest
+  public void observable_offAfterPause_shouldStopOnStop() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
@@ -230,8 +241,7 @@ public final class AndroidLifecycleScopeProviderTest {
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
     lifecycle.emit(Lifecycle.Event.ON_PAUSE);
-    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle)))
-        .subscribe(o);
+    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
 
     Disposable d = o.takeSubscribe();
 
@@ -249,7 +259,9 @@ public final class AndroidLifecycleScopeProviderTest {
     o.assertNoMoreEvents();
   }
 
-  @Test @UiThreadTest public void observable_offAfterOnDestroyView_shouldStopOnDestroy() {
+  @Test
+  @UiThreadTest
+  public void observable_offAfterOnDestroyView_shouldStopOnDestroy() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
@@ -262,8 +274,7 @@ public final class AndroidLifecycleScopeProviderTest {
     // In a CREATED state now but the next event will be destroy
     // This simulates subscribing in fragments' onDestroyView, where we want the subscription to
     // still dispose properly in onDestroy.
-    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle)))
-        .subscribe(o);
+    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
 
     Disposable d = o.takeSubscribe();
 
@@ -276,7 +287,8 @@ public final class AndroidLifecycleScopeProviderTest {
     o.assertNoMoreEvents();
   }
 
-  @Test public void observable_offMainThread_shouldFail() {
+  @Test
+  public void observable_offMainThread_shouldFail() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> subject = PublishSubject.create();
 
@@ -285,8 +297,7 @@ public final class AndroidLifecycleScopeProviderTest {
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle)))
-        .subscribe(o);
+    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
@@ -296,7 +307,9 @@ public final class AndroidLifecycleScopeProviderTest {
     assertThat(d.isDisposed()).isTrue();
   }
 
-  @Test @UiThreadTest public void observable_offAfterDestroy_shouldFail() {
+  @Test
+  @UiThreadTest
+  public void observable_offAfterDestroy_shouldFail() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
@@ -307,8 +320,7 @@ public final class AndroidLifecycleScopeProviderTest {
     lifecycle.emit(Lifecycle.Event.ON_PAUSE);
     lifecycle.emit(Lifecycle.Event.ON_STOP);
     lifecycle.emit(Lifecycle.Event.ON_DESTROY);
-    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle)))
-        .subscribe(o);
+    subject.as(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();

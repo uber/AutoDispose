@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.errorprone;
 
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
@@ -35,18 +34,15 @@ import io.reactivex.subscribers.TestSubscriber;
 import java.util.function.Function;
 import org.reactivestreams.Subscriber;
 
-/**
- * Cases that don't use autodispose and should fail the {@link UseAutoDispose} check.
- */
+/** Cases that don't use autodispose and should fail the {@link UseAutoDispose} check. */
 public class UseAutoDisposeDefaultClassPositiveCasesLenient
     implements LifecycleScopeProvider<TestLifecycle> {
 
   private final BehaviorSubject<TestLifecycle> lifecycleSubject = BehaviorSubject.create();
 
-  /**
-   * @return a sequence of lifecycle events.
-   */
-  @CheckReturnValue public Observable<TestLifecycle> lifecycle() {
+  /** @return a sequence of lifecycle events. */
+  @CheckReturnValue
+  public Observable<TestLifecycle> lifecycle() {
     return lifecycleSubject.hide();
   }
 
@@ -54,7 +50,8 @@ public class UseAutoDisposeDefaultClassPositiveCasesLenient
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
    *     avoid unnecessary object allocation.
    */
-  @CheckReturnValue public CorrespondingEventsFunction<TestLifecycle> correspondingEvents() {
+  @CheckReturnValue
+  public CorrespondingEventsFunction<TestLifecycle> correspondingEvents() {
     return testLifecycle -> {
       switch (testLifecycle) {
         case STARTED:
@@ -67,10 +64,9 @@ public class UseAutoDisposeDefaultClassPositiveCasesLenient
     };
   }
 
-  /**
-   * @return the last seen lifecycle event, or {@code null} if none.
-   */
-  @Nullable public TestLifecycle peekLifecycle() {
+  /** @return the last seen lifecycle event, or {@code null} if none. */
+  @Nullable
+  public TestLifecycle peekLifecycle() {
     return lifecycleSubject.getValue();
   }
 
@@ -111,7 +107,8 @@ public class UseAutoDisposeDefaultClassPositiveCasesLenient
 
   public void parallelFlowable_subscribeWithoutAutoDispose() {
     Subscriber<Integer>[] subscribers = new Subscriber[] {};
-    Flowable.just(1, 2).parallel(2)
+    Flowable.just(1, 2)
+        .parallel(2)
         // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
         // the Disposable instance manually and enable lenient mode.
         .subscribe(subscribers);
@@ -189,26 +186,24 @@ public class UseAutoDisposeDefaultClassPositiveCasesLenient
 
   // subscribeWith only works IFF the argument passed implements Disposable
   public void subscribeWithOnlyDisposable() {
-    Observer<Integer> o = Observable.just(1)
-        // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
-        // the Disposable instance manually and enable lenient mode.
-        .subscribeWith(new Observer<Integer>() {
-          @Override public void onSubscribe(Disposable d) {
+    Observer<Integer> o =
+        Observable.just(1)
+            // BUG: Diagnostic contains: Missing Disposable handling: Apply AutoDispose or cache
+            // the Disposable instance manually and enable lenient mode.
+            .subscribeWith(
+                new Observer<Integer>() {
+                  @Override
+                  public void onSubscribe(Disposable d) {}
 
-          }
+                  @Override
+                  public void onNext(Integer integer) {}
 
-          @Override public void onNext(Integer integer) {
+                  @Override
+                  public void onError(Throwable e) {}
 
-          }
-
-          @Override public void onError(Throwable e) {
-
-          }
-
-          @Override public void onComplete() {
-
-          }
-        });
+                  @Override
+                  public void onComplete() {}
+                });
   }
 
   // subscribeWith only works IFF the argument passed implements Disposable
@@ -222,22 +217,19 @@ public class UseAutoDisposeDefaultClassPositiveCasesLenient
   }
 
   Observer<Integer> methodReferencable(Function<Observer<Integer>, Observer<Integer>> func) {
-    return func.apply(new Observer<Integer>() {
-      @Override public void onSubscribe(Disposable d) {
+    return func.apply(
+        new Observer<Integer>() {
+          @Override
+          public void onSubscribe(Disposable d) {}
 
-      }
+          @Override
+          public void onNext(Integer integer) {}
 
-      @Override public void onNext(Integer integer) {
+          @Override
+          public void onError(Throwable e) {}
 
-      }
-
-      @Override public void onError(Throwable e) {
-
-      }
-
-      @Override public void onComplete() {
-
-      }
-    });
+          @Override
+          public void onComplete() {}
+        });
   }
 }

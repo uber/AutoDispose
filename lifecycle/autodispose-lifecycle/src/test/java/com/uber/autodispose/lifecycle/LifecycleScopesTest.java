@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright (C) 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.lifecycle;
+
+import static com.uber.autodispose.lifecycle.LifecycleScopes.resolveScopeFromLifecycle;
+import static com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STOPPED;
 
 import com.uber.autodispose.AutoDisposePlugins;
 import io.reactivex.CompletableSource;
@@ -25,28 +27,29 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.uber.autodispose.lifecycle.LifecycleScopes.resolveScopeFromLifecycle;
-import static com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STOPPED;
-
 public final class LifecycleScopesTest {
 
-  @Before @After public void resetPlugins() {
+  @Before
+  @After
+  public void resetPlugins() {
     AutoDisposePlugins.reset();
   }
 
-  @Test public void lifecycleDefault_shouldFailIfNotStarted() {
+  @Test
+  public void lifecycleDefault_shouldFailIfNotStarted() {
     TestLifecycleScopeProvider lifecycle = TestLifecycleScopeProvider.create();
 
     try {
       testSource(resolveScopeFromLifecycle(lifecycle));
-      throw new AssertionError("Lifecycle resolution should have failed due to missing start "
-          + "event");
+      throw new AssertionError(
+          "Lifecycle resolution should have failed due to missing start " + "event");
     } catch (LifecycleNotStartedException ignored) {
 
     }
   }
 
-  @Test public void lifecycleDefault_withStart_shouldFailIfEnded() {
+  @Test
+  public void lifecycleDefault_withStart_shouldFailIfEnded() {
     TestLifecycleScopeProvider lifecycle = TestLifecycleScopeProvider.createInitial(STOPPED);
 
     try {
@@ -57,7 +60,8 @@ public final class LifecycleScopesTest {
     }
   }
 
-  @Test public void lifecycleCheckEnd_shouldFailIfEndedWithNoHandler() {
+  @Test
+  public void lifecycleCheckEnd_shouldFailIfEndedWithNoHandler() {
     TestLifecycleScopeProvider lifecycle = TestLifecycleScopeProvider.createInitial(STOPPED);
 
     try {
@@ -68,36 +72,42 @@ public final class LifecycleScopesTest {
     }
   }
 
-  @Test public void lifecycleCheckEnd_shouldFailIfEndedWithHandler() {
+  @Test
+  public void lifecycleCheckEnd_shouldFailIfEndedWithHandler() {
     TestLifecycleScopeProvider lifecycle = TestLifecycleScopeProvider.createInitial(STOPPED);
 
-    AutoDisposePlugins.setOutsideScopeHandler(e -> {
-      // Swallow the exception.
-    });
+    AutoDisposePlugins.setOutsideScopeHandler(
+        e -> {
+          // Swallow the exception.
+        });
 
     testSource(resolveScopeFromLifecycle(lifecycle, true)).assertComplete();
   }
 
-  @Test public void lifecycleCheckEnd_shouldFailIfEndedWithThrowingHandler() {
+  @Test
+  public void lifecycleCheckEnd_shouldFailIfEndedWithThrowingHandler() {
     TestLifecycleScopeProvider lifecycle = TestLifecycleScopeProvider.createInitial(STOPPED);
 
     final RuntimeException expected = new RuntimeException("Expected");
-    AutoDisposePlugins.setOutsideScopeHandler(e -> {
-      // Throw it back
-      throw expected;
-    });
+    AutoDisposePlugins.setOutsideScopeHandler(
+        e -> {
+          // Throw it back
+          throw expected;
+        });
 
     testSource(resolveScopeFromLifecycle(lifecycle, true)).assertError(expected);
   }
 
-  @Test public void lifecycleCheckEndDisabled_shouldRouteThroughOnError() {
+  @Test
+  public void lifecycleCheckEndDisabled_shouldRouteThroughOnError() {
     TestLifecycleScopeProvider lifecycle = TestLifecycleScopeProvider.createInitial(STOPPED);
 
-    testSource(resolveScopeFromLifecycle(lifecycle,
-        false)).assertError(LifecycleEndedException.class);
+    testSource(resolveScopeFromLifecycle(lifecycle, false))
+        .assertError(LifecycleEndedException.class);
   }
 
-  @Test public void resolveScopeFromLifecycle_normal() {
+  @Test
+  public void resolveScopeFromLifecycle_normal() {
     PublishSubject<Integer> lifecycle = PublishSubject.create();
 
     TestObserver<?> o = testSource(resolveScopeFromLifecycle(lifecycle, 3));
@@ -123,7 +133,8 @@ public final class LifecycleScopesTest {
       this.value = value;
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
       if (this == o) return true;
       if (!(o instanceof IntHolder)) return false;
 
@@ -132,12 +143,14 @@ public final class LifecycleScopesTest {
       return value == intHolder.value;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return value;
     }
   }
 
-  @Test public void resolveScopeFromLifecycle_normal_notComparable() {
+  @Test
+  public void resolveScopeFromLifecycle_normal_notComparable() {
     PublishSubject<IntHolder> lifecycle = PublishSubject.create();
 
     TestObserver<?> o = testSource(resolveScopeFromLifecycle(lifecycle, new IntHolder(3)));
@@ -156,9 +169,7 @@ public final class LifecycleScopesTest {
     o.assertComplete();
   }
 
-  /**
-   * An int wrapper that compares the negative {@link #value} to another integer.
-   */
+  /** An int wrapper that compares the negative {@link #value} to another integer. */
   static class NegativeComparableInteger implements Comparable<NegativeComparableInteger> {
 
     final int value;
@@ -167,12 +178,14 @@ public final class LifecycleScopesTest {
       this.value = value;
     }
 
-    @Override public int compareTo(NegativeComparableInteger o) {
+    @Override
+    public int compareTo(NegativeComparableInteger o) {
       return Integer.compare(-value, o.value);
     }
   }
 
-  @Test public void resolveScopeFromLifecycle_normal_comparable() {
+  @Test
+  public void resolveScopeFromLifecycle_normal_comparable() {
     PublishSubject<NegativeComparableInteger> lifecycle = PublishSubject.create();
 
     TestObserver<?> o =
@@ -190,7 +203,8 @@ public final class LifecycleScopesTest {
     o.assertComplete();
   }
 
-  @Test public void resolveScopeFromLifecycle_normal_comparator() {
+  @Test
+  public void resolveScopeFromLifecycle_normal_comparator() {
     PublishSubject<Integer> lifecycle = PublishSubject.create();
 
     Comparator<Integer> comparator = (o1, o2) -> Integer.compare(-o1, o2);
@@ -209,7 +223,8 @@ public final class LifecycleScopesTest {
     o.assertComplete();
   }
 
-  @Test public void resolveScopeFromLifecycle_error() {
+  @Test
+  public void resolveScopeFromLifecycle_error() {
     PublishSubject<Integer> lifecycle = PublishSubject.create();
 
     TestObserver<?> o = testSource(resolveScopeFromLifecycle(lifecycle, 3));
@@ -225,7 +240,8 @@ public final class LifecycleScopesTest {
     o.assertError(expected);
   }
 
-  @Test public void resolveScopeFromLifecycle_complete() {
+  @Test
+  public void resolveScopeFromLifecycle_complete() {
     PublishSubject<Integer> lifecycle = PublishSubject.create();
 
     TestObserver<?> o = testSource(resolveScopeFromLifecycle(lifecycle, 3));
@@ -244,7 +260,8 @@ public final class LifecycleScopesTest {
     o.assertComplete();
   }
 
-  @Test public void resolveScopeFromLifecycle_complete_noFirstElement() {
+  @Test
+  public void resolveScopeFromLifecycle_complete_noFirstElement() {
     PublishSubject<Integer> lifecycle = PublishSubject.create();
 
     TestObserver<?> o = testSource(resolveScopeFromLifecycle(lifecycle, 3));
@@ -254,7 +271,8 @@ public final class LifecycleScopesTest {
     o.assertComplete();
   }
 
-  @Test public void resolveScopeFromLifecycle_error_noFirstElement() {
+  @Test
+  public void resolveScopeFromLifecycle_error_noFirstElement() {
     PublishSubject<Integer> lifecycle = PublishSubject.create();
 
     TestObserver<?> o = testSource(resolveScopeFromLifecycle(lifecycle, 3));
