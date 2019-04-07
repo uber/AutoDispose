@@ -17,7 +17,6 @@
 /**
  * Android recipes for AutoDispose.
  *
- * Sample app for AutoDispose.
+ * <p>Sample app for AutoDispose.
  */
 package com.uber.autodispose.sample;
-

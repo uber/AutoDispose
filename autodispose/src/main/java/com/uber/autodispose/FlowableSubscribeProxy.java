@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose;
 
 import io.reactivex.Flowable;
@@ -25,9 +24,7 @@ import io.reactivex.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
-/**
- * Subscribe proxy that matches {@link Flowable}'s subscribe overloads.
- */
+/** Subscribe proxy that matches {@link Flowable}'s subscribe overloads. */
 public interface FlowableSubscribeProxy<T> {
 
   /**
@@ -56,21 +53,21 @@ public interface FlowableSubscribeProxy<T> {
    *
    * @return a {@link Disposable}
    */
-  Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete);
+  Disposable subscribe(
+      Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete);
 
   /**
    * Proxy for {@link Flowable#subscribe(Consumer, Consumer, Action, Consumer)}.
    *
    * @return a {@link Disposable}
    */
-  Disposable subscribe(Consumer<? super T> onNext,
+  Disposable subscribe(
+      Consumer<? super T> onNext,
       Consumer<? super Throwable> onError,
       Action onComplete,
       Consumer<? super Subscription> onSubscribe);
 
-  /**
-   * Proxy for {@link Flowable#subscribe(Subscriber)}.
-   */
+  /** Proxy for {@link Flowable#subscribe(Subscriber)}. */
   void subscribe(Subscriber<? super T> observer);
 
   /**
@@ -78,26 +75,30 @@ public interface FlowableSubscribeProxy<T> {
    *
    * @return an {@link Subscriber}
    */
-  @CheckReturnValue <E extends Subscriber<? super T>> E subscribeWith(E observer);
+  @CheckReturnValue
+  <E extends Subscriber<? super T>> E subscribeWith(E observer);
 
   /**
    * Proxy for {@link Flowable#test()}.
    *
    * @return a {@link TestSubscriber}
    */
-  @CheckReturnValue TestSubscriber<T> test();
+  @CheckReturnValue
+  TestSubscriber<T> test();
 
   /**
    * Proxy for {@link Flowable#test(long)}.
    *
    * @return a {@link TestSubscriber}
    */
-  @CheckReturnValue TestSubscriber<T> test(long initialRequest);
+  @CheckReturnValue
+  TestSubscriber<T> test(long initialRequest);
 
   /**
    * Proxy for {@link Flowable#test(long, boolean)}.
    *
    * @return a {@link TestSubscriber}
    */
-  @CheckReturnValue TestSubscriber<T> test(long initialRequest, boolean cancel);
+  @CheckReturnValue
+  TestSubscriber<T> test(long initialRequest, boolean cancel);
 }

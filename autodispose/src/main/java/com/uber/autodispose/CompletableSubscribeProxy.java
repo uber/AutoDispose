@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose;
 
 import io.reactivex.Completable;
@@ -24,9 +23,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.TestObserver;
 
-/**
- * Subscribe proxy that matches {@link Completable}'s subscribe overloads.
- */
+/** Subscribe proxy that matches {@link Completable}'s subscribe overloads. */
 public interface CompletableSubscribeProxy {
 
   /**
@@ -50,9 +47,7 @@ public interface CompletableSubscribeProxy {
    */
   Disposable subscribe(Action action, Consumer<? super Throwable> onError);
 
-  /**
-   * Proxy for {@link Completable#subscribe(CompletableObserver)}.
-   */
+  /** Proxy for {@link Completable#subscribe(CompletableObserver)}. */
   void subscribe(CompletableObserver observer);
 
   /**
@@ -60,19 +55,22 @@ public interface CompletableSubscribeProxy {
    *
    * @return a {@link CompletableObserver}
    */
-  @CheckReturnValue <E extends CompletableObserver> E subscribeWith(E observer);
+  @CheckReturnValue
+  <E extends CompletableObserver> E subscribeWith(E observer);
 
   /**
    * Proxy for {@link Completable#test()}.
    *
    * @return a {@link TestObserver}
    */
-  @CheckReturnValue TestObserver<Void> test();
+  @CheckReturnValue
+  TestObserver<Void> test();
 
   /**
    * Proxy for {@link Completable#test(boolean)}.
    *
    * @return a {@link TestObserver}
    */
-  @CheckReturnValue TestObserver<Void> test(boolean cancel);
+  @CheckReturnValue
+  TestObserver<Void> test(boolean cancel);
 }

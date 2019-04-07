@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.android.lifecycle;
 
 import androidx.lifecycle.Lifecycle;
@@ -29,12 +28,15 @@ import io.reactivex.Observable;
 /**
  * A {@link LifecycleScopeProvider} that can provide scoping for Android {@link Lifecycle} and
  * {@link LifecycleOwner} classes.
+ *
  * <p>
+ *
  * <pre><code>
  *   AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner))
  * </code></pre>
  */
-public final class AndroidLifecycleScopeProvider implements LifecycleScopeProvider<Lifecycle.Event> {
+public final class AndroidLifecycleScopeProvider
+    implements LifecycleScopeProvider<Lifecycle.Event> {
 
   private static final CorrespondingEventsFunction<Lifecycle.Event> DEFAULT_CORRESPONDING_EVENTS =
       lastEvent -> {
@@ -73,7 +75,8 @@ public final class AndroidLifecycleScopeProvider implements LifecycleScopeProvid
    * @param untilEvent the event until the scope is valid.
    * @return a {@link AndroidLifecycleScopeProvider} against this owner.
    */
-  public static AndroidLifecycleScopeProvider from(LifecycleOwner owner, Lifecycle.Event untilEvent) {
+  public static AndroidLifecycleScopeProvider from(
+      LifecycleOwner owner, Lifecycle.Event untilEvent) {
     return from(owner.getLifecycle(), untilEvent);
   }
 
@@ -94,7 +97,8 @@ public final class AndroidLifecycleScopeProvider implements LifecycleScopeProvid
    * @param untilEvent the event until the scope is valid.
    * @return a {@link AndroidLifecycleScopeProvider} against this lifecycle.
    */
-  public static AndroidLifecycleScopeProvider from(Lifecycle lifecycle, Lifecycle.Event untilEvent) {
+  public static AndroidLifecycleScopeProvider from(
+      Lifecycle lifecycle, Lifecycle.Event untilEvent) {
     return from(lifecycle, new UntilEventFunction(untilEvent));
   }
 
@@ -105,8 +109,8 @@ public final class AndroidLifecycleScopeProvider implements LifecycleScopeProvid
    * @param boundaryResolver function that resolves the event boundary.
    * @return a {@link AndroidLifecycleScopeProvider} against this owner.
    */
-  public static AndroidLifecycleScopeProvider from(LifecycleOwner owner,
-      CorrespondingEventsFunction<Lifecycle.Event> boundaryResolver) {
+  public static AndroidLifecycleScopeProvider from(
+      LifecycleOwner owner, CorrespondingEventsFunction<Lifecycle.Event> boundaryResolver) {
     return from(owner.getLifecycle(), boundaryResolver);
   }
 
@@ -117,33 +121,37 @@ public final class AndroidLifecycleScopeProvider implements LifecycleScopeProvid
    * @param boundaryResolver function that resolves the event boundary.
    * @return a {@link AndroidLifecycleScopeProvider} against this lifecycle.
    */
-  public static AndroidLifecycleScopeProvider from(Lifecycle lifecycle,
-      CorrespondingEventsFunction<Lifecycle.Event> boundaryResolver) {
+  public static AndroidLifecycleScopeProvider from(
+      Lifecycle lifecycle, CorrespondingEventsFunction<Lifecycle.Event> boundaryResolver) {
     return new AndroidLifecycleScopeProvider(lifecycle, boundaryResolver);
   }
 
   private final LifecycleEventsObservable lifecycleObservable;
 
-  private AndroidLifecycleScopeProvider(Lifecycle lifecycle,
-      CorrespondingEventsFunction<Lifecycle.Event> boundaryResolver) {
+  private AndroidLifecycleScopeProvider(
+      Lifecycle lifecycle, CorrespondingEventsFunction<Lifecycle.Event> boundaryResolver) {
     this.lifecycleObservable = new LifecycleEventsObservable(lifecycle);
     this.boundaryResolver = boundaryResolver;
   }
 
-  @Override public Observable<Lifecycle.Event> lifecycle() {
+  @Override
+  public Observable<Lifecycle.Event> lifecycle() {
     return lifecycleObservable;
   }
 
-  @Override public CorrespondingEventsFunction<Lifecycle.Event> correspondingEvents() {
+  @Override
+  public CorrespondingEventsFunction<Lifecycle.Event> correspondingEvents() {
     return boundaryResolver;
   }
 
-  @Override public Lifecycle.Event peekLifecycle() {
+  @Override
+  public Lifecycle.Event peekLifecycle() {
     lifecycleObservable.backfillEvents();
     return lifecycleObservable.getValue();
   }
 
-  @Override public CompletableSource requestScope() {
+  @Override
+  public CompletableSource requestScope() {
     return LifecycleScopes.resolveScopeFromLifecycle(this);
   }
 
@@ -154,7 +162,8 @@ public final class AndroidLifecycleScopeProvider implements LifecycleScopeProvid
       this.untilEvent = untilEvent;
     }
 
-    @Override public Lifecycle.Event apply(Lifecycle.Event event) throws OutsideScopeException {
+    @Override
+    public Lifecycle.Event apply(Lifecycle.Event event) throws OutsideScopeException {
       return untilEvent;
     }
   }

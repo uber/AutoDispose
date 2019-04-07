@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.android;
+
+import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 import android.app.Instrumentation;
 import android.util.Log;
@@ -32,35 +34,36 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-
-@RunWith(AndroidJUnit4.class) public final class ViewScopeProviderTest {
+@RunWith(AndroidJUnit4.class)
+public final class ViewScopeProviderTest {
 
   private static final RecordingObserver.Logger LOGGER =
       message -> Log.d(ViewScopeProviderTest.class.getSimpleName(), message);
 
-  @Rule public final ActivityTestRule<AutoDisposeTestActivity> activityRule =
+  @Rule
+  public final ActivityTestRule<AutoDisposeTestActivity> activityRule =
       new ActivityTestRule<>(AutoDisposeTestActivity.class);
 
   private final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
   private FrameLayout parent;
   private View child;
 
-  @Before public void setUp() {
+  @Before
+  public void setUp() {
     AutoDisposeTestActivity activity = activityRule.getActivity();
     parent = activity.parent;
     child = activity.child;
   }
 
-  @Test public void observable_normal() {
+  @Test
+  public void observable_normal() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Attach it
     instrumentation.runOnMainSync(() -> parent.addView(child));
-    instrumentation.runOnMainSync(() -> subject.as(autoDisposable(ViewScopeProvider.from(child)))
-        .subscribe(o));
+    instrumentation.runOnMainSync(
+        () -> subject.as(autoDisposable(ViewScopeProvider.from(child))).subscribe(o));
 
     Disposable d = o.takeSubscribe();
     o.assertNoMoreEvents(); // No initial value.
@@ -79,14 +82,14 @@ import static com.uber.autodispose.AutoDispose.autoDisposable;
     d.dispose();
   }
 
-  @Test public void observable_offMainThread_shouldFail() {
+  @Test
+  public void observable_offMainThread_shouldFail() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> subject = PublishSubject.create();
 
     // Attach it
     instrumentation.runOnMainSync(() -> parent.addView(child));
-    subject.as(autoDisposable(ViewScopeProvider.from(child)))
-        .subscribe(o);
+    subject.as(autoDisposable(ViewScopeProvider.from(child))).subscribe(o);
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
@@ -96,12 +99,13 @@ import static com.uber.autodispose.AutoDispose.autoDisposable;
     assertThat(d.isDisposed()).isTrue();
   }
 
-  @Test public void observable_offBeforeAttach_shouldFail() {
+  @Test
+  public void observable_offBeforeAttach_shouldFail() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
-    instrumentation.runOnMainSync(() -> subject.as(autoDisposable(ViewScopeProvider.from(child)))
-        .subscribe(o));
+    instrumentation.runOnMainSync(
+        () -> subject.as(autoDisposable(ViewScopeProvider.from(child))).subscribe(o));
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
@@ -110,14 +114,15 @@ import static com.uber.autodispose.AutoDispose.autoDisposable;
     assertThat(d.isDisposed()).isTrue();
   }
 
-  @Test public void observable_offAfterDetach_shouldFail() {
+  @Test
+  public void observable_offAfterDetach_shouldFail() {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     instrumentation.runOnMainSync(() -> parent.addView(child));
     instrumentation.runOnMainSync(() -> parent.removeView(child));
-    instrumentation.runOnMainSync(() -> subject.as(autoDisposable(ViewScopeProvider.from(child)))
-        .subscribe(o));
+    instrumentation.runOnMainSync(
+        () -> subject.as(autoDisposable(ViewScopeProvider.from(child))).subscribe(o));
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();

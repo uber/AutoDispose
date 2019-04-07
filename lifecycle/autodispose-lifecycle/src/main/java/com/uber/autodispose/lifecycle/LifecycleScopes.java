@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.AutoDisposePlugins;
@@ -50,20 +49,20 @@ public final class LifecycleScopes {
    * @param <E> the lifecycle event type
    * @return a resolved {@link CompletableSource} representation of a given provider
    * @throws OutsideScopeException if the {@link LifecycleScopeProvider#correspondingEvents()}
-   * throws an {@link OutsideScopeException} during resolution.
+   *     throws an {@link OutsideScopeException} during resolution.
    */
-  public static <E> CompletableSource resolveScopeFromLifecycle(final LifecycleScopeProvider<E> provider)
-      throws OutsideScopeException {
+  public static <E> CompletableSource resolveScopeFromLifecycle(
+      final LifecycleScopeProvider<E> provider) throws OutsideScopeException {
     return resolveScopeFromLifecycle(provider, true);
   }
 
   /**
-   * Overload for resolving lifecycle providers allows configuration of checking "end" boundaries
-   * of lifecycles. That is, they will ensure that the lifecycle has both started and not ended,
-   * and otherwise will throw one of {@link LifecycleNotStartedException} (if {@link
-   * LifecycleScopeProvider#peekLifecycle() peekLifecycle} returns {@code null}) or
-   * {@link LifecycleEndedException} if the lifecycle is ended. To configure the runtime behavior
-   * of these exceptions, see {@link AutoDisposePlugins}.
+   * Overload for resolving lifecycle providers allows configuration of checking "end" boundaries of
+   * lifecycles. That is, they will ensure that the lifecycle has both started and not ended, and
+   * otherwise will throw one of {@link LifecycleNotStartedException} (if {@link
+   * LifecycleScopeProvider#peekLifecycle() peekLifecycle} returns {@code null}) or {@link
+   * LifecycleEndedException} if the lifecycle is ended. To configure the runtime behavior of these
+   * exceptions, see {@link AutoDisposePlugins}.
    *
    * <p><em>Note:</em> This resolves the scope immediately, so consider deferring execution as
    * needed, such as using {@link Completable#defer(Callable) defer}.
@@ -73,10 +72,11 @@ public final class LifecycleScopes {
    * @param <E> the lifecycle event type
    * @return a resolved {@link CompletableSource} representation of a given provider
    * @throws OutsideScopeException if the {@link LifecycleScopeProvider#correspondingEvents()}
-   * throws an {@link OutsideScopeException} during resolution.
+   *     throws an {@link OutsideScopeException} during resolution.
    */
-  public static <E> CompletableSource resolveScopeFromLifecycle(final LifecycleScopeProvider<E> provider,
-      final boolean checkEndBoundary) throws OutsideScopeException {
+  public static <E> CompletableSource resolveScopeFromLifecycle(
+      final LifecycleScopeProvider<E> provider, final boolean checkEndBoundary)
+      throws OutsideScopeException {
     E lastEvent = provider.peekLifecycle();
     CorrespondingEventsFunction<E> eventsFunction = provider.correspondingEvents();
     if (lastEvent == null) {
@@ -87,7 +87,8 @@ public final class LifecycleScopes {
       endEvent = eventsFunction.apply(lastEvent);
     } catch (Exception e) {
       if (checkEndBoundary && e instanceof LifecycleEndedException) {
-        Consumer<? super OutsideScopeException> handler = AutoDisposePlugins.getOutsideScopeHandler();
+        Consumer<? super OutsideScopeException> handler =
+            AutoDisposePlugins.getOutsideScopeHandler();
         if (handler != null) {
           try {
             handler.accept((LifecycleEndedException) e);
@@ -109,9 +110,11 @@ public final class LifecycleScopes {
    * @param lifecycle the stream of lifecycle events
    * @param endEvent the target end event
    * @param <E> the lifecycle event type
-   * @return a resolved {@link Completable} representation of a given lifecycle, targeting the given event
+   * @return a resolved {@link Completable} representation of a given lifecycle, targeting the given
+   *     event
    */
-  public static <E> CompletableSource resolveScopeFromLifecycle(Observable<E> lifecycle, final E endEvent) {
+  public static <E> CompletableSource resolveScopeFromLifecycle(
+      Observable<E> lifecycle, final E endEvent) {
     @Nullable Comparator<E> comparator = null;
     if (endEvent instanceof Comparable) {
       //noinspection unchecked
@@ -125,19 +128,17 @@ public final class LifecycleScopes {
    * @param endEvent the target end event
    * @param comparator an optional comparator for checking event equality.
    * @param <E> the lifecycle event type
-   * @return a resolved {@link Completable} representation of a given lifecycle, targeting the given event
+   * @return a resolved {@link Completable} representation of a given lifecycle, targeting the given
+   *     event
    */
-  public static <E> CompletableSource resolveScopeFromLifecycle(Observable<E> lifecycle,
-      final E endEvent,
-      @Nullable final Comparator<E> comparator) {
+  public static <E> CompletableSource resolveScopeFromLifecycle(
+      Observable<E> lifecycle, final E endEvent, @Nullable final Comparator<E> comparator) {
     Predicate<E> equalityPredicate;
     if (comparator != null) {
       equalityPredicate = e -> comparator.compare(e, endEvent) >= 0;
     } else {
       equalityPredicate = e -> e.equals(endEvent);
     }
-    return lifecycle.skip(1)
-        .takeUntil(equalityPredicate)
-        .ignoreElements();
+    return lifecycle.skip(1).takeUntil(equalityPredicate).ignoreElements();
   }
 }

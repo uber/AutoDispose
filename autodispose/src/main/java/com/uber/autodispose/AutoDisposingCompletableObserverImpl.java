@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
@@ -27,8 +26,10 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
 
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
   final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();
+
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
   final AtomicReference<Disposable> scopeDisposable = new AtomicReference<>();
+
   private final CompletableSource scope;
   private final CompletableObserver delegate;
 
@@ -37,22 +38,27 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
     this.delegate = delegate;
   }
 
-  @Override public CompletableObserver delegateObserver() {
+  @Override
+  public CompletableObserver delegateObserver() {
     return delegate;
   }
 
-  @Override public void onSubscribe(final Disposable d) {
-    DisposableCompletableObserver o = new DisposableCompletableObserver() {
-      @Override public void onError(Throwable e) {
-        scopeDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-        AutoDisposingCompletableObserverImpl.this.onError(e);
-      }
+  @Override
+  public void onSubscribe(final Disposable d) {
+    DisposableCompletableObserver o =
+        new DisposableCompletableObserver() {
+          @Override
+          public void onError(Throwable e) {
+            scopeDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+            AutoDisposingCompletableObserverImpl.this.onError(e);
+          }
 
-      @Override public void onComplete() {
-        scopeDisposable.lazySet(AutoDisposableHelper.DISPOSED);
-        AutoDisposableHelper.dispose(mainDisposable);
-      }
-    };
+          @Override
+          public void onComplete() {
+            scopeDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+            AutoDisposableHelper.dispose(mainDisposable);
+          }
+        };
     if (AutoDisposeEndConsumerHelper.setOnce(scopeDisposable, o, getClass())) {
       delegate.onSubscribe(this);
       scope.subscribe(o);
@@ -60,16 +66,19 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
     }
   }
 
-  @Override public boolean isDisposed() {
+  @Override
+  public boolean isDisposed() {
     return mainDisposable.get() == AutoDisposableHelper.DISPOSED;
   }
 
-  @Override public void dispose() {
+  @Override
+  public void dispose() {
     AutoDisposableHelper.dispose(scopeDisposable);
     AutoDisposableHelper.dispose(mainDisposable);
   }
 
-  @Override public void onComplete() {
+  @Override
+  public void onComplete() {
     if (!isDisposed()) {
       mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
       AutoDisposableHelper.dispose(scopeDisposable);
@@ -77,7 +86,8 @@ final class AutoDisposingCompletableObserverImpl implements AutoDisposingComplet
     }
   }
 
-  @Override public void onError(Throwable e) {
+  @Override
+  public void onError(Throwable e) {
     if (!isDisposed()) {
       mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
       AutoDisposableHelper.dispose(scopeDisposable);

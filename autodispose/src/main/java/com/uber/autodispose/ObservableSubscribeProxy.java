@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose;
 
 import io.reactivex.Observable;
@@ -24,9 +23,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.TestObserver;
 
-/**
- * Subscribe proxy that matches {@link Observable}'s subscribe overloads.
- */
+/** Subscribe proxy that matches {@link Observable}'s subscribe overloads. */
 public interface ObservableSubscribeProxy<T> {
 
   /**
@@ -55,21 +52,21 @@ public interface ObservableSubscribeProxy<T> {
    *
    * @return a {@link Disposable}
    */
-  Disposable subscribe(Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete);
+  Disposable subscribe(
+      Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete);
 
   /**
    * Proxy for {@link Observable#subscribe(Consumer, Consumer, Action, Consumer)}.
    *
    * @return a {@link Disposable}
    */
-  Disposable subscribe(Consumer<? super T> onNext,
+  Disposable subscribe(
+      Consumer<? super T> onNext,
       Consumer<? super Throwable> onError,
       Action onComplete,
       Consumer<? super Disposable> onSubscribe);
 
-  /**
-   * Proxy for {@link Observable#subscribe(Observer)}.
-   */
+  /** Proxy for {@link Observable#subscribe(Observer)}. */
   void subscribe(Observer<? super T> observer);
 
   /**
@@ -77,19 +74,22 @@ public interface ObservableSubscribeProxy<T> {
    *
    * @return an {@link Observer}
    */
-  @CheckReturnValue <E extends Observer<? super T>> E subscribeWith(E observer);
+  @CheckReturnValue
+  <E extends Observer<? super T>> E subscribeWith(E observer);
 
   /**
    * Proxy for {@link Observable#test()}.
    *
    * @return a {@link TestObserver}
    */
-  @CheckReturnValue TestObserver<T> test();
+  @CheckReturnValue
+  TestObserver<T> test();
 
   /**
    * Proxy for {@link Observable#test(boolean)}.
    *
    * @return a {@link TestObserver}
    */
-  @CheckReturnValue TestObserver<T> test(boolean dispose);
+  @CheckReturnValue
+  TestObserver<T> test(boolean dispose);
 }

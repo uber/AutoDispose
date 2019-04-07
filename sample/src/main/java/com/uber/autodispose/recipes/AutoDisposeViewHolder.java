@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.recipes;
 
 import android.view.View;
@@ -35,17 +34,19 @@ public abstract class AutoDisposeViewHolder extends BindAwareViewHolder
     implements LifecycleScopeProvider<AutoDisposeViewHolder.ViewHolderEvent> {
 
   public enum ViewHolderEvent {
-    BIND, UNBIND
+    BIND,
+    UNBIND
   }
 
-  private static final CorrespondingEventsFunction<ViewHolderEvent> CORRESPONDING_EVENTS = viewHolderEvent -> {
-    switch (viewHolderEvent) {
-      case BIND:
-        return ViewHolderEvent.UNBIND;
-      default:
-        throw new LifecycleEndedException("Cannot use ViewHolder lifecycle after unbind.");
-    }
-  };
+  private static final CorrespondingEventsFunction<ViewHolderEvent> CORRESPONDING_EVENTS =
+      viewHolderEvent -> {
+        switch (viewHolderEvent) {
+          case BIND:
+            return ViewHolderEvent.UNBIND;
+          default:
+            throw new LifecycleEndedException("Cannot use ViewHolder lifecycle after unbind.");
+        }
+      };
 
   private final BehaviorSubject<ViewHolderEvent> lifecycleEvents = BehaviorSubject.create();
 
@@ -53,23 +54,29 @@ public abstract class AutoDisposeViewHolder extends BindAwareViewHolder
     super(itemView);
   }
 
-  @Override public CorrespondingEventsFunction<ViewHolderEvent> correspondingEvents() {
+  @Override
+  public CorrespondingEventsFunction<ViewHolderEvent> correspondingEvents() {
     return CORRESPONDING_EVENTS;
   }
 
-  @Override public Observable<ViewHolderEvent> lifecycle() {
+  @Override
+  public Observable<ViewHolderEvent> lifecycle() {
     return lifecycleEvents.hide();
   }
 
-  @Nullable @Override public ViewHolderEvent peekLifecycle() {
+  @Nullable
+  @Override
+  public ViewHolderEvent peekLifecycle() {
     return lifecycleEvents.getValue();
   }
 
-  @Override protected void onBind() {
+  @Override
+  protected void onBind() {
     lifecycleEvents.onNext(ViewHolderEvent.BIND);
   }
 
-  @Override protected void onUnbind() {
+  @Override
+  protected void onUnbind() {
     lifecycleEvents.onNext(ViewHolderEvent.UNBIND);
   }
 }

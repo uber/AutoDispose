@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,36 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.lifecycle;
-
-import io.reactivex.subjects.Subject;
-import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STARTED;
 import static com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STOPPED;
+
+import io.reactivex.subjects.Subject;
+import org.junit.Test;
 
 public class TestLifecycleScopeProviderTest {
 
   private final TestLifecycleScopeProvider testLifecycleScopeProvider =
       TestLifecycleScopeProvider.create();
 
-  @Test public void create_noArgs_shouldHaveNoState() {
+  @Test
+  public void create_noArgs_shouldHaveNoState() {
     assertThat(testLifecycleScopeProvider.peekLifecycle()).isNull();
   }
 
-  @Test public void createInitial_shouldUseInitialValuePassedIn() {
-    assertThat(TestLifecycleScopeProvider.createInitial(STARTED)
-        .peekLifecycle()).isEqualTo(STARTED);
+  @Test
+  public void createInitial_shouldUseInitialValuePassedIn() {
+    assertThat(TestLifecycleScopeProvider.createInitial(STARTED).peekLifecycle())
+        .isEqualTo(STARTED);
   }
 
-  @Test public void start_shouldTriggerStartEvent() {
+  @Test
+  public void start_shouldTriggerStartEvent() {
     testLifecycleScopeProvider.start();
 
     assertThat(testLifecycleScopeProvider.peekLifecycle()).isEqualTo(STARTED);
-    assertThat(testLifecycleScopeProvider.correspondingEvents()
-        .apply(testLifecycleScopeProvider.peekLifecycle())).isEqualTo(STOPPED);
+    assertThat(
+            testLifecycleScopeProvider
+                .correspondingEvents()
+                .apply(testLifecycleScopeProvider.peekLifecycle()))
+        .isEqualTo(STOPPED);
   }
 
   @Test(expected = LifecycleEndedException.class)
@@ -51,7 +56,8 @@ public class TestLifecycleScopeProviderTest {
     testLifecycleScopeProvider.stop();
 
     assertThat(testLifecycleScopeProvider.peekLifecycle()).isEqualTo(STOPPED);
-    testLifecycleScopeProvider.correspondingEvents()
+    testLifecycleScopeProvider
+        .correspondingEvents()
         .apply(testLifecycleScopeProvider.peekLifecycle());
   }
 
@@ -60,7 +66,8 @@ public class TestLifecycleScopeProviderTest {
     testLifecycleScopeProvider.stop();
   }
 
-  @Test public void lifecycleShouldNotExposeUnderlyingDelegate() {
+  @Test
+  public void lifecycleShouldNotExposeUnderlyingDelegate() {
     assertThat(testLifecycleScopeProvider.lifecycle()).isNotInstanceOf(Subject.class);
   }
 }

@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2017. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.test;
+
+import static com.google.common.truth.Truth.assertThat;
 
 import io.reactivex.CompletableObserver;
 import io.reactivex.MaybeObserver;
@@ -25,8 +26,6 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
-
-import static com.google.common.truth.Truth.assertThat;
 
 public final class RecordingObserver<T>
     implements Observer<T>, SingleObserver<T>, MaybeObserver<T>, CompletableObserver {
@@ -42,27 +41,32 @@ public final class RecordingObserver<T>
     this.logger = logger;
   }
 
-  @Override public void onError(Throwable e) {
+  @Override
+  public void onError(Throwable e) {
     logger.log("onError - " + e);
     events.addLast(new OnError(e));
   }
 
-  @Override public void onComplete() {
+  @Override
+  public void onComplete() {
     logger.log("onCompleted");
     events.addLast(new OnCompleted());
   }
 
-  @Override public void onSubscribe(Disposable d) {
+  @Override
+  public void onSubscribe(Disposable d) {
     logger.log("onSubscribe");
     events.addLast(new OnSubscribe(d));
   }
 
-  @Override public void onSuccess(T value) {
+  @Override
+  public void onSuccess(T value) {
     logger.log("onSuccess - " + value);
     events.addLast(new OnSuccess(value));
   }
 
-  @Override public void onNext(T t) {
+  @Override
+  public void onNext(T t) {
     logger.log("onNext - " + t);
     events.addLast(new OnNext(t));
   }
@@ -75,7 +79,8 @@ public final class RecordingObserver<T>
       throw new RuntimeException(e);
     }
     if (event == null) {
-      throw new NoSuchElementException("No event found while waiting for " + wanted.getSimpleName());
+      throw new NoSuchElementException(
+          "No event found while waiting for " + wanted.getSimpleName());
     }
     assertThat(event).isInstanceOf(wanted);
     return wanted.cast(event);
@@ -129,13 +134,15 @@ public final class RecordingObserver<T>
       this.value = value;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "OnNext[" + value + "]";
     }
   }
 
   private static final class OnCompleted {
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "OnCompleted";
     }
   }
@@ -149,7 +156,8 @@ public final class RecordingObserver<T>
       this.throwable = throwable;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "OnError[" + throwable + "]";
     }
   }
@@ -163,7 +171,8 @@ public final class RecordingObserver<T>
       this.disposable = disposable;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "OnSubscribe";
     }
   }
@@ -177,7 +186,8 @@ public final class RecordingObserver<T>
       this.value = value;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "OnSuccess[" + value + "]";
     }
   }

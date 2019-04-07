@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2018. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,40 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.ubercab.autodispose.rxlifecycle3;
 
 import com.trello.rxlifecycle3.LifecycleProvider;
 import com.trello.rxlifecycle3.LifecycleTransformer;
 import com.trello.rxlifecycle3.OutsideLifecycleException;
 import com.trello.rxlifecycle3.RxLifecycle;
-
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 
 final class TestLifecycleProvider implements LifecycleProvider<TestLifecycleProvider.Event> {
 
-  private static final Function<Event, Event> CORRESPONDING_EVENTS = event -> {
-    switch (event) {
-      case CREATE:
-        return Event.DESTROY;
-      default:
-        throw new OutsideLifecycleException("Lifecycle ended");
-    }
-  };
+  private static final Function<Event, Event> CORRESPONDING_EVENTS =
+      event -> {
+        switch (event) {
+          case CREATE:
+            return Event.DESTROY;
+          default:
+            throw new OutsideLifecycleException("Lifecycle ended");
+        }
+      };
 
   private final BehaviorSubject<Event> lifecycle = BehaviorSubject.create();
 
-  @Override public Observable<Event> lifecycle() {
+  @Override
+  public Observable<Event> lifecycle() {
     return lifecycle.hide();
   }
 
-  @Override public <T> LifecycleTransformer<T> bindUntilEvent(Event event) {
+  @Override
+  public <T> LifecycleTransformer<T> bindUntilEvent(Event event) {
     return RxLifecycle.bindUntilEvent(lifecycle, event);
   }
 
-  @Override public <T> LifecycleTransformer<T> bindToLifecycle() {
+  @Override
+  public <T> LifecycleTransformer<T> bindToLifecycle() {
     return RxLifecycle.bind(lifecycle, CORRESPONDING_EVENTS);
   }
 
@@ -59,6 +61,7 @@ final class TestLifecycleProvider implements LifecycleProvider<TestLifecycleProv
   }
 
   enum Event {
-    CREATE, DESTROY
+    CREATE,
+    DESTROY
   }
 }

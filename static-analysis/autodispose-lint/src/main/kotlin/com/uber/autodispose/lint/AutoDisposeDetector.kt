@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.lint
 
 import com.android.tools.lint.client.api.JavaEvaluator
@@ -53,7 +52,7 @@ internal const val OVERRIDE_SCOPES = "autodispose.overrideScopes"
 /**
  * Detector which checks if your stream subscriptions are handled by AutoDispose.
  */
-class AutoDisposeDetector: Detector(), SourceCodeScanner {
+class AutoDisposeDetector : Detector(), SourceCodeScanner {
 
   companion object {
     internal const val LINT_DESCRIPTION = "Missing Disposable handling: Apply AutoDispose or cache " +
@@ -62,8 +61,8 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     val ISSUE: Issue = Issue.create(
         "AutoDispose",
         LINT_DESCRIPTION,
-        "You're subscribing to an observable but not handling its subscription. This "
-            + "can result in memory leaks. You can avoid memory leaks by appending " +
+        "You're subscribing to an observable but not handling its subscription. This " +
+            "can result in memory leaks. You can avoid memory leaks by appending " +
             "`.as(autoDisposable(this))` before you subscribe or cache the Disposable instance" +
             " manually and enable lenient mode. More: https://github.com/uber/AutoDispose/wiki/Lint-Check",
         Category.CORRECTNESS,
@@ -220,8 +219,8 @@ class AutoDisposeDetector: Detector(), SourceCodeScanner {
     if (!getApplicableMethodNames().contains(method.name)) return
     val evaluator = context.evaluator
 
-    if (isReactiveType(evaluator, method)
-        && isInScope(evaluator, node.getContainingUClass())
+    if (isReactiveType(evaluator, method) &&
+        isInScope(evaluator, node.getContainingUClass())
     ) {
       if (!lenient) {
         context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)

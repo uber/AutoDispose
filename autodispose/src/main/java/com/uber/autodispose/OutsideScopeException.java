@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose;
 
-/**
- * Signifies an error occurred due to execution starting outside the lifecycle.
- */
+/** Signifies an error occurred due to execution starting outside the lifecycle. */
 public class OutsideScopeException extends RuntimeException {
 
   public OutsideScopeException(String s) {
     super(s);
   }
 
-  @Override public final synchronized Throwable fillInStackTrace() {
+  @Override
+  public final synchronized Throwable fillInStackTrace() {
     if (AutoDisposePlugins.getFillInOutsideScopeExceptionStacktraces()) {
       return super.fillInStackTrace();
     } else {

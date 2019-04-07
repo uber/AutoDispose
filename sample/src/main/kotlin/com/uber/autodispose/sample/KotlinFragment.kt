@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.uber.autodispose.sample
 
 import android.os.Bundle
@@ -28,7 +27,6 @@ import com.uber.autodispose.autoDisposable
 import com.uber.autodispose.recipes.subscribeBy
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
-
 
 /**
  * Demo Fragment showing both conventional lifecycle management as well as the new
@@ -53,8 +51,11 @@ class KotlinFragment : Fragment() {
         .subscribeBy { num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): $num") }
   }
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-      savedInstanceState: Bundle?): View? {
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
     Log.d(TAG, "onCreateView()")
     return inflater.inflate(R.layout.content_main, container, false)
   }

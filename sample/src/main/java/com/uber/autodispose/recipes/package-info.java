@@ -14,8 +14,5 @@
  * limitations under the License.
  */
 
-/**
- * Android recipes for AutoDispose.
- */
+/** Android recipes for AutoDispose. */
 package com.uber.autodispose.recipes;
-

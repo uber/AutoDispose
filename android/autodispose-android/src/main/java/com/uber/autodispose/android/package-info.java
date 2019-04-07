@@ -14,8 +14,5 @@
  * limitations under the License.
  */
 
-/**
- * Android components for AutoDispose.
- */
+/** Android components for AutoDispose. */
 package com.uber.autodispose.android;
-

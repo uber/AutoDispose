@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright 2019. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 @file:Suppress("NOTHING_TO_INLINE")
 
 package com.uber.autodispose.lifecycle
@@ -39,44 +38,49 @@ import io.reactivex.parallel.ParallelFlowable
  */
 @CheckReturnValue
 inline fun <T> Flowable<T>.autoDisposable(
-    provider: LifecycleScopeProvider<*>): FlowableSubscribeProxy<T>
-    = this.`as`(AutoDispose.autoDisposable(provider))
+  provider: LifecycleScopeProvider<*>
+): FlowableSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
  * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Observable<T>.autoDisposable(
-    provider: LifecycleScopeProvider<*>): ObservableSubscribeProxy<T>
-    = this.`as`(AutoDispose.autoDisposable(provider))
+  provider: LifecycleScopeProvider<*>
+): ObservableSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
  * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> Single<T>.autoDisposable(
-    provider: LifecycleScopeProvider<*>): SingleSubscribeProxy<T>
-    = this.`as`(AutoDispose.autoDisposable(provider))
+  provider: LifecycleScopeProvider<*>
+): SingleSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
  * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Maybe<T>.autoDisposable(provider: LifecycleScopeProvider<*>): MaybeSubscribeProxy<T>
-    = this.`as`(AutoDispose.autoDisposable(provider))
+inline fun <T> Maybe<T>.autoDisposable(provider: LifecycleScopeProvider<*>): MaybeSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(provider))
 
 /**
  * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun Completable.autoDisposable(
-    provider: LifecycleScopeProvider<*>): CompletableSubscribeProxy
-    = this.`as`(AutoDispose.autoDisposable<Any>(provider))
+  provider: LifecycleScopeProvider<*>
+): CompletableSubscribeProxy =
+    this.`as`(AutoDispose.autoDisposable<Any>(provider))
 
 /**
  * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
 inline fun <T> ParallelFlowable<T>.autoDisposable(
-    provider: LifecycleScopeProvider<*>): ParallelFlowableSubscribeProxy<T>
-    = this.`as`(AutoDispose.autoDisposable(provider))
+  provider: LifecycleScopeProvider<*>
+): ParallelFlowableSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(provider))
