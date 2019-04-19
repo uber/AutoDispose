@@ -20,7 +20,7 @@ dependencies {
   api deps.androidx.annotations
   implementation deps.rx.android
 
-  lintChecks project(':static-analysis:autodispose-lint')
+  lintPublish project(':static-analysis:autodispose-lint')
 
   testImplementation project(':test-utils')
   testImplementation deps.test.junit

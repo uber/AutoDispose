@@ -25,7 +25,7 @@ dependencies {
   implementation project(':android:autodispose-android')
   implementation deps.rx.android
 
-  lintChecks project(':static-analysis:autodispose-lint')
+  lintPublish project(':static-analysis:autodispose-lint')
 
   androidTestImplementation project(':android:autodispose-android-archcomponents-test')
   androidTestImplementation project(':test-utils')
