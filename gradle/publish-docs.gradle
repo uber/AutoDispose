@@ -19,7 +19,7 @@ configurations {
 }
 
 dependencies {
-  osstrich 'com.squareup.osstrich:osstrich:1.3.0'
+  osstrich 'com.squareup.osstrich:osstrich:1.4.0'
 }
 
 task publishDocs(type: JavaExec) {
