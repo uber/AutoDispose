@@ -26,7 +26,7 @@ dependencies {
   testImplementation deps.rx.java
   testImplementation deps.test.junit
   testImplementation project(':autodispose')
-  testImplementation project(':lifecycle:autodispose-lifecycle')
+  testImplementation project(':autodispose-lifecycle')
 }
 
 test {

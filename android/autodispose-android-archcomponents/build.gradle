@@ -18,7 +18,7 @@ dependencies {
   annotationProcessor deps.androidx.arch.lifecycle.compiler
 
   api project(':autodispose')
-  api project(':lifecycle:autodispose-lifecycle')
+  api project(':autodispose-lifecycle')
   api deps.androidx.annotations
   api deps.androidx.arch.lifecycle.runtime
 
