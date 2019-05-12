@@ -57,7 +57,6 @@ if (System.getenv("ANDROID_HOME") != null) {
   include ':android:autodispose-android'
   include ':android:autodispose-android-archcomponents'
   include ':android:autodispose-android-archcomponents-test'
-  include ':android:autodispose-android-archcomponents-test-ktx'
   include ':sample'
 }
 include ':autodispose'

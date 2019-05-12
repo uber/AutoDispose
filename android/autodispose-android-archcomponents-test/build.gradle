@@ -19,6 +19,7 @@ dependencies {
   api deps.androidx.annotations
   api deps.androidx.arch.lifecycle.common
   api deps.androidx.arch.lifecycle.runtime
+  implementation deps.kotlin.stdlib
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
