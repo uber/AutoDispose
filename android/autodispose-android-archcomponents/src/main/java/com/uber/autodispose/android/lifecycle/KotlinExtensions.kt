@@ -28,8 +28,7 @@ import io.reactivex.annotations.CheckReturnValue
  * Extension that returns a [ScopeProvider] for this [LifecycleOwner].
  */
 @CheckReturnValue
-inline fun LifecycleOwner.scope(): ScopeProvider = AndroidLifecycleScopeProvider.from(
-    this)
+inline fun LifecycleOwner.scope(): ScopeProvider = AndroidLifecycleScopeProvider.from(this)
 
 /**
  * Extension that returns a [ScopeProvider] for this [LifecycleOwner].
@@ -39,8 +38,7 @@ inline fun LifecycleOwner.scope(): ScopeProvider = AndroidLifecycleScopeProvider
 @CheckReturnValue
 inline fun LifecycleOwner.scope(
   untilEvent: Lifecycle.Event
-): ScopeProvider = AndroidLifecycleScopeProvider.from(
-    this, untilEvent)
+): ScopeProvider = AndroidLifecycleScopeProvider.from(this, untilEvent)
 
 /**
  * Extension that returns a [ScopeProvider] for this [LifecycleOwner].
@@ -50,8 +48,7 @@ inline fun LifecycleOwner.scope(
 @CheckReturnValue
 inline fun LifecycleOwner.scope(
   boundaryResolver: CorrespondingEventsFunction<Event>
-): ScopeProvider = AndroidLifecycleScopeProvider.from(
-    this, boundaryResolver)
+): ScopeProvider = AndroidLifecycleScopeProvider.from(this, boundaryResolver)
 
 /**
  * Extension that returns a [ScopeProvider] for this [Lifecycle].
