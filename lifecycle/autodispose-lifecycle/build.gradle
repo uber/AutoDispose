@@ -23,7 +23,8 @@ dependencies {
 
   signature deps.build.animalSniffer
 
-  testCompile project(':test-utils')
+  testImplementation project(':test-utils')
+  testImplementation deps.kotlin.stdlib
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
