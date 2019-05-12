@@ -79,7 +79,7 @@ AutoDisposePlugins.setOutsideScopeHandler(t -> {
 })
 ```
 
-A good use case of this is, say, just silently disposing/logging observers outside of lifecycle exceptions in production but crashing on debug.
+A good use case of this is, say, just silently disposing/logging observers outside of scope exceptions in production but crashing on debug.
 
 The supported mechanism to throw this is in `ScopeProvider#requestScope()` implementations.
 
