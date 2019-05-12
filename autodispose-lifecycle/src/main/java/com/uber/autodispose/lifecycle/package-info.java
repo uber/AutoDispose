@@ -15,6 +15,8 @@
  */
 
 /**
+ *
+ *
  * <pre><code>
  * public interface LifecycleScopeProvider<E> extends ScopeProvider {
  *   Observable<E> lifecycle();
@@ -29,42 +31,35 @@
  * </pre></code>
  *
  * <p>A common use case for this is objects that have implicit lifecycles, such as Android's {@code
- * Activity},
- * {@code Fragment}, and {@code View} classes. Internally at subscription-time, AutoDispose will
- * resolve
- * a {@link io.reactivex.CompletableSource} representation of the target {@code end} event in the
- * lifecycle, and exposes an API to dictate what
- * corresponding events are for the current lifecycle state (e.g. {@code ATTACH} -> {@code DETACH}).
- * This also allows
- * you to enforce lifecycle boundary requirements, and by default will error if the lifecycle has
- * either
+ * Activity}, {@code Fragment}, and {@code View} classes. Internally at subscription-time,
+ * AutoDispose will resolve a {@link io.reactivex.CompletableSource} representation of the target
+ * {@code end} event in the lifecycle, and exposes an API to dictate what corresponding events are
+ * for the current lifecycle state (e.g. {@code ATTACH} -> {@code DETACH}). This also allows you to
+ * enforce lifecycle boundary requirements, and by default will error if the lifecycle has either
  * not started yet or has already ended.
  *
  * <p>{@link com.uber.autodispose.lifecycle.LifecycleScopeProvider} is a special case targeted at
- * binding to things with lifecycles. Its API is
- * as follows:
- * - {@link com.uber.autodispose.lifecycle.LifecycleScopeProvider#lifecycle()} - returns an {@link
+ * binding to things with lifecycles. Its API is as follows: - {@link
+ * com.uber.autodispose.lifecycle.LifecycleScopeProvider#lifecycle()} - returns an {@link
  * io.reactivex.Observable} of lifecycle events. This should be backed by a {@link
- * io.reactivex.subjects.BehaviorSubject}
- * or something similar ({@code BehaviorRelay}, etc).
- * - {@link com.uber.autodispose.lifecycle.LifecycleScopeProvider#correspondingEvents()} - a mapping
- * of events to corresponding ones, i.e. Attach -> Detach.
- * - {@link com.uber.autodispose.lifecycle.LifecycleScopeProvider#peekLifecycle()} - returns the
- * current lifecycle state of the object.
+ * io.reactivex.subjects.BehaviorSubject} or something similar ({@code BehaviorRelay}, etc). -
+ * {@link com.uber.autodispose.lifecycle.LifecycleScopeProvider#correspondingEvents()} - a mapping
+ * of events to corresponding ones, i.e. Attach -> Detach. - {@link
+ * com.uber.autodispose.lifecycle.LifecycleScopeProvider#peekLifecycle()} - returns the current
+ * lifecycle state of the object.
  *
  * <p>In {@link com.uber.autodispose.ScopeProvider#requestScope()}, the implementation expects to
- * these pieces to construct a {@link io.reactivex.CompletableSource} representation
- * of the proper end scope, while also doing precondition checks for lifecycle boundaries. If a
- * lifecycle has not started, it will send you to {@code onError} with a {@link
- * com.uber.autodispose.lifecycle.LifecycleNotStartedException}. If
- * the lifecycle as ended, it is recommended to throw a {@link com.uber.autodispose.lifecycle.LifecycleEndedException}
- * in your
+ * these pieces to construct a {@link io.reactivex.CompletableSource} representation of the proper
+ * end scope, while also doing precondition checks for lifecycle boundaries. If a lifecycle has not
+ * started, it will send you to {@code onError} with a {@link
+ * com.uber.autodispose.lifecycle.LifecycleNotStartedException}. If the lifecycle as ended, it is
+ * recommended to throw a {@link com.uber.autodispose.lifecycle.LifecycleEndedException} in your
  * {@link com.uber.autodispose.lifecycle.LifecycleScopeProvider#correspondingEvents()
  * correspondingEvents()} mapping, but it is up to the user.
  *
- * <p>To simplify implementations, there's an included {@link com.uber.autodispose.lifecycle.LifecycleScopes}
- * utility class with factories
- * for generating {@link io.reactivex.CompletableSource} representations from {@link
+ * <p>To simplify implementations, there's an included {@link
+ * com.uber.autodispose.lifecycle.LifecycleScopes} utility class with factories for generating
+ * {@link io.reactivex.CompletableSource} representations from {@link
  * com.uber.autodispose.lifecycle.LifecycleScopeProvider} instances.
  */
 package com.uber.autodispose.lifecycle;

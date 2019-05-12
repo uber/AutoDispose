@@ -8,10 +8,10 @@ drop in the relevant factory call + method for that type as a converter. In ever
 usually looks like this:
 
 ```
-  myObservable
-    .doStuff()
-    .as(autoDisposable(this))   // <-- AutoDispose
-    .subscribe(s -> ...);
+myObservable
+	.doStuff()
+	.as(autoDisposable(this))   // <-- AutoDispose
+	.subscribe(s -> ...);
 ```
 
 By doing this, you will automatically unsubscribe from `myObservable` as indicated by your scope
