@@ -186,9 +186,6 @@ There are three artifacts with extra support for Android:
 * `autodispose-android-archcomponents` has a `AndroidLifecycleScopeProvider` for use with `LifecycleOwner` and `Lifecycle` implementations.
 * `autodispose-android-archcomponents-test` has a `TestLifecycleOwner` for use in testing.
 
-For each artifact, there is a corresponding kotlin extensions artifact with it. Example:
-`autodispose-android` -> `autodispose-android-ktx`.
-
 Note that the project is compiled against Java 8. If you need support for lower Java versions, you should
 use D8 (Android Gradle Plugin 3.2+) or desugar as needed (depending on the build system).
 
@@ -322,11 +319,6 @@ implementation 'com.uber.autodispose:autodispose-rxlifecycle3:x.y.z'
 ```
 
 Kotlin extensions:
-
-`autodispose-android-ktx` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-ktx.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-ktx) 
-```gradle
-implementation 'com.uber.autodispose:autodispose-android-ktx:x.y.z'
-```
 
 `autodispose-android-archcomponents-ktx` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-ktx.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-ktx) 
 ```gradle

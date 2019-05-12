@@ -37,7 +37,8 @@ buildscript {
 }
 
 Set<String> mixedSourcesArtifacts = [
-    "autodispose"
+    "autodispose",
+    "autodispose-android"
 ]
 // These are files with different copyright headers that should not be modified automatically.
 String[] copiedFiles = [
@@ -94,7 +95,7 @@ subprojects {
   boolean isLint = project.path.endsWith("-lint")
   boolean isKotlin = project.path.endsWith("-ktx") || isLint || isMixedSourceSet
   boolean isSample = project.name == "sample"
-  boolean isJavaLibrary = !isAndroidLibrary && !isKotlin && !isSample || isMixedSourceSet
+  boolean isJavaLibrary = !isAndroidLibrary && !isKotlin && !isSample || (isMixedSourceSet && !isAndroidLibrary)
   boolean usesErrorProne = !isKotlin && !isSample || isMixedSourceSet
   if (isAndroidLibrary) {
     project.apply plugin: 'com.android.library'
