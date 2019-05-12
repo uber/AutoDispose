@@ -81,7 +81,7 @@ dependencies {
   implementation project(':android:autodispose-android')
   implementation project(':android:autodispose-android-archcomponents')
   implementation project(':autodispose')
-  implementation project(':lifecycle:autodispose-lifecycle')
+  implementation project(':autodispose-lifecycle')
   implementation 'androidx.appcompat:appcompat:1.0.2'
   implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
   implementation 'com.google.android.material:material:1.0.0'

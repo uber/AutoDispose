@@ -18,12 +18,13 @@ dependencies {
   annotationProcessor deps.androidx.arch.lifecycle.compiler
 
   api project(':autodispose')
-  api project(':lifecycle:autodispose-lifecycle')
+  api project(':autodispose-lifecycle')
   api deps.androidx.annotations
   api deps.androidx.arch.lifecycle.runtime
 
   implementation project(':android:autodispose-android')
   implementation deps.rx.android
+  implementation deps.kotlin.stdlib
 
   lintPublish project(':static-analysis:autodispose-lint')
 

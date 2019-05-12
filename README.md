@@ -79,7 +79,7 @@ AutoDisposePlugins.setOutsideScopeHandler(t -> {
 })
 ```
 
-A good use case of this is, say, just silently disposing/logging observers outside of lifecycle exceptions in production but crashing on debug.
+A good use case of this is, say, just silently disposing/logging observers outside of scope exceptions in production but crashing on debug.
 
 The supported mechanism to throw this is in `ScopeProvider#requestScope()` implementations.
 
@@ -172,12 +172,7 @@ the lifecycle as ended, it is recommended to throw a `LifecycleEndedException` i
 To simplify implementations, there's an included `LifecycleScopes` utility class with factories 
 for generating `CompletableSource` representations from `LifecycleScopeProvider` instances.
 
-There are three artifacts with this support:
-- `autodispose-lifecycle`: Contains the core `LifecycleScopeProvider` and `LifecycleScopes` APIs. Also has a convenience test helper.
-- `autodispose-lifecycle-jdk8`: Contains a simple `DefaultLifecycleScopeProvider` with a Java 8 `default`
-method implementation of `requestScope()`.
-- `autodispose-lifecycle-ktx`: Contains convenience kotlin extension functions and a `KotlinLifecycleScopeProvider`
-that has a default implementation for `requestScope()` (similar to the jdk8 artifact, but for Kotlin).
+`autodispose-lifecycle` contains the core `LifecycleScopeProvider` and `LifecycleScopes` APIs as well as a convenience test helper.
 
 ##### Android
 
