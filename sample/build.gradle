@@ -30,6 +30,9 @@ android {
   defaultConfig {
     minSdkVersion deps.build.minSdkVersion
     targetSdkVersion deps.build.targetSdkVersion
+
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    testApplicationId "com.uber.autodispose.android.lifecycle.androidTest"
   }
   compileOptions {
     sourceCompatibility deps.build.javaVersion
@@ -50,6 +53,9 @@ android {
     debug {
       matchingFallbacks = ['release']
     }
+  }
+  testOptions {
+    execution 'ANDROIDX_TEST_ORCHESTRATOR'
   }
 
 //  def classesWithScope = [
@@ -102,4 +108,11 @@ dependencies {
   releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
 
   androidTestImplementation project(':test-utils')
+  androidTestImplementation deps.test.androidRunner
+  androidTestImplementation deps.test.androidRules
+  androidTestUtil deps.test.androidOrchestrator
+  androidTestImplementation(deps.test.androidExtJunit) {
+    // https://issuetracker.google.com/issues/117486311
+    exclude group: "org.junit"
+  }
 }

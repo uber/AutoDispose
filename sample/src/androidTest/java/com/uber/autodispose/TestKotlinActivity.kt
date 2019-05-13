@@ -22,11 +22,13 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.android.lifecycle.autoDisposable
 import com.uber.autodispose.android.lifecycle.scope
 import io.reactivex.Observable
+import org.junit.Ignore
 import java.util.concurrent.TimeUnit
 
 /**
  * Test Activity class to verify compilation of various extension functions.
  */
+@Ignore
 class TestKotlinActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
