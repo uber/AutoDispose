@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Test Activity class to verify compilation of various extension functions.
  */
-@Ignore
+@Ignore("Since it's only used to verify compilation of the extension functions")
 class TestKotlinActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
