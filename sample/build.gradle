@@ -100,4 +100,6 @@ dependencies {
   def leakcanaryVersion = '1.6.2'
   debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
   releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
+
+  androidTestImplementation project(':test-utils')
 }

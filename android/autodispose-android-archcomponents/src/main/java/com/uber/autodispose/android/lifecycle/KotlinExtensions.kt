@@ -20,9 +20,22 @@ package com.uber.autodispose.android.lifecycle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Lifecycle.Event
 import androidx.lifecycle.LifecycleOwner
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.FlowableSubscribeProxy
+import com.uber.autodispose.ObservableSubscribeProxy
+import com.uber.autodispose.SingleSubscribeProxy
+import com.uber.autodispose.MaybeSubscribeProxy
+import com.uber.autodispose.CompletableSubscribeProxy
+import com.uber.autodispose.ParallelFlowableSubscribeProxy
 import com.uber.autodispose.ScopeProvider
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
 import io.reactivex.annotations.CheckReturnValue
+import io.reactivex.parallel.ParallelFlowable
+import io.reactivex.Observable
+import io.reactivex.Flowable
+import io.reactivex.Maybe
+import io.reactivex.Single
+import io.reactivex.Completable
 
 /**
  * Extension that returns a [ScopeProvider] for this [LifecycleOwner].
@@ -77,3 +90,93 @@ inline fun Lifecycle.scope(
   boundaryResolver: CorrespondingEventsFunction<Event>
 ): ScopeProvider = AndroidLifecycleScopeProvider.from(
     this, boundaryResolver)
+
+/**
+ * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Flowable<T>.autoDisposable(lifecycleOwner: LifecycleOwner): FlowableSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+
+/**
+ * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
+ * subscription will be disposed.
+ */
+@CheckReturnValue
+inline fun <T> Flowable<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event): FlowableSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+
+/**
+ * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Observable<T>.autoDisposable(lifecycleOwner: LifecycleOwner): ObservableSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+
+/**
+ * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
+ * subscription will be disposed.
+ */
+@CheckReturnValue
+inline fun <T> Observable<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event): ObservableSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+
+/**
+ * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Single<T>.autoDisposable(lifecycleOwner: LifecycleOwner): SingleSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+
+/**
+ * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
+ * subscription will be disposed.
+ */
+@CheckReturnValue
+inline fun <T> Single<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event): SingleSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+
+/**
+ * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> Maybe<T>.autoDisposable(lifecycleOwner: LifecycleOwner): MaybeSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+
+/**
+ * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
+ * subscription will be disposed.
+ */
+@CheckReturnValue
+inline fun <T> Maybe<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event): MaybeSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+
+/**
+ * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun Completable.autoDisposable(lifecycleOwner: LifecycleOwner): CompletableSubscribeProxy =
+    this.`as`(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+
+/**
+ * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
+ * subscription will be disposed.
+ */
+@CheckReturnValue
+inline fun Completable.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event): CompletableSubscribeProxy =
+    this.`as`(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+
+/**
+ * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
+ */
+@CheckReturnValue
+inline fun <T> ParallelFlowable<T>.autoDisposable(lifecycleOwner: LifecycleOwner): ParallelFlowableSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+
+/**
+ * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
+ * subscription will be disposed.
+ */
+@CheckReturnValue
+inline fun <T> ParallelFlowable<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event): ParallelFlowableSubscribeProxy<T> =
+    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
