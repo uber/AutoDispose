@@ -23,9 +23,12 @@ import com.uber.autodispose.android.autoDisposable
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.android.lifecycle.autoDisposable
 import com.uber.autodispose.android.lifecycle.scope
+import io.reactivex.Maybe
+import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
-import io.reactivex.Observable
+import io.reactivex.Flowable
 import org.junit.Ignore
 import java.util.concurrent.TimeUnit
 
@@ -56,6 +59,38 @@ class TestKotlinActivity : AppCompatActivity(), ScopeProvider {
     // With no extension function
     Observable.interval(1, TimeUnit.SECONDS)
         .autoDisposable(AndroidLifecycleScopeProvider.from(this))
+        .subscribe()
+
+    Maybe.just(1)
+        .autoDisposable(this)
+        .subscribe()
+
+    Maybe.just(1)
+        .autoDisposable(this, Lifecycle.Event.ON_DESTROY)
+        .subscribe()
+
+    Flowable.just(1)
+        .autoDisposable(this)
+        .subscribe()
+
+    Flowable.just(1)
+        .autoDisposable(this, Lifecycle.Event.ON_DESTROY)
+        .subscribe()
+
+    Single.just(1)
+        .autoDisposable(this)
+        .subscribe()
+
+    Single.just(1)
+        .autoDisposable(this, Lifecycle.Event.ON_DESTROY)
+        .subscribe()
+
+    Completable.never()
+        .autoDisposable(this)
+        .subscribe()
+
+    Completable.never()
+        .autoDisposable(this, Lifecycle.Event.ON_DESTROY)
         .subscribe()
 
     val rootView = findViewById<View>(android.R.id.content)
