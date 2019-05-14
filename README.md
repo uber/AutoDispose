@@ -186,8 +186,7 @@ use D8 (Android Gradle Plugin 3.2+) or desugar as needed (depending on the build
 
 ##### Kotlin
 
-Kotlin extension artifacts are available for almost every artifact by adding `-ktx` to the ID like 
-above.
+Kotlin extensions are bundled with almost every artifact.
 
 ##### RxLifecycle
 
@@ -276,8 +275,6 @@ LifecycleScopeProvider:
 [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-lifecycle.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-lifecycle)
 ```gradle
 implementation 'com.uber.autodispose:autodispose-lifecycle:x.y.z'
-implementation 'com.uber.autodispose:autodispose-lifecycle-jdk8:x.y.z'
-implementation 'com.uber.autodispose:autodispose-lifecycle-ktx:x.y.z'
 ```
 
 Android extensions:
@@ -311,18 +308,6 @@ implementation 'com.uber.autodispose:autodispose-rxlifecycle:x.y.z'
 `autodispose-rxlifecycle3` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-rxlifecycle3.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-rxlifecycle3)
 ```gradle
 implementation 'com.uber.autodispose:autodispose-rxlifecycle3:x.y.z'
-```
-
-Kotlin extensions:
-
-`autodispose-android-archcomponents-ktx` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-ktx.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-ktx) 
-```gradle
-implementation 'com.uber.autodispose:autodispose-android-archcomponents-ktx:x.y.z'
-```
-
-`autodispose-android-archcomponents-test-ktx` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test-ktx.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test-ktx) 
-```gradle
-implementation 'com.uber.autodispose:autodispose-android-archcomponents-test-ktx:x.y.z'
 ```
 
 Javadocs and KDocs for the most recent release can be found here: https://uber.github.io/AutoDispose/1.x/
