@@ -23,6 +23,8 @@ import com.uber.autodispose.android.autoDisposable
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.android.lifecycle.autoDisposable
 import com.uber.autodispose.android.lifecycle.scope
+import io.reactivex.Completable
+import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import org.junit.Ignore
 import java.util.concurrent.TimeUnit
@@ -31,7 +33,7 @@ import java.util.concurrent.TimeUnit
  * Test Activity class to verify compilation of various extension functions.
  */
 @Ignore("Since it's only used to verify compilation of the extension functions")
-class TestKotlinActivity : AppCompatActivity() {
+class TestKotlinActivity : AppCompatActivity(), ScopeProvider {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -62,5 +64,9 @@ class TestKotlinActivity : AppCompatActivity() {
     Observable.interval(1, TimeUnit.DAYS)
         .autoDisposable(rootView)
         .subscribe()
+  }
+
+  override fun requestScope(): CompletableSource {
+    return Completable.complete()
   }
 }
