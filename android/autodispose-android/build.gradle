@@ -28,10 +28,7 @@ dependencies {
   testImplementation deps.test.truth
   androidTestImplementation project(':test-utils')
   androidTestImplementation deps.androidx.annotations
-  androidTestImplementation(deps.test.androidExtJunit) {
-    // https://issuetracker.google.com/issues/117486311
-    exclude group: "org.junit"
-  }
+  androidTestImplementation deps.test.androidExtJunit
   androidTestImplementation deps.test.androidRunner
   androidTestImplementation deps.test.androidRules
   androidTestUtil deps.test.androidOrchestrator
