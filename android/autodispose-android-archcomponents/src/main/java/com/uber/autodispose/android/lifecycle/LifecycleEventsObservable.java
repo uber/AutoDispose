@@ -17,12 +17,9 @@ package com.uber.autodispose.android.lifecycle;
 
 import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 import static androidx.lifecycle.Lifecycle.Event.ON_CREATE;
-import static androidx.lifecycle.Lifecycle.Event.ON_DESTROY;
-import static androidx.lifecycle.Lifecycle.Event.ON_RESUME;
-import static androidx.lifecycle.Lifecycle.Event.ON_START;
 import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
+import static com.uber.autodispose.android.lifecycle.internal.CorrespondingEventsUtil.getCorrespondingEvent;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Lifecycle.Event;
@@ -55,23 +52,7 @@ class LifecycleEventsObservable extends Observable<Event> {
    * corresponding event is DESTROY.
    */
   void backfillEvents() {
-    @Nullable Lifecycle.Event correspondingEvent;
-    switch (lifecycle.getCurrentState()) {
-      case INITIALIZED:
-        correspondingEvent = ON_CREATE;
-        break;
-      case CREATED:
-        correspondingEvent = ON_START;
-        break;
-      case STARTED:
-      case RESUMED:
-        correspondingEvent = ON_RESUME;
-        break;
-      case DESTROYED:
-      default:
-        correspondingEvent = ON_DESTROY;
-        break;
-    }
+    Lifecycle.Event correspondingEvent = getCorrespondingEvent(lifecycle);
     eventsObservable.onNext(correspondingEvent);
   }
 

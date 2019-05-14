@@ -15,11 +15,12 @@
  */
 package com.uber.autodispose.android.lifecycle;
 
+import static com.uber.autodispose.android.lifecycle.internal.CorrespondingEventsUtil.DEFAULT_CORRESPONDING_EVENTS;
+
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
-import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.LifecycleScopes;
 import io.reactivex.CompletableSource;
@@ -37,24 +38,6 @@ import io.reactivex.Observable;
  */
 public final class AndroidLifecycleScopeProvider
     implements LifecycleScopeProvider<Lifecycle.Event> {
-
-  private static final CorrespondingEventsFunction<Lifecycle.Event> DEFAULT_CORRESPONDING_EVENTS =
-      lastEvent -> {
-        switch (lastEvent) {
-          case ON_CREATE:
-            return Lifecycle.Event.ON_DESTROY;
-          case ON_START:
-            return Lifecycle.Event.ON_STOP;
-          case ON_RESUME:
-            return Lifecycle.Event.ON_PAUSE;
-          case ON_PAUSE:
-            return Lifecycle.Event.ON_STOP;
-          case ON_STOP:
-          case ON_DESTROY:
-          default:
-            throw new LifecycleEndedException("Lifecycle has ended! Last event was " + lastEvent);
-        }
-      };
 
   private final CorrespondingEventsFunction<Lifecycle.Event> boundaryResolver;
 
