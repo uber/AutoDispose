@@ -16,8 +16,10 @@
 package com.uber.autodispose
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
+import com.uber.autodispose.android.autoDisposable
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.android.lifecycle.autoDisposable
 import com.uber.autodispose.android.lifecycle.scope
@@ -52,6 +54,13 @@ class TestKotlinActivity : AppCompatActivity() {
     // With no extension function
     Observable.interval(1, TimeUnit.SECONDS)
         .autoDisposable(AndroidLifecycleScopeProvider.from(this))
+        .subscribe()
+
+    val rootView = findViewById<View>(android.R.id.content)
+
+    // Taking scope of a View
+    Observable.interval(1, TimeUnit.DAYS)
+        .autoDisposable(rootView)
         .subscribe()
   }
 }
