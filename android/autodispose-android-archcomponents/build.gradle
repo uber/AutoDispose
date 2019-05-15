@@ -24,7 +24,6 @@ dependencies {
 
   implementation project(':android:autodispose-android')
   implementation deps.rx.android
-  implementation deps.kotlin.stdlib
 
   lintPublish project(':static-analysis:autodispose-lint')
 

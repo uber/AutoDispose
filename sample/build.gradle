@@ -83,13 +83,23 @@ android {
 //  }
 }
 
+project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+  kotlinOptions {
+    freeCompilerArgs = [
+        "-Xjsr305=strict",
+        "-progressive"
+    ]
+    jvmTarget = "1.8"
+  }
+}
+
 dependencies {
   implementation project(':android:autodispose-android')
   implementation project(':android:autodispose-android-archcomponents')
   implementation project(':autodispose')
   implementation project(':autodispose-lifecycle')
   implementation 'androidx.appcompat:appcompat:1.0.2'
-  implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+  implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
   implementation 'com.google.android.material:material:1.0.0'
   implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
   implementation "androidx.fragment:fragment:1.0.0"
@@ -103,9 +113,7 @@ dependencies {
 //  errorprone deps.build.nullAway
 //  errorprone project(':static-analysis:autodispose-error-prone')
 
-  def leakcanaryVersion = '1.6.2'
-  debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
-  releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
+  debugImplementation "com.squareup.leakcanary:leakcanary-android:2.0-alpha-1"
 
   androidTestImplementation project(':test-utils')
   androidTestImplementation deps.test.androidRunner

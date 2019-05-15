@@ -129,14 +129,52 @@ subprojects {
     if (isAndroidLibrary) {
       project.apply plugin: 'org.jetbrains.kotlin.android'
       project.apply plugin: 'org.jetbrains.dokka-android'
+
+      project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+          freeCompilerArgs = [
+              "-Xjsr305=strict",
+              "-progressive"
+          ]
+          jvmTarget = "1.8"
+        }
+      }
     } else {
       project.apply plugin: 'org.jetbrains.kotlin.jvm'
       project.apply plugin: 'org.jetbrains.dokka'
+
+      project.compileKotlin {
+        kotlinOptions {
+          freeCompilerArgs = [
+              "-Xjsr305=strict",
+              "-progressive"
+          ]
+          jvmTarget = "1.8"
+        }
+      }
+      project.compileTestKotlin {
+        kotlinOptions {
+          freeCompilerArgs = [
+              "-Xjsr305=strict",
+              "-progressive"
+          ]
+          jvmTarget = "1.8"
+        }
+      }
     }
     // Lint must be compileOnly, mixed source sets (for now) must manually specify depending on needs
     if (!(isLint || isMixedSourceSet)) {
       project.dependencies {
         api deps.kotlin.stdlib
+      }
+    } else {
+      // Lint or mixed source set
+      project.dependencies {
+        compileOnly deps.kotlin.stdlib
+        testImplementation deps.kotlin.stdlib
+        if (isAndroidLibrary) {
+          androidTestImplementation deps.kotlin.stdlib
+        }
       }
     }
   }
