@@ -35,7 +35,7 @@ import io.reactivex.parallel.ParallelFlowable
 /**
  * Extension that converts a [LifecycleProvider] to [ScopeProvider].
  */
-fun <E> LifecycleProvider<E>.scope(event: E? = null): ScopeProvider {
+inline fun <E> LifecycleProvider<E>.scope(event: E? = null): ScopeProvider {
   return if (event == null) {
     RxLifecycleInterop.from(this)
   } else {
