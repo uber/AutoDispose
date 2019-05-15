@@ -125,11 +125,11 @@ class TestKotlinActivity : AppCompatActivity(), ScopeProvider {
     }
 
     override fun <T : Any?> bindUntilEvent(event: Event): LifecycleTransformer<T> {
-      TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+      TODO("Stub to test compilation of extensions that use LifecycleProvider")
     }
 
     override fun <T : Any?> bindToLifecycle(): LifecycleTransformer<T> {
-      TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+      TODO("Stub to test compilation of extensions that use LifecycleProvider")
     }
 
     enum class Event {
