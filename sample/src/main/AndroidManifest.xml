@@ -27,7 +27,6 @@
       android:supportsRtl="true"
       android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
       android:fullBackupContent="@null"
-      android:name=".AutoDisposeApplication"
       tools:ignore="GoogleAppIndexingWarning">
     <activity
         android:name=".JavaActivity"

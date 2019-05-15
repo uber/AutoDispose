@@ -113,9 +113,7 @@ dependencies {
 //  errorprone deps.build.nullAway
 //  errorprone project(':static-analysis:autodispose-error-prone')
 
-  def leakcanaryVersion = '1.6.2'
-  debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
-  releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
+  debugImplementation "com.squareup.leakcanary:leakcanary-android:2.0-alpha-1"
 
   androidTestImplementation project(':test-utils')
   androidTestImplementation deps.test.androidRunner
