@@ -19,10 +19,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
+import com.trello.rxlifecycle3.LifecycleProvider
+import com.trello.rxlifecycle3.LifecycleTransformer
 import com.uber.autodispose.android.autoDisposable
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.android.lifecycle.autoDisposable
 import com.uber.autodispose.android.lifecycle.scope
+import com.ubercab.autodispose.rxlifecycle3.autoDisposable
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -99,9 +102,39 @@ class TestKotlinActivity : AppCompatActivity(), ScopeProvider {
     Observable.interval(1, TimeUnit.DAYS)
         .autoDisposable(rootView)
         .subscribe()
+
+    // RxLifecycle
+    val lifecycleProvider = TestLifecycleProvider()
+    Observable.interval(1, TimeUnit.SECONDS)
+        .autoDisposable(lifecycleProvider)
+        .subscribe()
+
+    Observable.interval(1, TimeUnit.SECONDS)
+        .autoDisposable(lifecycleProvider, TestLifecycleProvider.Event.CREATE)
+        .subscribe()
   }
 
   override fun requestScope(): CompletableSource {
     return Completable.complete()
+  }
+
+  /** Stub implementation for [LifecycleProvider] for compilation testing */
+  class TestLifecycleProvider : LifecycleProvider<TestLifecycleProvider.Event> {
+    override fun lifecycle(): Observable<Event> {
+      return Observable.empty<Event>()
+    }
+
+    override fun <T : Any?> bindUntilEvent(event: Event): LifecycleTransformer<T> {
+      TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun <T : Any?> bindToLifecycle(): LifecycleTransformer<T> {
+      TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+    }
+
+    enum class Event {
+      CREATE,
+      DESTROY
+    }
   }
 }
