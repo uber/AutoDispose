@@ -26,12 +26,11 @@ lintOptions {
 
 dependencies {
   api deps.rx.java
-  implementation deps.kotlin.stdlib
 
   signature deps.build.animalSniffer
   lintChecks project(':static-analysis:autodispose-lint')
 
-  testCompile project(':test-utils')
+  testImplementation project(':test-utils')
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

@@ -26,7 +26,6 @@ targetCompatibility = deps.build.javaVersion
 dependencies {
   kapt deps.apt.autoService
 
-  compileOnly deps.kotlin.stdlib
   compileOnly deps.build.lint.api
   compileOnly deps.apt.autoService
 

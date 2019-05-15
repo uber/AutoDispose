@@ -138,6 +138,11 @@ subprojects {
       project.dependencies {
         api deps.kotlin.stdlib
       }
+    } else {
+      // Lint or mixed source set
+      project.dependencies {
+        compileOnly deps.kotlin.stdlib
+      }
     }
   }
   if (isJavaLibrary) {

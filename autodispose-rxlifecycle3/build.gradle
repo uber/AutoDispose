@@ -18,7 +18,7 @@ dependencies {
     api project(':autodispose')
     api deps.misc.rxlifecycle3
 
-    testCompile project(':test-utils')
+    testImplementation project(':test-utils')
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
