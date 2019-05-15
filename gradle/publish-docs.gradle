@@ -18,6 +18,10 @@ configurations {
   osstrich
 }
 
+repositories {
+  mavenCentral()
+}
+
 dependencies {
   osstrich 'com.squareup.osstrich:osstrich:1.4.0'
 }
