@@ -21,21 +21,21 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Lifecycle.Event
 import androidx.lifecycle.LifecycleOwner
 import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.FlowableSubscribeProxy
-import com.uber.autodispose.ObservableSubscribeProxy
-import com.uber.autodispose.SingleSubscribeProxy
-import com.uber.autodispose.MaybeSubscribeProxy
 import com.uber.autodispose.CompletableSubscribeProxy
+import com.uber.autodispose.FlowableSubscribeProxy
+import com.uber.autodispose.MaybeSubscribeProxy
+import com.uber.autodispose.ObservableSubscribeProxy
 import com.uber.autodispose.ParallelFlowableSubscribeProxy
 import com.uber.autodispose.ScopeProvider
+import com.uber.autodispose.SingleSubscribeProxy
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
-import io.reactivex.annotations.CheckReturnValue
-import io.reactivex.parallel.ParallelFlowable
-import io.reactivex.Observable
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.Completable
+import io.reactivex.annotations.CheckReturnValue
+import io.reactivex.parallel.ParallelFlowable
 
 /**
  * Extension that returns a [ScopeProvider] for this [LifecycleOwner].
