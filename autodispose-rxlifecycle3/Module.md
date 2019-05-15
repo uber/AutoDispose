@@ -1,3 +1,3 @@
 # Module autodispose-rxlifecycle3
 
-RxLifecycle3 extensions for AutoDispose.
+AutoDispose extensions for interop with RxLifecycle. This namely supports `LifecycleProvider`.
