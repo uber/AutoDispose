@@ -1,6 +1,69 @@
 Changelog
 =========
 
+Version 1.3.0
+-------------
+
+_2019-05-15_
+
+### Unified Kotlin extensions
+
+Starting with 1.3.0, all the `-ktx` artifacts and their kotlin extensions have been merged into the main artifacts they extended. This means that extensions in an artifact like `autodispose-android-ktx` are now available directly in the corresponding `autodispose-android`. 
+
+This is a binary-compatible change because the extensions file name has changed while the extensions themselves have remained in the same package. So in essence, `import com.uber.autodispose.autoDisposable` still works as-is. Just remove the ktx artifact dependencies and everything will still link as-is!
+
+The Kotlin standard library has been added as an implementation dependency of artifacts containing Kotlin bindings. If you don't use Kotlin however, this can be safely stripped (and will be by common) minification tools like Proguard or R8.
+
+Proguard/R8 configurations in the unified artifacts have been updated to not warn on these `KotlinExtensions` files as they can be safely stripped in builds.
+
+**NOTE:** One important thing this revealed was that the ktx artifacts were built with jdk target 1.6, while depending on Java artifacts that were built against JDK 8. Now that they are unified, this means that the Kotlin extensions require targeting JDK 1.8 as well (configurable via compiler arg `-jvm-target=1.8`).
+
+PRs: [#339](https://github.com/uber/AutoDispose/pull/339) [#341](https://github.com/uber/AutoDispose/pull/341) [#346](https://github.com/uber/AutoDispose/pull/346)
+
+### More Kotlin extensions!
+
+Initially, we only provided minimal Kotlin extensions to support scopes on extra types like Android's `LifecycleOwner`, `View`, etc. This resulted in a bit of ceremony for these APIs to be used though, such as:
+
+```kotlin
+Observable.just(1)
+    .autoDisposable(AndroidLifecycleScopeProvider.from(this))
+    .subscribe()
+```
+
+To simplify this, we've added the following top-level extension functions for the following:
+* `autodispose-android` - `View`
+* `autodispose-archcomponents` - `LifecycleOwner`
+* `autodispose-rxlifecycle` - `LifecycleProvider`
+* `autodispose-rxlifecycle3` - `LifecycleProvider`
+
+PRs: [#348](https://github.com/uber/AutoDispose/pull/348) [#353](https://github.com/uber/AutoDispose/pull/353)
+
+### Removed deprecated lifecycle artifacts
+
+Following their deprecating in 1.1.0, the `autodispose-lifecycle-jdk8` and `autodispose-lifecycle-ktx` artifacts are no longer published. Please move to just using `LifecycleScopeProvider` directly.
+
+### Misc
+
+Dependency updates
+
+    Kotlin: 1.3.31
+    AndroidX Annotations: 1.0.2
+    RxJava: 2.2.8
+    RxAndroid: 2.1.1
+
+Artifact changes
+
+| Original | Merged into (if applicable) |
+|-|-|
+| autodispose-ktx | autodispose |
+| autodispose-android-ktx | autodispose-android |
+| autodispose-android-archcomponents-ktx | autodispose-android-archcomponents |
+| autodispose-android-archcomponents-test-ktx | autodispose-android-archcomponents-test |
+| autodispose-lifecycle-ktx | N/A |
+| autodispose-lifecycle-jdk8 | N/A |
+
+_Note:_ This does not mean the existing versions were deleted or removed in any way, just that we will not publish 1.3.0 or later versions of them.
+
 Version 1.2.0
 -------------
 
