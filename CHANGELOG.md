@@ -12,9 +12,9 @@ Starting with 1.3.0, all the `-ktx` artifacts and their kotlin extensions have b
 
 This is a binary-compatible change because the extensions file name has changed while the extensions themselves have remained in the same package. So in essence, `import com.uber.autodispose.autoDisposable` still works as-is. Just remove the ktx artifact dependencies and everything will still link as-is!
 
-The Kotlin standard library has been added as an implementation dependency of artifacts containing Kotlin bindings. If you don't use Kotlin however, this can be safely stripped (and will be by common) minification tools like Proguard or R8.
+The Kotlin standard library has been added as an `compileOnly` dependency of artifacts containing Kotlin bindings. This is to avoid imposing the dependency for non-Kotlin users, but the expectation is for Kotlin users to bring their own standard library dependency to fulfill this if used. Considering the standard library is an ubiquitous dependency for Kotlin projects, we don't expect this to be an issue and drew inspiration for this design from [Retrofit](https://github.com/square/retrofit).
 
-Proguard/R8 configurations in the unified artifacts have been updated to not warn on these `KotlinExtensions` files as they can be safely stripped in builds.
+Proguard/R8 `.pro` files in the unified artifacts have been updated to not warn on these `KotlinExtensions` files as they can be safely stripped in builds if unused.
 
 **NOTE:** One important thing this revealed was that the ktx artifacts were built with jdk target 1.6, while depending on Java artifacts that were built against JDK 8. Now that they are unified, this means that the Kotlin extensions require targeting JDK 1.8 as well (configurable via compiler arg `-jvm-target=1.8`).
 
