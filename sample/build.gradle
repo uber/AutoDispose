@@ -83,6 +83,16 @@ android {
 //  }
 }
 
+project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+  kotlinOptions {
+    freeCompilerArgs = [
+        "-Xjsr305=strict",
+        "-progressive"
+    ]
+    jvmTarget = "1.8"
+  }
+}
+
 dependencies {
   implementation project(':android:autodispose-android')
   implementation project(':android:autodispose-android-archcomponents')
