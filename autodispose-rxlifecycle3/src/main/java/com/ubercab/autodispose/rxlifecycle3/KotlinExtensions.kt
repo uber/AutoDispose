@@ -35,7 +35,7 @@ import io.reactivex.parallel.ParallelFlowable
 /**
  * Extension that converts a [LifecycleProvider] to [ScopeProvider].
  */
-fun <E> LifecycleProvider<E>.toScopeProvider(event: E? = null): ScopeProvider {
+fun <E> LifecycleProvider<E>.scope(event: E? = null): ScopeProvider {
   return if (event == null) {
     RxLifecycleInterop.from(this)
   } else {
@@ -53,9 +53,9 @@ fun <E> LifecycleProvider<E>.toScopeProvider(event: E? = null): ScopeProvider {
 @CheckReturnValue
 inline fun <T, E> Flowable<T>.autoDisposable(lifecycleProvider: LifecycleProvider<E>, event: E? = null): FlowableSubscribeProxy<T> {
   return if (event == null) {
-    this.`as`(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+    this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope()))
   } else {
-    this.`as`(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider, event)))
+    this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
   }
 }
 
@@ -69,9 +69,9 @@ inline fun <T, E> Flowable<T>.autoDisposable(lifecycleProvider: LifecycleProvide
 @CheckReturnValue
 inline fun <T, E> Observable<T>.autoDisposable(lifecycleProvider: LifecycleProvider<E>, event: E? = null): ObservableSubscribeProxy<T> {
   return if (event == null) {
-    this.`as`(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+    this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope()))
   } else {
-    this.`as`(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider, event)))
+    this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
   }
 }
 
@@ -85,9 +85,9 @@ inline fun <T, E> Observable<T>.autoDisposable(lifecycleProvider: LifecycleProvi
 @CheckReturnValue
 inline fun <T, E> Single<T>.autoDisposable(lifecycleProvider: LifecycleProvider<E>, event: E? = null): SingleSubscribeProxy<T> {
   return if (event == null) {
-    this.`as`(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+    this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope()))
   } else {
-    this.`as`(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider, event)))
+    this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
   }
 }
 
@@ -101,9 +101,9 @@ inline fun <T, E> Single<T>.autoDisposable(lifecycleProvider: LifecycleProvider<
 @CheckReturnValue
 inline fun <T, E> Maybe<T>.autoDisposable(lifecycleProvider: LifecycleProvider<E>, event: E? = null): MaybeSubscribeProxy<T> {
   return if (event == null) {
-    this.`as`(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+    this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope()))
   } else {
-    this.`as`(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider, event)))
+    this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
   }
 }
 
@@ -117,9 +117,9 @@ inline fun <T, E> Maybe<T>.autoDisposable(lifecycleProvider: LifecycleProvider<E
 @CheckReturnValue
 inline fun <E> Completable.autoDisposable(lifecycleProvider: LifecycleProvider<E>, event: E? = null): CompletableSubscribeProxy {
   return if (event == null) {
-    this.`as`(AutoDispose.autoDisposable<Any>(RxLifecycleInterop.from(lifecycleProvider)))
+    this.`as`(AutoDispose.autoDisposable<Any>(lifecycleProvider.scope()))
   } else {
-    this.`as`(AutoDispose.autoDisposable<Any>(RxLifecycleInterop.from(lifecycleProvider, event)))
+    this.`as`(AutoDispose.autoDisposable<Any>(lifecycleProvider.scope(event)))
   }
 }
 
@@ -133,8 +133,8 @@ inline fun <E> Completable.autoDisposable(lifecycleProvider: LifecycleProvider<E
 @CheckReturnValue
 inline fun <T, E> ParallelFlowable<T>.autoDisposable(lifecycleProvider: LifecycleProvider<E>, event: E? = null): ParallelFlowableSubscribeProxy<T> {
   return if (event == null) {
-    this.`as`(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+    this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope()))
   } else {
-    this.`as`(AutoDispose.autoDisposable(RxLifecycleInterop.from(lifecycleProvider, event)))
+    this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
   }
 }
