@@ -41,7 +41,9 @@ Set<String> mixedSourcesArtifacts = [
     "autodispose-android",
     "autodispose-android-archcomponents",
     "autodispose-android-archcomponents-test",
-    "autodispose-lifecycle"
+    "autodispose-lifecycle",
+    "autodispose-rxlifecycle",
+    "autodispose-rxlifecycle3"
 ]
 // These are files with different copyright headers that should not be modified automatically.
 String[] copiedFiles = [
