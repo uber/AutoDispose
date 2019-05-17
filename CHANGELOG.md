@@ -36,6 +36,14 @@ To simplify this, we've added the following top-level extension functions for th
 * `autodispose-rxlifecycle` - `LifecycleProvider`
 * `autodispose-rxlifecycle3` - `LifecycleProvider`
 
+So now, the above snippet could just be:
+
+```kotlin
+Observable.just(1)
+    .autoDisposable(this)
+    .subscribe()
+```
+
 PRs: [#348](https://github.com/uber/AutoDispose/pull/348) [#353](https://github.com/uber/AutoDispose/pull/353)
 
 ### Removed deprecated lifecycle artifacts
