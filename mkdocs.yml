@@ -1,0 +1,54 @@
+site_name: AutoDispose
+repo_name: AutoDispose
+repo_url: https://github.com/uber/AutoDispose
+site_description: "Automatic binding+disposal of RxJava 2 streams."
+site_author: Uber Technologies
+remote_branch: gh-pages
+
+copyright: 'Copyright &copy; 2019 Uber Technologies'
+
+theme:
+  name: 'material'
+  favicon: images/uber_oss_logo.png
+  logo: images/uber_oss_logo.png
+  palette:
+    primary: 'white'
+    accent: 'white'
+
+extra_css:
+  - 'css/app.css'
+
+markdown_extensions:
+  - smarty
+  - codehilite:
+      guess_lang: false
+  - footnotes
+  - meta
+  - toc:
+      permalink: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - tables
+
+nav:
+  - 'Overview': index.md
+  - '1.X API':
+    - 'autodispose': 1.x/autodispose/com.uber.autodispose/index.md
+    - 'autodispose-android': 1.x/autodispose-android/com.uber.autodispose.android/index.md
+    - 'autodispose-android-archcomponent': 1.x/autodispose-android-archcomponents/com.uber.autodispose.android.lifecycle/index.md
+    - 'autodispose-android-archcomponent-test': 1.x/autodispose-android-archcomponents-test/com.uber.autodispose.android.lifecycle.test/index.md
+    - 'autodispose-lifecycle': 1.x/autodispose-lifecycle/com.uber.autodispose.lifecycle/index.md
+    - 'autodispose-rxlifecycle': 1.x/autodispose-rxlifecycle/com.ubercab.autodispose.rxlifecycle/index.md
+    - 'autodispose-rxlifecycle3': 1.x/autodispose-rxlifecycle3/com.ubercab.autodispose.rxlifecycle3/index.md
+  - 'Error Prone': error-prone.md
+  - 'Lint Check': lint-check.md
+  - 'Changelog' : changelog.md
+  - 'Migrating from 0.2.0 to 0.3.0': migrating-020-030.md
+  - 'Migrating from 0.4.0 to 0.5.0': migrating-040-050.md
+  - 'Contributing': contributing.md
+  - 'Code of conduct': code-of-conduct.md

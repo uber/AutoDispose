@@ -52,8 +52,8 @@ def kotlinAndroidArtifactTasks() {
       url = new URL("http://reactivex.io/RxJava/2.x/javadoc/")
     }
 
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/docs/kdoc"
+    outputFormat = 'gfm'
+    outputDirectory = "$rootDir/docs/1.x"
     includes = ['Module.md']
     classpath = new ArrayList<File>(project.tasks['assemble'].outputs.files.files)
     sourceDirs = android.sourceSets.main.java.srcDirs
@@ -80,8 +80,8 @@ def kotlinArtifactTasks() {
       url = new URL("http://reactivex.io/RxJava/2.x/javadoc/")
     }
 
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/docs/kdoc"
+    outputFormat = 'gfm'
+    outputDirectory = "$rootDir/docs/1.x"
     includes = ['Module.md']
     sourceDirs = sourceSets.main.allSource
   }
