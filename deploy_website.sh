@@ -19,9 +19,6 @@ git clone $REPO $DIR
 
 # Move working directory into temp folder
 cd $DIR
-git checkout
-
-cp ../mkdocs.yml > mkdocs.yml
 
 # Generate the API docs
 ./gradlew dokka
