@@ -93,7 +93,7 @@ def test = [
     androidRules: "androidx.test:rules:${versions.androidTest}",
     androidOrchestrator: "androidx.test:orchestrator:${versions.androidTest}",
     junit: 'junit:junit:4.12',
-    truth: 'com.google.truth:truth:0.44'
+    truth: 'com.google.truth:truth:1.0'
 ]
 
 ext.deps = [

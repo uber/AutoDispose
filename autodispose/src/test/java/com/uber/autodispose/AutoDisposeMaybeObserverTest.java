@@ -181,7 +181,7 @@ public class AutoDisposeMaybeObserverTest {
           .isNotNull();
       assertThat(
               ((AutoDisposingMaybeObserver) atomicAutoDisposingObserver.get()).delegateObserver())
-          .isSameAs(atomicObserver.get());
+          .isSameInstanceAs(atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
