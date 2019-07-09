@@ -151,7 +151,7 @@ public class AutoDisposeSubscriberTest {
           .isNotNull();
       assertThat(
               ((AutoDisposingSubscriber) atomicAutoDisposingSubscriber.get()).delegateSubscriber())
-          .isSameAs(atomicSubscriber.get());
+          .isSameInstanceAs(atomicSubscriber.get());
     } finally {
       RxJavaPlugins.reset();
     }

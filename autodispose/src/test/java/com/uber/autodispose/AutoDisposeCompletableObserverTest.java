@@ -155,7 +155,7 @@ public class AutoDisposeCompletableObserverTest {
       assertThat(
               ((AutoDisposingCompletableObserver) atomicAutoDisposingObserver.get())
                   .delegateObserver())
-          .isSameAs(atomicObserver.get());
+          .isSameInstanceAs(atomicObserver.get());
     } finally {
       RxJavaPlugins.reset();
     }
