@@ -15,3 +15,4 @@ Releasing
  10. After release propagates (wait ~1 hour), update Javadocs/KDocs via [Osstrich](https://github.com/square/osstrich)
      - Make sure you have push access
      - `./gradlew publishDocs`
+ 11. Deploy the updated website with the new docs. This can be done by running the script `./deploy_website.sh`

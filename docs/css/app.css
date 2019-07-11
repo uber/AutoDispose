@@ -1,20 +1,20 @@
 @font-face {
     font-family: uber-move;
-    src: url("https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMove-Medium.woff2") format("woff2");
+    src: url("../fonts/UberMove-Medium.woff2") format("woff2");
     font-weight: 400;
     font-style: normal
 }
 
 @font-face {
     font-family: uber-move;
-    src: url("https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMove-Medium.woff2") format("woff2");
+    src: url("../fonts/UberMove-Medium.woff2") format("woff2");
     font-weight: 500;
     font-style: normal
 }
 
 @font-face {
     font-family: uber-move;
-    src: url("https://d1a3f4spazzrp4.cloudfront.net/dotcom-assets/fonts/UberMove-Medium.woff2") format("woff2");
+    src: url("../fonts/UberMove-Medium.woff2") format("woff2");
     font-weight: 700;
     font-style: normal
 }
