@@ -8,7 +8,7 @@
 
 set -ex
 
-REPO="git@github.com:ShaishavGandhi/AutoDispose.git"
+REPO="git@github.com:uber/AutoDispose.git"
 DIR=temp-clone
 
 # Delete any existing temporary website clone
