@@ -1,9 +1,0 @@
-$dokka.format:html
-$dokka.linkExtension:html
-$dokka.location:com.uber.autodispose.lifecycle$autoDisposable(io.reactivex.Completable, com.uber.autodispose.lifecycle.LifecycleScopeProvider((kotlin.Any)))com.uber.autodispose.lifecycle/io.reactivex.-completable/auto-disposable.html
-$dokka.location:com.uber.autodispose.lifecycle$autoDisposable(io.reactivex.Flowable((com.uber.autodispose.lifecycle.autoDisposable.T)), com.uber.autodispose.lifecycle.LifecycleScopeProvider((kotlin.Any)))com.uber.autodispose.lifecycle/io.reactivex.-flowable/auto-disposable.html
-$dokka.location:com.uber.autodispose.lifecycle$autoDisposable(io.reactivex.Maybe((com.uber.autodispose.lifecycle.autoDisposable.T)), com.uber.autodispose.lifecycle.LifecycleScopeProvider((kotlin.Any)))com.uber.autodispose.lifecycle/io.reactivex.-maybe/auto-disposable.html
-$dokka.location:com.uber.autodispose.lifecycle$autoDisposable(io.reactivex.Observable((com.uber.autodispose.lifecycle.autoDisposable.T)), com.uber.autodispose.lifecycle.LifecycleScopeProvider((kotlin.Any)))com.uber.autodispose.lifecycle/io.reactivex.-observable/auto-disposable.html
-$dokka.location:com.uber.autodispose.lifecycle$autoDisposable(io.reactivex.Single((com.uber.autodispose.lifecycle.autoDisposable.T)), com.uber.autodispose.lifecycle.LifecycleScopeProvider((kotlin.Any)))com.uber.autodispose.lifecycle/io.reactivex.-single/auto-disposable.html
-$dokka.location:com.uber.autodispose.lifecycle$autoDisposable(io.reactivex.parallel.ParallelFlowable((com.uber.autodispose.lifecycle.autoDisposable.T)), com.uber.autodispose.lifecycle.LifecycleScopeProvider((kotlin.Any)))com.uber.autodispose.lifecycle/io.reactivex.parallel.-parallel-flowable/auto-disposable.html
-com.uber.autodispose.lifecycle

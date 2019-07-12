@@ -1,4 +1,0 @@
-$dokka.format:html
-$dokka.linkExtension:html
-
-com.uber.autodispose.android.lifecycle

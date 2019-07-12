@@ -1,1 +1,11 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+$dokka.location:com.uber.autodispose.android$autoDisposable(io.reactivex.Completable, android.view.View)com.uber.autodispose.android/io.reactivex.-completable/auto-disposable.md
+$dokka.location:com.uber.autodispose.android$autoDisposable(io.reactivex.Flowable((com.uber.autodispose.android.autoDisposable.T)), android.view.View)com.uber.autodispose.android/io.reactivex.-flowable/auto-disposable.md
+$dokka.location:com.uber.autodispose.android$autoDisposable(io.reactivex.Maybe((com.uber.autodispose.android.autoDisposable.T)), android.view.View)com.uber.autodispose.android/io.reactivex.-maybe/auto-disposable.md
+$dokka.location:com.uber.autodispose.android$autoDisposable(io.reactivex.Observable((com.uber.autodispose.android.autoDisposable.T)), android.view.View)com.uber.autodispose.android/io.reactivex.-observable/auto-disposable.md
+$dokka.location:com.uber.autodispose.android$autoDisposable(io.reactivex.Single((com.uber.autodispose.android.autoDisposable.T)), android.view.View)com.uber.autodispose.android/io.reactivex.-single/auto-disposable.md
+$dokka.location:com.uber.autodispose.android$autoDisposable(io.reactivex.parallel.ParallelFlowable((com.uber.autodispose.android.autoDisposable.T)), android.view.View)com.uber.autodispose.android/io.reactivex.parallel.-parallel-flowable/auto-disposable.md
+$dokka.location:com.uber.autodispose.android$scope(android.view.View)com.uber.autodispose.android/android.view.-view/scope.md
 com.uber.autodispose.android
+com.uber.autodispose.android.internal

@@ -1,0 +1,1930 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Automatic binding+disposal of RxJava 2 streams.">
+      
+      
+      
+        <meta name="author" content="Uber Technologies">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../images/uber_oss_logo.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+    
+    
+      
+        <title>Changelog - AutoDispose</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.0284f74d.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.01803549.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../css/app.css">
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="white">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#changelog" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="AutoDispose" class="md-header-nav__button md-logo">
+          
+            <img src="../images/uber_oss_logo.png" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              AutoDispose
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Changelog
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/uber/AutoDispose/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    AutoDispose
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href=".." title="AutoDispose" class="md-nav__button md-logo">
+      
+        <img src="../images/uber_oss_logo.png" width="48" height="48">
+      
+    </a>
+    AutoDispose
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/uber/AutoDispose/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    AutoDispose
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      1.X API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        1.X API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../1.x/autodispose/com.uber.autodispose/" title="autodispose" class="md-nav__link">
+      autodispose
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../1.x/autodispose-android/com.uber.autodispose.android/" title="autodispose-android" class="md-nav__link">
+      autodispose-android
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../1.x/autodispose-android-archcomponents/com.uber.autodispose.android.lifecycle/" title="autodispose-android-archcomponent" class="md-nav__link">
+      autodispose-android-archcomponent
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../1.x/autodispose-android-archcomponents-test/com.uber.autodispose.android.lifecycle.test/" title="autodispose-android-archcomponent-test" class="md-nav__link">
+      autodispose-android-archcomponent-test
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../1.x/autodispose-lifecycle/com.uber.autodispose.lifecycle/" title="autodispose-lifecycle" class="md-nav__link">
+      autodispose-lifecycle
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../1.x/autodispose-rxlifecycle/com.ubercab.autodispose.rxlifecycle/" title="autodispose-rxlifecycle" class="md-nav__link">
+      autodispose-rxlifecycle
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../1.x/autodispose-rxlifecycle3/com.ubercab.autodispose.rxlifecycle3/" title="autodispose-rxlifecycle3" class="md-nav__link">
+      autodispose-rxlifecycle3
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../error-prone/" title="Error Prone" class="md-nav__link">
+      Error Prone
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../lint-check/" title="Lint Check" class="md-nav__link">
+      Lint Check
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Changelog
+      </label>
+    
+    <a href="./" title="Changelog" class="md-nav__link md-nav__link--active">
+      Changelog
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#version-130" title="Version 1.3.0" class="md-nav__link">
+    Version 1.3.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unified-kotlin-extensions" title="Unified Kotlin extensions" class="md-nav__link">
+    Unified Kotlin extensions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-kotlin-extensions" title="More Kotlin extensions!" class="md-nav__link">
+    More Kotlin extensions!
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed-deprecated-lifecycle-artifacts" title="Removed deprecated lifecycle artifacts" class="md-nav__link">
+    Removed deprecated lifecycle artifacts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-120" title="Version 1.2.0" class="md-nav__link">
+    Version 1.2.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-110" title="Version 1.1.0" class="md-nav__link">
+    Version 1.1.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-analysis" title="Static Analysis" class="md-nav__link">
+    Static Analysis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defaultlifecyclescopeprovider-and-kotlinlifecyclescopeprovider-deprecation-275" title="DefaultLifecycleScopeProvider and KotlinLifecycleScopeProvider Deprecation (#275)" class="md-nav__link">
+    DefaultLifecycleScopeProvider and KotlinLifecycleScopeProvider Deprecation (#275)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc_1" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-100" title="Version 1.0.0" class="md-nav__link">
+    Version 1.0.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-100-rc3" title="Version 1.0.0-RC3" class="md-nav__link">
+    Version 1.0.0-RC3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-100-rc2" title="Version 1.0.0-RC2" class="md-nav__link">
+    Version 1.0.0-RC2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-100-rc1" title="Version 1.0.0-RC1" class="md-nav__link">
+    Version 1.0.0-RC1
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#completable-replaces-maybe-as-the-source-of-truth-for-scoping-234" title="Completable replaces Maybe as the source of truth for scoping (#234)" class="md-nav__link">
+    Completable replaces Maybe as the source of truth for scoping (#234)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lifecycle-components-are-now-a-separate-artifact-228" title="Lifecycle components are now a separate artifact (#228)" class="md-nav__link">
+    Lifecycle components are now a separate artifact (#228)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc_2" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-080" title="Version 0.8.0" class="md-nav__link">
+    Version 0.8.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deprecated-scoper-apis-now-use-the-converter-api-under-the-hood-188" title="Deprecated Scoper APIs now use the converter API under the hood (#188)" class="md-nav__link">
+    Deprecated Scoper APIs now use the converter API under the hood (#188)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewscopeprovider-now-implements-scopeprovider-instead-of-lifecyclescopeprovider-196" title="ViewScopeProvider now implements ScopeProvider instead of LifecycleScopeProvider (#196)" class="md-nav__link">
+    ViewScopeProvider now implements ScopeProvider instead of LifecycleScopeProvider (#196)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defer-to-comparable-checks-if-lifecyclescopeprovider-types-implement-it-196" title="Defer to Comparable checks if LifecycleScopeProvider types implement it (#196)" class="md-nav__link">
+    Defer to Comparable checks if LifecycleScopeProvider types implement it (#196)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed-error-prone-annotations-208" title="Removed Error-Prone annotations (#208)" class="md-nav__link">
+    Removed Error-Prone annotations (#208)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#switch-from-jsr305-to-jetbrains-annotations-for-nullability-208" title="Switch from JSR305 to Jetbrains annotations for nullability (#208)" class="md-nav__link">
+    Switch from JSR305 to Jetbrains annotations for nullability (#208)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc-changes" title="Misc changes" class="md-nav__link">
+    Misc changes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#call-for-input-on-next-steps" title="Call for input on next steps" class="md-nav__link">
+    Call for input on next steps
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-070" title="Version 0.7.0" class="md-nav__link">
+    Version 0.7.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autodisposeandroidplugins-183" title="AutoDisposeAndroidPlugins (#183)" class="md-nav__link">
+    AutoDisposeAndroidPlugins (#183)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc_3" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-061" title="Version 0.6.1" class="md-nav__link">
+    Version 0.6.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-060" title="Version 0.6.0" class="md-nav__link">
+    Version 0.6.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-prone-checker-artifact-156" title="Error-Prone Checker artifact (#156)" class="md-nav__link">
+    Error-Prone Checker artifact (#156)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parallelflowable-support-155" title="ParallelFlowable support (#155)" class="md-nav__link">
+    ParallelFlowable support (#155)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scopeprovider-and-lifecyclescopeprovider-are-now-annotated-with-donotmock-153" title="ScopeProvider and LifecycleScopeProvider are now annotated with @DoNotMock (#153)" class="md-nav__link">
+    ScopeProvider and LifecycleScopeProvider are now annotated with @DoNotMock (#153)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convenience-test-methods-added-to-all-subscribeproxy-interfaces-160" title="Convenience test() methods added to all SubscribeProxy interfaces (#160)" class="md-nav__link">
+    Convenience test() methods added to all SubscribeProxy interfaces (#160)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc_4" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-051" title="Version 0.5.1" class="md-nav__link">
+    Version 0.5.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-050" title="Version 0.5.0" class="md-nav__link">
+    Version 0.5.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-converter-based-api-for-use-with-as-141" title="New converter-based API for use with as() (#141)" class="md-nav__link">
+    New converter-based API for use with as() (#141)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed-a-lot-of-concurrency-edge-cases-and-performance-improvements-after-review-from-david-karnok-138-and-130" title="Fixed a lot of concurrency edge cases and performance improvements after review from David Karnok (#138 and #130)" class="md-nav__link">
+    Fixed a lot of concurrency edge cases and performance improvements after review from David Karnok (#138 and #130)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plugin-for-controlling-whether-or-not-to-fill-in-stacktraces-124" title="Plugin for controlling whether or not to fill in stacktraces (#124)" class="md-nav__link">
+    Plugin for controlling whether or not to fill in stacktraces (#124)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unbound-shorthand-125" title="UNBOUND shorthand (#125)" class="md-nav__link">
+    UNBOUND shorthand (#125)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#misc_5" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-040" title="Version 0.4.0" class="md-nav__link">
+    Version 0.4.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#structured-android-components-111" title="Structured Android Components #111" class="md-nav__link">
+    Structured Android Components #111
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rxlifecycle-interop" title="RxLifecycle Interop" class="md-nav__link">
+    RxLifecycle Interop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc_6" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updated-dependencies" title="Updated dependencies:" class="md-nav__link">
+    Updated dependencies:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-artifacts-coordinates" title="New artifacts coordinates:" class="md-nav__link">
+    New artifacts coordinates:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-030" title="Version 0.3.0" class="md-nav__link">
+    Version 0.3.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-020" title="Version 0.2.0" class="md-nav__link">
+    Version 0.2.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-010" title="Version 0.1.0" class="md-nav__link">
+    Version 0.1.0
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../migrating-020-030/" title="Migrating from 0.2.0 to 0.3.0" class="md-nav__link">
+      Migrating from 0.2.0 to 0.3.0
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../migrating-040-050/" title="Migrating from 0.4.0 to 0.5.0" class="md-nav__link">
+      Migrating from 0.4.0 to 0.5.0
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../code-of-conduct/" title="Code of Conduct" class="md-nav__link">
+      Code of Conduct
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#version-130" title="Version 1.3.0" class="md-nav__link">
+    Version 1.3.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unified-kotlin-extensions" title="Unified Kotlin extensions" class="md-nav__link">
+    Unified Kotlin extensions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#more-kotlin-extensions" title="More Kotlin extensions!" class="md-nav__link">
+    More Kotlin extensions!
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed-deprecated-lifecycle-artifacts" title="Removed deprecated lifecycle artifacts" class="md-nav__link">
+    Removed deprecated lifecycle artifacts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-120" title="Version 1.2.0" class="md-nav__link">
+    Version 1.2.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-110" title="Version 1.1.0" class="md-nav__link">
+    Version 1.1.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-analysis" title="Static Analysis" class="md-nav__link">
+    Static Analysis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defaultlifecyclescopeprovider-and-kotlinlifecyclescopeprovider-deprecation-275" title="DefaultLifecycleScopeProvider and KotlinLifecycleScopeProvider Deprecation (#275)" class="md-nav__link">
+    DefaultLifecycleScopeProvider and KotlinLifecycleScopeProvider Deprecation (#275)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc_1" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-100" title="Version 1.0.0" class="md-nav__link">
+    Version 1.0.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-100-rc3" title="Version 1.0.0-RC3" class="md-nav__link">
+    Version 1.0.0-RC3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-100-rc2" title="Version 1.0.0-RC2" class="md-nav__link">
+    Version 1.0.0-RC2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-100-rc1" title="Version 1.0.0-RC1" class="md-nav__link">
+    Version 1.0.0-RC1
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#completable-replaces-maybe-as-the-source-of-truth-for-scoping-234" title="Completable replaces Maybe as the source of truth for scoping (#234)" class="md-nav__link">
+    Completable replaces Maybe as the source of truth for scoping (#234)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lifecycle-components-are-now-a-separate-artifact-228" title="Lifecycle components are now a separate artifact (#228)" class="md-nav__link">
+    Lifecycle components are now a separate artifact (#228)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc_2" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-080" title="Version 0.8.0" class="md-nav__link">
+    Version 0.8.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deprecated-scoper-apis-now-use-the-converter-api-under-the-hood-188" title="Deprecated Scoper APIs now use the converter API under the hood (#188)" class="md-nav__link">
+    Deprecated Scoper APIs now use the converter API under the hood (#188)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewscopeprovider-now-implements-scopeprovider-instead-of-lifecyclescopeprovider-196" title="ViewScopeProvider now implements ScopeProvider instead of LifecycleScopeProvider (#196)" class="md-nav__link">
+    ViewScopeProvider now implements ScopeProvider instead of LifecycleScopeProvider (#196)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defer-to-comparable-checks-if-lifecyclescopeprovider-types-implement-it-196" title="Defer to Comparable checks if LifecycleScopeProvider types implement it (#196)" class="md-nav__link">
+    Defer to Comparable checks if LifecycleScopeProvider types implement it (#196)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed-error-prone-annotations-208" title="Removed Error-Prone annotations (#208)" class="md-nav__link">
+    Removed Error-Prone annotations (#208)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#switch-from-jsr305-to-jetbrains-annotations-for-nullability-208" title="Switch from JSR305 to Jetbrains annotations for nullability (#208)" class="md-nav__link">
+    Switch from JSR305 to Jetbrains annotations for nullability (#208)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc-changes" title="Misc changes" class="md-nav__link">
+    Misc changes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#call-for-input-on-next-steps" title="Call for input on next steps" class="md-nav__link">
+    Call for input on next steps
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-070" title="Version 0.7.0" class="md-nav__link">
+    Version 0.7.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#autodisposeandroidplugins-183" title="AutoDisposeAndroidPlugins (#183)" class="md-nav__link">
+    AutoDisposeAndroidPlugins (#183)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc_3" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-061" title="Version 0.6.1" class="md-nav__link">
+    Version 0.6.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-060" title="Version 0.6.0" class="md-nav__link">
+    Version 0.6.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-prone-checker-artifact-156" title="Error-Prone Checker artifact (#156)" class="md-nav__link">
+    Error-Prone Checker artifact (#156)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parallelflowable-support-155" title="ParallelFlowable support (#155)" class="md-nav__link">
+    ParallelFlowable support (#155)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scopeprovider-and-lifecyclescopeprovider-are-now-annotated-with-donotmock-153" title="ScopeProvider and LifecycleScopeProvider are now annotated with @DoNotMock (#153)" class="md-nav__link">
+    ScopeProvider and LifecycleScopeProvider are now annotated with @DoNotMock (#153)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convenience-test-methods-added-to-all-subscribeproxy-interfaces-160" title="Convenience test() methods added to all SubscribeProxy interfaces (#160)" class="md-nav__link">
+    Convenience test() methods added to all SubscribeProxy interfaces (#160)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc_4" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-051" title="Version 0.5.1" class="md-nav__link">
+    Version 0.5.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-050" title="Version 0.5.0" class="md-nav__link">
+    Version 0.5.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-converter-based-api-for-use-with-as-141" title="New converter-based API for use with as() (#141)" class="md-nav__link">
+    New converter-based API for use with as() (#141)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed-a-lot-of-concurrency-edge-cases-and-performance-improvements-after-review-from-david-karnok-138-and-130" title="Fixed a lot of concurrency edge cases and performance improvements after review from David Karnok (#138 and #130)" class="md-nav__link">
+    Fixed a lot of concurrency edge cases and performance improvements after review from David Karnok (#138 and #130)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plugin-for-controlling-whether-or-not-to-fill-in-stacktraces-124" title="Plugin for controlling whether or not to fill in stacktraces (#124)" class="md-nav__link">
+    Plugin for controlling whether or not to fill in stacktraces (#124)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unbound-shorthand-125" title="UNBOUND shorthand (#125)" class="md-nav__link">
+    UNBOUND shorthand (#125)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#misc_5" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-040" title="Version 0.4.0" class="md-nav__link">
+    Version 0.4.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#structured-android-components-111" title="Structured Android Components #111" class="md-nav__link">
+    Structured Android Components #111
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rxlifecycle-interop" title="RxLifecycle Interop" class="md-nav__link">
+    RxLifecycle Interop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc_6" title="Misc" class="md-nav__link">
+    Misc
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updated-dependencies" title="Updated dependencies:" class="md-nav__link">
+    Updated dependencies:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-artifacts-coordinates" title="New artifacts coordinates:" class="md-nav__link">
+    New artifacts coordinates:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-030" title="Version 0.3.0" class="md-nav__link">
+    Version 0.3.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-020" title="Version 0.2.0" class="md-nav__link">
+    Version 0.2.0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-010" title="Version 0.1.0" class="md-nav__link">
+    Version 0.1.0
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/uber/AutoDispose/edit/master/docs/changelog.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
+<h2 id="version-130">Version 1.3.0<a class="headerlink" href="#version-130" title="Permanent link">&para;</a></h2>
+<p><em>2019-05-15</em></p>
+<h3 id="unified-kotlin-extensions">Unified Kotlin extensions<a class="headerlink" href="#unified-kotlin-extensions" title="Permanent link">&para;</a></h3>
+<p>Starting with 1.3.0, all the <code>-ktx</code> artifacts and their kotlin extensions have been merged into the main artifacts they extended. This means that extensions in an artifact like <code>autodispose-android-ktx</code> are now available directly in the corresponding <code>autodispose-android</code>. </p>
+<p>This is a binary-compatible change because the extensions file name has changed while the extensions themselves have remained in the same package. So in essence, <code>import com.uber.autodispose.autoDisposable</code> still works as-is. Just remove the ktx artifact dependencies and everything will still link as-is!</p>
+<p>The Kotlin standard library has been added as an <code>compileOnly</code> dependency of artifacts containing Kotlin bindings. This is to avoid imposing the dependency for non-Kotlin users, but the expectation is for Kotlin users to bring their own standard library dependency to fulfill this if used. Considering the standard library is an ubiquitous dependency for Kotlin projects, we don&rsquo;t expect this to be an issue and drew inspiration for this design from <a href="https://github.com/square/retrofit">Retrofit</a>.</p>
+<p>Proguard/R8 <code>.pro</code> files in the unified artifacts have been updated to not warn on these <code>KotlinExtensions</code> files as they can be safely stripped in builds if unused.</p>
+<p><strong>NOTE:</strong> One important thing this revealed was that the ktx artifacts were built with jdk target 1.6, while depending on Java artifacts that were built against JDK 8. Now that they are unified, this means that the Kotlin extensions require targeting JDK 1.8 as well (configurable via compiler arg <code>-jvm-target=1.8</code>).</p>
+<p>PRs: <a href="https://github.com/uber/AutoDispose/pull/339">#339</a> <a href="https://github.com/uber/AutoDispose/pull/341">#341</a> <a href="https://github.com/uber/AutoDispose/pull/346">#346</a></p>
+<h3 id="more-kotlin-extensions">More Kotlin extensions!<a class="headerlink" href="#more-kotlin-extensions" title="Permanent link">&para;</a></h3>
+<p>Initially, we only provided minimal Kotlin extensions to support scopes on extra types like Android&rsquo;s <code>LifecycleOwner</code>, <code>View</code>, etc. This resulted in a bit of ceremony for these APIs to be used though, such as:</p>
+<div class="codehilite"><pre><span></span><span class="n">Observable</span><span class="p">.</span><span class="n">just</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">autoDisposable</span><span class="p">(</span><span class="n">AndroidLifecycleScopeProvider</span><span class="p">.</span><span class="n">from</span><span class="p">(</span><span class="k">this</span><span class="p">))</span>
+    <span class="p">.</span><span class="n">subscribe</span><span class="p">()</span>
+</pre></div>
+
+<p>To simplify this, we&rsquo;ve added the following top-level extension functions for the following:
+* <code>autodispose-android</code> - <code>View</code>
+* <code>autodispose-archcomponents</code> - <code>LifecycleOwner</code>
+* <code>autodispose-rxlifecycle</code> - <code>LifecycleProvider</code>
+* <code>autodispose-rxlifecycle3</code> - <code>LifecycleProvider</code></p>
+<p>So now, the above snippet could just be:</p>
+<div class="codehilite"><pre><span></span><span class="n">Observable</span><span class="p">.</span><span class="n">just</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">autoDisposable</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">subscribe</span><span class="p">()</span>
+</pre></div>
+
+<p>PRs: <a href="https://github.com/uber/AutoDispose/pull/348">#348</a> <a href="https://github.com/uber/AutoDispose/pull/353">#353</a></p>
+<h3 id="removed-deprecated-lifecycle-artifacts">Removed deprecated lifecycle artifacts<a class="headerlink" href="#removed-deprecated-lifecycle-artifacts" title="Permanent link">&para;</a></h3>
+<p>Following their deprecating in 1.1.0, the <code>autodispose-lifecycle-jdk8</code> and <code>autodispose-lifecycle-ktx</code> artifacts are no longer published. Please move to just using <code>LifecycleScopeProvider</code> directly.</p>
+<h3 id="misc">Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
+<p>Dependency updates</p>
+<div class="codehilite"><pre><span></span>Kotlin: 1.3.31
+AndroidX Annotations: 1.0.2
+RxJava: 2.2.8
+RxAndroid: 2.1.1
+</pre></div>
+
+
+<p>Artifact changes</p>
+<table>
+<thead>
+<tr>
+<th>Original</th>
+<th>Merged into (if applicable)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>autodispose-ktx</td>
+<td>autodispose</td>
+</tr>
+<tr>
+<td>autodispose-android-ktx</td>
+<td>autodispose-android</td>
+</tr>
+<tr>
+<td>autodispose-android-archcomponents-ktx</td>
+<td>autodispose-android-archcomponents</td>
+</tr>
+<tr>
+<td>autodispose-android-archcomponents-test-ktx</td>
+<td>autodispose-android-archcomponents-test</td>
+</tr>
+<tr>
+<td>autodispose-lifecycle-ktx</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>autodispose-lifecycle-jdk8</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note:</em> This does not mean the existing versions were deleted or removed in any way, just that we will not publish 1.3.0 or later versions of them.</p>
+<h2 id="version-120">Version 1.2.0<a class="headerlink" href="#version-120" title="Permanent link">&para;</a></h2>
+<p><em>2019-04-03</em></p>
+<ul>
+<li>Fixes a bug which allows Lint to refer to the app level <code>gradle.properties</code> file for configuration support. <a href="https://github.com/uber/AutoDispose/pull/335">#335</a></li>
+<li>New <code>autodispose-rxlifeycle3</code> artifact for interop with RxLifecycle3. <a href="https://github.com/uber/AutoDispose/pull/319">#319</a></li>
+<li>Various dependency updates
+<div class="codehilite"><pre><span></span>Lint: 26.3.2
+Kotlin 1.3.21
+</pre></div></li>
+</ul>
+<p>All PRs: <a href="https://github.com/uber/AutoDispose/pull/319">#319</a>, <a href="https://github.com/uber/AutoDispose/pull/320">#320</a>, <a href="https://github.com/uber/AutoDispose/pull/322">#322</a>, <a href="https://github.com/uber/AutoDispose/pull/326">#326</a>, <a href="https://github.com/uber/AutoDispose/pull/327">#327</a> <a href="https://github.com/uber/AutoDispose/pull/328">#328</a>, <a href="https://github.com/uber/AutoDispose/pull/329">#329</a>, <a href="https://github.com/uber/AutoDispose/pull/330">#330</a>, <a href="https://github.com/uber/AutoDispose/pull/334">#334</a>, <a href="https://github.com/uber/AutoDispose/pull/335">#335</a>, <a href="https://github.com/uber/AutoDispose/pull/336">#336</a></p>
+<h2 id="version-110">Version 1.1.0<a class="headerlink" href="#version-110" title="Permanent link">&para;</a></h2>
+<p><em>2018-12-13</em></p>
+<h3 id="static-analysis">Static Analysis<a class="headerlink" href="#static-analysis" title="Permanent link">&para;</a></h3>
+<p>This is a big static analysis release. AutoDispose now ships with two static
+analysis artifacts: <code>autodispose-lint</code> for Android Lint and <code>autodispose-error-prone</code> for Error-Prone.</p>
+<p>Both of these checks operate by detecting uses of standard RxJava <code>subscribe</code>/<code>subscribeWith</code>
+calls in the context of something that has scope (such as a <code>ScopeProvider</code>). If they’re
+detected, the lint/checker will mark them as missing <code>Disposable</code> handling and
+suggest either using AutoDispose or (if <code>lenient</code> mode enabled) manually handle
+the returned <code>Disposable</code>.</p>
+<p>Both checks have configuration support:</p>
+<ul>
+<li><code>TypesWithScope</code> - a comma-separated list of custom types with scope. By default, this is additive to default scopes.</li>
+<li><code>OverrideScopes</code> - a boolean flag indicating if <code>TypesWithScope</code> should override the built-in scopes. <code>false</code> by default.</li>
+<li><code>Lenient</code> - a boolean flag to enable a lenient mode that tells the linter to ignore cases where the returned <code>Disposable</code> is captured (aka “I know what I’m doing” mode). <code>false</code> by default.</li>
+</ul>
+<p>Both checkers should have feature parity. They have different advantages: the Error-Prone check runs at compile-time, and lint will show up in the
+IDE and run on Kotlin code. You should use whichever one fits your stack best.</p>
+<p>Full integration instructions can be found on their respective wikis:</p>
+<ul>
+<li><a href="https://github.com/uber/AutoDispose/wiki/Lint-Check">https://github.com/uber/AutoDispose/wiki/Lint-Check</a></li>
+<li><a href="https://github.com/uber/AutoDispose/wiki/Error-Prone">https://github.com/uber/AutoDispose/wiki/Error-Prone</a></li>
+</ul>
+<p>Prior to this release, the Error Prone checker was missing a required service file
+to run, so the new artifact is different than the previous one (but not conflicting since the old one never worked!).</p>
+<p>This was a major project and contribution from a new maintainer to the project! <a href="https://github.com/shaishavgandhi05">@shaishavgandhi05</a></p>
+<p>All PRs: <a href="https://github.com/uber/AutoDispose/pull/316">#316</a>, <a href="https://github.com/uber/AutoDispose/pull/315">#315</a>, <a href="https://github.com/uber/AutoDispose/pull/313">#313</a>, <a href="https://github.com/uber/AutoDispose/pull/312">#312</a>, <a href="https://github.com/uber/AutoDispose/pull/310">#310</a>, <a href="https://github.com/uber/AutoDispose/pull/307">#307</a>, <a href="https://github.com/uber/AutoDispose/pull/308">#308</a>, <a href="https://github.com/uber/AutoDispose/pull/306">#306</a>, <a href="https://github.com/uber/AutoDispose/pull/299">#299</a>, <a href="https://github.com/uber/AutoDispose/pull/303">#303</a>, <a href="https://github.com/uber/AutoDispose/pull/301">#301</a>, <a href="https://github.com/uber/AutoDispose/pull/300">#300</a>, <a href="https://github.com/uber/AutoDispose/pull/282">#282</a>, <a href="https://github.com/uber/AutoDispose/pull/291">#291</a>, <a href="https://github.com/uber/AutoDispose/pull/292">#292</a></p>
+<h3 id="defaultlifecyclescopeprovider-and-kotlinlifecyclescopeprovider-deprecation-275">DefaultLifecycleScopeProvider and KotlinLifecycleScopeProvider Deprecation (<a href="https://github.com/uber/AutoDispose/pull/275">#275</a>)<a class="headerlink" href="#defaultlifecyclescopeprovider-and-kotlinlifecyclescopeprovider-deprecation-275" title="Permanent link">&para;</a></h3>
+<p><code>DefaultLifecycleScopeProvider</code> and <code>KotlinLifecycleScopeProvider</code> are now deprecated, and their default <code>requestScope()</code> behavior now elevated into the based
+<code>LifecycleScopeProvider</code> class. This is implemented as a Java 8 <code>default</code> interface method.</p>
+<h3 id="misc_1">Misc<a class="headerlink" href="#misc_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Non-android <code>-ktx</code> artifacts now use <code>implementation</code>/<code>api</code> dependencies (<a href="https://github.com/uber/AutoDispose/pull/277">#277</a>)</li>
+<li><code>automatic-module-name</code> is added to relevant JDK modules (<a href="https://github.com/uber/AutoDispose/pull/281">#281</a>)</li>
+<li>Updated doc on <code>RxLifecycleInterop</code> (<a href="https://github.com/uber/AutoDispose/pull/280">#280</a>)</li>
+<li>Kotlin is updated to 1.3.11 <a href="https://github.com/uber/AutoDispose/pull/274">#274</a>, <a href="https://github.com/uber/AutoDispose/pull/309">#309</a></li>
+</ul>
+<p>Thanks to the following external contributors for this release: <a href="https://github.com/MarkyC">@MarkyC</a></p>
+<h2 id="version-100">Version 1.0.0<a class="headerlink" href="#version-100" title="Permanent link">&para;</a></h2>
+<p><em>2018-10-10</em></p>
+<ul>
+<li>Stable release!</li>
+<li>This is identical in functionality to 1.0.0-RC3 but completely migrated to the new AndroidX artifacts. From this point forward for Android projects, you must be on AndroidX artifacts. You can use 1.0.0-RC3 to ease migration if need be.</li>
+</ul>
+<h2 id="version-100-rc3">Version 1.0.0-RC3<a class="headerlink" href="#version-100-rc3" title="Permanent link">&para;</a></h2>
+<p><em>2018-10-10</em></p>
+<ul>
+<li>The project now targets Java 8 bytecode, with the expectation that projects are either on Java 8 or (if on Android) use D8 via Android Gradle Plugin 3.2.0. (<a href="https://github.com/uber/AutoDispose/pull/257">#257</a>)</li>
+<li>More sample recipes for Android ViewModels and Fragments (<a href="https://github.com/uber/AutoDispose/pull/254">#254</a>) (<a href="https://github.com/uber/AutoDispose/pull/260">#260</a>)</li>
+<li>Various dependency updates</li>
+</ul>
+<div class="codehilite"><pre><span></span>Support library 28.0.0
+Architecture Components (runtime) 1.1.1
+Kotlin 1.2.71
+RxJava 2.2.2
+RxAndroid 2.1.0
+</pre></div>
+
+<p>Thanks to the following contributors for this release: <a href="https://github.com/shaishavgandhi05">@shaishavgandhi05</a></p>
+<h2 id="version-100-rc2">Version 1.0.0-RC2<a class="headerlink" href="#version-100-rc2" title="Permanent link">&para;</a></h2>
+<p><em>2018-8-14</em></p>
+<p>Small followup update to RC1</p>
+<ul>
+<li><code>subscribe(Observer)</code> methods in <code>SubscribeProxy</code> interfaces now accept wildcards for the observer type, matching their RxJava counterparts (<a href="https://github.com/uber/AutoDispose/issues/244">#244</a>)</li>
+<li>Example: <code>subscribe(Observer&lt;T&gt; observer)</code> -&gt; <code>subscribe(Observer&lt;? super T&gt; observer)</code></li>
+<li>Kotlin artifacts now include <code>Module.md</code> files in dokka documentation (<a href="https://github.com/uber/AutoDispose/issues/238">#238</a>)</li>
+<li>Android lifecycle Kotlin <code>scope()</code> extensions now return <code>ScopeProvider</code> instead of <code>LifecycleScopeProvider</code> (<a href="https://github.com/uber/AutoDispose/issues/239">#239</a>)</li>
+</ul>
+<p>Thanks to the following contributors for this release: <a href="https://github.com/shaishavgandhi05">@shaishavgandhi05</a></p>
+<h2 id="version-100-rc1">Version 1.0.0-RC1<a class="headerlink" href="#version-100-rc1" title="Permanent link">&para;</a></h2>
+<p><em>2018-8-2</em></p>
+<p>This is the first release candidate of AutoDispose 1.0!</p>
+<h3 id="completable-replaces-maybe-as-the-source-of-truth-for-scoping-234"><code>Completable</code> replaces <code>Maybe</code> as the source of truth for scoping (<a href="https://github.com/uber/AutoDispose/issues/234">#234</a>)<a class="headerlink" href="#completable-replaces-maybe-as-the-source-of-truth-for-scoping-234" title="Permanent link">&para;</a></h3>
+<p><em>Note: we say <code>Completable</code> for semantic convenience, but in code it&rsquo;s almost always referred to via <code>CompletableSource</code> for flexibility</em></p>
+<p>This is a significant API change, but a good one we want to clean up before releasing 1.0. Since its inception, AutoDispose has always coerced 
+scopes into a <code>Maybe</code> representation. Now, scopes are coerced to a <code>CompletableSource</code>.</p>
+<p><code>Maybe</code> seemed like the right idea for something that &ldquo;may or may not emit&rdquo;, but in our case we actually don&rsquo;t 
+care about the difference between onSuccess or onComplete. We did have a notion of &ldquo;UNBOUND&rdquo;, but that doesn&rsquo;t offer anything other 
+than a severed lifecycle scope disposal in an atomic reference (no other cleanups would happen for gc, etc). This brings us to a <code>Single</code>. 
+The thing is though, we don&rsquo;t care about the object/element type. A <code>Single</code> where the type doesn&rsquo;t matter is semantically a <code>Completable</code>, 
+and thus this change.</p>
+<p>Note that semantics are slightly different for anyone that sourced scope via emissions from an <code>Observable</code>, <code>Maybe</code>, <code>Completable</code>, 
+or <code>Flowable</code>, where before a completion event would not trigger disposal. Now it would. In the lifecycle artifact, completion 
+of the lifecycle or emission of the target event (via <code>takeUntil()</code>) will signal disposal.</p>
+<p>If there&rsquo;s a strong desire for it, we could look at adding top-level <code>autoDisposable</code> overrides that accept other RxJava types (and coerce them to <code>Completable</code>).</p>
+<h3 id="lifecycle-components-are-now-a-separate-artifact-228">Lifecycle components are now a separate artifact (<a href="https://github.com/uber/AutoDispose/issues/228">#228</a>)<a class="headerlink" href="#lifecycle-components-are-now-a-separate-artifact-228" title="Permanent link">&para;</a></h3>
+<p><code>LifecycleScopeProvider</code> is now in a separate artifact under <code>autodispose-lifecycle</code>, and now just extends <code>ScopeProvider</code>. This is sort of something
+we always wanted to do, as the recommended solution for AutoDispose is namely to use <code>ScopeProvider</code> and standard RxJava types. <code>LifecycleScopeProvider</code>
+supports corresponding-events-type lifecycles for use with lifecycle components like Android, but we mostly see this as a mechanism for boundary checks.
+Dan Lew excellently discusses this subject in his &ldquo;<a href="https://blog.danlew.net/2017/08/02/why-not-rxlifecycle/">Why Not RxLifecycle?</a>&rdquo; blog post.</p>
+<p>This does come with the caveat that one must implement <code>requestScope()</code> in implementations now. To smoothen this usage, a <code>autodispose-lifecycle-jdk8</code>
+artifact exists with a <code>DefaultLifecycleScopeProvider</code> that has a <code>default</code> implementation of this on Java 8+ that matches the existing behavior. A 
+similar default behavior was added for the <code>autodispose-lifecycle-ktx</code> artifact. These behaviors can be further tuned via factory helpers in <code>LifecycleScopes</code>.</p>
+<p>Other notable changes in this:
+* <code>OutsideLifecycleException</code> has been renamed to <code>OutsideScopeException</code> and kept in the core artifact. Boundary checks can be done and respected in <code>ScopeProvider</code>
+implementations, and corresponding <code>AutoDisposePlugins</code> for this have been renamed accordingly.
+* <code>correspondingEvents()</code> now returns a <code>CorrespondingEventsFunction</code>, which is a narrower subtype of <code>Function</code> that only needs one generic and only allows for
+throwing `OutsideScopeException.</p>
+<h3 id="misc_2">Misc<a class="headerlink" href="#misc_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>All deprecated APIs have been removed.</li>
+<li>Kotlin Artifacts have been renamed to be <code>{name}-ktx</code> instead of <code>{name}-kotlin</code> to match other library conventions.</li>
+<li>Kotlin artifacts with <code>.ktx</code> or <code>.kotlin</code> package name entries have had them removed to match convention with other ktx-style artifacts.</li>
+<li>i.e. Instead of <code>com.uber.autodispose.kotlin</code>, it would just be <code>com.uber.autodispose</code>.</li>
+<li><code>ViewScopeProvider</code> now uses a custom <code>MainThreadDisposable</code> that respects any main thread checks set via <code>AutoDisposeAndroidPlugins</code>. (<a href="https://github.com/uber/AutoDispose/pull/232">#232</a>)</li>
+<li>Jetbrains annotations have been removed in favor of just using RxJava&rsquo;s <code>@Nullable</code> annotation directly. Saves some proguard rules and dependencies, and also makes annotation usage consistent. </li>
+<li>The following dependencies have been updated:</li>
+<li>RxJava 2.2.0 (<code>as()</code> and <code>ParallelFlowable</code> are now stable APIs)</li>
+<li>Kotlin 1.2.60</li>
+<li>Build against Android SDK 28</li>
+<li>Support library 27.1.1</li>
+<li>RxLifecycle 2.2.2</li>
+<li>RxAndroid 2.0.2</li>
+<li>The sample app has had some wonderful community contributions</li>
+<li><a href="https://github.com/uber/AutoDispose/pull/225">LeakCanary integration</a></li>
+<li><a href="https://github.com/uber/AutoDispose/pull/223">Architecture components sample</a>, including <code>ViewModel</code> and using a repository pattern</li>
+<li><a href="https://github.com/uber/AutoDispose/pull/226">General structure cleanup</a></li>
+</ul>
+<p>This is an RC1. We won&rsquo;t release 1.0 final until the AndroidX artifacts are stable to save ourselves from having to release a 2.0 immediately after this. 
+These are a lot of breaking changes, so please let us know if you see any issues.</p>
+<p>Thanks to the following contributors for this release: <a href="https://github.com/shaishavgandhi05">@shaishavgandhi05</a> and <a href="https://github.com/remcomokveld">@remcomokveld</a></p>
+<h2 id="version-080">Version 0.8.0<a class="headerlink" href="#version-080" title="Permanent link">&para;</a></h2>
+<p><em>2018-5-7</em></p>
+<h3 id="deprecated-scoper-apis-now-use-the-converter-api-under-the-hood-188">Deprecated Scoper APIs now use the converter API under the hood (<a href="https://github.com/uber/AutoDispose/issues/188">#188</a>)<a class="headerlink" href="#deprecated-scoper-apis-now-use-the-converter-api-under-the-hood-188" title="Permanent link">&para;</a></h3>
+<p>Up to this point, the new <code>as()</code>-based converter APIs just delegated to the existing deprecated 
+<code>to()</code> APIs. In this release, they have been flipped, such that the <code>to()</code> APIs now just point to 
+the <code>as()</code>-based APIs. This should be no visible user change, but please let us know if you see any 
+issues.</p>
+<h3 id="viewscopeprovider-now-implements-scopeprovider-instead-of-lifecyclescopeprovider-196">ViewScopeProvider now implements ScopeProvider instead of LifecycleScopeProvider (<a href="https://github.com/uber/AutoDispose/issues/196">#196</a>)<a class="headerlink" href="#viewscopeprovider-now-implements-scopeprovider-instead-of-lifecyclescopeprovider-196" title="Permanent link">&para;</a></h3>
+<p>We believe this makes more sense, as there&rsquo;s no beginning boundary check for Views that we can 
+check and the general attach state is quite simple. This also avoids leaking an unnecessary 
+internal API.</p>
+<h3 id="defer-to-comparable-checks-if-lifecyclescopeprovider-types-implement-it-196">Defer to <code>Comparable</code> checks if <code>LifecycleScopeProvider</code> types implement it (<a href="https://github.com/uber/AutoDispose/issues/196">#196</a>)<a class="headerlink" href="#defer-to-comparable-checks-if-lifecyclescopeprovider-types-implement-it-196" title="Permanent link">&para;</a></h3>
+<p>For better flexibility, if a type for <code>LifecycleScopeProvider</code> implements <code>Comparable</code>, we will 
+defer to it rather than <code>equals()</code>. This allows for consumers to better convey event <em>ordering</em> to 
+the scope provider, and allow AutoDispose to catch events <em>after</em> a target event as a fallback. 
+This covers cases where the targeted &ldquo;end&rdquo; event is missed but a later event comes through, 
+allowing AutoDispose to dispose anyway. Note that this may result in a behavior change if your 
+lifecycle types implemented <code>Comparable</code> before.</p>
+<h3 id="removed-error-prone-annotations-208">Removed Error-Prone annotations (<a href="https://github.com/uber/AutoDispose/issues/208">#208</a>)<a class="headerlink" href="#removed-error-prone-annotations-208" title="Permanent link">&para;</a></h3>
+<p>As of Error-Prone 2.3.1, <code>@DoNotMock</code> was removed. We&rsquo;ve switched to an internal copy of this 
+annotation for documentation purposes and for any external checkers to still check this usage on 
+their own (by name).</p>
+<h3 id="switch-from-jsr305-to-jetbrains-annotations-for-nullability-208">Switch from JSR305 to Jetbrains annotations for nullability (<a href="https://github.com/uber/AutoDispose/issues/208">#208</a>)<a class="headerlink" href="#switch-from-jsr305-to-jetbrains-annotations-for-nullability-208" title="Permanent link">&para;</a></h3>
+<p>To be compatible with the Java 9 module system, we&rsquo;ve switched away from the JSR 305 
+annotations/javax-extras on packages and now use the Jetbrains annotations for nullability instead. 
+We still abide by a nonnull-by-default implementation, and only annotate nullable elements with 
+<code>@Nullable</code>. This dependency, like JSR305/javax-extras, is <code>compileOnly</code>.</p>
+<h3 id="misc-changes">Misc changes<a class="headerlink" href="#misc-changes" title="Permanent link">&para;</a></h3>
+<ul>
+<li>A few miscellaneous IDE warnings (<a href="https://github.com/uber/AutoDispose/issues/208">#208</a>)</li>
+<li>We are now building against Android Gradle Plugin 3.1.x (latest stable) (<a href="https://github.com/uber/AutoDispose/issues/190">#190</a>)</li>
+<li>Due to ongoing Dokka issues and update latency, we&rsquo;ve had to disable it on Kotlin artifacts for 
+  now. We plan to re-enable on the next release, which should add compatibility for AGP 3.x+.</li>
+</ul>
+<h3 id="call-for-input-on-next-steps">Call for input on next steps<a class="headerlink" href="#call-for-input-on-next-steps" title="Permanent link">&para;</a></h3>
+<p>We have two major design proposals that we want community feedback on that would take shape in the 
+next couple of releases. Please let us know if you have any thoughts!</p>
+<ul>
+<li><strong>Kotlin rewrite:</strong> <a href="https://github.com/uber/AutoDispose/issues/198">#198</a></li>
+<li><strong>Extract LifecycleScopeProvider to separate artifact, make it extend ScopeProvider:</strong> <a href="https://github.com/uber/AutoDispose/issues/197">#197</a></li>
+</ul>
+<p>Thanks to the following contributors for this release: <a href="https://github.com/tbsandee">@tbsandee</a>, 
+<a href="https://github.com/atexannamedbob">@atexannamedbob</a></p>
+<h2 id="version-070">Version 0.7.0<a class="headerlink" href="#version-070" title="Permanent link">&para;</a></h2>
+<p><em>2018-3-26</em></p>
+<h3 id="autodisposeandroidplugins-183">AutoDisposeAndroidPlugins (<a href="https://github.com/uber/AutoDispose/pull/183">#183</a>)<a class="headerlink" href="#autodisposeandroidplugins-183" title="Permanent link">&para;</a></h3>
+<p>New API! <code>AutoDisposeAndroidPlugins</code> API for plugin hooks to AutoDispose&rsquo;s android behavior at runtime. 
+The first plugin supported here is <code>MainThreadChecker</code>.</p>
+<p>This plugin allows for supplying a custom <code>BooleanSupplier</code> that can customize how main thread checks 
+work. The conventional use case of this is Android JUnit tests, where the <code>Looper</code> class is not 
+stubbed in the mock android.jar and fails explosively when touched.</p>
+<p>Another potential use of this at runtime to customize checks for more fine-grained main thread 
+checks behavior.</p>
+<p>Example</p>
+<div class="codehilite"><pre><span></span><span class="n">AutoDisposeAndroidPlugins</span><span class="o">.</span><span class="na">setOnCheckMainThread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span> <span class="c1">// Use whatever heuristics you prefer.</span>
+<span class="o">})</span>
+</pre></div>
+
+<p>This is available in the <code>autodispose-android</code> artifact, and all mainthread-checking APIs in android 
+artifacts will delegate to this plugin hook.</p>
+<h3 id="misc_3">Misc<a class="headerlink" href="#misc_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Fixed a few nullability and other minor warnings (<a href="https://github.com/uber/autodispose/pull/187">#187</a>)</li>
+<li>Contributed by <a href="https://github.com/tbsandee">@tbsandee</a>!</li>
+</ul>
+<h2 id="version-061">Version 0.6.1<a class="headerlink" href="#version-061" title="Permanent link">&para;</a></h2>
+<p><em>2018-2-23</em></p>
+<p>This is patch release with a couple of QoL improvements:
+* Android artifacts&rsquo; consumer proguard rules have been updated to not warn on the compiled error-prone annotations, like <code>@DoNotMock</code> (<a href="https://github.com/uber/autodispose/issues/178">#178</a>)
+  * Contributed by <a href="https://github.com/danh32">@danh32</a>!
+* Android artifacts no longer bundle a useless <code>BuildConfig.java</code> file (<a href="https://github.com/uber/autodispose/issues/177">#177</a>)</p>
+<h2 id="version-060">Version 0.6.0<a class="headerlink" href="#version-060" title="Permanent link">&para;</a></h2>
+<p><em>2018-2-5</em></p>
+<h3 id="error-prone-checker-artifact-156">Error-Prone Checker artifact (<a href="https://github.com/uber/autodispose/issues/156">#156</a>)<a class="headerlink" href="#error-prone-checker-artifact-156" title="Permanent link">&para;</a></h3>
+<p>There is a new Error-Prone checker artifact that you can optionally apply to have error-prone enforced checks that rx chains are autodisposed when executing in a class that has scope. This is experimental in the public, but has been used extensively internally at Uber for nearly a year. Please let us know if you run into any issues!</p>
+<p>Wiki page with setup and configuration instructions: <a href="https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker">https://github.com/uber/AutoDispose/wiki/Error-Prone-Checker</a></p>
+<p>We plan to add a UAST lint artifact in the future as well.</p>
+<h3 id="parallelflowable-support-155">ParallelFlowable support (<a href="https://github.com/uber/autodispose/issues/155">#155</a>)<a class="headerlink" href="#parallelflowable-support-155" title="Permanent link">&para;</a></h3>
+<p>AutoDispose now supports RxJava&rsquo;s <code>ParallelFlowable</code> type. Note that this only works through the new <code>as()</code> API, and there is no <code>ParallelScoper</code> API (since those are being removed in 1.0).</p>
+<h3 id="scopeprovider-and-lifecyclescopeprovider-are-now-annotated-with-donotmock-153">ScopeProvider and LifecycleScopeProvider are now annotated with <code>@DoNotMock</code> (<a href="https://github.com/uber/autodispose/issues/153">#153</a>)<a class="headerlink" href="#scopeprovider-and-lifecyclescopeprovider-are-now-annotated-with-donotmock-153" title="Permanent link">&para;</a></h3>
+<p>These types have specific test helpers that will be more robust for long term test usage, and thus should not be mocked.</p>
+<h3 id="convenience-test-methods-added-to-all-subscribeproxy-interfaces-160">Convenience <code>test()</code> methods added to all SubscribeProxy interfaces (<a href="https://github.com/uber/autodispose/issues/160">#160</a>)<a class="headerlink" href="#convenience-test-methods-added-to-all-subscribeproxy-interfaces-160" title="Permanent link">&para;</a></h3>
+<p>These are to match the convenience <code>test()</code> methods in regular RxJava types.</p>
+<h3 id="misc_4">Misc<a class="headerlink" href="#misc_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Archcomponents updated to 1.1.0 for compatibility with new artifacts (<a href="https://github.com/uber/autodispose/issues/128">#128</a>)</li>
+<li><code>autodispose-android-archcomponents-test</code> and <code>autodispose-android-archcomponents-test-kotlin</code> now only depend on the <code>common</code> arch components artifact rather than <code>extensions</code>, which removes the unused <code>livedata</code> and <code>viewmodel</code> transitive dependencies.</li>
+<li>RxViewHolder examples now implement <code>LifecycleScopeProvider</code> instead of <code>ScopeProvider</code> (<a href="https://github.com/uber/autodispose/issues/157">#157</a>)</li>
+<li>Deprecated Kotlin APIs are now <code>ERROR</code> level instead of <code>WARNING</code> (<a href="https://github.com/uber/autodispose/issues/151">#151</a>)</li>
+<li>Various doc fixes (<a href="https://github.com/uber/autodispose/issues/158">#158</a>)</li>
+<li>RxLifecycle updated to 2.2.1 (<a href="https://github.com/uber/autodispose/issues/161">#161</a>)</li>
+<li>ErrorProne annotations updated to 2.2.0 (<a href="https://github.com/uber/autodispose/issues/161">#161</a>)</li>
+<li>Android artifacts now compiled against SDK 27</li>
+<li>Android support annotations updated to 27.0.2</li>
+</ul>
+<p>Thanks to the following contributors! <a href="https://github.com/VisheshVadhera">@VisheshVadhera</a> <a href="https://github.com/bangarharshit">@bangarharshit</a> <a href="https://github.com/mmallozzi">@mmallozzi</a> <a href="https://github.com/0legg">@0legg</a> <a href="https://github.com/shaunkawano">@shaunkawano</a> </p>
+<h2 id="version-051">Version 0.5.1<a class="headerlink" href="#version-051" title="Permanent link">&para;</a></h2>
+<p><em>2017-12-6</em></p>
+<p><strong>Fix:</strong> A bug where unbound scopes would mark the observer as disposed, subsequently preventing future events from emitting. (<a href="https://github.com/uber/autodispose/issues/149">#149</a>)</p>
+<p><strong>Fix:</strong> Kotlin docs accidentally pointing to <code>to()</code> operators instead of <code>as()</code>. (<a href="https://github.com/uber/autodispose/issues/145">#145</a>)</p>
+<p>Snapshots should be fully working now as well.</p>
+<h2 id="version-050">Version 0.5.0<a class="headerlink" href="#version-050" title="Permanent link">&para;</a></h2>
+<p><em>2017-12-3</em></p>
+<h3 id="new-converter-based-api-for-use-with-as-141">New converter-based API for use with as() (<a href="https://github.com/uber/autodispose/issues/141">#141</a>)<a class="headerlink" href="#new-converter-based-api-for-use-with-as-141" title="Permanent link">&para;</a></h3>
+<p>AutoDispose&rsquo;s primary API is now via static <code>autoDisposable()</code> methods on the <code>AutoDispose</code> class. The previous <code>to()</code> based APIs are now completely deprecated, and will be removed in AutoDispose 1.0.</p>
+<p>This has been sort of the long-standing ideal API for AutoDispose for awhile, but wasn&rsquo;t possible until the introduction of the new <code>as()</code> operator in RxJava. As this operator is still not marked as stable (and won&rsquo;t until RxJava 2.2.0), AutoDispose will not be updated to 1.0 until then.</p>
+<p>The main difference is that you no longer have to specify the type indirection, and the returned converter is applicable for all 5 RxJava types. In use, it looks like this:</p>
+<div class="codehilite"><pre><span></span><span class="n">Flowable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">as</span><span class="o">(</span><span class="n">autoDisposable</span><span class="o">(</span><span class="n">scope</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">subscribe</span><span class="o">()</span>
+
+<span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">as</span><span class="o">(</span><span class="n">autoDisposable</span><span class="o">(</span><span class="n">scope</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">subscribe</span><span class="o">()</span>
+
+<span class="n">Maybe</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">as</span><span class="o">(</span><span class="n">autoDisposable</span><span class="o">(</span><span class="n">scope</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">subscribe</span><span class="o">()</span>
+
+<span class="n">Single</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">as</span><span class="o">(</span><span class="n">autoDisposable</span><span class="o">(</span><span class="n">scope</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">subscribe</span><span class="o">()</span>
+
+<span class="n">Completable</span><span class="o">.</span><span class="na">complete</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">as</span><span class="o">(</span><span class="n">autoDisposable</span><span class="o">(</span><span class="n">scope</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">subscribe</span><span class="o">()</span>
+</pre></div>
+
+<p>There are three overloads for <code>autoDisposable()</code>, for each of the three scope types (<code>Maybe</code>, <code>ScopeProvider</code>, and <code>LifecycleScopeProvider</code>).</p>
+<p>The Kotlin bindings have also been updated to match semantics, with the <code>autoDisposeWith</code> extension functions being deprecated in favor of analogous <code>autoDisposable</code>. These are <code>WARNING</code> level in this release, and will become <code>ERROR</code> in AutoDispose 0.6.0, before finally being removed in 1.0. They also provide <code>replaceWith</code> options (compatible with Kotlin&rsquo;s deprecation quickfixes).</p>
+<p><code>autoDisposable</code> reads best when statically imported (so you can do <code>.as(autoDisposable(...))</code>, which you can safely do if you&rsquo;re using Java 8.</p>
+<p>For structural replace templates, see <a href="https://github.com/uber/AutoDispose/wiki/Migrating-from-0.4.0-to-0.5.0">here</a>).</p>
+<h3 id="fixed-a-lot-of-concurrency-edge-cases-and-performance-improvements-after-review-from-david-karnok-138-and-130">Fixed a lot of concurrency edge cases and performance improvements after review from David Karnok (<a href="https://github.com/uber/autodispose/issues/138">#138</a> and <a href="https://github.com/uber/autodispose/issues/130">#130</a>)<a class="headerlink" href="#fixed-a-lot-of-concurrency-edge-cases-and-performance-improvements-after-review-from-david-karnok-138-and-130" title="Permanent link">&para;</a></h3>
+<p>David Karnok (@akarnokd, RxJava project lead) did an audit of the current codebase and gave extensive feedback in #130. #138 implements that feedback. This handled a lot of concurrency gotchas and edge cases we were missing before. See the issue and PR for full details.</p>
+<h3 id="plugin-for-controlling-whether-or-not-to-fill-in-stacktraces-124">Plugin for controlling whether or not to fill in stacktraces (<a href="https://github.com/uber/autodispose/issues/124">#124</a>)<a class="headerlink" href="#plugin-for-controlling-whether-or-not-to-fill-in-stacktraces-124" title="Permanent link">&para;</a></h3>
+<p><code>AutoDisposePlugins</code> has a new API to control whether or not lifecycle exception stacktraces are filled in. What this means is that if you opt out, the exceptions thrown in <code>LifecycleScopeProvider</code> boundary issues will no longer have a stacktrace (<code>getStacktrace()</code> will return an empty array) and only carry the type name and message. This can be useful to gain some performance if you track stacktracing via other means.</p>
+<h3 id="unbound-shorthand-125">UNBOUND shorthand (<a href="https://github.com/uber/autodispose/issues/125">#125</a>)<a class="headerlink" href="#unbound-shorthand-125" title="Permanent link">&para;</a></h3>
+<p><code>ScopeProvider</code> has a static instance of an &ldquo;unbound&rdquo; provider directly in the interface now for reuse. This obviates the need for <code>TestScopeProvider#unbound()</code>, which has been <strong>removed</strong>. Usage is simple:</p>
+<div class="codehilite"><pre><span></span><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">as</span><span class="o">(</span><span class="n">autoDisposable</span><span class="o">(</span><span class="n">ScopeProvider</span><span class="o">.</span><span class="na">UNBOUND</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">subscribe</span><span class="o">()</span>
+</pre></div>
+
+<h2 id="misc_5">Misc<a class="headerlink" href="#misc_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Archcomponents updated to 1.0.0 final (<a href="https://github.com/uber/autodispose/issues/128">#128</a>)</li>
+<li>RxJava dependency is now 2.1.7 (to leverage <code>as()</code>) (<a href="https://github.com/uber/autodispose/issues/141">#141</a>)</li>
+<li>Kotlin is now updated to 1.2.0 (<a href="https://github.com/uber/autodispose/issues/141">#141</a>)</li>
+<li>Dokka is wired up, meaning that kotlin artifacts now also have exported javadocs. (<a href="https://github.com/uber/autodispose/issues/126">#126</a>)</li>
+<li><code>subscribeBy</code> example extension in the sample app displaying how you can add extension functions to the <code>*SubscribeProxy</code> classes. (<a href="https://github.com/uber/autodispose/issues/127">#127</a>)</li>
+<li><code>delegateObserver()</code> APIs on <code>AutoDisposing</code> observers have been promoted to stable. Considering they are useful for <code>subscribeWith()</code>, we can just keep it observer-based and keep the library more flexible long-term (<a href="https://github.com/uber/autodispose/issues/144">#144</a>)</li>
+</ul>
+<p>Thanks to the following contributors! <a href="https://github.com/@charlesdurham">@charlesdurham</a> <a href="https://github.com/@ajalt">@ajalt</a> <a href="https://github.com/@tbsandee">@tbsandee</a> <a href="https://github.com/@akarnokd">@akarnokd</a></p>
+<h2 id="version-040">Version 0.4.0<a class="headerlink" href="#version-040" title="Permanent link">&para;</a></h2>
+<p><em>2017-10-22</em></p>
+<h4 id="structured-android-components-111">Structured Android Components <a href="https://github.com/uber/AutoDispose/pull/111">#111</a><a class="headerlink" href="#structured-android-components-111" title="Permanent link">&para;</a></h4>
+<p>Android components have been split up into several artifacts under <code>:android</code>:
+-  <code>autodispose-android</code>: Core android utilities, previously <code>:autodispose-android</code>
+- <code>autodispose-android-archcomponents</code>: Utilities for lifecycles in android archcomponents, previously <code>:autodispose-android-archcomponents</code> but does not have the test helper
+- <strong>New:</strong> <code>autodispose-android-archcomponents-test</code>: Test utilities for working with arch components, namely <code>TestLifecycleOwner</code>, formerly <code>TestAndroidLifecycleScopeProvider</code>.
+  - This allows us to remove the <code>extensions</code> dependency from the main arch components artifact and keep this optional. This API can also be used for general use testing for arch components, as it&rsquo;s not actually specific to AutoDispose.
+- <strong>New:</strong> <code>autodispose-android-kotlin</code>: kotlin bindings for <code>autodispose-android</code>
+- <strong>New:</strong> <code>autodispose-android-archcomponents-kotlin</code>: kotlin bindings for <code>autodispose-android-archcomponents</code>
+- <strong>New:</strong> <code>autodispose-android-archcomponents-test-kotlin</code>: kotlin bindings for <code>autodispose-android-test-archcomponents</code>
+- <strong>New:</strong> Android artifacts include consumer proguard rules (relates to (<a href="https://github.com/uber/AutoDispose/issues/112">#112</a>))</p>
+<p>Related changes:
+- <strong>Fix:</strong> Arch components updated to <code>1.0.0-rc1</code>, which should fix compatibility issues noted in (<a href="https://github.com/uber/AutoDispose/issues/113">#113</a>)
+- <strong>Enhancement:</strong> <code>untilEvent</code> overload for AndroidLifecycleScopeProvider (<a href="https://github.com/uber/AutoDispose/issues/107">#107</a>)
+  - Now you can bind until a specific target event, or provide your own boundary provider function
+- Behavior change: previously, anything occurring after <code>ON_STOP</code> would resolve to <code>ON_DESTROY</code>. Now, they resolve to stop on the next destruction event. This brings it inline with the modern behavior of arch components version <code>-rc1</code>.
+- <strong>Enhancement:</strong> <code>AndroidLifecycleScopeProvider</code>s are now reusable. This is somewhat experimental, as it works by dynamically resolving the last event based on the state. Please report any issues! <a href="https://github.com/uber/AutoDispose/pull/121">#121</a></p>
+<h4 id="rxlifecycle-interop">RxLifecycle Interop<a class="headerlink" href="#rxlifecycle-interop" title="Permanent link">&para;</a></h4>
+<p>A new <code>autodispose-rxlifecycle</code> interop module was added, adding support for scoping to <a href="https://github.com/trello/RxLifecycle">RxLifecycle</a>&lsquo;s <code>LifecycleProvider</code> API. (<a href="https://github.com/uber/AutoDispose/pull/118">#118</a>)</p>
+<h4 id="misc_6">Misc<a class="headerlink" href="#misc_6" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Reduced object allocations (<a href="https://github.com/uber/AutoDispose/issues/108">#108</a>)</li>
+<li>Convenience <code>unbound()</code> factory on <code>TestScopeProvider</code> (<a href="https://github.com/uber/AutoDispose/issues/108">#108</a>)</li>
+<li>Removed synthetic accessors (<a href="https://github.com/uber/AutoDispose/issues/103">#103</a>)</li>
+<li>Updated to Kotlin 1.1.51 (<a href="https://github.com/uber/AutoDispose/issues/116">#116</a>)</li>
+</ul>
+<p>Thanks to the following contributors! <a href="https://github.com/rubengees">@rubengees</a> <a href="https://github.com/bangarharshit">@bangarharshit</a> </p>
+<h4 id="updated-dependencies">Updated dependencies:<a class="headerlink" href="#updated-dependencies" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span>Android Arch Components: 1.0.0-rc1
+Android Arch Components (common): 1.0.3
+Kotlin: 1.1.51
+</pre></div>
+
+<h4 id="new-artifacts-coordinates">New artifacts coordinates:<a class="headerlink" href="#new-artifacts-coordinates" title="Permanent link">&para;</a></h4>
+<p><a href="https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test.svg" /></a>
+<div class="codehilite"><pre><span></span>compile &#39;com.uber.autodispose:autodispose-android-archcomponents-test:x.y.z&#39;
+</pre></div></p>
+<p><a href="https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-rxlifecycle"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-rxlifecycle.svg" /></a>
+<div class="codehilite"><pre><span></span>compile &#39;com.uber.autodispose:autodispose-rxlifecycle:x.y.z&#39;
+</pre></div></p>
+<p><a href="https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-kotlin"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-kotlin.svg" /></a> 
+<div class="codehilite"><pre><span></span>compile &#39;com.uber.autodispose:autodispose-android-kotlin:x.y.z&#39;
+</pre></div></p>
+<p><a href="https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-kotlin"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-kotlin.svg" /></a> 
+<div class="codehilite"><pre><span></span>compile &#39;com.uber.autodispose:autodispose-android-archcomponents-kotlin:x.y.z&#39;
+</pre></div></p>
+<p><a href="https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin.svg" /></a> 
+<div class="codehilite"><pre><span></span>compile &#39;com.uber.autodispose:autodispose-android-archcomponents-test-kotlin:x.y.z&#39;
+</pre></div></p>
+<h2 id="version-030">Version 0.3.0<a class="headerlink" href="#version-030" title="Permanent link">&para;</a></h2>
+<p><em>2017-10-01</em></p>
+<ul>
+<li><strong>New: Static factory API (<a href="https://github.com/uber/AutoDispose/pull/88">#88</a>)</strong></li>
+</ul>
+<p>After a long time trying to figure out how to finagle this in a way that played nice with IDE autocomplete,
+the main API for AutoDispose is now via the <code>AutoDispose</code> class and its static factories.</p>
+<div class="codehilite"><pre><span></span><span class="n">Observable</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">AutoDispose</span><span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="n">yourScope</span><span class="o">).</span><span class="na">forObservable</span><span class="o">())</span>
+  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+
+<span class="c1">// Note: on Java 7, you must specify the generic. The IDE should autocomplete this for you.</span>
+<span class="n">Observable</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">AutoDispose</span><span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="n">yourScope</span><span class="o">).&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="n">forObservable</span><span class="o">())</span>
+  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</pre></div>
+
+<p><code>with()</code> has three overloads for <code>Maybe</code>, <code>ScopeProvider</code>, and <code>LifecycleScopeProvider</code>. They return
+an intermediary <code>ScopeHandler</code>, which in turn has 5 generic <code>for___()</code> methods that correspond to the
+5 RxJava types (<code>Observable</code>, <code>Flowable</code>, <code>Single</code>, <code>Maybe</code>, and <code>Completable</code>).</p>
+<p>The old <code>Scoper</code> class are now <strong>deprecated</strong>, and will be removed in AutoDispose 1.0. Fortunately, 
+this is easy to migrate via IntelliJ&rsquo;s structural replace. Information can be found <a href="https://github.com/uber/AutoDispose/wiki/Migrating-from-0.2.0-to-0.3.0">here</a>.</p>
+<ul>
+<li><strong>New: Support for Android Architecture Components! (<a href="https://github.com/uber/AutoDispose/pull/71">#71</a>)</strong></li>
+</ul>
+<p>With the beta release of architecture components, they are now supported in the <code>autodispose-android-archcomponents</code> 
+artifact.</p>
+<div class="codehilite"><pre><span></span><span class="n">Observable</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">AutoDispose</span><span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="n">AndroidLifecycleScopeProvider</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="k">this</span><span class="o">)).</span><span class="na">forObservable</span><span class="o">())</span>
+  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</pre></div>
+
+<p>Where <code>this</code> could be anything that implements <code>LifecycleOwner</code> or extends <code>Lifecycle</code>.</p>
+<p><a href="https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents.svg" /></a>
+<div class="codehilite"><pre><span></span>compile &#39;com.uber.autodispose:autodispose-android-archcomponents:x.y.z&#39;
+</pre></div></p>
+<p>Thanks to <a href="https://github.com/yigit">@yigit</a>, <a href="https://github.com/jaychang0917">@jaychang0917</a>, and <a href="https://github.com/lsvijay">@lsvijay</a> for their help and contributions on this!</p>
+<ul>
+<li><strong>New: Delegate Observer retrieval (<a href="https://github.com/uber/AutoDispose/pull/89">#89</a>)</strong></li>
+</ul>
+<p>Every automatically disposing observer implements one of the corresponding <code>AutoDisposing____Observer</code>
+interfaces in the <code>com.uber.autodispose.observers</code> package. They are considered read-only public API,
+with the intention that you can look for them in the RxJava plugin system (such as an onSubscribe hook).
+This extends their functionality to expose a new experimental API called <code>delegateObserver()</code>. This allows
+you to access the underlying observer that this is automatically disposing.</p>
+<p>The reason for this is that there may be conditions where you want to handle functionality depending
+on information from that Observer. As of RxJava 2.1.4, one such case could be to read information from
+a <code>LambdaConsumerIntrospection</code> (<a href="https://github.com/ReactiveX/RxJava/pull/5590">relevant PR</a>).</p>
+<p>In the future, this will likely be narrowed to return a <code>@Nullable lambdaConsumerIntrospection()</code>, but 
+we&rsquo;re open to feedback if others think this should remain the high level <code>Observer</code> type.</p>
+<p>Thanks to <a href="https://github.com/mswysocki">@mswysocki</a> for his contribution on this!</p>
+<ul>
+<li><strong>New: JSR 305 Nullability Annotations (<a href="https://github.com/uber/AutoDispose/pull/79">#79</a>)</strong></li>
+</ul>
+<p>AutoDispose packages now leverage JSR 305 annotations to indicate nullability. By default, all methods
+and parameters are non-null by default. This uses the spin-off <a href="https://github.com/uber-common/javax-extras">javax-extras</a>
+artifact for method nullability support, and is only a <code>compileOnly</code> dependency (so it should show up)
+for tooling but is not packaged as a compile dependency.</p>
+<p>Further reading: <a href="https://medium.com/square-corner-blog/non-null-is-the-default-58ffc0bb9111">https://medium.com/square-corner-blog/non-null-is-the-default-58ffc0bb9111</a></p>
+<ul>
+<li><strong>New: Sample android app! (<a href="https://github.com/uber/AutoDispose/pull/97">#97</a>)</strong></li>
+</ul>
+<p>For a long time, AutoDispose relied on tests and the README to be demonstrations of API use. It&rsquo;s become
+clear that this is not enough information though, so we&rsquo;ve added a full sample app (borrowing heavily
+from RxLifecycle/Conductor&rsquo;s) to better illustrate API usage and runtime behavior. We&rsquo;ll continue to
+iterate on this over time.</p>
+<ul>
+<li><strong>Improved: EndConsumerHelper (<a href="https://github.com/uber/AutoDispose/pull/77">#77</a>)</strong></li>
+</ul>
+<p>AutoDispose uses the same disposal-helper utilities as RxJava. This updates to RxJava&rsquo;s new 
+<code>EndConsumerHelper</code>, which should hopefully help produce more helpful error messages in disposal error
+conditions.</p>
+<ul>
+<li><strong>Other</strong></li>
+</ul>
+<p>Updated various dependencies:</p>
+<div class="codehilite"><pre><span></span>Android Arch Components: 1.0.0-beta1
+Android Support Library: 26.1.0 (to match arch components)
+Kotlin: 1.1.50
+</pre></div>
+
+
+<p>As always, we welcome any and all discussions/feedback/PRs! We&rsquo;re marching toward a 1.0 release Real 
+Soon Now, so now is the time. There are a few outstanding discussion issues in the issue tracker about 
+1.0 final design decisions.</p>
+<h2 id="version-020">Version 0.2.0<a class="headerlink" href="#version-020" title="Permanent link">&para;</a></h2>
+<p><em>2017-05-08</em></p>
+<ul>
+<li><strong>New: Kotlin artifact! (#47)</strong></li>
+</ul>
+<p>This adds <code>autoDisposeWith()</code> extensions to RxJava types.</p>
+<div class="codehilite"><pre><span></span><span class="n">myObservable</span>
+   <span class="p">.</span><span class="n">doWhatever</span><span class="p">()</span>
+   <span class="p">.</span><span class="n">autoDisposeWith</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+   <span class="p">.</span><span class="n">subscribe</span><span class="p">()</span>
+</pre></div>
+
+<ul>
+<li><strong>New: Plugin system! (#57)</strong></li>
+</ul>
+<p>Modeled after RxJava&rsquo;s plugins, this allows you to customize the behavior of AutoDispose with lifecycle boundary checks.</p>
+<div class="codehilite"><pre><span></span><span class="n">AutoDisposePlugins</span><span class="o">.</span><span class="na">setOutsideLifecycleHandler</span><span class="o">(</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="c1">// Swallow the exception, or rethrow it, or throw your own!</span>
+<span class="o">})</span>
+</pre></div>
+
+<p>A good use case of this is, say, just silently disposing/logging observers outside of lifecycle exceptions in production but crashing on debug.</p>
+<ul>
+<li><strong>New: Test helpers! (#48 #49)</strong></li>
+</ul>
+<p>Two helpers were added to simulate conditions in testing.
+- <code>TestLifecycleScopeProvider</code>
+  - This has two corresponding lifecycle methods: <code>start()</code> and <code>stop()</code>
+- <code>TestScopeProvider</code>
+  - Has just one method - <code>emit()</code>.</p>
+<p>For testing with just the <code>Maybe&lt;?&gt;</code> scope, we recommend using RxJava&rsquo;s built-in <code>MaybeSubject</code>.</p>
+<ul>
+<li><strong>Fix</strong>: Fixed a race condition where upstream wouldn&rsquo;t be disposed if the lifecycle emitted or error&rsquo;d synchronously (i.e. was already terminated). (#57)</li>
+<li><strong>Fix</strong>: Add missing <code>@CheckReturnValue</code> annotations to <code>subscribeWith</code> methods. (#53)</li>
+</ul>
+<p><strong>Other tidbits:</strong>
+- Removed <code>@NonNull</code> annotations. Everything is <code>@NonNull</code> by default, and only elements 
+annotated with <code>@Nullable</code> are not.
+- Use of the new <code>java-library</code> plugin for gradle (#64). The RxJava dependencies are marked as <code>api</code>.
+- Error prone has been integrated. Currently the annotations are just marked as <code>compileOnly</code>, but if a need arises/community wants them - we can compile them in a future version.</p>
+<h2 id="version-010">Version 0.1.0<a class="headerlink" href="#version-010" title="Permanent link">&para;</a></h2>
+<p><em>2017-03-13</em></p>
+<ul>
+<li>Initial release</li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../lint-check/" title="Lint Check" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Lint Check
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../migrating-020-030/" title="Migrating from 0.2.0 to 0.3.0" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Migrating from 0.2.0 to 0.3.0
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2019 Uber Technologies
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.245445c6.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>

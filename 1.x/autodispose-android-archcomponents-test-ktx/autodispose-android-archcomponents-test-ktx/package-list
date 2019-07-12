@@ -1,4 +1,0 @@
-$dokka.format:html
-$dokka.linkExtension:html
-$dokka.location:com.uber.autodispose.android.lifecycle.test$test(androidx.lifecycle.LifecycleRegistry)com.uber.autodispose.android.lifecycle.test/androidx.lifecycle.-lifecycle-registry/test.html
-com.uber.autodispose.android.lifecycle.test
