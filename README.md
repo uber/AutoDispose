@@ -253,11 +253,11 @@ This pattern is *sort of* possible in RxJava 1, but only on `Subscriber` (via `o
 
 There is an optional error-prone checker you can use to enforce use of AutoDispose.
 Integration steps and more details
-can be found on the [wiki](https://github.com/uber/AutoDispose/wiki/Error-Prone)
+can be found on the [website](https://uber.github.io/AutoDispose/error-prone)
 
 ### Lint Check
 
-AutoDispose ships with a lint check that detects missing AutoDispose scope within defined scoped elements. Integration steps and more details can be found on the [wiki](https://github.com/uber/AutoDispose/wiki/Lint-Check)
+AutoDispose ships with a lint check that detects missing AutoDispose scope within defined scoped elements. Integration steps and more details can be found on the [website](https://uber.github.io/AutoDispose/lint-check/)
 
 Download
 --------
@@ -310,7 +310,7 @@ implementation 'com.uber.autodispose:autodispose-rxlifecycle:x.y.z'
 implementation 'com.uber.autodispose:autodispose-rxlifecycle3:x.y.z'
 ```
 
-Javadocs and KDocs for the most recent release can be found here: https://uber.github.io/AutoDispose/1.x/
+Javadocs and KDocs for the most recent release can be found here: https://uber.github.io/AutoDispose/1.x/autodispose/
 
 Snapshots of the development version are available in [Sonatype's snapshots repository][snapshots].
 
