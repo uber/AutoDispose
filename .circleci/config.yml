@@ -7,6 +7,9 @@ jobs:
     environment:
       JVM_OPTS: -Xmx3200m
       ANDROID_EMULATOR_TARGET: "24"
+    branches:
+      only:
+        - master
     steps:
       - checkout
       - restore_cache:
