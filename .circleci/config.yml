@@ -12,33 +12,28 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "autodispose/build.gradle" }}
       - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "autodispose/build.gradle" }}
-      - run:
-          name: Lists installed targets
-          command: android list target
-          environment:
-          TERM: dumb
-      - run:
-          name: Show list of system-images
-          command: sdkmanager --list --verbose | grep system-images
+          name: Install dependencies
+          command: sudo apt-get update && sudo apt-get install -y --no-install-recommends libpulse0
       - run:
           name: Setup emulator
           command: echo y | sdkmanager "platform-tools" "platforms;android-${ANDROID_EMULATOR_TARGET}" "emulator" "system-images;android-${ANDROID_EMULATOR_TARGET};default;armeabi-v7a" && echo "no" | avdmanager create avd --force -n test -k "system-images;android-${ANDROID_EMULATOR_TARGET};default;armeabi-v7a"
       - run:
           name: Launch emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator -avd test -no-audio -no-boot-anim -no-window -accel on -gpu off
           background: true
       - run:
-          name: Install
-          command: ./gradlew build assembleAndroidTest --stacktrace
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+              - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "autodispose/build.gradle" }}
+#      - run:
+#          name: Install
+#          command: ./gradlew build assembleAndroidTest --stacktrace
       - run:
           name: Run Tests
-          command: ./gradlew check --stacktrace
+          command: chmod +x android-wait-for-emulator.sh && ./gradlew check connectedCheck --stacktrace
       - store_artifacts:
           path: build/reports
           destination: reports
