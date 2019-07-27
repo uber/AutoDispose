@@ -40,6 +40,11 @@ jobs:
       - store_test_results:
           path: build/test-results
   deploy_snapshot:
+    environment:
+      JVM_OPTS: -Xmx3200m
+      ANDROID_EMULATOR_TARGET: "24"
+    docker:
+      - image: circleci/android:api-28
     branches:
       only:
         - master
