@@ -1,9 +1,7 @@
 language: android
 
-dist: xenial
-
 jdk:
-- openjdk8
+- oraclejdk8
 
 before_install:
 # Install SDK license so Android Gradle plugin can install deps.
@@ -42,6 +40,8 @@ branches:
 
 notifications:
   email: false
+
+sudo: false
 
 cache:
   directories:
