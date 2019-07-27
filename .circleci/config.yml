@@ -6,6 +6,7 @@ jobs:
       - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
+      ANDROID_EMULATOR_TARGET: "24"
     steps:
       - checkout
       - restore_cache:
@@ -17,6 +18,24 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "autodispose/build.gradle" }}
+      - run:
+          name: Lists installed targets
+          command: android list target
+          environment:
+          TERM: dumb
+      - run:
+          name: Show list of system-images
+          command: sdkmanager --list --verbose | grep system-images
+      - run:
+          name: Setup emulator
+          command: echo y | sdkmanager "platform-tools" "platforms;android-${ANDROID_EMULATOR_TARGET}" "emulator" "system-images;android-${ANDROID_EMULATOR_TARGET};default;armeabi-v7a" && echo "no" | avdmanager create avd --force -n test -k "system-images;android-${ANDROID_EMULATOR_TARGET};default;armeabi-v7a"
+      - run:
+          name: Launch emulator
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
+          background: true
+      - run:
+          name: Install
+          command: ./gradlew build assembleAndroidTest --stacktrace
       - run:
           name: Run Tests
           command: ./gradlew check --stacktrace
