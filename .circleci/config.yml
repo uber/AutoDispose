@@ -6,7 +6,7 @@ jobs:
       - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
-      ANDROID_EMULATOR_TARGET: "24"
+      ANDROID_EMULATOR_TARGET: "18"
     steps:
       - checkout
       - restore_cache:
@@ -33,7 +33,7 @@ jobs:
 #          command: ./gradlew build assembleAndroidTest --stacktrace
       - run:
           name: Run Tests
-          command: chmod +x android-wait-for-emulator.sh && ./gradlew check connectedCheck --stacktrace
+          command: chmod +x android-wait-for-emulator.sh && ./android-wait-for-emulator.sh && ./gradlew check connectedCheck --stacktrace
       - store_artifacts:
           path: build/reports
           destination: reports
