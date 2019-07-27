@@ -7,9 +7,6 @@ jobs:
     environment:
       JVM_OPTS: -Xmx3200m
       ANDROID_EMULATOR_TARGET: "24"
-    branches:
-      only:
-        - master
     steps:
       - checkout
       - restore_cache:
@@ -42,3 +39,12 @@ jobs:
           destination: reports
       - store_test_results:
           path: build/test-results
+  deploy_snapshot:
+    branches:
+      only:
+        - master
+    steps:
+      - checkout
+      - run:
+          name: Deploy Snapshot
+          command: #.buildscript/deploy_snapshot.sh
