@@ -1,6 +1,6 @@
 # Maintaining Documentation Website
 
-The [documentation website](https://uber.github.io/AutoDispose/) is built using [MkDocs](https://squidfunk.github.io/mkdocs-material/). This requires you to install python to deploy the website. 
+The [documentation website](https://uber.github.io/AutoDispose/) is built using [MkDocs](https://squidfunk.github.io/mkdocs-material/). This requires you to install python to deploy the website. MkDocs supports Python versions 2.7, 3.4, 3.5, 3.6, 3.7. 
 
 ## Overview
 
@@ -12,23 +12,30 @@ All of the main pages exist in [docs](https://github.com/uber/AutoDispose/tree/m
 ```yml
 nav:
   - 'New Page': new_page.md
+    - 'Nested Page': nested_page.md
+  -- 'Top Level Page': top_level_page.md
  ```
  
  ## Editing a Page
  
- Find the page that usually exists in the `docs` directory. After you've made the changes, [deploy the website](#deploying-the-website)
+ You can find the markdown file corresponding to the page that you want to edit by checking the `mkdocs.yml` file and finding the `nav` section. This should have the markdown file name.
+You can then find that file in the `docs` directory. After you've made changes to that file, get them merged in and [deploy the website](#deploying-the-website)
  
  ## Adding Custom CSS
  
- You can add your own CSS as well in the [app.css](https://github.com/uber/AutoDispose/blob/master/docs/css/app.css) file.
+ You can add your own CSS in the [app.css](https://github.com/uber/AutoDispose/blob/master/docs/css/app.css) file.
  
  ## Deploying the website
  
- The website can be deployed by executing the `deploy_website.sh` script. The script does the following:
- * Creates a temporary folder
- * Clones the repository
- * Run Dokka
- * Copy over the files like `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md` etc into the `docs` folder. This is done because these markdown files are required to be in the GitHub repo and we copy it over so that we don't create duplicates. 
- * Deploy mkdocs on gh-pages
- * Delete temp folder
+ The website can be deployed by executing the `deploy_website.sh` script like so:
+```bash
+./deploy_website.sh
+``` 
+The script does the following:
+ * Creates a temporary folder.
+ * Clones the repository.
+ * Runs Dokka.
+ * Copies over the files like `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md` etc into the `docs` folder. This is done because these markdown files are required to be in the GitHub repo and we copy it over so that we don't create duplicates. 
+ * Deploys mkdocs on gh-pages.
+ * Deletes the temporary folder.
  
