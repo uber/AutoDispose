@@ -6,6 +6,7 @@ jobs:
       - image: circleci/android:api-28
     environment:
       _JVM_OPTS: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Xms1024m -Xmx1536m -XX:MaxMetaspaceSize=1536m"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.parallel=false -Dkotlin.incremental=false -DdisablePreDex"
       ANDROID_EMULATOR_TARGET: "24"
     steps:
       - checkout
