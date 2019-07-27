@@ -6,7 +6,7 @@ jobs:
       - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
-      ANDROID_EMULATOR_TARGET: "22"
+      ANDROID_EMULATOR_TARGET: "24"
     steps:
       - checkout
       - restore_cache:
