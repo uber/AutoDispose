@@ -29,9 +29,9 @@ jobs:
           paths:
               - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "autodispose/build.gradle" }}
-      - run:
-          name: Install
-          command: ./gradlew build assembleAndroidTest --stacktrace
+#      - run:
+#          name: Install
+#          command: ./gradlew build assembleAndroidTest --stacktrace
       - run:
           name: Run Tests
           command: chmod +x android-wait-for-emulator.sh && ./android-wait-for-emulator.sh && ./gradlew check connectedCheck --stacktrace
