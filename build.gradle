@@ -192,7 +192,9 @@ subprojects {
     project.apply plugin: 'net.ltgt.errorprone'
     project.apply plugin: 'net.ltgt.nullaway'
     project.dependencies {
-      errorproneJavac deps.build.errorProneJavac
+      if (!JavaVersion.current().isJava9Compatible()) {
+        errorproneJavac deps.build.errorProneJavac
+      }
       errorprone deps.build.nullAway
       errorprone deps.build.errorProne
     }
