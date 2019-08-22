@@ -18,32 +18,32 @@ package com.uber.autodispose.lint
 import com.android.tools.lint.client.api.JavaEvaluator
 import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.Category
-import com.android.tools.lint.detector.api.Detector
-import com.android.tools.lint.detector.api.Issue
-import com.android.tools.lint.detector.api.SourceCodeScanner
-import com.android.tools.lint.detector.api.Severity
-import com.android.tools.lint.detector.api.Implementation
-import com.android.tools.lint.detector.api.Scope
-import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Context
+import com.android.tools.lint.detector.api.Detector
+import com.android.tools.lint.detector.api.Implementation
+import com.android.tools.lint.detector.api.Issue
+import com.android.tools.lint.detector.api.JavaContext
+import com.android.tools.lint.detector.api.Scope
+import com.android.tools.lint.detector.api.Severity
+import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiType
 import com.intellij.psi.util.PsiUtil
+import org.jetbrains.uast.UBlockExpression
 import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.UCallableReferenceExpression
+import org.jetbrains.uast.UClassInitializer
 import org.jetbrains.uast.UElement
-import org.jetbrains.uast.getParentOfType
 import org.jetbrains.uast.UExpression
-import org.jetbrains.uast.UQualifiedReferenceExpression
 import org.jetbrains.uast.ULambdaExpression
 import org.jetbrains.uast.UMethod
-import org.jetbrains.uast.UClassInitializer
-import org.jetbrains.uast.UBlockExpression
+import org.jetbrains.uast.UQualifiedReferenceExpression
 import org.jetbrains.uast.getContainingUClass
+import org.jetbrains.uast.getParentOfType
 import java.io.StringReader
-import java.util.Properties
 import java.util.EnumSet
+import java.util.Properties
 
 internal const val CUSTOM_SCOPE_KEY = "autodispose.typesWithScope"
 internal const val LENIENT = "autodispose.lenient"
@@ -68,17 +68,7 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
         Category.CORRECTNESS,
         10,
         Severity.ERROR,
-        // We use the overloaded constructor that takes a varargs of `Scope` as the last param.
-        // This is to enable on-the-fly IDE checks. We are telling lint to run on both
-        // JAVA and TEST_SOURCES in the `scope` parameter but by providing the `analysisScopes`
-        // params, we're indicating that this check can run on either JAVA or TEST_SOURCES and
-        // doesn't require both of them together.
-        // From discussion on lint-dev https://groups.google.com/d/msg/lint-dev/ULQMzW1ZlP0/1dG4Vj3-AQAJ
-        // TODO: Remove after AGP 3.4 release when this behavior will no longer be required.
-        Implementation(AutoDisposeDetector::class.java,
-            EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES),
-            EnumSet.of(Scope.JAVA_FILE),
-            EnumSet.of(Scope.TEST_SOURCES))
+        Implementation(AutoDisposeDetector::class.java, EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES))
     )
 
     private const val OBSERVABLE = "io.reactivex.Observable"
