@@ -106,7 +106,6 @@ subprojects {
     project.apply plugin: 'com.android.library'
     project.android {
       compileSdkVersion deps.build.compileSdkVersion
-      buildToolsVersion deps.build.buildToolsVersion
 
       defaultConfig {
         minSdkVersion deps.build.minSdkVersion
