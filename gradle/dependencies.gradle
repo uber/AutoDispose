@@ -15,7 +15,7 @@
  */
 
 def versions = [
-    androidTest: '1.2.0-beta01',
+    androidTest: '1.3.0-alpha02',
     animalSniffer: '1.5.0',
     archLifecycle: '2.0.0',
     dokka: '0.9.17',
@@ -87,7 +87,7 @@ def androidx = [
 ]
 
 def test = [
-    androidExtJunit: "androidx.test.ext:junit:1.1.1-beta01",
+    androidExtJunit: "androidx.test.ext:junit:1.1.2-alpha02",
     androidRunner: "androidx.test:runner:${versions.androidTest}",
     androidRules: "androidx.test:rules:${versions.androidTest}",
     androidOrchestrator: "androidx.test:orchestrator:${versions.androidTest}",
