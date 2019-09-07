@@ -51,7 +51,24 @@ inline fun <E> LifecycleProvider<E>.scope(event: E? = null): ScopeProvider {
  * @param event Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
+@Deprecated(
+    replaceWith = ReplaceWith("autoDispose(lifecycleProvider, event)"),
+    message = "Renamed to `autoDispose`",
+    level = DeprecationLevel.ERROR
+)
 inline fun <T, E> Flowable<T>.autoDisposable(lifecycleProvider: LifecycleProvider<E>, event: E? = null): FlowableSubscribeProxy<T> {
+  return this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
+}
+
+/**
+ * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable] and takes an [event] when
+ * subscription will be disposed.
+ *
+ * @param lifecycleProvider The lifecycle provider from RxLifecycle.
+ * @param event Optional lifecycle event when subscription will be disposed.
+ */
+@CheckReturnValue
+inline fun <T, E> Flowable<T>.autoDispose(lifecycleProvider: LifecycleProvider<E>, event: E? = null): FlowableSubscribeProxy<T> {
   return this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
 }
 
@@ -63,7 +80,24 @@ inline fun <T, E> Flowable<T>.autoDisposable(lifecycleProvider: LifecycleProvide
  * @param event Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
+@Deprecated(
+    replaceWith = ReplaceWith("autoDispose(lifecycleProvider, event)"),
+    message = "Renamed to `autoDispose`",
+    level = DeprecationLevel.ERROR
+)
 inline fun <T, E> Observable<T>.autoDisposable(lifecycleProvider: LifecycleProvider<E>, event: E? = null): ObservableSubscribeProxy<T> {
+  return this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
+}
+
+/**
+ * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable] and takes an [event] when
+ * subscription will be disposed.
+ *
+ * @param lifecycleProvider The lifecycle provider from RxLifecycle.
+ * @param event Optional lifecycle event when subscription will be disposed.
+ */
+@CheckReturnValue
+inline fun <T, E> Observable<T>.autoDispose(lifecycleProvider: LifecycleProvider<E>, event: E? = null): ObservableSubscribeProxy<T> {
   return this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
 }
 
@@ -75,7 +109,24 @@ inline fun <T, E> Observable<T>.autoDisposable(lifecycleProvider: LifecycleProvi
  * @param event Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
+@Deprecated(
+    replaceWith = ReplaceWith("autoDispose(lifecycleProvider, event)"),
+    message = "Renamed to `autoDispose`",
+    level = DeprecationLevel.ERROR
+)
 inline fun <T, E> Single<T>.autoDisposable(lifecycleProvider: LifecycleProvider<E>, event: E? = null): SingleSubscribeProxy<T> {
+  return this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
+}
+
+/**
+ * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable] and takes an [event] when
+ * subscription will be disposed.
+ *
+ * @param lifecycleProvider The lifecycle provider from RxLifecycle.
+ * @param event Optional lifecycle event when subscription will be disposed.
+ */
+@CheckReturnValue
+inline fun <T, E> Single<T>.autoDispose(lifecycleProvider: LifecycleProvider<E>, event: E? = null): SingleSubscribeProxy<T> {
   return this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
 }
 
@@ -87,7 +138,24 @@ inline fun <T, E> Single<T>.autoDisposable(lifecycleProvider: LifecycleProvider<
  * @param event Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
+@Deprecated(
+    replaceWith = ReplaceWith("autoDispose(lifecycleProvider, event)"),
+    message = "Renamed to `autoDispose`",
+    level = DeprecationLevel.ERROR
+)
 inline fun <T, E> Maybe<T>.autoDisposable(lifecycleProvider: LifecycleProvider<E>, event: E? = null): MaybeSubscribeProxy<T> {
+  return this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
+}
+
+/**
+ * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable] and takes an [event] when
+ * subscription will be disposed.
+ *
+ * @param lifecycleProvider The lifecycle provider from RxLifecycle.
+ * @param event Optional lifecycle event when subscription will be disposed.
+ */
+@CheckReturnValue
+inline fun <T, E> Maybe<T>.autoDispose(lifecycleProvider: LifecycleProvider<E>, event: E? = null): MaybeSubscribeProxy<T> {
   return this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
 }
 
@@ -99,7 +167,24 @@ inline fun <T, E> Maybe<T>.autoDisposable(lifecycleProvider: LifecycleProvider<E
  * @param event Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
+@Deprecated(
+    replaceWith = ReplaceWith("autoDispose(lifecycleProvider, event)"),
+    message = "Renamed to `autoDispose`",
+    level = DeprecationLevel.ERROR
+)
 inline fun <E> Completable.autoDisposable(lifecycleProvider: LifecycleProvider<E>, event: E? = null): CompletableSubscribeProxy {
+  return this.`as`(AutoDispose.autoDisposable<Any>(lifecycleProvider.scope(event)))
+}
+
+/**
+ * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable] and takes an [event] when
+ * subscription will be disposed.
+ *
+ * @param lifecycleProvider The lifecycle provider from RxLifecycle.
+ * @param event Optional lifecycle event when subscription will be disposed.
+ */
+@CheckReturnValue
+inline fun <E> Completable.autoDispose(lifecycleProvider: LifecycleProvider<E>, event: E? = null): CompletableSubscribeProxy {
   return this.`as`(AutoDispose.autoDisposable<Any>(lifecycleProvider.scope(event)))
 }
 
@@ -111,6 +196,23 @@ inline fun <E> Completable.autoDisposable(lifecycleProvider: LifecycleProvider<E
  * @param event Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
+@Deprecated(
+    replaceWith = ReplaceWith("autoDispose(lifecycleProvider, event)"),
+    message = "Renamed to `autoDispose`",
+    level = DeprecationLevel.ERROR
+)
 inline fun <T, E> ParallelFlowable<T>.autoDisposable(lifecycleProvider: LifecycleProvider<E>, event: E? = null): ParallelFlowableSubscribeProxy<T> {
+  return this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
+}
+
+/**
+ * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable] and takes an [event] when
+ * subscription will be disposed.
+ *
+ * @param lifecycleProvider The lifecycle provider from RxLifecycle.
+ * @param event Optional lifecycle event when subscription will be disposed.
+ */
+@CheckReturnValue
+inline fun <T, E> ParallelFlowable<T>.autoDispose(lifecycleProvider: LifecycleProvider<E>, event: E? = null): ParallelFlowableSubscribeProxy<T> {
   return this.`as`(AutoDispose.autoDisposable(lifecycleProvider.scope(event)))
 }

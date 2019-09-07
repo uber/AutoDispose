@@ -56,12 +56,12 @@ class TestKotlinActivity : AppCompatActivity(), ScopeProvider {
 
     // With extension function that overloads ScopeProvider
     Observable.interval(1, TimeUnit.SECONDS)
-        .autoDisposable(scope(Lifecycle.Event.ON_DESTROY))
+        .autoDispose(scope(Lifecycle.Event.ON_DESTROY))
         .subscribe()
 
     // With no extension function
     Observable.interval(1, TimeUnit.SECONDS)
-        .autoDisposable(AndroidLifecycleScopeProvider.from(this))
+        .autoDispose(AndroidLifecycleScopeProvider.from(this))
         .subscribe()
 
     Maybe.just(1)

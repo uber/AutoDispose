@@ -22,7 +22,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.uber.autodispose.ScopeProvider
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.autoDispose
 import com.uber.autodispose.sample.repository.NetworkRepository
 import com.uber.autodispose.sample.state.DownloadState
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -58,7 +58,7 @@ class DisposingViewModelActivity : AppCompatActivity() {
     // Get latest value from ViewModel unaffected by any config changes.
     viewModel.downloadState()
         .observeOn(AndroidSchedulers.mainThread())
-        .autoDisposable(scope)
+        .autoDispose(scope)
         .subscribe({ state ->
           resolveState(state)
         }, {})
