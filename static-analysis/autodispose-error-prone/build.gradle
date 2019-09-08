@@ -29,8 +29,10 @@ dependencies {
   testImplementation project(':autodispose-lifecycle')
 }
 
-test {
-  jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
+if (!JavaVersion.current().isJava9Compatible()) {
+  test {
+    jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
+  }
 }
 
 apply from: rootProject.file("gradle/gradle-mvn-push.gradle")
