@@ -98,15 +98,15 @@ dependencies {
   implementation project(':autodispose')
   implementation project(':autodispose-lifecycle')
   implementation project(":autodispose-rxlifecycle3")
-  implementation 'androidx.appcompat:appcompat:1.0.2'
-  implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+  implementation 'androidx.appcompat:appcompat:1.1.0'
+  implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
   implementation 'com.google.android.material:material:1.0.0'
-  implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
-  implementation "androidx.fragment:fragment:1.0.0"
+  implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
+  implementation "androidx.fragment:fragment:1.1.0"
   implementation deps.kotlin.stdlib
   implementation deps.rx.android
   implementation 'com.jakewharton.rx2:replaying-share-kotlin:2.0.1'
-  implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.0'
+  implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.1'
 
 //  errorproneJavac deps.build.errorProneJavac
 //  errorprone deps.build.errorProne
