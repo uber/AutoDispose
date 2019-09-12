@@ -23,7 +23,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.autoDispose
 import com.uber.autodispose.recipes.subscribeBy
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
@@ -47,7 +47,7 @@ class KotlinFragment : Fragment() {
     // dispose is onDestroy (the opposite of onCreate).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onCreate()") }
-        .autoDisposable(scopeProvider)
+        .autoDispose(scopeProvider)
         .subscribeBy { num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): $num") }
   }
 
@@ -68,7 +68,7 @@ class KotlinFragment : Fragment() {
     // Note we do this in onViewCreated to defer until after the view is created
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onViewCreated()") }
-        .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner))
+        .autoDispose(AndroidLifecycleScopeProvider.from(viewLifecycleOwner))
         .subscribeBy { num ->
           Log.i(TAG, "Started in onViewCreated(), running until onDestroyView(): $num")
         }
@@ -83,7 +83,7 @@ class KotlinFragment : Fragment() {
     // dispose is onStop (the opposite of onStart).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onStart()") }
-        .autoDisposable(scopeProvider)
+        .autoDispose(scopeProvider)
         .subscribeBy { num -> Log.i(TAG, "Started in onStart(), running until in onStop(): $num") }
   }
 
@@ -96,7 +96,7 @@ class KotlinFragment : Fragment() {
     // dispose is onPause (the opposite of onResume).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose { Log.i(TAG, "Disposing subscription from onResume()") }
-        .autoDisposable(scopeProvider)
+        .autoDispose(scopeProvider)
         .subscribeBy { num ->
           Log.i(TAG, "Started in onResume(), running until in onPause(): $num")
         }
@@ -106,7 +106,7 @@ class KotlinFragment : Fragment() {
         .doOnDispose {
           Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY")
         }
-        .autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
+        .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
         .subscribeBy { num ->
           Log.i(TAG, "Started in onResume(), running until in onDestroy(): $num")
         }

@@ -17,7 +17,7 @@
 
 package com.uber.autodispose.lifecycle
 
-import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.autoDispose
 import io.reactivex.BackpressureStrategy.ERROR
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -41,7 +41,7 @@ class AutoDisposeLifecycleTest {
 
   @Test fun observable_lifecycleNotStarted() {
     Observable.just("Hello")
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleNotStartedException }
@@ -50,7 +50,7 @@ class AutoDisposeLifecycleTest {
   @Test fun observable_lifecycleNormalCompletion() {
     lifecycleScopeProvider.start()
     Observable.just("Hello")
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertValue { it == "Hello" }
@@ -61,7 +61,7 @@ class AutoDisposeLifecycleTest {
     lifecycleScopeProvider.start()
     val subject = PublishSubject.create<String>()
     subject
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     subject.onNext("Hello")
@@ -79,7 +79,7 @@ class AutoDisposeLifecycleTest {
     lifecycleScopeProvider.start()
     lifecycleScopeProvider.stop()
     Observable.just("Hello")
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleEndedException }
@@ -87,7 +87,7 @@ class AutoDisposeLifecycleTest {
 
   @Test fun flowable_lifecycleNotStarted() {
     Flowable.just("Hello")
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(s)
 
     s.assertError { it is LifecycleNotStartedException }
@@ -96,7 +96,7 @@ class AutoDisposeLifecycleTest {
   @Test fun flowable_lifecycleNormalCompletion() {
     lifecycleScopeProvider.start()
     Flowable.just("Hello")
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(s)
 
     s.assertValue { it == "Hello" }
@@ -107,7 +107,7 @@ class AutoDisposeLifecycleTest {
     lifecycleScopeProvider.start()
     val subject = PublishSubject.create<String>()
     subject.toFlowable(ERROR)
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(s)
 
     subject.onNext("Hello")
@@ -125,7 +125,7 @@ class AutoDisposeLifecycleTest {
     lifecycleScopeProvider.start()
     lifecycleScopeProvider.stop()
     Flowable.just("Hello")
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(s)
 
     s.assertError { it is LifecycleEndedException }
@@ -133,7 +133,7 @@ class AutoDisposeLifecycleTest {
 
   @Test fun maybe_lifecycleNotStarted() {
     Maybe.just("Hello")
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleNotStartedException }
@@ -142,7 +142,7 @@ class AutoDisposeLifecycleTest {
   @Test fun maybe_lifecycleNormalCompletion() {
     lifecycleScopeProvider.start()
     Maybe.just("Hello")
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertValue { it == "Hello" }
@@ -153,7 +153,7 @@ class AutoDisposeLifecycleTest {
     lifecycleScopeProvider.start()
     val subject = PublishSubject.create<String>()
     subject
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     lifecycleScopeProvider.stop()
@@ -167,7 +167,7 @@ class AutoDisposeLifecycleTest {
     lifecycleScopeProvider.start()
     lifecycleScopeProvider.stop()
     Maybe.just("Hello")
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleEndedException }
@@ -175,7 +175,7 @@ class AutoDisposeLifecycleTest {
 
   @Test fun single_lifecycleNotStarted() {
     Single.just("Hello")
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleNotStartedException }
@@ -184,7 +184,7 @@ class AutoDisposeLifecycleTest {
   @Test fun single_lifecycleNormalCompletion() {
     lifecycleScopeProvider.start()
     Single.just("Hello")
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertValue { it == "Hello" }
@@ -195,7 +195,7 @@ class AutoDisposeLifecycleTest {
     lifecycleScopeProvider.start()
     val subject = PublishSubject.create<String>()
     subject
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     lifecycleScopeProvider.stop()
@@ -209,7 +209,7 @@ class AutoDisposeLifecycleTest {
     lifecycleScopeProvider.start()
     lifecycleScopeProvider.stop()
     Single.just("Hello")
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleEndedException }
@@ -217,7 +217,7 @@ class AutoDisposeLifecycleTest {
 
   @Test fun completable_lifecycleNotStarted() {
     Completable.complete()
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleNotStartedException }
@@ -226,7 +226,7 @@ class AutoDisposeLifecycleTest {
   @Test fun completable_lifecycleNormalCompletion() {
     lifecycleScopeProvider.start()
     Completable.complete()
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertComplete()
@@ -236,7 +236,7 @@ class AutoDisposeLifecycleTest {
     lifecycleScopeProvider.start()
     val subject = CompletableSubject.create()
     subject
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     lifecycleScopeProvider.stop()
@@ -250,7 +250,7 @@ class AutoDisposeLifecycleTest {
     lifecycleScopeProvider.start()
     lifecycleScopeProvider.stop()
     Completable.complete()
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(o)
 
     o.assertError { it is LifecycleEndedException }
@@ -260,7 +260,7 @@ class AutoDisposeLifecycleTest {
     val s2 = TestSubscriber<String>()
     Flowable.just("Hello", "World")
         .parallel(DEFAULT_PARALLELISM)
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(arrayOf(s, s2))
 
     s.assertError { it is LifecycleNotStartedException }
@@ -272,7 +272,7 @@ class AutoDisposeLifecycleTest {
     val s2 = TestSubscriber<String>()
     Flowable.just("Hello", "World")
         .parallel(DEFAULT_PARALLELISM)
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(arrayOf(s, s2))
 
     s.assertValue { it == "Hello" }
@@ -287,7 +287,7 @@ class AutoDisposeLifecycleTest {
     val s2 = TestSubscriber<String>()
     subject.toFlowable(ERROR)
         .parallel(DEFAULT_PARALLELISM)
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(arrayOf(s, s2))
 
     subject.onNext("Hello")
@@ -308,7 +308,7 @@ class AutoDisposeLifecycleTest {
     val s2 = TestSubscriber<String>()
     Flowable.just("Hello")
         .parallel(DEFAULT_PARALLELISM)
-        .autoDisposable(lifecycleScopeProvider)
+        .autoDispose(lifecycleScopeProvider)
         .subscribe(arrayOf(s, s2))
 
     s.assertError { it is LifecycleEndedException }

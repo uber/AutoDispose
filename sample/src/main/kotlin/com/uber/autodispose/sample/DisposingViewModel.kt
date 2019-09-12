@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import android.util.Log
 import com.jakewharton.rxrelay2.BehaviorRelay
-import com.uber.autodispose.autoDisposable
+import com.uber.autodispose.autoDispose
 import com.uber.autodispose.recipes.AutoDisposeViewModel
 import com.uber.autodispose.sample.repository.NetworkRepository
 import com.uber.autodispose.sample.state.DownloadState
@@ -81,7 +81,7 @@ class DisposingViewModel(private val repository: NetworkRepository) : AutoDispos
     repository.downloadProgress()
         .subscribeOn(Schedulers.io())
         .doOnDispose { Log.i(TAG, "Disposing subscription from the ViewModel") }
-        .autoDisposable(this)
+        .autoDispose(this)
         .subscribe({ progress ->
           viewRelay.accept(DownloadState.InProgress(progress))
         }, { error ->
