@@ -15,21 +15,13 @@
  */
 
 plugins {
-  id 'com.android.lint'
   id 'ru.vyarus.animalsniffer'
-}
-
-lintOptions {
-  abortOnError true
-  warningsAsErrors true
 }
 
 dependencies {
   api deps.rx.java
   api project(':autodispose')
   api deps.kotlin.coroutines
-
-  lintChecks project(':static-analysis:autodispose-lint')
 
   testImplementation project(':test-utils')
 }
