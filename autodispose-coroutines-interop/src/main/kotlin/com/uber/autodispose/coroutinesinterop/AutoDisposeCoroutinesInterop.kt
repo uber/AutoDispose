@@ -146,7 +146,24 @@ fun CompletableSource.asCoroutineScope(
   RealAutoDisposeCoroutineScope(scope).body()
 }
 
-internal class RealAutoDisposeCoroutineScope(private val scope: CoroutineScope) : AutoDisposeCoroutineScope {
+interface AutoDisposeCoroutineScope {
+  /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
+  fun <T> Flowable<T>.autoDispose(): FlowableSubscribeProxy<T>
+
+  /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
+  fun <T> Observable<T>.autoDispose(): ObservableSubscribeProxy<T>
+
+  /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
+  fun <T> Single<T>.autoDispose(): SingleSubscribeProxy<T>
+
+  /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
+  fun <T> Maybe<T>.autoDispose(): MaybeSubscribeProxy<T>
+
+  /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
+  fun Completable.autoDispose(): CompletableSubscribeProxy
+}
+
+private class RealAutoDisposeCoroutineScope(private val scope: CoroutineScope) : AutoDisposeCoroutineScope {
   override fun <T> Flowable<T>.autoDispose(): FlowableSubscribeProxy<T> {
     return autoDispose(scope.asScopeProvider())
   }
@@ -166,21 +183,4 @@ internal class RealAutoDisposeCoroutineScope(private val scope: CoroutineScope) 
   override fun Completable.autoDispose(): CompletableSubscribeProxy {
     return autoDispose(scope.asScopeProvider())
   }
-}
-
-interface AutoDisposeCoroutineScope {
-  /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
-  fun <T> Flowable<T>.autoDispose(): FlowableSubscribeProxy<T>
-
-  /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
-  fun <T> Observable<T>.autoDispose(): ObservableSubscribeProxy<T>
-
-  /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
-  fun <T> Single<T>.autoDispose(): SingleSubscribeProxy<T>
-
-  /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
-  fun <T> Maybe<T>.autoDispose(): MaybeSubscribeProxy<T>
-
-  /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
-  fun Completable.autoDispose(): CompletableSubscribeProxy
 }
