@@ -90,19 +90,23 @@ private fun CoroutineScope.asUndeferredCompletable(): Completable {
 }
 
 /**
+ * @param context an optional [CoroutineContext] to use for this scope. Default is a new
+ *                [SupervisorJob].
  * @return a [CoroutineScope] representation of this [ScopeProvider]. This scope will cancel when
  *         [this] scope provider completes.
  */
-fun ScopeProvider.asCoroutineScope(context: CoroutineContext): CoroutineScope {
+fun ScopeProvider.asCoroutineScope(context: CoroutineContext = SupervisorJob()): CoroutineScope {
   return requestScope().asCoroutineScope(context)
 }
 
 /**
+ * @param context an optional [CoroutineContext] to use for this scope. Default is a new
+ *                [SupervisorJob].
  * @return a [CoroutineScope] representation of this [CompletableSource]. This scope will cancel
  *         when [this] scope provider completes.
  */
-fun CompletableSource.asCoroutineScope(context: CoroutineContext): CoroutineScope {
-  val scope = CoroutineScope(SupervisorJob() + context)
+fun CompletableSource.asCoroutineScope(context: CoroutineContext = SupervisorJob()): CoroutineScope {
+  val scope = CoroutineScope(context)
 
   // Bind to the scope, so if the scope is manually canceled before our scope provider emits, we
   // clean up here.

@@ -154,38 +154,29 @@ class AutoDisposeCoroutinesInterop {
   @Test
   fun scopeProviderToScope() {
     val provider = TestScopeProvider.create()
-    val job = Job()
-    val scope = provider.asCoroutineScope(job)
+    val scope = provider.asCoroutineScope()
     scope.ensureActive()
-    assertThat(job.isActive).isTrue()
     provider.emit()
     assertThat(scope.isActive).isFalse()
-    assertThat(job.isActive).isFalse()
   }
 
   @Test
   fun completableToScope() {
     val completableSubject = CompletableSubject.create()
-    val job = Job()
-    val scope = completableSubject.asCoroutineScope(job)
+    val scope = completableSubject.asCoroutineScope()
     scope.ensureActive()
-    assertThat(job.isActive).isTrue()
     completableSubject.onComplete()
     assertThat(scope.isActive).isFalse()
-    assertThat(job.isActive).isFalse()
   }
 
   @Test
   fun completableToScopeError() {
     val completableSubject = CompletableSubject.create()
-    val job = Job()
-    val scope = completableSubject.asCoroutineScope(job)
+    val scope = completableSubject.asCoroutineScope()
     scope.ensureActive()
-    assertThat(job.isActive).isTrue()
     val error = RuntimeException()
     completableSubject.onError(error)
     assertThat(scope.isActive).isFalse()
-    assertThat(job.isActive).isFalse()
   }
 
   @Test
