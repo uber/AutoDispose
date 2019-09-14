@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -125,8 +125,8 @@ fun CompletableSource.asCoroutineScope(context: CoroutineContext = SupervisorJob
  *         when [this] scope provider completes.
  */
 fun ScopeProvider.asCoroutineScope(
-    context: CoroutineContext = SupervisorJob(),
-    body: AutoDisposeCoroutineScope.() -> Unit
+  context: CoroutineContext = SupervisorJob(),
+  body: AutoDisposeCoroutineScope.() -> Unit
 ) {
   requestScope().asCoroutineScope(context, body)
 }
@@ -139,8 +139,8 @@ fun ScopeProvider.asCoroutineScope(
  *         when [this] scope provider completes.
  */
 fun CompletableSource.asCoroutineScope(
-    context: CoroutineContext = SupervisorJob(),
-    body: AutoDisposeCoroutineScope.() -> Unit
+  context: CoroutineContext = SupervisorJob(),
+  body: AutoDisposeCoroutineScope.() -> Unit
 ) {
   val scope = asCoroutineScope(context)
   RealAutoDisposeCoroutineScope(scope).body()
