@@ -188,6 +188,9 @@ use D8 (Android Gradle Plugin 3.2+) or desugar as needed (depending on the build
 
 Kotlin extensions are bundled with almost every artifact.
 
+For coroutines - there is an `autodispose-coroutines-interop` artifact for interoperability between
+`CoroutineScope` and `ScopeProvider`/`Completable` types.
+
 ##### RxLifecycle
 
 As of 0.4.0 there is an RxLifecycle interop module under `autodispose-rxlifecycle`. This is for interop
