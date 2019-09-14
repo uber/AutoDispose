@@ -35,7 +35,7 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.isActive
 import org.junit.Test
 
-class AutoDisposeCoroutinesInterop {
+class AutoDisposeCoroutinesInteropTest {
 
   @Test
   fun flowable() {
@@ -242,7 +242,7 @@ class AutoDisposeCoroutinesInterop {
 
   companion object {
     private val LOGGER = { message: String ->
-      println(AutoDisposeCoroutinesInterop::class.java.simpleName + ": " + message)
+      println(AutoDisposeCoroutinesInteropTest::class.java.simpleName + ": " + message)
     }
   }
 }
