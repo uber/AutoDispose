@@ -5,7 +5,6 @@ import com.uber.autodispose.TestScopeProvider
 import com.uber.autodispose.coroutinesinterop.asCompletable
 import com.uber.autodispose.coroutinesinterop.asCoroutineScope
 import com.uber.autodispose.coroutinesinterop.asScopeProvider
-import com.uber.autodispose.coroutinesinterop.autoDispose
 import com.uber.autodispose.test.RecordingObserver
 import io.reactivex.Completable
 import io.reactivex.processors.PublishProcessor
@@ -24,131 +23,136 @@ class AutoDisposeCoroutinesInterop {
 
   @Test
   fun flowable() {
-    val job = Job()
-    val scope = CoroutineScope(job)
+    val scopeSource = CompletableSubject.create()
     val source = PublishProcessor.create<Int>()
-    val o = source.autoDispose(scope).test()
-    o.assertSubscribed()
+    scopeSource.asCoroutineScope {
+      val o = source.autoDispose().test()
+      o.assertSubscribed()
 
-    assertThat(source.hasSubscribers()).isTrue()
-    scope.ensureActive()
+      assertThat(source.hasSubscribers()).isTrue()
+      assertThat(scopeSource.hasObservers()).isTrue()
 
-    source.onNext(1)
-    o.assertValue(1)
+      source.onNext(1)
+      o.assertValue(1)
 
-    source.onNext(2)
+      source.onNext(2)
 
-    assertThat(source.hasSubscribers()).isTrue()
-    scope.ensureActive()
-    o.assertValues(1, 2)
+      assertThat(source.hasSubscribers()).isTrue()
+      assertThat(scopeSource.hasObservers()).isTrue()
+      o.assertValues(1, 2)
 
-    scope.cancel()
-    source.onNext(3)
+      scopeSource.onComplete()
+      source.onNext(3)
 
-    // Nothing new
-    o.assertValues(1, 2)
+      // Nothing new
+      o.assertValues(1, 2)
 
-    // Unsubscribed
-    assertThat(source.hasSubscribers()).isFalse()
-    assertThat(scope.isActive).isFalse()
+      // Unsubscribed
+      assertThat(source.hasSubscribers()).isFalse()
+      assertThat(scopeSource.hasObservers()).isFalse()
+    }
   }
 
   @Test
   fun observable() {
-    val job = Job()
-    val scope = CoroutineScope(job)
-    val o = RecordingObserver<Int>(LOGGER)
-    val source = PublishSubject.create<Int>()
-    source.autoDispose(scope).subscribe(o)
-    o.takeSubscribe()
+    val scopeSource = CompletableSubject.create()
+    scopeSource.asCoroutineScope {
+      val o = RecordingObserver<Int>(LOGGER)
+      val source = PublishSubject.create<Int>()
+      source.autoDispose().subscribe(o)
+      o.takeSubscribe()
 
-    assertThat(source.hasObservers()).isTrue()
-    scope.ensureActive()
+      assertThat(source.hasObservers()).isTrue()
+      assertThat(scopeSource.hasObservers())
 
-    source.onNext(1)
-    assertThat(o.takeNext()).isEqualTo(1)
+      source.onNext(1)
+      assertThat(o.takeNext()).isEqualTo(1)
 
-    source.onNext(2)
+      source.onNext(2)
 
-    assertThat(source.hasObservers()).isTrue()
-    scope.ensureActive()
-    assertThat(o.takeNext()).isEqualTo(2)
+      assertThat(source.hasObservers()).isTrue()
+      assertThat(scopeSource.hasObservers())
+      assertThat(o.takeNext()).isEqualTo(2)
 
-    scope.cancel()
-    source.onNext(3)
+      scopeSource.onComplete()
+      source.onNext(3)
 
-    o.assertNoMoreEvents()
-    assertThat(source.hasObservers()).isFalse()
-    assertThat(scope.isActive).isFalse()
+      o.assertNoMoreEvents()
+      assertThat(source.hasObservers()).isFalse()
+      assertThat(scopeSource.hasObservers()).isFalse()
+    }
   }
 
   @Test
   fun maybe() {
-    val job = Job()
-    val scope = CoroutineScope(job)
-    val o = RecordingObserver<Int>(LOGGER)
-    val source = MaybeSubject.create<Int>()
-    source.autoDispose(scope).subscribe(o)
-    o.takeSubscribe()
+    val scopeSource = CompletableSubject.create()
+    scopeSource.asCoroutineScope {
+      val o = RecordingObserver<Int>(LOGGER)
+      val source = MaybeSubject.create<Int>()
+      source.autoDispose().subscribe(o)
+      o.takeSubscribe()
 
-    assertThat(source.hasObservers()).isTrue()
-    scope.ensureActive()
+      assertThat(source.hasObservers()).isTrue()
+      assertThat(scopeSource.hasObservers())
 
-    scope.cancel()
+      scopeSource.onComplete()
 
-    // All disposed
-    assertThat(source.hasObservers()).isFalse()
-    assertThat(scope.isActive).isFalse()
+      // All disposed
+      assertThat(source.hasObservers()).isFalse()
+      assertThat(scopeSource.hasObservers()).isFalse()
 
-    // No one is listening
-    source.onSuccess(3)
-    o.assertNoMoreEvents()
+      // No one is listening
+      source.onSuccess(3)
+      o.assertNoMoreEvents()
+    }
   }
 
   @Test
   fun single() {
-    val job = Job()
-    val scope = CoroutineScope(job)
-    val o = RecordingObserver<Int>(LOGGER)
-    val source = SingleSubject.create<Int>()
-    source.autoDispose(scope).subscribe(o)
-    o.takeSubscribe()
+    val scopeSource = CompletableSubject.create()
+    scopeSource.asCoroutineScope {
+      val o = RecordingObserver<Int>(LOGGER)
+      val source = SingleSubject.create<Int>()
+      source.autoDispose().subscribe(o)
+      o.takeSubscribe()
 
-    assertThat(source.hasObservers()).isTrue()
-    scope.ensureActive()
+      assertThat(source.hasObservers()).isTrue()
+      assertThat(scopeSource.hasObservers())
 
-    scope.cancel()
+      scopeSource.onComplete()
 
-    // All disposed
-    assertThat(source.hasObservers()).isFalse()
-    assertThat(scope.isActive).isFalse()
+      // All disposed
+      assertThat(source.hasObservers()).isFalse()
+      assertThat(scopeSource.hasObservers()).isFalse()
 
-    // No one is listening
-    source.onSuccess(3)
-    o.assertNoMoreEvents()
+      // No one is listening
+      source.onSuccess(3)
+      o.assertNoMoreEvents()
+    }
   }
 
   @Test
   fun completable() {
-    val job = Job()
-    val scope = CoroutineScope(job)
-    val o = RecordingObserver<Any>(LOGGER)
-    val source = CompletableSubject.create()
-    source.autoDispose(scope).subscribe(o)
-    o.takeSubscribe()
+    val scopeSource = CompletableSubject.create()
+    scopeSource.asCoroutineScope {
+      val o = RecordingObserver<Any>(LOGGER)
+      val source = CompletableSubject.create()
+      source.autoDispose().subscribe(o)
+      o.takeSubscribe()
 
-    assertThat(source.hasObservers()).isTrue()
-    scope.ensureActive()
+      assertThat(source.hasObservers()).isTrue()
+      assertThat(scopeSource.hasObservers())
 
-    scope.cancel()
+      scopeSource.onComplete()
 
-    // All disposed
-    assertThat(source.hasObservers()).isFalse()
-    assertThat(scope.isActive).isFalse()
+      // All disposed
+      assertThat(source.hasObservers()).isFalse()
+      assertThat(scopeSource.hasObservers()).isFalse()
 
-    // No one is listening
-    source.onComplete()
-    o.assertNoMoreEvents()
+      // No one is listening
+      source.onComplete()
+      o.assertNoMoreEvents()
+    }
   }
 
   @Test
