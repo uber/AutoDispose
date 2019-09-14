@@ -15,8 +15,6 @@
  */
 package com.uber.autodispose;
 
-import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
-
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.CompletableSource;
@@ -37,6 +35,9 @@ import io.reactivex.parallel.ParallelFlowable;
 import io.reactivex.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+
+import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
+import static com.uber.autodispose.Scopes.completableOf;
 
 /**
  * Factories for autodispose converters that can be used with RxJava types' corresponding {@code
@@ -78,22 +79,7 @@ public final class AutoDispose {
    */
   public static <T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
     checkNotNull(provider, "provider == null");
-    return autoDisposable(
-        Completable.defer(
-            () -> {
-              try {
-                return provider.requestScope();
-              } catch (OutsideScopeException e) {
-                Consumer<? super OutsideScopeException> handler =
-                    AutoDisposePlugins.getOutsideScopeHandler();
-                if (handler != null) {
-                  handler.accept(e);
-                  return Completable.complete();
-                } else {
-                  return Completable.error(e);
-                }
-              }
-            }));
+    return autoDisposable(completableOf(provider));
   }
 
   /**
