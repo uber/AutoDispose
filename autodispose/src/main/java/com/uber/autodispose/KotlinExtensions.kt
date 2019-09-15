@@ -267,7 +267,7 @@ fun withScope(completableScope: Completable, body: AutoDisposeContext.() -> Unit
 }
 
 /**
- * A context intended for use as `AutoDisposeCoroutineScope.() -> Unit` function body parameters
+ * A context intended for use as `AutoDisposeContext.() -> Unit` function body parameters
  * where zero-arg [autoDispose] functions can be called. This should be backed by an underlying
  * [Completable] or [ScopeProvider].
  */
