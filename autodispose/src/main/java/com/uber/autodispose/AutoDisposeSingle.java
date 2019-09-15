@@ -20,7 +20,7 @@ import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.SingleSource;
 
-final class AutoDisposeSingle<T> extends Single<T> {
+final class AutoDisposeSingle<T> extends Single<T> implements SingleSubscribeProxy<T> {
   private final SingleSource<T> source;
   private final CompletableSource scope;
 

@@ -19,7 +19,7 @@ import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.CompletableSource;
 
-final class AutoDisposeCompletable extends Completable {
+final class AutoDisposeCompletable extends Completable implements CompletableSubscribeProxy {
 
   private final Completable source;
   private final CompletableSource scope;

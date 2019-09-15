@@ -20,7 +20,7 @@ import io.reactivex.Flowable;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 
-final class AutoDisposeFlowable<T> extends Flowable<T> {
+final class AutoDisposeFlowable<T> extends Flowable<T> implements FlowableSubscribeProxy<T> {
   private final Publisher<T> source;
   private final CompletableSource scope;
 
