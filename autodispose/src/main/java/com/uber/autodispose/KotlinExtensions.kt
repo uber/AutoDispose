@@ -255,12 +255,12 @@ inline fun <T> ParallelFlowable<T>.autoDisposable(provider: ScopeProvider): Para
 inline fun <T> ParallelFlowable<T>.autoDispose(provider: ScopeProvider): ParallelFlowableSubscribeProxy<T> =
     this.`as`(AutoDispose.autoDisposable(provider))
 
-/** Executes a [body] with under an [AutoDisposeContext] backed by the given [scope]. */
+/** Executes a [body] with an [AutoDisposeContext] backed by the given [scope]. */
 fun withScope(scope: ScopeProvider, body: AutoDisposeContext.() -> Unit) {
   withScope(completableOf(scope), body)
 }
 
-/** Executes a [body] with under an [AutoDisposeContext] backed by the given [completableScope]. */
+/** Executes a [body] with an [AutoDisposeContext] backed by the given [completableScope]. */
 fun withScope(completableScope: Completable, body: AutoDisposeContext.() -> Unit) {
   val context = RealAutoDisposeContext(completableScope)
   context.body()
