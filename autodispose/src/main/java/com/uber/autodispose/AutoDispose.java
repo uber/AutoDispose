@@ -16,6 +16,7 @@
 package com.uber.autodispose;
 
 import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
+import static com.uber.autodispose.Scopes.completableOf;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
@@ -78,22 +79,7 @@ public final class AutoDispose {
    */
   public static <T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
     checkNotNull(provider, "provider == null");
-    return autoDisposable(
-        Completable.defer(
-            () -> {
-              try {
-                return provider.requestScope();
-              } catch (OutsideScopeException e) {
-                Consumer<? super OutsideScopeException> handler =
-                    AutoDisposePlugins.getOutsideScopeHandler();
-                if (handler != null) {
-                  handler.accept(e);
-                  return Completable.complete();
-                } else {
-                  return Completable.error(e);
-                }
-              }
-            }));
+    return autoDisposable(completableOf(provider));
   }
 
   /**

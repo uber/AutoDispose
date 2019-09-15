@@ -18,6 +18,7 @@
 
 package com.uber.autodispose
 
+import com.uber.autodispose.Scopes.completableOf
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -253,3 +254,48 @@ inline fun <T> ParallelFlowable<T>.autoDisposable(provider: ScopeProvider): Para
 @CheckReturnValue
 inline fun <T> ParallelFlowable<T>.autoDispose(provider: ScopeProvider): ParallelFlowableSubscribeProxy<T> =
     this.`as`(AutoDispose.autoDisposable(provider))
+
+/** Executes a [body] with an [AutoDisposeContext] backed by the given [scope]. */
+fun withScope(scope: ScopeProvider, body: AutoDisposeContext.() -> Unit) {
+  withScope(completableOf(scope), body)
+}
+
+/** Executes a [body] with an [AutoDisposeContext] backed by the given [completableScope]. */
+fun withScope(completableScope: Completable, body: AutoDisposeContext.() -> Unit) {
+  val context = RealAutoDisposeContext(completableScope)
+  context.body()
+}
+
+/**
+ * A context intended for use as `AutoDisposeContext.() -> Unit` function body parameters
+ * where zero-arg [autoDispose] functions can be called. This should be backed by an underlying
+ * [Completable] or [ScopeProvider].
+ */
+interface AutoDisposeContext {
+  /** Extension that proxies to the normal [autoDispose] extension function. */
+  fun <T> ParallelFlowable<T>.autoDispose(): ParallelFlowableSubscribeProxy<T>
+
+  /** Extension that proxies to the normal [autoDispose] extension function. */
+  fun <T> Flowable<T>.autoDispose(): FlowableSubscribeProxy<T>
+
+  /** Extension that proxies to the normal [autoDispose] extension function. */
+  fun <T> Observable<T>.autoDispose(): ObservableSubscribeProxy<T>
+
+  /** Extension that proxies to the normal [autoDispose] extension function. */
+  fun <T> Single<T>.autoDispose(): SingleSubscribeProxy<T>
+
+  /** Extension that proxies to the normal [autoDispose] extension function. */
+  fun <T> Maybe<T>.autoDispose(): MaybeSubscribeProxy<T>
+
+  /** Extension that proxies to the normal [autoDispose] extension function. */
+  fun Completable.autoDispose(): CompletableSubscribeProxy
+}
+
+private class RealAutoDisposeContext(private val scope: Completable) : AutoDisposeContext {
+  override fun <T> ParallelFlowable<T>.autoDispose() = autoDispose(scope)
+  override fun <T> Flowable<T>.autoDispose() = autoDispose(scope)
+  override fun <T> Observable<T>.autoDispose() = autoDispose(scope)
+  override fun <T> Single<T>.autoDispose() = autoDispose(scope)
+  override fun <T> Maybe<T>.autoDispose() = autoDispose(scope)
+  override fun Completable.autoDispose() = autoDispose(scope)
+}

@@ -15,6 +15,8 @@
  */
 package com.uber.autodispose
 
+import com.google.common.truth.Truth.assertThat
+import com.uber.autodispose.test.RecordingObserver
 import io.reactivex.BackpressureStrategy.ERROR
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -22,6 +24,7 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
+import io.reactivex.processors.PublishProcessor
 import io.reactivex.subjects.CompletableSubject
 import io.reactivex.subjects.MaybeSubject
 import io.reactivex.subjects.PublishSubject
@@ -33,6 +36,9 @@ class AutoDisposeKotlinTest {
 
   companion object {
     private const val DEFAULT_PARALLELISM = 2
+    private val LOGGER = { message: String ->
+      println(AutoDisposeKotlinTest::class.java.simpleName + ": " + message)
+    }
   }
 
   private val o = TestObserver<String>()
@@ -362,5 +368,171 @@ class AutoDisposeKotlinTest {
 // https://github.com/ReactiveX/RxJava/issues/5178
 //    assertThat(s.isDisposed).isTrue()
 //    s.assertNotSubscribed()
+  }
+
+  @Test fun withScope_parallelFlowable() {
+    val scopeSource = CompletableSubject.create()
+    val source = PublishProcessor.create<Int>()
+    withScope(scopeSource) {
+      val o = TestSubscriber<Int>()
+      source.parallel(1).autoDispose().subscribe(arrayOf(o))
+      o.assertSubscribed()
+
+      source.onNext(1)
+      o.assertValue(1)
+
+      assertThat(source.hasSubscribers()).isTrue()
+      assertThat(scopeSource.hasObservers()).isTrue()
+
+      source.onNext(2)
+
+      assertThat(source.hasSubscribers()).isTrue()
+      assertThat(scopeSource.hasObservers()).isTrue()
+      o.assertValues(1, 2)
+
+      scopeSource.onComplete()
+      source.onNext(3)
+
+      // Nothing new
+      o.assertValues(1, 2)
+
+      // Unsubscribed
+      assertThat(source.hasSubscribers()).isFalse()
+      assertThat(scopeSource.hasObservers()).isFalse()
+    }
+  }
+
+  @Test
+  fun withScope_flowable() {
+    val scopeSource = CompletableSubject.create()
+    val source = PublishProcessor.create<Int>()
+    withScope(scopeSource) {
+      val o = source.autoDispose().test()
+      o.assertSubscribed()
+
+      assertThat(source.hasSubscribers()).isTrue()
+      assertThat(scopeSource.hasObservers()).isTrue()
+
+      source.onNext(1)
+      o.assertValue(1)
+
+      source.onNext(2)
+
+      assertThat(source.hasSubscribers()).isTrue()
+      assertThat(scopeSource.hasObservers()).isTrue()
+      o.assertValues(1, 2)
+
+      scopeSource.onComplete()
+      source.onNext(3)
+
+      // Nothing new
+      o.assertValues(1, 2)
+
+      // Unsubscribed
+      assertThat(source.hasSubscribers()).isFalse()
+      assertThat(scopeSource.hasObservers()).isFalse()
+    }
+  }
+
+  @Test
+  fun withScope_observable() {
+    val scopeSource = CompletableSubject.create()
+    withScope(scopeSource) {
+      val o = RecordingObserver<Int>(LOGGER)
+      val source = PublishSubject.create<Int>()
+      source.autoDispose().subscribe(o)
+      o.takeSubscribe()
+
+      assertThat(source.hasObservers()).isTrue()
+      assertThat(scopeSource.hasObservers())
+
+      source.onNext(1)
+      assertThat(o.takeNext()).isEqualTo(1)
+
+      source.onNext(2)
+
+      assertThat(source.hasObservers()).isTrue()
+      assertThat(scopeSource.hasObservers())
+      assertThat(o.takeNext()).isEqualTo(2)
+
+      scopeSource.onComplete()
+      source.onNext(3)
+
+      o.assertNoMoreEvents()
+      assertThat(source.hasObservers()).isFalse()
+      assertThat(scopeSource.hasObservers()).isFalse()
+    }
+  }
+
+  @Test
+  fun withScope_maybe() {
+    val scopeSource = CompletableSubject.create()
+    withScope(scopeSource) {
+      val o = RecordingObserver<Int>(LOGGER)
+      val source = MaybeSubject.create<Int>()
+      source.autoDispose().subscribe(o)
+      o.takeSubscribe()
+
+      assertThat(source.hasObservers()).isTrue()
+      assertThat(scopeSource.hasObservers())
+
+      scopeSource.onComplete()
+
+      // All disposed
+      assertThat(source.hasObservers()).isFalse()
+      assertThat(scopeSource.hasObservers()).isFalse()
+
+      // No one is listening
+      source.onSuccess(3)
+      o.assertNoMoreEvents()
+    }
+  }
+
+  @Test
+  fun withScope_single() {
+    val scopeSource = CompletableSubject.create()
+    withScope(scopeSource) {
+      val o = RecordingObserver<Int>(LOGGER)
+      val source = SingleSubject.create<Int>()
+      source.autoDispose().subscribe(o)
+      o.takeSubscribe()
+
+      assertThat(source.hasObservers()).isTrue()
+      assertThat(scopeSource.hasObservers())
+
+      scopeSource.onComplete()
+
+      // All disposed
+      assertThat(source.hasObservers()).isFalse()
+      assertThat(scopeSource.hasObservers()).isFalse()
+
+      // No one is listening
+      source.onSuccess(3)
+      o.assertNoMoreEvents()
+    }
+  }
+
+  @Test
+  fun withScope_completable() {
+    val scopeSource = CompletableSubject.create()
+    withScope(scopeSource) {
+      val o = RecordingObserver<Any>(LOGGER)
+      val source = CompletableSubject.create()
+      source.autoDispose().subscribe(o)
+      o.takeSubscribe()
+
+      assertThat(source.hasObservers()).isTrue()
+      assertThat(scopeSource.hasObservers())
+
+      scopeSource.onComplete()
+
+      // All disposed
+      assertThat(source.hasObservers()).isFalse()
+      assertThat(scopeSource.hasObservers()).isFalse()
+
+      // No one is listening
+      source.onComplete()
+      o.assertNoMoreEvents()
+    }
   }
 }
