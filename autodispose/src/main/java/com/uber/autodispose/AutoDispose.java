@@ -103,12 +103,18 @@ public final class AutoDispose {
     return new AutoDisposeConverter<T>() {
       @Override
       public ParallelFlowableSubscribeProxy<T> apply(final ParallelFlowable<T> upstream) {
+        if (!AutoDisposePlugins.hideProxies) {
+          return new AutoDisposeParallelFlowable<>(upstream, scope);
+        }
         return subscribers ->
             new AutoDisposeParallelFlowable<>(upstream, scope).subscribe(subscribers);
       }
 
       @Override
       public CompletableSubscribeProxy apply(final Completable upstream) {
+        if (!AutoDisposePlugins.hideProxies) {
+          return new AutoDisposeCompletable(upstream, scope);
+        }
         return new CompletableSubscribeProxy() {
           @Override
           public Disposable subscribe() {
@@ -156,6 +162,9 @@ public final class AutoDispose {
 
       @Override
       public FlowableSubscribeProxy<T> apply(final Flowable<T> upstream) {
+        if (!AutoDisposePlugins.hideProxies) {
+          return new AutoDisposeFlowable<>(upstream, scope);
+        }
         return new FlowableSubscribeProxy<T>() {
           @Override
           public Disposable subscribe() {
@@ -228,6 +237,9 @@ public final class AutoDispose {
 
       @Override
       public MaybeSubscribeProxy<T> apply(final Maybe<T> upstream) {
+        if (!AutoDisposePlugins.hideProxies) {
+          return new AutoDisposeMaybe<>(upstream, scope);
+        }
         return new MaybeSubscribeProxy<T>() {
           @Override
           public Disposable subscribe() {
@@ -285,6 +297,9 @@ public final class AutoDispose {
 
       @Override
       public ObservableSubscribeProxy<T> apply(final Observable<T> upstream) {
+        if (!AutoDisposePlugins.hideProxies) {
+          return new AutoDisposeObservable<>(upstream, scope);
+        }
         return new ObservableSubscribeProxy<T>() {
           @Override
           public Disposable subscribe() {
@@ -350,6 +365,9 @@ public final class AutoDispose {
 
       @Override
       public SingleSubscribeProxy<T> apply(final Single<T> upstream) {
+        if (!AutoDisposePlugins.hideProxies) {
+          return new AutoDisposeSingle<>(upstream, scope);
+        }
         return new SingleSubscribeProxy<T>() {
           @Override
           public Disposable subscribe() {
