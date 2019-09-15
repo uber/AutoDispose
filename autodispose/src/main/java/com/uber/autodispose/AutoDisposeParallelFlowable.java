@@ -20,7 +20,7 @@ import io.reactivex.parallel.ParallelFlowable;
 import org.reactivestreams.Subscriber;
 
 final class AutoDisposeParallelFlowable<T> extends ParallelFlowable<T>
-    implements ParallelFlowableSubscribeProxy<T>{
+    implements ParallelFlowableSubscribeProxy<T> {
 
   private final ParallelFlowable<T> source;
   private final CompletableSource scope;
