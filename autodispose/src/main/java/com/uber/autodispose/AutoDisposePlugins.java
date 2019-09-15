@@ -25,7 +25,7 @@ public final class AutoDisposePlugins {
   private AutoDisposePlugins() {}
 
   @Nullable private static volatile Consumer<? super OutsideScopeException> outsideScopeHandler;
-  private static volatile boolean fillInOutsideScopeExceptionStacktraces;
+  static volatile boolean fillInOutsideScopeExceptionStacktraces;
   static volatile boolean hideProxies = true;
 
   /** Prevents changing the plugins. */

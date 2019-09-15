@@ -24,7 +24,7 @@ public class OutsideScopeException extends RuntimeException {
 
   @Override
   public final synchronized Throwable fillInStackTrace() {
-    if (AutoDisposePlugins.getFillInOutsideScopeExceptionStacktraces()) {
+    if (AutoDisposePlugins.fillInOutsideScopeExceptionStacktraces) {
       return super.fillInStackTrace();
     } else {
       return this;
