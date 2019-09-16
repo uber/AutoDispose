@@ -20,7 +20,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 
-final class AutoDisposeObservable<T> extends Observable<T> {
+final class AutoDisposeObservable<T> extends Observable<T> implements ObservableSubscribeProxy<T> {
   private final ObservableSource<T> source;
   private final CompletableSource scope;
 

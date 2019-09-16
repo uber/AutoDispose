@@ -15,6 +15,7 @@
  */
 package com.uber.autodispose;
 
+import io.reactivex.Observable;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.functions.Consumer;
 
@@ -24,7 +25,8 @@ public final class AutoDisposePlugins {
   private AutoDisposePlugins() {}
 
   @Nullable private static volatile Consumer<? super OutsideScopeException> outsideScopeHandler;
-  private static volatile boolean fillInOutsideScopeExceptionStacktraces;
+  static volatile boolean fillInOutsideScopeExceptionStacktraces;
+  static volatile boolean hideProxies = true;
 
   /** Prevents changing the plugins. */
   static volatile boolean lockdown;
@@ -45,6 +47,14 @@ public final class AutoDisposePlugins {
    */
   public static boolean isLockdown() {
     return lockdown;
+  }
+
+  /**
+   * @return the value indicating whether or not to hide proxy interfaces.
+   * @see #setHideProxies(boolean)
+   */
+  public static boolean getHideProxies() {
+    return hideProxies;
   }
 
   /**
@@ -80,6 +90,18 @@ public final class AutoDisposePlugins {
       throw new IllegalStateException("Plugins can't be changed anymore");
     }
     fillInOutsideScopeExceptionStacktraces = fillInStacktrace;
+  }
+
+  /**
+   * @param hideProxies {@code true} hide proxy interfaces. This wraps all proxy interfaces in
+   *     {@link com.uber.autodispose} at runtime in an anonymous instance to prevent introspection,
+   *     similar to {@link Observable#hide()}. The default is {@code true}.
+   */
+  public static void setHideProxies(boolean hideProxies) {
+    if (lockdown) {
+      throw new IllegalStateException("Plugins can't be changed anymore");
+    }
+    AutoDisposePlugins.hideProxies = hideProxies;
   }
 
   /** Removes all handlers and resets to default behavior. */

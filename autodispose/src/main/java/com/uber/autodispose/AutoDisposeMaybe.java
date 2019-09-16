@@ -20,7 +20,7 @@ import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 import io.reactivex.MaybeSource;
 
-final class AutoDisposeMaybe<T> extends Maybe<T> {
+final class AutoDisposeMaybe<T> extends Maybe<T> implements MaybeSubscribeProxy<T> {
   private final MaybeSource<T> source;
   private final CompletableSource scope;
 

@@ -36,12 +36,16 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class AutoDisposeObserverTest {
+public class AutoDisposeObserverTest extends PluginsMatrixTest {
 
   private static final RecordingObserver.Logger LOGGER =
       message -> System.out.println(AutoDisposeObserverTest.class.getSimpleName() + ": " + message);
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
+
+  public AutoDisposeObserverTest(boolean hideProxies) {
+    super(hideProxies);
+  }
 
   @Test
   public void autoDispose_withMaybe_normal() {
@@ -226,5 +230,16 @@ public class AutoDisposeObserverTest {
         throwable ->
             throwable instanceof IllegalStateException
                 && throwable.getCause() instanceof OutsideScopeException);
+  }
+
+  @Test
+  public void hideProxies() {
+    ObservableSubscribeProxy proxy = Observable.never().as(autoDisposable(ScopeProvider.UNBOUND));
+    // If hideProxies is disabled, the underlying return should be the direct AutoDispose type.
+    if (hideProxies) {
+      assertThat(proxy).isNotInstanceOf(Observable.class);
+    } else {
+      assertThat(proxy).isInstanceOf(AutoDisposeObservable.class);
+    }
   }
 }
