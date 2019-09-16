@@ -56,6 +56,13 @@ class AutoDisposeDetectorTest {
       interface ScopeProvider
     """).indented()
 
+    private val KOTLIN_EXTENSIONS = kotlin("""
+      package com.uber.autodispose
+      
+      fun withScope(scope: ScopeProvider, body: () -> Unit) {
+      }
+    """).indented()
+
     // Stub LifecycleScopeProvider
     private val LIFECYCLE_SCOPE_PROVIDER = kotlin("""
       package com.uber.autodispose.lifecycle
@@ -212,7 +219,7 @@ class AutoDisposeDetectorTest {
             lateinit var scopeProvider: ScopeProvider
             fun names() {
               val obs = Observable.just(1, 2, 3, 4)
-              obs.autoDisposable(scopeProvider).subscribe()
+              obs.autoDispose(scopeProvider).subscribe()
             }
           }
         """).indented())
@@ -279,7 +286,7 @@ class AutoDisposeDetectorTest {
             lateinit var scopeProvider: ScopeProvider
             fun names() {
               val single = Single.just(1)
-              single.autoDisposable(scopeProvider).subscribe()
+              single.autoDispose(scopeProvider).subscribe()
             }
           }
         """).indented())
@@ -345,7 +352,7 @@ class AutoDisposeDetectorTest {
           class ExampleClass: LifecycleScopeProvider {
             fun names() {
               val flowable = Flowable.just(1, 2, 3, 4)
-              flowable.autoDisposable(this).subscribe()
+              flowable.autoDispose(this).subscribe()
             }
           }
         """).indented())
@@ -411,7 +418,7 @@ class AutoDisposeDetectorTest {
             lateinit var scopeProvider: ScopeProvider
             fun names() {
               val completable = Completable.complete()
-              completable.autoDisposable(scopeProvider).subscribe()
+              completable.autoDispose(scopeProvider).subscribe()
             }
           }
         """).indented())
@@ -478,7 +485,7 @@ class AutoDisposeDetectorTest {
             lateinit var scopeProvider: ScopeProvider
             fun names() {
               val maybe = Maybe.just(2)
-              maybe.autoDisposable(scopeProvider).subscribe()
+              maybe.autoDispose(scopeProvider).subscribe()
             }
           }
         """).indented())
@@ -534,7 +541,7 @@ class AutoDisposeDetectorTest {
         lateinit var scopeProvider: ScopeProvider
         fun doSomething() {
           val observable = Observable.just(1, 2, 3)
-          observable.autoDisposable(scopeProvider).subscribe()
+          observable.autoDispose(scopeProvider).subscribe()
         }
       }
     """).indented())
@@ -618,7 +625,7 @@ class AutoDisposeDetectorTest {
         lateinit var scopeProvider: ScopeProvider
         fun doSomething() {
           val observable = Observable.just(1, 2, 3)
-          observable.autoDisposable(scopeProvider).subscribe()
+          observable.autoDispose(scopeProvider).subscribe()
         }
       }
     """).indented())
@@ -1048,6 +1055,64 @@ class AutoDisposeDetectorTest {
           }
         """).indented())
         .allowCompilationErrors(false)
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+    @Test fun withScope_withoutDisposing_erroringOut() {
+        lint()
+            .files(rxJava2(),
+                LIFECYCLE_OWNER,
+                ACTIVITY,
+                SCOPE_PROVIDER,
+                KOTLIN_EXTENSIONS,
+                kotlin("""
+          package foo
+          import io.reactivex.Observable
+          import androidx.appcompat.app.AppCompatActivity
+          import com.uber.autodispose.ScopeProvider
+          import com.uber.autodispose.withScope
+
+          class ExampleClass: AppCompatActivity {
+            lateinit var scopeProvider: ScopeProvider
+            fun names() {
+              val observable = Observable.just(1)
+              withScope(scopeProvider) {
+                observable.subscribe()
+              }
+            }
+          }
+        """).indented())
+            .issues(AutoDisposeDetector.ISSUE)
+            .run()
+            .expectErrorCount(1)
+    }
+
+  @Test fun withScope_withDisposing_expectClean() {
+    lint()
+        .files(rxJava2(),
+            LIFECYCLE_OWNER,
+            ACTIVITY,
+            SCOPE_PROVIDER,
+            KOTLIN_EXTENSIONS,
+            kotlin("""
+          package foo
+          import io.reactivex.Observable
+          import androidx.appcompat.app.AppCompatActivity
+          import com.uber.autodispose.ScopeProvider
+          import com.uber.autodispose.withScope
+
+          class ExampleClass: AppCompatActivity {
+            lateinit var scopeProvider: ScopeProvider
+            fun names() {
+              val observable = Observable.just(1)
+              withScope(scopeProvider) {
+                observable.autoDispose().subscribe()
+              }
+            }
+          }
+        """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
         .expectClean()
