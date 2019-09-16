@@ -36,9 +36,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
 
-public class AutoDisposeSubscriberTest {
+public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
+
+  public AutoDisposeSubscriberTest(boolean hideProxies) {
+    super(hideProxies);
+  }
 
   @Test
   public void autoDispose_withMaybe_normal() {
@@ -234,5 +238,16 @@ public class AutoDisposeSubscriberTest {
         throwable ->
             throwable instanceof IllegalStateException
                 && throwable.getCause() instanceof OutsideScopeException);
+  }
+
+  @Test
+  public void hideProxies() {
+    FlowableSubscribeProxy proxy = Flowable.never().as(autoDisposable(ScopeProvider.UNBOUND));
+    // If hideProxies is disabled, the underlying return should be the direct AutoDispose type.
+    if (hideProxies) {
+      assertThat(proxy).isNotInstanceOf(Flowable.class);
+    } else {
+      assertThat(proxy).isInstanceOf(AutoDisposeFlowable.class);
+    }
   }
 }

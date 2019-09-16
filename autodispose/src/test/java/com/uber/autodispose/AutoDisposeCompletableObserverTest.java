@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class AutoDisposeCompletableObserverTest {
+public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
 
   private static final RecordingObserver.Logger LOGGER =
       message ->
@@ -41,6 +41,10 @@ public class AutoDisposeCompletableObserverTest {
               AutoDisposeCompletableObserverTest.class.getSimpleName() + ": " + message);
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
+
+  public AutoDisposeCompletableObserverTest(boolean hideProxies) {
+    super(hideProxies);
+  }
 
   @Test
   public void autoDispose_withMaybe_normal() {
@@ -226,5 +230,16 @@ public class AutoDisposeCompletableObserverTest {
         throwable ->
             throwable instanceof IllegalStateException
                 && throwable.getCause() instanceof OutsideScopeException);
+  }
+
+  @Test
+  public void hideProxies() {
+    CompletableSubscribeProxy proxy = Completable.never().as(autoDisposable(ScopeProvider.UNBOUND));
+    // If hideProxies is disabled, the underlying return should be the direct AutoDispose type.
+    if (hideProxies) {
+      assertThat(proxy).isNotInstanceOf(Completable.class);
+    } else {
+      assertThat(proxy).isInstanceOf(AutoDisposeCompletable.class);
+    }
   }
 }

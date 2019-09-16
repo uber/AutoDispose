@@ -20,6 +20,7 @@ import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.Flowable;
+import io.reactivex.parallel.ParallelFlowable;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.subjects.CompletableSubject;
 import io.reactivex.subscribers.TestSubscriber;
@@ -28,11 +29,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
 
-public class AutoDisposeParallelFlowableTest {
+public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
 
   private static final int DEFAULT_PARALLELISM = 2;
 
   @Rule public final RxErrorsRule rule = new RxErrorsRule();
+
+  public AutoDisposeParallelFlowableTest(boolean hideProxies) {
+    super(hideProxies);
+  }
 
   @Test
   public void ifParallelism_and_subscribersCount_dontMatch_shouldFail() {
@@ -190,5 +195,17 @@ public class AutoDisposeParallelFlowableTest {
     secondSubscriber.assertValue(2);
     firstSubscriber.dispose();
     secondSubscriber.dispose();
+  }
+
+  @Test
+  public void hideProxies() {
+    ParallelFlowableSubscribeProxy proxy =
+        Flowable.never().parallel().as(autoDisposable(ScopeProvider.UNBOUND));
+    // If hideProxies is disabled, the underlying return should be the direct AutoDispose type.
+    if (hideProxies) {
+      assertThat(proxy).isNotInstanceOf(ParallelFlowable.class);
+    } else {
+      assertThat(proxy).isInstanceOf(AutoDisposeParallelFlowable.class);
+    }
   }
 }
