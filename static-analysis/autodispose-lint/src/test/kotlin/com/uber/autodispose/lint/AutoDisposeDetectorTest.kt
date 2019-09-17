@@ -58,7 +58,7 @@ class AutoDisposeDetectorTest {
 
     private val KOTLIN_EXTENSIONS = kotlin("""
       package com.uber.autodispose
-      
+
       fun withScope(scope: ScopeProvider, body: () -> Unit) {
       }
     """).indented()
