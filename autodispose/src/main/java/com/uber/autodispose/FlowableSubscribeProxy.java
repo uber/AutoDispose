@@ -56,17 +56,6 @@ public interface FlowableSubscribeProxy<T> {
   Disposable subscribe(
       Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete);
 
-  /**
-   * Proxy for {@link Flowable#subscribe(Consumer, Consumer, Action, Consumer)}.
-   *
-   * @return a {@link Disposable}
-   */
-  Disposable subscribe(
-      Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
-      Consumer<? super Subscription> onSubscribe);
-
   /** Proxy for {@link Flowable#subscribe(Subscriber)}. */
   void subscribe(Subscriber<? super T> observer);
 

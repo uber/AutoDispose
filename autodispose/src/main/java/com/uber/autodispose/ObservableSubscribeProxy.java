@@ -55,17 +55,6 @@ public interface ObservableSubscribeProxy<T> {
   Disposable subscribe(
       Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete);
 
-  /**
-   * Proxy for {@link Observable#subscribe(Consumer, Consumer, Action, Consumer)}.
-   *
-   * @return a {@link Disposable}
-   */
-  Disposable subscribe(
-      Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
-      Consumer<? super Disposable> onSubscribe);
-
   /** Proxy for {@link Observable#subscribe(Observer)}. */
   void subscribe(Observer<? super T> observer);
 

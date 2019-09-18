@@ -190,16 +190,6 @@ public final class AutoDispose {
           }
 
           @Override
-          public Disposable subscribe(
-              Consumer<? super T> onNext,
-              Consumer<? super Throwable> onError,
-              Action onComplete,
-              Consumer<? super Subscription> onSubscribe) {
-            return new AutoDisposeFlowable<>(upstream, scope)
-                .subscribe(onNext, onError, onComplete, onSubscribe);
-          }
-
-          @Override
           public void subscribe(Subscriber<? super T> observer) {
             new AutoDisposeFlowable<>(upstream, scope).subscribe(observer);
           }
@@ -322,16 +312,6 @@ public final class AutoDispose {
               Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete) {
             return new AutoDisposeObservable<>(upstream, scope)
                 .subscribe(onNext, onError, onComplete);
-          }
-
-          @Override
-          public Disposable subscribe(
-              Consumer<? super T> onNext,
-              Consumer<? super Throwable> onError,
-              Action onComplete,
-              Consumer<? super Disposable> onSubscribe) {
-            return new AutoDisposeObservable<>(upstream, scope)
-                .subscribe(onNext, onError, onComplete, onSubscribe);
           }
 
           @Override
