@@ -29,13 +29,13 @@ import com.uber.autodispose.ParallelFlowableSubscribeProxy
 import com.uber.autodispose.ScopeProvider
 import com.uber.autodispose.SingleSubscribeProxy
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Maybe
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.annotations.CheckReturnValue
-import io.reactivex.parallel.ParallelFlowable
+import io.reactivex.rxjava3.annotations.CheckReturnValue
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.parallel.ParallelFlowable
 
 /**
  * Extension that returns a [ScopeProvider] for this [LifecycleOwner].
@@ -106,9 +106,9 @@ inline fun Lifecycle.scope(
 )
 inline fun <T> Flowable<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): FlowableSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
 
@@ -122,9 +122,9 @@ inline fun <T> Flowable<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilE
 @CheckReturnValue
 inline fun <T> Flowable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): FlowableSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
 
@@ -143,9 +143,9 @@ inline fun <T> Flowable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEven
 )
 inline fun <T> Observable<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): ObservableSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
 
@@ -159,9 +159,9 @@ inline fun <T> Observable<T>.autoDisposable(lifecycleOwner: LifecycleOwner, unti
 @CheckReturnValue
 inline fun <T> Observable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): ObservableSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
 
@@ -180,9 +180,9 @@ inline fun <T> Observable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEv
 )
 inline fun <T> Single<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): SingleSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
 
@@ -196,9 +196,9 @@ inline fun <T> Single<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEve
 @CheckReturnValue
 inline fun <T> Single<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): SingleSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
 
@@ -217,9 +217,9 @@ inline fun <T> Single<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent:
 )
 inline fun <T> Maybe<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): MaybeSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
 
@@ -233,9 +233,9 @@ inline fun <T> Maybe<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEven
 @CheckReturnValue
 inline fun <T> Maybe<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): MaybeSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
 
@@ -254,9 +254,9 @@ inline fun <T> Maybe<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: 
 )
 inline fun Completable.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): CompletableSubscribeProxy {
   return if (untilEvent == null) {
-    this.`as`(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+    this.to(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
-    this.`as`(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+    this.to(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
 
@@ -270,9 +270,9 @@ inline fun Completable.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent
 @CheckReturnValue
 inline fun Completable.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): CompletableSubscribeProxy {
   return if (untilEvent == null) {
-    this.`as`(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+    this.to(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
-    this.`as`(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+    this.to(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
 
@@ -291,9 +291,9 @@ inline fun Completable.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: E
 )
 inline fun <T> ParallelFlowable<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): ParallelFlowableSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
 
@@ -307,8 +307,8 @@ inline fun <T> ParallelFlowable<T>.autoDisposable(lifecycleOwner: LifecycleOwner
 @CheckReturnValue
 inline fun <T> ParallelFlowable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): ParallelFlowableSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
-    this.`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
