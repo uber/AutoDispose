@@ -212,7 +212,7 @@ class AutoDisposeDetectorTest {
             lateinit var scopeProvider: ScopeProvider
             fun names() {
               val obs = Observable.just(1, 2, 3, 4)
-              obs.autoDisposable(scopeProvider).subscribe()
+              obs.autoDispose(scopeProvider).subscribe()
             }
           }
         """).indented())
@@ -279,7 +279,7 @@ class AutoDisposeDetectorTest {
             lateinit var scopeProvider: ScopeProvider
             fun names() {
               val single = Single.just(1)
-              single.autoDisposable(scopeProvider).subscribe()
+              single.autoDispose(scopeProvider).subscribe()
             }
           }
         """).indented())
@@ -345,7 +345,7 @@ class AutoDisposeDetectorTest {
           class ExampleClass: LifecycleScopeProvider {
             fun names() {
               val flowable = Flowable.just(1, 2, 3, 4)
-              flowable.autoDisposable(this).subscribe()
+              flowable.autoDispose(this).subscribe()
             }
           }
         """).indented())
@@ -411,7 +411,7 @@ class AutoDisposeDetectorTest {
             lateinit var scopeProvider: ScopeProvider
             fun names() {
               val completable = Completable.complete()
-              completable.autoDisposable(scopeProvider).subscribe()
+              completable.autoDispose(scopeProvider).subscribe()
             }
           }
         """).indented())
@@ -478,7 +478,7 @@ class AutoDisposeDetectorTest {
             lateinit var scopeProvider: ScopeProvider
             fun names() {
               val maybe = Maybe.just(2)
-              maybe.autoDisposable(scopeProvider).subscribe()
+              maybe.autoDispose(scopeProvider).subscribe()
             }
           }
         """).indented())
@@ -534,7 +534,7 @@ class AutoDisposeDetectorTest {
         lateinit var scopeProvider: ScopeProvider
         fun doSomething() {
           val observable = Observable.just(1, 2, 3)
-          observable.autoDisposable(scopeProvider).subscribe()
+          observable.autoDispose(scopeProvider).subscribe()
         }
       }
     """).indented())
@@ -618,7 +618,7 @@ class AutoDisposeDetectorTest {
         lateinit var scopeProvider: ScopeProvider
         fun doSomething() {
           val observable = Observable.just(1, 2, 3)
-          observable.autoDisposable(scopeProvider).subscribe()
+          observable.autoDispose(scopeProvider).subscribe()
         }
       }
     """).indented())
