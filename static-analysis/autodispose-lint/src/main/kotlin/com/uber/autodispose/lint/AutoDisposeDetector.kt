@@ -188,19 +188,19 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
   }
 
   private fun callExpressionChecker(
-      context: JavaContext,
-      node: UCallExpression,
-      method: PsiMethod,
-      isInScope: (JavaEvaluator, UCallExpression) -> Boolean
+    context: JavaContext,
+    node: UCallExpression,
+    method: PsiMethod,
+    isInScope: (JavaEvaluator, UCallExpression) -> Boolean
   ) {
     evaluateMethodCall(node, method, context, isInScope)
   }
 
   private fun callableReferenceChecker(
-      context: JavaContext,
-      node: UCallableReferenceExpression,
-      method: PsiMethod,
-      isInScope: (JavaEvaluator, UCallExpression) -> Boolean
+    context: JavaContext,
+    node: UCallableReferenceExpression,
+    method: PsiMethod,
+    isInScope: (JavaEvaluator, UCallExpression) -> Boolean
   ) {
     // Check if the resolved call reference is method and check that it's invocation is a
     // call expression so that we can get it's return type etc.
@@ -210,9 +210,9 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
   }
 
   private class SubscribeCallVisitor(
-      private val context: JavaContext,
-      private val callExpressionChecker: (JavaContext, UCallExpression, PsiMethod) -> Unit,
-      private val callableReferenceChecker: (JavaContext, UCallableReferenceExpression, PsiMethod) -> Unit
+    private val context: JavaContext,
+    private val callExpressionChecker: (JavaContext, UCallExpression, PsiMethod) -> Unit,
+    private val callableReferenceChecker: (JavaContext, UCallableReferenceExpression, PsiMethod) -> Unit
   ) : AbstractUastVisitor() {
 
     override fun visitCallExpression(node: UCallExpression): Boolean {
@@ -287,10 +287,10 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
    * @param context project context.
    */
   private fun evaluateMethodCall(
-      node: UCallExpression,
-      method: PsiMethod,
-      context: JavaContext,
-      isInScope: (JavaEvaluator, UCallExpression) -> Boolean
+    node: UCallExpression,
+    method: PsiMethod,
+    context: JavaContext,
+    isInScope: (JavaEvaluator, UCallExpression) -> Boolean
   ) {
     if (!getApplicableMethodNames().contains(method.name)) return
     val evaluator = context.evaluator

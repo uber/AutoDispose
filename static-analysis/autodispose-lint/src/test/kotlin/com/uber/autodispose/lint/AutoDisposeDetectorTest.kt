@@ -82,7 +82,7 @@ class AutoDisposeDetectorTest {
         """
           @file:JvmName("KotlinExtensions")
           package com.uber.autodispose
-          
+
           fun withScope(scope: ScopeProvider, body: AutoDisposeContext.() -> Unit) {
           }
         """).indented().within("src/")
@@ -92,9 +92,9 @@ class AutoDisposeDetectorTest {
         """
           @file:JvmName("KotlinExtensions")
           package com.uber.autodispose
-          
+
           import io.reactivex.Completable
-          
+
           fun withScope(scope: Completable, body: AutoDisposeContext.() -> Unit) {
           }
         """).indented().within("src/")
