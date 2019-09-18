@@ -53,7 +53,7 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
     PublishSubject<Integer> source = PublishSubject.create();
     CompletableSubject scope = CompletableSubject.create();
     Disposable d = source.to(autoDisposable(scope)).subscribeWith(o);
-    o.assertSubscribed();
+    assertThat(o.hasSubscription()).isTrue();
 
     assertThat(source.hasObservers()).isTrue();
     assertThat(scope.hasObservers()).isTrue();

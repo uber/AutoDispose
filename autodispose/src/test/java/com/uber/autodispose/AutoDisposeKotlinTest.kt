@@ -376,7 +376,7 @@ class AutoDisposeKotlinTest {
     withScope(scopeSource) {
       val o = TestSubscriber<Int>()
       source.parallel(1).autoDispose().subscribe(arrayOf(o))
-      o.assertSubscribed()
+      assertThat(o.hasSubscription()).isTrue()
 
       source.onNext(1)
       o.assertValue(1)
@@ -408,7 +408,7 @@ class AutoDisposeKotlinTest {
     val source = PublishProcessor.create<Int>()
     withScope(scopeSource) {
       val o = source.autoDispose().test()
-      o.assertSubscribed()
+      assertThat(o.hasSubscription()).isTrue()
 
       assertThat(source.hasSubscribers()).isTrue()
       assertThat(scopeSource.hasObservers()).isTrue()

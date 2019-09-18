@@ -50,7 +50,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
     PublishProcessor<Integer> source = PublishProcessor.create();
     CompletableSubject scope = CompletableSubject.create();
     Disposable d = source.to(autoDisposable(scope)).subscribeWith(o);
-    o.assertSubscribed();
+    assertThat(o.hasSubscription()).isTrue();
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(scope.hasObservers()).isTrue();
@@ -79,7 +79,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
     PublishProcessor<Integer> source = PublishProcessor.create();
     CompletableSubject scope = CompletableSubject.create();
     TestSubscriber<Integer> o = source.to(autoDisposable(scope)).test();
-    o.assertSubscribed();
+    assertThat(o.hasSubscription()).isTrue();
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(scope.hasObservers()).isTrue();
@@ -104,7 +104,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
     CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = TestUtil.makeProvider(scope);
     TestSubscriber<Integer> o = source.to(autoDisposable(provider)).test();
-    o.assertSubscribed();
+    assertThat(o.hasSubscription()).isTrue();
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(scope.hasObservers()).isTrue();
