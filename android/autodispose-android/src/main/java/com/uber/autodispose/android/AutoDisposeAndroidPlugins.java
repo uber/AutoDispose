@@ -87,7 +87,7 @@ public final class AutoDisposeAndroidPlugins {
       } else {
         return current.getAsBoolean();
       }
-    } catch (Exception ex) {
+    } catch (Throwable ex) {
       throw Exceptions.propagate(ex);
     }
   }
