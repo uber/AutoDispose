@@ -19,7 +19,7 @@ package com.uber.autodispose.android.lifecycle.test
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.LifecycleRegistry
-import io.reactivex.annotations.CheckReturnValue
+import io.reactivex.rxjava3.annotations.CheckReturnValue
 
 /**
  * Extension that returns a [TestLifecycleOwner] for this [LifecycleRegistry].
