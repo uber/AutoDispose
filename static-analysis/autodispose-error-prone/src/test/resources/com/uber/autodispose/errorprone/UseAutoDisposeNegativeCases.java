@@ -70,67 +70,67 @@ public class UseAutoDisposeNegativeCases implements LifecycleScopeProvider<TestL
   }
 
   public void observable_subscribeWithAutoDispose() {
-    Observable.just(1).as(autoDisposable(this)).subscribe();
+    Observable.just(1).to(autoDisposable(this)).subscribe();
   }
 
   public void single_subscribeWithAutoDispose() {
-    Single.just(1).as(autoDisposable(this)).subscribe();
+    Single.just(1).to(autoDisposable(this)).subscribe();
   }
 
   public void completable_subscribeWithAutoDispose() {
-    Completable.complete().as(autoDisposable(this)).subscribe();
+    Completable.complete().to(autoDisposable(this)).subscribe();
   }
 
   public void maybe_subscribeWithAutoDispose() {
-    Maybe.just(1).as(autoDisposable(this)).subscribe();
+    Maybe.just(1).to(autoDisposable(this)).subscribe();
   }
 
   public void flowable_subscribeWithAutoDispose() {
-    Flowable.just(1).as(autoDisposable(this)).subscribe();
+    Flowable.just(1).to(autoDisposable(this)).subscribe();
   }
 
   public void parallelFlowable_subscribeWithAutoDispose() {
     Subscriber<Integer>[] subscribers = new Subscriber[] {};
-    Flowable.just(1, 2).parallel(2).as(autoDisposable(this)).subscribe(subscribers);
+    Flowable.just(1, 2).parallel(2).to(autoDisposable(this)).subscribe(subscribers);
   }
 
   public void observable_subscribeVoidSubscribe() {
-    Observable.just(1).as(autoDisposable(this)).subscribe(new TestObserver<>());
+    Observable.just(1).to(autoDisposable(this)).subscribe(new TestObserver<>());
   }
 
   public void single_subscribeVoidSubscribe() {
-    Single.just(1).as(autoDisposable(this)).subscribe(new TestObserver<>());
+    Single.just(1).to(autoDisposable(this)).subscribe(new TestObserver<>());
   }
 
   public void completable_subscribeVoidSubscribe() {
-    Completable.complete().as(autoDisposable(this)).subscribe(new TestObserver<>());
+    Completable.complete().to(autoDisposable(this)).subscribe(new TestObserver<>());
   }
 
   public void maybe_subscribeVoidSubscribe() {
-    Maybe.just(1).as(autoDisposable(this)).subscribe(new TestObserver<>());
+    Maybe.just(1).to(autoDisposable(this)).subscribe(new TestObserver<>());
   }
 
   public void flowable_subscribeVoidSubscribe() {
-    Flowable.just(1).as(autoDisposable(this)).subscribe(new TestSubscriber<>());
+    Flowable.just(1).to(autoDisposable(this)).subscribe(new TestSubscriber<>());
   }
 
   public void observable_subscribeWith() {
-    Observable.just(1).as(autoDisposable(this)).subscribeWith(new TestObserver<>());
+    Observable.just(1).to(autoDisposable(this)).subscribeWith(new TestObserver<>());
   }
 
   public void single_subscribeWith() {
-    Single.just(1).as(autoDisposable(this)).subscribeWith(new TestObserver<>());
+    Single.just(1).to(autoDisposable(this)).subscribeWith(new TestObserver<>());
   }
 
   public void completable_subscribeWith() {
-    Completable.complete().as(autoDisposable(this)).subscribeWith(new TestObserver<>());
+    Completable.complete().to(autoDisposable(this)).subscribeWith(new TestObserver<>());
   }
 
   public void maybe_subscribeWith() {
-    Maybe.just(1).as(autoDisposable(this)).subscribeWith(new TestObserver<>());
+    Maybe.just(1).to(autoDisposable(this)).subscribeWith(new TestObserver<>());
   }
 
   public void flowable_subscribeWith() {
-    Flowable.just(1).as(autoDisposable(this)).subscribeWith(new TestSubscriber<>());
+    Flowable.just(1).to(autoDisposable(this)).subscribeWith(new TestSubscriber<>());
   }
 }

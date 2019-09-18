@@ -53,11 +53,11 @@ import org.reactivestreams.Subscription;
  * no-parameter generic method will autocomplete with the appropriate generic parameters in Java <7,
  * or implicitly in >=8.
  *
- * @see Flowable#as(io.reactivex.rxjava3.core.FlowableConverter)
- * @see Observable#as(io.reactivex.rxjava3.core.ObservableConverter)
- * @see Maybe#as(io.reactivex.rxjava3.core.MaybeConverter)
- * @see Single#as(io.reactivex.rxjava3.core.SingleConverter)
- * @see Completable#as(io.reactivex.rxjava3.core.CompletableConverter)
+ * @see Flowable#to(io.reactivex.rxjava3.core.FlowableConverter)
+ * @see Observable#to(io.reactivex.rxjava3.core.ObservableConverter)
+ * @see Maybe#to(io.reactivex.rxjava3.core.MaybeConverter)
+ * @see Single#to(io.reactivex.rxjava3.core.SingleConverter)
+ * @see Completable#to(io.reactivex.rxjava3.core.CompletableConverter)
  */
 public final class AutoDispose {
 
@@ -68,14 +68,14 @@ public final class AutoDispose {
    *
    * <pre><code>
    *   Observable.just(1)
-   *        .as(autoDisposable(scope)) // Static import
+   *        .to(autoDisposable(scope)) // Static import
    *        .subscribe(...)
    * </code></pre>
    *
    * @param provider the target scope provider
    * @param <T> the stream type.
    * @return an {@link AutoDisposeConverter} to transform with operators like {@link
-   *     Observable#as(ObservableConverter)}
+   *     Observable#to(ObservableConverter)}
    */
   public static <T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
     checkNotNull(provider, "provider == null");
@@ -89,14 +89,14 @@ public final class AutoDispose {
    *
    * <pre><code>
    *   Observable.just(1)
-   *        .as(autoDisposable(scope)) // Static import
+   *        .to(autoDisposable(scope)) // Static import
    *        .subscribe(...)
    * </code></pre>
    *
    * @param scope the target scope
    * @param <T> the stream type.
    * @return an {@link AutoDisposeConverter} to transform with operators like {@link
-   *     Observable#as(ObservableConverter)}
+   *     Observable#to(ObservableConverter)}
    */
   public static <T> AutoDisposeConverter<T> autoDisposable(final CompletableSource scope) {
     checkNotNull(scope, "scope == null");

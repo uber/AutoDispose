@@ -70,7 +70,7 @@ public class UseAutoDisposeNegativeCasesExcluded implements LifecycleScopeProvid
   }
 
   public void observable_subscribeWithAutoDispose() {
-    Observable.just(1).as(autoDisposable(this)).subscribe();
+    Observable.just(1).to(autoDisposable(this)).subscribe();
   }
 
   public void single_subscribeWithAutoDispose() {

@@ -26,6 +26,6 @@ public class ClassWithCustomScope implements CustomScope {
     // This class implements CustomScope, which we've informed the error prone and lint checks to
     // flag as a known type with a scope. If we comment out the autodispose line, this will fail
     // to compile or fail lint.
-    Observable.just(1).as(autoDisposable(ScopeProvider.UNBOUND)).subscribe();
+    Observable.just(1).to(autoDisposable(ScopeProvider.UNBOUND)).subscribe();
   }
 }

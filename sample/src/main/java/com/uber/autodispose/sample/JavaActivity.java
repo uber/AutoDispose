@@ -47,7 +47,7 @@ public class JavaActivity extends AppCompatActivity {
     // dispose is onDestroy (the opposite of onCreate).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onCreate()"))
-        .as(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+        .to(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): " + num));
 
     getSupportFragmentManager()
@@ -66,7 +66,7 @@ public class JavaActivity extends AppCompatActivity {
     // dispose is onStop (the opposite of onStart).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onStart()"))
-        .as(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+        .to(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(num -> Log.i(TAG, "Started in onStart(), running until in onStop(): " + num));
   }
 
@@ -80,14 +80,14 @@ public class JavaActivity extends AppCompatActivity {
     // dispose is onPause (the opposite of onResume).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onResume()"))
-        .as(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+        .to(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(num -> Log.i(TAG, "Started in onResume(), running until in onPause(): " + num));
 
     // Setting a specific untilEvent, this should dispose in onDestroy.
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(
             () -> Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY"))
-        .as(autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
+        .to(autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
         .subscribe(
             num -> Log.i(TAG, "Started in onResume(), running until in onDestroy(): " + num));
   }

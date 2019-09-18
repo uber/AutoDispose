@@ -55,7 +55,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(provider)).subscribe(subscribers);
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
     firstSubscriber.assertSubscribed();
     secondSubscriber.assertSubscribed();
 
@@ -98,7 +98,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
 
     Flowable.just(1, 2)
         .parallel(DEFAULT_PARALLELISM)
-        .as(autoDisposable(provider))
+        .to(autoDisposable(provider))
         .subscribe(subscribers);
 
     List<Throwable> errors1 = firstSubscriber.errors();
@@ -124,7 +124,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
 
     Flowable.just(1, 2)
         .parallel(DEFAULT_PARALLELISM)
-        .as(autoDisposable(provider))
+        .to(autoDisposable(provider))
         .subscribe(subscribers);
 
     List<Throwable> errors1 = firstSubscriber.errors();
@@ -147,7 +147,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(provider)).subscribe(subscribers);
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
 
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -175,7 +175,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(provider)).subscribe(subscribers);
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
 
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -197,7 +197,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(provider)).subscribe(subscribers);
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
 
     firstSubscriber.assertNoValues();
     firstSubscriber.assertError(

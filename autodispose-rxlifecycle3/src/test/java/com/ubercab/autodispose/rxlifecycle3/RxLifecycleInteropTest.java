@@ -37,7 +37,7 @@ public class RxLifecycleInteropTest {
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     Disposable d =
-        source.as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider))).subscribeWith(o);
+        source.to(autoDisposable(RxLifecycleInterop.from(lifecycleProvider))).subscribeWith(o);
     o.assertSubscribed();
 
     assertThat(source.hasObservers()).isTrue();
@@ -58,7 +58,7 @@ public class RxLifecycleInteropTest {
     lifecycleProvider.emitCreate();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
-    source.as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider))).subscribe(o);
+    source.to(autoDisposable(RxLifecycleInterop.from(lifecycleProvider))).subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -78,7 +78,7 @@ public class RxLifecycleInteropTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
     lifecycleProvider.emitDestroy();
-    source.as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider))).subscribe(o);
+    source.to(autoDisposable(RxLifecycleInterop.from(lifecycleProvider))).subscribe(o);
 
     o.takeSubscribe();
 
@@ -95,7 +95,7 @@ public class RxLifecycleInteropTest {
     PublishSubject<Integer> source = PublishSubject.create();
     Disposable d =
         source
-            .as(
+            .to(
                 autoDisposable(
                     RxLifecycleInterop.from(
                         lifecycleProvider, TestLifecycleProvider.Event.DESTROY)))
@@ -121,7 +121,7 @@ public class RxLifecycleInteropTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
     source
-        .as(
+        .to(
             autoDisposable(
                 RxLifecycleInterop.from(lifecycleProvider, TestLifecycleProvider.Event.DESTROY)))
         .subscribe(o);

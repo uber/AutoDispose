@@ -49,7 +49,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
     TestSubscriber<Integer> o = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     CompletableSubject scope = CompletableSubject.create();
-    Disposable d = source.as(autoDisposable(scope)).subscribeWith(o);
+    Disposable d = source.to(autoDisposable(scope)).subscribeWith(o);
     o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
@@ -70,7 +70,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
   @Test
   public void autoDispose_withSuperClassGenerics_compilesFine() {
     Flowable.just(new BClass())
-        .as(autoDisposable(ScopeProvider.UNBOUND))
+        .to(autoDisposable(ScopeProvider.UNBOUND))
         .subscribe((Consumer<AClass>) aClass -> {});
   }
 
@@ -78,7 +78,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
   public void autoDispose_withMaybe_interrupted() {
     PublishProcessor<Integer> source = PublishProcessor.create();
     CompletableSubject scope = CompletableSubject.create();
-    TestSubscriber<Integer> o = source.as(autoDisposable(scope)).test();
+    TestSubscriber<Integer> o = source.to(autoDisposable(scope)).test();
     o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
@@ -103,7 +103,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
     PublishProcessor<Integer> source = PublishProcessor.create();
     CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = TestUtil.makeProvider(scope);
-    TestSubscriber<Integer> o = source.as(autoDisposable(provider)).test();
+    TestSubscriber<Integer> o = source.to(autoDisposable(provider)).test();
     o.assertSubscribed();
 
     assertThat(source.hasSubscribers()).isTrue();
@@ -146,7 +146,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
             }
             return subscriber;
           });
-      Flowable.just(1).as(autoDisposable(ScopeProvider.UNBOUND)).subscribe();
+      Flowable.just(1).to(autoDisposable(ScopeProvider.UNBOUND)).subscribe();
 
       assertThat(atomicAutoDisposingSubscriber.get()).isNotNull();
       assertThat(atomicAutoDisposingSubscriber.get()).isInstanceOf(AutoDisposingSubscriber.class);
@@ -174,7 +174,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
             },
             BackpressureStrategy.LATEST);
     CompletableSubject scope = CompletableSubject.create();
-    source.as(autoDisposable(scope)).subscribe();
+    source.to(autoDisposable(scope)).subscribe();
 
     assertThat(i.get()).isEqualTo(0);
     assertThat(scope.hasObservers()).isTrue();
@@ -192,7 +192,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
   @Test
   public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestSubscriber<Object> o =
-        PublishProcessor.create().as(autoDisposable(ScopeProvider.UNBOUND)).test();
+        PublishProcessor.create().to(autoDisposable(ScopeProvider.UNBOUND)).test();
     o.assertNoValues();
     o.assertNoErrors();
 
@@ -202,7 +202,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
   @Test
   public void unbound_shouldStillPassValues() {
     PublishProcessor<Integer> s = PublishProcessor.create();
-    TestSubscriber<Integer> o = s.as(autoDisposable(ScopeProvider.UNBOUND)).test();
+    TestSubscriber<Integer> o = s.to(autoDisposable(ScopeProvider.UNBOUND)).test();
 
     s.onNext(1);
     o.assertValue(1);
@@ -214,7 +214,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
     AutoDisposePlugins.setOutsideScopeHandler(e -> {});
     ScopeProvider provider = outsideScopeProvider();
     PublishProcessor<Integer> source = PublishProcessor.create();
-    TestSubscriber<Integer> o = source.as(autoDisposable(provider)).test();
+    TestSubscriber<Integer> o = source.to(autoDisposable(provider)).test();
 
     assertThat(source.hasSubscribers()).isFalse();
     o.assertNoValues();
@@ -231,7 +231,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
         });
     ScopeProvider provider = outsideScopeProvider();
     TestSubscriber<Integer> o =
-        PublishProcessor.<Integer>create().as(autoDisposable(provider)).test();
+        PublishProcessor.<Integer>create().to(autoDisposable(provider)).test();
 
     o.assertNoValues();
     o.assertError(
@@ -242,7 +242,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
 
   @Test
   public void hideProxies() {
-    FlowableSubscribeProxy proxy = Flowable.never().as(autoDisposable(ScopeProvider.UNBOUND));
+    FlowableSubscribeProxy proxy = Flowable.never().to(autoDisposable(ScopeProvider.UNBOUND));
     // If hideProxies is disabled, the underlying return should be the direct AutoDispose type.
     if (hideProxies) {
       assertThat(proxy).isNotInstanceOf(Flowable.class);

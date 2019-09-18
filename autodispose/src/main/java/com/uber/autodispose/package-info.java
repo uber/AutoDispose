@@ -25,7 +25,7 @@
  * <p><code><pre>
  *   myObservable
  *     .doStuff()
- *     .as(autoDisposable(this))   // <-- AutoDispose
+ *     .to(autoDisposable(this))   // <-- AutoDispose
  *     .subscribe(s -> ...);
  * </pre></code>
  *

@@ -53,7 +53,7 @@ public class LifecycleScopeProviderCompletableTest {
     CompletableSubject source = CompletableSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.as(autoDisposable(provider)).subscribe(o);
+    source.to(autoDisposable(provider)).subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -78,7 +78,7 @@ public class LifecycleScopeProviderCompletableTest {
     CompletableSubject source = CompletableSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.as(autoDisposable(provider)).subscribe(o);
+    source.to(autoDisposable(provider)).subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -105,7 +105,7 @@ public class LifecycleScopeProviderCompletableTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    Completable.complete().as(autoDisposable(provider)).subscribe(o);
+    Completable.complete().to(autoDisposable(provider)).subscribe(o);
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
@@ -119,7 +119,7 @@ public class LifecycleScopeProviderCompletableTest {
     lifecycle.onNext(3);
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    Completable.complete().as(autoDisposable(provider)).subscribe(o);
+    Completable.complete().to(autoDisposable(provider)).subscribe(o);
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
@@ -131,7 +131,7 @@ public class LifecycleScopeProviderCompletableTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     CompletableSubject source = CompletableSubject.create();
-    TestObserver<Void> o = source.as(autoDisposable(provider)).test();
+    TestObserver<Void> o = source.to(autoDisposable(provider)).test();
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -151,7 +151,7 @@ public class LifecycleScopeProviderCompletableTest {
     lifecycle.onNext(3);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     CompletableSubject source = CompletableSubject.create();
-    TestObserver<Void> o = source.as(autoDisposable(provider)).test();
+    TestObserver<Void> o = source.to(autoDisposable(provider)).test();
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -169,7 +169,7 @@ public class LifecycleScopeProviderCompletableTest {
         });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    TestObserver<Void> o = CompletableSubject.create().as(autoDisposable(provider)).test();
+    TestObserver<Void> o = CompletableSubject.create().to(autoDisposable(provider)).test();
 
     o.assertNoValues();
     o.assertError(
