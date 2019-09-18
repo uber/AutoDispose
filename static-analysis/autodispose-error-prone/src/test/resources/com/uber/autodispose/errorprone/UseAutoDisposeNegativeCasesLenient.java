@@ -43,6 +43,7 @@ public class UseAutoDisposeNegativeCasesLenient implements LifecycleScopeProvide
   private final BehaviorSubject<TestLifecycle> lifecycleSubject = BehaviorSubject.create();
 
   /** @return a sequence of lifecycle events. */
+  @Override
   @CheckReturnValue
   public Observable<TestLifecycle> lifecycle() {
     return lifecycleSubject.hide();
@@ -52,6 +53,7 @@ public class UseAutoDisposeNegativeCasesLenient implements LifecycleScopeProvide
    * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
    *     avoid unnecessary object allocation.
    */
+  @Override
   @CheckReturnValue
   public CorrespondingEventsFunction<TestLifecycle> correspondingEvents() {
     return testLifecycle -> {
@@ -67,6 +69,7 @@ public class UseAutoDisposeNegativeCasesLenient implements LifecycleScopeProvide
   }
 
   /** @return the last seen lifecycle event, or {@code null} if none. */
+  @Override
   @Nullable
   public TestLifecycle peekLifecycle() {
     return lifecycleSubject.getValue();
