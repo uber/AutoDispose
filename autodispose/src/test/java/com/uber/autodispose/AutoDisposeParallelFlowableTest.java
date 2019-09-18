@@ -15,19 +15,18 @@
  */
 package com.uber.autodispose;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-
 import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.parallel.ParallelFlowable;
 import io.reactivex.rxjava3.processors.PublishProcessor;
 import io.reactivex.rxjava3.subjects.CompletableSubject;
 import io.reactivex.rxjava3.subscribers.TestSubscriber;
-import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
+
+import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
 
@@ -51,9 +50,7 @@ public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
         .to(autoDisposable(scope))
         .subscribe(subscribers);
 
-    List<Throwable> errors = subscriber.errors();
-    assertThat(errors).hasSize(1);
-    assertThat(errors.get(0)).isInstanceOf(IllegalArgumentException.class);
+    subscriber.assertError(IllegalArgumentException.class);
   }
 
   @Test
@@ -66,8 +63,8 @@ public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
     source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(scope)).subscribe(subscribers);
-    firstSubscriber.assertSubscribed();
-    secondSubscriber.assertSubscribed();
+    assertThat(firstSubscriber.hasSubscription()).isTrue();
+    assertThat(secondSubscriber.hasSubscription()).isTrue();
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(scope.hasObservers()).isTrue();
@@ -99,8 +96,8 @@ public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
 
     source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(scope)).subscribe(subscribers);
 
-    firstSubscriber.assertSubscribed();
-    secondSubscriber.assertSubscribed();
+    assertThat(firstSubscriber.hasSubscription()).isTrue();
+    assertThat(secondSubscriber.hasSubscription()).isTrue();
 
     source.onNext(1);
     source.onNext(2);
@@ -128,8 +125,8 @@ public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
     source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
-    firstSubscriber.assertSubscribed();
-    secondSubscriber.assertSubscribed();
+    assertThat(firstSubscriber.hasSubscription()).isTrue();
+    assertThat(secondSubscriber.hasSubscription()).isTrue();
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(scope.hasObservers()).isTrue();
@@ -193,8 +190,8 @@ public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
     source.onNext(2);
     firstSubscriber.assertValue(1);
     secondSubscriber.assertValue(2);
-    firstSubscriber.dispose();
-    secondSubscriber.dispose();
+    firstSubscriber.cancel();
+    secondSubscriber.cancel();
   }
 
   @Test
