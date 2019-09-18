@@ -80,5 +80,5 @@ public interface MaybeSubscribeProxy<T> {
    * @return a {@link TestObserver}
    */
   @CheckReturnValue
-  TestObserver<T> test(boolean cancel);
+  TestObserver<T> test(boolean dispose);
 }

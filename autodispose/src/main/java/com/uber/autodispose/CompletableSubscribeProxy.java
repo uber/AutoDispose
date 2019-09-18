@@ -72,5 +72,5 @@ public interface CompletableSubscribeProxy {
    * @return a {@link TestObserver}
    */
   @CheckReturnValue
-  TestObserver<Void> test(boolean cancel);
+  TestObserver<Void> test(boolean dispose);
 }

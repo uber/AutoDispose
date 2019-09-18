@@ -15,9 +15,6 @@
  */
 package com.uber.autodispose;
 
-import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
-import static com.uber.autodispose.Scopes.completableOf;
-
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.CompletableSource;
@@ -38,6 +35,9 @@ import io.reactivex.rxjava3.parallel.ParallelFlowable;
 import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+
+import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
+import static com.uber.autodispose.Scopes.completableOf;
 
 /**
  * Factories for autodispose converters that can be used with RxJava types' corresponding {@code
@@ -149,10 +149,10 @@ public final class AutoDispose {
           }
 
           @Override
-          public TestObserver<Void> test(boolean cancel) {
+          public TestObserver<Void> test(boolean dispose) {
             TestObserver<Void> observer = new TestObserver<>();
-            if (cancel) {
-              observer.cancel();
+            if (dispose) {
+              observer.dispose();
             }
             subscribe(observer);
             return observer;
@@ -284,10 +284,10 @@ public final class AutoDispose {
           }
 
           @Override
-          public TestObserver<T> test(boolean cancel) {
+          public TestObserver<T> test(boolean dispose) {
             TestObserver<T> observer = new TestObserver<>();
-            if (cancel) {
-              observer.cancel();
+            if (dispose) {
+              observer.dispose();
             }
             subscribe(observer);
             return observer;
