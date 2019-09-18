@@ -15,10 +15,6 @@
  */
 package com.uber.autodispose.lifecycle;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-import static com.uber.autodispose.lifecycle.TestUtil.makeLifecycleProvider;
-
 import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.test.RxErrorsRule;
@@ -26,11 +22,14 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.processors.PublishProcessor;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
 import io.reactivex.rxjava3.subscribers.TestSubscriber;
-import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.lifecycle.TestUtil.makeLifecycleProvider;
 
 public class LifecycleScopeProviderSubscriberTest {
 
@@ -80,9 +79,7 @@ public class LifecycleScopeProviderSubscriberTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     TestSubscriber<Integer> o = Flowable.just(1).to(autoDisposable(provider)).test();
 
-    List<Throwable> errors = o.errors();
-    assertThat(errors).hasSize(1);
-    assertThat(errors.get(0)).isInstanceOf(LifecycleNotStartedException.class);
+    o.assertError(LifecycleNotStartedException.class);
   }
 
   @Test
@@ -94,9 +91,7 @@ public class LifecycleScopeProviderSubscriberTest {
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     TestSubscriber<Integer> o = Flowable.just(1).to(autoDisposable(provider)).test();
 
-    List<Throwable> errors = o.errors();
-    assertThat(errors).hasSize(1);
-    assertThat(errors.get(0)).isInstanceOf(LifecycleEndedException.class);
+    o.assertError(LifecycleEndedException.class);
   }
 
   @Test

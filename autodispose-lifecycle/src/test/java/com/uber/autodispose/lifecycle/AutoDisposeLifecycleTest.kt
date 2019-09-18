@@ -18,16 +18,16 @@
 package com.uber.autodispose.lifecycle
 
 import com.uber.autodispose.autoDispose
-import io.reactivex.BackpressureStrategy.ERROR
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Maybe
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.observers.TestObserver
-import io.reactivex.subjects.CompletableSubject
-import io.reactivex.subjects.PublishSubject
-import io.reactivex.subscribers.TestSubscriber
+import io.reactivex.rxjava3.core.BackpressureStrategy.ERROR
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.observers.TestObserver
+import io.reactivex.rxjava3.subjects.CompletableSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
+import io.reactivex.rxjava3.subscribers.TestSubscriber
 import org.junit.Test
 
 class AutoDisposeLifecycleTest {
