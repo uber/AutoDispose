@@ -68,8 +68,36 @@ class AutoDisposeDetectorTest {
     private val CUSTOM_SCOPE = kotlin("""
       package com.uber.autodispose.sample
 
-      class ClassWithCustomScope {}
+      class ClassWithCustomScope
     """).indented()
+
+    private val AUTODISPOSE_CONTEXT = kotlin("""
+      package com.uber.autodispose
+
+      interface AutoDisposeContext
+    """).indented()
+
+    private val WITH_SCOPE_PROVIDER = kotlin(
+        "com/uber/autodispose/KotlinExtensions.kt",
+        """
+          @file:JvmName("KotlinExtensions")
+          package com.uber.autodispose
+          
+          fun withScope(scope: ScopeProvider, body: AutoDisposeContext.() -> Unit) {
+          }
+        """).indented().within("src/")
+
+    private val WITH_SCOPE_COMPLETABLE = kotlin(
+        "com/uber/autodispose/KotlinExtensions.kt",
+        """
+          @file:JvmName("KotlinExtensions")
+          package com.uber.autodispose
+          
+          import io.reactivex.Completable
+          
+          fun withScope(scope: Completable, body: AutoDisposeContext.() -> Unit) {
+          }
+        """).indented().within("src/")
 
     private fun lenientPropertiesFile(lenient: Boolean = true): TestFile.PropertyTestFile {
       val properties = projectProperties()
@@ -1048,6 +1076,105 @@ class AutoDisposeDetectorTest {
           }
         """).indented())
         .allowCompilationErrors(false)
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun withScope_withScopeProvider_missingAutoDispose_shouldError() {
+    lint()
+        .files(rxJava2(),
+            SCOPE_PROVIDER,
+            AUTODISPOSE_CONTEXT,
+            WITH_SCOPE_PROVIDER,
+            kotlin("""
+          package foo
+          import io.reactivex.Observable
+          import com.uber.autodispose.ScopeProvider
+          import com.uber.autodispose.withScope
+          class ExampleClass {
+            lateinit var scopeProvider: ScopeProvider
+            fun names() {
+              val observable = Observable.just(1)
+              withScope(scopeProvider) {
+                observable.subscribe()
+              }
+            }
+          }
+        """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectErrorCount(1)
+  }
+
+  @Test fun withScope_withCompletable_missingAutoDispose_shouldError() {
+    lint()
+        .files(rxJava2(),
+            AUTODISPOSE_CONTEXT,
+            WITH_SCOPE_COMPLETABLE,
+            kotlin("""
+          package foo
+          import io.reactivex.Completable
+          import io.reactivex.Observable
+          import com.uber.autodispose.withScope
+          class ExampleClass {
+            fun names() {
+              val observable = Observable.just(1)
+              withScope(Completable.complete()) {
+                observable.subscribe()
+              }
+            }
+          }
+        """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectErrorCount(1)
+  }
+
+  @Test fun withScope_withScopeProvider_expectClean() {
+    lint()
+        .files(rxJava2(),
+            SCOPE_PROVIDER,
+            AUTODISPOSE_CONTEXT,
+            WITH_SCOPE_PROVIDER,
+            kotlin("""
+          package foo
+          import io.reactivex.Observable
+          import com.uber.autodispose.ScopeProvider
+          import com.uber.autodispose.withScope
+          class ExampleClass {
+            lateinit var scopeProvider: ScopeProvider
+            fun names() {
+              val observable = Observable.just(1)
+              withScope(scopeProvider) {
+                observable.autoDispose().subscribe()
+              }
+            }
+          }
+        """).indented())
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun withScope_withCompletable_expectClean() {
+    lint()
+        .files(rxJava2(),
+            AUTODISPOSE_CONTEXT,
+            WITH_SCOPE_COMPLETABLE,
+            kotlin("""
+          package foo
+          import io.reactivex.Completable
+          import com.uber.autodispose.withScope
+          class ExampleClass {
+            fun names() {
+              val observable = Observable.just(1)
+              withScope(Completable.complete()) {
+                observable.autoDispose().subscribe()
+              }
+            }
+          }
+        """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
         .expectClean()
