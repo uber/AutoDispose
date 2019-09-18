@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -445,7 +445,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#extensions-for-ioreactivexobservable" title="Extensions for io.reactivex.Observable" class="md-nav__link">
+  <a href="#extensions-for-ioreactivexobservable" class="md-nav__link">
     Extensions for io.reactivex.Observable
   </a>
   
@@ -484,7 +484,11 @@
 <tbody>
 <tr>
 <td><a href="auto-disposable/">autoDisposable</a></td>
-<td><code>fun &lt;T, E&gt;</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html"><code>Observable</code></a><code>&lt;</code><a href="auto-disposable/#T"><code>T</code></a><code>&gt;.autoDisposable(lifecycleProvider: LifecycleProvider&lt;</code><a href="auto-disposable/#E"><code>E</code></a><code>&gt;, event:</code><a href="auto-disposable/#E"><code>E</code></a><code>? = null): ObservableSubscribeProxy&lt;</code><a href="auto-disposable/#T"><code>T</code></a><code>&gt;</code><br>Extension that proxies to <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html">Observable.as</a> + <a href="#">AutoDispose.autoDisposable</a> and takes an <a href="auto-disposable/#com.ubercab.autodispose.rxlifecycle$autoDisposable(io.reactivex.Observable((com.ubercab.autodispose.rxlifecycle.autoDisposable.T)), com.trello.rxlifecycle2.LifecycleProvider((com.ubercab.autodispose.rxlifecycle.autoDisposable.E)), com.ubercab.autodispose.rxlifecycle.autoDisposable.E)/event">event</a> when subscription will be disposed.</td>
+<td><code>fun &lt;T, E&gt;</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html"><code>Observable</code></a><code>&lt;</code><a href="auto-disposable/#T"><code>T</code></a><code>&gt;.~~autoDisposable~~(lifecycleProvider: LifecycleProvider&lt;</code><a href="auto-disposable/#E"><code>E</code></a><code>&gt;, event:</code><a href="auto-disposable/#E"><code>E</code></a><code>? = null): ObservableSubscribeProxy&lt;</code><a href="auto-disposable/#T"><code>T</code></a><code>&gt;</code><br>Extension that proxies to <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html">Observable.as</a> + <a href="#">AutoDispose.autoDisposable</a> and takes an <a href="auto-disposable/#com.ubercab.autodispose.rxlifecycle$autoDisposable(io.reactivex.Observable((com.ubercab.autodispose.rxlifecycle.autoDisposable.T)), com.trello.rxlifecycle2.LifecycleProvider((com.ubercab.autodispose.rxlifecycle.autoDisposable.E)), com.ubercab.autodispose.rxlifecycle.autoDisposable.E)/event">event</a> when subscription will be disposed.</td>
+</tr>
+<tr>
+<td><a href="auto-dispose/">autoDispose</a></td>
+<td><code>fun &lt;T, E&gt;</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html"><code>Observable</code></a><code>&lt;</code><a href="auto-dispose/#T"><code>T</code></a><code>&gt;.autoDispose(lifecycleProvider: LifecycleProvider&lt;</code><a href="auto-dispose/#E"><code>E</code></a><code>&gt;, event:</code><a href="auto-dispose/#E"><code>E</code></a><code>? = null): ObservableSubscribeProxy&lt;</code><a href="auto-dispose/#T"><code>T</code></a><code>&gt;</code><br>Extension that proxies to <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html">Observable.as</a> + <a href="#">AutoDispose.autoDisposable</a> and takes an <a href="auto-dispose/#com.ubercab.autodispose.rxlifecycle$autoDispose(io.reactivex.Observable((com.ubercab.autodispose.rxlifecycle.autoDispose.T)), com.trello.rxlifecycle2.LifecycleProvider((com.ubercab.autodispose.rxlifecycle.autoDispose.E)), com.ubercab.autodispose.rxlifecycle.autoDispose.E)/event">event</a> when subscription will be disposed.</td>
 </tr>
 </tbody>
 </table>
@@ -526,7 +530,7 @@
       
     </div>
     
-      <script src="../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../.."}})</script>
       

@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -284,7 +284,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#package-comuberautodispose" title="Package com.uber.autodispose" class="md-nav__link">
+  <a href="#package-comuberautodispose" class="md-nav__link">
     Package com.uber.autodispose
   </a>
   
@@ -292,22 +292,29 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#types" title="Types" class="md-nav__link">
+  <a href="#types" class="md-nav__link">
     Types
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#exceptions" title="Exceptions" class="md-nav__link">
+  <a href="#exceptions" class="md-nav__link">
     Exceptions
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#extensions-for-external-classes" title="Extensions for External Classes" class="md-nav__link">
+  <a href="#extensions-for-external-classes" class="md-nav__link">
     Extensions for External Classes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
   </a>
   
 </li>
@@ -508,7 +515,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#package-comuberautodispose" title="Package com.uber.autodispose" class="md-nav__link">
+  <a href="#package-comuberautodispose" class="md-nav__link">
     Package com.uber.autodispose
   </a>
   
@@ -516,22 +523,29 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#types" title="Types" class="md-nav__link">
+  <a href="#types" class="md-nav__link">
     Types
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#exceptions" title="Exceptions" class="md-nav__link">
+  <a href="#exceptions" class="md-nav__link">
     Exceptions
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#extensions-for-external-classes" title="Extensions for External Classes" class="md-nav__link">
+  <a href="#extensions-for-external-classes" class="md-nav__link">
     Extensions for External Classes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
   </a>
   
 </li>
@@ -576,11 +590,15 @@
 <tbody>
 <tr>
 <td><a href="-auto-dispose/">AutoDispose</a></td>
-<td><code>class AutoDispose</code><br>Factories for autodispose converters that can be used with RxJava types&rsquo; corresponding <code>as(...)</code> methods to transform them into auto-disposing streams. <br>There are several static <code>autoDisposable(...)</code> entry points, with the most basic being a simple <code>`[</code>#autoDisposable(CompletableSource)`](-auto-dispose/auto-disposable.md). The provided CompletableSource is ultimately what every scope resolves to under the hood, and AutoDispose has some built-in understanding for predefined types. The scope is considered ended upon onComplete emission of this Completable. <br>This is structured in such a way to be friendly to autocompletion in IDEs, where the no-parameter generic method will autocomplete with the appropriate generic parameters in Java &lt;7, or implicitly in &gt;=8.</td>
+<td><code>class AutoDispose</code><br>Factories for autodispose converters that can be used with RxJava types&rsquo; corresponding <code>as(...)</code> methods to transform them into auto-disposing streams.</td>
+</tr>
+<tr>
+<td><a href="-auto-dispose-context/">AutoDisposeContext</a></td>
+<td><code>interface AutoDisposeContext</code><br>A context intended for use as <code>AutoDisposeContext.() -&gt; Unit</code> function body parameters where zero-arg <a href="-auto-dispose-context/auto-dispose/">autoDispose</a> functions can be called. This should be backed by an underlying <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html">Completable</a> or <a href="-scope-provider/">ScopeProvider</a>.</td>
 </tr>
 <tr>
 <td><a href="-auto-dispose-converter/">AutoDisposeConverter</a></td>
-<td><code>interface AutoDisposeConverter&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/FlowableConverter.html"><code>FlowableConverter</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-flowable-subscribe-proxy/"><code>FlowableSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/parallel/ParallelFlowableConverter.html"><code>ParallelFlowableConverter</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-parallel-flowable-subscribe-proxy/"><code>ParallelFlowableSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/ObservableConverter.html"><code>ObservableConverter</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-observable-subscribe-proxy/"><code>ObservableSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/MaybeConverter.html"><code>MaybeConverter</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-maybe-subscribe-proxy/"><code>MaybeSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/SingleConverter.html"><code>SingleConverter</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-single-subscribe-proxy/"><code>SingleSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableConverter.html"><code>CompletableConverter</code></a><code>&lt;</code><a href="-completable-subscribe-proxy/"><code>CompletableSubscribeProxy</code></a><code>&gt;</code><br>A custom converter that implements all the RxJava types converters, for use with the <code>as()</code> operator.</td>
+<td><code>interface AutoDisposeConverter&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/FlowableConverter.html"><code>FlowableConverter</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-flowable-subscribe-proxy/"><code>FlowableSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;!&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/parallel/ParallelFlowableConverter.html"><code>ParallelFlowableConverter</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-parallel-flowable-subscribe-proxy/"><code>ParallelFlowableSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;!&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/ObservableConverter.html"><code>ObservableConverter</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-observable-subscribe-proxy/"><code>ObservableSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;!&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/MaybeConverter.html"><code>MaybeConverter</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-maybe-subscribe-proxy/"><code>MaybeSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;!&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/SingleConverter.html"><code>SingleConverter</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-single-subscribe-proxy/"><code>SingleSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;!&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableConverter.html"><code>CompletableConverter</code></a><code>&lt;</code><a href="-completable-subscribe-proxy/"><code>CompletableSubscribeProxy</code></a><code>!&gt;</code><br>A custom converter that implements all the RxJava types converters, for use with the <code>as()</code> operator.</td>
 </tr>
 <tr>
 <td><a href="-auto-dispose-plugins/">AutoDisposePlugins</a></td>
@@ -588,31 +606,35 @@
 </tr>
 <tr>
 <td><a href="-completable-subscribe-proxy/">CompletableSubscribeProxy</a></td>
-<td><code>interface CompletableSubscribeProxy</code><br>Subscribe proxy that matches Completable&rsquo;s subscribe overloads.</td>
+<td><code>interface CompletableSubscribeProxy</code><br>Subscribe proxy that matches <code>`[</code>Completable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html)'s">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html)'s</a> subscribe overloads.</td>
 </tr>
 <tr>
 <td><a href="-flowable-subscribe-proxy/">FlowableSubscribeProxy</a></td>
-<td><code>interface FlowableSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><br>Subscribe proxy that matches Flowable&rsquo;s subscribe overloads.</td>
+<td><code>interface FlowableSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt;</code><br>Subscribe proxy that matches <code>`[</code>Flowable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html)'s">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html)'s</a> subscribe overloads.</td>
 </tr>
 <tr>
 <td><a href="-maybe-subscribe-proxy/">MaybeSubscribeProxy</a></td>
-<td><code>interface MaybeSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><br>Subscribe proxy that matches Maybe&rsquo;s subscribe overloads.</td>
+<td><code>interface MaybeSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt;</code><br>Subscribe proxy that matches <code>`[</code>Maybe`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Maybe.html)'s">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Maybe.html)'s</a> subscribe overloads.</td>
 </tr>
 <tr>
 <td><a href="-observable-subscribe-proxy/">ObservableSubscribeProxy</a></td>
-<td><code>interface ObservableSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><br>Subscribe proxy that matches Observable&rsquo;s subscribe overloads.</td>
+<td><code>interface ObservableSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt;</code><br>Subscribe proxy that matches <code>`[</code>Observable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html)'s">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html)'s</a> subscribe overloads.</td>
 </tr>
 <tr>
 <td><a href="-parallel-flowable-subscribe-proxy/">ParallelFlowableSubscribeProxy</a></td>
-<td><code>interface ParallelFlowableSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><br>Subscribe proxy that matches ParallelFlowable&rsquo;s subscribe overloads.</td>
+<td><code>interface ParallelFlowableSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt;</code><br>Subscribe proxy that matches <code>`[</code>ParallelFlowable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/parallel/ParallelFlowable.html)'s">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/parallel/ParallelFlowable.html)'s</a> subscribe overloads.</td>
 </tr>
 <tr>
 <td><a href="-scope-provider/">ScopeProvider</a></td>
-<td><code>interface ScopeProvider</code><br>Provides a CompletableSource representation of a scope. The emission of this is the signal</td>
+<td><code>interface ScopeProvider</code><br>Provides a <code>`[</code>CompletableSource`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html</a>) representation of a scope. The emission of this is the signal</td>
+</tr>
+<tr>
+<td><a href="-scopes/">Scopes</a></td>
+<td><code>class Scopes</code><br>Utilities for dealing with AutoDispose scopes.</td>
 </tr>
 <tr>
 <td><a href="-single-subscribe-proxy/">SingleSubscribeProxy</a></td>
-<td><code>interface SingleSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><br>Subscribe proxy that matches Single&rsquo;s subscribe overloads.</td>
+<td><code>interface SingleSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt;</code><br>Subscribe proxy that matches <code>`[</code>Single`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html)'s">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html)'s</a> subscribe overloads.</td>
 </tr>
 <tr>
 <td><a href="-test-scope-provider/">TestScopeProvider</a></td>
@@ -631,7 +653,7 @@
 <tbody>
 <tr>
 <td><a href="-outside-scope-exception/">OutsideScopeException</a></td>
-<td><code>open class OutsideScopeException :</code><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/RuntimeException.html"><code>RuntimeException</code></a><br>Signifies an error occurred due to execution starting outside the lifecycle.</td>
+<td><code>open class OutsideScopeException :</code><a href="https://docs.oracle.com/javase/6/docs/api/java/lang/RuntimeException.html"><code>RuntimeException</code></a><br>Signifies an error occurred due to execution starting outside the lifecycle.</td>
 </tr>
 </tbody>
 </table>
@@ -661,12 +683,27 @@
 <td></td>
 </tr>
 <tr>
-<td><a href="io.reactivex.-single/">io.reactivex.Single</a></td>
+<td><a href="io.reactivex.parallel.-parallel-flowable/">io.reactivex.parallel.ParallelFlowable</a></td>
 <td></td>
 </tr>
 <tr>
-<td><a href="io.reactivex.parallel.-parallel-flowable/">io.reactivex.parallel.ParallelFlowable</a></td>
+<td><a href="io.reactivex.-single/">io.reactivex.Single</a></td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="with-scope/">withScope</a></td>
+<td><code>fun withScope(scope:</code><a href="-scope-provider/"><code>ScopeProvider</code></a><code>, body:</code><a href="-auto-dispose-context/"><code>AutoDisposeContext</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Executes a <a href="with-scope/#com.uber.autodispose$withScope(com.uber.autodispose.ScopeProvider, kotlin.Function1((com.uber.autodispose.AutoDisposeContext, kotlin.Unit)))/body">body</a> with an <a href="-auto-dispose-context/">AutoDisposeContext</a> backed by the given <a href="with-scope/#com.uber.autodispose$withScope(com.uber.autodispose.ScopeProvider, kotlin.Function1((com.uber.autodispose.AutoDisposeContext, kotlin.Unit)))/scope">scope</a>.<code>fun withScope(completableScope:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html"><code>Completable</code></a><code>, body:</code><a href="-auto-dispose-context/"><code>AutoDisposeContext</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Executes a <a href="with-scope/#com.uber.autodispose$withScope(io.reactivex.Completable, kotlin.Function1((com.uber.autodispose.AutoDisposeContext, kotlin.Unit)))/body">body</a> with an <a href="-auto-dispose-context/">AutoDisposeContext</a> backed by the given <a href="with-scope/#com.uber.autodispose$withScope(io.reactivex.Completable, kotlin.Function1((com.uber.autodispose.AutoDisposeContext, kotlin.Unit)))/completableScope">completableScope</a>.</td>
 </tr>
 </tbody>
 </table>
@@ -743,7 +780,7 @@
       
     </div>
     
-      <script src="../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
       

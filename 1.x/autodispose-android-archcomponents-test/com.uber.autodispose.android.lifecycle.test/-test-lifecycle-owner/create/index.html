@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,7 +447,14 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#parameters" title="Parameters" class="md-nav__link">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_1" class="md-nav__link">
     Parameters
   </a>
   
@@ -474,13 +481,14 @@
                 
                 <p><a href="../../../">autodispose-android-archcomponents-test</a> / <a href="../../">com.uber.autodispose.android.lifecycle.test</a> / <a href="../">TestLifecycleOwner</a> / <a href="./">create</a></p>
 <h1 id="create">create<a class="headerlink" href="#create" title="Permanent link">&para;</a></h1>
-<p><code>static fun create():</code><a href="../"><code>TestLifecycleOwner</code></a>
-<code>static fun create():</code><a href="../"><code>TestLifecycleOwner</code></a></p>
-<p>Default creator. Creates and maintains its own LifecycleRegistry under the hood.</p>
-<p><code>static fun create(registry: LifecycleRegistry):</code><a href="../"><code>TestLifecycleOwner</code></a>
-<code>static fun create(registry: LifecycleRegistry):</code><a href="../"><code>TestLifecycleOwner</code></a></p>
+<p><code>static fun create():</code><a href="../"><code>TestLifecycleOwner</code></a><code>!</code>
+<code>static fun create():</code><a href="../"><code>TestLifecycleOwner</code></a><code>!</code></p>
+<p>Default creator. Creates and maintains its own <code>`[</code>LifecycleRegistry`](#) under the hood.</p>
+<p><code>static fun create(registry: LifecycleRegistry!):</code><a href="../"><code>TestLifecycleOwner</code></a><code>!</code></p>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
-<p><code>registry</code> - an optional custom LifecycleRegistry if you want to provide one. If <code>null</code>, a default implementation will be created and maintained under the hood.</p>
+<p><code>registry</code> - LifecycleRegistry!: an optional custom <code>`[</code>LifecycleRegistry<code>](#) if you want to provide one. If</code>null<code>, a default implementation will be created and maintained under the hood.</code>static fun create(registry: LifecycleRegistry!): <code>[</code>TestLifecycleOwner<code>](index.md)</code>!`</p>
+<h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
+<p><code>registry</code> - LifecycleRegistry!: an optional custom <code>`[</code>LifecycleRegistry<code>](#) if you want to provide one. If</code>null`, a default implementation will be created and maintained under the hood.</p>
                 
                   
                 
@@ -519,7 +527,7 @@
       
     </div>
     
-      <script src="../../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../../.."}})</script>
       

@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,7 +447,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#functions" title="Functions" class="md-nav__link">
+  <a href="#functions" class="md-nav__link">
     Functions
   </a>
   
@@ -474,8 +474,8 @@
                 
                 <p><a href="../../">autodispose</a> / <a href="../">com.uber.autodispose.observers</a> / <a href="./">AutoDisposingSubscriber</a></p>
 <h1 id="autodisposingsubscriber">AutoDisposingSubscriber<a class="headerlink" href="#autodisposingsubscriber" title="Permanent link">&para;</a></h1>
-<p><code>interface AutoDisposingSubscriber&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/FlowableSubscriber.html"><code>FlowableSubscriber</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;, Subscription,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a></p>
-<p>A Disposable Subscriber that can automatically dispose itself. Interface here for type safety but enforcement is left to the implementation.</p>
+<p><code>interface AutoDisposingSubscriber&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/FlowableSubscriber.html"><code>FlowableSubscriber</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;, Subscription,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a></p>
+<p>A <code>[`Disposable`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html)</code><a href="#"><code>Subscriber</code></a> that can automatically dispose itself. Interface here for type safety but enforcement is left to the implementation.</p>
 <h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -487,7 +487,7 @@
 <tbody>
 <tr>
 <td><a href="delegate-subscriber/">delegateSubscriber</a></td>
-<td><code>abstract fun delegateSubscriber(): Subscriber&lt;in</code><a href="./#T"><code>T</code></a><code>&gt;</code></td>
+<td><code>abstract fun delegateSubscriber(): Subscriber&lt;in</code><a href="./#T"><code>T</code></a><code>&gt;!</code></td>
 </tr>
 </tbody>
 </table>
@@ -529,7 +529,7 @@
       
     </div>
     
-      <script src="../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../.."}})</script>
       

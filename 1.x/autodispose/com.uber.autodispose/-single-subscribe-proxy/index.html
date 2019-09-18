@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,7 +447,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#functions" title="Functions" class="md-nav__link">
+  <a href="#functions" class="md-nav__link">
     Functions
   </a>
   
@@ -474,8 +474,8 @@
                 
                 <p><a href="../../">autodispose</a> / <a href="../">com.uber.autodispose</a> / <a href="./">SingleSubscribeProxy</a></p>
 <h1 id="singlesubscribeproxy">SingleSubscribeProxy<a class="headerlink" href="#singlesubscribeproxy" title="Permanent link">&para;</a></h1>
-<p><code>interface SingleSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code></p>
-<p>Subscribe proxy that matches Single&rsquo;s subscribe overloads.</p>
+<p><code>interface SingleSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt;</code></p>
+<p>Subscribe proxy that matches <code>`[</code>Single`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html)'s">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html)'s</a> subscribe overloads.</p>
 <h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -487,15 +487,15 @@
 <tbody>
 <tr>
 <td><a href="subscribe/">subscribe</a></td>
-<td><code>abstract fun subscribe():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><br>Proxy for <code>[`Single#subscribe()`](#).`abstract fun subscribe(onSuccess: `[`Consumer`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html)`&lt;in `[`T`](index.md#T)`&gt;): `[`Disposable`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html)&lt;br&gt;Proxy for</code><a href="#"><code>Single#subscribe(Consumer)</code></a>.<code>abstract fun subscribe(biConsumer:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/BiConsumer.html"><code>BiConsumer</code></a><code>&lt;in</code><a href="./#T"><code>T</code></a><code>, in</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><code>Throwable</code></a><code>&gt;):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><br>Proxy for <code>[`Single#subscribe(BiConsumer)`](#).`abstract fun subscribe(onSuccess: `[`Consumer`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html)`&lt;in `[`T`](index.md#T)`&gt;, onError: `[`Consumer`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html)`&lt;in `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`&gt;): `[`Disposable`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html)&lt;br&gt;Proxy for</code><a href="#"><code>Single#subscribe(Consumer, Consumer)</code></a>.<code>abstract fun subscribe(observer:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/SingleObserver.html"><code>SingleObserver</code></a><code>&lt;in</code><a href="./#T"><code>T</code></a><code>&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Proxy for <code>`[</code>Single#subscribe(SingleObserver)`](#).</td>
+<td><code>abstract fun subscribe():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><code>!</code><br>Proxy for <code>[`Single#subscribe()`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html#subscribe()).`abstract fun subscribe(onSuccess: `[`Consumer`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html)`&lt;in `[`T`](index.md#T)`&gt;!): `[`Disposable`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html)`!`&lt;br&gt;Proxy for</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html#subscribe(io.reactivex.functions.Consumer&lt;? super T&gt;)"><code>Single#subscribe(Consumer)</code></a>.<code>abstract fun subscribe(biConsumer:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/BiConsumer.html"><code>BiConsumer</code></a><code>&lt;in</code><a href="./#T"><code>T</code></a><code>, in</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><code>Throwable</code></a><code>!&gt;!):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><code>!</code><br>Proxy for <code>[`Single#subscribe(BiConsumer)`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html#subscribe(io.reactivex.functions.BiConsumer&lt;? super T,? super java.lang.Throwable&gt;)).`abstract fun subscribe(onSuccess: `[`Consumer`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html)`&lt;in `[`T`](index.md#T)`&gt;!, onError: `[`Consumer`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html)`&lt;in `[`Throwable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html)`!&gt;!): `[`Disposable`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html)`!`&lt;br&gt;Proxy for</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html#subscribe(io.reactivex.functions.Consumer&lt;? super T&gt;, io.reactivex.functions.Consumer&lt;? super java.lang.Throwable&gt;)"><code>Single#subscribe(Consumer, Consumer)</code></a>.<code>abstract fun subscribe(observer:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/SingleObserver.html"><code>SingleObserver</code></a><code>&lt;in</code><a href="./#T"><code>T</code></a><code>&gt;!):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Proxy for <code>`[</code>Single#subscribe(SingleObserver)`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html#subscribe(io.reactivex.SingleObserver">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html#subscribe(io.reactivex.SingleObserver</a>&lt;? super T&gt;)).</td>
 </tr>
 <tr>
 <td><a href="subscribe-with/">subscribeWith</a></td>
-<td><code>abstract fun &lt;E :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/SingleObserver.html"><code>SingleObserver</code></a><code>&lt;in</code><a href="./#T"><code>T</code></a><code>&gt;&gt; subscribeWith(observer:</code><a href="subscribe-with/#E"><code>E</code></a><code>):</code><a href="subscribe-with/#E"><code>E</code></a><br>Proxy for <code>`[</code>Single#subscribeWith(SingleObserver)`](#).</td>
+<td><code>abstract fun &lt;E :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/SingleObserver.html"><code>SingleObserver</code></a><code>&lt;in</code><a href="./#T"><code>T</code></a><code>&gt;!&gt; subscribeWith(observer:</code><a href="subscribe-with/#E"><code>E</code></a><code>):</code><a href="subscribe-with/#E"><code>E</code></a><br>Proxy for <code>`[</code>Single#subscribeWith(SingleObserver)`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html#subscribeWith(E">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html#subscribeWith(E</a>)).</td>
 </tr>
 <tr>
 <td><a href="test/">test</a></td>
-<td><code>abstract fun test():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/observers/TestObserver.html"><code>TestObserver</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;</code><br>Proxy for <code>[`Single#test()`](#).`abstract fun test(cancel: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`): `[`TestObserver`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/observers/TestObserver.html)`&lt;`[`T`](index.md#T)`&gt;`&lt;br&gt;Proxy for</code><a href="#"><code>Single#test(boolean)</code></a>.</td>
+<td><code>abstract fun test():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/observers/TestObserver.html"><code>TestObserver</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;!</code><br>Proxy for <code>[`Single#test()`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html#test()).`abstract fun test(cancel: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`): `[`TestObserver`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/observers/TestObserver.html)`&lt;`[`T`](index.md#T)`&gt;!`&lt;br&gt;Proxy for</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html#test(boolean)"><code>Single#test(boolean)</code></a>.</td>
 </tr>
 </tbody>
 </table>
@@ -537,7 +537,7 @@
       
     </div>
     
-      <script src="../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../.."}})</script>
       

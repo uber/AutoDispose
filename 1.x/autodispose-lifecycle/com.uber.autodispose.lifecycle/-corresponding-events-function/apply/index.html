@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,14 +447,14 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#parameters" title="Parameters" class="md-nav__link">
+  <a href="#parameters" class="md-nav__link">
     Parameters
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#exceptions" title="Exceptions" class="md-nav__link">
+  <a href="#exceptions" class="md-nav__link">
     Exceptions
   </a>
   
@@ -484,11 +484,11 @@
 <p><code>abstract fun apply(event:</code><a href="../#E"><code>E</code></a><code>):</code><a href="../#E"><code>E</code></a></p>
 <p>Given an event <code>event</code>, returns the next corresponding event that this lifecycle should dispose on.</p>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
-<p><code>event</code> - the source or start event.</p>
+<p><code>event</code> - <a href="../#E">E</a>: the source or start event.</p>
 <h3 id="exceptions">Exceptions<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h3>
 <p><code>OutsideScopeException</code> - if the lifecycle exceeds its scope boundaries.</p>
 <p><strong>Return</strong>
-the target event that should signal disposal.</p>
+<a href="../#E">E</a>: the target event that should signal disposal.</p>
                 
                   
                 
@@ -527,7 +527,7 @@ the target event that should signal disposal.</p>
       
     </div>
     
-      <script src="../../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../../.."}})</script>
       

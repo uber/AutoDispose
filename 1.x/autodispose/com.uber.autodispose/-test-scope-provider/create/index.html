@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,7 +447,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#parameters" title="Parameters" class="md-nav__link">
+  <a href="#parameters" class="md-nav__link">
     Parameters
   </a>
   
@@ -474,16 +474,16 @@
                 
                 <p><a href="../../../">autodispose</a> / <a href="../../">com.uber.autodispose</a> / <a href="../">TestScopeProvider</a> / <a href="./">create</a></p>
 <h1 id="create">create<a class="headerlink" href="#create" title="Permanent link">&para;</a></h1>
-<p><code>static fun create():</code><a href="../"><code>TestScopeProvider</code></a></p>
-<p>Creates a new provider backed by an internal CompletableSubject. Useful for stubbing or if you only want to use the emit APIs</p>
+<p><code>static fun create():</code><a href="../"><code>TestScopeProvider</code></a><code>!</code></p>
+<p>Creates a new provider backed by an internal <code>`[</code>CompletableSubject`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/subjects/CompletableSubject.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/subjects/CompletableSubject.html</a>). Useful for stubbing or if you only want to use the emit APIs</p>
 <p><strong>Return</strong>
-the created TestScopeProvider.</p>
-<p><code>static fun create(delegate:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html"><code>Completable</code></a><code>):</code><a href="../"><code>TestScopeProvider</code></a></p>
+<a href="../">TestScopeProvider</a>!: the created TestScopeProvider.</p>
+<p><code>static fun create(delegate:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html"><code>Completable</code></a><code>!):</code><a href="../"><code>TestScopeProvider</code></a><code>!</code></p>
 <p>Creates a new provider backed by <code>delegate</code>.</p>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
-<p><code>delegate</code> - the delegate to back this with.</p>
+<p><code>delegate</code> - <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html">Completable</a>!: the delegate to back this with.</p>
 <p><strong>Return</strong>
-the created TestScopeProvider.</p>
+<a href="../">TestScopeProvider</a>!: the created TestScopeProvider.</p>
                 
                   
                 
@@ -522,7 +522,7 @@ the created TestScopeProvider.</p>
       
     </div>
     
-      <script src="../../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../../.."}})</script>
       

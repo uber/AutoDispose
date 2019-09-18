@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,14 +447,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#parameters" title="Parameters" class="md-nav__link">
-    Parameters
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameters_1" title="Parameters" class="md-nav__link">
+  <a href="#parameters" class="md-nav__link">
     Parameters
   </a>
   
@@ -481,29 +474,43 @@
                 
                 <p><a href="../../../">autodispose-rxlifecycle</a> / <a href="../../">com.ubercab.autodispose.rxlifecycle</a> / <a href="../">RxLifecycleInterop</a> / <a href="./">from</a></p>
 <h1 id="from">from<a class="headerlink" href="#from" title="Permanent link">&para;</a></h1>
-<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; from(provider: LifecycleProvider&lt;</code><a href="./#E"><code>E</code></a><code>&gt;): ScopeProvider</code></p>
-<p>Factory creating a ScopeProvider representation of a LifecycleProvider.</p>
+<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; from(provider: LifecycleProvider&lt;</code><a href="./#E"><code>E</code></a><code>&gt;!): ScopeProvider!</code></p>
+<p>Factory creating a <code>[`ScopeProvider`](#) representation of a</code><a href="#"><code>LifecycleProvider</code></a>.</p>
 <p>Example usage:</p>
-<div class="codehilite"><pre><span></span>` Observable.just(1) .as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider))) .subscribe(...) `
+<div class="codehilite"><pre><span></span>      Observable.just(1)
+           .as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+           .subscribe(...)
+    ```
+
+### Parameters
+
+`&lt;E&gt;` - the lifecycle event.
+
+`provider` - LifecycleProvider&amp;lt;[E](from.md#E)&amp;gt;!: the ``[`LifecycleProvider`](#).
+
+**Return**
+ScopeProvider!: a ``[`ScopeProvider`](#)
+
+`static fun &lt;E : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`!&gt; from(provider: LifecycleProvider&lt;`[`E`](from.md#E)`&gt;!, event: `[`E`](from.md#E)`): ScopeProvider!`
+
+Factory creating a ``[`ScopeProvider`](#) representation of a ``[`LifecycleProvider`](#).
+
+Example usage:
 </pre></div>
+
+<div class="codehilite"><pre><span></span>  Observable.just(1)
+       .as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider, event)))
+       .subscribe(...)
+```
+</pre></div>
+
 
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
 <p><code>&lt;E&gt;</code> - the lifecycle event.</p>
-<p><code>provider</code> - the LifecycleProvider.</p>
+<p><code>provider</code> - LifecycleProvider&lt;<a href="./#E">E</a>&gt;!: the <code>`[</code>LifecycleProvider`](#).</p>
+<p><code>event</code> - <a href="./#E">E</a>: a target event to dispose upon.</p>
 <p><strong>Return</strong>
-a ScopeProvider</p>
-<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; from(provider: LifecycleProvider&lt;</code><a href="./#E"><code>E</code></a><code>&gt;, event:</code><a href="./#E"><code>E</code></a><code>): ScopeProvider</code></p>
-<p>Factory creating a ScopeProvider representation of a LifecycleProvider.</p>
-<p>Example usage:</p>
-<div class="codehilite"><pre><span></span>` Observable.just(1) .as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider, event))) .subscribe(...) `
-</pre></div>
-
-<h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
-<p><code>&lt;E&gt;</code> - the lifecycle event.</p>
-<p><code>provider</code> - the LifecycleProvider.</p>
-<p><code>event</code> - a target event to dispose upon.</p>
-<p><strong>Return</strong>
-a ScopeProvider</p>
+ScopeProvider!: a <code>`[</code>ScopeProvider`](#)</p>
                 
                   
                 
@@ -542,7 +549,7 @@ a ScopeProvider</p>
       
     </div>
     
-      <script src="../../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../../.."}})</script>
       

@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -458,28 +458,28 @@
                 
                 <p><a href="../../../">autodispose</a> / <a href="../../">com.uber.autodispose</a> / <a href="../">FlowableSubscribeProxy</a> / <a href="./">subscribe</a></p>
 <h1 id="subscribe">subscribe<a class="headerlink" href="#subscribe" title="Permanent link">&para;</a></h1>
-<p><code>abstract fun subscribe():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a></p>
-<p>Proxy for <code>`[</code>Flowable#subscribe()`](#).</p>
+<p><code>abstract fun subscribe():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><code>!</code></p>
+<p>Proxy for <code>`[</code>Flowable#subscribe()`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#subscribe">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#subscribe</a>()).</p>
 <p><strong>Return</strong>
-a Disposable</p>
-<p><code>abstract fun subscribe(onNext:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="../#T"><code>T</code></a><code>&gt;):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a></p>
-<p>Proxy for <code>`[</code>Flowable#subscribe(Consumer)`](#).</p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">Disposable</a>!: a <code>`[</code>Disposable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html</a>)</p>
+<p><code>abstract fun subscribe(onNext:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="../#T"><code>T</code></a><code>&gt;!):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><code>!</code></p>
+<p>Proxy for <code>`[</code>Flowable#subscribe(Consumer)`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#subscribe(io.reactivex.functions.Consumer">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#subscribe(io.reactivex.functions.Consumer</a>&lt;? super T&gt;)).</p>
 <p><strong>Return</strong>
-a Disposable</p>
-<p><code>abstract fun subscribe(onNext:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="../#T"><code>T</code></a><code>&gt;, onError:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><code>Throwable</code></a><code>&gt;):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a></p>
-<p>Proxy for <code>`[</code>Flowable#subscribe(Consumer, Consumer)`](#).</p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">Disposable</a>!: a <code>`[</code>Disposable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html</a>)</p>
+<p><code>abstract fun subscribe(onNext:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="../#T"><code>T</code></a><code>&gt;!, onError:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><code>Throwable</code></a><code>!&gt;!):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><code>!</code></p>
+<p>Proxy for <code>`[</code>Flowable#subscribe(Consumer, Consumer)`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#subscribe(io.reactivex.functions.Consumer">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#subscribe(io.reactivex.functions.Consumer</a>&lt;? super T&gt;, io.reactivex.functions.Consumer&lt;? super java.lang.Throwable&gt;)).</p>
 <p><strong>Return</strong>
-a Disposable</p>
-<p><code>abstract fun subscribe(onNext:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="../#T"><code>T</code></a><code>&gt;, onError:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><code>Throwable</code></a><code>&gt;, onComplete:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Action.html"><code>Action</code></a><code>):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a></p>
-<p>Proxy for <code>`[</code>Flowable#subscribe(Consumer, Consumer, Action)`](#).</p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">Disposable</a>!: a <code>`[</code>Disposable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html</a>)</p>
+<p><code>abstract fun subscribe(onNext:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="../#T"><code>T</code></a><code>&gt;!, onError:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><code>Throwable</code></a><code>!&gt;!, onComplete:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Action.html"><code>Action</code></a><code>!):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><code>!</code></p>
+<p>Proxy for <code>`[</code>Flowable#subscribe(Consumer, Consumer, Action)`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#subscribe(io.reactivex.functions.Consumer">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#subscribe(io.reactivex.functions.Consumer</a>&lt;? super T&gt;, io.reactivex.functions.Consumer&lt;? super java.lang.Throwable&gt;, io.reactivex.functions.Action)).</p>
 <p><strong>Return</strong>
-a Disposable</p>
-<p><code>abstract fun subscribe(onNext:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="../#T"><code>T</code></a><code>&gt;, onError:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><code>Throwable</code></a><code>&gt;, onComplete:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Action.html"><code>Action</code></a><code>, onSubscribe:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in Subscription&gt;):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a></p>
-<p>Proxy for <code>`[</code>Flowable#subscribe(Consumer, Consumer, Action, Consumer)`](#).</p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">Disposable</a>!: a <code>`[</code>Disposable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html</a>)</p>
+<p><code>abstract fun subscribe(onNext:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="../#T"><code>T</code></a><code>&gt;!, onError:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><code>Throwable</code></a><code>!&gt;!, onComplete:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Action.html"><code>Action</code></a><code>!, onSubscribe:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in Subscription!&gt;!):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><code>!</code></p>
+<p>Proxy for <code>`[</code>Flowable#subscribe(Consumer, Consumer, Action, Consumer)`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#subscribe(io.reactivex.functions.Consumer">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#subscribe(io.reactivex.functions.Consumer</a>&lt;? super T&gt;, io.reactivex.functions.Consumer&lt;? super java.lang.Throwable&gt;, io.reactivex.functions.Action, io.reactivex.functions.Consumer&lt;? super org.reactivestreams.Subscription&gt;)).</p>
 <p><strong>Return</strong>
-a Disposable</p>
-<p><code>abstract fun subscribe(observer: Subscriber&lt;in</code><a href="../#T"><code>T</code></a><code>&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></p>
-<p>Proxy for <code>`[</code>Flowable#subscribe(Subscriber)`](#).</p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">Disposable</a>!: a <code>`[</code>Disposable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html</a>)</p>
+<p><code>abstract fun subscribe(observer: Subscriber&lt;in</code><a href="../#T"><code>T</code></a><code>&gt;!):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></p>
+<p>Proxy for <code>`[</code>Flowable#subscribe(Subscriber)`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#subscribe(org.reactivestreams.Subscriber">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#subscribe(org.reactivestreams.Subscriber</a>&lt;? super T&gt;)).</p>
                 
                   
                 
@@ -518,7 +518,7 @@ a Disposable</p>
       
     </div>
     
-      <script src="../../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../../.."}})</script>
       

@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -445,7 +445,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#package-comuberautodisposeobservers" title="Package com.uber.autodispose.observers" class="md-nav__link">
+  <a href="#package-comuberautodisposeobservers" class="md-nav__link">
     Package com.uber.autodispose.observers
   </a>
   
@@ -453,7 +453,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#types" title="Types" class="md-nav__link">
+  <a href="#types" class="md-nav__link">
     Types
   </a>
   
@@ -500,23 +500,23 @@ to allow for consumers to watch for them if they want, such as in RxJava plugins
 <tbody>
 <tr>
 <td><a href="-auto-disposing-completable-observer/">AutoDisposingCompletableObserver</a></td>
-<td><code>interface AutoDisposingCompletableObserver :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableObserver.html"><code>CompletableObserver</code></a><code>,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><br>A Disposable CompletableObserver that can automatically dispose itself. Interface here for type safety but enforcement is left to the implementation.</td>
+<td><code>interface AutoDisposingCompletableObserver :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableObserver.html"><code>CompletableObserver</code></a><code>,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><br>A <code>[`Disposable`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html)</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableObserver.html"><code>CompletableObserver</code></a> that can automatically dispose itself. Interface here for type safety but enforcement is left to the implementation.</td>
 </tr>
 <tr>
 <td><a href="-auto-disposing-maybe-observer/">AutoDisposingMaybeObserver</a></td>
-<td><code>interface AutoDisposingMaybeObserver&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/MaybeObserver.html"><code>MaybeObserver</code></a><code>&lt;</code><a href="-auto-disposing-maybe-observer/#T"><code>T</code></a><code>&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><br>A Disposable MaybeObserver that can automatically dispose itself. Interface here for type safety but enforcement is left to the implementation.</td>
+<td><code>interface AutoDisposingMaybeObserver&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/MaybeObserver.html"><code>MaybeObserver</code></a><code>&lt;</code><a href="-auto-disposing-maybe-observer/#T"><code>T</code></a><code>&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><br>A <code>[`Disposable`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html)</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/MaybeObserver.html"><code>MaybeObserver</code></a> that can automatically dispose itself. Interface here for type safety but enforcement is left to the implementation.</td>
 </tr>
 <tr>
 <td><a href="-auto-disposing-observer/">AutoDisposingObserver</a></td>
-<td><code>interface AutoDisposingObserver&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observer.html"><code>Observer</code></a><code>&lt;</code><a href="-auto-disposing-observer/#T"><code>T</code></a><code>&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><br>A Disposable Observer that can automatically dispose itself. Interface here for type safety but enforcement is left to the implementation.</td>
+<td><code>interface AutoDisposingObserver&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observer.html"><code>Observer</code></a><code>&lt;</code><a href="-auto-disposing-observer/#T"><code>T</code></a><code>&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><br>A <code>[`Disposable`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html)</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observer.html"><code>Observer</code></a> that can automatically dispose itself. Interface here for type safety but enforcement is left to the implementation.</td>
 </tr>
 <tr>
 <td><a href="-auto-disposing-single-observer/">AutoDisposingSingleObserver</a></td>
-<td><code>interface AutoDisposingSingleObserver&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/SingleObserver.html"><code>SingleObserver</code></a><code>&lt;</code><a href="-auto-disposing-single-observer/#T"><code>T</code></a><code>&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><br>A Disposable SingleObserver that can automatically dispose itself. Interface here for type safety but enforcement is left to the implementation.</td>
+<td><code>interface AutoDisposingSingleObserver&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/SingleObserver.html"><code>SingleObserver</code></a><code>&lt;</code><a href="-auto-disposing-single-observer/#T"><code>T</code></a><code>&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><br>A <code>[`Disposable`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html)</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/SingleObserver.html"><code>SingleObserver</code></a> that can automatically dispose itself. Interface here for type safety but enforcement is left to the implementation.</td>
 </tr>
 <tr>
 <td><a href="-auto-disposing-subscriber/">AutoDisposingSubscriber</a></td>
-<td><code>interface AutoDisposingSubscriber&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/FlowableSubscriber.html"><code>FlowableSubscriber</code></a><code>&lt;</code><a href="-auto-disposing-subscriber/#T"><code>T</code></a><code>&gt;, Subscription,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><br>A Disposable Subscriber that can automatically dispose itself. Interface here for type safety but enforcement is left to the implementation.</td>
+<td><code>interface AutoDisposingSubscriber&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/FlowableSubscriber.html"><code>FlowableSubscriber</code></a><code>&lt;</code><a href="-auto-disposing-subscriber/#T"><code>T</code></a><code>&gt;, Subscription,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><br>A <code>[`Disposable`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html)</code><a href="#"><code>Subscriber</code></a> that can automatically dispose itself. Interface here for type safety but enforcement is left to the implementation.</td>
 </tr>
 </tbody>
 </table>
@@ -558,7 +558,7 @@ to allow for consumers to watch for them if they want, such as in RxJava plugins
       
     </div>
     
-      <script src="../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
       

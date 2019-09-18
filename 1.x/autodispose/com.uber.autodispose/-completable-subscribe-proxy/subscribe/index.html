@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -458,20 +458,20 @@
                 
                 <p><a href="../../../">autodispose</a> / <a href="../../">com.uber.autodispose</a> / <a href="../">CompletableSubscribeProxy</a> / <a href="./">subscribe</a></p>
 <h1 id="subscribe">subscribe<a class="headerlink" href="#subscribe" title="Permanent link">&para;</a></h1>
-<p><code>abstract fun subscribe():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a></p>
-<p>Proxy for <code>`[</code>Completable#subscribe()`](#).</p>
+<p><code>abstract fun subscribe():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><code>!</code></p>
+<p>Proxy for <code>`[</code>Completable#subscribe()`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#subscribe">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#subscribe</a>()).</p>
 <p><strong>Return</strong>
-a Disposable</p>
-<p><code>abstract fun subscribe(action:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Action.html"><code>Action</code></a><code>):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a></p>
-<p>Proxy for <code>`[</code>Completable#subscribe(Action)`](#).</p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">Disposable</a>!: a <code>`[</code>Disposable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html</a>)</p>
+<p><code>abstract fun subscribe(action:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Action.html"><code>Action</code></a><code>!):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><code>!</code></p>
+<p>Proxy for <code>`[</code>Completable#subscribe(Action)`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#subscribe(io.reactivex.functions.Action">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#subscribe(io.reactivex.functions.Action</a>)).</p>
 <p><strong>Return</strong>
-a Disposable</p>
-<p><code>abstract fun subscribe(action:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Action.html"><code>Action</code></a><code>, onError:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><code>Throwable</code></a><code>&gt;):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a></p>
-<p>Proxy for <code>`[</code>Completable#subscribe(Action, Consumer)`](#).</p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">Disposable</a>!: a <code>`[</code>Disposable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html</a>)</p>
+<p><code>abstract fun subscribe(action:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Action.html"><code>Action</code></a><code>!, onError:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Consumer.html"><code>Consumer</code></a><code>&lt;in</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><code>Throwable</code></a><code>!&gt;!):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html"><code>Disposable</code></a><code>!</code></p>
+<p>Proxy for <code>`[</code>Completable#subscribe(Action, Consumer)`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#subscribe(io.reactivex.functions.Action">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#subscribe(io.reactivex.functions.Action</a>, io.reactivex.functions.Consumer&lt;? super java.lang.Throwable&gt;)).</p>
 <p><strong>Return</strong>
-a Disposable</p>
-<p><code>abstract fun subscribe(observer:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableObserver.html"><code>CompletableObserver</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></p>
-<p>Proxy for <code>`[</code>Completable#subscribe(CompletableObserver)`](#).</p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">Disposable</a>!: a <code>`[</code>Disposable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/disposables/Disposable.html</a>)</p>
+<p><code>abstract fun subscribe(observer:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableObserver.html"><code>CompletableObserver</code></a><code>!):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></p>
+<p>Proxy for <code>`[</code>Completable#subscribe(CompletableObserver)`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#subscribe(io.reactivex.CompletableObserver">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#subscribe(io.reactivex.CompletableObserver</a>)).</p>
                 
                   
                 
@@ -510,7 +510,7 @@ a Disposable</p>
       
     </div>
     
-      <script src="../../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../../.."}})</script>
       

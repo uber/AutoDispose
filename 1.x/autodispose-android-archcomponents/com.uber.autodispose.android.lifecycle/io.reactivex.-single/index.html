@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -445,7 +445,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#extensions-for-ioreactivexsingle" title="Extensions for io.reactivex.Single" class="md-nav__link">
+  <a href="#extensions-for-ioreactivexsingle" class="md-nav__link">
     Extensions for io.reactivex.Single
   </a>
   
@@ -484,7 +484,11 @@
 <tbody>
 <tr>
 <td><a href="auto-disposable/">autoDisposable</a></td>
-<td><code>fun &lt;T&gt;</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html"><code>Single</code></a><code>&lt;</code><a href="auto-disposable/#T"><code>T</code></a><code>&gt;.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): SingleSubscribeProxy&lt;</code><a href="auto-disposable/#T"><code>T</code></a><code>&gt;</code><br>Extension that proxies to <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html">Single.as</a> + <a href="#">AutoDispose.autoDisposable</a> and takes an <a href="auto-disposable/#com.uber.autodispose.android.lifecycle$autoDisposable(io.reactivex.Single((com.uber.autodispose.android.lifecycle.autoDisposable.T)), androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event)/untilEvent">untilEvent</a> when subscription will be disposed.</td>
+<td><code>fun &lt;T&gt;</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html"><code>Single</code></a><code>&lt;</code><a href="auto-disposable/#T"><code>T</code></a><code>&gt;.~~autoDisposable~~(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): SingleSubscribeProxy&lt;</code><a href="auto-disposable/#T"><code>T</code></a><code>&gt;</code><br>Extension that proxies to <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html">Single.as</a> + <a href="#">AutoDispose.autoDisposable</a> and takes an <a href="auto-disposable/#com.uber.autodispose.android.lifecycle$autoDisposable(io.reactivex.Single((com.uber.autodispose.android.lifecycle.autoDisposable.T)), androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event)/untilEvent">untilEvent</a> when subscription will be disposed.</td>
+</tr>
+<tr>
+<td><a href="auto-dispose/">autoDispose</a></td>
+<td><code>fun &lt;T&gt;</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html"><code>Single</code></a><code>&lt;</code><a href="auto-dispose/#T"><code>T</code></a><code>&gt;.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): SingleSubscribeProxy&lt;</code><a href="auto-dispose/#T"><code>T</code></a><code>&gt;</code><br>Extension that proxies to <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html">Single.as</a> + <a href="#">AutoDispose.autoDisposable</a> and takes an <a href="auto-dispose/#com.uber.autodispose.android.lifecycle$autoDispose(io.reactivex.Single((com.uber.autodispose.android.lifecycle.autoDispose.T)), androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event)/untilEvent">untilEvent</a> when subscription will be disposed.</td>
 </tr>
 </tbody>
 </table>
@@ -526,7 +530,7 @@
       
     </div>
     
-      <script src="../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../.."}})</script>
       

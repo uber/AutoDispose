@@ -36,17 +36,17 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
-        <title> auto dispose converter - AutoDispose</title>
+        <title>auto dispose converter - AutoDispose</title>
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -443,22 +443,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#parameters" title="Parameters" class="md-nav__link">
-    Parameters
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -474,10 +458,8 @@
                 
                 <p><a href="../../">autodispose</a> / <a href="../">com.uber.autodispose</a> / <a href="./">AutoDisposeConverter</a></p>
 <h1 id="autodisposeconverter">AutoDisposeConverter<a class="headerlink" href="#autodisposeconverter" title="Permanent link">&para;</a></h1>
-<p><code>interface AutoDisposeConverter&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/FlowableConverter.html"><code>FlowableConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="../-flowable-subscribe-proxy/"><code>FlowableSubscribeProxy</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/parallel/ParallelFlowableConverter.html"><code>ParallelFlowableConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="../-parallel-flowable-subscribe-proxy/"><code>ParallelFlowableSubscribeProxy</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/ObservableConverter.html"><code>ObservableConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="../-observable-subscribe-proxy/"><code>ObservableSubscribeProxy</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/MaybeConverter.html"><code>MaybeConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="../-maybe-subscribe-proxy/"><code>MaybeSubscribeProxy</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/SingleConverter.html"><code>SingleConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="../-single-subscribe-proxy/"><code>SingleSubscribeProxy</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableConverter.html"><code>CompletableConverter</code></a><code>&lt;</code><a href="../-completable-subscribe-proxy/"><code>CompletableSubscribeProxy</code></a><code>&gt;</code></p>
+<p><code>interface AutoDisposeConverter&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/FlowableConverter.html"><code>FlowableConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="../-flowable-subscribe-proxy/"><code>FlowableSubscribeProxy</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;!&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/parallel/ParallelFlowableConverter.html"><code>ParallelFlowableConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="../-parallel-flowable-subscribe-proxy/"><code>ParallelFlowableSubscribeProxy</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;!&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/ObservableConverter.html"><code>ObservableConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="../-observable-subscribe-proxy/"><code>ObservableSubscribeProxy</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;!&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/MaybeConverter.html"><code>MaybeConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="../-maybe-subscribe-proxy/"><code>MaybeSubscribeProxy</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;!&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/SingleConverter.html"><code>SingleConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="../-single-subscribe-proxy/"><code>SingleSubscribeProxy</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;!&gt;,</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableConverter.html"><code>CompletableConverter</code></a><code>&lt;</code><a href="../-completable-subscribe-proxy/"><code>CompletableSubscribeProxy</code></a><code>!&gt;</code></p>
 <p>A custom converter that implements all the RxJava types converters, for use with the <code>as()</code> operator.</p>
-<h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
-<p><code>&lt;T&gt;</code> - the type.</p>
                 
                   
                 
@@ -516,7 +498,7 @@
       
     </div>
     
-      <script src="../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../.."}})</script>
       

@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,7 +447,14 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#parameters" title="Parameters" class="md-nav__link">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_1" class="md-nav__link">
     Parameters
   </a>
   
@@ -474,12 +481,15 @@
                 
                 <p><a href="../../../">autodispose-android</a> / <a href="../../">com.uber.autodispose.android</a> / <a href="../">AutoDisposeAndroidPlugins</a> / <a href="./">setOnCheckMainThread</a></p>
 <h1 id="setoncheckmainthread">setOnCheckMainThread<a class="headerlink" href="#setoncheckmainthread" title="Permanent link">&para;</a></h1>
-<p><code>static fun setOnCheckMainThread(@Nullable mainThreadChecker:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/BooleanSupplier.html"><code>BooleanSupplier</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a>
-<code>static fun setOnCheckMainThread(@Nullable mainThreadChecker:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/BooleanSupplier.html"><code>BooleanSupplier</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></p>
+<p><code>static fun setOnCheckMainThread(@Nullable mainThreadChecker:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/BooleanSupplier.html"><code>BooleanSupplier</code></a><code>?):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></p>
 <p>Sets the preferred main thread checker. If not <code>null</code>, the <code>mainThreadChecker</code> will be preferred in all main thread checks in <code>`[</code>#onCheckMainThread(BooleanSupplier)`](on-check-main-thread.md) calls. This can be useful for JVM testing environments, where standard Android Looper APIs cannot be stubbed and thus should be overridden with a custom check.</p>
 <p>This is a reset-able API, which means you can pass <code>null</code> as the parameter value to reset it. Alternatively, you can call <code>`[</code>#reset()`](reset.md).</p>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
-<p><code>mainThreadChecker</code> - a BooleanSupplier to call to check if current execution is on the main thread. Should return <code>true</code> if it is on the main thread or <code>false</code> if not.</p>
+<p><code>mainThreadChecker</code> - <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/BooleanSupplier.html">BooleanSupplier</a>?: a <code>`[</code>BooleanSupplier<code>](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/BooleanSupplier.html) to call to check if current execution is on the main thread. Should return</code>true<code>if it is on the main thread or</code>false<code>if not.</code>static fun setOnCheckMainThread(@Nullable mainThreadChecker: <code>[</code>BooleanSupplier<code>](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/BooleanSupplier.html)</code>?): <code>[</code>Unit`](<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html</a>)</p>
+<p>Sets the preferred main thread checker. If not <code>null</code>, the <code>mainThreadChecker</code> will be preferred in all main thread checks in <code>`[</code>#onCheckMainThread(BooleanSupplier)`](on-check-main-thread.md) calls. This can be useful for JVM testing environments, where standard Android Looper APIs cannot be stubbed and thus should be overridden with a custom check.</p>
+<p>This is a reset-able API, which means you can pass <code>null</code> as the parameter value to reset it. Alternatively, you can call <code>`[</code>#reset()`](reset.md).</p>
+<h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
+<p><code>mainThreadChecker</code> - <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/BooleanSupplier.html">BooleanSupplier</a>?: a <code>`[</code>BooleanSupplier<code>](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/BooleanSupplier.html) to call to check if current execution is on the main thread. Should return</code>true<code>if it is on the main thread or</code>false` if not.</p>
                 
                   
                 
@@ -518,7 +528,7 @@
       
     </div>
     
-      <script src="../../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../../.."}})</script>
       

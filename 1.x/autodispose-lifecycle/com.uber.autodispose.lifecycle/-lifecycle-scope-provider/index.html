@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,21 +447,14 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#parameters" title="Parameters" class="md-nav__link">
-    Parameters
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#functions" title="Functions" class="md-nav__link">
+  <a href="#functions" class="md-nav__link">
     Functions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#inheritors" title="Inheritors" class="md-nav__link">
+  <a href="#inheritors" class="md-nav__link">
     Inheritors
   </a>
   
@@ -488,13 +481,11 @@
                 
                 <p><a href="../../">autodispose-lifecycle</a> / <a href="../">com.uber.autodispose.lifecycle</a> / <a href="./">LifecycleScopeProvider</a></p>
 <h1 id="lifecyclescopeprovider">LifecycleScopeProvider<a class="headerlink" href="#lifecyclescopeprovider" title="Permanent link">&para;</a></h1>
-<p><code>@DoNotMock("Use TestLifecycleScopeProvider instead") interface LifecycleScopeProvider&lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; : ScopeProvider</code></p>
-<p>A convenience interface that, when implemented, helps provide information to create implementations that resolve the next corresponding lifecycle event and construct a Completable representation of it from the <code>`[</code>#lifecycle()`](lifecycle.md) stream.</p>
-<p>Convenience resolver utilities for this can be found in LifecycleScopes.</p>
-<h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
-<p><code>&lt;E&gt;</code> - the lifecycle event type.</p>
+<p><code>@DoNotMock("Use TestLifecycleScopeProvider instead") interface LifecycleScopeProvider&lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; : ScopeProvider</code></p>
+<p>A convenience interface that, when implemented, helps provide information to create implementations that resolve the next corresponding lifecycle event and construct a <code>[`Completable`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html) representation of it from the</code><a href="lifecycle/"><code>#lifecycle()</code></a> stream.</p>
+<p>Convenience resolver utilities for this can be found in <code>`[</code>LifecycleScopes`](../-lifecycle-scopes/index.md).</p>
 <p><strong>See Also</strong>
-LifecycleScopes</p>
+<a href="../-lifecycle-scopes/">LifecycleScopes</a></p>
 <h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -506,11 +497,11 @@ LifecycleScopes</p>
 <tbody>
 <tr>
 <td><a href="corresponding-events/">correspondingEvents</a></td>
-<td><code>abstract fun correspondingEvents():</code><a href="../-corresponding-events-function/"><code>CorrespondingEventsFunction</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;</code></td>
+<td><code>abstract fun correspondingEvents():</code><a href="../-corresponding-events-function/"><code>CorrespondingEventsFunction</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;!</code></td>
 </tr>
 <tr>
 <td><a href="lifecycle/">lifecycle</a></td>
-<td><code>abstract fun lifecycle():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html"><code>Observable</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;</code></td>
+<td><code>abstract fun lifecycle():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html"><code>Observable</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;!</code></td>
 </tr>
 <tr>
 <td><a href="peek-lifecycle/">peekLifecycle</a></td>
@@ -518,7 +509,7 @@ LifecycleScopes</p>
 </tr>
 <tr>
 <td><a href="request-scope/">requestScope</a></td>
-<td><code>open fun requestScope():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a></td>
+<td><code>open fun requestScope():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a><code>!</code></td>
 </tr>
 </tbody>
 </table>
@@ -533,7 +524,7 @@ LifecycleScopes</p>
 <tbody>
 <tr>
 <td><a href="../-test-lifecycle-scope-provider/">TestLifecycleScopeProvider</a></td>
-<td><code>class TestLifecycleScopeProvider :</code><a href="./"><code>LifecycleScopeProvider</code></a><code>&lt;</code><a href="../-test-lifecycle-scope-provider/-test-lifecycle/"><code>TestLifecycle</code></a><code>&gt;</code><br>Test utility to create LifecycleScopeProvider instances for tests. <br>Supports a start and stop lifecycle. Subscribing when outside of the lifecycle will throw either a LifecycleNotStartedException or LifecycleEndedException.</td>
+<td><code>class TestLifecycleScopeProvider :</code><a href="./"><code>LifecycleScopeProvider</code></a><code>&lt;</code><a href="../-test-lifecycle-scope-provider/-test-lifecycle/"><code>TestLifecycleScopeProvider.TestLifecycle</code></a><code>!&gt;</code><br>Test utility to create <code>`[</code>LifecycleScopeProvider`](./index.md) instances for tests.</td>
 </tr>
 </tbody>
 </table>
@@ -575,7 +566,7 @@ LifecycleScopes</p>
       
     </div>
     
-      <script src="../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../.."}})</script>
       

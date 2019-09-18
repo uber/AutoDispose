@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -332,7 +332,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#package-comuberautodisposelifecycle" title="Package com.uber.autodispose.lifecycle" class="md-nav__link">
+  <a href="#package-comuberautodisposelifecycle" class="md-nav__link">
     Package com.uber.autodispose.lifecycle
   </a>
   
@@ -340,14 +340,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#types" title="Types" class="md-nav__link">
+  <a href="#types" class="md-nav__link">
     Types
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#exceptions" title="Exceptions" class="md-nav__link">
+  <a href="#exceptions" class="md-nav__link">
     Exceptions
   </a>
   
@@ -501,7 +501,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#package-comuberautodisposelifecycle" title="Package com.uber.autodispose.lifecycle" class="md-nav__link">
+  <a href="#package-comuberautodisposelifecycle" class="md-nav__link">
     Package com.uber.autodispose.lifecycle
   </a>
   
@@ -509,14 +509,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#types" title="Types" class="md-nav__link">
+  <a href="#types" class="md-nav__link">
     Types
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#exceptions" title="Exceptions" class="md-nav__link">
+  <a href="#exceptions" class="md-nav__link">
     Exceptions
   </a>
   
@@ -561,19 +561,19 @@
 <tbody>
 <tr>
 <td><a href="-corresponding-events-function/">CorrespondingEventsFunction</a></td>
-<td><code>interface CorrespondingEventsFunction&lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Function.html"><code>Function</code></a><code>&lt;</code><a href="-corresponding-events-function/#E"><code>E</code></a><code>,</code><a href="-corresponding-events-function/#E"><code>E</code></a><code>&gt;</code><br>A corresponding events function that acts as a normal Function but ensures a single event type in the generic and tightens the possible exception thrown to OutsideScopeException.</td>
+<td><code>interface CorrespondingEventsFunction&lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; :</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Function.html"><code>Function</code></a><code>&lt;</code><a href="-corresponding-events-function/#E"><code>E</code></a><code>,</code><a href="-corresponding-events-function/#E"><code>E</code></a><code>&gt;</code><br>A corresponding events function that acts as a normal <code>[`Function`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/functions/Function.html) but ensures a single event type in the generic and tightens the possible exception thrown to</code><a href="#"><code>OutsideScopeException</code></a>.</td>
 </tr>
 <tr>
 <td><a href="-lifecycle-scope-provider/">LifecycleScopeProvider</a></td>
-<td><code>interface LifecycleScopeProvider&lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; : ScopeProvider</code><br>A convenience interface that, when implemented, helps provide information to create implementations that resolve the next corresponding lifecycle event and construct a Completable representation of it from the <code>`[</code>#lifecycle()`](-lifecycle-scope-provider/lifecycle.md) stream. <br>Convenience resolver utilities for this can be found in LifecycleScopes.</td>
+<td><code>interface LifecycleScopeProvider&lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; : ScopeProvider</code><br>A convenience interface that, when implemented, helps provide information to create implementations that resolve the next corresponding lifecycle event and construct a <code>[`Completable`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html) representation of it from the</code><a href="-lifecycle-scope-provider/lifecycle/"><code>#lifecycle()</code></a> stream.</td>
 </tr>
 <tr>
 <td><a href="-lifecycle-scopes/">LifecycleScopes</a></td>
-<td><code>class LifecycleScopes</code><br>Utilities for dealing with LifecycleScopeProviders. This includes factories for resolving Completable representations of scopes, corresponding events, etc.</td>
+<td><code>class LifecycleScopes</code><br>Utilities for dealing with <code>[`LifecycleScopeProvider`](-lifecycle-scope-provider/index.md)s. This includes factories for resolving</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html"><code>Completable</code></a> representations of scopes, corresponding events, etc.</td>
 </tr>
 <tr>
 <td><a href="-test-lifecycle-scope-provider/">TestLifecycleScopeProvider</a></td>
-<td><code>class TestLifecycleScopeProvider :</code><a href="-lifecycle-scope-provider/"><code>LifecycleScopeProvider</code></a><code>&lt;</code><a href="-test-lifecycle-scope-provider/-test-lifecycle/"><code>TestLifecycle</code></a><code>&gt;</code><br>Test utility to create LifecycleScopeProvider instances for tests. <br>Supports a start and stop lifecycle. Subscribing when outside of the lifecycle will throw either a LifecycleNotStartedException or LifecycleEndedException.</td>
+<td><code>class TestLifecycleScopeProvider :</code><a href="-lifecycle-scope-provider/"><code>LifecycleScopeProvider</code></a><code>&lt;</code><a href="-test-lifecycle-scope-provider/-test-lifecycle/"><code>TestLifecycleScopeProvider.TestLifecycle</code></a><code>!&gt;</code><br>Test utility to create <code>`[</code>LifecycleScopeProvider`](-lifecycle-scope-provider/index.md) instances for tests.</td>
 </tr>
 </tbody>
 </table>
@@ -669,7 +669,7 @@
       
     </div>
     
-      <script src="../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
       

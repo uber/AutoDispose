@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,14 +447,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#parameters" title="Parameters" class="md-nav__link">
-    Parameters
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameters_1" title="Parameters" class="md-nav__link">
+  <a href="#parameters" class="md-nav__link">
     Parameters
   </a>
   
@@ -481,28 +474,42 @@
                 
                 <p><a href="../../../">autodispose</a> / <a href="../../">com.uber.autodispose</a> / <a href="../">AutoDispose</a> / <a href="./">autoDisposable</a></p>
 <h1 id="autodisposable">autoDisposable<a class="headerlink" href="#autodisposable" title="Permanent link">&para;</a></h1>
-<p><code>static fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; autoDisposable(provider:</code><a href="../../-scope-provider/"><code>ScopeProvider</code></a><code>):</code><a href="../../-auto-dispose-converter/"><code>AutoDisposeConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
-<p>Entry point for auto-disposing streams from a ScopeProvider.</p>
+<p><code>static fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; autoDisposable(provider:</code><a href="../../-scope-provider/"><code>ScopeProvider</code></a><code>!):</code><a href="../../-auto-dispose-converter/"><code>AutoDisposeConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;!</code></p>
+<p>Entry point for auto-disposing streams from a <code>`[</code>ScopeProvider`](../-scope-provider/index.md).</p>
 <p>Example usage:</p>
-<div class="codehilite"><pre><span></span>` Observable.just(1) .as(autoDisposable(scope)) // Static import .subscribe(...) `
+<div class="codehilite"><pre><span></span>      Observable.just(1)
+           .as(autoDisposable(scope)) // Static import
+           .subscribe(...)
+    ```
+
+### Parameters
+
+`provider` - [ScopeProvider](../-scope-provider/index.md)!: the target scope provider
+
+`&lt;T&gt;` - the stream type.
+
+**Return**
+[AutoDisposeConverter](../-auto-dispose-converter.md)&amp;lt;[T](auto-disposable.md#T)&amp;gt;!: an ``[`AutoDisposeConverter`](../-auto-dispose-converter.md) to transform with operators like ``[` `](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html#as(io.reactivex.ObservableConverter&lt;T,? extends R&gt;))
+
+`static fun &lt;T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`!&gt; autoDisposable(scope: `[`CompletableSource`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html)`!): `[`AutoDisposeConverter`](../-auto-dispose-converter.md)`&lt;`[`T`](auto-disposable.md#T)`&gt;!`
+
+Entry point for auto-disposing streams from a ``[`CompletableSource`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html).
+
+Example usage:
 </pre></div>
+
+<div class="codehilite"><pre><span></span>  Observable.just(1)
+       .as(autoDisposable(scope)) // Static import
+       .subscribe(...)
+```
+</pre></div>
+
 
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
-<p><code>provider</code> - the target scope provider</p>
+<p><code>scope</code> - <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html">CompletableSource</a>!: the target scope</p>
 <p><code>&lt;T&gt;</code> - the stream type.</p>
 <p><strong>Return</strong>
-an AutoDisposeConverter to transform with operators like <code>`[</code> `](#)</p>
-<p><code>static fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; autoDisposable(scope:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a><code>):</code><a href="../../-auto-dispose-converter/"><code>AutoDisposeConverter</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
-<p>Entry point for auto-disposing streams from a CompletableSource.</p>
-<p>Example usage:</p>
-<div class="codehilite"><pre><span></span>` Observable.just(1) .as(autoDisposable(scope)) // Static import .subscribe(...) `
-</pre></div>
-
-<h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
-<p><code>scope</code> - the target scope</p>
-<p><code>&lt;T&gt;</code> - the stream type.</p>
-<p><strong>Return</strong>
-an AutoDisposeConverter to transform with operators like <code>`[</code> `](#)</p>
+<a href="../../-auto-dispose-converter/">AutoDisposeConverter</a>&lt;<a href="./#T">T</a>&gt;!: an <code>[`AutoDisposeConverter`](../-auto-dispose-converter.md) to transform with operators like</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html#as(io.reactivex.ObservableConverter&lt;T,? extends R&gt;)"><code></code></a></p>
                 
                   
                 
@@ -541,7 +548,7 @@ an AutoDisposeConverter to transform with operators like <code>`[</code> `](#)</
       
     </div>
     
-      <script src="../../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../../.."}})</script>
       

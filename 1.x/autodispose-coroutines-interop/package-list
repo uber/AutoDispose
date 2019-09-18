@@ -1,0 +1,12 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+$dokka.location:com.uber.autodispose.coroutinesinterop$asCompletable(kotlinx.coroutines.CoroutineScope)com.uber.autodispose.coroutinesinterop/kotlinx.coroutines.-coroutine-scope/as-completable.md
+$dokka.location:com.uber.autodispose.coroutinesinterop$asCoroutineScope(com.uber.autodispose.ScopeProvider, kotlin.coroutines.CoroutineContext)com.uber.autodispose.coroutinesinterop/com.uber.autodispose.-scope-provider/as-coroutine-scope.md
+$dokka.location:com.uber.autodispose.coroutinesinterop$asCoroutineScope(io.reactivex.CompletableSource, kotlin.coroutines.CoroutineContext)com.uber.autodispose.coroutinesinterop/io.reactivex.-completable-source/as-coroutine-scope.md
+$dokka.location:com.uber.autodispose.coroutinesinterop$asScopeProvider(kotlinx.coroutines.CoroutineScope)com.uber.autodispose.coroutinesinterop/kotlinx.coroutines.-coroutine-scope/as-scope-provider.md
+$dokka.location:com.uber.autodispose.coroutinesinterop$autoDispose(io.reactivex.Completable, kotlinx.coroutines.CoroutineScope)com.uber.autodispose.coroutinesinterop/io.reactivex.-completable/auto-dispose.md
+$dokka.location:com.uber.autodispose.coroutinesinterop$autoDispose(io.reactivex.Flowable((com.uber.autodispose.coroutinesinterop.autoDispose.T)), kotlinx.coroutines.CoroutineScope)com.uber.autodispose.coroutinesinterop/io.reactivex.-flowable/auto-dispose.md
+$dokka.location:com.uber.autodispose.coroutinesinterop$autoDispose(io.reactivex.Maybe((com.uber.autodispose.coroutinesinterop.autoDispose.T)), kotlinx.coroutines.CoroutineScope)com.uber.autodispose.coroutinesinterop/io.reactivex.-maybe/auto-dispose.md
+$dokka.location:com.uber.autodispose.coroutinesinterop$autoDispose(io.reactivex.Observable((com.uber.autodispose.coroutinesinterop.autoDispose.T)), kotlinx.coroutines.CoroutineScope)com.uber.autodispose.coroutinesinterop/io.reactivex.-observable/auto-dispose.md
+$dokka.location:com.uber.autodispose.coroutinesinterop$autoDispose(io.reactivex.Single((com.uber.autodispose.coroutinesinterop.autoDispose.T)), kotlinx.coroutines.CoroutineScope)com.uber.autodispose.coroutinesinterop/io.reactivex.-single/auto-dispose.md
+com.uber.autodispose.coroutinesinterop

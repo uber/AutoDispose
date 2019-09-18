@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,42 +447,84 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#parameters" title="Parameters" class="md-nav__link">
+  <a href="#parameters" class="md-nav__link">
     Parameters
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#parameters_1" title="Parameters" class="md-nav__link">
+  <a href="#parameters_1" class="md-nav__link">
     Parameters
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#parameters_2" title="Parameters" class="md-nav__link">
+  <a href="#parameters_2" class="md-nav__link">
     Parameters
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#parameters_3" title="Parameters" class="md-nav__link">
+  <a href="#parameters_3" class="md-nav__link">
     Parameters
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#parameters_4" title="Parameters" class="md-nav__link">
+  <a href="#parameters_4" class="md-nav__link">
     Parameters
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#parameters_5" title="Parameters" class="md-nav__link">
+  <a href="#parameters_5" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_6" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_7" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_8" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_9" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_10" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_11" class="md-nav__link">
     Parameters
   </a>
   
@@ -509,52 +551,86 @@
                 
                 <p><a href="../../../">autodispose-android-archcomponents</a> / <a href="../../">com.uber.autodispose.android.lifecycle</a> / <a href="../">AndroidLifecycleScopeProvider</a> / <a href="./">from</a></p>
 <h1 id="from">from<a class="headerlink" href="#from" title="Permanent link">&para;</a></h1>
-<p><code>static fun from(owner: LifecycleOwner):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a>
-<code>static fun from(owner: LifecycleOwner):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a></p>
-<p>Creates a AndroidLifecycleScopeProvider for Android LifecycleOwners.</p>
+<p><code>static fun from(owner: LifecycleOwner!):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a><code>!</code></p>
+<p>Creates a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) for Android LifecycleOwners.</p>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
-<p><code>owner</code> - the owner to scope for.</p>
+<p><code>owner</code> - LifecycleOwner!: the owner to scope for.</p>
 <p><strong>Return</strong>
-a AndroidLifecycleScopeProvider against this owner.</p>
-<p><code>static fun from(owner: LifecycleOwner, untilEvent: Event):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a>
-<code>static fun from(owner: LifecycleOwner, untilEvent: Event):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a></p>
-<p>Creates a AndroidLifecycleScopeProvider for Android LifecycleOwners.</p>
+<a href="../">AndroidLifecycleScopeProvider</a>!: a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) against this owner.</p>
+<p><code>static fun from(owner: LifecycleOwner!, untilEvent: Event!):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a><code>!</code></p>
+<p>Creates a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) for Android LifecycleOwners.</p>
 <h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
-<p><code>owner</code> - the owner to scope for.</p>
-<p><code>untilEvent</code> - the event until the scope is valid.</p>
+<p><code>owner</code> - LifecycleOwner!: the owner to scope for.</p>
+<p><code>untilEvent</code> - Event!: the event until the scope is valid.</p>
 <p><strong>Return</strong>
-a AndroidLifecycleScopeProvider against this owner.</p>
-<p><code>static fun from(lifecycle: Lifecycle):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a>
-<code>static fun from(lifecycle: Lifecycle):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a></p>
-<p>Creates a AndroidLifecycleScopeProvider for Android Lifecycles.</p>
+<a href="../">AndroidLifecycleScopeProvider</a>!: a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) against this owner.</p>
+<p><code>static fun from(lifecycle: Lifecycle!):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a><code>!</code></p>
+<p>Creates a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) for Android Lifecycles.</p>
 <h3 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h3>
-<p><code>lifecycle</code> - the lifecycle to scope for.</p>
+<p><code>lifecycle</code> - Lifecycle!: the lifecycle to scope for.</p>
 <p><strong>Return</strong>
-a AndroidLifecycleScopeProvider against this lifecycle.</p>
-<p><code>static fun from(lifecycle: Lifecycle, untilEvent: Event):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a>
-<code>static fun from(lifecycle: Lifecycle, untilEvent: Event):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a></p>
-<p>Creates a AndroidLifecycleScopeProvider for Android Lifecycles.</p>
+<a href="../">AndroidLifecycleScopeProvider</a>!: a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) against this lifecycle.</p>
+<p><code>static fun from(lifecycle: Lifecycle!, untilEvent: Event!):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a><code>!</code></p>
+<p>Creates a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) for Android Lifecycles.</p>
 <h3 id="parameters_3">Parameters<a class="headerlink" href="#parameters_3" title="Permanent link">&para;</a></h3>
-<p><code>lifecycle</code> - the lifecycle to scope for.</p>
-<p><code>untilEvent</code> - the event until the scope is valid.</p>
+<p><code>lifecycle</code> - Lifecycle!: the lifecycle to scope for.</p>
+<p><code>untilEvent</code> - Event!: the event until the scope is valid.</p>
 <p><strong>Return</strong>
-a AndroidLifecycleScopeProvider against this lifecycle.</p>
-<p><code>static fun from(owner: LifecycleOwner, boundaryResolver: CorrespondingEventsFunction&lt;Event&gt;):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a>
-<code>static fun from(owner: LifecycleOwner, boundaryResolver: CorrespondingEventsFunction&lt;Event&gt;):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a></p>
-<p>Creates a AndroidLifecycleScopeProvider for Android Lifecycles.</p>
+<a href="../">AndroidLifecycleScopeProvider</a>!: a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) against this lifecycle.</p>
+<p><code>static fun from(owner: LifecycleOwner!, boundaryResolver: CorrespondingEventsFunction&lt;Event!&gt;!):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a><code>!</code></p>
+<p>Creates a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) for Android Lifecycles.</p>
 <h3 id="parameters_4">Parameters<a class="headerlink" href="#parameters_4" title="Permanent link">&para;</a></h3>
-<p><code>owner</code> - the owner to scope for.</p>
-<p><code>boundaryResolver</code> - function that resolves the event boundary.</p>
+<p><code>owner</code> - LifecycleOwner!: the owner to scope for.</p>
+<p><code>boundaryResolver</code> - CorrespondingEventsFunction&lt;Event!&gt;!: function that resolves the event boundary.</p>
 <p><strong>Return</strong>
-a AndroidLifecycleScopeProvider against this owner.</p>
-<p><code>static fun from(lifecycle: Lifecycle, boundaryResolver: CorrespondingEventsFunction&lt;Event&gt;):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a>
-<code>static fun from(lifecycle: Lifecycle, boundaryResolver: CorrespondingEventsFunction&lt;Event&gt;):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a></p>
-<p>Creates a AndroidLifecycleScopeProvider for Android Lifecycles.</p>
+<a href="../">AndroidLifecycleScopeProvider</a>!: a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) against this owner.</p>
+<p><code>static fun from(lifecycle: Lifecycle!, boundaryResolver: CorrespondingEventsFunction&lt;Event!&gt;!):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a><code>!</code></p>
+<p>Creates a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) for Android Lifecycles.</p>
 <h3 id="parameters_5">Parameters<a class="headerlink" href="#parameters_5" title="Permanent link">&para;</a></h3>
-<p><code>lifecycle</code> - the lifecycle to scope for.</p>
-<p><code>boundaryResolver</code> - function that resolves the event boundary.</p>
+<p><code>lifecycle</code> - Lifecycle!: the lifecycle to scope for.</p>
+<p><code>boundaryResolver</code> - CorrespondingEventsFunction&lt;Event!&gt;!: function that resolves the event boundary.</p>
 <p><strong>Return</strong>
-a AndroidLifecycleScopeProvider against this lifecycle.</p>
+<a href="../">AndroidLifecycleScopeProvider</a>!: a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) against this lifecycle.</p>
+<p><code>static fun from(owner: LifecycleOwner!):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a><code>!</code></p>
+<p>Creates a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) for Android LifecycleOwners.</p>
+<h3 id="parameters_6">Parameters<a class="headerlink" href="#parameters_6" title="Permanent link">&para;</a></h3>
+<p><code>owner</code> - LifecycleOwner!: the owner to scope for.</p>
+<p><strong>Return</strong>
+<a href="../">AndroidLifecycleScopeProvider</a>!: a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) against this owner.</p>
+<p><code>static fun from(owner: LifecycleOwner!, untilEvent: Event!):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a><code>!</code></p>
+<p>Creates a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) for Android LifecycleOwners.</p>
+<h3 id="parameters_7">Parameters<a class="headerlink" href="#parameters_7" title="Permanent link">&para;</a></h3>
+<p><code>owner</code> - LifecycleOwner!: the owner to scope for.</p>
+<p><code>untilEvent</code> - Event!: the event until the scope is valid.</p>
+<p><strong>Return</strong>
+<a href="../">AndroidLifecycleScopeProvider</a>!: a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) against this owner.</p>
+<p><code>static fun from(lifecycle: Lifecycle!):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a><code>!</code></p>
+<p>Creates a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) for Android Lifecycles.</p>
+<h3 id="parameters_8">Parameters<a class="headerlink" href="#parameters_8" title="Permanent link">&para;</a></h3>
+<p><code>lifecycle</code> - Lifecycle!: the lifecycle to scope for.</p>
+<p><strong>Return</strong>
+<a href="../">AndroidLifecycleScopeProvider</a>!: a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) against this lifecycle.</p>
+<p><code>static fun from(lifecycle: Lifecycle!, untilEvent: Event!):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a><code>!</code></p>
+<p>Creates a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) for Android Lifecycles.</p>
+<h3 id="parameters_9">Parameters<a class="headerlink" href="#parameters_9" title="Permanent link">&para;</a></h3>
+<p><code>lifecycle</code> - Lifecycle!: the lifecycle to scope for.</p>
+<p><code>untilEvent</code> - Event!: the event until the scope is valid.</p>
+<p><strong>Return</strong>
+<a href="../">AndroidLifecycleScopeProvider</a>!: a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) against this lifecycle.</p>
+<p><code>static fun from(owner: LifecycleOwner!, boundaryResolver: CorrespondingEventsFunction&lt;Event!&gt;!):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a><code>!</code></p>
+<p>Creates a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) for Android Lifecycles.</p>
+<h3 id="parameters_10">Parameters<a class="headerlink" href="#parameters_10" title="Permanent link">&para;</a></h3>
+<p><code>owner</code> - LifecycleOwner!: the owner to scope for.</p>
+<p><code>boundaryResolver</code> - CorrespondingEventsFunction&lt;Event!&gt;!: function that resolves the event boundary.</p>
+<p><strong>Return</strong>
+<a href="../">AndroidLifecycleScopeProvider</a>!: a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) against this owner.</p>
+<p><code>static fun from(lifecycle: Lifecycle!, boundaryResolver: CorrespondingEventsFunction&lt;Event!&gt;!):</code><a href="../"><code>AndroidLifecycleScopeProvider</code></a><code>!</code></p>
+<p>Creates a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) for Android Lifecycles.</p>
+<h3 id="parameters_11">Parameters<a class="headerlink" href="#parameters_11" title="Permanent link">&para;</a></h3>
+<p><code>lifecycle</code> - Lifecycle!: the lifecycle to scope for.</p>
+<p><code>boundaryResolver</code> - CorrespondingEventsFunction&lt;Event!&gt;!: function that resolves the event boundary.</p>
+<p><strong>Return</strong>
+<a href="../">AndroidLifecycleScopeProvider</a>!: a <code>`[</code>AndroidLifecycleScopeProvider`](index.md) against this lifecycle.</p>
                 
                   
                 
@@ -593,7 +669,7 @@ a AndroidLifecycleScopeProvider against this lifecycle.</p>
       
     </div>
     
-      <script src="../../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../../.."}})</script>
       

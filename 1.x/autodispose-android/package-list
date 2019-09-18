@@ -6,6 +6,12 @@ $dokka.location:com.uber.autodispose.android$autoDisposable(io.reactivex.Maybe((
 $dokka.location:com.uber.autodispose.android$autoDisposable(io.reactivex.Observable((com.uber.autodispose.android.autoDisposable.T)), android.view.View)com.uber.autodispose.android/io.reactivex.-observable/auto-disposable.md
 $dokka.location:com.uber.autodispose.android$autoDisposable(io.reactivex.Single((com.uber.autodispose.android.autoDisposable.T)), android.view.View)com.uber.autodispose.android/io.reactivex.-single/auto-disposable.md
 $dokka.location:com.uber.autodispose.android$autoDisposable(io.reactivex.parallel.ParallelFlowable((com.uber.autodispose.android.autoDisposable.T)), android.view.View)com.uber.autodispose.android/io.reactivex.parallel.-parallel-flowable/auto-disposable.md
+$dokka.location:com.uber.autodispose.android$autoDispose(io.reactivex.Completable, android.view.View)com.uber.autodispose.android/io.reactivex.-completable/auto-dispose.md
+$dokka.location:com.uber.autodispose.android$autoDispose(io.reactivex.Flowable((com.uber.autodispose.android.autoDispose.T)), android.view.View)com.uber.autodispose.android/io.reactivex.-flowable/auto-dispose.md
+$dokka.location:com.uber.autodispose.android$autoDispose(io.reactivex.Maybe((com.uber.autodispose.android.autoDispose.T)), android.view.View)com.uber.autodispose.android/io.reactivex.-maybe/auto-dispose.md
+$dokka.location:com.uber.autodispose.android$autoDispose(io.reactivex.Observable((com.uber.autodispose.android.autoDispose.T)), android.view.View)com.uber.autodispose.android/io.reactivex.-observable/auto-dispose.md
+$dokka.location:com.uber.autodispose.android$autoDispose(io.reactivex.Single((com.uber.autodispose.android.autoDispose.T)), android.view.View)com.uber.autodispose.android/io.reactivex.-single/auto-dispose.md
+$dokka.location:com.uber.autodispose.android$autoDispose(io.reactivex.parallel.ParallelFlowable((com.uber.autodispose.android.autoDispose.T)), android.view.View)com.uber.autodispose.android/io.reactivex.parallel.-parallel-flowable/auto-dispose.md
 $dokka.location:com.uber.autodispose.android$scope(android.view.View)com.uber.autodispose.android/android.view.-view/scope.md
 com.uber.autodispose.android
 com.uber.autodispose.android.internal

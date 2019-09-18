@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,14 +447,14 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#inherited-properties" title="Inherited Properties" class="md-nav__link">
+  <a href="#inherited-properties" class="md-nav__link">
     Inherited Properties
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#functions" title="Functions" class="md-nav__link">
+  <a href="#functions" class="md-nav__link">
     Functions
   </a>
   
@@ -494,7 +494,7 @@
 <tbody>
 <tr>
 <td><a href="../-scope-provider/-u-n-b-o-u-n-d/">UNBOUND</a></td>
-<td><code>static val UNBOUND:</code><a href="../-scope-provider/"><code>ScopeProvider</code></a><br>A new provider that is &ldquo;unbound&rdquo;, e.g. will emit a completion event to signal that the scope is unbound.</td>
+<td><code>static val UNBOUND:</code><a href="../-scope-provider/"><code>ScopeProvider</code></a><code>!</code><br>A new provider that is &ldquo;unbound&rdquo;, e.g. will emit a completion event to signal that the scope is unbound.</td>
 </tr>
 </tbody>
 </table>
@@ -509,7 +509,7 @@
 <tbody>
 <tr>
 <td><a href="create/">create</a></td>
-<td><code>static fun create():</code><a href="./"><code>TestScopeProvider</code></a><br>Creates a new provider backed by an internal CompletableSubject. Useful for stubbing or if you only want to use the emit APIs<code>static fun create(delegate:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html"><code>Completable</code></a><code>):</code><a href="./"><code>TestScopeProvider</code></a><br>Creates a new provider backed by <code>delegate</code>.</td>
+<td><code>static fun create():</code><a href="./"><code>TestScopeProvider</code></a><code>!</code><br>Creates a new provider backed by an internal <code>`[</code>CompletableSubject<code>](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/subjects/CompletableSubject.html). Useful for stubbing or if you only want to use the emit APIs</code>static fun create(delegate: <code>[</code>Completable<code>](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html)</code>!): <code>[</code>TestScopeProvider<code>](./index.md)</code>!<code>&lt;br&gt;Creates a new provider backed by</code>delegate`.</td>
 </tr>
 <tr>
 <td><a href="emit/">emit</a></td>
@@ -517,7 +517,7 @@
 </tr>
 <tr>
 <td><a href="request-scope/">requestScope</a></td>
-<td><code>fun requestScope():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a></td>
+<td><code>fun requestScope():</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a><code>!</code></td>
 </tr>
 </tbody>
 </table>
@@ -559,7 +559,7 @@
       
     </div>
     
-      <script src="../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../.."}})</script>
       

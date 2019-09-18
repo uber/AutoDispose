@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,7 +447,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#functions" title="Functions" class="md-nav__link">
+  <a href="#functions" class="md-nav__link">
     Functions
   </a>
   
@@ -476,10 +476,10 @@
 <h1 id="autodispose">AutoDispose<a class="headerlink" href="#autodispose" title="Permanent link">&para;</a></h1>
 <p><code>class AutoDispose</code></p>
 <p>Factories for autodispose converters that can be used with RxJava types&rsquo; corresponding <code>as(...)</code> methods to transform them into auto-disposing streams.</p>
-<p>There are several static <code>autoDisposable(...)</code> entry points, with the most basic being a simple <code>`[</code>#autoDisposable(CompletableSource)`](auto-disposable.md). The provided CompletableSource is ultimately what every scope resolves to under the hood, and AutoDispose has some built-in understanding for predefined types. The scope is considered ended upon onComplete emission of this Completable.</p>
+<p>There are several static <code>autoDisposable(...)</code> entry points, with the most basic being a simple <code>[`#autoDisposable(CompletableSource)`](auto-disposable.md). The provided</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a> is ultimately what every scope resolves to under the hood, and AutoDispose has some built-in understanding for predefined types. The scope is considered ended upon onComplete emission of this <code>`[</code>Completable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html</a>).</p>
 <p>This is structured in such a way to be friendly to autocompletion in IDEs, where the no-parameter generic method will autocomplete with the appropriate generic parameters in Java &lt;7, or implicitly in &gt;=8.</p>
 <p><strong>See Also</strong>
-<a href="#">Flowable#as(io.reactivex.FlowableConverter)</a><a href="#">Observable#as(io.reactivex.ObservableConverter)</a><a href="#">Maybe#as(io.reactivex.MaybeConverter)</a><a href="#">Single#as(io.reactivex.SingleConverter)</a><a href="#">Completable#as(io.reactivex.CompletableConverter)</a></p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html#as(io.reactivex.FlowableConverter&lt;T,? extends R&gt;)">Flowable#as(io.reactivex.FlowableConverter)</a><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html#as(io.reactivex.ObservableConverter&lt;T,? extends R&gt;)">Observable#as(io.reactivex.ObservableConverter)</a><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Maybe.html#as(io.reactivex.MaybeConverter&lt;T,? extends R&gt;)">Maybe#as(io.reactivex.MaybeConverter)</a><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html#as(io.reactivex.SingleConverter&lt;T,? extends R&gt;)">Single#as(io.reactivex.SingleConverter)</a><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#as(io.reactivex.CompletableConverter&lt;? extends R&gt;)">Completable#as(io.reactivex.CompletableConverter)</a></p>
 <h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -491,15 +491,10 @@
 <tbody>
 <tr>
 <td><a href="auto-disposable/">autoDisposable</a></td>
-<td><code>static fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; autoDisposable(provider:</code><a href="../-scope-provider/"><code>ScopeProvider</code></a><code>):</code><a href="../-auto-dispose-converter/"><code>AutoDisposeConverter</code></a><code>&lt;</code><a href="auto-disposable/#T"><code>T</code></a><code>&gt;</code><br>Entry point for auto-disposing streams from a ScopeProvider. <br>Example usage:</td>
+<td><code>static fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; autoDisposable(provider:</code><a href="../-scope-provider/"><code>ScopeProvider</code></a><code>!):</code><a href="../-auto-dispose-converter/"><code>AutoDisposeConverter</code></a><code>&lt;</code><a href="auto-disposable/#T"><code>T</code></a><code>&gt;!</code><br>Entry point for auto-disposing streams from a <code>[`ScopeProvider`](../-scope-provider/index.md). `static fun &lt;T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`!&gt; autoDisposable(scope: `[`CompletableSource`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html)`!): `[`AutoDisposeConverter`](../-auto-dispose-converter.md)`&lt;`[`T`](auto-disposable.md#T)`&gt;!`&lt;br&gt;Entry point for auto-disposing streams from a</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a>.</td>
 </tr>
 </tbody>
 </table>
-<p><div class="codehilite"><pre><span></span>` Observable.just(1) .as(autoDisposable(scope)) // Static import .subscribe(...) `&lt;br&gt;```
-&lt;br&gt;`static fun &lt;T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`&gt; autoDisposable(scope: `[`CompletableSource`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html)`): `[`AutoDisposeConverter`](../-auto-dispose-converter.md)`&lt;`[`T`](auto-disposable.md#T)`&gt;`&lt;br&gt;Entry point for auto-disposing streams from a CompletableSource. &lt;br&gt;Example usage:
-</pre></div>
-<code>Observable.just(1) .as(autoDisposable(scope)) // Static import .subscribe(...)</code><br>```
-<br> |</p>
                 
                   
                 
@@ -538,7 +533,7 @@
       
     </div>
     
-      <script src="../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../.."}})</script>
       

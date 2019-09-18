@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,7 +447,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#functions" title="Functions" class="md-nav__link">
+  <a href="#functions" class="md-nav__link">
     Functions
   </a>
   
@@ -475,7 +475,7 @@
                 <p><a href="../../">autodispose-lifecycle</a> / <a href="../">com.uber.autodispose.lifecycle</a> / <a href="./">LifecycleScopes</a></p>
 <h1 id="lifecyclescopes">LifecycleScopes<a class="headerlink" href="#lifecyclescopes" title="Permanent link">&para;</a></h1>
 <p><code>class LifecycleScopes</code></p>
-<p>Utilities for dealing with LifecycleScopeProviders. This includes factories for resolving Completable representations of scopes, corresponding events, etc.</p>
+<p>Utilities for dealing with <code>[`LifecycleScopeProvider`](../-lifecycle-scope-provider/index.md)s. This includes factories for resolving</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html"><code>Completable</code></a> representations of scopes, corresponding events, etc.</p>
 <h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -487,7 +487,7 @@
 <tbody>
 <tr>
 <td><a href="resolve-scope-from-lifecycle/">resolveScopeFromLifecycle</a></td>
-<td><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; resolveScopeFromLifecycle(provider:</code><a href="../-lifecycle-scope-provider/"><code>LifecycleScopeProvider</code></a><code>&lt;</code><a href="resolve-scope-from-lifecycle/#E"><code>E</code></a><code>&gt;):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a><br>Overload for resolving lifecycle providers that defaults to checking start and end boundaries of lifecycles. That is, they will ensure that the lifecycle has both started and not ended. <br><em>Note:</em> This resolves the scope immediately, so consider deferring execution as needed, such as using <code>[`defer`](#).`static fun &lt;E : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`&gt; resolveScopeFromLifecycle(provider: `[`LifecycleScopeProvider`](../-lifecycle-scope-provider/index.md)`&lt;`[`E`](resolve-scope-from-lifecycle.md#E)`&gt;, checkEndBoundary: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`): `[`CompletableSource`](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html)&lt;br&gt;Overload for resolving lifecycle providers allows configuration of checking "end" boundaries of lifecycles. That is, they will ensure that the lifecycle has both started and not ended, and otherwise will throw one of LifecycleNotStartedException (if</code><a href="../-lifecycle-scope-provider/peek-lifecycle/"><code></code></a> returns <code>null</code>) or if the lifecycle is ended. To configure the runtime behavior of these exceptions, see AutoDisposePlugins. <br><em>Note:</em> This resolves the scope immediately, so consider deferring execution as needed, such as using <code>`[</code>defer<code>](#).</code>static fun <E : <code>[</code>Any<code>](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)</code>> resolveScopeFromLifecycle(lifecycle: <code>[</code>Observable<code>](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html)</code>&lt;<code>[</code>E<code>](resolve-scope-from-lifecycle.md#E)</code>&gt;, endEvent: <code>[</code>E<code>](resolve-scope-from-lifecycle.md#E)</code>): <code>[</code>CompletableSource<code>](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html)&lt;br&gt;</code>static fun <E : <code>[</code>Any<code>](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)</code>> resolveScopeFromLifecycle(lifecycle: <code>[</code>Observable<code>](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html)</code>&lt;<code>[</code>E<code>](resolve-scope-from-lifecycle.md#E)</code>&gt;, endEvent: <code>[</code>E<code>](resolve-scope-from-lifecycle.md#E)</code>, comparator: <code>[</code>Comparator<code>](http://docs.oracle.com/javase/6/docs/api/java/util/Comparator.html)</code>&lt;<code>[</code>E<code>](resolve-scope-from-lifecycle.md#E)</code>&gt;?): <code>[</code>CompletableSource`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html</a>)</td>
+<td><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; resolveScopeFromLifecycle(provider:</code><a href="../-lifecycle-scope-provider/"><code>LifecycleScopeProvider</code></a><code>&lt;</code><a href="resolve-scope-from-lifecycle/#E"><code>E</code></a><code>&gt;!):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a><code>!</code><br>Overload for resolving lifecycle providers that defaults to checking start and end boundaries of lifecycles. That is, they will ensure that the lifecycle has both started and not ended. <code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; resolveScopeFromLifecycle(provider:</code><a href="../-lifecycle-scope-provider/"><code>LifecycleScopeProvider</code></a><code>&lt;</code><a href="resolve-scope-from-lifecycle/#E"><code>E</code></a><code>&gt;!, checkEndBoundary:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a><code>!</code><br>Overload for resolving lifecycle providers allows configuration of checking &ldquo;end&rdquo; boundaries of lifecycles. That is, they will ensure that the lifecycle has both started and not ended, and otherwise will throw one of <code>[`LifecycleNotStartedException`](../-lifecycle-not-started-exception/index.md) (if</code><a href="../-lifecycle-scope-provider/peek-lifecycle/"><code></code></a> returns <code>null</code>) or if the lifecycle is ended. To configure the runtime behavior of these exceptions, see <code>`[</code>AutoDisposePlugins<code>](#).</code>static fun <E : <code>[</code>Any<code>](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)</code>!> resolveScopeFromLifecycle(lifecycle: <code>[</code>Observable<code>](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html)</code>&lt;<code>[</code>E<code>](resolve-scope-from-lifecycle.md#E)</code>&gt;!, endEvent: <code>[</code>E<code>](resolve-scope-from-lifecycle.md#E)</code>): <code>[</code>CompletableSource<code>](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html)</code>!<code>&lt;br&gt;</code>static fun <E : <code>[</code>Any<code>](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)</code>!> resolveScopeFromLifecycle(lifecycle: <code>[</code>Observable<code>](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html)</code>&lt;<code>[</code>E<code>](resolve-scope-from-lifecycle.md#E)</code>&gt;!, endEvent: <code>[</code>E<code>](resolve-scope-from-lifecycle.md#E)</code>, comparator: <code>[</code>Comparator<code>](https://docs.oracle.com/javase/6/docs/api/java/util/Comparator.html)</code>&lt;<code>[</code>E<code>](resolve-scope-from-lifecycle.md#E)</code>&gt;?): <code>[</code>CompletableSource<code>](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html)</code>!`</td>
 </tr>
 </tbody>
 </table>
@@ -529,7 +529,7 @@
       
     </div>
     
-      <script src="../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../.."}})</script>
       

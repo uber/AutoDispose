@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -44,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -183,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -447,42 +447,42 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#parameters" title="Parameters" class="md-nav__link">
+  <a href="#parameters" class="md-nav__link">
     Parameters
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#exceptions" title="Exceptions" class="md-nav__link">
+  <a href="#exceptions" class="md-nav__link">
     Exceptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#parameters_1" title="Parameters" class="md-nav__link">
+  <a href="#parameters_1" class="md-nav__link">
     Parameters
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#exceptions_1" title="Exceptions" class="md-nav__link">
+  <a href="#exceptions_1" class="md-nav__link">
     Exceptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#parameters_2" title="Parameters" class="md-nav__link">
+  <a href="#parameters_2" class="md-nav__link">
     Parameters
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#parameters_3" title="Parameters" class="md-nav__link">
+  <a href="#parameters_3" class="md-nav__link">
     Parameters
   </a>
   
@@ -509,42 +509,42 @@
                 
                 <p><a href="../../../">autodispose-lifecycle</a> / <a href="../../">com.uber.autodispose.lifecycle</a> / <a href="../">LifecycleScopes</a> / <a href="./">resolveScopeFromLifecycle</a></p>
 <h1 id="resolvescopefromlifecycle">resolveScopeFromLifecycle<a class="headerlink" href="#resolvescopefromlifecycle" title="Permanent link">&para;</a></h1>
-<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; resolveScopeFromLifecycle(provider:</code><a href="../../-lifecycle-scope-provider/"><code>LifecycleScopeProvider</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a></p>
+<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; resolveScopeFromLifecycle(provider:</code><a href="../../-lifecycle-scope-provider/"><code>LifecycleScopeProvider</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;!):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a><code>!</code></p>
 <p>Overload for resolving lifecycle providers that defaults to checking start and end boundaries of lifecycles. That is, they will ensure that the lifecycle has both started and not ended.</p>
-<p><em>Note:</em> This resolves the scope immediately, so consider deferring execution as needed, such as using <code>`[</code>defer`](#).</p>
+<p><em>Note:</em> This resolves the scope immediately, so consider deferring execution as needed, such as using <code>`[</code>defer`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#defer(java.util.concurrent.Callable">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#defer(java.util.concurrent.Callable</a>&lt;? extends io.reactivex.CompletableSource&gt;)).</p>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
-<p><code>provider</code> - the LifecycleScopeProvider to resolve.</p>
+<p><code>provider</code> - <a href="../../-lifecycle-scope-provider/">LifecycleScopeProvider</a>&lt;<a href="./#E">E</a>&gt;!: the <code>`[</code>LifecycleScopeProvider`](../-lifecycle-scope-provider/index.md) to resolve.</p>
 <p><code>&lt;E&gt;</code> - the lifecycle event type</p>
 <h3 id="exceptions">Exceptions<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h3>
-<p><code>OutsideScopeException</code> - if the <code>`[</code>LifecycleScopeProvider#correspondingEvents()`](../-lifecycle-scope-provider/corresponding-events.md) throws an OutsideScopeException during resolution.</p>
+<p><code>OutsideScopeException</code> - if the <code>[`LifecycleScopeProvider#correspondingEvents()`](../-lifecycle-scope-provider/corresponding-events.md) throws an</code><a href="#"><code>OutsideScopeException</code></a> during resolution.</p>
 <p><strong>Return</strong>
-a resolved CompletableSource representation of a given provider</p>
-<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; resolveScopeFromLifecycle(provider:</code><a href="../../-lifecycle-scope-provider/"><code>LifecycleScopeProvider</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;, checkEndBoundary:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a></p>
-<p>Overload for resolving lifecycle providers allows configuration of checking &ldquo;end&rdquo; boundaries of lifecycles. That is, they will ensure that the lifecycle has both started and not ended, and otherwise will throw one of LifecycleNotStartedException (if <code>`[</code> <code>](../-lifecycle-scope-provider/peek-lifecycle.md) returns</code>null`) or if the lifecycle is ended. To configure the runtime behavior of these exceptions, see AutoDisposePlugins.</p>
-<p><em>Note:</em> This resolves the scope immediately, so consider deferring execution as needed, such as using <code>`[</code>defer`](#).</p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html">CompletableSource</a>!: a resolved <code>`[</code>CompletableSource`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html</a>) representation of a given provider</p>
+<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; resolveScopeFromLifecycle(provider:</code><a href="../../-lifecycle-scope-provider/"><code>LifecycleScopeProvider</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;!, checkEndBoundary:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a><code>!</code></p>
+<p>Overload for resolving lifecycle providers allows configuration of checking &ldquo;end&rdquo; boundaries of lifecycles. That is, they will ensure that the lifecycle has both started and not ended, and otherwise will throw one of <code>[`LifecycleNotStartedException`](../-lifecycle-not-started-exception/index.md) (if</code><a href="../../-lifecycle-scope-provider/peek-lifecycle/"><code></code></a> returns <code>null</code>) or if the lifecycle is ended. To configure the runtime behavior of these exceptions, see <code>`[</code>AutoDisposePlugins`](#).</p>
+<p><em>Note:</em> This resolves the scope immediately, so consider deferring execution as needed, such as using <code>`[</code>defer`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#defer(java.util.concurrent.Callable">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html#defer(java.util.concurrent.Callable</a>&lt;? extends io.reactivex.CompletableSource&gt;)).</p>
 <h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
-<p><code>provider</code> - the LifecycleScopeProvider to resolve.</p>
-<p><code>checkEndBoundary</code> - whether or not to check that the lifecycle has ended</p>
+<p><code>provider</code> - <a href="../../-lifecycle-scope-provider/">LifecycleScopeProvider</a>&lt;<a href="./#E">E</a>&gt;!: the <code>`[</code>LifecycleScopeProvider`](../-lifecycle-scope-provider/index.md) to resolve.</p>
+<p><code>checkEndBoundary</code> - <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>: whether or not to check that the lifecycle has ended</p>
 <p><code>&lt;E&gt;</code> - the lifecycle event type</p>
 <h3 id="exceptions_1">Exceptions<a class="headerlink" href="#exceptions_1" title="Permanent link">&para;</a></h3>
-<p><code>OutsideScopeException</code> - if the <code>`[</code>LifecycleScopeProvider#correspondingEvents()`](../-lifecycle-scope-provider/corresponding-events.md) throws an OutsideScopeException during resolution.</p>
+<p><code>OutsideScopeException</code> - if the <code>[`LifecycleScopeProvider#correspondingEvents()`](../-lifecycle-scope-provider/corresponding-events.md) throws an</code><a href="#"><code>OutsideScopeException</code></a> during resolution.</p>
 <p><strong>Return</strong>
-a resolved CompletableSource representation of a given provider</p>
-<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; resolveScopeFromLifecycle(lifecycle:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html"><code>Observable</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;, endEvent:</code><a href="./#E"><code>E</code></a><code>):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a></p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html">CompletableSource</a>!: a resolved <code>`[</code>CompletableSource`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html</a>) representation of a given provider</p>
+<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; resolveScopeFromLifecycle(lifecycle:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html"><code>Observable</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;!, endEvent:</code><a href="./#E"><code>E</code></a><code>):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a><code>!</code></p>
 <h3 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h3>
-<p><code>lifecycle</code> - the stream of lifecycle events</p>
-<p><code>endEvent</code> - the target end event</p>
+<p><code>lifecycle</code> - <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html">Observable</a>&lt;<a href="./#E">E</a>&gt;!: the stream of lifecycle events</p>
+<p><code>endEvent</code> - <a href="./#E">E</a>: the target end event</p>
 <p><code>&lt;E&gt;</code> - the lifecycle event type</p>
 <p><strong>Return</strong>
-a resolved Completable representation of a given lifecycle, targeting the given event</p>
-<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; resolveScopeFromLifecycle(lifecycle:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html"><code>Observable</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;, endEvent:</code><a href="./#E"><code>E</code></a><code>, @Nullable comparator:</code><a href="http://docs.oracle.com/javase/6/docs/api/java/util/Comparator.html"><code>Comparator</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;?):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a></p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html">CompletableSource</a>!: a resolved <code>`[</code>Completable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html</a>) representation of a given lifecycle, targeting the given event</p>
+<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; resolveScopeFromLifecycle(lifecycle:</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html"><code>Observable</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;!, endEvent:</code><a href="./#E"><code>E</code></a><code>, @Nullable comparator:</code><a href="https://docs.oracle.com/javase/6/docs/api/java/util/Comparator.html"><code>Comparator</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;?):</code><a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html"><code>CompletableSource</code></a><code>!</code></p>
 <h3 id="parameters_3">Parameters<a class="headerlink" href="#parameters_3" title="Permanent link">&para;</a></h3>
-<p><code>lifecycle</code> - the stream of lifecycle events</p>
-<p><code>endEvent</code> - the target end event</p>
-<p><code>comparator</code> - an optional comparator for checking event equality.</p>
+<p><code>lifecycle</code> - <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Observable.html">Observable</a>&lt;<a href="./#E">E</a>&gt;!: the stream of lifecycle events</p>
+<p><code>endEvent</code> - <a href="./#E">E</a>: the target end event</p>
+<p><code>comparator</code> - <a href="https://docs.oracle.com/javase/6/docs/api/java/util/Comparator.html">Comparator</a>&lt;<a href="./#E">E</a>&gt;?: an optional comparator for checking event equality.</p>
 <p><code>&lt;E&gt;</code> - the lifecycle event type</p>
 <p><strong>Return</strong>
-a resolved Completable representation of a given lifecycle, targeting the given event</p>
+<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/CompletableSource.html">CompletableSource</a>!: a resolved <code>`[</code>Completable`](<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html">http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html</a>) representation of a given lifecycle, targeting the given event</p>
                 
                   
                 
@@ -583,7 +583,7 @@ a resolved Completable representation of a given lifecycle, targeting the given 
       
     </div>
     
-      <script src="../../../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../../../.."}})</script>
       
