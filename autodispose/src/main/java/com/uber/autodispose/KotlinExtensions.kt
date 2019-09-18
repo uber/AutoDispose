@@ -256,12 +256,12 @@ inline fun <T> ParallelFlowable<T>.autoDispose(provider: ScopeProvider): Paralle
     this.`as`(AutoDispose.autoDisposable(provider))
 
 /** Executes a [body] with an [AutoDisposeContext] backed by the given [scope]. */
-fun withScope(scope: ScopeProvider, body: AutoDisposeContext.() -> Unit) {
+inline fun withScope(scope: ScopeProvider, body: AutoDisposeContext.() -> Unit) {
   withScope(completableOf(scope), body)
 }
 
 /** Executes a [body] with an [AutoDisposeContext] backed by the given [completableScope]. */
-fun withScope(completableScope: Completable, body: AutoDisposeContext.() -> Unit) {
+inline fun withScope(completableScope: Completable, body: AutoDisposeContext.() -> Unit) {
   val context = RealAutoDisposeContext(completableScope)
   context.body()
 }
@@ -291,7 +291,8 @@ interface AutoDisposeContext {
   fun Completable.autoDispose(): CompletableSubscribeProxy
 }
 
-private class RealAutoDisposeContext(private val scope: Completable) : AutoDisposeContext {
+@PublishedApi
+internal class RealAutoDisposeContext(private val scope: Completable) : AutoDisposeContext {
   override fun <T> ParallelFlowable<T>.autoDispose() = autoDispose(scope)
   override fun <T> Flowable<T>.autoDispose() = autoDispose(scope)
   override fun <T> Observable<T>.autoDispose() = autoDispose(scope)
