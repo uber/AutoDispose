@@ -40,6 +40,7 @@ import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.UQualifiedReferenceExpression
 import org.jetbrains.uast.getContainingUClass
 import org.jetbrains.uast.getParentOfType
+import org.jetbrains.uast.visitor.AbstractUastVisitor
 import java.io.StringReader
 import java.util.EnumSet
 import java.util.Properties
@@ -152,6 +153,34 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
 
       override fun visitCallExpression(node: UCallExpression) {
         node.resolve()?.let { method ->
+          // Check if it's one of our withScope() higher order functions. If so, we handle that
+          // separately and visit the passed in lambda body and run the subscribe method call checks
+          // inside it with the "isInScope" check just hardcoded to true.
+          if (method.name == "withScope" &&
+              method.containingClass?.qualifiedName == KOTLIN_EXTENSIONS) {
+            val args = node.valueArguments
+            if (args.size == 2) {
+              val last = args[1]
+              // Check the lambda type too because it's a cheaper instance check
+              if (last is ULambdaExpression) {
+                // This is the AutoDisposeContext.() call
+                // TODO we can't determine this exactly with lint as far as I can tell
+
+                val body = last.body
+                val visitor = SubscribeCallVisitor(
+                    context,
+                    callExpressionChecker = { context, node, calledMethod ->
+                      callExpressionChecker(context, node, calledMethod) { _, _ -> true }
+                    },
+                    callableReferenceChecker = { context, node, calledMethod ->
+                      callableReferenceChecker(context, node, calledMethod) { _, _ -> true }
+                    }
+                )
+                body.accept(visitor)
+                return@let
+              }
+            }
+          }
           callExpressionChecker(context, node, method, ::containingClassScopeChecker)
         }
       }
@@ -177,6 +206,27 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
     // call expression so that we can get it's return type etc.
     if (node.uastParent != null && node.uastParent is UCallExpression) {
       evaluateMethodCall(node.uastParent as UCallExpression, method, context, isInScope)
+    }
+  }
+
+  private class SubscribeCallVisitor(
+      private val context: JavaContext,
+      private val callExpressionChecker: (JavaContext, UCallExpression, PsiMethod) -> Unit,
+      private val callableReferenceChecker: (JavaContext, UCallableReferenceExpression, PsiMethod) -> Unit
+  ) : AbstractUastVisitor() {
+
+    override fun visitCallExpression(node: UCallExpression): Boolean {
+      node.resolve()?.let { callExpressionChecker(context, node, it) }
+      return super.visitCallExpression(node)
+    }
+
+    override fun afterVisitCallableReferenceExpression(node: UCallableReferenceExpression) {
+      node.resolve()?.let {
+        if (it is PsiMethod) {
+          callableReferenceChecker(context, node, it)
+        }
+      }
+      super.afterVisitCallableReferenceExpression(node)
     }
   }
 
