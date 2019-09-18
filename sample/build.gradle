@@ -107,6 +107,7 @@ dependencies {
   implementation deps.rx.android
   implementation 'com.jakewharton.rx2:replaying-share-kotlin:2.0.1'
   implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.1'
+  implementation 'com.github.akarnokd:rxjava3-bridge:3.0.0-RC3'
 
 //  errorproneJavac deps.build.errorProneJavac
 //  errorprone deps.build.errorProne

@@ -25,7 +25,7 @@ import androidx.lifecycle.Lifecycle
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDispose
 import com.uber.autodispose.recipes.subscribeBy
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import java.util.concurrent.TimeUnit
 
 /**

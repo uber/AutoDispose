@@ -15,7 +15,7 @@
  */
 package com.uber.autodispose.sample.repository
 
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import java.util.concurrent.TimeUnit
 
 /**

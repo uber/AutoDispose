@@ -27,8 +27,8 @@ import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeViewKotlin.ViewEvent
 import com.uber.autodispose.recipes.AutoDisposeViewKotlin.ViewEvent.ATTACH
 import com.uber.autodispose.recipes.AutoDisposeViewKotlin.ViewEvent.DETACH
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 /**
  * An example implementation of an AutoDispose View with lifecycle handling and precondition checks

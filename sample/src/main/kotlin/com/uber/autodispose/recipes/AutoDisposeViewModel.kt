@@ -21,8 +21,8 @@ import com.uber.autodispose.lifecycle.LifecycleEndedException
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeViewModel.ViewModelEvent
 import com.uber.autodispose.recipes.AutoDisposeViewModel.ViewModelEvent.CREATED
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 /**
  * Demo base [ViewModel] that can automatically dispose itself in [onCleared].

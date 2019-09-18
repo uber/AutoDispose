@@ -33,8 +33,8 @@ import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.PAUS
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.RESUME
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.START
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.STOP
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 /**
  * A [Fragment] example implementation for making one implement [LifecycleScopeProvider]. One would

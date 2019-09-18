@@ -24,8 +24,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDispose
 import com.uber.autodispose.sample.repository.ImageRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ArchComponentActivity : AppCompatActivity() {
 

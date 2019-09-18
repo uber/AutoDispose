@@ -21,7 +21,8 @@ import android.graphics.BitmapFactory
 import androidx.annotation.RawRes
 import com.jakewharton.rx.replayingShare
 import com.jakewharton.rxrelay2.PublishRelay
-import io.reactivex.Observable
+import hu.akarnokd.rxjava3.bridge.RxJavaBridge
+import io.reactivex.rxjava3.core.Observable
 
 /**
  * Repository layer for loading a Bitmap from res/raw.
@@ -44,10 +45,13 @@ class ImageRepository(private val resources: Resources) {
    * and should not be triggered every time someone subscribes to it.
    * [replayingShare] helps with that.
    */
-  private val imageObservable = relay
-      .map {
-        return@map BitmapFactory.decodeStream(resources.openRawResource(it))
-      }.replayingShare()
+  private val imageObservable = RxJavaBridge.toV3Observable(
+      relay
+          .map {
+            return@map BitmapFactory.decodeStream(resources.openRawResource(it))
+          }
+          .replayingShare()
+  )
 
   /**
    * Returns an Observable<Bitmap> that will be consumed in the
