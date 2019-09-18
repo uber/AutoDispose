@@ -125,7 +125,9 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
 
   @Override
   protected boolean capturedTypeAllowed(Type type, VisitorState state) {
-    return isSubtype(type, state.getTypeFromString("io.reactivex.disposables.Disposable"), state);
+    return isSubtype(
+            type, state.getTypeFromString("io.reactivex.rxjava3.disposables.Disposable"), state)
+        || isSubtype(type, state.getTypeFromString("org.reactivestreams.Subscription"), state);
   }
 
   @Override
