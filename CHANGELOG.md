@@ -1,6 +1,62 @@
 Changelog
 =========
 
+Version 1.4.0
+-------------
+
+_2019-09-18_
+
+### Kotlin `CoroutineScope` interop [#374](https://github.com/uber/AutoDispose/pull/374)
+
+Interop functions for `CoroutineScope` to `ScopeProvider`/`Completable` (and vice versa) are now available
+in a new `autodispose-coroutines-interop` artifact. This is not intended to allow AutoDispose's 
+scoping machinery be a competitor for it, but rather just a tool for interop-ing codebases that use 
+both or aid in migrations.
+
+### Kotlin API naming improvements [#372](https://github.com/uber/AutoDispose/pull/372) [#377](https://github.com/uber/AutoDispose/pull/377)
+
+To better differentiate between the `AutoDispose` classes's `autoDisposable()` methods (which return 
+Rx converter types), the Kotlin `autoDisposable()` extensions have been deprecated in favor of a more 
+idiomatic `autoDispose()` verb form name. The old extensions have been annotated with `@Deprecated` 
+and replacements, so this should be an easy one time migration.
+
+```kotlin
+myObservable
+    .autoDispose(scope)
+    .subscribe()
+```
+
+### Fused proxy types [#376](https://github.com/uber/AutoDispose/pull/376)
+
+AutoDispose's analogous Rx types (`AutoDisposeObservable`, etc) have been updated to implement 
+their `*SubscribeProxy` interfaces directly. The current behavior of subscribe proxies is best 
+thought of as similar to `hide()`. Subscribe proxies have always wrapped the AutoDispose's 
+analogous Rx types to prevent upcasting. If your team are good citizens though, you can now disable 
+proxy hiding via `AutoDisposePlugins` to save that extra allocation.
+
+### New `withScope()` API [#375](https://github.com/uber/AutoDispose/pull/375) [#378](https://github.com/uber/AutoDispose/pull/378)
+
+There is a new Kotlin `withScope()` API that accepts a scope and a body to execute in. This body
+is a function-with-receiver tied to a new `AutoDisposeContext` interface, which has no-arg `autoDispose()`
+functions in it. This allows for calling `autoDispose()` within the context of the body and allow the
+enclosing context manage wiring the applied scope to it.
+
+```kotlin
+@Test
+fun example() = withScope(scope) {
+  Observable.just("Hello withScope()!")
+      .autoDispose()
+      .subscribe()
+}
+```
+
+### Dependency updates
+
+```
+Kotlin: 1.3.50
+Lint tools: 26.5.0
+```
+
 Version 1.3.0
 -------------
 
