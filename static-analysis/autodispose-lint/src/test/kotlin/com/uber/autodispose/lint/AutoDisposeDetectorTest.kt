@@ -56,13 +56,6 @@ class AutoDisposeDetectorTest {
       interface ScopeProvider
     """).indented()
 
-    private val KOTLIN_EXTENSIONS = kotlin("""
-      package com.uber.autodispose
-
-      fun withScope(scope: ScopeProvider, body: () -> Unit) {
-      }
-    """).indented()
-
     // Stub LifecycleScopeProvider
     private val LIFECYCLE_SCOPE_PROVIDER = kotlin("""
       package com.uber.autodispose.lifecycle
@@ -1055,64 +1048,6 @@ class AutoDisposeDetectorTest {
           }
         """).indented())
         .allowCompilationErrors(false)
-        .issues(AutoDisposeDetector.ISSUE)
-        .run()
-        .expectClean()
-  }
-
-    @Test fun withScope_withoutDisposing_erroringOut() {
-        lint()
-            .files(rxJava2(),
-                LIFECYCLE_OWNER,
-                ACTIVITY,
-                SCOPE_PROVIDER,
-                KOTLIN_EXTENSIONS,
-                kotlin("""
-          package foo
-          import io.reactivex.Observable
-          import androidx.appcompat.app.AppCompatActivity
-          import com.uber.autodispose.ScopeProvider
-          import com.uber.autodispose.withScope
-
-          class ExampleClass: AppCompatActivity {
-            lateinit var scopeProvider: ScopeProvider
-            fun names() {
-              val observable = Observable.just(1)
-              withScope(scopeProvider) {
-                observable.subscribe()
-              }
-            }
-          }
-        """).indented())
-            .issues(AutoDisposeDetector.ISSUE)
-            .run()
-            .expectErrorCount(1)
-    }
-
-  @Test fun withScope_withDisposing_expectClean() {
-    lint()
-        .files(rxJava2(),
-            LIFECYCLE_OWNER,
-            ACTIVITY,
-            SCOPE_PROVIDER,
-            KOTLIN_EXTENSIONS,
-            kotlin("""
-          package foo
-          import io.reactivex.Observable
-          import androidx.appcompat.app.AppCompatActivity
-          import com.uber.autodispose.ScopeProvider
-          import com.uber.autodispose.withScope
-
-          class ExampleClass: AppCompatActivity {
-            lateinit var scopeProvider: ScopeProvider
-            fun names() {
-              val observable = Observable.just(1)
-              withScope(scopeProvider) {
-                observable.autoDispose().subscribe()
-              }
-            }
-          }
-        """).indented())
         .issues(AutoDisposeDetector.ISSUE)
         .run()
         .expectClean()
