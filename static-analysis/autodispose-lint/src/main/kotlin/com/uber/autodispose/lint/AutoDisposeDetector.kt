@@ -274,7 +274,7 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
    */
   private fun isCapturedTypeAllowed(returnType: PsiType?, evaluator: JavaEvaluator): Boolean {
     PsiUtil.resolveClassInType(returnType)?.let {
-      return evaluator.inheritsFrom(it, "io.reactivex.disposables.Disposable", false)
+      return evaluator.inheritsFrom(it, "io.reactivex.rxjava3.disposables.Disposable", false)
     }
     return false
   }

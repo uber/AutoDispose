@@ -161,7 +161,7 @@ class AutoDisposeDetectorTest {
             java("""
           package foo;
           import io.reactivex.rxjava3.core.Observable;
-          import io.reactivex.rxjava3.core.observers.DisposableObserver;
+          import io.reactivex.rxjava3.observers.DisposableObserver;
           import androidx.fragment.app.Fragment;
 
           class ExampleClass extends Fragment {
@@ -199,7 +199,7 @@ class AutoDisposeDetectorTest {
             java("""
           package foo;
           import io.reactivex.rxjava3.core.Observable;
-          import io.reactivex.rxjava3.core.observers.DisposableObserver;
+          import io.reactivex.rxjava3.observers.DisposableObserver;
           import androidx.fragment.app.Fragment;
           import com.uber.autodispose.ScopeProvider;
 
@@ -687,7 +687,7 @@ class AutoDisposeDetectorTest {
       package foo
       import androidx.appcompat.app.AppCompatActivity
       import io.reactivex.rxjava3.core.Observable
-      import io.reactivex.rxjava3.core.disposables.CompositeDisposable
+      import io.reactivex.rxjava3.disposables.CompositeDisposable
 
       class MyActivity: AppCompatActivity {
         private val disposables = CompositeDisposable()
@@ -711,7 +711,7 @@ class AutoDisposeDetectorTest {
       package foo
       import androidx.appcompat.app.AppCompatActivity
       import io.reactivex.rxjava3.core.Observable
-      import io.reactivex.rxjava3.core.disposables.CompositeDisposable
+      import io.reactivex.rxjava3.disposables.CompositeDisposable
       import io.reactive.disposables.Disposable
 
       class MyActivity: AppCompatActivity {
@@ -739,7 +739,7 @@ class AutoDisposeDetectorTest {
       package foo
       import androidx.appcompat.app.AppCompatActivity
       import io.reactivex.rxjava3.core.Observable
-      import io.reactivex.rxjava3.core.disposables.CompositeDisposable
+      import io.reactivex.rxjava3.disposables.CompositeDisposable
 
       class MyActivity: AppCompatActivity {
         private val disposables = CompositeDisposable()
@@ -765,7 +765,7 @@ class AutoDisposeDetectorTest {
       package foo;
       import androidx.appcompat.app.AppCompatActivity;
       import io.reactivex.rxjava3.core.Observable;
-      import io.reactivex.rxjava3.core.disposables.Disposable;
+      import io.reactivex.rxjava3.disposables.Disposable;
 
       class MyActivity extends AppCompatActivity {
         fun doSomething() {
@@ -788,7 +788,7 @@ class AutoDisposeDetectorTest {
       package foo;
       import androidx.appcompat.app.AppCompatActivity;
       import io.reactivex.rxjava3.core.Observable;
-      import io.reactivex.rxjava3.core.disposables.Disposable;
+      import io.reactivex.rxjava3.disposables.Disposable;
 
       class MyActivity extends AppCompatActivity {
         fun doSomething() {
@@ -812,8 +812,8 @@ class AutoDisposeDetectorTest {
             java("""
           package foo;
           import io.reactivex.rxjava3.core.Observable;
-          import io.reactivex.rxjava3.core.observers.DisposableObserver;
-          import io.reactivex.rxjava3.core.disposables.Disposable;
+          import io.reactivex.rxjava3.observers.DisposableObserver;
+          import io.reactivex.rxjava3.disposables.Disposable;
           import io.reactivex.rxjava3.core.Observer;
           import androidx.fragment.app.Fragment;
           import io.reactivex.rxjava3.core.functions.Function;
@@ -866,8 +866,8 @@ class AutoDisposeDetectorTest {
             java("""
           package foo;
           import io.reactivex.rxjava3.core.Observable;
-          import io.reactivex.rxjava3.core.observers.DisposableObserver;
-          import io.reactivex.rxjava3.core.disposables.Disposable;
+          import io.reactivex.rxjava3.observers.DisposableObserver;
+          import io.reactivex.rxjava3.disposables.Disposable;
           import io.reactivex.rxjava3.core.Observer;
           import androidx.fragment.app.Fragment;
           import io.reactivex.rxjava3.core.functions.Function;
@@ -916,8 +916,8 @@ class AutoDisposeDetectorTest {
             kotlin("""
           package foo
           import io.reactivex.rxjava3.core.Observable
-          import io.reactivex.rxjava3.core.observers.DisposableObserver
-          import io.reactivex.rxjava3.core.disposables.Disposable
+          import io.reactivex.rxjava3.observers.DisposableObserver
+          import io.reactivex.rxjava3.disposables.Disposable
           import io.reactivex.rxjava3.core.Observer
           import androidx.fragment.app.Fragment
           import io.reactivex.rxjava3.core.functions.Function
@@ -966,12 +966,12 @@ class AutoDisposeDetectorTest {
             FRAGMENT,
             kotlin("""
           package foo
-          import io.reactivex.rxjava3.core.Observable
-          import io.reactivex.rxjava3.core.observers.DisposableObserver
-          import io.reactivex.rxjava3.core.disposables.Disposable
-          import io.reactivex.rxjava3.core.Observer
           import androidx.fragment.app.Fragment
-          import io.reactivex.rxjava3.core.functions.Function
+          import io.reactivex.rxjava3.core.Observable
+          import io.reactivex.rxjava3.core.Observer
+          import io.reactivex.rxjava3.disposables.Disposable
+          import io.reactivex.rxjava3.functions.Function
+          import io.reactivex.rxjava3.observers.DisposableObserver
 
           class ExampleClass: Fragment {
             fun names() {
@@ -1010,8 +1010,8 @@ class AutoDisposeDetectorTest {
             java("""
           package foo;
           import io.reactivex.rxjava3.core.Observable;
-          import io.reactivex.rxjava3.core.observers.DisposableObserver;
-          import io.reactivex.rxjava3.core.disposables.Disposable;
+          import io.reactivex.rxjava3.observers.DisposableObserver;
+          import io.reactivex.rxjava3.disposables.Disposable;
           import io.reactivex.rxjava3.core.Observer;
           import androidx.fragment.app.Fragment;
 
@@ -1054,8 +1054,8 @@ class AutoDisposeDetectorTest {
             java("""
           package foo;
           import io.reactivex.rxjava3.core.Observable;
-          import io.reactivex.rxjava3.core.observers.DisposableObserver;
-          import io.reactivex.rxjava3.core.disposables.Disposable;
+          import io.reactivex.rxjava3.observers.DisposableObserver;
+          import io.reactivex.rxjava3.disposables.Disposable;
           import androidx.fragment.app.Fragment;
 
           class ExampleClass extends Fragment {
