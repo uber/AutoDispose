@@ -81,12 +81,12 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
             EnumSet.of(Scope.TEST_SOURCES))
     )
 
-    private const val OBSERVABLE = "io.reactivex.Observable"
-    private const val FLOWABLE = "io.reactivex.Flowable"
-    private const val PARALLEL_FLOWABLE = "io.reactivex.parallel.ParallelFlowable"
-    private const val SINGLE = "io.reactivex.Single"
-    private const val MAYBE = "io.reactivex.Maybe"
-    private const val COMPLETABLE = "io.reactivex.Completable"
+    private const val OBSERVABLE = "io.reactivex.rxjava3.core.Observable"
+    private const val FLOWABLE = "io.reactivex.rxjava3.core.Flowable"
+    private const val PARALLEL_FLOWABLE = "io.reactivex.rxjava3.core.parallel.ParallelFlowable"
+    private const val SINGLE = "io.reactivex.rxjava3.core.Single"
+    private const val MAYBE = "io.reactivex.rxjava3.core.Maybe"
+    private const val COMPLETABLE = "io.reactivex.rxjava3.core.Completable"
     private const val KOTLIN_EXTENSIONS = "com.uber.autodispose.KotlinExtensions"
 
     // The default scopes for Android.

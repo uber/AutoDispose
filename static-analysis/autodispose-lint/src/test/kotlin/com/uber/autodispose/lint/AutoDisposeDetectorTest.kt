@@ -93,7 +93,7 @@ class AutoDisposeDetectorTest {
           @file:JvmName("KotlinExtensions")
           package com.uber.autodispose
 
-          import io.reactivex.Completable
+          import io.reactivex.rxjava3.core.Completable
 
           fun withScope(scope: Completable, body: AutoDisposeContext.() -> Unit) {
           }
@@ -114,7 +114,7 @@ class AutoDisposeDetectorTest {
             FRAGMENT,
             java("""
           package foo;
-          import io.reactivex.Observable;
+          import io.reactivex.rxjava3.core.Observable;
           import androidx.fragment.app.Fragment;
 
           class ExampleClass extends Fragment {
@@ -137,7 +137,7 @@ class AutoDisposeDetectorTest {
         .files(rxJava2(),
             java("""
           package foo;
-          import io.reactivex.Observable;
+          import io.reactivex.rxjava3.core.Observable;
           import com.uber.autodispose.ScopeProvider;
 
           class ExampleClass {
@@ -160,8 +160,8 @@ class AutoDisposeDetectorTest {
             FRAGMENT,
             java("""
           package foo;
-          import io.reactivex.Observable;
-          import io.reactivex.observers.DisposableObserver;
+          import io.reactivex.rxjava3.core.Observable;
+          import io.reactivex.rxjava3.core.observers.DisposableObserver;
           import androidx.fragment.app.Fragment;
 
           class ExampleClass extends Fragment {
@@ -198,8 +198,8 @@ class AutoDisposeDetectorTest {
             FRAGMENT,
             java("""
           package foo;
-          import io.reactivex.Observable;
-          import io.reactivex.observers.DisposableObserver;
+          import io.reactivex.rxjava3.core.Observable;
+          import io.reactivex.rxjava3.core.observers.DisposableObserver;
           import androidx.fragment.app.Fragment;
           import com.uber.autodispose.ScopeProvider;
 
@@ -233,7 +233,7 @@ class AutoDisposeDetectorTest {
         .files(rxJava2(),
             kotlin("""
           package foo
-          import io.reactivex.Observable
+          import io.reactivex.rxjava3.core.Observable
           import com.uber.autodispose.ScopeProvider
 
           class ExampleClass {
@@ -256,7 +256,7 @@ class AutoDisposeDetectorTest {
             ACTIVITY,
             java("""
           package foo;
-          import io.reactivex.Single;
+          import io.reactivex.rxjava3.core.Single;
           import androidx.appcompat.app.AppCompatActivity;
 
           class ExampleClass extends AppCompatActivity {
@@ -279,7 +279,7 @@ class AutoDisposeDetectorTest {
         .files(rxJava2(),
             java("""
           package foo;
-          import io.reactivex.Single;
+          import io.reactivex.rxjava3.core.Single;
           import com.uber.autodispose.ScopeProvider;
 
           class ExampleClass {
@@ -300,7 +300,7 @@ class AutoDisposeDetectorTest {
         .files(rxJava2(),
             kotlin("""
           package foo
-          import io.reactivex.Single
+          import io.reactivex.rxjava3.core.Single
           import com.uber.autodispose.ScopeProvider
 
           class ExampleClass {
@@ -322,7 +322,7 @@ class AutoDisposeDetectorTest {
             LIFECYCLE_OWNER,
             java("""
           package foo;
-          import io.reactivex.Flowable;
+          import io.reactivex.rxjava3.core.Flowable;
           import androidx.lifecycle.LifecycleOwner;
 
           class ExampleClass implements LifecycleOwner {
@@ -345,7 +345,7 @@ class AutoDisposeDetectorTest {
         .files(rxJava2(),
             java("""
           package foo;
-          import io.reactivex.Flowable;
+          import io.reactivex.rxjava3.core.Flowable;
           import com.uber.autodispose.ScopeProvider;
 
           class ExampleClass {
@@ -367,7 +367,7 @@ class AutoDisposeDetectorTest {
             LIFECYCLE_SCOPE_PROVIDER,
             kotlin("""
           package foo
-          import io.reactivex.Observable
+          import io.reactivex.rxjava3.core.Observable
           import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 
           class ExampleClass: LifecycleScopeProvider {
@@ -388,7 +388,7 @@ class AutoDisposeDetectorTest {
             SCOPE_PROVIDER,
             kotlin("""
           package foo
-          import io.reactivex.Completable
+          import io.reactivex.rxjava3.core.Completable
           import com.uber.autodispose.ScopeProvider
 
           class ExampleClass: ScopeProvider {
@@ -411,7 +411,7 @@ class AutoDisposeDetectorTest {
         .files(rxJava2(),
             java("""
           package foo;
-          import io.reactivex.Completable;
+          import io.reactivex.rxjava3.core.Completable;
           import com.uber.autodispose.ScopeProvider;
 
           class ExampleClass {
@@ -432,7 +432,7 @@ class AutoDisposeDetectorTest {
         .files(rxJava2(),
             kotlin("""
           package foo
-          import io.reactivex.Observable
+          import io.reactivex.rxjava3.core.Observable
           import com.uber.autodispose.ScopeProvider
 
           class ExampleClass {
@@ -455,7 +455,7 @@ class AutoDisposeDetectorTest {
             ACTIVITY,
             kotlin("""
           package foo
-          import io.reactivex.Maybe
+          import io.reactivex.rxjava3.core.Maybe
           import androidx.appcompat.app.AppCompatActivity
 
           class ExampleClass: AppCompatActivity {
@@ -478,7 +478,7 @@ class AutoDisposeDetectorTest {
         .files(rxJava2(),
             java("""
           package foo;
-          import io.reactivex.Maybe;
+          import io.reactivex.rxjava3.core.Maybe;
           import com.uber.autodispose.ScopeProvider;
 
           class ExampleClass {
@@ -499,7 +499,7 @@ class AutoDisposeDetectorTest {
         .files(rxJava2(),
             kotlin("""
           package foo
-          import io.reactivex.Maybe
+          import io.reactivex.rxjava3.core.Maybe
           import com.uber.autodispose.ScopeProvider
 
           class ExampleClass {
@@ -526,7 +526,7 @@ class AutoDisposeDetectorTest {
         kotlin("""
       package com.uber.autodispose.sample
       import com.uber.autodispose.sample.ClassWithCustomScope
-      import io.reactivex.Observable
+      import io.reactivex.rxjava3.core.Observable
 
       class MyCustomClass: ClassWithCustomScope {
         fun doSomething() {
@@ -555,7 +555,7 @@ class AutoDisposeDetectorTest {
         kotlin("""
       package com.uber.autodispose.sample
       import com.uber.autodispose.sample.ClassWithCustomScope
-      import io.reactivex.Observable
+      import io.reactivex.rxjava3.core.Observable
       import com.uber.autodispose.ScopeProvider
 
       class MyCustomClass: ClassWithCustomScope {
@@ -581,7 +581,7 @@ class AutoDisposeDetectorTest {
         kotlin("""
       package com.uber.autodispose.sample
       import com.uber.autodispose.sample.ClassWithCustomScope
-      import io.reactivex.Observable
+      import io.reactivex.rxjava3.core.Observable
       import com.uber.autodispose.ScopeProvider
 
       class MyCustomClass: ClassWithCustomScope {
@@ -611,7 +611,7 @@ class AutoDisposeDetectorTest {
       package com.uber.autodispose.sample
       import com.uber.autodispose.sample.ClassWithCustomScope
       import androidx.appcompat.app.AppCompatActivity
-      import io.reactivex.Observable
+      import io.reactivex.rxjava3.core.Observable
       import com.uber.autodispose.ScopeProvider
 
       class MyCustomClass: AppCompatActivity {
@@ -639,7 +639,7 @@ class AutoDisposeDetectorTest {
         kotlin("""
       package com.uber.autodispose.sample
       import com.uber.autodispose.sample.ClassWithCustomScope
-      import io.reactivex.Observable
+      import io.reactivex.rxjava3.core.Observable
       import com.uber.autodispose.ScopeProvider
 
       class MyCustomClass: ClassWithCustomScope {
@@ -664,7 +664,7 @@ class AutoDisposeDetectorTest {
         kotlin("""
       package foo
       import androidx.appcompat.app.AppCompatActivity
-      import io.reactivex.Observable
+      import io.reactivex.rxjava3.core.Observable
 
       class MyActivity: AppCompatActivity {
         fun doSomething() {
@@ -686,8 +686,8 @@ class AutoDisposeDetectorTest {
         kotlin("""
       package foo
       import androidx.appcompat.app.AppCompatActivity
-      import io.reactivex.Observable
-      import io.reactivex.disposables.CompositeDisposable
+      import io.reactivex.rxjava3.core.Observable
+      import io.reactivex.rxjava3.core.disposables.CompositeDisposable
 
       class MyActivity: AppCompatActivity {
         private val disposables = CompositeDisposable()
@@ -710,8 +710,8 @@ class AutoDisposeDetectorTest {
         kotlin("""
       package foo
       import androidx.appcompat.app.AppCompatActivity
-      import io.reactivex.Observable
-      import io.reactivex.disposables.CompositeDisposable
+      import io.reactivex.rxjava3.core.Observable
+      import io.reactivex.rxjava3.core.disposables.CompositeDisposable
       import io.reactive.disposables.Disposable
 
       class MyActivity: AppCompatActivity {
@@ -738,8 +738,8 @@ class AutoDisposeDetectorTest {
         kotlin("""
       package foo
       import androidx.appcompat.app.AppCompatActivity
-      import io.reactivex.Observable
-      import io.reactivex.disposables.CompositeDisposable
+      import io.reactivex.rxjava3.core.Observable
+      import io.reactivex.rxjava3.core.disposables.CompositeDisposable
 
       class MyActivity: AppCompatActivity {
         private val disposables = CompositeDisposable()
@@ -764,8 +764,8 @@ class AutoDisposeDetectorTest {
         java("""
       package foo;
       import androidx.appcompat.app.AppCompatActivity;
-      import io.reactivex.Observable;
-      import io.reactivex.disposables.Disposable;
+      import io.reactivex.rxjava3.core.Observable;
+      import io.reactivex.rxjava3.core.disposables.Disposable;
 
       class MyActivity extends AppCompatActivity {
         fun doSomething() {
@@ -787,8 +787,8 @@ class AutoDisposeDetectorTest {
         java("""
       package foo;
       import androidx.appcompat.app.AppCompatActivity;
-      import io.reactivex.Observable;
-      import io.reactivex.disposables.Disposable;
+      import io.reactivex.rxjava3.core.Observable;
+      import io.reactivex.rxjava3.core.disposables.Disposable;
 
       class MyActivity extends AppCompatActivity {
         fun doSomething() {
@@ -811,12 +811,12 @@ class AutoDisposeDetectorTest {
             FRAGMENT,
             java("""
           package foo;
-          import io.reactivex.Observable;
-          import io.reactivex.observers.DisposableObserver;
-          import io.reactivex.disposables.Disposable;
-          import io.reactivex.Observer;
+          import io.reactivex.rxjava3.core.Observable;
+          import io.reactivex.rxjava3.core.observers.DisposableObserver;
+          import io.reactivex.rxjava3.core.disposables.Disposable;
+          import io.reactivex.rxjava3.core.Observer;
           import androidx.fragment.app.Fragment;
-          import io.reactivex.functions.Function;
+          import io.reactivex.rxjava3.core.functions.Function;
 
           class ExampleClass extends Fragment {
             void names() {
@@ -865,12 +865,12 @@ class AutoDisposeDetectorTest {
             FRAGMENT,
             java("""
           package foo;
-          import io.reactivex.Observable;
-          import io.reactivex.observers.DisposableObserver;
-          import io.reactivex.disposables.Disposable;
-          import io.reactivex.Observer;
+          import io.reactivex.rxjava3.core.Observable;
+          import io.reactivex.rxjava3.core.observers.DisposableObserver;
+          import io.reactivex.rxjava3.core.disposables.Disposable;
+          import io.reactivex.rxjava3.core.Observer;
           import androidx.fragment.app.Fragment;
-          import io.reactivex.functions.Function;
+          import io.reactivex.rxjava3.core.functions.Function;
 
           class ExampleClass extends Fragment {
             void names() {
@@ -915,12 +915,12 @@ class AutoDisposeDetectorTest {
             FRAGMENT,
             kotlin("""
           package foo
-          import io.reactivex.Observable
-          import io.reactivex.observers.DisposableObserver
-          import io.reactivex.disposables.Disposable
-          import io.reactivex.Observer
+          import io.reactivex.rxjava3.core.Observable
+          import io.reactivex.rxjava3.core.observers.DisposableObserver
+          import io.reactivex.rxjava3.core.disposables.Disposable
+          import io.reactivex.rxjava3.core.Observer
           import androidx.fragment.app.Fragment
-          import io.reactivex.functions.Function
+          import io.reactivex.rxjava3.core.functions.Function
 
           class ExampleClass: Fragment {
             fun names() {
@@ -966,12 +966,12 @@ class AutoDisposeDetectorTest {
             FRAGMENT,
             kotlin("""
           package foo
-          import io.reactivex.Observable
-          import io.reactivex.observers.DisposableObserver
-          import io.reactivex.disposables.Disposable
-          import io.reactivex.Observer
+          import io.reactivex.rxjava3.core.Observable
+          import io.reactivex.rxjava3.core.observers.DisposableObserver
+          import io.reactivex.rxjava3.core.disposables.Disposable
+          import io.reactivex.rxjava3.core.Observer
           import androidx.fragment.app.Fragment
-          import io.reactivex.functions.Function
+          import io.reactivex.rxjava3.core.functions.Function
 
           class ExampleClass: Fragment {
             fun names() {
@@ -1009,10 +1009,10 @@ class AutoDisposeDetectorTest {
             FRAGMENT,
             java("""
           package foo;
-          import io.reactivex.Observable;
-          import io.reactivex.observers.DisposableObserver;
-          import io.reactivex.disposables.Disposable;
-          import io.reactivex.Observer;
+          import io.reactivex.rxjava3.core.Observable;
+          import io.reactivex.rxjava3.core.observers.DisposableObserver;
+          import io.reactivex.rxjava3.core.disposables.Disposable;
+          import io.reactivex.rxjava3.core.Observer;
           import androidx.fragment.app.Fragment;
 
           class ExampleClass extends Fragment {
@@ -1053,9 +1053,9 @@ class AutoDisposeDetectorTest {
             FRAGMENT,
             java("""
           package foo;
-          import io.reactivex.Observable;
-          import io.reactivex.observers.DisposableObserver;
-          import io.reactivex.disposables.Disposable;
+          import io.reactivex.rxjava3.core.Observable;
+          import io.reactivex.rxjava3.core.observers.DisposableObserver;
+          import io.reactivex.rxjava3.core.disposables.Disposable;
           import androidx.fragment.app.Fragment;
 
           class ExampleClass extends Fragment {
@@ -1089,7 +1089,7 @@ class AutoDisposeDetectorTest {
             WITH_SCOPE_PROVIDER,
             kotlin("""
           package foo
-          import io.reactivex.Observable
+          import io.reactivex.rxjava3.core.Observable
           import com.uber.autodispose.ScopeProvider
           import com.uber.autodispose.withScope
           class ExampleClass {
@@ -1114,8 +1114,8 @@ class AutoDisposeDetectorTest {
             WITH_SCOPE_COMPLETABLE,
             kotlin("""
           package foo
-          import io.reactivex.Completable
-          import io.reactivex.Observable
+          import io.reactivex.rxjava3.core.Completable
+          import io.reactivex.rxjava3.core.Observable
           import com.uber.autodispose.withScope
           class ExampleClass {
             fun names() {
@@ -1139,7 +1139,7 @@ class AutoDisposeDetectorTest {
             WITH_SCOPE_PROVIDER,
             kotlin("""
           package foo
-          import io.reactivex.Observable
+          import io.reactivex.rxjava3.core.Observable
           import com.uber.autodispose.ScopeProvider
           import com.uber.autodispose.withScope
           class ExampleClass {
@@ -1164,7 +1164,7 @@ class AutoDisposeDetectorTest {
             WITH_SCOPE_COMPLETABLE,
             kotlin("""
           package foo
-          import io.reactivex.Completable
+          import io.reactivex.rxjava3.core.Completable
           import com.uber.autodispose.withScope
           class ExampleClass {
             fun names() {
