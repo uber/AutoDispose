@@ -26,7 +26,6 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
-import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiType
 import com.intellij.psi.util.PsiUtil
@@ -87,6 +86,7 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
     private const val SINGLE = "io.reactivex.Single"
     private const val MAYBE = "io.reactivex.Maybe"
     private const val COMPLETABLE = "io.reactivex.Completable"
+    private const val KOTLIN_EXTENSIONS = "com.uber.autodispose.KotlinExtensions"
 
     // The default scopes for Android.
     private val DEFAULT_SCOPES = listOf("androidx.lifecycle.LifecycleOwner",
@@ -143,19 +143,40 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
   override fun createUastHandler(context: JavaContext): UElementHandler? {
     return object : UElementHandler() {
       override fun visitCallableReferenceExpression(node: UCallableReferenceExpression) {
-        val method = node.resolve()
-        // Check if the resolved call reference is method and check that it's invocation is a
-        // call expression so that we can get it's return type etc.
-        if (method is PsiMethod && node.uastParent != null && node.uastParent is UCallExpression) {
-          evaluateMethodCall(node.uastParent as UCallExpression, method, context)
+        node.resolve()?.let { method ->
+          if (method is PsiMethod) {
+            callableReferenceChecker(context, node, method, ::containingClassScopeChecker)
+          }
         }
       }
 
       override fun visitCallExpression(node: UCallExpression) {
-        node.resolve()?.let {
-          evaluateMethodCall(node, it, context)
+        node.resolve()?.let { method ->
+          callExpressionChecker(context, node, method, ::containingClassScopeChecker)
         }
       }
+    }
+  }
+
+  private fun callExpressionChecker(
+      context: JavaContext,
+      node: UCallExpression,
+      method: PsiMethod,
+      isInScope: (JavaEvaluator, UCallExpression) -> Boolean
+  ) {
+    evaluateMethodCall(node, method, context, isInScope)
+  }
+
+  private fun callableReferenceChecker(
+      context: JavaContext,
+      node: UCallableReferenceExpression,
+      method: PsiMethod,
+      isInScope: (JavaEvaluator, UCallExpression) -> Boolean
+  ) {
+    // Check if the resolved call reference is method and check that it's invocation is a
+    // call expression so that we can get it's return type etc.
+    if (node.uastParent != null && node.uastParent is UCallExpression) {
+      evaluateMethodCall(node.uastParent as UCallExpression, method, context, isInScope)
     }
   }
 
@@ -172,12 +193,12 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
    * implement ScopeProvider.
    *
    * @param evaluator the java evaluator.
-   * @param psiClass the calling class.
+   * @param node the call expression.
    * @return whether the `subscribe` method is called "in-scope".
    * @see appliedScopes
    */
-  private fun isInScope(evaluator: JavaEvaluator, psiClass: PsiClass?): Boolean {
-    psiClass?.let { callingClass ->
+  private fun containingClassScopeChecker(evaluator: JavaEvaluator, node: UCallExpression): Boolean {
+    node.getContainingUClass()?.let { callingClass ->
       return appliedScopes.any {
         evaluator.inheritsFrom(callingClass, it, false)
       }
@@ -215,12 +236,17 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
    * @param method the method representation.
    * @param context project context.
    */
-  private fun evaluateMethodCall(node: UCallExpression, method: PsiMethod, context: JavaContext) {
+  private fun evaluateMethodCall(
+      node: UCallExpression,
+      method: PsiMethod,
+      context: JavaContext,
+      isInScope: (JavaEvaluator, UCallExpression) -> Boolean
+  ) {
     if (!getApplicableMethodNames().contains(method.name)) return
     val evaluator = context.evaluator
 
     if (isReactiveType(evaluator, method) &&
-        isInScope(evaluator, node.getContainingUClass())
+        isInScope(evaluator, node)
     ) {
       if (!lenient) {
         context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
