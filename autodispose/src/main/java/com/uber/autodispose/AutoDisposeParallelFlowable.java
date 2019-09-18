@@ -15,8 +15,8 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.CompletableSource;
-import io.reactivex.parallel.ParallelFlowable;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.parallel.ParallelFlowable;
 import org.reactivestreams.Subscriber;
 
 final class AutoDisposeParallelFlowable<T> extends ParallelFlowable<T>

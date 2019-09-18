@@ -15,8 +15,8 @@
  */
 package com.uber.autodispose.observers;
 
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.core.SingleObserver;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * A {@link Disposable} {@link SingleObserver} that can automatically dispose itself. Interface here

@@ -15,8 +15,8 @@
  */
 package com.uber.autodispose.observers;
 
-import io.reactivex.CompletableObserver;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.core.CompletableObserver;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * A {@link Disposable} {@link CompletableObserver} that can automatically dispose itself. Interface

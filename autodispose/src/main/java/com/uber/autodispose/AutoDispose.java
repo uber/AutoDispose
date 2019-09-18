@@ -18,24 +18,24 @@ package com.uber.autodispose;
 import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
 import static com.uber.autodispose.Scopes.completableOf;
 
-import io.reactivex.Completable;
-import io.reactivex.CompletableObserver;
-import io.reactivex.CompletableSource;
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeObserver;
-import io.reactivex.Observable;
-import io.reactivex.ObservableConverter;
-import io.reactivex.Observer;
-import io.reactivex.Single;
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.BiConsumer;
-import io.reactivex.functions.Consumer;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.parallel.ParallelFlowable;
-import io.reactivex.subscribers.TestSubscriber;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableObserver;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.MaybeObserver;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableConverter;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleObserver;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Action;
+import io.reactivex.rxjava3.functions.BiConsumer;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.observers.TestObserver;
+import io.reactivex.rxjava3.parallel.ParallelFlowable;
+import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -53,11 +53,11 @@ import org.reactivestreams.Subscription;
  * no-parameter generic method will autocomplete with the appropriate generic parameters in Java <7,
  * or implicitly in >=8.
  *
- * @see Flowable#as(io.reactivex.FlowableConverter)
- * @see Observable#as(io.reactivex.ObservableConverter)
- * @see Maybe#as(io.reactivex.MaybeConverter)
- * @see Single#as(io.reactivex.SingleConverter)
- * @see Completable#as(io.reactivex.CompletableConverter)
+ * @see Flowable#as(io.reactivex.rxjava3.core.FlowableConverter)
+ * @see Observable#as(io.reactivex.rxjava3.core.ObservableConverter)
+ * @see Maybe#as(io.reactivex.rxjava3.core.MaybeConverter)
+ * @see Single#as(io.reactivex.rxjava3.core.SingleConverter)
+ * @see Completable#as(io.reactivex.rxjava3.core.CompletableConverter)
  */
 public final class AutoDispose {
 

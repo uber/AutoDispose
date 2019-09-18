@@ -15,24 +15,24 @@
  */
 package com.uber.autodispose.errorprone;
 
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle;
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.annotations.CheckReturnValue;
-import io.reactivex.annotations.Nullable;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subscribers.TestSubscriber;
+import io.reactivex.rxjava3.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.annotations.Nullable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.observers.TestObserver;
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
+import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
+
+import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 /** Cases that use {@link AutoDispose} and should not fail the {@link UseAutoDispose} check. */
 public class UseAutoDisposeNegativeCases implements LifecycleScopeProvider<TestLifecycle> {

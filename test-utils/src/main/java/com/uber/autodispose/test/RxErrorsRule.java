@@ -17,9 +17,9 @@ package com.uber.autodispose.test;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import io.reactivex.exceptions.CompositeException;
-import io.reactivex.exceptions.UndeliverableException;
-import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.rxjava3.exceptions.CompositeException;
+import io.reactivex.rxjava3.exceptions.UndeliverableException;
+import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;

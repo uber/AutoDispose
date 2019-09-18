@@ -15,7 +15,7 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.subjects.CompletableSubject;
+import io.reactivex.rxjava3.subjects.CompletableSubject;
 
 final class TestUtil {
 

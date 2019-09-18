@@ -17,8 +17,8 @@
 
 package com.uber.autodispose;
 
-import io.reactivex.Observer;
-import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.reactivestreams.Subscriber;
 

@@ -15,10 +15,10 @@
  */
 package com.uber.autodispose.lifecycle;
 
-import io.reactivex.CompletableSource;
-import io.reactivex.Observable;
-import io.reactivex.annotations.Nullable;
-import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.annotations.Nullable;
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
 /**
  * Test utility to create {@link LifecycleScopeProvider} instances for tests.

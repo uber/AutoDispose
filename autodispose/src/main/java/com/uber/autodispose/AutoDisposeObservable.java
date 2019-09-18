@@ -15,10 +15,10 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.CompletableSource;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableSource;
+import io.reactivex.rxjava3.core.Observer;
 
 final class AutoDisposeObservable<T> extends Observable<T> implements ObservableSubscribeProxy<T> {
   private final ObservableSource<T> source;

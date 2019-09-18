@@ -16,8 +16,8 @@
 
 package com.uber.autodispose;
 
-import io.reactivex.annotations.Nullable;
-import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.rxjava3.annotations.Nullable;
+import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import org.reactivestreams.Subscription;

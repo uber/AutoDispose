@@ -15,10 +15,10 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.CompletableSource;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeObserver;
-import io.reactivex.MaybeSource;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.MaybeObserver;
+import io.reactivex.rxjava3.core.MaybeSource;
 
 final class AutoDisposeMaybe<T> extends Maybe<T> implements MaybeSubscribeProxy<T> {
   private final MaybeSource<T> source;

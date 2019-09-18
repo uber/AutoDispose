@@ -19,11 +19,11 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 import com.uber.autodispose.test.RxErrorsRule;
-import io.reactivex.Flowable;
-import io.reactivex.parallel.ParallelFlowable;
-import io.reactivex.processors.PublishProcessor;
-import io.reactivex.subjects.CompletableSubject;
-import io.reactivex.subscribers.TestSubscriber;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.parallel.ParallelFlowable;
+import io.reactivex.rxjava3.processors.PublishProcessor;
+import io.reactivex.rxjava3.subjects.CompletableSubject;
+import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;

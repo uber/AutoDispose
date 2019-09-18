@@ -14,9 +14,9 @@
 
 package com.uber.autodispose;
 
-import io.reactivex.disposables.Disposable;
-import io.reactivex.exceptions.ProtocolViolationException;
-import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.exceptions.ProtocolViolationException;
+import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicReference;
 import org.reactivestreams.Subscription;
 

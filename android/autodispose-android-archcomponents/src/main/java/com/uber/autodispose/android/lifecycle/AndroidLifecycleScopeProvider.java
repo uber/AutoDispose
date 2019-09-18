@@ -22,8 +22,8 @@ import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
 import com.uber.autodispose.lifecycle.LifecycleScopes;
-import io.reactivex.CompletableSource;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Observable;
 
 /**
  * A {@link LifecycleScopeProvider} that can provide scoping for Android {@link Lifecycle} and

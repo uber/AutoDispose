@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STARTED;
 import static com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STOPPED;
 
-import io.reactivex.subjects.Subject;
+import io.reactivex.rxjava3.subjects.Subject;
 import org.junit.Test;
 
 public class TestLifecycleScopeProviderTest {

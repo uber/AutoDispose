@@ -17,11 +17,11 @@ package com.uber.autodispose.test;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import io.reactivex.CompletableObserver;
-import io.reactivex.MaybeObserver;
-import io.reactivex.Observer;
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.core.CompletableObserver;
+import io.reactivex.rxjava3.core.MaybeObserver;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.core.SingleObserver;
+import io.reactivex.rxjava3.disposables.Disposable;
 import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;

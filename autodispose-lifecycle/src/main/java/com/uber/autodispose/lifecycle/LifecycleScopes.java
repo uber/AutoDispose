@@ -17,12 +17,12 @@ package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.OutsideScopeException;
-import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
-import io.reactivex.Observable;
-import io.reactivex.annotations.Nullable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.annotations.Nullable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.functions.Predicate;
 import java.util.Comparator;
 import java.util.concurrent.Callable;
 

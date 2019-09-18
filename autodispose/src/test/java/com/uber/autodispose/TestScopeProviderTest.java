@@ -15,8 +15,8 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.observers.TestObserver;
-import io.reactivex.subjects.CompletableSubject;
+import io.reactivex.rxjava3.observers.TestObserver;
+import io.reactivex.rxjava3.subjects.CompletableSubject;
 import org.junit.Test;
 
 public class TestScopeProviderTest {
