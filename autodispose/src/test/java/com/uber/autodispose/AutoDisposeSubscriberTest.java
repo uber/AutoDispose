@@ -15,6 +15,10 @@
  */
 package com.uber.autodispose;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.TestUtil.outsideScopeProvider;
+
 import com.uber.autodispose.observers.AutoDisposingSubscriber;
 import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.rxjava3.core.BackpressureStrategy;
@@ -30,10 +34,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Rule;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
-
-import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-import static com.uber.autodispose.TestUtil.outsideScopeProvider;
 
 public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
 

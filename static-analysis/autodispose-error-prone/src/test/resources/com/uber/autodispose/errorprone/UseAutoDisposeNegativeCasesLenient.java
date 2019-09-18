@@ -15,6 +15,8 @@
  */
 package com.uber.autodispose.errorprone;
 
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
@@ -34,8 +36,6 @@ import io.reactivex.rxjava3.observers.TestObserver;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
 import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
-
-import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 /** Cases that use {@link AutoDispose} and should not fail the {@link UseAutoDispose} check. */
 public class UseAutoDisposeNegativeCasesLenient implements LifecycleScopeProvider<TestLifecycle> {

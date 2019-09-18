@@ -15,12 +15,12 @@
  */
 package com.uber.autodispose.android.internal;
 
+import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
+
 import android.os.Looper;
 import androidx.annotation.RestrictTo;
 import com.uber.autodispose.android.AutoDisposeAndroidPlugins;
 import io.reactivex.rxjava3.functions.BooleanSupplier;
-
-import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 @RestrictTo(LIBRARY_GROUP)
 public class AutoDisposeAndroidUtil {

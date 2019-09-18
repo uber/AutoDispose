@@ -15,6 +15,10 @@
  */
 package com.uber.autodispose.lifecycle;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static com.uber.autodispose.lifecycle.TestUtil.makeLifecycleProvider;
+
 import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.test.RecordingObserver;
@@ -27,10 +31,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
-import static com.uber.autodispose.lifecycle.TestUtil.makeLifecycleProvider;
 
 public class LifecycleScopeProviderObservableTest {
 

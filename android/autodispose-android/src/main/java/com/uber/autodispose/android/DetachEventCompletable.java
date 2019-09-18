@@ -15,6 +15,9 @@
  */
 package com.uber.autodispose.android;
 
+import static androidx.annotation.RestrictTo.Scope.LIBRARY;
+import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
+
 import android.os.Build;
 import android.view.View;
 import androidx.annotation.RestrictTo;
@@ -22,9 +25,6 @@ import com.uber.autodispose.OutsideScopeException;
 import io.reactivex.rxjava3.android.MainThreadDisposable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.CompletableSource;
-
-import static androidx.annotation.RestrictTo.Scope.LIBRARY;
-import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMainThread;
 
 @RestrictTo(LIBRARY)
 final class DetachEventCompletable implements CompletableSource {

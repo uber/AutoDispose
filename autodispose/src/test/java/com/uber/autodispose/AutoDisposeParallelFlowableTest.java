@@ -15,6 +15,9 @@
  */
 package com.uber.autodispose;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.uber.autodispose.AutoDispose.autoDisposable;
+
 import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.parallel.ParallelFlowable;
@@ -24,9 +27,6 @@ import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.junit.Rule;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
-
-import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
 

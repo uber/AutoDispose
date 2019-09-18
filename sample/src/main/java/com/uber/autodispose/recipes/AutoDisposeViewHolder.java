@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.BindAwareViewHolder;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
-import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.annotations.Nullable;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
 /**

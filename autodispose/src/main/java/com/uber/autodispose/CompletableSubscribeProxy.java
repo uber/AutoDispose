@@ -15,9 +15,9 @@
  */
 package com.uber.autodispose;
 
+import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
-import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Action;
 import io.reactivex.rxjava3.functions.Consumer;

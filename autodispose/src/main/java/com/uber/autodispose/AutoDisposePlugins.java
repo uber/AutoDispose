@@ -15,8 +15,8 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.annotations.Nullable;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.functions.Consumer;
 
 /** Utility class to inject handlers to certain standard autodispose-lifecycle operations. */

@@ -15,9 +15,9 @@
  */
 package com.uber.autodispose.lifecycle;
 
+import io.reactivex.rxjava3.annotations.Nullable;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.annotations.Nullable;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
 /**
