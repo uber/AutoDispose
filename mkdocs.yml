@@ -43,6 +43,7 @@ nav:
     - 'autodispose-android-archcomponent': 1.x/autodispose-android-archcomponents/com.uber.autodispose.android.lifecycle/index.md
     - 'autodispose-android-archcomponent-test': 1.x/autodispose-android-archcomponents-test/com.uber.autodispose.android.lifecycle.test/index.md
     - 'autodispose-lifecycle': 1.x/autodispose-lifecycle/com.uber.autodispose.lifecycle/index.md
+    - 'autodispose-coroutines-interop': 1.x/autodispose-coroutines-interop/com.uber.autodispose.coroutinesinterop/index.md
     - 'autodispose-rxlifecycle': 1.x/autodispose-rxlifecycle/com.ubercab.autodispose.rxlifecycle/index.md
     - 'autodispose-rxlifecycle3': 1.x/autodispose-rxlifecycle3/com.ubercab.autodispose.rxlifecycle3/index.md
   - 'Error Prone': error-prone.md
