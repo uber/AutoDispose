@@ -27,8 +27,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.test.RecordingObserver;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -63,7 +63,7 @@ public final class ViewScopeProviderTest {
     // Attach it
     instrumentation.runOnMainSync(() -> parent.addView(child));
     instrumentation.runOnMainSync(
-        () -> subject.as(autoDisposable(ViewScopeProvider.from(child))).subscribe(o));
+        () -> subject.to(autoDisposable(ViewScopeProvider.from(child))).subscribe(o));
 
     Disposable d = o.takeSubscribe();
     o.assertNoMoreEvents(); // No initial value.
@@ -89,7 +89,7 @@ public final class ViewScopeProviderTest {
 
     // Attach it
     instrumentation.runOnMainSync(() -> parent.addView(child));
-    subject.as(autoDisposable(ViewScopeProvider.from(child))).subscribe(o);
+    subject.to(autoDisposable(ViewScopeProvider.from(child))).subscribe(o);
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
@@ -105,7 +105,7 @@ public final class ViewScopeProviderTest {
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     instrumentation.runOnMainSync(
-        () -> subject.as(autoDisposable(ViewScopeProvider.from(child))).subscribe(o));
+        () -> subject.to(autoDisposable(ViewScopeProvider.from(child))).subscribe(o));
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();
@@ -122,7 +122,7 @@ public final class ViewScopeProviderTest {
     instrumentation.runOnMainSync(() -> parent.addView(child));
     instrumentation.runOnMainSync(() -> parent.removeView(child));
     instrumentation.runOnMainSync(
-        () -> subject.as(autoDisposable(ViewScopeProvider.from(child))).subscribe(o));
+        () -> subject.to(autoDisposable(ViewScopeProvider.from(child))).subscribe(o));
 
     Disposable d = o.takeSubscribe();
     Throwable t = o.takeError();

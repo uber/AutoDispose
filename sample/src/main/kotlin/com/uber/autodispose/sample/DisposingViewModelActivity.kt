@@ -25,7 +25,7 @@ import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDispose
 import com.uber.autodispose.sample.repository.NetworkRepository
 import com.uber.autodispose.sample.state.DownloadState
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class DisposingViewModelActivity : AppCompatActivity() {
 

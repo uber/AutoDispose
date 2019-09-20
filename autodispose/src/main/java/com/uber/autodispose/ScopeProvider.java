@@ -16,9 +16,9 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.internal.DoNotMock;
-import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
-import io.reactivex.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableSource;
 
 /**
  * Provides a {@link CompletableSource} representation of a scope. The emission of this is the

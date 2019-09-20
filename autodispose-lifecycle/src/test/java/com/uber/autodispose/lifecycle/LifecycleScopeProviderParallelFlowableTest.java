@@ -22,11 +22,10 @@ import static com.uber.autodispose.lifecycle.TestUtil.makeLifecycleProvider;
 import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.test.RxErrorsRule;
-import io.reactivex.Flowable;
-import io.reactivex.processors.PublishProcessor;
-import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subscribers.TestSubscriber;
-import java.util.List;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.processors.PublishProcessor;
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
+import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -55,9 +54,9 @@ public class LifecycleScopeProviderParallelFlowableTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(provider)).subscribe(subscribers);
-    firstSubscriber.assertSubscribed();
-    secondSubscriber.assertSubscribed();
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
+    assertThat(firstSubscriber.hasSubscription()).isTrue();
+    assertThat(secondSubscriber.hasSubscription()).isTrue();
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(lifecycle.hasObservers()).isTrue();
@@ -98,16 +97,11 @@ public class LifecycleScopeProviderParallelFlowableTest {
 
     Flowable.just(1, 2)
         .parallel(DEFAULT_PARALLELISM)
-        .as(autoDisposable(provider))
+        .to(autoDisposable(provider))
         .subscribe(subscribers);
 
-    List<Throwable> errors1 = firstSubscriber.errors();
-    assertThat(errors1).hasSize(1);
-    assertThat(errors1.get(0)).isInstanceOf(LifecycleNotStartedException.class);
-
-    List<Throwable> errors2 = secondSubscriber.errors();
-    assertThat(errors2).hasSize(1);
-    assertThat(errors2.get(0)).isInstanceOf(LifecycleNotStartedException.class);
+    firstSubscriber.assertError(LifecycleNotStartedException.class);
+    secondSubscriber.assertError(LifecycleNotStartedException.class);
   }
 
   @Test
@@ -124,16 +118,11 @@ public class LifecycleScopeProviderParallelFlowableTest {
 
     Flowable.just(1, 2)
         .parallel(DEFAULT_PARALLELISM)
-        .as(autoDisposable(provider))
+        .to(autoDisposable(provider))
         .subscribe(subscribers);
 
-    List<Throwable> errors1 = firstSubscriber.errors();
-    assertThat(errors1).hasSize(1);
-    assertThat(errors1.get(0)).isInstanceOf(LifecycleEndedException.class);
-
-    List<Throwable> errors2 = secondSubscriber.errors();
-    assertThat(errors2).hasSize(1);
-    assertThat(errors2.get(0)).isInstanceOf(LifecycleEndedException.class);
+    firstSubscriber.assertError(LifecycleEndedException.class);
+    secondSubscriber.assertError(LifecycleEndedException.class);
   }
 
   @Test
@@ -147,7 +136,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(provider)).subscribe(subscribers);
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
 
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -175,7 +164,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(provider)).subscribe(subscribers);
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
 
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -197,7 +186,7 @@ public class LifecycleScopeProviderParallelFlowableTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(provider)).subscribe(subscribers);
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
 
     firstSubscriber.assertNoValues();
     firstSubscriber.assertError(

@@ -23,11 +23,11 @@ import static com.uber.autodispose.TestUtil.outsideScopeProvider;
 import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
 import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.test.RxErrorsRule;
-import io.reactivex.Completable;
-import io.reactivex.CompletableObserver;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.subjects.CompletableSubject;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableObserver;
+import io.reactivex.rxjava3.observers.TestObserver;
+import io.reactivex.rxjava3.plugins.RxJavaPlugins;
+import io.reactivex.rxjava3.subjects.CompletableSubject;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Rule;
@@ -51,7 +51,7 @@ public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     CompletableSubject source = CompletableSubject.create();
     CompletableSubject scope = CompletableSubject.create();
-    source.as(autoDisposable(scope)).subscribe(o);
+    source.to(autoDisposable(scope)).subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -72,7 +72,7 @@ public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     CompletableSubject source = CompletableSubject.create();
     CompletableSubject scope = CompletableSubject.create();
-    source.as(autoDisposable(scope)).subscribe(o);
+    source.to(autoDisposable(scope)).subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -94,7 +94,7 @@ public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
     CompletableSubject source = CompletableSubject.create();
     CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = makeProvider(scope);
-    source.as(autoDisposable(provider)).subscribe(o);
+    source.to(autoDisposable(provider)).subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -114,7 +114,7 @@ public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
     CompletableSubject source = CompletableSubject.create();
     CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = makeProvider(scope);
-    source.as(autoDisposable(provider)).subscribe(o);
+    source.to(autoDisposable(provider)).subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -147,7 +147,7 @@ public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
             }
             return observer;
           });
-      Completable.complete().as(autoDisposable(ScopeProvider.UNBOUND)).subscribe();
+      Completable.complete().to(autoDisposable(ScopeProvider.UNBOUND)).subscribe();
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
       assertThat(atomicAutoDisposingObserver.get())
@@ -171,7 +171,7 @@ public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
     //noinspection unchecked because Java
     Completable source = Completable.create(e -> e.setCancellable(i::incrementAndGet));
     CompletableSubject scope = CompletableSubject.create();
-    source.as(autoDisposable(scope)).subscribe();
+    source.to(autoDisposable(scope)).subscribe();
 
     assertThat(i.get()).isEqualTo(0);
     assertThat(scope.hasObservers()).isTrue();
@@ -186,7 +186,7 @@ public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
   @Test
   public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestObserver<Void> o =
-        CompletableSubject.create().as(autoDisposable(ScopeProvider.UNBOUND)).test();
+        CompletableSubject.create().to(autoDisposable(ScopeProvider.UNBOUND)).test();
     o.assertNoValues();
     o.assertNoErrors();
 
@@ -196,7 +196,7 @@ public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
   @Test
   public void unbound_shouldStillPassValues() {
     TestObserver<Void> o =
-        CompletableSubject.create().as(autoDisposable(ScopeProvider.UNBOUND)).test();
+        CompletableSubject.create().to(autoDisposable(ScopeProvider.UNBOUND)).test();
 
     o.onComplete();
     o.assertComplete();
@@ -207,7 +207,7 @@ public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
     AutoDisposePlugins.setOutsideScopeHandler(e -> {});
     ScopeProvider provider = outsideScopeProvider();
     CompletableSubject source = CompletableSubject.create();
-    TestObserver<Void> o = source.as(autoDisposable(provider)).test();
+    TestObserver<Void> o = source.to(autoDisposable(provider)).test();
 
     assertThat(source.hasObservers()).isFalse();
     o.assertNoValues();
@@ -223,7 +223,7 @@ public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
           throw new IllegalStateException(e);
         });
     ScopeProvider provider = outsideScopeProvider();
-    TestObserver<Void> o = CompletableSubject.create().as(autoDisposable(provider)).test();
+    TestObserver<Void> o = CompletableSubject.create().to(autoDisposable(provider)).test();
 
     o.assertNoValues();
     o.assertError(
@@ -234,7 +234,7 @@ public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
 
   @Test
   public void hideProxies() {
-    CompletableSubscribeProxy proxy = Completable.never().as(autoDisposable(ScopeProvider.UNBOUND));
+    CompletableSubscribeProxy proxy = Completable.never().to(autoDisposable(ScopeProvider.UNBOUND));
     // If hideProxies is disabled, the underlying return should be the direct AutoDispose type.
     if (hideProxies) {
       assertThat(proxy).isNotInstanceOf(Completable.class);

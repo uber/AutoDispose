@@ -76,22 +76,22 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
   private static final Matcher<ExpressionTree> SUBSCRIBE_METHOD =
       anyOf(
           instanceMethod()
-              .onDescendantOf("io.reactivex.Single")
+              .onDescendantOf("io.reactivex.rxjava3.core.Single")
               .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH),
           instanceMethod()
-              .onDescendantOf("io.reactivex.Observable")
+              .onDescendantOf("io.reactivex.rxjava3.core.Observable")
               .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH),
           instanceMethod()
-              .onDescendantOf("io.reactivex.Completable")
+              .onDescendantOf("io.reactivex.rxjava3.core.Completable")
               .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH),
           instanceMethod()
-              .onDescendantOf("io.reactivex.Flowable")
+              .onDescendantOf("io.reactivex.rxjava3.core.Flowable")
               .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH),
           instanceMethod()
-              .onDescendantOf("io.reactivex.Maybe")
+              .onDescendantOf("io.reactivex.rxjava3.core.Maybe")
               .namedAnyOf(SUBSCRIBE, SUBSCRIBE_WITH),
           instanceMethod()
-              .onDescendantOf("io.reactivex.parallel.ParallelFlowable")
+              .onDescendantOf("io.reactivex.rxjava3.parallel.ParallelFlowable")
               .named(SUBSCRIBE));
 
   private final Matcher<ExpressionTree> matcher;
@@ -125,7 +125,9 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
 
   @Override
   protected boolean capturedTypeAllowed(Type type, VisitorState state) {
-    return isSubtype(type, state.getTypeFromString("io.reactivex.disposables.Disposable"), state);
+    return isSubtype(
+            type, state.getTypeFromString("io.reactivex.rxjava3.disposables.Disposable"), state)
+        || isSubtype(type, state.getTypeFromString("org.reactivestreams.Subscription"), state);
   }
 
   @Override

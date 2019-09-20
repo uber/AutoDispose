@@ -17,4 +17,4 @@ package com.uber.autodispose.lint
 
 import com.android.tools.lint.checks.infrastructure.TestFiles.bytes
 
-fun Any.rxJava2() = bytes("libs/rxjava-2.1.7.jar", javaClass.getResourceAsStream("/rxjava-2.1.7.jar").readBytes())
+fun Any.rxJava3() = bytes("libs/rxjava-3.0.0-RC3.jar", javaClass.getResourceAsStream("/rxjava-3.0.0-RC3.jar").readBytes())

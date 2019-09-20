@@ -15,12 +15,12 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.CompletableConverter;
-import io.reactivex.FlowableConverter;
-import io.reactivex.MaybeConverter;
-import io.reactivex.ObservableConverter;
-import io.reactivex.SingleConverter;
-import io.reactivex.parallel.ParallelFlowableConverter;
+import io.reactivex.rxjava3.core.CompletableConverter;
+import io.reactivex.rxjava3.core.FlowableConverter;
+import io.reactivex.rxjava3.core.MaybeConverter;
+import io.reactivex.rxjava3.core.ObservableConverter;
+import io.reactivex.rxjava3.core.SingleConverter;
+import io.reactivex.rxjava3.parallel.ParallelFlowableConverter;
 
 /**
  * A custom converter that implements all the RxJava types converters, for use with the {@code as()}

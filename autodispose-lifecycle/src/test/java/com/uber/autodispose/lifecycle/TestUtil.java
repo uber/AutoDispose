@@ -15,9 +15,9 @@
  */
 package com.uber.autodispose.lifecycle;
 
-import io.reactivex.CompletableSource;
-import io.reactivex.Observable;
-import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
 final class TestUtil {
   private static final CorrespondingEventsFunction<Integer> CORRESPONDING_EVENTS =

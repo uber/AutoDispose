@@ -15,9 +15,9 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
-import io.reactivex.subjects.CompletableSubject;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.subjects.CompletableSubject;
 
 /**
  * ScopeProvider implementation for testing. You can either back it with your own instance, or just

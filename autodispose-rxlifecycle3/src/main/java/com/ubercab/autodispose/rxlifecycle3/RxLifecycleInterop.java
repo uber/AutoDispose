@@ -39,7 +39,7 @@ public final class RxLifecycleInterop {
    *
    * <pre><code>
    *   Observable.just(1)
-   *        .as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
+   *        .to(autoDisposable(RxLifecycleInterop.from(lifecycleProvider)))
    *        .subscribe(...)
    * </code></pre>
    *
@@ -58,7 +58,7 @@ public final class RxLifecycleInterop {
    *
    * <pre><code>
    *   Observable.just(1)
-   *        .as(autoDisposable(RxLifecycleInterop.from(lifecycleProvider, event)))
+   *        .to(autoDisposable(RxLifecycleInterop.from(lifecycleProvider, event)))
    *        .subscribe(...)
    * </code></pre>
    *

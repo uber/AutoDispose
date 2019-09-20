@@ -27,8 +27,8 @@ import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.PAUS
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.RESUME
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.START
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.STOP
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 /**
  * An [Activity] example implementation for making one implement [LifecycleScopeProvider]. One

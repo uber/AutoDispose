@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import android.graphics.Bitmap
 import com.uber.autodispose.sample.repository.ImageRepository
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 
 /**
  * Demo Architecture Component ViewModel. The ViewModel

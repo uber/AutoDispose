@@ -15,7 +15,7 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.parallel.ParallelFlowable;
+import io.reactivex.rxjava3.parallel.ParallelFlowable;
 import org.reactivestreams.Subscriber;
 
 /** Subscribe proxy that matches {@link ParallelFlowable}'s subscribe overloads. */

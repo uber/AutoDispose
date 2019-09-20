@@ -26,7 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -48,7 +48,7 @@ public class JavaFragment extends Fragment {
     // dispose is onDestroy (the opposite of onCreate).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onCreate()"))
-        .as(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+        .to(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): " + num));
   }
 
@@ -69,7 +69,7 @@ public class JavaFragment extends Fragment {
     // Note we do this in onViewCreated to defer until after the view is created
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onViewCreated()"))
-        .as(autoDisposable(AndroidLifecycleScopeProvider.from(getViewLifecycleOwner())))
+        .to(autoDisposable(AndroidLifecycleScopeProvider.from(getViewLifecycleOwner())))
         .subscribe(
             num -> Log.i(TAG, "Started in onViewCreated(), running until onDestroyView(): " + num));
   }
@@ -84,7 +84,7 @@ public class JavaFragment extends Fragment {
     // dispose is onStop (the opposite of onStart).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onStart()"))
-        .as(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+        .to(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(num -> Log.i(TAG, "Started in onStart(), running until in onStop(): " + num));
   }
 
@@ -98,14 +98,14 @@ public class JavaFragment extends Fragment {
     // dispose is onPause (the opposite of onResume).
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(() -> Log.i(TAG, "Disposing subscription from onResume()"))
-        .as(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+        .to(autoDisposable(AndroidLifecycleScopeProvider.from(this)))
         .subscribe(num -> Log.i(TAG, "Started in onResume(), running until in onPause(): " + num));
 
     // Setting a specific untilEvent, this should dispose in onDestroy.
     Observable.interval(1, TimeUnit.SECONDS)
         .doOnDispose(
             () -> Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY"))
-        .as(autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
+        .to(autoDisposable(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)))
         .subscribe(
             num -> Log.i(TAG, "Started in onResume(), running until in onDestroy(): " + num));
   }

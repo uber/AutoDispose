@@ -15,13 +15,13 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.annotations.CheckReturnValue;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.rxjava3.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Action;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.observers.TestObserver;
 
 /** Subscribe proxy that matches {@link Observable}'s subscribe overloads. */
 public interface ObservableSubscribeProxy<T> {
@@ -54,17 +54,6 @@ public interface ObservableSubscribeProxy<T> {
    */
   Disposable subscribe(
       Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete);
-
-  /**
-   * Proxy for {@link Observable#subscribe(Consumer, Consumer, Action, Consumer)}.
-   *
-   * @return a {@link Disposable}
-   */
-  Disposable subscribe(
-      Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
-      Consumer<? super Disposable> onSubscribe);
 
   /** Proxy for {@link Observable#subscribe(Observer)}. */
   void subscribe(Observer<? super T> observer);

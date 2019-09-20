@@ -19,9 +19,9 @@ import static com.uber.autodispose.lifecycle.LifecycleScopes.resolveScopeFromLif
 import static com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STOPPED;
 
 import com.uber.autodispose.AutoDisposePlugins;
-import io.reactivex.CompletableSource;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.observers.TestObserver;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import java.util.Comparator;
 import org.junit.After;
 import org.junit.Before;
@@ -113,13 +113,13 @@ public final class LifecycleScopesTest {
     TestObserver<?> o = testSource(resolveScopeFromLifecycle(lifecycle, 3));
 
     lifecycle.onNext(0);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(1);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(0);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(2);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
 
     // Now we end
     lifecycle.onNext(3);
@@ -156,13 +156,13 @@ public final class LifecycleScopesTest {
     TestObserver<?> o = testSource(resolveScopeFromLifecycle(lifecycle, new IntHolder(3)));
 
     lifecycle.onNext(new IntHolder(0));
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(new IntHolder(1));
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(new IntHolder(0));
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(new IntHolder(2));
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
 
     // Now we end
     lifecycle.onNext(new IntHolder(3));
@@ -192,11 +192,11 @@ public final class LifecycleScopesTest {
         testSource(resolveScopeFromLifecycle(lifecycle, new NegativeComparableInteger(3)));
 
     lifecycle.onNext(new NegativeComparableInteger(-1));
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(new NegativeComparableInteger(-2));
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(new NegativeComparableInteger(3));
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
 
     // Now we end
     lifecycle.onNext(new NegativeComparableInteger(-3));
@@ -212,11 +212,11 @@ public final class LifecycleScopesTest {
     TestObserver<?> o = testSource(resolveScopeFromLifecycle(lifecycle, 3, comparator));
 
     lifecycle.onNext(-1);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(-2);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(3);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
 
     // Now we end
     lifecycle.onNext(-3);
@@ -230,9 +230,9 @@ public final class LifecycleScopesTest {
     TestObserver<?> o = testSource(resolveScopeFromLifecycle(lifecycle, 3));
 
     lifecycle.onNext(0);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(1);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
 
     // Now we end
     RuntimeException expected = new RuntimeException("Expected");
@@ -247,13 +247,13 @@ public final class LifecycleScopesTest {
     TestObserver<?> o = testSource(resolveScopeFromLifecycle(lifecycle, 3));
 
     lifecycle.onNext(0);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(1);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(0);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
     lifecycle.onNext(2);
-    o.assertNotTerminated();
+    o.assertNoErrors().assertNotComplete();
 
     // Now we complete
     lifecycle.onComplete();

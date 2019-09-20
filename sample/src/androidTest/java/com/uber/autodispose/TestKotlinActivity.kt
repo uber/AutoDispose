@@ -19,19 +19,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
-import com.trello.rxlifecycle3.LifecycleProvider
-import com.trello.rxlifecycle3.LifecycleTransformer
 import com.uber.autodispose.android.autoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.android.lifecycle.autoDispose
 import com.uber.autodispose.android.lifecycle.scope
-import com.ubercab.autodispose.rxlifecycle3.autoDispose
-import io.reactivex.Maybe
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.Completable
-import io.reactivex.CompletableSource
-import io.reactivex.Flowable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.CompletableSource
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import org.junit.Ignore
 import java.util.concurrent.TimeUnit
 
@@ -103,38 +100,39 @@ class TestKotlinActivity : AppCompatActivity(), ScopeProvider {
         .autoDispose(rootView)
         .subscribe()
 
+    // TODO re-enable with rxlifecycle interop
     // RxLifecycle
-    val lifecycleProvider = TestLifecycleProvider()
-    Observable.interval(1, TimeUnit.SECONDS)
-        .autoDispose(lifecycleProvider)
-        .subscribe()
-
-    Observable.interval(1, TimeUnit.SECONDS)
-        .autoDispose(lifecycleProvider, TestLifecycleProvider.Event.CREATE)
-        .subscribe()
+//    val lifecycleProvider = TestLifecycleProvider()
+//    Observable.interval(1, TimeUnit.SECONDS)
+//        .autoDispose(lifecycleProvider)
+//        .subscribe()
+//
+//    Observable.interval(1, TimeUnit.SECONDS)
+//        .autoDispose(lifecycleProvider, TestLifecycleProvider.Event.CREATE)
+//        .subscribe()
   }
 
   override fun requestScope(): CompletableSource {
     return Completable.complete()
   }
 
-  /** Stub implementation for [LifecycleProvider] for compilation testing */
-  class TestLifecycleProvider : LifecycleProvider<TestLifecycleProvider.Event> {
-    override fun lifecycle(): Observable<Event> {
-      return Observable.empty<Event>()
-    }
-
-    override fun <T : Any?> bindUntilEvent(event: Event): LifecycleTransformer<T> {
-      TODO("Stub to test compilation of extensions that use LifecycleProvider")
-    }
-
-    override fun <T : Any?> bindToLifecycle(): LifecycleTransformer<T> {
-      TODO("Stub to test compilation of extensions that use LifecycleProvider")
-    }
-
-    enum class Event {
-      CREATE,
-      DESTROY
-    }
-  }
+//  /** Stub implementation for [LifecycleProvider] for compilation testing */
+//  class TestLifecycleProvider : LifecycleProvider<TestLifecycleProvider.Event> {
+//    override fun lifecycle(): Observable<Event> {
+//      return Observable.empty<Event>()
+//    }
+//
+//    override fun <T : Any?> bindUntilEvent(event: Event): LifecycleTransformer<T> {
+//      TODO("Stub to test compilation of extensions that use LifecycleProvider")
+//    }
+//
+//    override fun <T : Any?> bindToLifecycle(): LifecycleTransformer<T> {
+//      TODO("Stub to test compilation of extensions that use LifecycleProvider")
+//    }
+//
+//    enum class Event {
+//      CREATE,
+//      DESTROY
+//    }
+//  }
 }

@@ -23,10 +23,10 @@ import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.OutsideScopeException;
 import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.test.RxErrorsRule;
-import io.reactivex.Single;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.SingleSubject;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.observers.TestObserver;
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
+import io.reactivex.rxjava3.subjects.SingleSubject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -53,7 +53,7 @@ public class LifecycleScopeProviderSingleTest {
     SingleSubject<Integer> source = SingleSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.as(autoDisposable(provider)).subscribe(o);
+    source.to(autoDisposable(provider)).subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -79,7 +79,7 @@ public class LifecycleScopeProviderSingleTest {
     SingleSubject<Integer> source = SingleSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    source.as(autoDisposable(provider)).subscribe(o);
+    source.to(autoDisposable(provider)).subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -105,7 +105,7 @@ public class LifecycleScopeProviderSingleTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    Single.just(1).as(autoDisposable(provider)).subscribe(o);
+    Single.just(1).to(autoDisposable(provider)).subscribe(o);
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
@@ -119,7 +119,7 @@ public class LifecycleScopeProviderSingleTest {
     lifecycle.onNext(3);
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    Single.just(1).as(autoDisposable(provider)).subscribe(o);
+    Single.just(1).to(autoDisposable(provider)).subscribe(o);
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
@@ -131,7 +131,7 @@ public class LifecycleScopeProviderSingleTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     SingleSubject<Integer> source = SingleSubject.create();
-    TestObserver<Integer> o = source.as(autoDisposable(provider)).test();
+    TestObserver<Integer> o = source.to(autoDisposable(provider)).test();
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -151,7 +151,7 @@ public class LifecycleScopeProviderSingleTest {
     lifecycle.onNext(3);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     SingleSubject<Integer> source = SingleSubject.create();
-    TestObserver<Integer> o = source.as(autoDisposable(provider)).test();
+    TestObserver<Integer> o = source.to(autoDisposable(provider)).test();
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -170,7 +170,7 @@ public class LifecycleScopeProviderSingleTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     SingleSubject<Integer> source = SingleSubject.create();
-    TestObserver<Integer> o = source.as(autoDisposable(provider)).test();
+    TestObserver<Integer> o = source.to(autoDisposable(provider)).test();
 
     o.assertNoValues();
     o.assertError(

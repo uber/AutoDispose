@@ -17,14 +17,14 @@ package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.AutoDisposePlugins;
 import com.uber.autodispose.OutsideScopeException;
-import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
-import io.reactivex.Observable;
-import io.reactivex.annotations.Nullable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
+import io.reactivex.rxjava3.annotations.Nullable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.functions.Predicate;
+import io.reactivex.rxjava3.functions.Supplier;
 import java.util.Comparator;
-import java.util.concurrent.Callable;
 
 /**
  * Utilities for dealing with {@link LifecycleScopeProvider}s. This includes factories for resolving
@@ -43,7 +43,7 @@ public final class LifecycleScopes {
    * of lifecycles. That is, they will ensure that the lifecycle has both started and not ended.
    *
    * <p><em>Note:</em> This resolves the scope immediately, so consider deferring execution as
-   * needed, such as using {@link Completable#defer(Callable) defer}.
+   * needed, such as using {@link Completable#defer(Supplier) defer}.
    *
    * @param provider the {@link LifecycleScopeProvider} to resolve.
    * @param <E> the lifecycle event type
@@ -65,7 +65,7 @@ public final class LifecycleScopes {
    * exceptions, see {@link AutoDisposePlugins}.
    *
    * <p><em>Note:</em> This resolves the scope immediately, so consider deferring execution as
-   * needed, such as using {@link Completable#defer(Callable) defer}.
+   * needed, such as using {@link Completable#defer(Supplier) defer}.
    *
    * @param provider the {@link LifecycleScopeProvider} to resolve.
    * @param checkEndBoundary whether or not to check that the lifecycle has ended
@@ -95,7 +95,7 @@ public final class LifecycleScopes {
 
             // Swallowed the end exception, just silently dispose immediately.
             return Completable.complete();
-          } catch (Exception e1) {
+          } catch (Throwable e1) {
             return Completable.error(e1);
           }
         }

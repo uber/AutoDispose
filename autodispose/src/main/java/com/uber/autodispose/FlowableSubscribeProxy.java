@@ -15,14 +15,13 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.Flowable;
-import io.reactivex.annotations.CheckReturnValue;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.subscribers.TestSubscriber;
+import io.reactivex.rxjava3.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Action;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 /** Subscribe proxy that matches {@link Flowable}'s subscribe overloads. */
 public interface FlowableSubscribeProxy<T> {
@@ -55,17 +54,6 @@ public interface FlowableSubscribeProxy<T> {
    */
   Disposable subscribe(
       Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete);
-
-  /**
-   * Proxy for {@link Flowable#subscribe(Consumer, Consumer, Action, Consumer)}.
-   *
-   * @return a {@link Disposable}
-   */
-  Disposable subscribe(
-      Consumer<? super T> onNext,
-      Consumer<? super Throwable> onError,
-      Action onComplete,
-      Consumer<? super Subscription> onSubscribe);
 
   /** Proxy for {@link Flowable#subscribe(Subscriber)}. */
   void subscribe(Subscriber<? super T> observer);

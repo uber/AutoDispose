@@ -22,12 +22,12 @@ import com.uber.autodispose.coroutinesinterop.asCoroutineScope
 import com.uber.autodispose.coroutinesinterop.asScopeProvider
 import com.uber.autodispose.coroutinesinterop.autoDispose
 import com.uber.autodispose.test.RecordingObserver
-import io.reactivex.Completable
-import io.reactivex.processors.PublishProcessor
-import io.reactivex.subjects.CompletableSubject
-import io.reactivex.subjects.MaybeSubject
-import io.reactivex.subjects.PublishSubject
-import io.reactivex.subjects.SingleSubject
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.processors.PublishProcessor
+import io.reactivex.rxjava3.subjects.CompletableSubject
+import io.reactivex.rxjava3.subjects.MaybeSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.SingleSubject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
@@ -43,7 +43,7 @@ class AutoDisposeCoroutinesInteropTest {
     val scope = CoroutineScope(job)
     val source = PublishProcessor.create<Int>()
     val o = source.autoDispose(scope).test()
-    o.assertSubscribed()
+    assertThat(o.hasSubscription()).isTrue()
 
     assertThat(source.hasSubscribers()).isTrue()
     scope.ensureActive()
@@ -200,7 +200,7 @@ class AutoDisposeCoroutinesInteropTest {
     val scope = CoroutineScope(job)
     val provider = scope.asScopeProvider()
     val providerObserver = Completable.wrap(provider.requestScope()).test()
-    providerObserver.assertNotTerminated()
+    providerObserver.assertNoErrors().assertNotComplete()
     scope.cancel()
     providerObserver.assertComplete()
   }
@@ -211,7 +211,7 @@ class AutoDisposeCoroutinesInteropTest {
     val scope = CoroutineScope(job)
     val provider = scope.asScopeProvider()
     val providerObserver = Completable.wrap(provider.requestScope()).test()
-    providerObserver.assertNotTerminated()
+    providerObserver.assertNoErrors().assertNotComplete()
     val error = RuntimeException()
     scope.cancel("OnError", error)
     providerObserver.assertComplete()
@@ -223,7 +223,7 @@ class AutoDisposeCoroutinesInteropTest {
     val scope = CoroutineScope(job)
     val completable = scope.asCompletable()
     val observer = completable.test()
-    observer.assertNotTerminated()
+    observer.assertNoErrors().assertNotComplete()
     scope.cancel()
     observer.assertComplete()
   }
@@ -234,7 +234,7 @@ class AutoDisposeCoroutinesInteropTest {
     val scope = CoroutineScope(job)
     val completable = scope.asCompletable()
     val observer = completable.test()
-    observer.assertNotTerminated()
+    observer.assertNoErrors().assertNotComplete()
     val error = RuntimeException()
     scope.cancel("OnError", error)
     observer.assertComplete()

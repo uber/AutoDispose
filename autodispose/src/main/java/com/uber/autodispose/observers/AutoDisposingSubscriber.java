@@ -15,8 +15,8 @@
  */
 package com.uber.autodispose.observers;
 
-import io.reactivex.FlowableSubscriber;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.core.FlowableSubscriber;
+import io.reactivex.rxjava3.disposables.Disposable;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 

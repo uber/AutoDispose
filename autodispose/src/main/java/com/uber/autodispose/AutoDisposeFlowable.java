@@ -15,8 +15,8 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.CompletableSource;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Flowable;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 

@@ -16,7 +16,7 @@
 package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.OutsideScopeException;
-import io.reactivex.functions.Function;
+import io.reactivex.rxjava3.functions.Function;
 
 /**
  * A corresponding events function that acts as a normal {@link Function} but ensures a single event

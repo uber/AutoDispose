@@ -22,9 +22,9 @@ import android.os.Build;
 import android.view.View;
 import androidx.annotation.RestrictTo;
 import com.uber.autodispose.OutsideScopeException;
-import io.reactivex.CompletableObserver;
-import io.reactivex.CompletableSource;
-import io.reactivex.android.MainThreadDisposable;
+import io.reactivex.rxjava3.android.MainThreadDisposable;
+import io.reactivex.rxjava3.core.CompletableObserver;
+import io.reactivex.rxjava3.core.CompletableSource;
 
 @RestrictTo(LIBRARY)
 final class DetachEventCompletable implements CompletableSource {

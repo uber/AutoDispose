@@ -17,11 +17,11 @@ package com.uber.autodispose.lifecycle;
 
 import com.uber.autodispose.ScopeProvider;
 import com.uber.autodispose.internal.DoNotMock;
-import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
-import io.reactivex.Observable;
-import io.reactivex.annotations.CheckReturnValue;
-import io.reactivex.annotations.Nullable;
+import io.reactivex.rxjava3.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.annotations.Nullable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Observable;
 
 /**
  * A convenience interface that, when implemented, helps provide information to create {@link

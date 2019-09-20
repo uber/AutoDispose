@@ -18,26 +18,25 @@ package com.uber.autodispose;
 import static com.uber.autodispose.AutoDisposeUtil.checkNotNull;
 import static com.uber.autodispose.Scopes.completableOf;
 
-import io.reactivex.Completable;
-import io.reactivex.CompletableObserver;
-import io.reactivex.CompletableSource;
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeObserver;
-import io.reactivex.Observable;
-import io.reactivex.ObservableConverter;
-import io.reactivex.Observer;
-import io.reactivex.Single;
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.BiConsumer;
-import io.reactivex.functions.Consumer;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.parallel.ParallelFlowable;
-import io.reactivex.subscribers.TestSubscriber;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableObserver;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.MaybeObserver;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableConverter;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleObserver;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Action;
+import io.reactivex.rxjava3.functions.BiConsumer;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.observers.TestObserver;
+import io.reactivex.rxjava3.parallel.ParallelFlowable;
+import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 /**
  * Factories for autodispose converters that can be used with RxJava types' corresponding {@code
@@ -53,11 +52,11 @@ import org.reactivestreams.Subscription;
  * no-parameter generic method will autocomplete with the appropriate generic parameters in Java <7,
  * or implicitly in >=8.
  *
- * @see Flowable#as(io.reactivex.FlowableConverter)
- * @see Observable#as(io.reactivex.ObservableConverter)
- * @see Maybe#as(io.reactivex.MaybeConverter)
- * @see Single#as(io.reactivex.SingleConverter)
- * @see Completable#as(io.reactivex.CompletableConverter)
+ * @see Flowable#to(io.reactivex.rxjava3.core.FlowableConverter)
+ * @see Observable#to(io.reactivex.rxjava3.core.ObservableConverter)
+ * @see Maybe#to(io.reactivex.rxjava3.core.MaybeConverter)
+ * @see Single#to(io.reactivex.rxjava3.core.SingleConverter)
+ * @see Completable#to(io.reactivex.rxjava3.core.CompletableConverter)
  */
 public final class AutoDispose {
 
@@ -68,14 +67,14 @@ public final class AutoDispose {
    *
    * <pre><code>
    *   Observable.just(1)
-   *        .as(autoDisposable(scope)) // Static import
+   *        .to(autoDisposable(scope)) // Static import
    *        .subscribe(...)
    * </code></pre>
    *
    * @param provider the target scope provider
    * @param <T> the stream type.
    * @return an {@link AutoDisposeConverter} to transform with operators like {@link
-   *     Observable#as(ObservableConverter)}
+   *     Observable#to(ObservableConverter)}
    */
   public static <T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
     checkNotNull(provider, "provider == null");
@@ -89,14 +88,14 @@ public final class AutoDispose {
    *
    * <pre><code>
    *   Observable.just(1)
-   *        .as(autoDisposable(scope)) // Static import
+   *        .to(autoDisposable(scope)) // Static import
    *        .subscribe(...)
    * </code></pre>
    *
    * @param scope the target scope
    * @param <T> the stream type.
    * @return an {@link AutoDisposeConverter} to transform with operators like {@link
-   *     Observable#as(ObservableConverter)}
+   *     Observable#to(ObservableConverter)}
    */
   public static <T> AutoDisposeConverter<T> autoDisposable(final CompletableSource scope) {
     checkNotNull(scope, "scope == null");
@@ -149,10 +148,10 @@ public final class AutoDispose {
           }
 
           @Override
-          public TestObserver<Void> test(boolean cancel) {
+          public TestObserver<Void> test(boolean dispose) {
             TestObserver<Void> observer = new TestObserver<>();
-            if (cancel) {
-              observer.cancel();
+            if (dispose) {
+              observer.dispose();
             }
             subscribe(observer);
             return observer;
@@ -187,16 +186,6 @@ public final class AutoDispose {
               Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete) {
             return new AutoDisposeFlowable<>(upstream, scope)
                 .subscribe(onNext, onError, onComplete);
-          }
-
-          @Override
-          public Disposable subscribe(
-              Consumer<? super T> onNext,
-              Consumer<? super Throwable> onError,
-              Action onComplete,
-              Consumer<? super Subscription> onSubscribe) {
-            return new AutoDisposeFlowable<>(upstream, scope)
-                .subscribe(onNext, onError, onComplete, onSubscribe);
           }
 
           @Override
@@ -284,10 +273,10 @@ public final class AutoDispose {
           }
 
           @Override
-          public TestObserver<T> test(boolean cancel) {
+          public TestObserver<T> test(boolean dispose) {
             TestObserver<T> observer = new TestObserver<>();
-            if (cancel) {
-              observer.cancel();
+            if (dispose) {
+              observer.dispose();
             }
             subscribe(observer);
             return observer;
@@ -322,16 +311,6 @@ public final class AutoDispose {
               Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete) {
             return new AutoDisposeObservable<>(upstream, scope)
                 .subscribe(onNext, onError, onComplete);
-          }
-
-          @Override
-          public Disposable subscribe(
-              Consumer<? super T> onNext,
-              Consumer<? super Throwable> onError,
-              Action onComplete,
-              Consumer<? super Disposable> onSubscribe) {
-            return new AutoDisposeObservable<>(upstream, scope)
-                .subscribe(onNext, onError, onComplete, onSubscribe);
           }
 
           @Override

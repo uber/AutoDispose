@@ -30,9 +30,9 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
 import com.uber.autodispose.android.internal.MainThreadDisposable;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
 @RestrictTo(LIBRARY_GROUP)
 class LifecycleEventsObservable extends Observable<Event> {

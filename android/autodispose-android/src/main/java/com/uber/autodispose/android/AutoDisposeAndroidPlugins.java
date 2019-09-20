@@ -16,8 +16,8 @@
 package com.uber.autodispose.android;
 
 import androidx.annotation.Nullable;
-import io.reactivex.exceptions.Exceptions;
-import io.reactivex.functions.BooleanSupplier;
+import io.reactivex.rxjava3.exceptions.Exceptions;
+import io.reactivex.rxjava3.functions.BooleanSupplier;
 
 /** Utility class to inject handlers to certain standard AutoDispose Android operations. */
 public final class AutoDisposeAndroidPlugins {
@@ -87,7 +87,7 @@ public final class AutoDisposeAndroidPlugins {
       } else {
         return current.getAsBoolean();
       }
-    } catch (Exception ex) {
+    } catch (Throwable ex) {
       throw Exceptions.propagate(ex);
     }
   }

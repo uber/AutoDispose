@@ -22,15 +22,15 @@ import static com.uber.autodispose.TestUtil.outsideScopeProvider;
 import com.uber.autodispose.observers.AutoDisposingObserver;
 import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.test.RxErrorsRule;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.subjects.CompletableSubject;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableEmitter;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.observers.TestObserver;
+import io.reactivex.rxjava3.plugins.RxJavaPlugins;
+import io.reactivex.rxjava3.subjects.CompletableSubject;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Rule;
@@ -52,8 +52,8 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
     TestObserver<Integer> o = new TestObserver<>();
     PublishSubject<Integer> source = PublishSubject.create();
     CompletableSubject scope = CompletableSubject.create();
-    Disposable d = source.as(autoDisposable(scope)).subscribeWith(o);
-    o.assertSubscribed();
+    Disposable d = source.to(autoDisposable(scope)).subscribeWith(o);
+    assertThat(o.hasSubscription()).isTrue();
 
     assertThat(source.hasObservers()).isTrue();
     assertThat(scope.hasObservers()).isTrue();
@@ -73,7 +73,7 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
   @Test
   public void autoDispose_withSuperClassGenerics_compilesFine() {
     Observable.just(new BClass())
-        .as(autoDisposable(ScopeProvider.UNBOUND))
+        .to(autoDisposable(ScopeProvider.UNBOUND))
         .subscribe((Consumer<AClass>) aClass -> {});
   }
 
@@ -82,7 +82,7 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     PublishSubject<Integer> source = PublishSubject.create();
     CompletableSubject scope = CompletableSubject.create();
-    source.as(autoDisposable(scope)).subscribe(o);
+    source.to(autoDisposable(scope)).subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -104,7 +104,7 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
     PublishSubject<Integer> source = PublishSubject.create();
     CompletableSubject scope = CompletableSubject.create();
     ScopeProvider provider = TestUtil.makeProvider(scope);
-    source.as(autoDisposable(provider)).subscribe(o);
+    source.to(autoDisposable(provider)).subscribe(o);
     o.takeSubscribe();
 
     assertThat(source.hasObservers()).isTrue();
@@ -142,7 +142,7 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
             }
             return observer;
           });
-      Observable.just(1).as(autoDisposable(ScopeProvider.UNBOUND)).subscribe();
+      Observable.just(1).to(autoDisposable(ScopeProvider.UNBOUND)).subscribe();
 
       assertThat(atomicAutoDisposingObserver.get()).isNotNull();
       assertThat(atomicAutoDisposingObserver.get()).isInstanceOf(AutoDisposingObserver.class);
@@ -167,7 +167,7 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
               emitter[0] = e;
             });
     CompletableSubject scope = CompletableSubject.create();
-    source.as(autoDisposable(scope)).subscribe();
+    source.to(autoDisposable(scope)).subscribe();
 
     assertThat(i.get()).isEqualTo(0);
     assertThat(scope.hasObservers()).isTrue();
@@ -185,7 +185,7 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
   @Test
   public void autoDispose_withScopeProviderCompleted_shouldNotReportDoubleSubscriptions() {
     TestObserver<Object> o =
-        PublishSubject.create().as(autoDisposable(ScopeProvider.UNBOUND)).test();
+        PublishSubject.create().to(autoDisposable(ScopeProvider.UNBOUND)).test();
     o.assertNoValues();
     o.assertNoErrors();
 
@@ -195,7 +195,7 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
   @Test
   public void unbound_shouldStillPassValues() {
     PublishSubject<Integer> s = PublishSubject.create();
-    TestObserver<Integer> o = s.as(autoDisposable(ScopeProvider.UNBOUND)).test();
+    TestObserver<Integer> o = s.to(autoDisposable(ScopeProvider.UNBOUND)).test();
 
     s.onNext(1);
     o.assertValue(1);
@@ -207,7 +207,7 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
     AutoDisposePlugins.setOutsideScopeHandler(e -> {});
     ScopeProvider provider = outsideScopeProvider();
     PublishSubject<Integer> source = PublishSubject.create();
-    TestObserver<Integer> o = source.as(autoDisposable(provider)).test();
+    TestObserver<Integer> o = source.to(autoDisposable(provider)).test();
 
     assertThat(source.hasObservers()).isFalse();
     o.assertNoValues();
@@ -223,7 +223,7 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
           throw new IllegalStateException(e);
         });
     ScopeProvider provider = outsideScopeProvider();
-    TestObserver<Integer> o = PublishSubject.<Integer>create().as(autoDisposable(provider)).test();
+    TestObserver<Integer> o = PublishSubject.<Integer>create().to(autoDisposable(provider)).test();
 
     o.assertNoValues();
     o.assertError(
@@ -234,7 +234,7 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
 
   @Test
   public void hideProxies() {
-    ObservableSubscribeProxy proxy = Observable.never().as(autoDisposable(ScopeProvider.UNBOUND));
+    ObservableSubscribeProxy proxy = Observable.never().to(autoDisposable(ScopeProvider.UNBOUND));
     // If hideProxies is disabled, the underlying return should be the direct AutoDispose type.
     if (hideProxies) {
       assertThat(proxy).isNotInstanceOf(Observable.class);

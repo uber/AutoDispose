@@ -15,16 +15,17 @@
  */
 package com.uber.autodispose.sample
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import android.util.Log
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.uber.autodispose.autoDispose
 import com.uber.autodispose.recipes.AutoDisposeViewModel
 import com.uber.autodispose.sample.repository.NetworkRepository
 import com.uber.autodispose.sample.state.DownloadState
-import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
+import hu.akarnokd.rxjava3.bridge.RxJavaBridge
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 /**
  * Demo AutoDisposing ViewModel.
@@ -99,7 +100,7 @@ class DisposingViewModel(private val repository: NetworkRepository) : AutoDispos
    * and expose that.
    */
   fun downloadState(): Observable<DownloadState> {
-    return viewRelay.hide()
+    return RxJavaBridge.toV3Observable(viewRelay)
   }
 
   companion object {

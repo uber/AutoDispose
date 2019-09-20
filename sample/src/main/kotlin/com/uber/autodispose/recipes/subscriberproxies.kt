@@ -20,9 +20,9 @@ import com.uber.autodispose.FlowableSubscribeProxy
 import com.uber.autodispose.MaybeSubscribeProxy
 import com.uber.autodispose.ObservableSubscribeProxy
 import com.uber.autodispose.SingleSubscribeProxy
-import io.reactivex.disposables.Disposable
-import io.reactivex.exceptions.OnErrorNotImplementedException
-import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.exceptions.OnErrorNotImplementedException
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
 
 /*
  * An example of extension functions on the objects returned by `AutoDisposeConverter`.

@@ -17,7 +17,7 @@ package com.uber.autodispose.android;
 
 import android.view.View;
 import com.uber.autodispose.ScopeProvider;
-import io.reactivex.CompletableSource;
+import io.reactivex.rxjava3.core.CompletableSource;
 
 /**
  * A {@link ScopeProvider} that can provide scoping for Android {@link View} classes.

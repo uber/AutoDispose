@@ -19,12 +19,11 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 
 import com.uber.autodispose.test.RxErrorsRule;
-import io.reactivex.Flowable;
-import io.reactivex.parallel.ParallelFlowable;
-import io.reactivex.processors.PublishProcessor;
-import io.reactivex.subjects.CompletableSubject;
-import io.reactivex.subscribers.TestSubscriber;
-import java.util.List;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.parallel.ParallelFlowable;
+import io.reactivex.rxjava3.processors.PublishProcessor;
+import io.reactivex.rxjava3.subjects.CompletableSubject;
+import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.junit.Rule;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
@@ -48,12 +47,10 @@ public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
     Subscriber<Integer>[] subscribers = new Subscriber[] {subscriber};
     Flowable.just(1, 2)
         .parallel(DEFAULT_PARALLELISM)
-        .as(autoDisposable(scope))
+        .to(autoDisposable(scope))
         .subscribe(subscribers);
 
-    List<Throwable> errors = subscriber.errors();
-    assertThat(errors).hasSize(1);
-    assertThat(errors.get(0)).isInstanceOf(IllegalArgumentException.class);
+    subscriber.assertError(IllegalArgumentException.class);
   }
 
   @Test
@@ -65,9 +62,9 @@ public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
 
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
-    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(scope)).subscribe(subscribers);
-    firstSubscriber.assertSubscribed();
-    secondSubscriber.assertSubscribed();
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(scope)).subscribe(subscribers);
+    assertThat(firstSubscriber.hasSubscription()).isTrue();
+    assertThat(secondSubscriber.hasSubscription()).isTrue();
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(scope.hasObservers()).isTrue();
@@ -97,10 +94,10 @@ public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(scope)).subscribe(subscribers);
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(scope)).subscribe(subscribers);
 
-    firstSubscriber.assertSubscribed();
-    secondSubscriber.assertSubscribed();
+    assertThat(firstSubscriber.hasSubscription()).isTrue();
+    assertThat(secondSubscriber.hasSubscription()).isTrue();
 
     source.onNext(1);
     source.onNext(2);
@@ -127,9 +124,9 @@ public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
     //noinspection unchecked
     Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    source.parallel(DEFAULT_PARALLELISM).as(autoDisposable(provider)).subscribe(subscribers);
-    firstSubscriber.assertSubscribed();
-    secondSubscriber.assertSubscribed();
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
+    assertThat(firstSubscriber.hasSubscription()).isTrue();
+    assertThat(secondSubscriber.hasSubscription()).isTrue();
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(scope.hasObservers()).isTrue();
@@ -167,7 +164,7 @@ public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
     Subscriber<Object>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
     PublishProcessor.create()
         .parallel(DEFAULT_PARALLELISM)
-        .as(autoDisposable(ScopeProvider.UNBOUND))
+        .to(autoDisposable(ScopeProvider.UNBOUND))
         .subscribe(subscribers);
     firstSubscriber.assertNoValues();
     firstSubscriber.assertNoErrors();
@@ -186,21 +183,21 @@ public class AutoDisposeParallelFlowableTest extends PluginsMatrixTest {
 
     source
         .parallel(DEFAULT_PARALLELISM)
-        .as(autoDisposable(ScopeProvider.UNBOUND))
+        .to(autoDisposable(ScopeProvider.UNBOUND))
         .subscribe(subscribers);
 
     source.onNext(1);
     source.onNext(2);
     firstSubscriber.assertValue(1);
     secondSubscriber.assertValue(2);
-    firstSubscriber.dispose();
-    secondSubscriber.dispose();
+    firstSubscriber.cancel();
+    secondSubscriber.cancel();
   }
 
   @Test
   public void hideProxies() {
     ParallelFlowableSubscribeProxy proxy =
-        Flowable.never().parallel().as(autoDisposable(ScopeProvider.UNBOUND));
+        Flowable.never().parallel().to(autoDisposable(ScopeProvider.UNBOUND));
     // If hideProxies is disabled, the underlying return should be the direct AutoDispose type.
     if (hideProxies) {
       assertThat(proxy).isNotInstanceOf(ParallelFlowable.class);

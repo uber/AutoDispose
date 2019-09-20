@@ -15,9 +15,9 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.Completable;
-import io.reactivex.CompletableObserver;
-import io.reactivex.CompletableSource;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableObserver;
+import io.reactivex.rxjava3.core.CompletableSource;
 
 final class AutoDisposeCompletable extends Completable implements CompletableSubscribeProxy {
 

@@ -20,7 +20,7 @@ import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 import android.os.Looper;
 import androidx.annotation.RestrictTo;
 import com.uber.autodispose.android.AutoDisposeAndroidPlugins;
-import io.reactivex.functions.BooleanSupplier;
+import io.reactivex.rxjava3.functions.BooleanSupplier;
 
 @RestrictTo(LIBRARY_GROUP)
 public class AutoDisposeAndroidUtil {

@@ -17,7 +17,7 @@
 
 package com.uber.autodispose;
 
-import io.reactivex.annotations.Nullable;
+import io.reactivex.rxjava3.annotations.Nullable;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**

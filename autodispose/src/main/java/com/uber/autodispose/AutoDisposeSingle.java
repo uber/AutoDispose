@@ -15,10 +15,10 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.CompletableSource;
-import io.reactivex.Single;
-import io.reactivex.SingleObserver;
-import io.reactivex.SingleSource;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleObserver;
+import io.reactivex.rxjava3.core.SingleSource;
 
 final class AutoDisposeSingle<T> extends Single<T> implements SingleSubscribeProxy<T> {
   private final SingleSource<T> source;

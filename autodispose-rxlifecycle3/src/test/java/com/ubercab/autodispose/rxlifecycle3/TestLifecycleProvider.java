@@ -19,9 +19,9 @@ import com.trello.rxlifecycle3.LifecycleProvider;
 import com.trello.rxlifecycle3.LifecycleTransformer;
 import com.trello.rxlifecycle3.OutsideLifecycleException;
 import com.trello.rxlifecycle3.RxLifecycle;
-import io.reactivex.Observable;
-import io.reactivex.functions.Function;
-import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
 final class TestLifecycleProvider implements LifecycleProvider<TestLifecycleProvider.Event> {
 

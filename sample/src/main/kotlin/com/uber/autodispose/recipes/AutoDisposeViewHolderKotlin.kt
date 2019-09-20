@@ -23,8 +23,8 @@ import com.uber.autodispose.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent
 import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent.BIND
 import com.uber.autodispose.recipes.AutoDisposeViewHolderKotlin.ViewHolderEvent.UNBIND
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 /**
  * Example implementation of a [ViewHolder] implementation that implements

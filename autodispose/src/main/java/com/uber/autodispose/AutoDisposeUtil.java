@@ -15,7 +15,7 @@
  */
 package com.uber.autodispose;
 
-import io.reactivex.annotations.Nullable;
+import io.reactivex.rxjava3.annotations.Nullable;
 
 final class AutoDisposeUtil {
 

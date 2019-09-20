@@ -16,10 +16,10 @@
 package com.uber.autodispose;
 
 import com.uber.autodispose.observers.AutoDisposingCompletableObserver;
-import io.reactivex.CompletableObserver;
-import io.reactivex.CompletableSource;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.rxjava3.core.CompletableObserver;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.observers.DisposableCompletableObserver;
 import java.util.concurrent.atomic.AtomicReference;
 
 final class AutoDisposingCompletableObserverImpl implements AutoDisposingCompletableObserver {
