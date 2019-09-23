@@ -31,7 +31,7 @@ android {
     targetSdkVersion deps.build.targetSdkVersion
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    testApplicationId "com.uber.autodispose.android.lifecycle.androidTest"
+    testApplicationId "autodispose2.android.lifecycle.androidTest"
   }
   compileOptions {
     sourceCompatibility deps.build.javaVersion
@@ -62,8 +62,8 @@ android {
 //      "android.app.Fragment",
 //      "android.arch.lifecycle.LifecycleOwner",
 //      "androidx.lifecycle.LifecycleOwner",
-//      "com.uber.autodispose.ScopeProvider",
-//      "com.uber.autodispose.sample.CustomScope"
+//      "autodispose2.ScopeProvider",
+//      "autodispose2.sample.CustomScope"
 //  ]
 //  DomainObjectSet<BaseVariant> variants = getApplicationVariants()
 //  variants.addAll(getTestVariants())

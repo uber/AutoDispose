@@ -46,6 +46,13 @@ nav:
     - 'autodispose-coroutines-interop': 1.x/autodispose-coroutines-interop/com.uber.autodispose.coroutinesinterop/index.md
     - 'autodispose-rxlifecycle': 1.x/autodispose-rxlifecycle/com.ubercab.autodispose.rxlifecycle/index.md
     - 'autodispose-rxlifecycle3': 1.x/autodispose-rxlifecycle3/com.ubercab.autodispose.rxlifecycle3/index.md
+  - '2.X API':
+    - 'autodispose': 2.x/autodispose/autodispose2/index.md
+    - 'autodispose-android': 2.x/autodispose-android/autodispose2.android/index.md
+    - 'autodispose-android-archcomponent': 2.x/autodispose-android-archcomponents/autodispose2.android.lifecycle/index.md
+    - 'autodispose-android-archcomponent-test': 2.x/autodispose-android-archcomponents-test/autodispose2.android.lifecycle.test/index.md
+    - 'autodispose-lifecycle': 2.x/autodispose-lifecycle/autodispose2.lifecycle/index.md
+    - 'autodispose-coroutines-interop': 2.x/autodispose-coroutines-interop/autodispose2.coroutinesinterop/index.md
   - 'Error Prone': error-prone.md
   - 'Lint Check': lint-check.md
   - 'Changelog' : changelog.md

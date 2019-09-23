@@ -15,15 +15,6 @@
  */
 package autodispose2.errorprone;
 
-import static com.google.errorprone.BugPattern.SeverityLevel.ERROR;
-import static com.google.errorprone.BugPattern.StandardTags.CONCURRENCY;
-import static com.google.errorprone.matchers.Matchers.allOf;
-import static com.google.errorprone.matchers.Matchers.anyOf;
-import static com.google.errorprone.matchers.Matchers.instanceMethod;
-import static com.google.errorprone.util.ASTHelpers.findEnclosingNode;
-import static com.google.errorprone.util.ASTHelpers.getType;
-import static com.google.errorprone.util.ASTHelpers.isSubtype;
-
 import com.google.auto.service.AutoService;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.BugPattern;
@@ -37,6 +28,15 @@ import com.sun.source.tree.ExpressionTree;
 import com.sun.tools.javac.code.Type;
 import java.util.Optional;
 import java.util.Set;
+
+import static com.google.errorprone.BugPattern.SeverityLevel.ERROR;
+import static com.google.errorprone.BugPattern.StandardTags.CONCURRENCY;
+import static com.google.errorprone.matchers.Matchers.allOf;
+import static com.google.errorprone.matchers.Matchers.anyOf;
+import static com.google.errorprone.matchers.Matchers.instanceMethod;
+import static com.google.errorprone.util.ASTHelpers.findEnclosingNode;
+import static com.google.errorprone.util.ASTHelpers.getType;
+import static com.google.errorprone.util.ASTHelpers.isSubtype;
 
 /**
  * Checker for subscriptions not binding to lifecycle in components with lifecycle. Use
@@ -70,7 +70,7 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
           .add("androidx.fragment.app.Fragment")
           .add("android.arch.lifecycle.LifecycleOwner")
           .add("androidx.lifecycle.LifecycleOwner")
-          .add("com.uber.autodispose.ScopeProvider")
+          .add("autodispose2.ScopeProvider")
           .build();
 
   private static final Matcher<ExpressionTree> SUBSCRIBE_METHOD =

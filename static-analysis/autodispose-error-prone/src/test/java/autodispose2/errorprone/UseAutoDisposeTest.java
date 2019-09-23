@@ -47,7 +47,7 @@ public final class UseAutoDisposeTest {
         .setArgs(
             ImmutableList.of(
                 "-XepOpt:TypesWithScope"
-                    + "=com.uber.autodispose.errorprone.ComponentWithLifecycle"))
+                    + "=autodispose2.errorprone.ComponentWithLifecycle"))
         .addSourceFile("UseAutoDisposeDefaultClassPositiveCases.java")
         .doTest();
   }
@@ -58,7 +58,7 @@ public final class UseAutoDisposeTest {
         .setArgs(
             ImmutableList.of(
                 "-XepOpt:TypesWithScope"
-                    + "=com.uber.autodispose.errorprone.ComponentWithLifecycle",
+                    + "=autodispose2.errorprone.ComponentWithLifecycle",
                 "-XepOpt:OverrideScopes"))
         .addSourceFile("UseAutoDisposeNegativeCasesExcluded.java")
         .doTest();
@@ -70,7 +70,7 @@ public final class UseAutoDisposeTest {
         .setArgs(
             ImmutableList.of(
                 "-XepOpt:TypesWithScope"
-                    + "=com.uber.autodispose.errorprone.ComponentWithLifecycle"))
+                    + "=autodispose2.errorprone.ComponentWithLifecycle"))
         .addSourceFile("UseAutoDisposeCustomClassPositiveCases.java")
         .doTest();
   }

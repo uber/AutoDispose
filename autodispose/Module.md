@@ -20,11 +20,11 @@ taken in the subscription are no longer valid. For instance, if a network reques
 after a UI has already been torn down, the UI can't be updated - this pattern prevents this type
 of bug.
 
-# Package com.uber.autodispose
+# Package autodispose2
 
 Core implementation.
 
-# Package com.uber.autodispose.observers
+# Package autodispose2.observers
 
 These are observers AutoDispose uses when scoping an observable. They are exposed as a public API
 to allow for consumers to watch for them if they want, such as in RxJava plugins.

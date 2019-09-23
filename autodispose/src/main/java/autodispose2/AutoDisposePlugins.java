@@ -94,7 +94,7 @@ public final class AutoDisposePlugins {
 
   /**
    * @param hideProxies {@code true} hide proxy interfaces. This wraps all proxy interfaces in
-   *     {@link com.uber.autodispose} at runtime in an anonymous instance to prevent introspection,
+   *     {@link autodispose2} at runtime in an anonymous instance to prevent introspection,
    *     similar to {@link Observable#hide()}. The default is {@code true}.
    */
   public static void setHideProxies(boolean hideProxies) {

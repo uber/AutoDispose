@@ -51,28 +51,28 @@ class AutoDisposeDetectorTest {
 
     // Stub Scope Provider
     private val SCOPE_PROVIDER = kotlin("""
-      package com.uber.autodispose
+      package autodispose2
 
       interface ScopeProvider
     """).indented()
 
     // Stub LifecycleScopeProvider
     private val LIFECYCLE_SCOPE_PROVIDER = kotlin("""
-      package com.uber.autodispose.lifecycle
-      import com.uber.autodispose.ScopeProvider
+      package autodispose2.lifecycle
+      import autodispose2.ScopeProvider
 
       interface LifecycleScopeProvider: ScopeProvider
     """).indented()
 
     // Custom Scope
     private val CUSTOM_SCOPE = kotlin("""
-      package com.uber.autodispose.sample
+      package autodispose2.sample
 
       class ClassWithCustomScope
     """).indented()
 
     private val AUTODISPOSE_CONTEXT = kotlin("""
-      package com.uber.autodispose
+      package autodispose2
 
       interface AutoDisposeContext
     """).indented()
@@ -81,7 +81,7 @@ class AutoDisposeDetectorTest {
         "com/uber/autodispose/KotlinExtensions.kt",
         """
           @file:JvmName("KotlinExtensions")
-          package com.uber.autodispose
+          package autodispose2
 
           fun withScope(scope: ScopeProvider, body: AutoDisposeContext.() -> Unit) {
           }
@@ -91,7 +91,7 @@ class AutoDisposeDetectorTest {
         "com/uber/autodispose/KotlinExtensions.kt",
         """
           @file:JvmName("KotlinExtensions")
-          package com.uber.autodispose
+          package autodispose2
 
           import io.reactivex.rxjava3.core.Completable
 
@@ -138,7 +138,7 @@ class AutoDisposeDetectorTest {
             java("""
           package foo;
           import io.reactivex.rxjava3.core.Observable;
-          import com.uber.autodispose.ScopeProvider;
+          import autodispose2.ScopeProvider;
 
           class ExampleClass {
             private ScopeProvider scopeProvider;
@@ -201,7 +201,7 @@ class AutoDisposeDetectorTest {
           import io.reactivex.rxjava3.core.Observable;
           import io.reactivex.rxjava3.observers.DisposableObserver;
           import androidx.fragment.app.Fragment;
-          import com.uber.autodispose.ScopeProvider;
+          import autodispose2.ScopeProvider;
 
           class ExampleClass extends Fragment {
             ScopeProvider scopeProvider;
@@ -234,7 +234,7 @@ class AutoDisposeDetectorTest {
             kotlin("""
           package foo
           import io.reactivex.rxjava3.core.Observable
-          import com.uber.autodispose.ScopeProvider
+          import autodispose2.ScopeProvider
 
           class ExampleClass {
             lateinit var scopeProvider: ScopeProvider
@@ -280,7 +280,7 @@ class AutoDisposeDetectorTest {
             java("""
           package foo;
           import io.reactivex.rxjava3.core.Single;
-          import com.uber.autodispose.ScopeProvider;
+          import autodispose2.ScopeProvider;
 
           class ExampleClass {
             private ScopeProvider scopeProvider;
@@ -301,7 +301,7 @@ class AutoDisposeDetectorTest {
             kotlin("""
           package foo
           import io.reactivex.rxjava3.core.Single
-          import com.uber.autodispose.ScopeProvider
+          import autodispose2.ScopeProvider
 
           class ExampleClass {
             lateinit var scopeProvider: ScopeProvider
@@ -346,7 +346,7 @@ class AutoDisposeDetectorTest {
             java("""
           package foo;
           import io.reactivex.rxjava3.core.Flowable;
-          import com.uber.autodispose.ScopeProvider;
+          import autodispose2.ScopeProvider;
 
           class ExampleClass {
             private ScopeProvider scopeProvider;
@@ -368,7 +368,7 @@ class AutoDisposeDetectorTest {
             kotlin("""
           package foo
           import io.reactivex.rxjava3.core.Observable
-          import com.uber.autodispose.lifecycle.LifecycleScopeProvider
+          import autodispose2.lifecycle.LifecycleScopeProvider
 
           class ExampleClass: LifecycleScopeProvider {
             fun names() {
@@ -389,7 +389,7 @@ class AutoDisposeDetectorTest {
             kotlin("""
           package foo
           import io.reactivex.rxjava3.core.Completable
-          import com.uber.autodispose.ScopeProvider
+          import autodispose2.ScopeProvider
 
           class ExampleClass: ScopeProvider {
             fun names() {
@@ -412,7 +412,7 @@ class AutoDisposeDetectorTest {
             java("""
           package foo;
           import io.reactivex.rxjava3.core.Completable;
-          import com.uber.autodispose.ScopeProvider;
+          import autodispose2.ScopeProvider;
 
           class ExampleClass {
             private ScopeProvider scopeProvider;
@@ -433,7 +433,7 @@ class AutoDisposeDetectorTest {
             kotlin("""
           package foo
           import io.reactivex.rxjava3.core.Observable
-          import com.uber.autodispose.ScopeProvider
+          import autodispose2.ScopeProvider
 
           class ExampleClass {
             lateinit var scopeProvider: ScopeProvider
@@ -479,7 +479,7 @@ class AutoDisposeDetectorTest {
             java("""
           package foo;
           import io.reactivex.rxjava3.core.Maybe;
-          import com.uber.autodispose.ScopeProvider;
+          import autodispose2.ScopeProvider;
 
           class ExampleClass {
             private ScopeProvider scopeProvider;
@@ -500,7 +500,7 @@ class AutoDisposeDetectorTest {
             kotlin("""
           package foo
           import io.reactivex.rxjava3.core.Maybe
-          import com.uber.autodispose.ScopeProvider
+          import autodispose2.ScopeProvider
 
           class ExampleClass {
             lateinit var scopeProvider: ScopeProvider
@@ -517,15 +517,15 @@ class AutoDisposeDetectorTest {
 
   @Test fun customScopeWithoutAutoDispose() {
     val properties = projectProperties()
-    properties.property(CUSTOM_SCOPE_KEY, "com.uber.autodispose.sample.ClassWithCustomScope")
+    properties.property(CUSTOM_SCOPE_KEY, "autodispose2.sample.ClassWithCustomScope")
     properties.to(AutoDisposeDetector.PROPERTY_FILE)
 
     lint().files(rxJava3(),
         CUSTOM_SCOPE,
         properties,
         kotlin("""
-      package com.uber.autodispose.sample
-      import com.uber.autodispose.sample.ClassWithCustomScope
+      package autodispose2.sample
+      import autodispose2.sample.ClassWithCustomScope
       import io.reactivex.rxjava3.core.Observable
 
       class MyCustomClass: ClassWithCustomScope {
@@ -546,17 +546,17 @@ class AutoDisposeDetectorTest {
 
   @Test fun customScopeWithAutoDispose() {
     val properties = projectProperties()
-    properties.property(CUSTOM_SCOPE_KEY, "com.uber.autodispose.sample.ClassWithCustomScope")
+    properties.property(CUSTOM_SCOPE_KEY, "autodispose2.sample.ClassWithCustomScope")
     properties.to(AutoDisposeDetector.PROPERTY_FILE)
 
     lint().files(rxJava3(),
         CUSTOM_SCOPE,
         properties,
         kotlin("""
-      package com.uber.autodispose.sample
-      import com.uber.autodispose.sample.ClassWithCustomScope
+      package autodispose2.sample
+      import autodispose2.sample.ClassWithCustomScope
       import io.reactivex.rxjava3.core.Observable
-      import com.uber.autodispose.ScopeProvider
+      import autodispose2.ScopeProvider
 
       class MyCustomClass: ClassWithCustomScope {
         lateinit var scopeProvider: ScopeProvider
@@ -579,10 +579,10 @@ class AutoDisposeDetectorTest {
         CUSTOM_SCOPE,
         properties,
         kotlin("""
-      package com.uber.autodispose.sample
-      import com.uber.autodispose.sample.ClassWithCustomScope
+      package autodispose2.sample
+      import autodispose2.sample.ClassWithCustomScope
       import io.reactivex.rxjava3.core.Observable
-      import com.uber.autodispose.ScopeProvider
+      import autodispose2.ScopeProvider
 
       class MyCustomClass: ClassWithCustomScope {
         lateinit var scopeProvider: ScopeProvider
@@ -599,7 +599,7 @@ class AutoDisposeDetectorTest {
 
   @Test fun overrideCustomScopeWithoutAutoDispose() {
     val properties = projectProperties()
-    properties.property(CUSTOM_SCOPE_KEY, "com.uber.autodispose.sample.ClassWithCustomScope")
+    properties.property(CUSTOM_SCOPE_KEY, "autodispose2.sample.ClassWithCustomScope")
     properties.property(OVERRIDE_SCOPES, "true")
     properties.to(AutoDisposeDetector.PROPERTY_FILE)
 
@@ -608,11 +608,11 @@ class AutoDisposeDetectorTest {
         ACTIVITY,
         properties,
         kotlin("""
-      package com.uber.autodispose.sample
-      import com.uber.autodispose.sample.ClassWithCustomScope
+      package autodispose2.sample
+      import autodispose2.sample.ClassWithCustomScope
       import androidx.appcompat.app.AppCompatActivity
       import io.reactivex.rxjava3.core.Observable
-      import com.uber.autodispose.ScopeProvider
+      import autodispose2.ScopeProvider
 
       class MyCustomClass: AppCompatActivity {
         lateinit var scopeProvider: ScopeProvider
@@ -629,7 +629,7 @@ class AutoDisposeDetectorTest {
 
   @Test fun overrideCustomScopeWithAutoDispose() {
     val properties = projectProperties()
-    properties.property(CUSTOM_SCOPE_KEY, "com.uber.autodispose.sample.ClassWithCustomScope")
+    properties.property(CUSTOM_SCOPE_KEY, "autodispose2.sample.ClassWithCustomScope")
     properties.property(OVERRIDE_SCOPES, "true")
     properties.to(AutoDisposeDetector.PROPERTY_FILE)
 
@@ -637,10 +637,10 @@ class AutoDisposeDetectorTest {
         CUSTOM_SCOPE,
         properties,
         kotlin("""
-      package com.uber.autodispose.sample
-      import com.uber.autodispose.sample.ClassWithCustomScope
+      package autodispose2.sample
+      import autodispose2.sample.ClassWithCustomScope
       import io.reactivex.rxjava3.core.Observable
-      import com.uber.autodispose.ScopeProvider
+      import autodispose2.ScopeProvider
 
       class MyCustomClass: ClassWithCustomScope {
         lateinit var scopeProvider: ScopeProvider
@@ -1090,8 +1090,8 @@ class AutoDisposeDetectorTest {
             kotlin("""
           package foo
           import io.reactivex.rxjava3.core.Observable
-          import com.uber.autodispose.ScopeProvider
-          import com.uber.autodispose.withScope
+          import autodispose2.ScopeProvider
+          import autodispose2.withScope
           class ExampleClass {
             lateinit var scopeProvider: ScopeProvider
             fun names() {
@@ -1116,7 +1116,7 @@ class AutoDisposeDetectorTest {
           package foo
           import io.reactivex.rxjava3.core.Completable
           import io.reactivex.rxjava3.core.Observable
-          import com.uber.autodispose.withScope
+          import autodispose2.withScope
           class ExampleClass {
             fun names() {
               val observable = Observable.just(1)
@@ -1140,8 +1140,8 @@ class AutoDisposeDetectorTest {
             kotlin("""
           package foo
           import io.reactivex.rxjava3.core.Observable
-          import com.uber.autodispose.ScopeProvider
-          import com.uber.autodispose.withScope
+          import autodispose2.ScopeProvider
+          import autodispose2.withScope
           class ExampleClass {
             lateinit var scopeProvider: ScopeProvider
             fun names() {
@@ -1165,7 +1165,7 @@ class AutoDisposeDetectorTest {
             kotlin("""
           package foo
           import io.reactivex.rxjava3.core.Completable
-          import com.uber.autodispose.withScope
+          import autodispose2.withScope
           class ExampleClass {
             fun names() {
               val observable = Observable.just(1)

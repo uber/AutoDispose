@@ -115,7 +115,7 @@ subprojects {
         targetSdkVersion deps.build.targetSdkVersion
         consumerProguardFiles 'consumer-proguard-rules.txt'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testApplicationId "com.uber.autodispose.android.lifecycle.androidTest"
+        testApplicationId "autodispose2.android.lifecycle.androidTest"
       }
       compileOptions {
         sourceCompatibility deps.build.javaVersion

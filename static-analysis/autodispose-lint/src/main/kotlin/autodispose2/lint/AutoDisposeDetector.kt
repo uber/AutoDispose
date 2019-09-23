@@ -87,11 +87,11 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
     private const val SINGLE = "io.reactivex.rxjava3.core.Single"
     private const val MAYBE = "io.reactivex.rxjava3.core.Maybe"
     private const val COMPLETABLE = "io.reactivex.rxjava3.core.Completable"
-    private const val KOTLIN_EXTENSIONS = "com.uber.autodispose.KotlinExtensions"
+    private const val KOTLIN_EXTENSIONS = "autodispose2.KotlinExtensions"
 
     // The default scopes for Android.
     private val DEFAULT_SCOPES = listOf("androidx.lifecycle.LifecycleOwner",
-        "com.uber.autodispose.ScopeProvider",
+        "autodispose2.ScopeProvider",
         "android.app.Activity",
         "android.app.Fragment")
 
