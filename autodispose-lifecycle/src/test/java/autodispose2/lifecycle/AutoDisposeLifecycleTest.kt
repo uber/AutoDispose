@@ -18,7 +18,6 @@
 package autodispose2.lifecycle
 
 import autodispose2.autoDispose
-import com.uber.autodispose.autoDispose
 import io.reactivex.rxjava3.core.BackpressureStrategy.ERROR
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable

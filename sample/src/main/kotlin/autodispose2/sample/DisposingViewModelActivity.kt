@@ -23,7 +23,6 @@ import android.widget.TextView
 import autodispose2.ScopeProvider
 import autodispose2.autoDispose
 import autodispose2.android.lifecycle.AndroidLifecycleScopeProvider
-import com.uber.autodispose.autoDispose
 import autodispose2.sample.repository.NetworkRepository
 import autodispose2.sample.state.DownloadState
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

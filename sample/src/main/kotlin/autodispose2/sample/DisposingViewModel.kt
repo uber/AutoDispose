@@ -19,11 +19,10 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import autodispose2.autoDispose
-import com.jakewharton.rxrelay2.BehaviorRelay
-import com.uber.autodispose.autoDispose
 import autodispose2.recipes.AutoDisposeViewModel
 import autodispose2.sample.repository.NetworkRepository
 import autodispose2.sample.state.DownloadState
+import com.jakewharton.rxrelay2.BehaviorRelay
 import hu.akarnokd.rxjava3.bridge.RxJavaBridge
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers

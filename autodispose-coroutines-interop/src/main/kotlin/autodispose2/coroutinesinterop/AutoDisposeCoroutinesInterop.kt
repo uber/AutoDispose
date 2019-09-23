@@ -24,7 +24,6 @@ import autodispose2.ObservableSubscribeProxy
 import autodispose2.ScopeProvider
 import autodispose2.SingleSubscribeProxy
 import autodispose2.autoDispose
-import com.uber.autodispose.autoDispose
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.CompletableSource
 import io.reactivex.rxjava3.core.Flowable
