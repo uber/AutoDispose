@@ -20,7 +20,7 @@ import static autodispose2.AutoDispose.autoDisposable;
 import static autodispose2.TestUtil.outsideScopeProvider;
 
 import autodispose2.observers.AutoDisposingSubscriber;
-import com.uber.autodispose.test.RxErrorsRule;
+import autodispose2.test.RxErrorsRule;
 import io.reactivex.rxjava3.core.BackpressureStrategy;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.FlowableEmitter;

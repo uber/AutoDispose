@@ -15,14 +15,9 @@
  */
 package autodispose2;
 
-import static com.google.common.truth.Truth.assertThat;
-import static autodispose2.AutoDispose.autoDisposable;
-import static autodispose2.TestUtil.makeProvider;
-import static autodispose2.TestUtil.outsideScopeProvider;
-
 import autodispose2.observers.AutoDisposingCompletableObserver;
-import com.uber.autodispose.test.RecordingObserver;
-import com.uber.autodispose.test.RxErrorsRule;
+import autodispose2.test.RecordingObserver;
+import autodispose2.test.RxErrorsRule;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.observers.TestObserver;
@@ -32,6 +27,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Rule;
 import org.junit.Test;
+
+import static autodispose2.AutoDispose.autoDisposable;
+import static autodispose2.TestUtil.makeProvider;
+import static autodispose2.TestUtil.outsideScopeProvider;
+import static com.google.common.truth.Truth.assertThat;
 
 public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
 

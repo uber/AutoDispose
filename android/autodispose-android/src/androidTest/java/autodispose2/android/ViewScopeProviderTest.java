@@ -26,7 +26,7 @@ import androidx.test.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 import autodispose2.OutsideScopeException;
-import com.uber.autodispose.test.RecordingObserver;
+import autodispose2.test.RecordingObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import org.junit.Before;

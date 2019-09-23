@@ -21,8 +21,8 @@ import static autodispose2.lifecycle.TestUtil.makeLifecycleProvider;
 
 import autodispose2.AutoDisposePlugins;
 import autodispose2.OutsideScopeException;
-import com.uber.autodispose.test.RecordingObserver;
-import com.uber.autodispose.test.RxErrorsRule;
+import autodispose2.test.RecordingObserver;
+import autodispose2.test.RxErrorsRule;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.observers.TestObserver;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;

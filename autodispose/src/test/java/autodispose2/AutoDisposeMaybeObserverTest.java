@@ -21,8 +21,8 @@ import static autodispose2.TestUtil.makeProvider;
 import static autodispose2.TestUtil.outsideScopeProvider;
 
 import autodispose2.observers.AutoDisposingMaybeObserver;
-import com.uber.autodispose.test.RecordingObserver;
-import com.uber.autodispose.test.RxErrorsRule;
+import autodispose2.test.RecordingObserver;
+import autodispose2.test.RxErrorsRule;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.MaybeObserver;
 import io.reactivex.rxjava3.functions.Consumer;

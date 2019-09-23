@@ -21,7 +21,7 @@ import androidx.test.annotation.UiThreadTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import autodispose2.android.lifecycle.test.TestLifecycleOwner;
 import autodispose2.lifecycle.LifecycleEndedException;
-import com.uber.autodispose.test.RecordingObserver;
+import autodispose2.test.RecordingObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import org.junit.Test;

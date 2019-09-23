@@ -18,7 +18,7 @@ package com.ubercab.autodispose.rxlifecycle;
 import static com.google.common.truth.Truth.assertThat;
 import static com.uber.autodispose.AutoDispose.autoDisposable;
 
-import com.uber.autodispose.test.RecordingObserver;
+import autodispose2.test.RecordingObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.observers.TestObserver;
 import io.reactivex.rxjava3.subjects.PublishSubject;

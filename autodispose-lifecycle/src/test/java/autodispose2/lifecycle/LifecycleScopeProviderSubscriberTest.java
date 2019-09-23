@@ -21,7 +21,7 @@ import static autodispose2.lifecycle.TestUtil.makeLifecycleProvider;
 
 import autodispose2.AutoDisposePlugins;
 import autodispose2.OutsideScopeException;
-import com.uber.autodispose.test.RxErrorsRule;
+import autodispose2.test.RxErrorsRule;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.processors.PublishProcessor;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
