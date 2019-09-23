@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.uber.autodispose.errorprone;
+package autodispose2.errorprone;
 
 import autodispose2.lifecycle.CorrespondingEventsFunction;
 import autodispose2.lifecycle.LifecycleEndedException;

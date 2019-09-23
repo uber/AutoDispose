@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.uber.autodispose.errorprone;
+package autodispose2.errorprone;
 
 import static com.google.errorprone.BugPattern.SeverityLevel.ERROR;
 import static com.google.errorprone.BugPattern.StandardTags.CONCURRENCY;

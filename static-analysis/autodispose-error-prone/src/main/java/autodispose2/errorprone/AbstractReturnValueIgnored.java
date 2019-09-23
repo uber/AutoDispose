@@ -13,26 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.uber.autodispose.errorprone;
-
-import static com.google.errorprone.matchers.Matchers.allOf;
-import static com.google.errorprone.matchers.Matchers.anyOf;
-import static com.google.errorprone.matchers.Matchers.enclosingNode;
-import static com.google.errorprone.matchers.Matchers.expressionStatement;
-import static com.google.errorprone.matchers.Matchers.isLastStatementInBlock;
-import static com.google.errorprone.matchers.Matchers.kindIs;
-import static com.google.errorprone.matchers.Matchers.methodSelect;
-import static com.google.errorprone.matchers.Matchers.nextStatement;
-import static com.google.errorprone.matchers.Matchers.not;
-import static com.google.errorprone.matchers.Matchers.parentNode;
-import static com.google.errorprone.matchers.Matchers.previousStatement;
-import static com.google.errorprone.matchers.Matchers.toType;
-import static com.google.errorprone.matchers.method.MethodMatchers.instanceMethod;
-import static com.google.errorprone.matchers.method.MethodMatchers.staticMethod;
-import static com.google.errorprone.util.ASTHelpers.getReturnType;
-import static com.google.errorprone.util.ASTHelpers.getSymbol;
-import static com.google.errorprone.util.ASTHelpers.getType;
-import static com.google.errorprone.util.ASTHelpers.isVoidType;
+package autodispose2.errorprone;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.VisitorState;
@@ -61,6 +42,25 @@ import com.sun.tools.javac.tree.JCTree.JCLambda;
 import com.sun.tools.javac.tree.JCTree.JCMemberReference;
 import com.sun.tools.javac.tree.JCTree.JCMethodInvocation;
 import javax.lang.model.type.TypeKind;
+
+import static com.google.errorprone.matchers.Matchers.allOf;
+import static com.google.errorprone.matchers.Matchers.anyOf;
+import static com.google.errorprone.matchers.Matchers.enclosingNode;
+import static com.google.errorprone.matchers.Matchers.expressionStatement;
+import static com.google.errorprone.matchers.Matchers.isLastStatementInBlock;
+import static com.google.errorprone.matchers.Matchers.kindIs;
+import static com.google.errorprone.matchers.Matchers.methodSelect;
+import static com.google.errorprone.matchers.Matchers.nextStatement;
+import static com.google.errorprone.matchers.Matchers.not;
+import static com.google.errorprone.matchers.Matchers.parentNode;
+import static com.google.errorprone.matchers.Matchers.previousStatement;
+import static com.google.errorprone.matchers.Matchers.toType;
+import static com.google.errorprone.matchers.method.MethodMatchers.instanceMethod;
+import static com.google.errorprone.matchers.method.MethodMatchers.staticMethod;
+import static com.google.errorprone.util.ASTHelpers.getReturnType;
+import static com.google.errorprone.util.ASTHelpers.getSymbol;
+import static com.google.errorprone.util.ASTHelpers.getType;
+import static com.google.errorprone.util.ASTHelpers.isVoidType;
 
 /**
  * An abstract base class to match method invocations in which the return value is not used.
