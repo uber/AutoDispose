@@ -18,6 +18,7 @@ package com.uber.autodispose.sample
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import autodispose2.autoDispose
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.uber.autodispose.autoDispose
 import com.uber.autodispose.recipes.AutoDisposeViewModel

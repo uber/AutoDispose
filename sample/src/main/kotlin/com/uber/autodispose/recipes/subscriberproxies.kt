@@ -15,11 +15,11 @@
  */
 package com.uber.autodispose.recipes
 
-import com.uber.autodispose.CompletableSubscribeProxy
-import com.uber.autodispose.FlowableSubscribeProxy
-import com.uber.autodispose.MaybeSubscribeProxy
-import com.uber.autodispose.ObservableSubscribeProxy
-import com.uber.autodispose.SingleSubscribeProxy
+import autodispose2.CompletableSubscribeProxy
+import autodispose2.FlowableSubscribeProxy
+import autodispose2.MaybeSubscribeProxy
+import autodispose2.ObservableSubscribeProxy
+import autodispose2.SingleSubscribeProxy
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.exceptions.OnErrorNotImplementedException
 import io.reactivex.rxjava3.plugins.RxJavaPlugins

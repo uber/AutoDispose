@@ -16,11 +16,11 @@
 package com.uber.autodispose.lifecycle;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static autodispose2.AutoDispose.autoDisposable;
 import static com.uber.autodispose.lifecycle.TestUtil.makeLifecycleProvider;
 
-import com.uber.autodispose.AutoDisposePlugins;
-import com.uber.autodispose.OutsideScopeException;
+import autodispose2.AutoDisposePlugins;
+import autodispose2.OutsideScopeException;
 import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.test.RxErrorsRule;
 import io.reactivex.rxjava3.core.Single;

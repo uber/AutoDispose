@@ -21,7 +21,7 @@ import static com.uber.autodispose.android.internal.AutoDisposeAndroidUtil.isMai
 import android.os.Build;
 import android.view.View;
 import androidx.annotation.RestrictTo;
-import com.uber.autodispose.OutsideScopeException;
+import autodispose2.OutsideScopeException;
 import io.reactivex.rxjava3.android.MainThreadDisposable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.CompletableSource;

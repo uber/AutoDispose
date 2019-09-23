@@ -18,7 +18,7 @@ package com.uber.autodispose.lifecycle;
 import static com.uber.autodispose.lifecycle.LifecycleScopes.resolveScopeFromLifecycle;
 import static com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STOPPED;
 
-import com.uber.autodispose.AutoDisposePlugins;
+import autodispose2.AutoDisposePlugins;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.observers.TestObserver;
 import io.reactivex.rxjava3.subjects.PublishSubject;

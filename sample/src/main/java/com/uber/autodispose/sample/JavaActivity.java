@@ -15,7 +15,7 @@
  */
 package com.uber.autodispose.sample;
 
-import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static autodispose2.AutoDispose.autoDisposable;
 
 import android.os.Bundle;
 import android.util.Log;

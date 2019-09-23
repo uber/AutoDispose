@@ -17,7 +17,7 @@ package com.uber.autodispose.android.lifecycle;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
-import com.uber.autodispose.OutsideScopeException;
+import autodispose2.OutsideScopeException;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;

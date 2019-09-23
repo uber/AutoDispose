@@ -16,7 +16,7 @@
 package com.uber.autodispose.android;
 
 import android.view.View;
-import com.uber.autodispose.ScopeProvider;
+import autodispose2.ScopeProvider;
 import io.reactivex.rxjava3.core.CompletableSource;
 
 /**

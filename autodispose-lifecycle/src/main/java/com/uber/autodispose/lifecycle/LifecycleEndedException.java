@@ -15,7 +15,7 @@
  */
 package com.uber.autodispose.lifecycle;
 
-import com.uber.autodispose.OutsideScopeException;
+import autodispose2.OutsideScopeException;
 
 /** Signifies an error occurred due to execution starting after the lifecycle has ended. */
 public class LifecycleEndedException extends OutsideScopeException {

@@ -17,7 +17,7 @@ package com.uber.autodispose.android;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.uber.autodispose.AutoDisposePlugins;
+import autodispose2.AutoDisposePlugins;
 import com.uber.autodispose.android.internal.AutoDisposeAndroidUtil;
 import org.junit.After;
 import org.junit.Before;

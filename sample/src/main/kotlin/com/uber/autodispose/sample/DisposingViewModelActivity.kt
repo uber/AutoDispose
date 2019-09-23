@@ -20,7 +20,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.uber.autodispose.ScopeProvider
+import autodispose2.ScopeProvider
+import autodispose2.autoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDispose
 import com.uber.autodispose.sample.repository.NetworkRepository

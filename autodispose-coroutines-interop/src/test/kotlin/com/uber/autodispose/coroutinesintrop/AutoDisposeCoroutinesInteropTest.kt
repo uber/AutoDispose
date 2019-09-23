@@ -16,7 +16,7 @@
 package com.uber.autodispose.coroutinesintrop
 
 import com.google.common.truth.Truth.assertThat
-import com.uber.autodispose.TestScopeProvider
+import autodispose2.TestScopeProvider
 import com.uber.autodispose.coroutinesinterop.asCompletable
 import com.uber.autodispose.coroutinesinterop.asCoroutineScope
 import com.uber.autodispose.coroutinesinterop.asScopeProvider

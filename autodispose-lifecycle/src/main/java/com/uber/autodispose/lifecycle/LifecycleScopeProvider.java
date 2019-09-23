@@ -15,8 +15,8 @@
  */
 package com.uber.autodispose.lifecycle;
 
-import com.uber.autodispose.ScopeProvider;
-import com.uber.autodispose.internal.DoNotMock;
+import autodispose2.ScopeProvider;
+import autodispose2.internal.DoNotMock;
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.annotations.Nullable;
 import io.reactivex.rxjava3.core.Completable;

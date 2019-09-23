@@ -16,7 +16,7 @@
 package com.uber.autodispose.android;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static autodispose2.AutoDispose.autoDisposable;
 
 import android.app.Instrumentation;
 import android.util.Log;
@@ -25,7 +25,7 @@ import android.widget.FrameLayout;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
-import com.uber.autodispose.OutsideScopeException;
+import autodispose2.OutsideScopeException;
 import com.uber.autodispose.test.RecordingObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.PublishSubject;

@@ -15,8 +15,8 @@
  */
 package com.uber.autodispose.lifecycle;
 
-import com.uber.autodispose.AutoDisposePlugins;
-import com.uber.autodispose.OutsideScopeException;
+import autodispose2.AutoDisposePlugins;
+import autodispose2.OutsideScopeException;
 import io.reactivex.rxjava3.annotations.Nullable;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;

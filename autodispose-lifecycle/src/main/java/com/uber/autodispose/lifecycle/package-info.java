@@ -48,7 +48,7 @@
  * com.uber.autodispose.lifecycle.LifecycleScopeProvider#peekLifecycle()} - returns the current
  * lifecycle state of the object.
  *
- * <p>In {@link com.uber.autodispose.ScopeProvider#requestScope()}, the implementation expects to
+ * <p>In {@link autodispose2.ScopeProvider#requestScope()}, the implementation expects to
  * these pieces to construct a {@link io.reactivex.CompletableSource} representation of the proper
  * end scope, while also doing precondition checks for lifecycle boundaries. If a lifecycle has not
  * started, it will send you to {@code onError} with a {@link

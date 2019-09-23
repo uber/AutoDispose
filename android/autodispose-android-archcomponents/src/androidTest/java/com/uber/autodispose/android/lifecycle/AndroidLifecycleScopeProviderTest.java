@@ -16,7 +16,7 @@
 package com.uber.autodispose.android.lifecycle;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static autodispose2.AutoDispose.autoDisposable;
 
 import android.util.Log;
 import androidx.lifecycle.Lifecycle;

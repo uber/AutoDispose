@@ -15,9 +15,9 @@
  */
 package com.uber.autodispose.errorprone;
 
-import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static autodispose2.AutoDispose.autoDisposable;
 
-import com.uber.autodispose.AutoDispose;
+import autodispose2.AutoDispose;
 import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
 import com.uber.autodispose.lifecycle.LifecycleEndedException;
 import com.uber.autodispose.lifecycle.LifecycleScopeProvider;

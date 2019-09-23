@@ -18,14 +18,14 @@
 package com.uber.autodispose.android
 
 import android.view.View
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.CompletableSubscribeProxy
-import com.uber.autodispose.FlowableSubscribeProxy
-import com.uber.autodispose.MaybeSubscribeProxy
-import com.uber.autodispose.ObservableSubscribeProxy
-import com.uber.autodispose.ParallelFlowableSubscribeProxy
-import com.uber.autodispose.ScopeProvider
-import com.uber.autodispose.SingleSubscribeProxy
+import autodispose2.AutoDispose
+import autodispose2.CompletableSubscribeProxy
+import autodispose2.FlowableSubscribeProxy
+import autodispose2.MaybeSubscribeProxy
+import autodispose2.ObservableSubscribeProxy
+import autodispose2.ParallelFlowableSubscribeProxy
+import autodispose2.ScopeProvider
+import autodispose2.SingleSubscribeProxy
 import io.reactivex.rxjava3.annotations.CheckReturnValue
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable

@@ -17,12 +17,13 @@
 
 package com.uber.autodispose.coroutinesinterop
 
-import com.uber.autodispose.CompletableSubscribeProxy
-import com.uber.autodispose.FlowableSubscribeProxy
-import com.uber.autodispose.MaybeSubscribeProxy
-import com.uber.autodispose.ObservableSubscribeProxy
-import com.uber.autodispose.ScopeProvider
-import com.uber.autodispose.SingleSubscribeProxy
+import autodispose2.CompletableSubscribeProxy
+import autodispose2.FlowableSubscribeProxy
+import autodispose2.MaybeSubscribeProxy
+import autodispose2.ObservableSubscribeProxy
+import autodispose2.ScopeProvider
+import autodispose2.SingleSubscribeProxy
+import autodispose2.autoDispose
 import com.uber.autodispose.autoDispose
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.CompletableSource

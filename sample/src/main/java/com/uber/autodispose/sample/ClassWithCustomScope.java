@@ -15,9 +15,9 @@
  */
 package com.uber.autodispose.sample;
 
-import static com.uber.autodispose.AutoDispose.autoDisposable;
+import static autodispose2.AutoDispose.autoDisposable;
 
-import com.uber.autodispose.ScopeProvider;
+import autodispose2.ScopeProvider;
 import io.reactivex.rxjava3.core.Observable;
 
 public class ClassWithCustomScope implements CustomScope {
