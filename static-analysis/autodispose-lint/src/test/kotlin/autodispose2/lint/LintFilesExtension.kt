@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.uber.autodispose.lint
+package autodispose2.lint
 
 import com.android.tools.lint.checks.infrastructure.TestFiles.bytes
 
