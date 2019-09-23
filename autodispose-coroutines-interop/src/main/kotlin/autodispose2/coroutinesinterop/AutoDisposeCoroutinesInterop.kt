@@ -15,7 +15,7 @@
  */
 @file:Suppress("NOTHING_TO_INLINE", "unused")
 
-package com.uber.autodispose.coroutinesinterop
+package autodispose2.coroutinesinterop
 
 import autodispose2.CompletableSubscribeProxy
 import autodispose2.FlowableSubscribeProxy

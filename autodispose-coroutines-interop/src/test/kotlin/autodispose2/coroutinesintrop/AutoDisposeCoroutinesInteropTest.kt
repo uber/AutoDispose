@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.uber.autodispose.coroutinesintrop
+package autodispose2.coroutinesintrop
 
-import com.google.common.truth.Truth.assertThat
 import autodispose2.TestScopeProvider
-import com.uber.autodispose.coroutinesinterop.asCompletable
-import com.uber.autodispose.coroutinesinterop.asCoroutineScope
-import com.uber.autodispose.coroutinesinterop.asScopeProvider
-import com.uber.autodispose.coroutinesinterop.autoDispose
+import autodispose2.coroutinesinterop.asCompletable
+import autodispose2.coroutinesinterop.asCoroutineScope
+import autodispose2.coroutinesinterop.asScopeProvider
+import autodispose2.coroutinesinterop.autoDispose
+import com.google.common.truth.Truth.assertThat
 import com.uber.autodispose.test.RecordingObserver
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.processors.PublishProcessor
