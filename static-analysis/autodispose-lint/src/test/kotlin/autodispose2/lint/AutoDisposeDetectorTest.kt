@@ -78,7 +78,7 @@ class AutoDisposeDetectorTest {
     """).indented()
 
     private val WITH_SCOPE_PROVIDER = kotlin(
-        "com/uber/autodispose/KotlinExtensions.kt",
+        "autodispose2/KotlinExtensions.kt",
         """
           @file:JvmName("KotlinExtensions")
           package autodispose2
@@ -88,7 +88,7 @@ class AutoDisposeDetectorTest {
         """).indented().within("src/")
 
     private val WITH_SCOPE_COMPLETABLE = kotlin(
-        "com/uber/autodispose/KotlinExtensions.kt",
+        "autodispose2/KotlinExtensions.kt",
         """
           @file:JvmName("KotlinExtensions")
           package autodispose2
@@ -538,7 +538,7 @@ class AutoDisposeDetectorTest {
         .issues(AutoDisposeDetector.ISSUE)
         .run()
         .expect("""
-          src/com/uber/autodispose/sample/MyCustomClass.kt:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
+          src/autodispose2/sample/MyCustomClass.kt:8: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
           |    observable.subscribe()
           |    ~~~~~~~~~~~~~~~~~~~~~~
           |1 errors, 0 warnings""".trimMargin())
