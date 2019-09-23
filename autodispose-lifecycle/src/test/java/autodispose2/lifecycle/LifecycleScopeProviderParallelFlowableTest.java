@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.uber.autodispose.lifecycle;
+package autodispose2.lifecycle;
 
 import static com.google.common.truth.Truth.assertThat;
 import static autodispose2.AutoDispose.autoDisposable;
-import static com.uber.autodispose.lifecycle.TestUtil.makeLifecycleProvider;
+import static autodispose2.lifecycle.TestUtil.makeLifecycleProvider;
 
 import autodispose2.AutoDisposePlugins;
 import autodispose2.OutsideScopeException;
@@ -30,10 +30,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.reactivestreams.Subscriber;
 
-public class LifecycleScopeProviderSubscriberTest {
+public class LifecycleScopeProviderParallelFlowableTest {
 
-  @Rule public RxErrorsRule rule = new RxErrorsRule();
+  private static final int DEFAULT_PARALLELISM = 2;
+
+  @Rule public final RxErrorsRule rule = new RxErrorsRule();
 
   @Before
   @After
@@ -43,32 +46,42 @@ public class LifecycleScopeProviderSubscriberTest {
 
   @Test
   public void autoDispose_withLifecycleProvider() {
+    TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
+    TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     PublishProcessor<Integer> source = PublishProcessor.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    TestSubscriber<Integer> o = source.to(autoDisposable(provider)).test();
-    assertThat(o.hasSubscription()).isTrue();
+    //noinspection unchecked
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
+    assertThat(firstSubscriber.hasSubscription()).isTrue();
+    assertThat(secondSubscriber.hasSubscription()).isTrue();
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(lifecycle.hasObservers()).isTrue();
 
     source.onNext(1);
-    o.assertValue(1);
-
-    lifecycle.onNext(1);
     source.onNext(2);
+    firstSubscriber.assertValue(1);
+    secondSubscriber.assertValue(2);
+
+    source.onNext(3);
+    source.onNext(4);
 
     assertThat(source.hasSubscribers()).isTrue();
     assertThat(lifecycle.hasObservers()).isTrue();
-    o.assertValues(1, 2);
+
+    firstSubscriber.assertValues(1, 3);
+    secondSubscriber.assertValues(2, 4);
 
     lifecycle.onNext(3);
-    source.onNext(3);
+    source.onNext(5);
+    source.onNext(6);
 
-    // Nothing new
-    o.assertValues(1, 2);
+    firstSubscriber.assertValues(1, 3);
+    secondSubscriber.assertValues(2, 4);
 
-    // Unsubscribed
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
   }
@@ -76,10 +89,19 @@ public class LifecycleScopeProviderSubscriberTest {
   @Test
   public void autoDispose_withProvider_withoutStartingLifecycle_shouldFail() {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
+    TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
+    TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    TestSubscriber<Integer> o = Flowable.just(1).to(autoDisposable(provider)).test();
+    //noinspection unchecked
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    o.assertError(LifecycleNotStartedException.class);
+    Flowable.just(1, 2)
+        .parallel(DEFAULT_PARALLELISM)
+        .to(autoDisposable(provider))
+        .subscribe(subscribers);
+
+    firstSubscriber.assertError(LifecycleNotStartedException.class);
+    secondSubscriber.assertError(LifecycleNotStartedException.class);
   }
 
   @Test
@@ -88,24 +110,41 @@ public class LifecycleScopeProviderSubscriberTest {
     lifecycle.onNext(1);
     lifecycle.onNext(2);
     lifecycle.onNext(3);
+    TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
+    TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    TestSubscriber<Integer> o = Flowable.just(1).to(autoDisposable(provider)).test();
+    //noinspection unchecked
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    o.assertError(LifecycleEndedException.class);
+    Flowable.just(1, 2)
+        .parallel(DEFAULT_PARALLELISM)
+        .to(autoDisposable(provider))
+        .subscribe(subscribers);
+
+    firstSubscriber.assertError(LifecycleEndedException.class);
+    secondSubscriber.assertError(LifecycleEndedException.class);
   }
 
   @Test
   public void autoDispose_withProviderAndNoOpPlugin_withoutStarting_shouldFailSilently() {
     AutoDisposePlugins.setOutsideScopeHandler(e -> {});
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
+    TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
+    TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-    TestSubscriber<Integer> o = source.to(autoDisposable(provider)).test();
+    //noinspection unchecked
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
 
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
-    o.assertNoValues();
-    o.assertNoErrors();
+
+    firstSubscriber.assertNoValues();
+    firstSubscriber.assertNoErrors();
+    secondSubscriber.assertNoValues();
+    secondSubscriber.assertNoErrors();
   }
 
   @Test
@@ -118,31 +157,44 @@ public class LifecycleScopeProviderSubscriberTest {
     lifecycle.onNext(1);
     lifecycle.onNext(2);
     lifecycle.onNext(3);
+    TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
+    TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-    TestSubscriber<Integer> o = source.to(autoDisposable(provider)).test();
+    //noinspection unchecked
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
+
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
 
     assertThat(source.hasSubscribers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
-    o.assertNoValues();
-    o.assertNoErrors();
+    firstSubscriber.assertNoValues();
+    firstSubscriber.assertNoErrors();
   }
 
   @Test
   public void autoDispose_withProviderAndPlugin_withoutStarting_shouldFailWithExp() {
     AutoDisposePlugins.setOutsideScopeHandler(
         e -> {
-          // Wrap in an IllegalStateException so we can verify this is the exception we see on the
-          // other side
           throw new IllegalStateException(e);
         });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
+    TestSubscriber<Integer> firstSubscriber = new TestSubscriber<>();
+    TestSubscriber<Integer> secondSubscriber = new TestSubscriber<>();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     PublishProcessor<Integer> source = PublishProcessor.create();
-    TestSubscriber<Integer> o = source.to(autoDisposable(provider)).test();
+    //noinspection unchecked
+    Subscriber<Integer>[] subscribers = new Subscriber[] {firstSubscriber, secondSubscriber};
 
-    o.assertNoValues();
-    o.assertError(
+    source.parallel(DEFAULT_PARALLELISM).to(autoDisposable(provider)).subscribe(subscribers);
+
+    firstSubscriber.assertNoValues();
+    firstSubscriber.assertError(
+        throwable ->
+            throwable instanceof IllegalStateException
+                && throwable.getCause() instanceof OutsideScopeException);
+    secondSubscriber.assertNoValues();
+    secondSubscriber.assertError(
         throwable ->
             throwable instanceof IllegalStateException
                 && throwable.getCause() instanceof OutsideScopeException);

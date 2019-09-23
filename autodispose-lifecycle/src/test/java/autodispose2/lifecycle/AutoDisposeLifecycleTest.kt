@@ -15,7 +15,7 @@
  */
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.uber.autodispose.lifecycle
+package autodispose2.lifecycle
 
 import autodispose2.autoDispose
 import com.uber.autodispose.autoDispose

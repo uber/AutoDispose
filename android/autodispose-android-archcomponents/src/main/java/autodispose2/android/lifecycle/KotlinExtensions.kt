@@ -28,7 +28,7 @@ import autodispose2.ObservableSubscribeProxy
 import autodispose2.ParallelFlowableSubscribeProxy
 import autodispose2.ScopeProvider
 import autodispose2.SingleSubscribeProxy
-import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
+import autodispose2.lifecycle.CorrespondingEventsFunction
 import io.reactivex.rxjava3.annotations.CheckReturnValue
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable

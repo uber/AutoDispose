@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.uber.autodispose.lifecycle;
+package autodispose2.lifecycle;
 
 import static com.google.common.truth.Truth.assertThat;
 import static autodispose2.AutoDispose.autoDisposable;
-import static com.uber.autodispose.lifecycle.TestUtil.makeLifecycleProvider;
+import static autodispose2.lifecycle.TestUtil.makeLifecycleProvider;
 
 import autodispose2.AutoDisposePlugins;
 import autodispose2.OutsideScopeException;

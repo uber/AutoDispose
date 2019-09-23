@@ -18,10 +18,10 @@ package autodispose2.android.lifecycle;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import autodispose2.OutsideScopeException;
-import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
-import com.uber.autodispose.lifecycle.LifecycleEndedException;
-import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
-import com.uber.autodispose.lifecycle.LifecycleScopes;
+import autodispose2.lifecycle.CorrespondingEventsFunction;
+import autodispose2.lifecycle.LifecycleEndedException;
+import autodispose2.lifecycle.LifecycleScopeProvider;
+import autodispose2.lifecycle.LifecycleScopes;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.uber.autodispose.lifecycle;
+package autodispose2.lifecycle;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STARTED;
-import static com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STOPPED;
+import static autodispose2.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STARTED;
+import static autodispose2.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STOPPED;
 
 import io.reactivex.rxjava3.subjects.Subject;
 import org.junit.Test;

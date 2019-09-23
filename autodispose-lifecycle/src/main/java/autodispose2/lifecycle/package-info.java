@@ -38,28 +38,28 @@
  * enforce lifecycle boundary requirements, and by default will error if the lifecycle has either
  * not started yet or has already ended.
  *
- * <p>{@link com.uber.autodispose.lifecycle.LifecycleScopeProvider} is a special case targeted at
+ * <p>{@link autodispose2.lifecycle.LifecycleScopeProvider} is a special case targeted at
  * binding to things with lifecycles. Its API is as follows: - {@link
- * com.uber.autodispose.lifecycle.LifecycleScopeProvider#lifecycle()} - returns an {@link
+ * autodispose2.lifecycle.LifecycleScopeProvider#lifecycle()} - returns an {@link
  * io.reactivex.Observable} of lifecycle events. This should be backed by a {@link
  * io.reactivex.subjects.BehaviorSubject} or something similar ({@code BehaviorRelay}, etc). -
- * {@link com.uber.autodispose.lifecycle.LifecycleScopeProvider#correspondingEvents()} - a mapping
+ * {@link autodispose2.lifecycle.LifecycleScopeProvider#correspondingEvents()} - a mapping
  * of events to corresponding ones, i.e. Attach -> Detach. - {@link
- * com.uber.autodispose.lifecycle.LifecycleScopeProvider#peekLifecycle()} - returns the current
+ * autodispose2.lifecycle.LifecycleScopeProvider#peekLifecycle()} - returns the current
  * lifecycle state of the object.
  *
  * <p>In {@link autodispose2.ScopeProvider#requestScope()}, the implementation expects to
  * these pieces to construct a {@link io.reactivex.CompletableSource} representation of the proper
  * end scope, while also doing precondition checks for lifecycle boundaries. If a lifecycle has not
  * started, it will send you to {@code onError} with a {@link
- * com.uber.autodispose.lifecycle.LifecycleNotStartedException}. If the lifecycle as ended, it is
- * recommended to throw a {@link com.uber.autodispose.lifecycle.LifecycleEndedException} in your
- * {@link com.uber.autodispose.lifecycle.LifecycleScopeProvider#correspondingEvents()
+ * autodispose2.lifecycle.LifecycleNotStartedException}. If the lifecycle as ended, it is
+ * recommended to throw a {@link autodispose2.lifecycle.LifecycleEndedException} in your
+ * {@link autodispose2.lifecycle.LifecycleScopeProvider#correspondingEvents()
  * correspondingEvents()} mapping, but it is up to the user.
  *
  * <p>To simplify implementations, there's an included {@link
- * com.uber.autodispose.lifecycle.LifecycleScopes} utility class with factories for generating
+ * autodispose2.lifecycle.LifecycleScopes} utility class with factories for generating
  * {@link io.reactivex.CompletableSource} representations from {@link
- * com.uber.autodispose.lifecycle.LifecycleScopeProvider} instances.
+ * autodispose2.lifecycle.LifecycleScopeProvider} instances.
  */
-package com.uber.autodispose.lifecycle;
+package autodispose2.lifecycle;

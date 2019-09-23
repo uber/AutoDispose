@@ -16,9 +16,9 @@
 package com.uber.autodispose.recipes
 
 import androidx.lifecycle.ViewModel
-import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
-import com.uber.autodispose.lifecycle.LifecycleEndedException
-import com.uber.autodispose.lifecycle.LifecycleScopeProvider
+import autodispose2.lifecycle.CorrespondingEventsFunction
+import autodispose2.lifecycle.LifecycleEndedException
+import autodispose2.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeViewModel.ViewModelEvent
 import com.uber.autodispose.recipes.AutoDisposeViewModel.ViewModelEvent.CREATED
 import io.reactivex.rxjava3.core.Observable

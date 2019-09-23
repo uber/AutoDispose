@@ -22,9 +22,9 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import autodispose2.android.ViewScopeProvider;
-import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
-import com.uber.autodispose.lifecycle.LifecycleEndedException;
-import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
+import autodispose2.lifecycle.CorrespondingEventsFunction;
+import autodispose2.lifecycle.LifecycleEndedException;
+import autodispose2.lifecycle.LifecycleScopeProvider;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
 

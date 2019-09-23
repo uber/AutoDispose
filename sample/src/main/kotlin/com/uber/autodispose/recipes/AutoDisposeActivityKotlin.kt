@@ -17,9 +17,9 @@ package com.uber.autodispose.recipes
 
 import android.app.Activity
 import android.os.Bundle
-import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
-import com.uber.autodispose.lifecycle.LifecycleEndedException
-import com.uber.autodispose.lifecycle.LifecycleScopeProvider
+import autodispose2.lifecycle.CorrespondingEventsFunction
+import autodispose2.lifecycle.LifecycleEndedException
+import autodispose2.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.CREATE
 import com.uber.autodispose.recipes.AutoDisposeActivityKotlin.ActivityEvent.DESTROY

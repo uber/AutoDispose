@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.uber.autodispose.lifecycle;
+package autodispose2.lifecycle;
 
 import autodispose2.OutsideScopeException;
 
-/** Signifies an error occurred due to execution starting after the lifecycle has ended. */
-public class LifecycleEndedException extends OutsideScopeException {
+/** Signifies an error occurred due to execution starting before the lifecycle has started. */
+public class LifecycleNotStartedException extends OutsideScopeException {
 
-  public LifecycleEndedException() {
-    this("Lifecycle has ended!");
+  public LifecycleNotStartedException() {
+    this("Lifecycle hasn't started!");
   }
 
-  public LifecycleEndedException(String s) {
+  public LifecycleNotStartedException(String s) {
     super(s);
   }
 }

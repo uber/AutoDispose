@@ -13,31 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.uber.autodispose.lifecycle;
+package autodispose2.lifecycle;
 
 import static com.google.common.truth.Truth.assertThat;
 import static autodispose2.AutoDispose.autoDisposable;
-import static com.uber.autodispose.lifecycle.TestUtil.makeLifecycleProvider;
+import static autodispose2.lifecycle.TestUtil.makeLifecycleProvider;
 
 import autodispose2.AutoDisposePlugins;
 import autodispose2.OutsideScopeException;
 import com.uber.autodispose.test.RecordingObserver;
 import com.uber.autodispose.test.RxErrorsRule;
-import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.observers.TestObserver;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
-import io.reactivex.rxjava3.subjects.CompletableSubject;
+import io.reactivex.rxjava3.subjects.MaybeSubject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class LifecycleScopeProviderCompletableTest {
+public class LifecycleScopeProviderMaybeTest {
 
   private static final RecordingObserver.Logger LOGGER =
       message ->
           System.out.println(
-              LifecycleScopeProviderCompletableTest.class.getSimpleName() + ": " + message);
+              LifecycleScopeProviderMaybeTest.class.getSimpleName() + ": " + message);
 
   @Rule public RxErrorsRule rule = new RxErrorsRule();
 
@@ -50,7 +50,7 @@ public class LifecycleScopeProviderCompletableTest {
   @Test
   public void autoDispose_withLifecycleProvider_completion() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
-    CompletableSubject source = CompletableSubject.create();
+    MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.to(autoDisposable(provider)).subscribe(o);
@@ -75,7 +75,7 @@ public class LifecycleScopeProviderCompletableTest {
   @Test
   public void autoDispose_withLifecycleProvider_interrupted() {
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
-    CompletableSubject source = CompletableSubject.create();
+    MaybeSubject<Integer> source = MaybeSubject.create();
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.createDefault(0);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
     source.to(autoDisposable(provider)).subscribe(o);
@@ -96,7 +96,7 @@ public class LifecycleScopeProviderCompletableTest {
     assertThat(lifecycle.hasObservers()).isFalse();
 
     // No one is listening
-    source.onComplete();
+    source.onSuccess(3);
     o.assertNoMoreEvents();
   }
 
@@ -105,7 +105,7 @@ public class LifecycleScopeProviderCompletableTest {
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    Completable.complete().to(autoDisposable(provider)).subscribe(o);
+    Maybe.just(1).to(autoDisposable(provider)).subscribe(o);
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleNotStartedException.class);
@@ -119,7 +119,7 @@ public class LifecycleScopeProviderCompletableTest {
     lifecycle.onNext(3);
     RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    Completable.complete().to(autoDisposable(provider)).subscribe(o);
+    Maybe.just(1).to(autoDisposable(provider)).subscribe(o);
 
     o.takeSubscribe();
     assertThat(o.takeError()).isInstanceOf(LifecycleEndedException.class);
@@ -130,8 +130,8 @@ public class LifecycleScopeProviderCompletableTest {
     AutoDisposePlugins.setOutsideScopeHandler(e -> {});
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    CompletableSubject source = CompletableSubject.create();
-    TestObserver<Void> o = source.to(autoDisposable(provider)).test();
+    MaybeSubject<Integer> source = MaybeSubject.create();
+    TestObserver<Integer> o = source.to(autoDisposable(provider)).test();
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -150,8 +150,8 @@ public class LifecycleScopeProviderCompletableTest {
     lifecycle.onNext(2);
     lifecycle.onNext(3);
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    CompletableSubject source = CompletableSubject.create();
-    TestObserver<Void> o = source.to(autoDisposable(provider)).test();
+    MaybeSubject<Integer> source = MaybeSubject.create();
+    TestObserver<Integer> o = source.to(autoDisposable(provider)).test();
 
     assertThat(source.hasObservers()).isFalse();
     assertThat(lifecycle.hasObservers()).isFalse();
@@ -169,7 +169,8 @@ public class LifecycleScopeProviderCompletableTest {
         });
     BehaviorSubject<Integer> lifecycle = BehaviorSubject.create();
     LifecycleScopeProvider<Integer> provider = makeLifecycleProvider(lifecycle);
-    TestObserver<Void> o = CompletableSubject.create().to(autoDisposable(provider)).test();
+    MaybeSubject<Integer> source = MaybeSubject.create();
+    TestObserver<Integer> o = source.to(autoDisposable(provider)).test();
 
     o.assertNoValues();
     o.assertError(

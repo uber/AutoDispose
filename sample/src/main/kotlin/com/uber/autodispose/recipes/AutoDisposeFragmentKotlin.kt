@@ -19,9 +19,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.uber.autodispose.lifecycle.CorrespondingEventsFunction
-import com.uber.autodispose.lifecycle.LifecycleEndedException
-import com.uber.autodispose.lifecycle.LifecycleScopeProvider
+import autodispose2.lifecycle.CorrespondingEventsFunction
+import autodispose2.lifecycle.LifecycleEndedException
+import autodispose2.lifecycle.LifecycleScopeProvider
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.ATTACH
 import com.uber.autodispose.recipes.AutoDisposeFragmentKotlin.FragmentEvent.CREATE

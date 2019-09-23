@@ -15,10 +15,10 @@
  */
 package com.uber.autodispose.errorprone;
 
-import com.uber.autodispose.lifecycle.CorrespondingEventsFunction;
-import com.uber.autodispose.lifecycle.LifecycleEndedException;
-import com.uber.autodispose.lifecycle.LifecycleScopeProvider;
-import com.uber.autodispose.lifecycle.TestLifecycleScopeProvider.TestLifecycle;
+import autodispose2.lifecycle.CorrespondingEventsFunction;
+import autodispose2.lifecycle.LifecycleEndedException;
+import autodispose2.lifecycle.LifecycleScopeProvider;
+import autodispose2.lifecycle.TestLifecycleScopeProvider.TestLifecycle;
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.annotations.Nullable;
 import io.reactivex.rxjava3.core.Completable;
