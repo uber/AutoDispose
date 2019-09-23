@@ -21,10 +21,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import autodispose2.ScopeProvider
 import autodispose2.autoDispose
-import com.uber.autodispose.android.autoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.uber.autodispose.android.lifecycle.autoDispose
-import com.uber.autodispose.android.lifecycle.scope
+import autodispose2.android.autoDispose
+import autodispose2.android.lifecycle.AndroidLifecycleScopeProvider
+import autodispose2.android.lifecycle.autoDispose
+import autodispose2.android.lifecycle.scope
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.CompletableSource
 import io.reactivex.rxjava3.core.Flowable

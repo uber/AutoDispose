@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
+import autodispose2.android.lifecycle.AndroidLifecycleScopeProvider;
 import io.reactivex.rxjava3.core.Observable;
 import java.util.concurrent.TimeUnit;
 

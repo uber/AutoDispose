@@ -22,7 +22,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import autodispose2.ScopeProvider
 import autodispose2.autoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
+import autodispose2.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDispose
 import com.uber.autodispose.sample.repository.NetworkRepository
 import com.uber.autodispose.sample.state.DownloadState

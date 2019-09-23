@@ -16,7 +16,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.uber.autodispose.android">
+    package="autodispose2.android">
 
   <uses-sdk
       android:minSdkVersion="14"

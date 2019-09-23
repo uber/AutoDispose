@@ -1,2 +1,2 @@
 # Top-level functions that can only be used by Kotlin.
--dontwarn com.uber.autodispose.android.KotlinExtensions
+-dontwarn autodispose2.android.KotlinExtensions

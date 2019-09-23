@@ -22,7 +22,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import autodispose2.autoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
+import autodispose2.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDispose
 import com.uber.autodispose.sample.repository.ImageRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
