@@ -46,8 +46,7 @@ public final class UseAutoDisposeTest {
     compilationHelper
         .setArgs(
             ImmutableList.of(
-                "-XepOpt:TypesWithScope"
-                    + "=autodispose2.errorprone.ComponentWithLifecycle"))
+                "-XepOpt:TypesWithScope" + "=autodispose2.errorprone.ComponentWithLifecycle"))
         .addSourceFile("UseAutoDisposeDefaultClassPositiveCases.java")
         .doTest();
   }
@@ -57,8 +56,7 @@ public final class UseAutoDisposeTest {
     compilationHelper
         .setArgs(
             ImmutableList.of(
-                "-XepOpt:TypesWithScope"
-                    + "=autodispose2.errorprone.ComponentWithLifecycle",
+                "-XepOpt:TypesWithScope" + "=autodispose2.errorprone.ComponentWithLifecycle",
                 "-XepOpt:OverrideScopes"))
         .addSourceFile("UseAutoDisposeNegativeCasesExcluded.java")
         .doTest();
@@ -69,8 +67,7 @@ public final class UseAutoDisposeTest {
     compilationHelper
         .setArgs(
             ImmutableList.of(
-                "-XepOpt:TypesWithScope"
-                    + "=autodispose2.errorprone.ComponentWithLifecycle"))
+                "-XepOpt:TypesWithScope" + "=autodispose2.errorprone.ComponentWithLifecycle"))
         .addSourceFile("UseAutoDisposeCustomClassPositiveCases.java")
         .doTest();
   }

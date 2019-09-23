@@ -15,8 +15,8 @@
  */
 package autodispose2.android;
 
-import static com.google.common.truth.Truth.assertThat;
 import static autodispose2.AutoDispose.autoDisposable;
+import static com.google.common.truth.Truth.assertThat;
 
 import android.app.Instrumentation;
 import android.util.Log;

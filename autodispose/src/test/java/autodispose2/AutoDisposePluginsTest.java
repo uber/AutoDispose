@@ -17,8 +17,6 @@ package autodispose2;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import autodispose2.AutoDisposePlugins;
-import autodispose2.OutsideScopeException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

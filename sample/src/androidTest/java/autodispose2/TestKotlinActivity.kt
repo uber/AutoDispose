@@ -19,8 +19,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
-import autodispose2.ScopeProvider
-import autodispose2.autoDispose
 import autodispose2.android.autoDispose
 import autodispose2.android.lifecycle.AndroidLifecycleScopeProvider
 import autodispose2.android.lifecycle.autoDispose

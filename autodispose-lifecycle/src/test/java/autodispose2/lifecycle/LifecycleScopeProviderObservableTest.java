@@ -15,9 +15,9 @@
  */
 package autodispose2.lifecycle;
 
-import static com.google.common.truth.Truth.assertThat;
 import static autodispose2.AutoDispose.autoDisposable;
 import static autodispose2.lifecycle.TestUtil.makeLifecycleProvider;
+import static com.google.common.truth.Truth.assertThat;
 
 import autodispose2.AutoDisposePlugins;
 import autodispose2.OutsideScopeException;

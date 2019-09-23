@@ -38,28 +38,28 @@
  * enforce lifecycle boundary requirements, and by default will error if the lifecycle has either
  * not started yet or has already ended.
  *
- * <p>{@link autodispose2.lifecycle.LifecycleScopeProvider} is a special case targeted at
- * binding to things with lifecycles. Its API is as follows: - {@link
+ * <p>{@link autodispose2.lifecycle.LifecycleScopeProvider} is a special case targeted at binding to
+ * things with lifecycles. Its API is as follows: - {@link
  * autodispose2.lifecycle.LifecycleScopeProvider#lifecycle()} - returns an {@link
  * io.reactivex.Observable} of lifecycle events. This should be backed by a {@link
  * io.reactivex.subjects.BehaviorSubject} or something similar ({@code BehaviorRelay}, etc). -
- * {@link autodispose2.lifecycle.LifecycleScopeProvider#correspondingEvents()} - a mapping
- * of events to corresponding ones, i.e. Attach -> Detach. - {@link
- * autodispose2.lifecycle.LifecycleScopeProvider#peekLifecycle()} - returns the current
- * lifecycle state of the object.
+ * {@link autodispose2.lifecycle.LifecycleScopeProvider#correspondingEvents()} - a mapping of events
+ * to corresponding ones, i.e. Attach -> Detach. - {@link
+ * autodispose2.lifecycle.LifecycleScopeProvider#peekLifecycle()} - returns the current lifecycle
+ * state of the object.
  *
- * <p>In {@link autodispose2.ScopeProvider#requestScope()}, the implementation expects to
- * these pieces to construct a {@link io.reactivex.CompletableSource} representation of the proper
- * end scope, while also doing precondition checks for lifecycle boundaries. If a lifecycle has not
+ * <p>In {@link autodispose2.ScopeProvider#requestScope()}, the implementation expects to these
+ * pieces to construct a {@link io.reactivex.CompletableSource} representation of the proper end
+ * scope, while also doing precondition checks for lifecycle boundaries. If a lifecycle has not
  * started, it will send you to {@code onError} with a {@link
  * autodispose2.lifecycle.LifecycleNotStartedException}. If the lifecycle as ended, it is
- * recommended to throw a {@link autodispose2.lifecycle.LifecycleEndedException} in your
- * {@link autodispose2.lifecycle.LifecycleScopeProvider#correspondingEvents()
- * correspondingEvents()} mapping, but it is up to the user.
+ * recommended to throw a {@link autodispose2.lifecycle.LifecycleEndedException} in your {@link
+ * autodispose2.lifecycle.LifecycleScopeProvider#correspondingEvents() correspondingEvents()}
+ * mapping, but it is up to the user.
  *
  * <p>To simplify implementations, there's an included {@link
- * autodispose2.lifecycle.LifecycleScopes} utility class with factories for generating
- * {@link io.reactivex.CompletableSource} representations from {@link
+ * autodispose2.lifecycle.LifecycleScopes} utility class with factories for generating {@link
+ * io.reactivex.CompletableSource} representations from {@link
  * autodispose2.lifecycle.LifecycleScopeProvider} instances.
  */
 package autodispose2.lifecycle;

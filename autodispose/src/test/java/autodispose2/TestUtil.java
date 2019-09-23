@@ -15,8 +15,6 @@
  */
 package autodispose2;
 
-import autodispose2.OutsideScopeException;
-import autodispose2.ScopeProvider;
 import io.reactivex.rxjava3.subjects.CompletableSubject;
 
 final class TestUtil {

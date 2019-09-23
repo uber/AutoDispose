@@ -15,6 +15,9 @@
  */
 package autodispose2;
 
+import static autodispose2.AutoDisposeUtil.checkNotNull;
+import static autodispose2.Scopes.completableOf;
+
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.CompletableSource;
@@ -34,9 +37,6 @@ import io.reactivex.rxjava3.observers.TestObserver;
 import io.reactivex.rxjava3.parallel.ParallelFlowable;
 import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
-
-import static autodispose2.AutoDisposeUtil.checkNotNull;
-import static autodispose2.Scopes.completableOf;
 
 /**
  * Factories for autodispose converters that can be used with RxJava types' corresponding {@code

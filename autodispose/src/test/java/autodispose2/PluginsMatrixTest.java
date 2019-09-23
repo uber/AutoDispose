@@ -15,7 +15,6 @@
  */
 package autodispose2;
 
-import autodispose2.AutoDisposePlugins;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.After;

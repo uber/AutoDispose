@@ -15,10 +15,10 @@
  */
 package autodispose2;
 
-import static com.google.common.truth.Truth.assertThat;
 import static autodispose2.AutoDispose.autoDisposable;
 import static autodispose2.TestUtil.makeProvider;
 import static autodispose2.TestUtil.outsideScopeProvider;
+import static com.google.common.truth.Truth.assertThat;
 
 import autodispose2.observers.AutoDisposingMaybeObserver;
 import autodispose2.test.RecordingObserver;

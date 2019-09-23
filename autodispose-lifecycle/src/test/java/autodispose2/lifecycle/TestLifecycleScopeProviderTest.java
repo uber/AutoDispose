@@ -15,9 +15,9 @@
  */
 package autodispose2.lifecycle;
 
-import static com.google.common.truth.Truth.assertThat;
 import static autodispose2.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STARTED;
 import static autodispose2.lifecycle.TestLifecycleScopeProvider.TestLifecycle.STOPPED;
+import static com.google.common.truth.Truth.assertThat;
 
 import io.reactivex.rxjava3.subjects.Subject;
 import org.junit.Test;

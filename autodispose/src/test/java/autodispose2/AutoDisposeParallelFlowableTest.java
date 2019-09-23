@@ -15,8 +15,8 @@
  */
 package autodispose2;
 
-import static com.google.common.truth.Truth.assertThat;
 import static autodispose2.AutoDispose.autoDisposable;
+import static com.google.common.truth.Truth.assertThat;
 
 import autodispose2.test.RxErrorsRule;
 import io.reactivex.rxjava3.core.Flowable;

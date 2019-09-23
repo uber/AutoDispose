@@ -15,6 +15,11 @@
  */
 package autodispose2;
 
+import static autodispose2.AutoDispose.autoDisposable;
+import static autodispose2.TestUtil.makeProvider;
+import static autodispose2.TestUtil.outsideScopeProvider;
+import static com.google.common.truth.Truth.assertThat;
+
 import autodispose2.observers.AutoDisposingCompletableObserver;
 import autodispose2.test.RecordingObserver;
 import autodispose2.test.RxErrorsRule;
@@ -27,11 +32,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Rule;
 import org.junit.Test;
-
-import static autodispose2.AutoDispose.autoDisposable;
-import static autodispose2.TestUtil.makeProvider;
-import static autodispose2.TestUtil.outsideScopeProvider;
-import static com.google.common.truth.Truth.assertThat;
 
 public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
 

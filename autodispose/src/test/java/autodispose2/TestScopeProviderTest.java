@@ -15,7 +15,6 @@
  */
 package autodispose2;
 
-import autodispose2.TestScopeProvider;
 import io.reactivex.rxjava3.observers.TestObserver;
 import io.reactivex.rxjava3.subjects.CompletableSubject;
 import org.junit.Test;
