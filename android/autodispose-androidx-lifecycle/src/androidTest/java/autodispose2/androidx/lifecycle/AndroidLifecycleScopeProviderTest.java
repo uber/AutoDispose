@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package autodispose2.android.lifecycle;
+package autodispose2.androidx.lifecycle;
 
 import android.util.Log;
 import androidx.lifecycle.Lifecycle;
 import androidx.test.annotation.UiThreadTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import autodispose2.android.lifecycle.test.TestLifecycleOwner;
+import autodispose2.androidx.lifecycle.test.TestLifecycleOwner;
 import autodispose2.lifecycle.LifecycleEndedException;
 import autodispose2.test.RecordingObserver;
 import io.reactivex.rxjava3.disposables.Disposable;

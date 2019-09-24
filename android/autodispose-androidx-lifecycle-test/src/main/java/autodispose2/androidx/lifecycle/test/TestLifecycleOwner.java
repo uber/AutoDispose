@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package autodispose2.android.lifecycle.test;
-
-import static androidx.annotation.RestrictTo.Scope.TESTS;
+package autodispose2.androidx.lifecycle.test;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
+
+import static androidx.annotation.RestrictTo.Scope.TESTS;
 
 /**
  * A test {@link LifecycleOwner} implementation for testing. You can either back it with your own

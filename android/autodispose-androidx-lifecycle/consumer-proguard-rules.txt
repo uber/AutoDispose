@@ -1,4 +1,4 @@
 -keep class * implements androidx.lifecycle.GeneratedAdapter {<init>(...);}
 
 # Top-level functions that can only be used by Kotlin.
--dontwarn autodispose2.android.lifecycle.KotlinExtensions
+-dontwarn autodispose2.androidx.lifecycle.KotlinExtensions

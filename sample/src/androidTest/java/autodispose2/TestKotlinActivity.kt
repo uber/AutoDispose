@@ -20,9 +20,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import autodispose2.android.autoDispose
-import autodispose2.android.lifecycle.AndroidLifecycleScopeProvider
-import autodispose2.android.lifecycle.autoDispose
-import autodispose2.android.lifecycle.scope
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
+import autodispose2.androidx.lifecycle.autoDispose
+import autodispose2.androidx.lifecycle.scope
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.CompletableSource
 import io.reactivex.rxjava3.core.Flowable

@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-/** Android Architecture Components extensions for AutoDispose. */
-package autodispose2.android.lifecycle;
+/** {@code androidx-lifecycle} extensions for AutoDispose. */
+package autodispose2.androidx.lifecycle;

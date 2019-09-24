@@ -23,7 +23,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import autodispose2.autoDispose
-import autodispose2.android.lifecycle.AndroidLifecycleScopeProvider
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import autodispose2.recipes.subscribeBy
 import io.reactivex.rxjava3.core.Observable
 import java.util.concurrent.TimeUnit
@@ -106,7 +106,8 @@ class KotlinFragment : Fragment() {
         .doOnDispose {
           Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY")
         }
-        .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
+        .autoDispose(
+            AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
         .subscribeBy { num ->
           Log.i(TAG, "Started in onResume(), running until in onDestroy(): $num")
         }

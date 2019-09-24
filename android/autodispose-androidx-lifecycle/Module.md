@@ -1,3 +1,3 @@
-# Module autodispose-android-archcomponents
+# Module autodispose-androidx-lifecycle
 
-Android Architecture Components extensions for AutoDispose.
+`androidx-lifecycle` extensions for AutoDispose.

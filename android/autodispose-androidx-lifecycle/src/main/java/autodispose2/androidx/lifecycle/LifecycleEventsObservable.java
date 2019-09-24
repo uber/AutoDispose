@@ -13,14 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package autodispose2.android.lifecycle;
-
-import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
-import static androidx.lifecycle.Lifecycle.Event.ON_CREATE;
-import static androidx.lifecycle.Lifecycle.Event.ON_DESTROY;
-import static androidx.lifecycle.Lifecycle.Event.ON_RESUME;
-import static androidx.lifecycle.Lifecycle.Event.ON_START;
-import static autodispose2.android.internal.AutoDisposeAndroidUtil.isMainThread;
+package autodispose2.androidx.lifecycle;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
@@ -33,6 +26,13 @@ import autodispose2.android.internal.MainThreadDisposable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
+
+import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
+import static androidx.lifecycle.Lifecycle.Event.ON_CREATE;
+import static androidx.lifecycle.Lifecycle.Event.ON_DESTROY;
+import static androidx.lifecycle.Lifecycle.Event.ON_RESUME;
+import static androidx.lifecycle.Lifecycle.Event.ON_START;
+import static autodispose2.android.internal.AutoDisposeAndroidUtil.isMainThread;
 
 @RestrictTo(LIBRARY_GROUP)
 class LifecycleEventsObservable extends Observable<Event> {

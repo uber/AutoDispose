@@ -15,7 +15,7 @@
  */
 @file:Suppress("NOTHING_TO_INLINE")
 
-package autodispose2.android.lifecycle.test
+package autodispose2.androidx.lifecycle.test
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.LifecycleRegistry

@@ -22,7 +22,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Lifecycle;
-import autodispose2.android.lifecycle.AndroidLifecycleScopeProvider;
+import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider;
 import io.reactivex.rxjava3.core.Observable;
 import java.util.concurrent.TimeUnit;
 

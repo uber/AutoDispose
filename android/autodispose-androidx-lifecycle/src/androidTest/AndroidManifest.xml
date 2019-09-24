@@ -16,7 +16,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="autodispose2.android.lifecycle">
+    package="autodispose2.androidx.lifecycle">
 
   <uses-sdk
       android:minSdkVersion="14"
