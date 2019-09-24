@@ -99,49 +99,7 @@ inline fun Lifecycle.scope(
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-@Deprecated(
-    replaceWith = ReplaceWith("autoDispose(lifecycleOwner, untilEvent)"),
-    message = "Renamed to `autoDispose`",
-    level = DeprecationLevel.ERROR
-)
-inline fun <T> Flowable<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): FlowableSubscribeProxy<T> {
-  return if (untilEvent == null) {
-    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
-  } else {
-    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
-  }
-}
-
-/**
- * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
- * subscription will be disposed.
- *
- * @param lifecycleOwner The lifecycle owner.
- * @param untilEvent Optional lifecycle event when subscription will be disposed.
- */
-@CheckReturnValue
 inline fun <T> Flowable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): FlowableSubscribeProxy<T> {
-  return if (untilEvent == null) {
-    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
-  } else {
-    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
-  }
-}
-
-/**
- * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
- * subscription will be disposed.
- *
- * @param lifecycleOwner The lifecycle owner.
- * @param untilEvent Optional lifecycle event when subscription will be disposed.
- */
-@CheckReturnValue
-@Deprecated(
-    replaceWith = ReplaceWith("autoDispose(lifecycleOwner, untilEvent)"),
-    message = "Renamed to `autoDispose`",
-    level = DeprecationLevel.ERROR
-)
-inline fun <T> Observable<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): ObservableSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
@@ -173,49 +131,7 @@ inline fun <T> Observable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEv
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-@Deprecated(
-    replaceWith = ReplaceWith("autoDispose(lifecycleOwner, untilEvent)"),
-    message = "Renamed to `autoDispose`",
-    level = DeprecationLevel.ERROR
-)
-inline fun <T> Single<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): SingleSubscribeProxy<T> {
-  return if (untilEvent == null) {
-    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
-  } else {
-    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
-  }
-}
-
-/**
- * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
- * subscription will be disposed.
- *
- * @param lifecycleOwner The lifecycle owner.
- * @param untilEvent Optional lifecycle event when subscription will be disposed.
- */
-@CheckReturnValue
 inline fun <T> Single<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): SingleSubscribeProxy<T> {
-  return if (untilEvent == null) {
-    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
-  } else {
-    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
-  }
-}
-
-/**
- * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
- * subscription will be disposed.
- *
- * @param lifecycleOwner The lifecycle owner.
- * @param untilEvent Optional lifecycle event when subscription will be disposed.
- */
-@CheckReturnValue
-@Deprecated(
-    replaceWith = ReplaceWith("autoDispose(lifecycleOwner, untilEvent)"),
-    message = "Renamed to `autoDispose`",
-    level = DeprecationLevel.ERROR
-)
-inline fun <T> Maybe<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): MaybeSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
@@ -247,53 +163,11 @@ inline fun <T> Maybe<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: 
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-@Deprecated(
-    replaceWith = ReplaceWith("autoDispose(lifecycleOwner, untilEvent)"),
-    message = "Renamed to `autoDispose`",
-    level = DeprecationLevel.ERROR
-)
-inline fun Completable.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): CompletableSubscribeProxy {
-  return if (untilEvent == null) {
-    this.to(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
-  } else {
-    this.to(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
-  }
-}
-
-/**
- * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
- * subscription will be disposed.
- *
- * @param lifecycleOwner The lifecycle owner.
- * @param untilEvent Optional lifecycle event when subscription will be disposed.
- */
-@CheckReturnValue
 inline fun Completable.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): CompletableSubscribeProxy {
   return if (untilEvent == null) {
     this.to(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
     this.to(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
-  }
-}
-
-/**
- * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
- * subscription will be disposed.
- *
- * @param lifecycleOwner The lifecycle owner.
- * @param untilEvent Optional lifecycle event when subscription will be disposed.
- */
-@CheckReturnValue
-@Deprecated(
-    replaceWith = ReplaceWith("autoDispose(lifecycleOwner, untilEvent)"),
-    message = "Renamed to `autoDispose`",
-    level = DeprecationLevel.ERROR
-)
-inline fun <T> ParallelFlowable<T>.autoDisposable(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): ParallelFlowableSubscribeProxy<T> {
-  return if (untilEvent == null) {
-    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
-  } else {
-    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)))
   }
 }
 
