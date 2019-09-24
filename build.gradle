@@ -99,7 +99,7 @@ subprojects {
   boolean isMixedSourceSet = project.name in mixedSourcesArtifacts
   boolean isAndroidLibrary = project.path.startsWith(":android:")
   boolean isLint = project.path.endsWith("-lint")
-  boolean isKotlin = project.path.endsWith("-ktx") || isLint || isMixedSourceSet || project.path.endsWith("coroutines-interop")
+  boolean isKotlin = project.path.endsWith("-ktx") || isLint || isMixedSourceSet || project.path.contains("coroutines")
   boolean isSample = project.name == "sample"
   boolean isJavaLibrary = !isAndroidLibrary && !isKotlin && !isSample || (isMixedSourceSet && !isAndroidLibrary)
   boolean usesErrorProne = !isKotlin && !isSample || isMixedSourceSet

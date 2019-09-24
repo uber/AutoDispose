@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package autodispose2.coroutinesintrop
+package autodispose2.interop.coroutines
 
 import autodispose2.TestScopeProvider
-import autodispose2.coroutinesinterop.asCompletable
-import autodispose2.coroutinesinterop.asCoroutineScope
-import autodispose2.coroutinesinterop.asScopeProvider
-import autodispose2.coroutinesinterop.autoDispose
-import com.google.common.truth.Truth.assertThat
 import autodispose2.test.RecordingObserver
+import com.google.common.truth.Truth.assertThat
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.processors.PublishProcessor
 import io.reactivex.rxjava3.subjects.CompletableSubject

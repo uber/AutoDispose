@@ -15,7 +15,7 @@
  */
 @file:Suppress("NOTHING_TO_INLINE", "unused")
 
-package autodispose2.coroutinesinterop
+package autodispose2.interop.coroutines
 
 import autodispose2.CompletableSubscribeProxy
 import autodispose2.FlowableSubscribeProxy
