@@ -17,7 +17,7 @@
 def versions = [
     androidTest: '1.3.0-alpha02',
     animalSniffer: '1.5.0',
-    archLifecycle: '2.0.0',
+    androidxLifecycle: '2.0.0',
     dokka: '0.9.18',
     errorProne: '2.3.3',
     errorPronePlugin: '0.7.1',
@@ -79,9 +79,9 @@ def rx = [
 def androidx = [
     annotations: "androidx.annotation:annotation:1.0.2",
     lifecycle: [
-        compiler: "androidx.lifecycle:lifecycle-compiler:${versions.archLifecycle}",
-        common: "androidx.lifecycle:lifecycle-common:${versions.archLifecycle}",
-        runtime: "androidx.lifecycle:lifecycle-runtime:${versions.archLifecycle}"
+        compiler: "androidx.lifecycle:lifecycle-compiler:${versions.androidxLifecycle}",
+        common: "androidx.lifecycle:lifecycle-common:${versions.androidxLifecycle}",
+        runtime: "androidx.lifecycle:lifecycle-runtime:${versions.androidxLifecycle}"
     ]
 ]
 

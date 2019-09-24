@@ -60,7 +60,6 @@ android {
 //  def classesWithScope = [
 //      "android.app.Activity",
 //      "android.app.Fragment",
-//      "android.arch.lifecycle.LifecycleOwner",
 //      "androidx.lifecycle.LifecycleOwner",
 //      "autodispose2.ScopeProvider",
 //      "autodispose2.sample.CustomScope"

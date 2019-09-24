@@ -66,9 +66,7 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
       new ImmutableSet.Builder<String>()
           .add("android.app.Activity")
           .add("android.app.Fragment")
-          .add("android.support.v4.app.Fragment")
           .add("androidx.fragment.app.Fragment")
-          .add("android.arch.lifecycle.LifecycleOwner")
           .add("androidx.lifecycle.LifecycleOwner")
           .add("autodispose2.ScopeProvider")
           .build();

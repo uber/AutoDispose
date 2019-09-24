@@ -39,11 +39,9 @@ buildscript {
 Set<String> mixedSourcesArtifacts = [
     "autodispose",
     "autodispose-android",
-    "autodispose-android-archcomponents",
-    "autodispose-android-archcomponents-test",
-    "autodispose-lifecycle",
-    "autodispose-rxlifecycle",
-    "autodispose-rxlifecycle3"
+    "autodispose-androidx-lifecycle",
+    "autodispose-androidx-lifecycle-test",
+    "autodispose-lifecycle"
 ]
 // These are files with different copyright headers that should not be modified automatically.
 String[] copiedFiles = [
