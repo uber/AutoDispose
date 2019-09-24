@@ -94,7 +94,7 @@ project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 
 dependencies {
   implementation project(':android:autodispose-android')
-  implementation project(':android:autodispose-android-archcomponents')
+  implementation project(':android:autodispose-androidx-lifecycle')
   implementation project(':autodispose')
   implementation project(':autodispose-lifecycle')
 //  implementation project(":autodispose-rxlifecycle3")

@@ -15,9 +15,6 @@
  */
 package autodispose2.android.lifecycle;
 
-import static autodispose2.AutoDispose.autoDisposable;
-import static com.google.common.truth.Truth.assertThat;
-
 import android.util.Log;
 import androidx.lifecycle.Lifecycle;
 import androidx.test.annotation.UiThreadTest;
@@ -29,6 +26,9 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static autodispose2.AutoDispose.autoDisposable;
+import static com.google.common.truth.Truth.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public final class AndroidLifecycleScopeProviderTest {

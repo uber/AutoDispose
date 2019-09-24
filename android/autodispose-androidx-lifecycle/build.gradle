@@ -27,7 +27,7 @@ dependencies {
 
   lintPublish project(':static-analysis:autodispose-lint')
 
-  androidTestImplementation project(':android:autodispose-android-archcomponents-test')
+  androidTestImplementation project(':android:autodispose-androidx-lifecycle-test')
   androidTestImplementation project(':test-utils')
   androidTestImplementation deps.test.androidExtJunit
   androidTestImplementation deps.test.androidRunner

@@ -55,8 +55,8 @@ pluginManagement {
 rootProject.name = 'autodispose-root'
 if (System.getenv("ANDROID_HOME") != null) {
   include ':android:autodispose-android'
-  include ':android:autodispose-android-archcomponents'
-  include ':android:autodispose-android-archcomponents-test'
+  include ':android:autodispose-androidx-lifecycle'
+  include ':android:autodispose-androidx-lifecycle-test'
   include ':sample'
 }
 include ':autodispose'
