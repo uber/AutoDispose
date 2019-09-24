@@ -60,7 +60,7 @@ if (System.getenv("ANDROID_HOME") != null) {
   include ':sample'
 }
 include ':autodispose'
-include ':autodispose-coroutines-interop'
+include ':autodispose-interop:coroutines'
 include ':autodispose-lifecycle'
 include ':test-utils'
 include ':static-analysis:autodispose-error-prone'
