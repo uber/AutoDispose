@@ -15,13 +15,13 @@
  */
 package autodispose2.androidx.lifecycle.test;
 
+import static androidx.annotation.RestrictTo.Scope.TESTS;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
-
-import static androidx.annotation.RestrictTo.Scope.TESTS;
 
 /**
  * A test {@link LifecycleOwner} implementation for testing. You can either back it with your own
