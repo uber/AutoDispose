@@ -52,7 +52,7 @@ nav:
     - 'autodispose-androidx-lifecycle': 2.x/autodispose-androidx-lifecycle/autodispose2.android.lifecycle/index.md
     - 'autodispose-androidx-lifecycle-test': 2.x/autodispose-androidx-lifecycle-test/autodispose2.android.lifecycle.test/index.md
     - 'autodispose-lifecycle': 2.x/autodispose-lifecycle/autodispose2.lifecycle/index.md
-    - 'autodispose-coroutines-interop': 2.x/autodispose-coroutines-interop/autodispose2.coroutinesinterop/index.md
+    - 'autodispose-interop-coroutines': 2.x/autodispose-interop-coroutines/autodispose2.interop.coroutines/index.md
   - 'Error Prone': error-prone.md
   - 'Lint Check': lint-check.md
   - 'Changelog' : changelog.md
