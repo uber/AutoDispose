@@ -78,12 +78,10 @@ def rx = [
 
 def androidx = [
     annotations: "androidx.annotation:annotation:1.0.2",
-    arch: [
-        lifecycle: [
-            compiler: "androidx.lifecycle:lifecycle-compiler:${versions.archLifecycle}",
-            common: "androidx.lifecycle:lifecycle-common:${versions.archLifecycle}",
-            runtime: "androidx.lifecycle:lifecycle-runtime:${versions.archLifecycle}"
-        ]
+    lifecycle: [
+        compiler: "androidx.lifecycle:lifecycle-compiler:${versions.archLifecycle}",
+        common: "androidx.lifecycle:lifecycle-common:${versions.archLifecycle}",
+        runtime: "androidx.lifecycle:lifecycle-runtime:${versions.archLifecycle}"
     ]
 ]
 

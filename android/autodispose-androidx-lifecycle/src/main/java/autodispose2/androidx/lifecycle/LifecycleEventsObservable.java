@@ -77,27 +77,27 @@ class LifecycleEventsObservable extends Observable<Event> {
 
   @Override
   protected void subscribeActual(Observer<? super Event> observer) {
-    ArchLifecycleObserver archObserver =
-        new ArchLifecycleObserver(lifecycle, observer, eventsObservable);
-    observer.onSubscribe(archObserver);
+    AutoDisposeLifecycleObserver lifecycleObserver =
+        new AutoDisposeLifecycleObserver(lifecycle, observer, eventsObservable);
+    observer.onSubscribe(lifecycleObserver);
     if (!isMainThread()) {
       observer.onError(
           new IllegalStateException("Lifecycles can only be bound to on the main thread!"));
       return;
     }
-    lifecycle.addObserver(archObserver);
-    if (archObserver.isDisposed()) {
-      lifecycle.removeObserver(archObserver);
+    lifecycle.addObserver(lifecycleObserver);
+    if (lifecycleObserver.isDisposed()) {
+      lifecycle.removeObserver(lifecycleObserver);
     }
   }
 
-  static final class ArchLifecycleObserver extends MainThreadDisposable
+  static final class AutoDisposeLifecycleObserver extends MainThreadDisposable
       implements LifecycleObserver {
     private final Lifecycle lifecycle;
     private final Observer<? super Event> observer;
     private final BehaviorSubject<Event> eventsObservable;
 
-    ArchLifecycleObserver(
+    AutoDisposeLifecycleObserver(
         Lifecycle lifecycle,
         Observer<? super Event> observer,
         BehaviorSubject<Event> eventsObservable) {
