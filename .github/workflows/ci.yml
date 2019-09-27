@@ -46,7 +46,7 @@ jobs:
         run: ./gradlew test --stacktrace
       - name: Run instrumentation tests
         run: |
-          android-wait-for-emulator
+          ./android-wait-for-emulator
           $ANDROID_HOME/platform-tools/adb shell input keyevent 82
           ./gradlew connectedCheck --stacktrace
       - name: Final checks
