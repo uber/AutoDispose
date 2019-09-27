@@ -30,7 +30,6 @@ jobs:
         run: ./gradlew test --stacktrace
       - name: Run instrumentation tests
         uses: vgaidarji/android-github-actions/emulator@v1.0.0
-        run: ./gradlew connectedCheck --stacktrace
       - name: Final checks
         run: ./gradlew check --stacktrace
       - name: Upload snapshot (master only)
