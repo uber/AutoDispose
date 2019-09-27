@@ -22,7 +22,9 @@ jobs:
 #          # Install the system image
 #          sdkmanager "system-images;android-18;default;armeabi-v7a"
       - name: Start emulator
-        run: $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
+        run: |
+          adb devices
+          $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
 #        run: |
 #          # Create and start emulator for the script. Meant to race the install task.
 #          echo no | avdmanager create avd --force -n test -k "system-images;android-18;default;armeabi-v7a"
@@ -46,8 +48,8 @@ jobs:
         run: ./gradlew test --stacktrace
       - name: Run instrumentation tests
         run: |
-          ./.github/workflows/android-wait-for-emulator
-          $ANDROID_HOME/platform-tools/adb shell input keyevent 82
+          adb devices
+          adb shell input keyevent 82
           ./gradlew connectedCheck --stacktrace
       - name: Final checks
         run: ./gradlew check --stacktrace
