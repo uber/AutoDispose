@@ -17,6 +17,8 @@ jobs:
       - name: Set up Android SDK
         run: |
           # Install the rest of tools (e.g., avdmanager)
+          echo $ANDROID_HOME
+          PATH=$ANDROID_HOME/tools/bin:$PATH
           sdkmanager tools
       - name: Install emulator
         run: |
