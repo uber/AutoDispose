@@ -3,6 +3,27 @@ name: CI
 on: [push]
 
 jobs:
+  setup-emulator:
+    name: Set up emulator
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up SDK
+        run: |
+          # Install SDK license so Android Gradle plugin can install deps.
+          mkdir "$ANDROID_HOME/licenses" || true
+          echo "d56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
+          echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" >> "$ANDROID_HOME/licenses/android-sdk-license"
+          # Install the rest of tools (e.g., avdmanager)
+          sdkmanager tools
+      - name: Install emulator
+        run: |
+          # Install the system image
+          sdkmanager "system-images;android-18;default;armeabi-v7a"
+      - name: Start emulator
+        run: |
+          # Create and start emulator for the script. Meant to race the install task.
+          echo no | avdmanager create avd --force -n test -k "system-images;android-18;default;armeabi-v7a"
+          $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
   build:
     name: JDK ${{ matrix.java_version }}
     runs-on: ubuntu-latest
@@ -26,10 +47,14 @@ jobs:
         run: ./gradlew spotlessCheck --stacktrace
       - name: Build project
         run: ./gradlew assemble --stacktrace
+      # TODO split test and instrumentation into parallel builds
       - name: Run tests
         run: ./gradlew test --stacktrace
       - name: Run instrumentation tests
-        uses: vgaidarji/android-github-actions/emulator@v1.0.0
+        run: |
+          android-wait-for-emulator
+          adb shell input keyevent 82
+          ./gradlew connectedCheck --stacktrace
       - name: Final checks
         run: ./gradlew check --stacktrace
       - name: Upload snapshot (master only)
