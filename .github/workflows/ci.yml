@@ -19,7 +19,7 @@ jobs:
           # Install the rest of tools (e.g., avdmanager)
           export PATH="$ANDROID_HOME/tools/bin:$PATH"
           echo $PATH
-          ls $ANDROID_HOME/tools/bin
+          ls $ANDROID_HOME/tools
           sdkmanager tools
       - name: Install emulator
         run: |
