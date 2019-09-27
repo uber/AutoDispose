@@ -14,12 +14,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Install JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java_version }}
+      - name: Configure Gradle
+        # Initial gradle configuration, install dependencies, etc
+        run: ./gradlew help
       - name: Set up Android SDK
         run: |
           # Install the rest of tools (e.g., avdmanager)
           export PATH="$ANDROID_HOME/tools/bin:$PATH"
-          echo $PATH
-          ls $ANDROID_HOME/tools
           sdkmanager tools
       - name: Install emulator
         run: |
@@ -30,13 +35,6 @@ jobs:
           # Create and start emulator for the script. Meant to race the install task.
           echo no | avdmanager create avd --force -n test -k "system-images;android-18;default;armeabi-v7a"
           $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
-      - name: Install JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: ${{ matrix.java_version }}
-      - name: Configure Gradle
-        # Initial gradle configuration, install dependencies, etc
-        run: ./gradlew help
       - name: Spot check
         # Run spotless first to fail fast on spotless issues
         run: ./gradlew spotlessCheck --stacktrace
