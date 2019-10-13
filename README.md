@@ -1,8 +1,7 @@
 AutoDispose
 ===========
 
-An RxJava tool for automatically binding the execution of RxJava streams to a 
-provided scope via disposal/cancellation.
+Automatic binding+disposal of RxJava 2 streams.
 
 ### [uber.github.io/AutoDispose](https://uber.github.io/AutoDispose)
 
