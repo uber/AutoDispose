@@ -58,5 +58,6 @@ nav:
   - 'Changelog' : changelog.md
   - 'Migrating from 0.2.0 to 0.3.0': migrating-020-030.md
   - 'Migrating from 0.4.0 to 0.5.0': migrating-040-050.md
+  - 'Migrating from 1.x to 2.x': migrating-1x-2x.md
   - 'Contributing': contributing.md
   - 'Code of Conduct': code-of-conduct.md
