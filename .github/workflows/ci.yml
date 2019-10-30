@@ -5,7 +5,9 @@ on: [push]
 jobs:
   build:
     name: JDK ${{ matrix.java_version }}
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
+    env:
+      ANDROID_SDK_TOOLS: "4333796"
     strategy:
       matrix:
         # TODO Add 13 when Gradle 6.0 is out
@@ -17,14 +19,18 @@ jobs:
 #          # Install the rest of tools (e.g., avdmanager)
 #          export PATH="$ANDROID_HOME/tools/bin:$PATH"
 #          sdkmanager tools
-#      - name: Install emulator
-#        run: |
-#          # Install the system image
-#          sdkmanager "system-images;android-18;default;armeabi-v7a"
+      - name: Install Android sdkmanager
+        run: |
+          wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS}.zip
+          sudo unzip -d $ANDROID_HOME android-sdk.zip > /dev/null
+      - name: Install emulator
+        run: |
+          echo "y" | sudo $ANDROID_HOME/tools/bin/sdkmanager --licenses > /dev/null
+          sudo $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-18;default;armeabi-v7a"
       - name: Start emulator
         run: |
           adb devices
-          $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
+          sudo $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
 #        run: |
 #          # Create and start emulator for the script. Meant to race the install task.
 #          echo no | avdmanager create avd --force -n test -k "system-images;android-18;default;armeabi-v7a"
