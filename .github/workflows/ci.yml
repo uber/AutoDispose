@@ -55,7 +55,7 @@ jobs:
       - name: Run instrumentation tests
         run: |
           export PATH="$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
-          ./android-wait-for-emulator
+          ./.github/workflows/android-wait-for-emulator
           adb devices
           adb shell input keyevent 82
           ./gradlew connectedCheck --stacktrace
