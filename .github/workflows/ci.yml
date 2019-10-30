@@ -29,7 +29,7 @@ jobs:
           sudo $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-18;default;armeabi-v7a"
       - name: Start emulator
         run: |
-          adb devices
+          $ANDROID_HOME/platform-tools/adb devices
           sudo $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
 #        run: |
 #          # Create and start emulator for the script. Meant to race the install task.
