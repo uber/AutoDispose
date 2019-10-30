@@ -35,7 +35,7 @@ jobs:
           $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
       - name: Checkout
         uses: actions/checkout@v1
-      - name: Install JDK
+      - name: Install JDK ${{ matrix.java_version }}
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java_version }}
