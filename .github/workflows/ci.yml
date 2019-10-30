@@ -6,7 +6,6 @@ jobs:
   build:
     name: JDK ${{ matrix.java_version }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
     env:
       ANDROID_SDK_TOOLS: "4333796"
     strategy:
@@ -52,6 +51,7 @@ jobs:
       - name: Run tests
         run: ./gradlew test --stacktrace
       - name: Run instrumentation tests
+        timeout-minutes: 15
         run: |
           export PATH="$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
           ./.github/workflows/android-wait-for-emulator
