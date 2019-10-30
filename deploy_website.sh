@@ -27,7 +27,6 @@ if ! [ $local ]; then
 fi
 
 # Copy in special files that GitHub wants in the project root.
-cat README.md > docs/index.md
 cp CHANGELOG.md docs/changelog.md
 cp CONTRIBUTING.md docs/contributing.md
 cp CODE_OF_CONDUCT.md docs/code-of-conduct.md
