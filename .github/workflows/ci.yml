@@ -6,6 +6,7 @@ jobs:
   build:
     name: JDK ${{ matrix.java_version }}
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       ANDROID_SDK_TOOLS: "4333796"
     strategy:
