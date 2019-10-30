@@ -31,11 +31,9 @@ jobs:
       - name: Start emulator
         run: |
           export PATH="$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
-          sudo $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
-#        run: |
-#          # Create and start emulator for the script. Meant to race the install task.
-#          echo no | avdmanager create avd --force -n test -k "system-images;android-18;default;armeabi-v7a"
-#          $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
+#         Create and start emulator for the script. Meant to race the install task.
+          echo no | avdmanager create avd --force -n test -k "system-images;android-18;default;armeabi-v7a"
+          $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
       - name: Checkout
         uses: actions/checkout@v1
       - name: Install JDK
