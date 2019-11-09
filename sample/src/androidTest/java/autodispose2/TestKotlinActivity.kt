@@ -29,8 +29,8 @@ import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import org.junit.Ignore
 import java.util.concurrent.TimeUnit
+import org.junit.Ignore
 
 /**
  * Test Activity class to verify compilation of various extension functions.

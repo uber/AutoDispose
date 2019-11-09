@@ -15,14 +15,14 @@
  */
 package autodispose2.sample
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import autodispose2.ScopeProvider
-import autodispose2.autoDispose
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
+import autodispose2.autoDispose
 import autodispose2.sample.repository.NetworkRepository
 import autodispose2.sample.state.DownloadState
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
