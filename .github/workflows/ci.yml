@@ -8,7 +8,6 @@ jobs:
     runs-on: macOS-latest
     env:
       ANDROID_SDK_TOOLS: "4333796"
-      GRADLE_OPTS: "-Xmx768m -Xms256m -Xss1m" # To limit memory use on CI and avoid OOMs
     strategy:
       matrix:
         # TODO Add 9, 10, 11, 12, and 13 after Kotlin 1.3.60
