@@ -1,4 +1,4 @@
-AutoDispose
+AutoDispose Sample
 ===========
 
 Automatic binding+disposal of RxJava 2 streams.
