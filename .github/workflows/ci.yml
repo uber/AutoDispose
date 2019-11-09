@@ -54,6 +54,8 @@ jobs:
           api: 18
           tag: default
           abi: x86
+      - name: Reclaim memory
+        run: ./gradlew --stop && jps|grep -E 'KotlinCompileDaemon|GradleDaemon'| awk '{print $1}'| xargs kill -9
       - name: Final checks
         run: ./gradlew check --stacktrace
       - name: Upload snapshot (master only)
