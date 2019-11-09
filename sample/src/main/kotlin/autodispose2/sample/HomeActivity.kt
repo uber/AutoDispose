@@ -17,9 +17,9 @@ package autodispose2.sample
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.widget.Button
 
 /**
  * Central activity that opens up other activities.

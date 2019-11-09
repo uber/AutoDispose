@@ -15,9 +15,9 @@
  */
 package autodispose2.sample
 
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import android.graphics.Bitmap
 import autodispose2.sample.repository.ImageRepository
 import io.reactivex.rxjava3.core.Observable
 

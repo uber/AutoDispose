@@ -15,8 +15,8 @@
  */
 package autodispose2
 
-import com.google.common.truth.Truth.assertThat
 import autodispose2.test.RecordingObserver
+import com.google.common.truth.Truth.assertThat
 import io.reactivex.rxjava3.core.BackpressureStrategy.ERROR
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable

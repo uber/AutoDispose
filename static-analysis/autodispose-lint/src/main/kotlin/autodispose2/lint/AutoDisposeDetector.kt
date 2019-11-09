@@ -29,6 +29,9 @@ import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiType
 import com.intellij.psi.util.PsiUtil
+import java.io.StringReader
+import java.util.EnumSet
+import java.util.Properties
 import org.jetbrains.uast.UBlockExpression
 import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.UCallableReferenceExpression
@@ -41,9 +44,6 @@ import org.jetbrains.uast.UQualifiedReferenceExpression
 import org.jetbrains.uast.getContainingUClass
 import org.jetbrains.uast.getParentOfType
 import org.jetbrains.uast.visitor.AbstractUastVisitor
-import java.io.StringReader
-import java.util.EnumSet
-import java.util.Properties
 
 internal const val CUSTOM_SCOPE_KEY = "autodispose.typesWithScope"
 internal const val LENIENT = "autodispose.lenient"
