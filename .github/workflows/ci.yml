@@ -33,11 +33,11 @@ jobs:
         run: ./gradlew test --stacktrace
       - name: Run instrumentation tests
         uses: malinskiy/action-android/emulator-run-cmd@release/0.0.3
-          with:
-            cmd: ./gradlew connectedCheck --stacktrace
-            api: 18
-            tag: default
-            abi: x86
+        with:
+          cmd: ./gradlew connectedCheck --stacktrace
+          api: 18
+          tag: default
+          abi: x86
       - name: Final checks
         run: ./gradlew check --stacktrace
       - name: Upload snapshot (master only)
