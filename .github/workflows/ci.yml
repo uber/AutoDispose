@@ -11,8 +11,7 @@ jobs:
       GRADLE_OPTS: "-Xmx768m -Xms256m -Xss1m" # To limit memory use on CI and avoid OOMs
     strategy:
       matrix:
-        # TODO Add 13 when Gradle 6.0 is out
-        # TODO Add 9, 10, 11, and 12 after Kotlin 1.3.60
+        # TODO Add 9, 10, 11, 12, and 13 after Kotlin 1.3.60
         java_version: [1.8]
     steps:
       - name: Checkout
