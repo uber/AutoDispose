@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Check Gradle checksum
+        run: ./checkGradleChecksum.sh
       - name: Install JDK ${{ matrix.java_version }}
         uses: actions/setup-java@v1
         with:
