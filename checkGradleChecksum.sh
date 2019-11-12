@@ -40,11 +40,9 @@
 #
 
 # Make sure we have sha256sum
-if hash sha256sum 2>/dev/null; then
-    echo "sha256sum installed"
-else
-    echo "sha256sum not installed!"
-    exit 1
+if ! [ -x "$(command -v sha256sum)" ]; then
+  echo 'Error: sha256sum is not installed.' >&2
+  exit 1
 fi
 
 # First parse the gradle version from its gradle-wrapper.properties file
