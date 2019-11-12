@@ -39,6 +39,14 @@
 # My bash-fu isn't great and I'm sure this could be improved. Suggestions welcome in the comments!
 #
 
+# Make sure we have sha256sum
+if hash sha256sum 2>/dev/null; then
+    echo "sha256sum installed"
+else
+    echo "sha256sum not installed!"
+    exit 1
+fi
+
 # First parse the gradle version from its gradle-wrapper.properties file
 GRADLE_WRAPPER_PROPERTIES_FILE=gradle/wrapper/gradle-wrapper.properties
 GRADLE_URL_PREFIX="https\://services.gradle.org/distributions/gradle-"
