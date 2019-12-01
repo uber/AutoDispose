@@ -1,0 +1,12 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+$dokka.location:autodispose2.interop.coroutines$asCompletable(kotlinx.coroutines.CoroutineScope)autodispose2.interop.coroutines/kotlinx.coroutines.-coroutine-scope/as-completable.md
+$dokka.location:autodispose2.interop.coroutines$asCoroutineScope(autodispose2.ScopeProvider, kotlin.coroutines.CoroutineContext)autodispose2.interop.coroutines/autodispose2.-scope-provider/as-coroutine-scope.md
+$dokka.location:autodispose2.interop.coroutines$asCoroutineScope(io.reactivex.rxjava3.core.CompletableSource, kotlin.coroutines.CoroutineContext)autodispose2.interop.coroutines/io.reactivex.rxjava3.core.-completable-source/as-coroutine-scope.md
+$dokka.location:autodispose2.interop.coroutines$asScopeProvider(kotlinx.coroutines.CoroutineScope)autodispose2.interop.coroutines/kotlinx.coroutines.-coroutine-scope/as-scope-provider.md
+$dokka.location:autodispose2.interop.coroutines$autoDispose(io.reactivex.rxjava3.core.Completable, kotlinx.coroutines.CoroutineScope)autodispose2.interop.coroutines/io.reactivex.rxjava3.core.-completable/auto-dispose.md
+$dokka.location:autodispose2.interop.coroutines$autoDispose(io.reactivex.rxjava3.core.Flowable((autodispose2.interop.coroutines.autoDispose.T)), kotlinx.coroutines.CoroutineScope)autodispose2.interop.coroutines/io.reactivex.rxjava3.core.-flowable/auto-dispose.md
+$dokka.location:autodispose2.interop.coroutines$autoDispose(io.reactivex.rxjava3.core.Maybe((autodispose2.interop.coroutines.autoDispose.T)), kotlinx.coroutines.CoroutineScope)autodispose2.interop.coroutines/io.reactivex.rxjava3.core.-maybe/auto-dispose.md
+$dokka.location:autodispose2.interop.coroutines$autoDispose(io.reactivex.rxjava3.core.Observable((autodispose2.interop.coroutines.autoDispose.T)), kotlinx.coroutines.CoroutineScope)autodispose2.interop.coroutines/io.reactivex.rxjava3.core.-observable/auto-dispose.md
+$dokka.location:autodispose2.interop.coroutines$autoDispose(io.reactivex.rxjava3.core.Single((autodispose2.interop.coroutines.autoDispose.T)), kotlinx.coroutines.CoroutineScope)autodispose2.interop.coroutines/io.reactivex.rxjava3.core.-single/auto-dispose.md
+autodispose2.interop.coroutines

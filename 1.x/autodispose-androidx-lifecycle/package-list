@@ -1,0 +1,15 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+$dokka.location:autodispose2.androidx.lifecycle$autoDispose(io.reactivex.rxjava3.core.Completable, androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event)autodispose2.androidx.lifecycle/io.reactivex.rxjava3.core.-completable/auto-dispose.md
+$dokka.location:autodispose2.androidx.lifecycle$autoDispose(io.reactivex.rxjava3.core.Flowable((autodispose2.androidx.lifecycle.autoDispose.T)), androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event)autodispose2.androidx.lifecycle/io.reactivex.rxjava3.core.-flowable/auto-dispose.md
+$dokka.location:autodispose2.androidx.lifecycle$autoDispose(io.reactivex.rxjava3.core.Maybe((autodispose2.androidx.lifecycle.autoDispose.T)), androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event)autodispose2.androidx.lifecycle/io.reactivex.rxjava3.core.-maybe/auto-dispose.md
+$dokka.location:autodispose2.androidx.lifecycle$autoDispose(io.reactivex.rxjava3.core.Observable((autodispose2.androidx.lifecycle.autoDispose.T)), androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event)autodispose2.androidx.lifecycle/io.reactivex.rxjava3.core.-observable/auto-dispose.md
+$dokka.location:autodispose2.androidx.lifecycle$autoDispose(io.reactivex.rxjava3.core.Single((autodispose2.androidx.lifecycle.autoDispose.T)), androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event)autodispose2.androidx.lifecycle/io.reactivex.rxjava3.core.-single/auto-dispose.md
+$dokka.location:autodispose2.androidx.lifecycle$autoDispose(io.reactivex.rxjava3.parallel.ParallelFlowable((autodispose2.androidx.lifecycle.autoDispose.T)), androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event)autodispose2.androidx.lifecycle/io.reactivex.rxjava3.parallel.-parallel-flowable/auto-dispose.md
+$dokka.location:autodispose2.androidx.lifecycle$scope(androidx.lifecycle.Lifecycle)autodispose2.androidx.lifecycle/androidx.lifecycle.-lifecycle/scope.md
+$dokka.location:autodispose2.androidx.lifecycle$scope(androidx.lifecycle.Lifecycle, androidx.lifecycle.Lifecycle.Event)autodispose2.androidx.lifecycle/androidx.lifecycle.-lifecycle/scope.md
+$dokka.location:autodispose2.androidx.lifecycle$scope(androidx.lifecycle.Lifecycle, autodispose2.lifecycle.CorrespondingEventsFunction((androidx.lifecycle.Lifecycle.Event)))autodispose2.androidx.lifecycle/androidx.lifecycle.-lifecycle/scope.md
+$dokka.location:autodispose2.androidx.lifecycle$scope(androidx.lifecycle.LifecycleOwner)autodispose2.androidx.lifecycle/androidx.lifecycle.-lifecycle-owner/scope.md
+$dokka.location:autodispose2.androidx.lifecycle$scope(androidx.lifecycle.LifecycleOwner, androidx.lifecycle.Lifecycle.Event)autodispose2.androidx.lifecycle/androidx.lifecycle.-lifecycle-owner/scope.md
+$dokka.location:autodispose2.androidx.lifecycle$scope(androidx.lifecycle.LifecycleOwner, autodispose2.lifecycle.CorrespondingEventsFunction((androidx.lifecycle.Lifecycle.Event)))autodispose2.androidx.lifecycle/androidx.lifecycle.-lifecycle-owner/scope.md
+autodispose2.androidx.lifecycle
