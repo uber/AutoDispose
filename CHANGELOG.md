@@ -10,6 +10,10 @@ This is the first release candidate for AutoDispose 2.0
 
 AutoDispose 2 is built against RxJava 3 and is binary-compatible with AutoDispose 1.x and RxJava 2.x. As such - it has a different package name and maven group ID.
 
+### Android not supported yet
+
+Due to there being no RxAndroid 3.x release candidate, we cannot release RCs of the Android artifacts yet. They are available as snapshots though.
+
 ### Packaging
 
 |  | Maven Group ID | Package Name |
