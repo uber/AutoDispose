@@ -244,11 +244,18 @@ Special thanks go to [Dan Lew][dan] (creator of RxLifecycle), who helped pioneer
  that we've learned from. Much of the internal scope resolution mechanics of `AutoDispose` are 
  inspired by RxLifecycle.
  
-## RxJava 1
+## RxJava versions support
 
-This pattern is *sort of* possible in RxJava 1, but only on `Subscriber` (via `onStart()`) and 
-`CompletableObserver` (which matches RxJava 2's API). We are aggressively migrating our internal code
- to RxJava 2, and do not plan to try to backport this to RxJava 1.
+- RxJava 3
+  - AutoDispose 2.x
+- RxJava 2
+  - AutoDispose 1.x
+- RxJava 1
+  - We do not plan to try to backport this to RxJava 1. This pattern is *sort of* possible in 
+  RxJava 1, but only on `Subscriber` (via `onStart()`) and `CompletableObserver` (which matches the 
+  API of RxJava 2+).
+
+2.x versions of AutoDispose are built for RxJava 3.
 
 ## Static analysis
 
