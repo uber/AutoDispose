@@ -3,7 +3,7 @@ AutoDispose
 
 [![Build Status](https://travis-ci.com/uber/AutoDispose.svg?branch=master)](https://travis-ci.org/uber/AutoDispose)
 
-**AutoDispose** is an RxJava 2 tool for automatically binding the execution of RxJava 2 streams to a 
+**AutoDispose** is an RxJava 2+ tool for automatically binding the execution of RxJava streams to a 
 provided scope via disposal/cancellation.
 
 Overview
@@ -298,17 +298,25 @@ Android Architecture Components extensions:
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents)
 ```gradle
+// AutoDispose 1.x
 implementation 'com.uber.autodispose:autodispose-android-archcomponents:x.y.z'
+
+// AutoDispose 2.x
+implementation 'com.uber.autodispose:autodispose-androidx-lifecycle:x.y.z'
 ```
 
-Android Architecture Components Test extensions:
+Androidx-Lifecycle Test extensions:
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test)
 ```gradle
+// AutoDispose 1.x
 implementation 'com.uber.autodispose:autodispose-android-archcomponents-test:x.y.z'
+
+// AutoDispose 2.x
+implementation 'com.uber.autodispose:autodispose-androidx-lifecycle-test:x.y.z'
 ```
 
-RxLifecycle interop:
+RxLifecycle interop (AutoDispose 1.x/RxJava 2.x only):
 
 `autodispose-rxlifecycle` [![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-rxlifecycle.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-rxlifecycle)
 ```gradle
