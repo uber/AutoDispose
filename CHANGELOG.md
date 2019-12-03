@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 2.0.0-RC2
+-----------------
+
+_2019-12-02_
+
+RC2 has no additional changes from RC1 but does not upload RCs for Android artifacts since RxAndroid does not have a RC yet.
+
 Version 2.0.0-RC1
 -----------------
 
