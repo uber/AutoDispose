@@ -53,7 +53,7 @@ def kotlinAndroidArtifactTasks() {
     }
 
     outputFormat = 'gfm'
-    outputDirectory = "$rootDir/docs/1.x"
+    outputDirectory = "$rootDir/docs/2.x"
     includes = ['Module.md']
     classpath = new ArrayList<File>(project.tasks['assemble'].outputs.files.files)
     sourceDirs = android.sourceSets.main.java.srcDirs
@@ -81,7 +81,7 @@ def kotlinArtifactTasks() {
     }
 
     outputFormat = 'gfm'
-    outputDirectory = "$rootDir/docs/1.x"
+    outputDirectory = "$rootDir/docs/2.x"
     includes = ['Module.md']
     sourceDirs = sourceSets.main.allSource
   }
