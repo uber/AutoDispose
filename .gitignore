@@ -106,6 +106,7 @@ tmp/
 annotations/
 
 # Mkdocs
+docs/1.x/*
 docs/2.x/*
 docs/changelog.md
 docs/contributing.md
