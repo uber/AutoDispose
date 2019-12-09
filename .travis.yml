@@ -13,18 +13,21 @@ before_install:
 # Install the rest of tools (e.g., avdmanager)	
 - sdkmanager tools	
 # Install the system image	
-- sdkmanager "system-images;android-16;default;armeabi-v7a"	
+- sdkmanager "system-images;android-18;default;armeabi-v7a"	
 # Create and start emulator for the script. Meant to race the install task.	
-- echo no | avdmanager create avd --force -n test -k "system-images;android-16;default;armeabi-v7a"	
-- $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &	
+- echo no | avdmanager create avd --force -n test -k "system-images;android-18;default;armeabi-v7a"	
+- $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window > /dev/null 2>&1 &
+# Pin the emulator to 29.2.1.0 to work around https://issuetracker.google.com/issues/145622251.
+- curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-linux-5889189.zip"
+- rm -rf "${ANDROID_HOME}/emulator"
+- unzip -q emulator.zip -d "${ANDROID_HOME}"
+- rm -f emulator.zip
 
 install: ./gradlew build assembleAndroidTest --stacktrace	
 
 before_script:	
-  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a -c 100M
-  - emulator -avd test -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+- android-wait-for-emulator
+- adb shell input keyevent 82 &
 
 script:	
 - ./gradlew check connectedCheck --stacktrace	
