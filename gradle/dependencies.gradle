@@ -48,7 +48,7 @@ def build = [
     animalSniffer: 'org.codehaus.mojo.signature:java17:1.0@signature',
 
     gradlePlugins: [
-        android: 'com.android.tools.build:gradle:3.5.2',
+        android: 'com.android.tools.build:gradle:3.6.0-rc01',
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
         dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
@@ -73,7 +73,7 @@ def misc = [
 
 def rx = [
     android: 'io.reactivex.rxjava3:rxandroid:3.0.0-SNAPSHOT',
-    java: 'io.reactivex.rxjava3:rxjava:3.0.0-RC6'
+    java: 'io.reactivex.rxjava3:rxjava:3.0.0-RC7'
 ]
 
 def androidx = [
