@@ -18,8 +18,8 @@ package autodispose2.sample
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import autodispose2.androidx.lifecycle.viewModelScope
 import autodispose2.autoDispose
-import autodispose2.recipes.AutoDisposeViewModel
 import autodispose2.sample.repository.NetworkRepository
 import autodispose2.sample.state.DownloadState
 import com.jakewharton.rxrelay2.BehaviorRelay
@@ -28,7 +28,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 /**
- * Demo AutoDisposing ViewModel.
+ * Demo autoDispose in ViewModel.
  *
  * This ViewModel will subscribe to Rx streams for you and pass along
  * the values through the [viewRelay].
@@ -47,9 +47,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers
  * updated value.
  *
  * AutoDispose will automatically dispose any pending subscriptions when
- * the [onCleared] method is called since it extends from [AutoDisposeViewModel].
+ * the [onCleared] method is called.
  */
-class DisposingViewModel(private val repository: NetworkRepository) : AutoDisposeViewModel() {
+class DisposingViewModel(private val repository: NetworkRepository) : ViewModel() {
 
   /**
    * The relay to communicate state to the UI.
@@ -82,7 +82,7 @@ class DisposingViewModel(private val repository: NetworkRepository) : AutoDispos
     repository.downloadProgress()
         .subscribeOn(Schedulers.io())
         .doOnDispose { Log.i(TAG, "Disposing subscription from the ViewModel") }
-        .autoDispose(this)
+        .autoDispose(viewModelScope)
         .subscribe({ progress ->
           viewRelay.accept(DownloadState.InProgress(progress))
         }, { error ->

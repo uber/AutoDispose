@@ -24,6 +24,7 @@ dependencies {
 
   implementation project(':android:autodispose-android')
   implementation deps.rx.android
+  implementation deps.androidx.lifecycle.ktx
 
   lintPublish project(':static-analysis:autodispose-lint')
 

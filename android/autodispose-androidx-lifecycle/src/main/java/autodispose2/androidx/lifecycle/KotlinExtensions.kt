@@ -20,6 +20,7 @@ package autodispose2.androidx.lifecycle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Lifecycle.Event
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
 import autodispose2.AutoDispose
 import autodispose2.CompletableSubscribeProxy
 import autodispose2.FlowableSubscribeProxy
@@ -207,3 +208,5 @@ inline fun <T> ParallelFlowable<T>.autoDispose(lifecycleOwner: LifecycleOwner, u
             untilEvent)))
   }
 }
+
+val ViewModel.viewModelScope: ScopeProvider get() = AndroidViewModelScopeProvider(this)
