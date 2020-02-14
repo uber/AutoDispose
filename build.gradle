@@ -58,9 +58,6 @@ subprojects {
     google()
     mavenCentral()
     jcenter()
-    // TODO remove when RxJava and RxAndroid 3.0 are stable
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    maven { url 'https://oss.jfrog.org/libs-snapshot' }
   }
 
   apply from: rootProject.file('gradle/dependencies.gradle')
