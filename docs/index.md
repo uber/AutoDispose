@@ -274,46 +274,46 @@ Download
 
 Java:
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose)
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose2/autodispose.svg)](https://mvnrepository.com/artifact/com.uber.autodispose2/autodispose)
 
 ```gradle
-implementation 'com.uber.autodispose:autodispose:x.y.z'
+implementation 'com.uber.autodispose2:autodispose:x.y.z'
 ```
 
 LifecycleScopeProvider:
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-lifecycle.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-lifecycle)
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose2/autodispose-lifecycle.svg)](https://mvnrepository.com/artifact/com.uber.autodispose2/autodispose-lifecycle)
 ```gradle
-implementation 'com.uber.autodispose:autodispose-lifecycle:x.y.z'
+implementation 'com.uber.autodispose2:autodispose-lifecycle:x.y.z'
 ```
 
 Android extensions:
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android)
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose2/autodispose-android.svg)](https://mvnrepository.com/artifact/com.uber.autodispose2/autodispose-android)
 ```gradle
-implementation 'com.uber.autodispose:autodispose-android:x.y.z'
+implementation 'com.uber.autodispose2:autodispose-android:x.y.z'
 ```
 
 Android Architecture Components extensions:
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents)
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose2/autodispose-androidx-lifecycle.svg)](https://mvnrepository.com/artifact/com.uber.autodispose2/autodispose-android-archcomponents)
 ```gradle
 // AutoDispose 1.x
 implementation 'com.uber.autodispose:autodispose-android-archcomponents:x.y.z'
 
 // AutoDispose 2.x
-implementation 'com.uber.autodispose:autodispose-androidx-lifecycle:x.y.z'
+implementation 'com.uber.autodispose2:autodispose-androidx-lifecycle:x.y.z'
 ```
 
 Androidx-Lifecycle Test extensions:
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test)
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose2/autodispose-androidx-lifecycle-test.svg)](https://mvnrepository.com/artifact/com.uber.autodispose2/autodispose-androidx-lifecycle-test)
 ```gradle
 // AutoDispose 1.x
 implementation 'com.uber.autodispose:autodispose-android-archcomponents-test:x.y.z'
 
 // AutoDispose 2.x
-implementation 'com.uber.autodispose:autodispose-androidx-lifecycle-test:x.y.z'
+implementation 'com.uber.autodispose2:autodispose-androidx-lifecycle-test:x.y.z'
 ```
 
 RxLifecycle interop (AutoDispose 1.x/RxJava 2.x only):
