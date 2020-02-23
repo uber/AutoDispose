@@ -507,6 +507,33 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#version-200" title="Version 2.0.0" class="md-nav__link">
+    Version 2.0.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#packaging" title="Packaging" class="md-nav__link">
+    Packaging
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changes" title="Changes" class="md-nav__link">
+    Changes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#version-200-rc2" title="Version 2.0.0-RC2" class="md-nav__link">
     Version 2.0.0-RC2
   </a>
@@ -529,14 +556,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#packaging" title="Packaging" class="md-nav__link">
+  <a href="#packaging_1" title="Packaging" class="md-nav__link">
     Packaging
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changes" title="Changes" class="md-nav__link">
+  <a href="#changes_1" title="Changes" class="md-nav__link">
     Changes
   </a>
   
@@ -1092,6 +1119,33 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#version-200" title="Version 2.0.0" class="md-nav__link">
+    Version 2.0.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#packaging" title="Packaging" class="md-nav__link">
+    Packaging
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changes" title="Changes" class="md-nav__link">
+    Changes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#version-200-rc2" title="Version 2.0.0-RC2" class="md-nav__link">
     Version 2.0.0-RC2
   </a>
@@ -1114,14 +1168,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#packaging" title="Packaging" class="md-nav__link">
+  <a href="#packaging_1" title="Packaging" class="md-nav__link">
     Packaging
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changes" title="Changes" class="md-nav__link">
+  <a href="#changes_1" title="Changes" class="md-nav__link">
     Changes
   </a>
   
@@ -1605,15 +1659,9 @@
                 
                 
                 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
-<h2 id="version-200-rc2">Version 2.0.0-RC2<a class="headerlink" href="#version-200-rc2" title="Permanent link">&para;</a></h2>
-<p><em>2019-12-02</em></p>
-<p>RC2 has no additional changes from RC1 but does not upload RCs for Android artifacts since RxAndroid does not have a RC yet.</p>
-<h2 id="version-200-rc1">Version 2.0.0-RC1<a class="headerlink" href="#version-200-rc1" title="Permanent link">&para;</a></h2>
-<p><em>2019-12-01</em></p>
-<p>This is the first release candidate for AutoDispose 2.0</p>
+<h2 id="version-200">Version 2.0.0<a class="headerlink" href="#version-200" title="Permanent link">&para;</a></h2>
+<p><em>2020-02-23</em></p>
 <p>AutoDispose 2 is built against RxJava 3 and is binary-compatible with AutoDispose 1.x and RxJava 2.x. As such - it has a different package name and maven group ID.</p>
-<h3 id="android-not-supported-yet">Android not supported yet<a class="headerlink" href="#android-not-supported-yet" title="Permanent link">&para;</a></h3>
-<p>Due to there being no RxAndroid 3.x release candidate, we cannot release RCs of the Android artifacts yet. They are available as snapshots though.</p>
 <h3 id="packaging">Packaging<a class="headerlink" href="#packaging" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1638,6 +1686,46 @@
 </table>
 <p>For any sub-packages, the above mapping should be used for those package prefix replacements as well.</p>
 <h3 id="changes">Changes<a class="headerlink" href="#changes" title="Permanent link">&para;</a></h3>
+<ul>
+<li>All deprecated APIs in 1.x have been removed. This consisted exclusively of deprecated Kotlin <code>autoDisposable</code> extension functions that were deprecated in 1.4.0.</li>
+<li>The <code>autodispose-android-archcomponents*</code> artifacts have been renamed to to <code>autodispose-androidx-lifecycle*</code> to match the <code>androidx-lifecycle</code> library they correspond to.</li>
+<li>The lint and error prone checks have also been updated.</li>
+<li>At the time of writing, there is no RxLifecycle with RxJava 3 support yet, and as such there is no AutoDispose 2.x interop artifact for RxLifecycle. We can add this back if there&rsquo;s a new RxLifecycle release with RxJava 3.x support.</li>
+</ul>
+<p>You can find migration steps on the project site at <a href="https://uber.github.io/AutoDispose/migrating-1x-2x/">https://uber.github.io/AutoDispose/migrating-1x-2x/</a>.</p>
+<h2 id="version-200-rc2">Version 2.0.0-RC2<a class="headerlink" href="#version-200-rc2" title="Permanent link">&para;</a></h2>
+<p><em>2019-12-02</em></p>
+<p>RC2 has no additional changes from RC1 but does not upload RCs for Android artifacts since RxAndroid does not have a RC yet.</p>
+<h2 id="version-200-rc1">Version 2.0.0-RC1<a class="headerlink" href="#version-200-rc1" title="Permanent link">&para;</a></h2>
+<p><em>2019-12-01</em></p>
+<p>This is the first release candidate for AutoDispose 2.0</p>
+<p>AutoDispose 2 is built against RxJava 3 and is binary-compatible with AutoDispose 1.x and RxJava 2.x. As such - it has a different package name and maven group ID.</p>
+<h3 id="android-not-supported-yet">Android not supported yet<a class="headerlink" href="#android-not-supported-yet" title="Permanent link">&para;</a></h3>
+<p>Due to there being no RxAndroid 3.x release candidate, we cannot release RCs of the Android artifacts yet. They are available as snapshots though.</p>
+<h3 id="packaging_1">Packaging<a class="headerlink" href="#packaging_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Maven Group ID</th>
+<th>Package Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.x</td>
+<td><code>com.uber.autodispose</code></td>
+<td><code>com.uber.autodispose</code></td>
+</tr>
+<tr>
+<td>2.x</td>
+<td><code>com.uber.autodispose2</code></td>
+<td><code>autodispose2</code></td>
+</tr>
+</tbody>
+</table>
+<p>For any sub-packages, the above mapping should be used for those package prefix replacements as well.</p>
+<h3 id="changes_1">Changes<a class="headerlink" href="#changes_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>All deprecated APIs in 1.x have been removed. This consisted exclusively of deprecated Kotlin <code>autoDisposable</code> extension functions that were deprecated in 1.4.0.</li>
 <li>The <code>autodispose-android-archcomponents*</code> artifacts have been renamed to to <code>autodispose-androidx-lifecycle*</code> to match the <code>androidx-lifecycle</code> library they correspond to.</li>

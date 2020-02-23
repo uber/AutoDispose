@@ -657,7 +657,7 @@ CompletableSource!: a resolved <code>`[</code>CompletableSource`](#) representat
 <p><code>&lt;E&gt;</code> - the lifecycle event type</p>
 <p><strong>Return</strong>
 CompletableSource!: a resolved <code>`[</code>Completable`](#) representation of a given lifecycle, targeting the given event</p>
-<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; resolveScopeFromLifecycle(lifecycle: Observable&lt;</code><a href="./#E"><code>E</code></a><code>&gt;!, endEvent:</code><a href="./#E"><code>E</code></a><code>, @Nullable comparator:</code><a href="https://docs.oracle.com/javase/6/docs/api/java/util/Comparator.html"><code>Comparator</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;!): CompletableSource!</code></p>
+<p><code>static fun &lt;E :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; resolveScopeFromLifecycle(lifecycle: Observable&lt;</code><a href="./#E"><code>E</code></a><code>&gt;!, endEvent:</code><a href="./#E"><code>E</code></a><code>, @Nullable comparator: @Nullable</code><a href="https://docs.oracle.com/javase/6/docs/api/java/util/Comparator.html"><code>Comparator</code></a><code>&lt;</code><a href="./#E"><code>E</code></a><code>&gt;!): CompletableSource!</code></p>
 <h3 id="parameters_3">Parameters<a class="headerlink" href="#parameters_3" title="Permanent link">&para;</a></h3>
 <p><code>lifecycle</code> - Observable&lt;<a href="./#E">E</a>&gt;!: the stream of lifecycle events</p>
 <p><code>endEvent</code> - <a href="./#E">E</a>: the target end event</p>
