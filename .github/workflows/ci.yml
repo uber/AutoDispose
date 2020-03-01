@@ -41,7 +41,7 @@ jobs:
 #          restore-keys: |
 #            ${{ runner.os }}-gradleuser-
       - name: Gradle Wrapper Validation
-        run: gradle/wrapper-validation-action@v1
+        uses: gradle/wrapper-validation-action@v1
       - name: Configure Gradle
         # Initial gradle configuration, install dependencies, etc
         run: ./gradlew help
