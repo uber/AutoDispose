@@ -1,7 +1,7 @@
 AutoDispose
 ===========
 
-Automatic binding+disposal of RxJava 2 streams.
+Automatic binding+disposal of RxJava streams.
 
 ### [uber.github.io/AutoDispose](https://uber.github.io/AutoDispose)
 
