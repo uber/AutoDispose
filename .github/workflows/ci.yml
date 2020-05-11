@@ -65,5 +65,8 @@ jobs:
       - name: Final checks
         run: ./gradlew check --stacktrace
       - name: Upload snapshot (master only)
-        run: ./gradlew uploadArchives -PSONATYPE_NEXUS_USERNAME=${{ secrets.SonatypeUsername }} -PSONATYPE_NEXUS_PASSWORD=${{ secrets.SonatypePassword }}
+        run: ./gradlew uploadArchives
+        env:
+          SONATYPE_NEXUS_USERNAME: ${{ secrets.SonatypeUsername }}
+          SONATYPE_NEXUS_PASSWORD: ${{ secrets.SonatypePassword }}
         if: success() && github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && matrix.java_version == '1.8'
