@@ -1,7 +1,7 @@
 AutoDispose
 ===========
 
-[![Build Status](https://travis-ci.com/uber/AutoDispose.svg?branch=master)](https://travis-ci.org/uber/AutoDispose)
+![](https://github.com/uber/AutoDispose/workflows/ci.yml/badge.svg?branch=master)
 
 **AutoDispose** is an RxJava 2+ tool for automatically binding the execution of RxJava streams to a 
 provided scope via disposal/cancellation.

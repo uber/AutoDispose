@@ -64,9 +64,9 @@ jobs:
         run: ./gradlew --stop && jps|grep -E 'KotlinCompileDaemon|GradleDaemon'| awk '{print $1}'| xargs kill -9
       - name: Final checks
         run: ./gradlew check --stacktrace
-      - name: Upload snapshot (master only)
+      - name: Upload snapshot (main only)
         run: ./gradlew uploadArchives
         env:
           SONATYPE_NEXUS_USERNAME: ${{ secrets.SonatypeUsername }}
           SONATYPE_NEXUS_PASSWORD: ${{ secrets.SonatypePassword }}
-        if: success() && github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && matrix.java_version == '1.8'
+        if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && matrix.java_version == '1.8'

@@ -4,11 +4,11 @@ The [documentation website](https://uber.github.io/AutoDispose/) is built using 
 
 ## Overview
 
-The main configuration of the website happens through the [mkdocs.yml](https://github.com/uber/AutoDispose/blob/master/mkdocs.yml) file. This defines various things like extra css, favicons, icons as well as the main navigation of the website. 
+The main configuration of the website happens through the [mkdocs.yml](https://github.com/uber/AutoDispose/blob/main/mkdocs.yml) file. This defines various things like extra css, favicons, icons as well as the main navigation of the website.
 
 ## Adding a Page
 
-All of the main pages exist in [docs](https://github.com/uber/AutoDispose/tree/master/docs) directory. To add a new page, simply add a new markdown file to the docs directory. Once that's done, simply add the title of the page and the name of the file in the `nav` section of mkdocs.yml like so:
+All of the main pages exist in [docs](https://github.com/uber/AutoDispose/tree/main/docs) directory. To add a new page, simply add a new markdown file to the docs directory. Once that's done, simply add the title of the page and the name of the file in the `nav` section of mkdocs.yml like so:
 ```yml
 nav:
   - 'New Page': new_page.md
@@ -23,7 +23,7 @@ You can then find that file in the `docs` directory. After you've made changes t
  
  ## Adding Custom CSS
  
- You can add your own CSS in the [app.css](https://github.com/uber/AutoDispose/blob/master/docs/css/app.css) file.
+ You can add your own CSS in the [app.css](https://github.com/uber/AutoDispose/blob/main/docs/css/app.css) file.
  
  ## Deploying the website
  
