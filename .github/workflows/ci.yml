@@ -65,7 +65,7 @@ jobs:
       - name: Final checks
         run: ./gradlew check --stacktrace
       - name: Upload snapshot (main only)
-        run: ./gradlew uploadArchives
+        run: ./gradlew uploadArchives -PSONATYPE_NEXUS_USERNAME="$SONATYPE_NEXUS_USERNAME" -PSONATYPE_NEXUS_PASSWORD="$SONATYPE_NEXUS_PASSWORD"
         env:
           SONATYPE_NEXUS_USERNAME: ${{ secrets.SonatypeUsername }}
           SONATYPE_NEXUS_PASSWORD: ${{ secrets.SonatypePassword }}
