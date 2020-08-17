@@ -120,8 +120,8 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
       props.getProperty(CUSTOM_SCOPE_KEY)?.let { scopeProperty ->
         val customScopes = scopeProperty.split(",")
             .asSequence()
-            .map(String::trim)
-            .filter(String::isNotBlank)
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
             .toList()
         scopes.addAll(customScopes)
       }
@@ -132,7 +132,7 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
         overrideScopes = it
       }
     }
-    // If scopes are not overriden, add the default ones.
+    // If scopes are not overridden, add the default ones.
     if (!overrideScopes) {
       scopes.addAll(DEFAULT_SCOPES)
     }
