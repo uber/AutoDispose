@@ -120,8 +120,8 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
       props.getProperty(CUSTOM_SCOPE_KEY)?.let { scopeProperty ->
         val customScopes = scopeProperty.split(",")
             .asSequence()
-            .map { it.trim() }
-            .filter { it.isNotBlank() }
+            .map(String::trim)
+            .filter(String::isNotBlank)
             .toList()
         scopes.addAll(customScopes)
       }
