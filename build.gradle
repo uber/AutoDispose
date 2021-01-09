@@ -246,7 +246,6 @@ subprojects {
       project.android.unitTestVariants.configureEach(configurer)
     }
     if (isAndroidLibrary) {
-      // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
       project.android {
         variantFilter { variant ->
           if (variant.buildType.name == 'debug') {
