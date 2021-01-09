@@ -129,7 +129,7 @@ subprojects {
       project.apply plugin: 'org.jetbrains.kotlin.android'
       project.apply plugin: 'org.jetbrains.dokka'
 
-      project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+      project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
         kotlinOptions {
           freeCompilerArgs = [
               "-Xjsr305=strict",
