@@ -25,8 +25,8 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public interface AutoDisposingSingleObserver<T> extends SingleObserver<T>, Disposable {
 
   /**
-   * @return The delegate {@link SingleObserver} that is used under the hood for introspection
-   *     purposes.
+   * Returns the delegate {@link SingleObserver} that is used under the hood for introspection
+   * purposes.
    */
   SingleObserver<? super T> delegateObserver();
 }

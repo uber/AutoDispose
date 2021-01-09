@@ -25,8 +25,8 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public interface AutoDisposingMaybeObserver<T> extends MaybeObserver<T>, Disposable {
 
   /**
-   * @return The delegate {@link MaybeObserver} that is used under the hood for introspection
-   *     purposes.
+   * Returns the delegate {@link MaybeObserver} that is used under the hood for introspection
+   * purposes.
    */
   MaybeObserver<? super T> delegateObserver();
 }

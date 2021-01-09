@@ -38,27 +38,27 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 
 /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
-inline fun <T> Flowable<T>.autoDispose(scope: CoroutineScope): FlowableSubscribeProxy<T> {
+public inline fun <T> Flowable<T>.autoDispose(scope: CoroutineScope): FlowableSubscribeProxy<T> {
   return autoDispose(scope.asScopeProvider())
 }
 
 /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
-inline fun <T> Observable<T>.autoDispose(scope: CoroutineScope): ObservableSubscribeProxy<T> {
+public inline fun <T> Observable<T>.autoDispose(scope: CoroutineScope): ObservableSubscribeProxy<T> {
   return autoDispose(scope.asScopeProvider())
 }
 
 /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
-inline fun <T> Single<T>.autoDispose(scope: CoroutineScope): SingleSubscribeProxy<T> {
+public inline fun <T> Single<T>.autoDispose(scope: CoroutineScope): SingleSubscribeProxy<T> {
   return autoDispose(scope.asScopeProvider())
 }
 
 /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
-inline fun <T> Maybe<T>.autoDispose(scope: CoroutineScope): MaybeSubscribeProxy<T> {
+public inline fun <T> Maybe<T>.autoDispose(scope: CoroutineScope): MaybeSubscribeProxy<T> {
   return autoDispose(scope.asScopeProvider())
 }
 
 /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
-inline fun Completable.autoDispose(scope: CoroutineScope): CompletableSubscribeProxy {
+public inline fun Completable.autoDispose(scope: CoroutineScope): CompletableSubscribeProxy {
   return autoDispose(scope.asScopeProvider())
 }
 
@@ -66,13 +66,13 @@ inline fun Completable.autoDispose(scope: CoroutineScope): CompletableSubscribeP
  * @return a [ScopeProvider] representation of this [CoroutineScope]. This scope will complete when
  *         [this] coroutine scope completes.
  */
-fun CoroutineScope.asScopeProvider(): ScopeProvider = ScopeProvider { asUndeferredCompletable() }
+public fun CoroutineScope.asScopeProvider(): ScopeProvider = ScopeProvider { asUndeferredCompletable() }
 
 /**
  * @return a [Completable] representation of this [CoroutineScope]. This will complete when [this]
  *         coroutine scope completes. Note that the returned [Completable] is deferred.
  */
-fun CoroutineScope.asCompletable(): Completable {
+public fun CoroutineScope.asCompletable(): Completable {
   return Completable.defer { asUndeferredCompletable() }
 }
 
@@ -95,7 +95,7 @@ private fun CoroutineScope.asUndeferredCompletable(): Completable {
  * @return a [CoroutineScope] representation of this [ScopeProvider]. This scope will cancel when
  *         [this] scope provider completes.
  */
-fun ScopeProvider.asCoroutineScope(context: CoroutineContext = SupervisorJob()): CoroutineScope {
+public fun ScopeProvider.asCoroutineScope(context: CoroutineContext = SupervisorJob()): CoroutineScope {
   return requestScope().asCoroutineScope(context)
 }
 
@@ -105,7 +105,7 @@ fun ScopeProvider.asCoroutineScope(context: CoroutineContext = SupervisorJob()):
  * @return a [CoroutineScope] representation of this [CompletableSource]. This scope will cancel
  *         when [this] scope provider completes.
  */
-fun CompletableSource.asCoroutineScope(context: CoroutineContext = SupervisorJob()): CoroutineScope {
+public fun CompletableSource.asCoroutineScope(context: CoroutineContext = SupervisorJob()): CoroutineScope {
   val scope = CoroutineScope(context)
 
   // Bind to the scope, so if the scope is manually canceled before our scope provider emits, we

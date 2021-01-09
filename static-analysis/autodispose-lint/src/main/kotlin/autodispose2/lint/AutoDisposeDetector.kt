@@ -52,13 +52,13 @@ internal const val OVERRIDE_SCOPES = "autodispose.overrideScopes"
 /**
  * Detector which checks if your stream subscriptions are handled by AutoDispose.
  */
-class AutoDisposeDetector : Detector(), SourceCodeScanner {
+public class AutoDisposeDetector : Detector(), SourceCodeScanner {
 
-  companion object {
+  internal companion object {
     internal const val LINT_DESCRIPTION = "Missing Disposable handling: Apply AutoDispose or cache " +
         "the Disposable instance manually and enable lenient mode."
 
-    val ISSUE: Issue = Issue.create(
+    internal val ISSUE: Issue = Issue.create(
         "AutoDispose",
         LINT_DESCRIPTION,
         "You're subscribing to an observable but not handling its subscription. This " +
