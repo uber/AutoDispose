@@ -171,12 +171,17 @@ subprojects {
     project.pluginManager.withPlugin("org.jetbrains.dokka") {
       tasks.named("dokkaHtml") {
         outputDirectory.set(rootDir.resolve("docs/2.x"))
-        // includes = ['Module.md']
+        includes.from("Module.md")
         dokkaSourceSets.configureEach {
           skipDeprecated.set(true)
           externalDocumentationLink {
             url.set(URL("http://reactivex.io/RxJava/3.x/javadoc/"))
           }
+        }
+        // Suppress a package
+        perPackageOption {
+          matchingRegex.set(/.*\.internal.*/)
+          suppress.set(true)
         }
       }
     }
