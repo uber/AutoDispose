@@ -248,11 +248,6 @@ subprojects {
     if (isAndroidLibrary) {
       // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
       project.android {
-        libraryVariants.all {
-          it.generateBuildConfigProvider.configure {
-            it.enabled = false
-          }
-        }
         variantFilter { variant ->
           if (variant.buildType.name == 'debug') {
             variant.setIgnore(true)
