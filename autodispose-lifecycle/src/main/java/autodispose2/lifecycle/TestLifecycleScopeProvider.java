@@ -39,16 +39,17 @@ public final class TestLifecycleScopeProvider
     }
   }
 
-  /** @return a new {@link TestLifecycleScopeProvider} instance. */
+  /** Returns a new {@link TestLifecycleScopeProvider} instance. */
   public static TestLifecycleScopeProvider create() {
     return new TestLifecycleScopeProvider(null);
   }
 
   /**
+   * Returns a new {@link TestLifecycleScopeProvider} instance with {@param initialValue} as its
+   *     initial lifecycle event.
+   *
    * @param initialValue the initial lifecycle event to create the {@link
    *     TestLifecycleScopeProvider} with.
-   * @return a new {@link TestLifecycleScopeProvider} instance with {@param initialValue} as its
-   *     initial lifecycle event.
    */
   public static TestLifecycleScopeProvider createInitial(TestLifecycle initialValue) {
     return new TestLifecycleScopeProvider(initialValue);
