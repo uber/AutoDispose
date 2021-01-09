@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+plugins {
+  id "com.vanniktech.maven.publish"
+}
+
 dependencies {
   annotationProcessor deps.apt.autoService
 
@@ -34,5 +38,3 @@ if (!JavaVersion.current().isJava9Compatible()) {
     jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
   }
 }
-
-apply from: rootProject.file("gradle/gradle-mvn-push.gradle")
