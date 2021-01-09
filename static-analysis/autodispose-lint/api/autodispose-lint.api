@@ -1,0 +1,15 @@
+public final class autodispose2/lint/AutoDisposeDetector : com/android/tools/lint/detector/api/Detector, com/android/tools/lint/detector/api/SourceCodeScanner {
+	public static final field Companion Lautodispose2/lint/AutoDisposeDetector$Companion;
+	public fun <init> ()V
+	public fun beforeCheckRootProject (Lcom/android/tools/lint/detector/api/Context;)V
+	public fun createUastHandler (Lcom/android/tools/lint/detector/api/JavaContext;)Lcom/android/tools/lint/client/api/UElementHandler;
+	public fun getApplicableMethodNames ()Ljava/util/List;
+	public fun getApplicableUastTypes ()Ljava/util/List;
+}
+
+public final class autodispose2/lint/AutoDisposeIssueRegistry : com/android/tools/lint/client/api/IssueRegistry {
+	public fun <init> ()V
+	public fun getApi ()I
+	public fun getIssues ()Ljava/util/List;
+}
+

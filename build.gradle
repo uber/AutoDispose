@@ -32,8 +32,15 @@ buildscript {
       classpath "ru.vyarus:gradle-animalsniffer-plugin:${deps.versions.animalSniffer}"
       classpath "com.diffplug.spotless:spotless-plugin-gradle:${deps.versions.spotless}"
       classpath "com.vanniktech:gradle-maven-publish-plugin:0.13.0"
+      classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.3.0"
     }
   }
+}
+
+apply plugin: "binary-compatibility-validator"
+
+apiValidation {
+  ignoredProjects += ["sample", "test-utils"]
 }
 
 Set<String> mixedSourcesArtifacts = [

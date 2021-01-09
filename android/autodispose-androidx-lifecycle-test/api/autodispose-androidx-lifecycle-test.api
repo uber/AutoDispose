@@ -1,0 +1,12 @@
+public final class autodispose2/androidx/lifecycle/test/KotlinExtensionsKt {
+	public static final fun test (Landroidx/lifecycle/LifecycleRegistry;)Lautodispose2/androidx/lifecycle/test/TestLifecycleOwner;
+}
+
+public final class autodispose2/androidx/lifecycle/test/TestLifecycleOwner : androidx/lifecycle/LifecycleOwner {
+	public static fun create ()Lautodispose2/androidx/lifecycle/test/TestLifecycleOwner;
+	public static fun create (Landroidx/lifecycle/LifecycleRegistry;)Lautodispose2/androidx/lifecycle/test/TestLifecycleOwner;
+	public fun emit (Landroidx/lifecycle/Lifecycle$Event;)V
+	public synthetic fun getLifecycle ()Landroidx/lifecycle/Lifecycle;
+	public fun getLifecycle ()Landroidx/lifecycle/LifecycleRegistry;
+}
+

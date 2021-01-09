@@ -1,0 +1,47 @@
+public abstract interface class autodispose2/lifecycle/CorrespondingEventsFunction : io/reactivex/rxjava3/functions/Function {
+	public abstract fun apply (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public class autodispose2/lifecycle/LifecycleEndedException : autodispose2/OutsideScopeException {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+}
+
+public class autodispose2/lifecycle/LifecycleNotStartedException : autodispose2/OutsideScopeException {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+}
+
+public abstract interface class autodispose2/lifecycle/LifecycleScopeProvider : autodispose2/ScopeProvider {
+	public abstract fun correspondingEvents ()Lautodispose2/lifecycle/CorrespondingEventsFunction;
+	public abstract fun lifecycle ()Lio/reactivex/rxjava3/core/Observable;
+	public abstract fun peekLifecycle ()Ljava/lang/Object;
+	public fun requestScope ()Lio/reactivex/rxjava3/core/CompletableSource;
+}
+
+public final class autodispose2/lifecycle/LifecycleScopes {
+	public static fun resolveScopeFromLifecycle (Lautodispose2/lifecycle/LifecycleScopeProvider;)Lio/reactivex/rxjava3/core/CompletableSource;
+	public static fun resolveScopeFromLifecycle (Lautodispose2/lifecycle/LifecycleScopeProvider;Z)Lio/reactivex/rxjava3/core/CompletableSource;
+	public static fun resolveScopeFromLifecycle (Lio/reactivex/rxjava3/core/Observable;Ljava/lang/Object;)Lio/reactivex/rxjava3/core/CompletableSource;
+	public static fun resolveScopeFromLifecycle (Lio/reactivex/rxjava3/core/Observable;Ljava/lang/Object;Ljava/util/Comparator;)Lio/reactivex/rxjava3/core/CompletableSource;
+}
+
+public final class autodispose2/lifecycle/TestLifecycleScopeProvider : autodispose2/lifecycle/LifecycleScopeProvider {
+	public fun correspondingEvents ()Lautodispose2/lifecycle/CorrespondingEventsFunction;
+	public static fun create ()Lautodispose2/lifecycle/TestLifecycleScopeProvider;
+	public static fun createInitial (Lautodispose2/lifecycle/TestLifecycleScopeProvider$TestLifecycle;)Lautodispose2/lifecycle/TestLifecycleScopeProvider;
+	public fun lifecycle ()Lio/reactivex/rxjava3/core/Observable;
+	public fun peekLifecycle ()Lautodispose2/lifecycle/TestLifecycleScopeProvider$TestLifecycle;
+	public synthetic fun peekLifecycle ()Ljava/lang/Object;
+	public fun requestScope ()Lio/reactivex/rxjava3/core/CompletableSource;
+	public fun start ()V
+	public fun stop ()V
+}
+
+public final class autodispose2/lifecycle/TestLifecycleScopeProvider$TestLifecycle : java/lang/Enum {
+	public static final field STARTED Lautodispose2/lifecycle/TestLifecycleScopeProvider$TestLifecycle;
+	public static final field STOPPED Lautodispose2/lifecycle/TestLifecycleScopeProvider$TestLifecycle;
+	public static fun valueOf (Ljava/lang/String;)Lautodispose2/lifecycle/TestLifecycleScopeProvider$TestLifecycle;
+	public static fun values ()[Lautodispose2/lifecycle/TestLifecycleScopeProvider$TestLifecycle;
+}
+
