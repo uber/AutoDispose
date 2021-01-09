@@ -112,7 +112,7 @@ class DisposingViewModel(private val repository: NetworkRepository) : AutoDispos
   }
 
   class Factory(private val networkRepository: NetworkRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
       @Suppress("UNCHECKED_CAST")
       return DisposingViewModel(networkRepository) as T
     }
