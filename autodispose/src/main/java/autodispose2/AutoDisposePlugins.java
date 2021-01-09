@@ -51,6 +51,7 @@ public final class AutoDisposePlugins {
 
   /**
    * Returns the value indicating whether or not to hide proxy interfaces.
+   *
    * @see #setHideProxies(boolean)
    */
   public static boolean getHideProxies() {
@@ -59,7 +60,7 @@ public final class AutoDisposePlugins {
 
   /**
    * Returns the value indicating whether or not to fill in stacktraces in {@link
-   *     OutsideScopeException}.
+   * OutsideScopeException}.
    */
   public static boolean getFillInOutsideScopeExceptionStacktraces() {
     return fillInOutsideScopeExceptionStacktraces;

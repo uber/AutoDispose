@@ -46,7 +46,7 @@ public final class TestLifecycleScopeProvider
 
   /**
    * Returns a new {@link TestLifecycleScopeProvider} instance with {@param initialValue} as its
-   *     initial lifecycle event.
+   * initial lifecycle event.
    *
    * @param initialValue the initial lifecycle event to create the {@link
    *     TestLifecycleScopeProvider} with.

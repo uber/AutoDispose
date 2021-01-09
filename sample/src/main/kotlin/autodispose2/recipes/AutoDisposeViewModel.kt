@@ -85,7 +85,8 @@ abstract class AutoDisposeViewModel : ViewModel(), LifecycleScopeProvider<ViewMo
       when (event) {
         ViewModelEvent.CREATED -> ViewModelEvent.CLEARED
         else -> throw LifecycleEndedException(
-            "Cannot bind to ViewModel lifecycle after onCleared.")
+          "Cannot bind to ViewModel lifecycle after onCleared."
+        )
       }
     }
   }

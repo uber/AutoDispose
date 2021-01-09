@@ -56,7 +56,8 @@ abstract class AutoDisposeViewHolderKotlin(itemView: View) :
       when (viewHolderEvent) {
         BIND -> UNBIND
         else -> throw LifecycleEndedException(
-            "Cannot use ViewHolder lifecycle after unbind.")
+          "Cannot use ViewHolder lifecycle after unbind."
+        )
       }
     }
   }

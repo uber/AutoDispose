@@ -108,7 +108,7 @@ public final class LifecycleScopes {
 
   /**
    * Returns a resolved {@link Completable} representation of a given lifecycle, targeting the given
-   *     event
+   * event
    *
    * @param lifecycle the stream of lifecycle events
    * @param endEvent the target end event
@@ -126,7 +126,7 @@ public final class LifecycleScopes {
 
   /**
    * Returns a resolved {@link Completable} representation of a given lifecycle, targeting the given
-   *     event
+   * event
    *
    * @param lifecycle the stream of lifecycle events
    * @param endEvent the target end event

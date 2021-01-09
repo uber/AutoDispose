@@ -26,7 +26,7 @@ public interface AutoDisposingCompletableObserver extends CompletableObserver, D
 
   /**
    * Returns the delegate {@link CompletableObserver} that is used under the hood for introspection
-   *     purposes.
+   * purposes.
    */
   CompletableObserver delegateObserver();
 }

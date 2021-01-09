@@ -30,12 +30,12 @@ import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlin.coroutines.CoroutineContext
 
 /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
 public inline fun <T> Flowable<T>.autoDispose(scope: CoroutineScope): FlowableSubscribeProxy<T> {
@@ -79,7 +79,8 @@ public fun CoroutineScope.asCompletable(): Completable {
 private fun CoroutineScope.asUndeferredCompletable(): Completable {
   return Completable.create { emitter ->
     val job = coroutineContext[Job] ?: error(
-        "Scope cannot be created because it does not have a job: ${this@asUndeferredCompletable}")
+      "Scope cannot be created because it does not have a job: ${this@asUndeferredCompletable}"
+    )
     job.invokeOnCompletion {
       when (it) {
         null, is CancellationException -> emitter.onComplete()
@@ -111,8 +112,8 @@ public fun CompletableSource.asCoroutineScope(context: CoroutineContext = Superv
   // Bind to the scope, so if the scope is manually canceled before our scope provider emits, we
   // clean up here.
   Completable.wrap(this)
-      .autoDispose(scope)
-      .subscribe({ scope.cancel() }) { e -> scope.cancel("OnError", e) }
+    .autoDispose(scope)
+    .subscribe({ scope.cancel() }) { e -> scope.cancel("OnError", e) }
 
   return scope
 }
