@@ -61,6 +61,14 @@ autodispose.lenient=true
 
 The default value of this is `false`. 
 
+### Kotlin Extension
+
+By default, subscribe and subscribeWith methods are checked. To support other subscribe methods such as subscribeBy in RxKotlin, you can add your own subscribe extensions.
+In your **app-level** `gradle.properties` files, add kotlin extension functions in format of `{full package name for extension's scope}#{functionName}` and comma-separated-values like so:
+```groovy
+autodispose.kotlinExtensionFunctions="io.reactivex.rxjava3.kotlin.subscribers#subscribeBy,com.sample.app.SubscribeExt#subscribe2"
+```
+
 #### Examples
 ```java
 // This is allowed in lenient mode
@@ -77,4 +85,7 @@ Observable.just(1).subscribe();
 
 // This is not allowed in lenient mode, because that subscribe() overload just returns void
 Observable.just(1).subscribe(new Observer...)
+
+// This is not allowed when kotlin extension functions option is used
+Observable.just(1).subscribeBy { }
 ```
