@@ -63,7 +63,7 @@ The default value of this is `false`.
 
 ### Kotlin Extension
 
-By default, subscribe and subscribeWith methods are checked. To support other subscribe methods such as subscribeBy in RxKotlin, you can add your own subscribe extensions.
+By default, `subscribe` and `subscribeWith` methods are checked. To support other subscribe methods such as `subscribeBy` in RxKotlin, you can add your own subscribe extensions.
 In your **app-level** `gradle.properties` files, add kotlin extension functions in format of `{full package name for extension's scope}#{functionName}` and comma-separated-values like so:
 
 ```groovy
