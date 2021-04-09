@@ -65,6 +65,7 @@ The default value of this is `false`.
 
 By default, subscribe and subscribeWith methods are checked. To support other subscribe methods such as subscribeBy in RxKotlin, you can add your own subscribe extensions.
 In your **app-level** `gradle.properties` files, add kotlin extension functions in format of `{full package name for extension's scope}#{functionName}` and comma-separated-values like so:
+
 ```groovy
 autodispose.kotlinExtensionFunctions="io.reactivex.rxjava3.kotlin.subscribers#subscribeBy,com.sample.app.SubscribeExt#subscribe2"
 ```
