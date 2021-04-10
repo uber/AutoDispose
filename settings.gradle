@@ -48,7 +48,6 @@ pluginManagement {
     mavenCentral()
     google()
     gradlePluginPortal()
-    jcenter()
   }
 }
 
