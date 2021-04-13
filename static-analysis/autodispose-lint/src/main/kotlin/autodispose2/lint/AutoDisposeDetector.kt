@@ -114,7 +114,7 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
 
     // Add the custom scopes defined in configuration.
     val props = Properties()
-    context.mainProject.propertyFiles.find { it.name == PROPERTY_FILE }?.apply {
+    context.project.propertyFiles.find { it.name == PROPERTY_FILE }?.apply {
       val content = StringReader(context.client.readFile(this).toString())
       props.load(content)
       props.getProperty(CUSTOM_SCOPE_KEY)?.let { scopeProperty ->
