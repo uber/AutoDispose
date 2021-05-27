@@ -175,7 +175,7 @@ subprojects {
     }
     project.pluginManager.withPlugin("org.jetbrains.dokka") {
       tasks.named("dokkaHtml") {
-        outputDirectory.set(rootDir.resolve("docs/2.x"))
+//        outputDirectory.set(rootDir.resolve("docs/2.x"))
         includes.from("Module.md")
         dokkaSourceSets.configureEach {
           skipDeprecated.set(true)
