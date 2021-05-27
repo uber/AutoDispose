@@ -28,7 +28,7 @@ public interface AutoDisposingSubscriber<T>
     extends FlowableSubscriber<T>, Subscription, Disposable {
 
   /**
-   * @return The delegate {@link Subscriber} that is used under the hood for introspection purposes.
+   * Returns the delegate {@link Subscriber} that is used under the hood for introspection purposes.
    */
   Subscriber<? super T> delegateSubscriber();
 }

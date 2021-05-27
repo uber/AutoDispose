@@ -37,7 +37,7 @@ class NetworkRepository {
    */
   fun downloadProgress(): Observable<Int> {
     return Observable.interval(500, TimeUnit.MILLISECONDS)
-        .map { it.toInt() }
-        .take(51)
+      .map { it.toInt() }
+      .take(51)
   }
 }

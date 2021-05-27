@@ -1,0 +1,160 @@
+public final class autodispose2/AutoDispose {
+	public static fun autoDisposable (Lautodispose2/ScopeProvider;)Lautodispose2/AutoDisposeConverter;
+	public static fun autoDisposable (Lio/reactivex/rxjava3/core/CompletableSource;)Lautodispose2/AutoDisposeConverter;
+}
+
+public abstract interface class autodispose2/AutoDisposeContext {
+	public abstract fun autoDispose (Lio/reactivex/rxjava3/core/Completable;)Lautodispose2/CompletableSubscribeProxy;
+	public abstract fun autoDispose (Lio/reactivex/rxjava3/core/Flowable;)Lautodispose2/FlowableSubscribeProxy;
+	public abstract fun autoDispose (Lio/reactivex/rxjava3/core/Maybe;)Lautodispose2/MaybeSubscribeProxy;
+	public abstract fun autoDispose (Lio/reactivex/rxjava3/core/Observable;)Lautodispose2/ObservableSubscribeProxy;
+	public abstract fun autoDispose (Lio/reactivex/rxjava3/core/Single;)Lautodispose2/SingleSubscribeProxy;
+	public abstract fun autoDispose (Lio/reactivex/rxjava3/parallel/ParallelFlowable;)Lautodispose2/ParallelFlowableSubscribeProxy;
+}
+
+public abstract interface class autodispose2/AutoDisposeConverter : io/reactivex/rxjava3/core/CompletableConverter, io/reactivex/rxjava3/core/FlowableConverter, io/reactivex/rxjava3/core/MaybeConverter, io/reactivex/rxjava3/core/ObservableConverter, io/reactivex/rxjava3/core/SingleConverter, io/reactivex/rxjava3/parallel/ParallelFlowableConverter {
+}
+
+public final class autodispose2/AutoDisposePlugins {
+	public static fun getFillInOutsideScopeExceptionStacktraces ()Z
+	public static fun getHideProxies ()Z
+	public static fun getOutsideScopeHandler ()Lio/reactivex/rxjava3/functions/Consumer;
+	public static fun isLockdown ()Z
+	public static fun lockdown ()V
+	public static fun reset ()V
+	public static fun setFillInOutsideScopeExceptionStacktraces (Z)V
+	public static fun setHideProxies (Z)V
+	public static fun setOutsideScopeHandler (Lio/reactivex/rxjava3/functions/Consumer;)V
+}
+
+public abstract interface class autodispose2/CompletableSubscribeProxy {
+	public abstract fun subscribe ()Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/core/CompletableObserver;)V
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Action;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Action;Lio/reactivex/rxjava3/functions/Consumer;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribeWith (Lio/reactivex/rxjava3/core/CompletableObserver;)Lio/reactivex/rxjava3/core/CompletableObserver;
+	public abstract fun test ()Lio/reactivex/rxjava3/observers/TestObserver;
+	public abstract fun test (Z)Lio/reactivex/rxjava3/observers/TestObserver;
+}
+
+public abstract interface class autodispose2/FlowableSubscribeProxy {
+	public abstract fun subscribe ()Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Consumer;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Consumer;Lio/reactivex/rxjava3/functions/Consumer;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Consumer;Lio/reactivex/rxjava3/functions/Consumer;Lio/reactivex/rxjava3/functions/Action;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lorg/reactivestreams/Subscriber;)V
+	public abstract fun subscribeWith (Lorg/reactivestreams/Subscriber;)Lorg/reactivestreams/Subscriber;
+	public abstract fun test ()Lio/reactivex/rxjava3/subscribers/TestSubscriber;
+	public abstract fun test (J)Lio/reactivex/rxjava3/subscribers/TestSubscriber;
+	public abstract fun test (JZ)Lio/reactivex/rxjava3/subscribers/TestSubscriber;
+}
+
+public final class autodispose2/KotlinExtensions {
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Completable;Lautodispose2/ScopeProvider;)Lautodispose2/CompletableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Completable;Lio/reactivex/rxjava3/core/Completable;)Lautodispose2/CompletableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Flowable;Lautodispose2/ScopeProvider;)Lautodispose2/FlowableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Flowable;Lio/reactivex/rxjava3/core/Completable;)Lautodispose2/FlowableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Maybe;Lautodispose2/ScopeProvider;)Lautodispose2/MaybeSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Maybe;Lio/reactivex/rxjava3/core/Completable;)Lautodispose2/MaybeSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Observable;Lautodispose2/ScopeProvider;)Lautodispose2/ObservableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Observable;Lio/reactivex/rxjava3/core/Completable;)Lautodispose2/ObservableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Single;Lautodispose2/ScopeProvider;)Lautodispose2/SingleSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Single;Lio/reactivex/rxjava3/core/Completable;)Lautodispose2/SingleSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/parallel/ParallelFlowable;Lautodispose2/ScopeProvider;)Lautodispose2/ParallelFlowableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/parallel/ParallelFlowable;Lio/reactivex/rxjava3/core/Completable;)Lautodispose2/ParallelFlowableSubscribeProxy;
+	public static final fun withScope (Lautodispose2/ScopeProvider;Lkotlin/jvm/functions/Function1;)V
+	public static final fun withScope (Lio/reactivex/rxjava3/core/Completable;Lkotlin/jvm/functions/Function1;)V
+}
+
+public abstract interface class autodispose2/MaybeSubscribeProxy {
+	public abstract fun subscribe ()Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/core/MaybeObserver;)V
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Consumer;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Consumer;Lio/reactivex/rxjava3/functions/Consumer;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Consumer;Lio/reactivex/rxjava3/functions/Consumer;Lio/reactivex/rxjava3/functions/Action;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribeWith (Lio/reactivex/rxjava3/core/MaybeObserver;)Lio/reactivex/rxjava3/core/MaybeObserver;
+	public abstract fun test ()Lio/reactivex/rxjava3/observers/TestObserver;
+	public abstract fun test (Z)Lio/reactivex/rxjava3/observers/TestObserver;
+}
+
+public abstract interface class autodispose2/ObservableSubscribeProxy {
+	public abstract fun subscribe ()Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/core/Observer;)V
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Consumer;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Consumer;Lio/reactivex/rxjava3/functions/Consumer;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Consumer;Lio/reactivex/rxjava3/functions/Consumer;Lio/reactivex/rxjava3/functions/Action;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribeWith (Lio/reactivex/rxjava3/core/Observer;)Lio/reactivex/rxjava3/core/Observer;
+	public abstract fun test ()Lio/reactivex/rxjava3/observers/TestObserver;
+	public abstract fun test (Z)Lio/reactivex/rxjava3/observers/TestObserver;
+}
+
+public class autodispose2/OutsideScopeException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun fillInStackTrace ()Ljava/lang/Throwable;
+}
+
+public abstract interface class autodispose2/ParallelFlowableSubscribeProxy {
+	public abstract fun subscribe ([Lorg/reactivestreams/Subscriber;)V
+}
+
+public final class autodispose2/RealAutoDisposeContext : autodispose2/AutoDisposeContext {
+	public fun <init> (Lio/reactivex/rxjava3/core/Completable;)V
+	public fun autoDispose (Lio/reactivex/rxjava3/core/Completable;)Lautodispose2/CompletableSubscribeProxy;
+	public fun autoDispose (Lio/reactivex/rxjava3/core/Flowable;)Lautodispose2/FlowableSubscribeProxy;
+	public fun autoDispose (Lio/reactivex/rxjava3/core/Maybe;)Lautodispose2/MaybeSubscribeProxy;
+	public fun autoDispose (Lio/reactivex/rxjava3/core/Observable;)Lautodispose2/ObservableSubscribeProxy;
+	public fun autoDispose (Lio/reactivex/rxjava3/core/Single;)Lautodispose2/SingleSubscribeProxy;
+	public fun autoDispose (Lio/reactivex/rxjava3/parallel/ParallelFlowable;)Lautodispose2/ParallelFlowableSubscribeProxy;
+}
+
+public abstract interface class autodispose2/ScopeProvider {
+	public static final field UNBOUND Lautodispose2/ScopeProvider;
+	public abstract fun requestScope ()Lio/reactivex/rxjava3/core/CompletableSource;
+}
+
+public final class autodispose2/Scopes {
+	public static fun completableOf (Lautodispose2/ScopeProvider;)Lio/reactivex/rxjava3/core/Completable;
+}
+
+public abstract interface class autodispose2/SingleSubscribeProxy {
+	public abstract fun subscribe ()Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/core/SingleObserver;)V
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/BiConsumer;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Consumer;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribe (Lio/reactivex/rxjava3/functions/Consumer;Lio/reactivex/rxjava3/functions/Consumer;)Lio/reactivex/rxjava3/disposables/Disposable;
+	public abstract fun subscribeWith (Lio/reactivex/rxjava3/core/SingleObserver;)Lio/reactivex/rxjava3/core/SingleObserver;
+	public abstract fun test ()Lio/reactivex/rxjava3/observers/TestObserver;
+	public abstract fun test (Z)Lio/reactivex/rxjava3/observers/TestObserver;
+}
+
+public final class autodispose2/TestScopeProvider : autodispose2/ScopeProvider {
+	public static fun create ()Lautodispose2/TestScopeProvider;
+	public static fun create (Lio/reactivex/rxjava3/core/Completable;)Lautodispose2/TestScopeProvider;
+	public fun emit ()V
+	public fun requestScope ()Lio/reactivex/rxjava3/core/CompletableSource;
+}
+
+public abstract interface annotation class autodispose2/internal/DoNotMock : java/lang/annotation/Annotation {
+	public abstract fun value ()Ljava/lang/String;
+}
+
+public abstract interface class autodispose2/observers/AutoDisposingCompletableObserver : io/reactivex/rxjava3/core/CompletableObserver, io/reactivex/rxjava3/disposables/Disposable {
+	public abstract fun delegateObserver ()Lio/reactivex/rxjava3/core/CompletableObserver;
+}
+
+public abstract interface class autodispose2/observers/AutoDisposingMaybeObserver : io/reactivex/rxjava3/core/MaybeObserver, io/reactivex/rxjava3/disposables/Disposable {
+	public abstract fun delegateObserver ()Lio/reactivex/rxjava3/core/MaybeObserver;
+}
+
+public abstract interface class autodispose2/observers/AutoDisposingObserver : io/reactivex/rxjava3/core/Observer, io/reactivex/rxjava3/disposables/Disposable {
+	public abstract fun delegateObserver ()Lio/reactivex/rxjava3/core/Observer;
+}
+
+public abstract interface class autodispose2/observers/AutoDisposingSingleObserver : io/reactivex/rxjava3/core/SingleObserver, io/reactivex/rxjava3/disposables/Disposable {
+	public abstract fun delegateObserver ()Lio/reactivex/rxjava3/core/SingleObserver;
+}
+
+public abstract interface class autodispose2/observers/AutoDisposingSubscriber : io/reactivex/rxjava3/core/FlowableSubscriber, io/reactivex/rxjava3/disposables/Disposable, org/reactivestreams/Subscription {
+	public abstract fun delegateSubscriber ()Lorg/reactivestreams/Subscriber;
+}
+

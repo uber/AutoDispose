@@ -131,7 +131,8 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Fr
         DESTROY_VIEW -> DESTROY
         DESTROY -> DETACH
         else -> throw LifecycleEndedException(
-            "Cannot bind to Fragment lifecycle after detach.")
+          "Cannot bind to Fragment lifecycle after detach."
+        )
       }
     }
   }

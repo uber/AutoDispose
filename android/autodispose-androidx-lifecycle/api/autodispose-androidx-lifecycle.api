@@ -1,0 +1,39 @@
+public final class autodispose2/androidx/lifecycle/AndroidLifecycleScopeProvider : autodispose2/lifecycle/LifecycleScopeProvider {
+	public fun correspondingEvents ()Lautodispose2/lifecycle/CorrespondingEventsFunction;
+	public static fun from (Landroidx/lifecycle/Lifecycle;)Lautodispose2/androidx/lifecycle/AndroidLifecycleScopeProvider;
+	public static fun from (Landroidx/lifecycle/Lifecycle;Landroidx/lifecycle/Lifecycle$Event;)Lautodispose2/androidx/lifecycle/AndroidLifecycleScopeProvider;
+	public static fun from (Landroidx/lifecycle/Lifecycle;Lautodispose2/lifecycle/CorrespondingEventsFunction;)Lautodispose2/androidx/lifecycle/AndroidLifecycleScopeProvider;
+	public static fun from (Landroidx/lifecycle/LifecycleOwner;)Lautodispose2/androidx/lifecycle/AndroidLifecycleScopeProvider;
+	public static fun from (Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;)Lautodispose2/androidx/lifecycle/AndroidLifecycleScopeProvider;
+	public static fun from (Landroidx/lifecycle/LifecycleOwner;Lautodispose2/lifecycle/CorrespondingEventsFunction;)Lautodispose2/androidx/lifecycle/AndroidLifecycleScopeProvider;
+	public fun lifecycle ()Lio/reactivex/rxjava3/core/Observable;
+	public fun peekLifecycle ()Landroidx/lifecycle/Lifecycle$Event;
+	public synthetic fun peekLifecycle ()Ljava/lang/Object;
+	public fun requestScope ()Lio/reactivex/rxjava3/core/CompletableSource;
+}
+
+public final class autodispose2/androidx/lifecycle/KotlinExtensionsKt {
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Completable;Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;)Lautodispose2/CompletableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Flowable;Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;)Lautodispose2/FlowableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Maybe;Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;)Lautodispose2/MaybeSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Observable;Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;)Lautodispose2/ObservableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Single;Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;)Lautodispose2/SingleSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/parallel/ParallelFlowable;Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;)Lautodispose2/ParallelFlowableSubscribeProxy;
+	public static synthetic fun autoDispose$default (Lio/reactivex/rxjava3/core/Completable;Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;ILjava/lang/Object;)Lautodispose2/CompletableSubscribeProxy;
+	public static synthetic fun autoDispose$default (Lio/reactivex/rxjava3/core/Flowable;Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;ILjava/lang/Object;)Lautodispose2/FlowableSubscribeProxy;
+	public static synthetic fun autoDispose$default (Lio/reactivex/rxjava3/core/Maybe;Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;ILjava/lang/Object;)Lautodispose2/MaybeSubscribeProxy;
+	public static synthetic fun autoDispose$default (Lio/reactivex/rxjava3/core/Observable;Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;ILjava/lang/Object;)Lautodispose2/ObservableSubscribeProxy;
+	public static synthetic fun autoDispose$default (Lio/reactivex/rxjava3/core/Single;Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;ILjava/lang/Object;)Lautodispose2/SingleSubscribeProxy;
+	public static synthetic fun autoDispose$default (Lio/reactivex/rxjava3/parallel/ParallelFlowable;Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;ILjava/lang/Object;)Lautodispose2/ParallelFlowableSubscribeProxy;
+	public static final fun scope (Landroidx/lifecycle/Lifecycle;)Lautodispose2/ScopeProvider;
+	public static final fun scope (Landroidx/lifecycle/Lifecycle;Landroidx/lifecycle/Lifecycle$Event;)Lautodispose2/ScopeProvider;
+	public static final fun scope (Landroidx/lifecycle/Lifecycle;Lautodispose2/lifecycle/CorrespondingEventsFunction;)Lautodispose2/ScopeProvider;
+	public static final fun scope (Landroidx/lifecycle/LifecycleOwner;)Lautodispose2/ScopeProvider;
+	public static final fun scope (Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;)Lautodispose2/ScopeProvider;
+	public static final fun scope (Landroidx/lifecycle/LifecycleOwner;Lautodispose2/lifecycle/CorrespondingEventsFunction;)Lautodispose2/ScopeProvider;
+}
+
+public class autodispose2/androidx/lifecycle/LifecycleEventsObservable_AutoDisposeLifecycleObserver_LifecycleAdapter : androidx/lifecycle/GeneratedAdapter {
+	public fun callMethods (Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Lifecycle$Event;ZLandroidx/lifecycle/MethodCallsLogger;)V
+}
+

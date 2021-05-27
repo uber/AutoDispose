@@ -118,6 +118,7 @@ public final class RecordingObserver<T>
     takeEvent(OnCompleted.class);
   }
 
+  @SuppressWarnings("EmptyCatch")
   public void assertNoMoreEvents() {
     try {
       Object event = takeEvent(Object.class);

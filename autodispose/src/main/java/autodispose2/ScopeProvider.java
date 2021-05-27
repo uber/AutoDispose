@@ -34,7 +34,8 @@ public interface ScopeProvider {
   ScopeProvider UNBOUND = Completable::never;
 
   /**
-   * @return a {@link CompletableSource} that, upon completion, will trigger disposal.
+   * Returns a {@link CompletableSource} that, upon completion, will trigger disposal.
+   *
    * @throws Exception scope retrievals throws an exception, such as {@link OutsideScopeException}
    */
   @CheckReturnValue

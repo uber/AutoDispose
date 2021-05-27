@@ -27,12 +27,19 @@ buildscript {
       classpath deps.build.gradlePlugins.kotlin
       classpath "net.ltgt.gradle:gradle-errorprone-plugin:${deps.versions.errorPronePlugin}"
       classpath "net.ltgt.gradle:gradle-nullaway-plugin:${deps.versions.nullawayPlugin}"
-      classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${deps.versions.dokka}"
       classpath "org.jetbrains.dokka:dokka-gradle-plugin:${deps.versions.dokka}"
       classpath "ru.vyarus:gradle-animalsniffer-plugin:${deps.versions.animalSniffer}"
       classpath "com.diffplug.spotless:spotless-plugin-gradle:${deps.versions.spotless}"
+      classpath "com.vanniktech:gradle-maven-publish-plugin:0.13.0"
+      classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.3.0"
     }
   }
+}
+
+apply plugin: "binary-compatibility-validator"
+
+apiValidation {
+  ignoredProjects += ["sample", "test-utils"]
 }
 
 Set<String> mixedSourcesArtifacts = [
@@ -59,7 +66,7 @@ subprojects {
   }
 
   apply from: rootProject.file('gradle/dependencies.gradle')
-  apply plugin: 'com.diffplug.gradle.spotless'
+  apply plugin: 'com.diffplug.spotless'
   spotless {
     format 'misc', {
       target '**/*.md', '**/.gitignore'
@@ -125,9 +132,9 @@ subprojects {
   if (isKotlin) {
     if (isAndroidLibrary) {
       project.apply plugin: 'org.jetbrains.kotlin.android'
-      project.apply plugin: 'org.jetbrains.dokka-android'
+      project.apply plugin: 'org.jetbrains.dokka'
 
-      project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+      project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
         kotlinOptions {
           freeCompilerArgs = [
               "-Xjsr305=strict",
@@ -135,6 +142,10 @@ subprojects {
           ]
           jvmTarget = "1.8"
         }
+      }
+
+      project.kotlin {
+        explicitApi()
       }
     } else {
       project.apply plugin: 'org.jetbrains.kotlin.jvm'
@@ -156,6 +167,26 @@ subprojects {
               "-progressive"
           ]
           jvmTarget = "1.8"
+        }
+      }
+      project.kotlin {
+        explicitApi()
+      }
+    }
+    project.pluginManager.withPlugin("org.jetbrains.dokka") {
+      tasks.named("dokkaHtml") {
+//        outputDirectory.set(rootDir.resolve("docs/2.x"))
+        includes.from("Module.md")
+        dokkaSourceSets.configureEach {
+          skipDeprecated.set(true)
+          externalDocumentationLink {
+            url.set(URL("http://reactivex.io/RxJava/3.x/javadoc/"))
+          }
+        }
+        // Suppress a package
+        perPackageOption {
+          matchingRegex.set(/.*\.internal.*/)
+          suppress.set(true)
         }
       }
     }
@@ -220,13 +251,7 @@ subprojects {
       project.android.unitTestVariants.configureEach(configurer)
     }
     if (isAndroidLibrary) {
-      // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
       project.android {
-        libraryVariants.all {
-          it.generateBuildConfigProvider.configure {
-            it.enabled = false
-          }
-        }
         variantFilter { variant ->
           if (variant.buildType.name == 'debug') {
             variant.setIgnore(true)

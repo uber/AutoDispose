@@ -25,8 +25,8 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public interface AutoDisposingCompletableObserver extends CompletableObserver, Disposable {
 
   /**
-   * @return The delegate {@link CompletableObserver} that is used under the hood for introspection
-   *     purposes.
+   * Returns the delegate {@link CompletableObserver} that is used under the hood for introspection
+   * purposes.
    */
   CompletableObserver delegateObserver();
 }

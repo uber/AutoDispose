@@ -16,6 +16,7 @@
 
 plugins {
   id 'ru.vyarus.animalsniffer'
+  id "com.vanniktech.maven.publish"
 }
 
 dependencies {
@@ -25,5 +26,3 @@ dependencies {
 
   testImplementation project(':test-utils')
 }
-
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

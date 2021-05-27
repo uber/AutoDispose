@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
+plugins {
+  id "com.vanniktech.maven.publish"
+}
+
 dependencies {
   api project(':autodispose')
   api deps.androidx.annotations
   api deps.androidx.lifecycle.common
   api deps.androidx.lifecycle.runtime
 }
-
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

@@ -52,11 +52,11 @@ fun <T : Any> ObservableSubscribeProxy<T>.subscribeBy(
   onComplete: () -> Unit = onCompleteStub,
   onNext: (T) -> Unit = onNextStub
 ): Disposable {
-    return if (onError === onErrorStub && onComplete === onCompleteStub) {
-        subscribe(onNext)
-    } else {
-        subscribe(onNext, onError, onComplete)
-    }
+  return if (onError === onErrorStub && onComplete === onCompleteStub) {
+    subscribe(onNext)
+  } else {
+    subscribe(onNext, onError, onComplete)
+  }
 }
 
 /**
@@ -67,11 +67,11 @@ fun <T : Any> FlowableSubscribeProxy<T>.subscribeBy(
   onComplete: () -> Unit = onCompleteStub,
   onNext: (T) -> Unit = onNextStub
 ): Disposable {
-    return if (onError === onErrorStub && onComplete === onCompleteStub) {
-        subscribe(onNext)
-    } else {
-        subscribe(onNext, onError, onComplete)
-    }
+  return if (onError === onErrorStub && onComplete === onCompleteStub) {
+    subscribe(onNext)
+  } else {
+    subscribe(onNext, onError, onComplete)
+  }
 }
 
 /**
@@ -81,11 +81,11 @@ fun <T : Any> SingleSubscribeProxy<T>.subscribeBy(
   onError: (Throwable) -> Unit = onErrorStub,
   onSuccess: (T) -> Unit = onNextStub
 ): Disposable {
-    return if (onError === onErrorStub) {
-        subscribe(onSuccess)
-    } else {
-        subscribe(onSuccess, onError)
-    }
+  return if (onError === onErrorStub) {
+    subscribe(onSuccess)
+  } else {
+    subscribe(onSuccess, onError)
+  }
 }
 
 /**
@@ -96,11 +96,11 @@ fun <T : Any> MaybeSubscribeProxy<T>.subscribeBy(
   onComplete: () -> Unit = onCompleteStub,
   onSuccess: (T) -> Unit = onNextStub
 ): Disposable {
-    return if (onError === onErrorStub && onComplete === onCompleteStub) {
-        subscribe(onSuccess)
-    } else {
-        subscribe(onSuccess, onError, onComplete)
-    }
+  return if (onError === onErrorStub && onComplete === onCompleteStub) {
+    subscribe(onSuccess)
+  } else {
+    subscribe(onSuccess, onError, onComplete)
+  }
 }
 
 /**
@@ -110,9 +110,9 @@ fun CompletableSubscribeProxy.subscribeBy(
   onError: (Throwable) -> Unit = onErrorStub,
   onComplete: () -> Unit = onCompleteStub
 ): Disposable {
-    return if (onError === onErrorStub) {
-        subscribe(onComplete)
-    } else {
-        subscribe(onComplete, onError)
-    }
+  return if (onError === onErrorStub) {
+    subscribe(onComplete)
+  } else {
+    subscribe(onComplete, onError)
+  }
 }

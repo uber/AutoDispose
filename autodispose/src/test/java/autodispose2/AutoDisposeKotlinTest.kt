@@ -48,8 +48,8 @@ class AutoDisposeKotlinTest {
 
   @Test fun observable_maybeNormalCompletion() {
     Observable.just("Hello")
-        .autoDispose(scope)
-        .subscribe(o)
+      .autoDispose(scope)
+      .subscribe(o)
 
     o.assertValue { it == "Hello" }
     o.assertComplete()
@@ -58,8 +58,8 @@ class AutoDisposeKotlinTest {
   @Test fun observable_maybeNormalInterrupted() {
     val subject = PublishSubject.create<String>()
     subject
-        .autoDispose(scope)
-        .subscribe(o)
+      .autoDispose(scope)
+      .subscribe(o)
 
     subject.onNext("Hello")
 
@@ -74,8 +74,8 @@ class AutoDisposeKotlinTest {
 
   @Test fun observable_scopeProviderNormalCompletion() {
     Observable.just("Hello")
-        .autoDispose(scopeProvider)
-        .subscribe(o)
+      .autoDispose(scopeProvider)
+      .subscribe(o)
 
     o.assertValue { it == "Hello" }
     o.assertComplete()
@@ -84,8 +84,8 @@ class AutoDisposeKotlinTest {
   @Test fun observable_scopeProviderNormalInterrupted() {
     val subject = PublishSubject.create<String>()
     subject
-        .autoDispose(scopeProvider)
-        .subscribe(o)
+      .autoDispose(scopeProvider)
+      .subscribe(o)
 
     subject.onNext("Hello")
 
@@ -100,8 +100,8 @@ class AutoDisposeKotlinTest {
 
   @Test fun flowable_maybeNormalCompletion() {
     Flowable.just("Hello")
-        .autoDispose(scope)
-        .subscribe(s)
+      .autoDispose(scope)
+      .subscribe(s)
 
     s.assertValue { it == "Hello" }
     s.assertComplete()
@@ -110,8 +110,8 @@ class AutoDisposeKotlinTest {
   @Test fun flowable_maybeNormalInterrupted() {
     val subject = PublishSubject.create<String>()
     subject.toFlowable(ERROR)
-        .autoDispose(scope)
-        .subscribe(s)
+      .autoDispose(scope)
+      .subscribe(s)
 
     subject.onNext("Hello")
 
@@ -126,8 +126,8 @@ class AutoDisposeKotlinTest {
 
   @Test fun flowable_scopeProviderNormalCompletion() {
     Flowable.just("Hello")
-        .autoDispose(scopeProvider)
-        .subscribe(s)
+      .autoDispose(scopeProvider)
+      .subscribe(s)
 
     s.assertValue { it == "Hello" }
     s.assertComplete()
@@ -136,8 +136,8 @@ class AutoDisposeKotlinTest {
   @Test fun flowable_scopeProviderNormalInterrupted() {
     val subject = PublishSubject.create<String>()
     subject.toFlowable(ERROR)
-        .autoDispose(scopeProvider)
-        .subscribe(s)
+      .autoDispose(scopeProvider)
+      .subscribe(s)
 
     subject.onNext("Hello")
 
@@ -152,8 +152,8 @@ class AutoDisposeKotlinTest {
 
   @Test fun maybe_maybeNormalCompletion() {
     Maybe.just("Hello")
-        .autoDispose(scope)
-        .subscribe(o)
+      .autoDispose(scope)
+      .subscribe(o)
 
     o.assertValue { it == "Hello" }
     o.assertComplete()
@@ -162,8 +162,8 @@ class AutoDisposeKotlinTest {
   @Test fun maybe_maybeNormalInterrupted() {
     val subject = MaybeSubject.create<String>()
     subject
-        .autoDispose(scope)
-        .subscribe(o)
+      .autoDispose(scope)
+      .subscribe(o)
 
     subject.onSuccess("Hello")
 
@@ -178,8 +178,8 @@ class AutoDisposeKotlinTest {
 
   @Test fun maybe_scopeProviderNormalCompletion() {
     Maybe.just("Hello")
-        .autoDispose(scopeProvider)
-        .subscribe(o)
+      .autoDispose(scopeProvider)
+      .subscribe(o)
 
     o.assertValue { it == "Hello" }
     o.assertComplete()
@@ -188,8 +188,8 @@ class AutoDisposeKotlinTest {
   @Test fun maybe_scopeProviderNormalInterrupted() {
     val subject = MaybeSubject.create<String>()
     subject
-        .autoDispose(scopeProvider)
-        .subscribe(o)
+      .autoDispose(scopeProvider)
+      .subscribe(o)
 
     scopeProvider.emit()
 
@@ -204,8 +204,8 @@ class AutoDisposeKotlinTest {
 
   @Test fun single_maybeNormalCompletion() {
     Single.just("Hello")
-        .autoDispose(scope)
-        .subscribe(o)
+      .autoDispose(scope)
+      .subscribe(o)
 
     o.assertValue { it == "Hello" }
     o.assertComplete()
@@ -214,8 +214,8 @@ class AutoDisposeKotlinTest {
   @Test fun single_maybeNormalInterrupted() {
     val subject = SingleSubject.create<String>()
     subject
-        .autoDispose(scope)
-        .subscribe(o)
+      .autoDispose(scope)
+      .subscribe(o)
 
     subject.onSuccess("Hello")
 
@@ -230,8 +230,8 @@ class AutoDisposeKotlinTest {
 
   @Test fun single_scopeProviderNormalCompletion() {
     Single.just("Hello")
-        .autoDispose(scopeProvider)
-        .subscribe(o)
+      .autoDispose(scopeProvider)
+      .subscribe(o)
 
     o.assertValue { it == "Hello" }
     o.assertComplete()
@@ -240,8 +240,8 @@ class AutoDisposeKotlinTest {
   @Test fun single_scopeProviderNormalInterrupted() {
     val subject = SingleSubject.create<String>()
     subject
-        .autoDispose(scopeProvider)
-        .subscribe(o)
+      .autoDispose(scopeProvider)
+      .subscribe(o)
 
     subject.onSuccess("Hello")
 
@@ -256,8 +256,8 @@ class AutoDisposeKotlinTest {
 
   @Test fun completable_maybeNormalCompletion() {
     Completable.complete()
-        .autoDispose(scope)
-        .subscribe(o)
+      .autoDispose(scope)
+      .subscribe(o)
 
     o.assertComplete()
   }
@@ -265,8 +265,8 @@ class AutoDisposeKotlinTest {
   @Test fun completable_maybeNormalInterrupted() {
     val subject = PublishSubject.create<String>()
     subject
-        .autoDispose(scope)
-        .subscribe(o)
+      .autoDispose(scope)
+      .subscribe(o)
 
     subject.onNext("Hello")
 
@@ -281,8 +281,8 @@ class AutoDisposeKotlinTest {
 
   @Test fun completable_scopeProviderNormalCompletion() {
     Completable.complete()
-        .autoDispose(scopeProvider)
-        .subscribe(o)
+      .autoDispose(scopeProvider)
+      .subscribe(o)
 
     o.assertComplete()
   }
@@ -290,8 +290,8 @@ class AutoDisposeKotlinTest {
   @Test fun completable_scopeProviderNormalInterrupted() {
     val subject = CompletableSubject.create()
     subject
-        .autoDispose(scopeProvider)
-        .subscribe(o)
+      .autoDispose(scopeProvider)
+      .subscribe(o)
 
     subject.onComplete()
 
@@ -305,9 +305,9 @@ class AutoDisposeKotlinTest {
   @Test fun parallelFlowable_maybeNormalCompletion() {
     val s2 = TestSubscriber<String>()
     Flowable.just("Hello", "World")
-        .parallel(DEFAULT_PARALLELISM)
-        .autoDispose(scope)
-        .subscribe(arrayOf(s, s2))
+      .parallel(DEFAULT_PARALLELISM)
+      .autoDispose(scope)
+      .subscribe(arrayOf(s, s2))
 
     s.assertValue { it == "Hello" }
     s2.assertValue { it == "World" }
@@ -319,9 +319,9 @@ class AutoDisposeKotlinTest {
     val subject = PublishSubject.create<String>()
     val s2 = TestSubscriber<String>()
     subject.toFlowable(ERROR)
-        .parallel(DEFAULT_PARALLELISM)
-        .autoDispose(scope)
-        .subscribe(arrayOf(s, s2))
+      .parallel(DEFAULT_PARALLELISM)
+      .autoDispose(scope)
+      .subscribe(arrayOf(s, s2))
 
     subject.onNext("Hello")
     subject.onNext("World")
@@ -339,9 +339,9 @@ class AutoDisposeKotlinTest {
   @Test fun parallelFlowable_scopeProviderNormalCompletion() {
     val s2 = TestSubscriber<String>()
     Flowable.just("Hello", "World")
-        .parallel(DEFAULT_PARALLELISM)
-        .autoDispose(scopeProvider)
-        .subscribe(arrayOf(s, s2))
+      .parallel(DEFAULT_PARALLELISM)
+      .autoDispose(scopeProvider)
+      .subscribe(arrayOf(s, s2))
 
     s.assertValue { it == "Hello" }
     s.assertComplete()
@@ -353,9 +353,9 @@ class AutoDisposeKotlinTest {
     val subject = PublishSubject.create<String>()
     val s2 = TestSubscriber<String>()
     subject.toFlowable(ERROR)
-        .parallel(DEFAULT_PARALLELISM)
-        .autoDispose(scopeProvider)
-        .subscribe(arrayOf(s, s2))
+      .parallel(DEFAULT_PARALLELISM)
+      .autoDispose(scopeProvider)
+      .subscribe(arrayOf(s, s2))
 
     subject.onNext("Hello")
     subject.onNext("World")

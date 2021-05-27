@@ -37,23 +37,23 @@ import io.reactivex.rxjava3.core.Observable;
 public interface LifecycleScopeProvider<E> extends ScopeProvider {
 
   /**
-   * @return a sequence of lifecycle events. Note that completion of this lifecycle will also
-   *     trigger disposal
+   * Returns a sequence of lifecycle events. Note that completion of this lifecycle will also
+   * trigger disposal
    */
   @CheckReturnValue
   Observable<E> lifecycle();
 
   /**
-   * @return a sequence of lifecycle events. It's recommended to back this with a static instance to
-   *     avoid unnecessary object allocation.
+   * Returns a sequence of lifecycle events. It's recommended to back this with a static instance to
+   * avoid unnecessary object allocation.
    */
   @CheckReturnValue
   CorrespondingEventsFunction<E> correspondingEvents();
 
   /**
-   * @return the last seen lifecycle event, or {@code null} if none. Note that is {@code null} is
-   *     returned at subscribe-time, it will be used as a signal to throw a {@link
-   *     LifecycleNotStartedException}.
+   * Returns the last seen lifecycle event, or {@code null} if none. Note that is {@code null} is
+   * returned at subscribe-time, it will be used as a signal to throw a {@link
+   * LifecycleNotStartedException}.
    */
   @Nullable
   E peekLifecycle();

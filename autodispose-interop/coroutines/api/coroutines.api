@@ -1,0 +1,14 @@
+public final class autodispose2/interop/coroutines/AutoDisposeCoroutinesInteropKt {
+	public static final fun asCompletable (Lkotlinx/coroutines/CoroutineScope;)Lio/reactivex/rxjava3/core/Completable;
+	public static final fun asCoroutineScope (Lautodispose2/ScopeProvider;Lkotlin/coroutines/CoroutineContext;)Lkotlinx/coroutines/CoroutineScope;
+	public static final fun asCoroutineScope (Lio/reactivex/rxjava3/core/CompletableSource;Lkotlin/coroutines/CoroutineContext;)Lkotlinx/coroutines/CoroutineScope;
+	public static synthetic fun asCoroutineScope$default (Lautodispose2/ScopeProvider;Lkotlin/coroutines/CoroutineContext;ILjava/lang/Object;)Lkotlinx/coroutines/CoroutineScope;
+	public static synthetic fun asCoroutineScope$default (Lio/reactivex/rxjava3/core/CompletableSource;Lkotlin/coroutines/CoroutineContext;ILjava/lang/Object;)Lkotlinx/coroutines/CoroutineScope;
+	public static final fun asScopeProvider (Lkotlinx/coroutines/CoroutineScope;)Lautodispose2/ScopeProvider;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Completable;Lkotlinx/coroutines/CoroutineScope;)Lautodispose2/CompletableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Flowable;Lkotlinx/coroutines/CoroutineScope;)Lautodispose2/FlowableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Maybe;Lkotlinx/coroutines/CoroutineScope;)Lautodispose2/MaybeSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Observable;Lkotlinx/coroutines/CoroutineScope;)Lautodispose2/ObservableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Single;Lkotlinx/coroutines/CoroutineScope;)Lautodispose2/SingleSubscribeProxy;
+}
+

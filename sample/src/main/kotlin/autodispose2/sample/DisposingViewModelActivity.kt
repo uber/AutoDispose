@@ -57,11 +57,14 @@ class DisposingViewModelActivity : AppCompatActivity() {
 
     // Get latest value from ViewModel unaffected by any config changes.
     viewModel.downloadState()
-        .observeOn(AndroidSchedulers.mainThread())
-        .autoDispose(scope)
-        .subscribe({ state ->
+      .observeOn(AndroidSchedulers.mainThread())
+      .autoDispose(scope)
+      .subscribe(
+        { state ->
           resolveState(state)
-        }, {})
+        },
+        {}
+      )
   }
 
   /**

@@ -80,16 +80,20 @@ class DisposingViewModel(private val repository: NetworkRepository) : AutoDispos
     // Notify UI that we're loading network
     viewRelay.accept(DownloadState.Started)
     repository.downloadProgress()
-        .subscribeOn(Schedulers.io())
-        .doOnDispose { Log.i(TAG, "Disposing subscription from the ViewModel") }
-        .autoDispose(this)
-        .subscribe({ progress ->
+      .subscribeOn(Schedulers.io())
+      .doOnDispose { Log.i(TAG, "Disposing subscription from the ViewModel") }
+      .autoDispose(this)
+      .subscribe(
+        { progress ->
           viewRelay.accept(DownloadState.InProgress(progress))
-        }, { error ->
+        },
+        { error ->
           error.printStackTrace()
-        }, {
+        },
+        {
           viewRelay.accept(DownloadState.Completed)
-        })
+        }
+      )
   }
 
   /**
@@ -108,7 +112,7 @@ class DisposingViewModel(private val repository: NetworkRepository) : AutoDispos
   }
 
   class Factory(private val networkRepository: NetworkRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
       @Suppress("UNCHECKED_CAST")
       return DisposingViewModel(networkRepository) as T
     }

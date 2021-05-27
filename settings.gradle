@@ -25,12 +25,6 @@ pluginManagement {
         useModule(deps.build.gradlePlugins.kotlin)
       } else {
         switch (id) {
-          case 'org.jetbrains.dokka':
-            useModule("org.jetbrains.dokka:dokka-gradle-plugin:${deps.versions.dokka}")
-            break
-          case 'org.jetbrains.dokka-android':
-            useModule("org.jetbrains.dokka:dokka-android-gradle-plugin:${deps.versions.dokka}")
-            break
           case 'net.ltgt.errorprone':
             useVersion(deps.versions.errorPronePlugin)
             break
