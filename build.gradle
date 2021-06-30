@@ -21,7 +21,6 @@ buildscript {
       google()
       mavenCentral()
       gradlePluginPortal()
-      jcenter()
     }
     dependencies {
       classpath deps.build.gradlePlugins.android
@@ -57,7 +56,6 @@ subprojects {
   repositories {
     google()
     mavenCentral()
-    jcenter()
   }
 
   apply from: rootProject.file('gradle/dependencies.gradle')
