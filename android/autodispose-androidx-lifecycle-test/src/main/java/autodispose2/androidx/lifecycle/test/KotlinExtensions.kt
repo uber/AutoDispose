@@ -24,6 +24,7 @@ import io.reactivex.rxjava3.annotations.CheckReturnValue
 /**
  * Extension that returns a [TestLifecycleOwner] for this [LifecycleRegistry].
  */
+@Deprecated("Switch to androidx.lifecycle.testing.TestLifecycleOwner")
 @SuppressLint("RestrictedApi")
 @CheckReturnValue
 inline fun LifecycleRegistry.test(): TestLifecycleOwner = TestLifecycleOwner.create(this)

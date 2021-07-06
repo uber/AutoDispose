@@ -81,7 +81,9 @@ def androidx = [
     lifecycle: [
         compiler: "androidx.lifecycle:lifecycle-compiler:${versions.androidxLifecycle}",
         common: "androidx.lifecycle:lifecycle-common:${versions.androidxLifecycle}",
-        runtime: "androidx.lifecycle:lifecycle-runtime:${versions.androidxLifecycle}"
+        runtime: "androidx.lifecycle:lifecycle-runtime:${versions.androidxLifecycle}",
+        // Use a newer version for tests until TestLifecycleOwner is stable
+        runtimeTest: "androidx.lifecycle:lifecycle-runtime-testing:2.3.0-alpha07"
     ]
 ]
 

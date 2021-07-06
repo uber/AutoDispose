@@ -179,7 +179,6 @@ for generating `CompletableSource` representations from `LifecycleScopeProvider`
 There are three artifacts with extra support for Android:
 * `autodispose-android` has a `ViewScopeProvider` for use with Android `View` classes.
 * `autodispose-android-archcomponents` has a `AndroidLifecycleScopeProvider` for use with `LifecycleOwner` and `Lifecycle` implementations.
-* `autodispose-android-archcomponents-test` has a `TestLifecycleOwner` for use in testing.
 
 Note that the project is compiled against Java 8. If you need support for lower Java versions, you should
 use D8 (Android Gradle Plugin 3.2+) or desugar as needed (depending on the build system).
