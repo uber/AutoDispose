@@ -26,6 +26,8 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.google.common.collect.HashMultimap
+import com.google.common.collect.Multimap
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiType
 import com.intellij.psi.util.PsiUtil
@@ -48,6 +50,7 @@ import org.jetbrains.uast.visitor.AbstractUastVisitor
 internal const val CUSTOM_SCOPE_KEY = "autodispose.typesWithScope"
 internal const val LENIENT = "autodispose.lenient"
 internal const val OVERRIDE_SCOPES = "autodispose.overrideScopes"
+internal const val KOTLIN_EXTENSION_FUNCTIONS = "autodispose.kotlinExtensionFunctions"
 
 /**
  * Detector which checks if your stream subscriptions are handled by AutoDispose.
@@ -98,6 +101,8 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
     private val REACTIVE_TYPES = setOf(OBSERVABLE, FLOWABLE, PARALLEL_FLOWABLE, SINGLE, MAYBE,
         COMPLETABLE)
 
+    private val REACTIVE_SUBSCRIBE_METHOD_NAMES = setOf("subscribe", "subscribeWith")
+
     internal const val PROPERTY_FILE = "gradle.properties"
   }
 
@@ -105,12 +110,15 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
   // This includes the DEFAULT_SCOPES as well as any custom scopes
   // defined by the consumer.
   private lateinit var appliedScopes: Set<String>
+  private lateinit var ktExtensionMethodToPackageMap: Multimap<String, String>
+  private lateinit var appliedMethodNames: List<String>
 
   private var lenient: Boolean = false
 
   override fun beforeCheckRootProject(context: Context) {
     var overrideScopes = false
     val scopes = mutableSetOf<String>()
+    val ktExtensionMethodToPackageMap = HashMultimap.create<String, String>()
 
     // Add the custom scopes defined in configuration.
     val props = Properties()
@@ -125,6 +133,16 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
             .toList()
         scopes.addAll(customScopes)
       }
+      props.getProperty(KOTLIN_EXTENSION_FUNCTIONS)?.let { ktExtensionProperty ->
+        ktExtensionProperty.split(",")
+            .forEach {
+              val arr = it.split("#", limit = 2)
+              if (arr.size >= 2) {
+                val (packageName, methodName) = arr
+                ktExtensionMethodToPackageMap.put(methodName, packageName)
+              }
+            }
+      }
       props.getProperty(LENIENT)?.toBoolean()?.let {
         lenient = it
       }
@@ -136,10 +154,12 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
     if (!overrideScopes) {
       scopes.addAll(DEFAULT_SCOPES)
     }
-    appliedScopes = scopes
+    this.appliedScopes = scopes
+    this.ktExtensionMethodToPackageMap = ktExtensionMethodToPackageMap
+    this.appliedMethodNames = (REACTIVE_SUBSCRIBE_METHOD_NAMES + ktExtensionMethodToPackageMap.keySet()).toList()
   }
 
-  override fun getApplicableMethodNames(): List<String> = listOf("subscribe", "subscribeWith")
+  override fun getApplicableMethodNames(): List<String> = appliedMethodNames
 
   override fun createUastHandler(context: JavaContext): UElementHandler? {
     return object : UElementHandler() {
@@ -257,7 +277,15 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
   }
 
   private fun isReactiveType(evaluator: JavaEvaluator, method: PsiMethod): Boolean {
-    return REACTIVE_TYPES.any { evaluator.isMemberInClass(method, it) }
+    return REACTIVE_SUBSCRIBE_METHOD_NAMES.contains(method.name) && REACTIVE_TYPES.any {
+      evaluator.isMemberInClass(method, it)
+    }
+  }
+
+  private fun isKotlinExtension(evaluator: JavaEvaluator, method: PsiMethod): Boolean {
+    return ktExtensionMethodToPackageMap.get(method.name).any {
+      evaluator.isMemberInClass(method, it)
+    }
   }
 
   /**
@@ -295,7 +323,7 @@ class AutoDisposeDetector : Detector(), SourceCodeScanner {
     if (!getApplicableMethodNames().contains(method.name)) return
     val evaluator = context.evaluator
 
-    if (isReactiveType(evaluator, method) &&
+    if ((isReactiveType(evaluator, method) || isKotlinExtension(evaluator, method)) &&
         isInScope(evaluator, node)
     ) {
       if (!lenient) {
