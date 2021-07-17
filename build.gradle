@@ -187,19 +187,22 @@ subprojects {
     }
     project.pluginManager.withPlugin("org.jetbrains.dokka") {
       tasks.named("dokkaHtml") {
-//        outputDirectory.set(rootDir.resolve("docs/2.x"))
-//        includes.from("Module.md")
-//        dokkaSourceSets.configureEach {
-//          skipDeprecated.set(true)
-//          externalDocumentationLink {
-//            url.set(URL("http://reactivex.io/RxJava/3.x/javadoc/"))
-//          }
-//        }
-        // Suppress a package
-//        perPackageOption {
-//          matchingRegex.set(/.*\.internal.*/)
-//          suppress.set(true)
-//        }
+        outputDirectory.set(rootProject.file("docs/2.x"))
+        moduleName.set(project.property("POM_ARTIFACT_ID"))
+        moduleVersion.set(project.property("VERSION_NAME"))
+        cacheRoot.set(file("default"))
+        dokkaSourceSets.configureEach {
+          skipDeprecated.set(true)
+          includes.from("Module.md")
+          suppressGeneratedFiles.set(true)
+          externalDocumentationLink {
+            url.set(URL("http://reactivex.io/RxJava/3.x/javadoc/"))
+          }
+          perPackageOption {
+            matchingRegex.set(/.*\.internal.*/)
+            suppress.set(true)
+          }
+        }
       }
     }
     // Lint must be compileOnly, mixed source sets (for now) must manually specify depending on needs
