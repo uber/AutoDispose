@@ -30,8 +30,8 @@ buildscript {
       classpath "org.jetbrains.dokka:dokka-gradle-plugin:${deps.versions.dokka}"
       classpath "ru.vyarus:gradle-animalsniffer-plugin:${deps.versions.animalSniffer}"
       classpath "com.diffplug.spotless:spotless-plugin-gradle:${deps.versions.spotless}"
-      classpath "com.vanniktech:gradle-maven-publish-plugin:0.13.0"
-      classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.3.0"
+      classpath "com.vanniktech:gradle-maven-publish-plugin:0.17.0"
+      classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.6.0"
     }
   }
 }
@@ -188,18 +188,18 @@ subprojects {
     project.pluginManager.withPlugin("org.jetbrains.dokka") {
       tasks.named("dokkaHtml") {
 //        outputDirectory.set(rootDir.resolve("docs/2.x"))
-        includes.from("Module.md")
-        dokkaSourceSets.configureEach {
-          skipDeprecated.set(true)
-          externalDocumentationLink {
-            url.set(URL("http://reactivex.io/RxJava/3.x/javadoc/"))
-          }
-        }
+//        includes.from("Module.md")
+//        dokkaSourceSets.configureEach {
+//          skipDeprecated.set(true)
+//          externalDocumentationLink {
+//            url.set(URL("http://reactivex.io/RxJava/3.x/javadoc/"))
+//          }
+//        }
         // Suppress a package
-        perPackageOption {
-          matchingRegex.set(/.*\.internal.*/)
-          suppress.set(true)
-        }
+//        perPackageOption {
+//          matchingRegex.set(/.*\.internal.*/)
+//          suppress.set(true)
+//        }
       }
     }
     // Lint must be compileOnly, mixed source sets (for now) must manually specify depending on needs
