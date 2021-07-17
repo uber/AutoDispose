@@ -115,11 +115,32 @@ class AutoDisposeDetectorTest {
         """
     ).indented().within("src/")
 
-    private fun lenientPropertiesFile(lenient: Boolean = true): TestFile.PropertyTestFile {
+    private val RX_KOTLIN = kotlin(
+        "io/reactivex/rxjava3/kotlin/subscribers.kt",
+        """
+          @file:JvmName("subscribers")
+          package io.reactivex.rxjava3.kotlin
+
+          import io.reactivex.rxjava3.core.*
+          import io.reactivex.rxjava3.disposables.Disposable
+
+          fun <G : Any> Observable<G>.subscribeBy(
+                  onNext: (G) -> Unit
+          ): Disposable = subscribe()
+        """).indented().within("src/")
+
+    private fun propertiesFile(lenient: Boolean = true, kotlinExtensionFunctions: String? = null): TestFile.PropertyTestFile {
       val properties = projectProperties()
       properties.property(LENIENT, lenient.toString())
+      kotlinExtensionFunctions?.also {
+        properties.property(KOTLIN_EXTENSION_FUNCTIONS, it)
+      }
       properties.to(AutoDisposeDetector.PROPERTY_FILE)
       return properties
+    }
+
+    private fun lenientPropertiesFile(lenient: Boolean = true): TestFile.PropertyTestFile {
+      return propertiesFile(lenient)
     }
   }
 
@@ -1166,6 +1187,62 @@ class AutoDisposeDetectorTest {
       .issues(AutoDisposeDetector.ISSUE)
       .run()
       .expectClean()
+  }
+
+  @Test fun kotlinExtensionFunctionNotConfigured() {
+    lint()
+        .files(rxJava3(),
+            LIFECYCLE_OWNER,
+            RX_KOTLIN,
+            FRAGMENT,
+            kotlin("""
+          package foo
+          import io.reactivex.rxjava3.core.Observable
+          import io.reactivex.rxjava3.observers.DisposableObserver
+          import io.reactivex.rxjava3.kotlin.subscribeBy
+          import androidx.fragment.app.Fragment
+
+          class ExampleClass : Fragment() {
+            fun names() {
+              val obs = Observable.just(1, 2, 3, 4)
+              obs.subscribeBy { }
+            }
+          }
+        """).indented())
+        .allowCompilationErrors(false)
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expectClean()
+  }
+
+  @Test fun kotlinExtensionFunctionNotHandled() {
+    lint()
+        .files(rxJava3(),
+            propertiesFile(kotlinExtensionFunctions = "io.reactivex.rxjava3.kotlin.subscribers#subscribeBy"),
+            LIFECYCLE_OWNER,
+            RX_KOTLIN,
+            FRAGMENT,
+            kotlin("""
+          package foo
+          import io.reactivex.rxjava3.core.Observable
+          import io.reactivex.rxjava3.observers.DisposableObserver
+          import io.reactivex.rxjava3.kotlin.subscribeBy
+          import androidx.fragment.app.Fragment
+
+          class ExampleClass : Fragment() {
+            fun names() {
+              val obs = Observable.just(1, 2, 3, 4)
+              obs.subscribeBy { }
+            }
+          }
+        """).indented())
+        .allowCompilationErrors(false)
+        .issues(AutoDisposeDetector.ISSUE)
+        .run()
+        .expect("""src/foo/ExampleClass.kt:10: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
+          |    obs.subscribeBy { }
+          |    ~~~~~~~~~~~~~~~~~~~
+          |1 errors, 0 warnings""".trimMargin())
   }
 
   @Test fun subscribeWithCapturedNonDisposableType() {
