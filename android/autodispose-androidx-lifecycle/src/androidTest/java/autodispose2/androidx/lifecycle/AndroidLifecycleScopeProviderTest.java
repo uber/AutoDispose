@@ -17,6 +17,7 @@ package autodispose2.androidx.lifecycle;
 
 import static autodispose2.AutoDispose.autoDisposable;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 
 import android.util.Log;
 import androidx.lifecycle.Lifecycle;
@@ -297,14 +298,14 @@ public final class AndroidLifecycleScopeProviderTest {
     lifecycle.emit(Lifecycle.Event.ON_CREATE);
     lifecycle.emit(Lifecycle.Event.ON_START);
     lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    subject.to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
-
-    Disposable d = o.takeSubscribe();
-    Throwable t = o.takeError();
-    assertThat(t).isInstanceOf(IllegalStateException.class);
-    assertThat(t.getMessage()).contains("main thread");
-    o.assertNoMoreEvents();
-    assertThat(d.isDisposed()).isTrue();
+    try {
+      subject.to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
+      fail();
+    } catch (IllegalStateException t) {
+      assertThat(t).isInstanceOf(IllegalStateException.class);
+      assertThat(t.getMessage()).contains("main thread");
+      o.assertNoMoreEvents();
+    }
   }
 
   @Test
