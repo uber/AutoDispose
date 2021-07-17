@@ -141,13 +141,13 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
       }
       props.getProperty(KOTLIN_EXTENSION_FUNCTIONS)?.let { ktExtensionProperty ->
         ktExtensionProperty.split(",")
-            .forEach {
-              val arr = it.split("#", limit = 2)
-              if (arr.size >= 2) {
-                val (packageName, methodName) = arr
-                ktExtensionMethodToPackageMap.put(methodName, packageName)
-              }
+          .forEach {
+            val arr = it.split("#", limit = 2)
+            if (arr.size >= 2) {
+              val (packageName, methodName) = arr
+              ktExtensionMethodToPackageMap.put(methodName, packageName)
             }
+          }
       }
       props.getProperty(LENIENT)?.toBoolean()?.let {
         lenient = it
@@ -167,7 +167,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
 
   override fun getApplicableMethodNames(): List<String> = appliedMethodNames
 
-  override fun createUastHandler(context: JavaContext): UElementHandler? {
+  override fun createUastHandler(context: JavaContext): UElementHandler {
     return object : UElementHandler() {
       override fun visitCallableReferenceExpression(node: UCallableReferenceExpression) {
         node.resolve()?.let { method ->
@@ -355,7 +355,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
    * @return whether the expression is unused.
    */
   private fun isExpressionValueUnused(element: UElement): Boolean {
-    var prev = element.getParentOfType<UExpression>(
+    var prev = element.getParentOfType(
       UExpression::class.java, false
     ) ?: return true
     var curr = prev.uastParent ?: return true
