@@ -23,6 +23,6 @@
       tools:overrideLibrary="androidx.test.ext.junit"/>
 
   <application>
-    <activity android:name=".AutoDisposeTestActivity" android:exported="false" />
+    <activity android:name=".AutoDisposeTestActivity"/>
   </application>
 </manifest>
