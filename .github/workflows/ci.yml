@@ -8,8 +8,7 @@ jobs:
     runs-on: macOS-latest
     strategy:
       matrix:
-        # TODO Add 9, 10, 11, 12, and 13 after Kotlin 1.3.60
-        java_version: [1.8]
+        java_version: [11, 12, 13, 14, 15, 16, 17-ea]
     steps:
       # In order to have sha256sum on macOS, we need to install coreutils first
       # Use this until coreutils or sha256sum are natively included in macOS on actions https://github.com/actions/virtual-environments/issues/90

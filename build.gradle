@@ -105,6 +105,13 @@ subprojects {
   boolean isSample = project.name == "sample"
   boolean isJavaLibrary = !isAndroidLibrary && !isKotlin && !isSample || (isMixedSourceSet && !isAndroidLibrary)
   boolean usesErrorProne = !isKotlin && !isSample || isMixedSourceSet
+  project.pluginManager.withPlugin("java") {
+    java {
+      toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+      }
+    }
+  }
   if (isAndroidLibrary) {
     project.apply plugin: 'com.android.library'
     project.android {
@@ -127,6 +134,11 @@ subprojects {
       testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
       }
+    }
+  } else if (!isSample) {
+    project.tasks.withType(JavaCompile).configureEach {
+      // Cannot set JavaCompile's release flag in android projects
+      options.release.set(8)
     }
   }
   if (isKotlin) {
