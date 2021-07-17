@@ -15,18 +15,18 @@
  */
 
 def versions = [
-    androidTest: '1.4.0-beta01',
+    androidTest: '1.4.0',
     animalSniffer: '1.5.0',
     androidxLifecycle: '2.3.1',
-    dokka: '1.4.32',
+    dokka: '1.5.0',
     errorProne: '2.7.1',
     errorPronePlugin: '1.3.0',
     gjf: '1.7',
     nullawayPlugin: '1.0.2',
-    kotlin: '1.5.10',
-    lint: '27.2.1',
+    kotlin: '1.5.21',
+    lint: '27.2.2',
     ktlint: '0.41.0',
-    spotless: '5.12.4'
+    spotless: '5.14.1'
 ]
 
 def apt = [
@@ -34,10 +34,10 @@ def apt = [
 ]
 
 def build = [
-    compileSdkVersion: 30,
+    compileSdkVersion: 31,
     ci: 'true' == System.getenv('CI'),
     minSdkVersion: 14,
-    targetSdkVersion: 30,
+    targetSdkVersion: 31,
     javaVersion: JavaVersion.VERSION_1_8,
 
     errorProne: "com.google.errorprone:error_prone_core:${versions.errorProne}",
@@ -48,7 +48,7 @@ def build = [
     animalSniffer: 'org.codehaus.mojo.signature:java17:1.0@signature',
 
     gradlePlugins: [
-        android: 'com.android.tools.build:gradle:4.2.1',
+        android: 'com.android.tools.build:gradle:4.2.2',
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
         dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
@@ -62,7 +62,7 @@ def build = [
 ]
 
 def kotlin = [
-    coroutines: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2",
+    coroutines: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1",
     stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
 ]
 
