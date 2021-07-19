@@ -197,7 +197,7 @@ subprojects {
       project.tasks.withType(JavaCompile).configureEach {
         options.errorprone.nullaway {
           severity = CheckSeverity.ERROR
-          annotatedPackages.add("com.uber")
+          annotatedPackages.add("autodispose2")
         }
       }
       project.tasks.withType(Test) {
@@ -211,7 +211,7 @@ subprojects {
         variant.getJavaCompileProvider().configure {
           options.errorprone.nullaway {
             severity = CheckSeverity.ERROR
-            annotatedPackages.add("com.uber")
+            annotatedPackages.add("autodispose2")
           }
         }
       }
