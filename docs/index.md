@@ -328,10 +328,10 @@ implementation 'com.uber.autodispose:autodispose-rxlifecycle:x.y.z'
 implementation 'com.uber.autodispose:autodispose-rxlifecycle3:x.y.z'
 ```
 
-Javadocs and KDocs for the most recent release can be found here: https://uber.github.io/AutoDispose/1.x/autodispose/
+Javadocs and KDocs for the most recent release can be found here: https://uber.github.io/AutoDispose/2.x/autodispose/
 
 Snapshots of the development version are available in [Sonatype's snapshots repository][snapshots].
 
  [rxlifecycle]: https://github.com/trello/RxLifecycle/
  [dan]: https://twitter.com/danlew42
- [snapshots]: https://oss.sonatype.org/content/repositories/snapshots/com/uber/autodispose/
+ [snapshots]: https://oss.sonatype.org/content/repositories/snapshots/com/uber/autodispose2/
