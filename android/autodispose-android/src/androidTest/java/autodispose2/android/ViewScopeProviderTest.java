@@ -22,9 +22,9 @@ import android.app.Instrumentation;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import androidx.test.InstrumentationRegistry;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.ActivityTestRule;
+import androidx.test.platform.app.InstrumentationRegistry;
 import autodispose2.OutsideScopeException;
 import autodispose2.test.RecordingObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -41,8 +41,8 @@ public final class ViewScopeProviderTest {
       message -> Log.d(ViewScopeProviderTest.class.getSimpleName(), message);
 
   @Rule
-  public final ActivityTestRule<AutoDisposeTestActivity> activityRule =
-      new ActivityTestRule<>(AutoDisposeTestActivity.class);
+  public final ActivityScenarioRule<AutoDisposeTestActivity> activityRule =
+      new ActivityScenarioRule<>(AutoDisposeTestActivity.class);
 
   private final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
   private FrameLayout parent;
@@ -50,9 +50,13 @@ public final class ViewScopeProviderTest {
 
   @Before
   public void setUp() {
-    AutoDisposeTestActivity activity = activityRule.getActivity();
-    parent = activity.parent;
-    child = activity.child;
+    activityRule
+        .getScenario()
+        .onActivity(
+            activity -> {
+              parent = activity.parent;
+              child = activity.child;
+            });
   }
 
   @Test
