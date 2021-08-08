@@ -41,7 +41,7 @@ public class AutoDisposeMaybeObserverTest extends PluginsMatrixTest {
       message ->
           System.out.println(AutoDisposeMaybeObserverTest.class.getSimpleName() + ": " + message);
 
-  @Rule public RxErrorsRule rule = new RxErrorsRule();
+  @Rule public final RxErrorsRule rule = new RxErrorsRule();
 
   public AutoDisposeMaybeObserverTest(boolean hideProxies) {
     super(hideProxies);

@@ -39,7 +39,7 @@ public class LifecycleScopeProviderCompletableTest {
           System.out.println(
               LifecycleScopeProviderCompletableTest.class.getSimpleName() + ": " + message);
 
-  @Rule public RxErrorsRule rule = new RxErrorsRule();
+  @Rule public final RxErrorsRule rule = new RxErrorsRule();
 
   @Before
   @After
