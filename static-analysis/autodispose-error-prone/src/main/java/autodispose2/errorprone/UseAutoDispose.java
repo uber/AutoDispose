@@ -160,22 +160,21 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
   }
 
   private static Matcher<ExpressionTree> matcher(Set<String> classesWithLifecycle) {
-    return (Matcher<ExpressionTree>)
-        (tree, state) -> {
-          ClassTree enclosingClass = findEnclosingNode(state.getPath(), ClassTree.class);
-          Type.ClassType enclosingClassType = getType(enclosingClass);
+    return (tree, state) -> {
+      ClassTree enclosingClass = findEnclosingNode(state.getPath(), ClassTree.class);
+      Type.ClassType enclosingClassType = getType(enclosingClass);
 
-          return classesWithLifecycle.stream()
-              .map(
-                  classWithLifecycle -> {
-                    Type lifecycleType = state.getTypeFromString(classWithLifecycle);
-                    return isSubtype(enclosingClassType, lifecycleType, state);
-                  })
-              // Filtering the method invocation which is a
-              // subtype of one of the classes with lifecycle and name as
-              .filter(Boolean::booleanValue)
-              .findFirst()
-              .orElse(false);
-        };
+      return classesWithLifecycle.stream()
+          .map(
+              classWithLifecycle -> {
+                Type lifecycleType = state.getTypeFromString(classWithLifecycle);
+                return isSubtype(enclosingClassType, lifecycleType, state);
+              })
+          // Filtering the method invocation which is a
+          // subtype of one of the classes with lifecycle and name as
+          .filter(Boolean::booleanValue)
+          .findFirst()
+          .orElse(false);
+    };
   }
 }
