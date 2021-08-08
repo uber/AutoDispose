@@ -23,6 +23,7 @@ import android.util.Log;
 import androidx.lifecycle.Lifecycle;
 import androidx.test.annotation.UiThreadTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import autodispose2.androidx.lifecycle.test.TestLifecycleOwner;
 import autodispose2.lifecycle.LifecycleEndedException;
 import autodispose2.test.RecordingObserver;
@@ -295,17 +296,18 @@ public final class AndroidLifecycleScopeProviderTest {
 
     // Spin it up
     TestLifecycleOwner lifecycle = TestLifecycleOwner.create();
-    lifecycle.emit(Lifecycle.Event.ON_CREATE);
-    lifecycle.emit(Lifecycle.Event.ON_START);
-    lifecycle.emit(Lifecycle.Event.ON_RESUME);
-    try {
-      subject.to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
-      fail();
-    } catch (IllegalStateException t) {
-      assertThat(t).isInstanceOf(IllegalStateException.class);
-      assertThat(t.getMessage()).contains("main thread");
-      o.assertNoMoreEvents();
-    }
+    InstrumentationRegistry.getInstrumentation()
+        .runOnMainSync(() -> {
+          lifecycle.emit(Lifecycle.Event.ON_CREATE);
+          lifecycle.emit(Lifecycle.Event.ON_START);
+          lifecycle.emit(Lifecycle.Event.ON_RESUME);
+        });
+    subject.to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
+    o.takeSubscribe();
+    Throwable t = o.takeError();
+    assertThat(t).isInstanceOf(IllegalStateException.class);
+    assertThat(t.getMessage()).contains("main thread");
+    o.assertNoMoreEvents();
   }
 
   @Test
