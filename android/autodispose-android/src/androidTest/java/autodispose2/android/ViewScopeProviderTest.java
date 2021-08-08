@@ -34,6 +34,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+@SuppressWarnings("NullAway") // NullAway is confused about onActivity
 @RunWith(AndroidJUnit4.class)
 public final class ViewScopeProviderTest {
 
