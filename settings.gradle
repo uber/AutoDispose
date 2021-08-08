@@ -47,11 +47,11 @@ pluginManagement {
 
 rootProject.name = 'autodispose-root'
 if (System.getenv("ANDROID_HOME") != null) {
+  include ':android:autodispose-android'
+  include ':android:autodispose-androidx-lifecycle'
+  include ':android:autodispose-androidx-lifecycle-test'
+  include ':sample'
 }
-include ':android:autodispose-android'
-include ':android:autodispose-androidx-lifecycle'
-include ':android:autodispose-androidx-lifecycle-test'
-include ':sample'
 include ':autodispose'
 include ':autodispose-interop:coroutines'
 include ':autodispose-lifecycle'
