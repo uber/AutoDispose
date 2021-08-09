@@ -20,10 +20,10 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.util.Log;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.testing.TestLifecycleOwner;
 import androidx.test.annotation.UiThreadTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.lifecycle.testing.TestLifecycleOwner;
 import autodispose2.lifecycle.LifecycleEndedException;
 import autodispose2.test.RecordingObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -270,8 +270,7 @@ public final class AndroidLifecycleScopeProviderTest {
     // Spin it up
     TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.INITIALIZED);
     InstrumentationRegistry.getInstrumentation()
-        .runOnMainSync(
-            () -> lifecycle.setCurrentState(Lifecycle.State.RESUMED));
+        .runOnMainSync(() -> lifecycle.setCurrentState(Lifecycle.State.RESUMED));
     subject.to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
     o.takeSubscribe();
     Throwable t = o.takeError();
