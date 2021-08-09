@@ -16,12 +16,16 @@
 package autodispose2.lint
 
 import com.android.tools.lint.client.api.IssueRegistry
+import com.android.tools.lint.client.api.Vendor
 import com.android.tools.lint.detector.api.CURRENT_API
 import com.android.tools.lint.detector.api.Issue
 import com.google.auto.service.AutoService
 
 @AutoService(IssueRegistry::class)
-public class AutoDisposeIssueRegistry() : IssueRegistry() {
+public class AutoDisposeIssueRegistry : IssueRegistry() {
   override val issues: List<Issue> = listOf(AutoDisposeDetector.ISSUE)
   override val api: Int = CURRENT_API
+
+  override val vendor: Vendor
+    get() = Vendor("Uber", "AutoDispose", "https://github.com/uber/AutoDispose/issues")
 }
