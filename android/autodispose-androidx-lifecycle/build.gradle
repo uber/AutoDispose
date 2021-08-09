@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+plugins {
+  id "com.vanniktech.maven.publish"
+}
+
 dependencies {
   annotationProcessor deps.androidx.lifecycle.compiler
 
@@ -34,5 +38,3 @@ dependencies {
   androidTestImplementation deps.test.androidRules
   androidTestUtil deps.test.androidOrchestrator
 }
-
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

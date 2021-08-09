@@ -101,7 +101,8 @@ abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<Ac
         PAUSE -> STOP
         STOP -> DESTROY
         else -> throw LifecycleEndedException(
-            "Cannot bind to Activity lifecycle after destroy.")
+          "Cannot bind to Activity lifecycle after destroy."
+        )
       }
     }
   }

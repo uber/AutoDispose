@@ -107,11 +107,12 @@ public final class LifecycleScopes {
   }
 
   /**
+   * Returns a resolved {@link Completable} representation of a given lifecycle, targeting the given
+   * event
+   *
    * @param lifecycle the stream of lifecycle events
    * @param endEvent the target end event
    * @param <E> the lifecycle event type
-   * @return a resolved {@link Completable} representation of a given lifecycle, targeting the given
-   *     event
    */
   public static <E> CompletableSource resolveScopeFromLifecycle(
       Observable<E> lifecycle, final E endEvent) {
@@ -124,12 +125,13 @@ public final class LifecycleScopes {
   }
 
   /**
+   * Returns a resolved {@link Completable} representation of a given lifecycle, targeting the given
+   * event
+   *
    * @param lifecycle the stream of lifecycle events
    * @param endEvent the target end event
    * @param comparator an optional comparator for checking event equality.
    * @param <E> the lifecycle event type
-   * @return a resolved {@link Completable} representation of a given lifecycle, targeting the given
-   *     event
    */
   public static <E> CompletableSource resolveScopeFromLifecycle(
       Observable<E> lifecycle, final E endEvent, @Nullable final Comparator<E> comparator) {

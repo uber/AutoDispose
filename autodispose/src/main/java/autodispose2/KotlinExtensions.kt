@@ -31,93 +31,93 @@ import io.reactivex.rxjava3.parallel.ParallelFlowable
  * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Flowable<T>.autoDispose(scope: Completable): FlowableSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(scope))
+public inline fun <T> Flowable<T>.autoDispose(scope: Completable): FlowableSubscribeProxy<T> =
+  this.to(AutoDispose.autoDisposable(scope))
 
 /**
  * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Observable<T>.autoDispose(scope: Completable): ObservableSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(scope))
+public inline fun <T> Observable<T>.autoDispose(scope: Completable): ObservableSubscribeProxy<T> =
+  this.to(AutoDispose.autoDisposable(scope))
 
 /**
  * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Single<T>.autoDispose(scope: Completable): SingleSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(scope))
+public inline fun <T> Single<T>.autoDispose(scope: Completable): SingleSubscribeProxy<T> =
+  this.to(AutoDispose.autoDisposable(scope))
 
 /**
  * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Maybe<T>.autoDispose(scope: Completable): MaybeSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(scope))
+public inline fun <T> Maybe<T>.autoDispose(scope: Completable): MaybeSubscribeProxy<T> =
+  this.to(AutoDispose.autoDisposable(scope))
 
 /**
  * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun Completable.autoDispose(scope: Completable): CompletableSubscribeProxy =
-    this.to(AutoDispose.autoDisposable<Any>(scope))
+public inline fun Completable.autoDispose(scope: Completable): CompletableSubscribeProxy =
+  this.to(AutoDispose.autoDisposable<Any>(scope))
 
 /**
  * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> ParallelFlowable<T>.autoDispose(scope: Completable): ParallelFlowableSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(scope))
+public inline fun <T> ParallelFlowable<T>.autoDispose(scope: Completable): ParallelFlowableSubscribeProxy<T> =
+  this.to(AutoDispose.autoDisposable(scope))
 
 /**
  * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Flowable<T>.autoDispose(provider: ScopeProvider): FlowableSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(provider))
+public inline fun <T> Flowable<T>.autoDispose(provider: ScopeProvider): FlowableSubscribeProxy<T> =
+  this.to(AutoDispose.autoDisposable(provider))
 
 /**
  * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Observable<T>.autoDispose(provider: ScopeProvider): ObservableSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(provider))
+public inline fun <T> Observable<T>.autoDispose(provider: ScopeProvider): ObservableSubscribeProxy<T> =
+  this.to(AutoDispose.autoDisposable(provider))
 
 /**
  * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Single<T>.autoDispose(provider: ScopeProvider): SingleSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(provider))
+public inline fun <T> Single<T>.autoDispose(provider: ScopeProvider): SingleSubscribeProxy<T> =
+  this.to(AutoDispose.autoDisposable(provider))
 
 /**
  * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> Maybe<T>.autoDispose(provider: ScopeProvider): MaybeSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(provider))
+public inline fun <T> Maybe<T>.autoDispose(provider: ScopeProvider): MaybeSubscribeProxy<T> =
+  this.to(AutoDispose.autoDisposable(provider))
 
 /**
  * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun Completable.autoDispose(provider: ScopeProvider): CompletableSubscribeProxy =
-    this.to(AutoDispose.autoDisposable<Any>(provider))
+public inline fun Completable.autoDispose(provider: ScopeProvider): CompletableSubscribeProxy =
+  this.to(AutoDispose.autoDisposable<Any>(provider))
 
 /**
  * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
  */
 @CheckReturnValue
-inline fun <T> ParallelFlowable<T>.autoDispose(provider: ScopeProvider): ParallelFlowableSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(provider))
+public inline fun <T> ParallelFlowable<T>.autoDispose(provider: ScopeProvider): ParallelFlowableSubscribeProxy<T> =
+  this.to(AutoDispose.autoDisposable(provider))
 
 /** Executes a [body] with an [AutoDisposeContext] backed by the given [scope]. */
-inline fun withScope(scope: ScopeProvider, body: AutoDisposeContext.() -> Unit) {
+public inline fun withScope(scope: ScopeProvider, body: AutoDisposeContext.() -> Unit) {
   withScope(completableOf(scope), body)
 }
 
 /** Executes a [body] with an [AutoDisposeContext] backed by the given [completableScope]. */
-inline fun withScope(completableScope: Completable, body: AutoDisposeContext.() -> Unit) {
+public inline fun withScope(completableScope: Completable, body: AutoDisposeContext.() -> Unit) {
   val context = RealAutoDisposeContext(completableScope)
   context.body()
 }
@@ -127,24 +127,24 @@ inline fun withScope(completableScope: Completable, body: AutoDisposeContext.() 
  * where zero-arg [autoDispose] functions can be called. This should be backed by an underlying
  * [Completable] or [ScopeProvider].
  */
-interface AutoDisposeContext {
+public interface AutoDisposeContext {
   /** Extension that proxies to the normal [autoDispose] extension function. */
-  fun <T> ParallelFlowable<T>.autoDispose(): ParallelFlowableSubscribeProxy<T>
+  public fun <T> ParallelFlowable<T>.autoDispose(): ParallelFlowableSubscribeProxy<T>
 
   /** Extension that proxies to the normal [autoDispose] extension function. */
-  fun <T> Flowable<T>.autoDispose(): FlowableSubscribeProxy<T>
+  public fun <T> Flowable<T>.autoDispose(): FlowableSubscribeProxy<T>
 
   /** Extension that proxies to the normal [autoDispose] extension function. */
-  fun <T> Observable<T>.autoDispose(): ObservableSubscribeProxy<T>
+  public fun <T> Observable<T>.autoDispose(): ObservableSubscribeProxy<T>
 
   /** Extension that proxies to the normal [autoDispose] extension function. */
-  fun <T> Single<T>.autoDispose(): SingleSubscribeProxy<T>
+  public fun <T> Single<T>.autoDispose(): SingleSubscribeProxy<T>
 
   /** Extension that proxies to the normal [autoDispose] extension function. */
-  fun <T> Maybe<T>.autoDispose(): MaybeSubscribeProxy<T>
+  public fun <T> Maybe<T>.autoDispose(): MaybeSubscribeProxy<T>
 
   /** Extension that proxies to the normal [autoDispose] extension function. */
-  fun Completable.autoDispose(): CompletableSubscribeProxy
+  public fun Completable.autoDispose(): CompletableSubscribeProxy
 }
 
 @PublishedApi

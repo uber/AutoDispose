@@ -46,6 +46,7 @@
     <activity
         android:name="autodispose2.sample.HomeActivity"
         android:label="@string/app_name"
+        android:exported="true"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
 
       <intent-filter>

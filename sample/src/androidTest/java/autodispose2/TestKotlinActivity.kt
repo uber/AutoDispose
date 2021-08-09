@@ -29,8 +29,8 @@ import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import java.util.concurrent.TimeUnit
 import org.junit.Ignore
+import java.util.concurrent.TimeUnit
 
 /**
  * Test Activity class to verify compilation of various extension functions.
@@ -43,62 +43,62 @@ class TestKotlinActivity : AppCompatActivity(), ScopeProvider {
 
     // With extension function that overloads LifecycleOwner
     Observable.interval(1, TimeUnit.SECONDS)
-        .autoDispose(this)
-        .subscribe()
+      .autoDispose(this)
+      .subscribe()
 
     // With extension function that overloads LifecycleOwner and until Event
     Observable.interval(1, TimeUnit.SECONDS)
-        .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-        .subscribe()
+      .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+      .subscribe()
 
     // With extension function that overloads ScopeProvider
     Observable.interval(1, TimeUnit.SECONDS)
-        .autoDispose(scope(Lifecycle.Event.ON_DESTROY))
-        .subscribe()
+      .autoDispose(scope(Lifecycle.Event.ON_DESTROY))
+      .subscribe()
 
     // With no extension function
     Observable.interval(1, TimeUnit.SECONDS)
-        .autoDispose(AndroidLifecycleScopeProvider.from(this))
-        .subscribe()
+      .autoDispose(AndroidLifecycleScopeProvider.from(this))
+      .subscribe()
 
     Maybe.just(1)
-        .autoDispose(this)
-        .subscribe()
+      .autoDispose(this)
+      .subscribe()
 
     Maybe.just(1)
-        .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-        .subscribe()
+      .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+      .subscribe()
 
     Flowable.just(1)
-        .autoDispose(this)
-        .subscribe()
+      .autoDispose(this)
+      .subscribe()
 
     Flowable.just(1)
-        .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-        .subscribe()
+      .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+      .subscribe()
 
     Single.just(1)
-        .autoDispose(this)
-        .subscribe()
+      .autoDispose(this)
+      .subscribe()
 
     Single.just(1)
-        .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-        .subscribe()
+      .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+      .subscribe()
 
     Completable.never()
-        .autoDispose(this)
-        .subscribe()
+      .autoDispose(this)
+      .subscribe()
 
     Completable.never()
-        .autoDispose(this, Lifecycle.Event.ON_DESTROY)
-        .subscribe()
+      .autoDispose(this, Lifecycle.Event.ON_DESTROY)
+      .subscribe()
 
     val rootView = findViewById<View>(android.R.id.content)
 
     // Taking scope of a View
     Observable.interval(1, TimeUnit.DAYS)
-        .autoDispose(rootView)
-        .subscribe()
+      .autoDispose(rootView)
+      .subscribe()
 
     // TODO re-enable with rxlifecycle interop
     // RxLifecycle

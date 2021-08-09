@@ -1,0 +1,34 @@
+public final class autodispose2/android/AutoDisposeAndroidPlugins {
+	public static fun isLockdown ()Z
+	public static fun lockdown ()V
+	public static fun onCheckMainThread (Lio/reactivex/rxjava3/functions/BooleanSupplier;)Z
+	public static fun reset ()V
+	public static fun setOnCheckMainThread (Lio/reactivex/rxjava3/functions/BooleanSupplier;)V
+}
+
+public final class autodispose2/android/KotlinExtensionsKt {
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Completable;Landroid/view/View;)Lautodispose2/CompletableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Flowable;Landroid/view/View;)Lautodispose2/FlowableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Maybe;Landroid/view/View;)Lautodispose2/MaybeSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Observable;Landroid/view/View;)Lautodispose2/ObservableSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/core/Single;Landroid/view/View;)Lautodispose2/SingleSubscribeProxy;
+	public static final fun autoDispose (Lio/reactivex/rxjava3/parallel/ParallelFlowable;Landroid/view/View;)Lautodispose2/ParallelFlowableSubscribeProxy;
+	public static final fun scope (Landroid/view/View;)Lautodispose2/ScopeProvider;
+}
+
+public final class autodispose2/android/ViewScopeProvider : autodispose2/ScopeProvider {
+	public static fun from (Landroid/view/View;)Lautodispose2/ScopeProvider;
+	public fun requestScope ()Lio/reactivex/rxjava3/core/CompletableSource;
+}
+
+public class autodispose2/android/internal/AutoDisposeAndroidUtil {
+	public static fun isMainThread ()Z
+}
+
+public abstract class autodispose2/android/internal/MainThreadDisposable : io/reactivex/rxjava3/disposables/Disposable {
+	public fun <init> ()V
+	public final fun dispose ()V
+	public final fun isDisposed ()Z
+	protected abstract fun onDispose ()V
+}
+

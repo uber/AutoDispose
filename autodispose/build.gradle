@@ -17,6 +17,7 @@
 plugins {
   id 'com.android.lint'
   id 'ru.vyarus.animalsniffer'
+  id "com.vanniktech.maven.publish"
 }
 
 lintOptions {
@@ -32,5 +33,3 @@ dependencies {
 
   testImplementation project(':test-utils')
 }
-
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

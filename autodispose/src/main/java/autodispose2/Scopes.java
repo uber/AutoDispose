@@ -24,8 +24,8 @@ public final class Scopes {
   private Scopes() {}
 
   /**
-   * @return a {@link Completable} representation of the given {@code scopeProvider}. This will be
-   *     deferred appropriately and handle {@link OutsideScopeException OutsideScopeExceptions}.
+   * Returns a {@link Completable} representation of the given {@code scopeProvider}. This will be
+   * deferred appropriately and handle {@link OutsideScopeException OutsideScopeExceptions}.
    */
   public static Completable completableOf(ScopeProvider scopeProvider) {
     return Completable.defer(

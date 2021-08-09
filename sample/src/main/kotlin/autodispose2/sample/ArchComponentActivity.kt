@@ -55,14 +55,14 @@ class ArchComponentActivity : AppCompatActivity() {
     // Using automatic disposal, this should determine that the correct time to
     // dispose is onDestroy (the opposite of onCreate).
     viewModel.image()
-        .doOnDispose { Log.i(TAG, "Disposing ViewModel observer from onCreate()") }
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .autoDispose(scopeProvider)
-        .subscribe { bitmap ->
-          Log.i(TAG, "Received bitmap")
-          imageView.setImageBitmap(bitmap)
-        }
+      .doOnDispose { Log.i(TAG, "Disposing ViewModel observer from onCreate()") }
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .autoDispose(scopeProvider)
+      .subscribe { bitmap ->
+        Log.i(TAG, "Received bitmap")
+        imageView.setImageBitmap(bitmap)
+      }
 
     // Set listener to load the image.
     button.setOnClickListener {

@@ -46,11 +46,11 @@ class ImageRepository(private val resources: Resources) {
    * [replayingShare] helps with that.
    */
   private val imageObservable = RxJavaBridge.toV3Observable(
-      relay
-          .map {
-            return@map BitmapFactory.decodeStream(resources.openRawResource(it))
-          }
-          .replayingShare()
+    relay
+      .map {
+        return@map BitmapFactory.decodeStream(resources.openRawResource(it))
+      }
+      .replayingShare()
   )
 
   /**

@@ -40,7 +40,7 @@ public class AutoDisposeCompletableObserverTest extends PluginsMatrixTest {
           System.out.println(
               AutoDisposeCompletableObserverTest.class.getSimpleName() + ": " + message);
 
-  @Rule public RxErrorsRule rule = new RxErrorsRule();
+  @Rule public final RxErrorsRule rule = new RxErrorsRule();
 
   public AutoDisposeCompletableObserverTest(boolean hideProxies) {
     super(hideProxies);

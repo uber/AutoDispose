@@ -46,7 +46,7 @@ class ArchComponentViewModel(private val imageRepository: ImageRepository) : Vie
   }
 
   class Factory(private val imageRepository: ImageRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
       @Suppress("UNCHECKED_CAST")
       return ArchComponentViewModel(imageRepository) as T
     }

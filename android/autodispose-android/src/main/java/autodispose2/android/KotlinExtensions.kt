@@ -47,7 +47,7 @@ inline fun View.scope(): ScopeProvider = ViewScopeProvider.from(this)
 inline fun <T> Flowable<T>.autoDispose(
   view: View
 ): FlowableSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
+  this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
 
 /**
  * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
@@ -56,7 +56,7 @@ inline fun <T> Flowable<T>.autoDispose(
 inline fun <T> Observable<T>.autoDispose(
   view: View
 ): ObservableSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
+  this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
 
 /**
  * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
@@ -65,7 +65,7 @@ inline fun <T> Observable<T>.autoDispose(
 inline fun <T> Single<T>.autoDispose(
   view: View
 ): SingleSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
+  this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
 
 /**
  * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
@@ -74,7 +74,7 @@ inline fun <T> Single<T>.autoDispose(
 inline fun <T> Maybe<T>.autoDispose(
   view: View
 ): MaybeSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
+  this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
 
 /**
  * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
@@ -83,7 +83,7 @@ inline fun <T> Maybe<T>.autoDispose(
 inline fun Completable.autoDispose(
   view: View
 ): CompletableSubscribeProxy =
-    this.to(AutoDispose.autoDisposable<Any>(ViewScopeProvider.from(view)))
+  this.to(AutoDispose.autoDisposable<Any>(ViewScopeProvider.from(view)))
 
 /**
  * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
@@ -92,4 +92,4 @@ inline fun Completable.autoDispose(
 inline fun <T> ParallelFlowable<T>.autoDispose(
   view: View
 ): ParallelFlowableSubscribeProxy<T> =
-    this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
+  this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))

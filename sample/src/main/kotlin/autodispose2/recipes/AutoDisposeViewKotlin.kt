@@ -48,11 +48,11 @@ abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
     attrs: AttributeSet? = null,
     defStyleAttr: Int = View.NO_ID
   ) :
-      super(context, attrs, defStyleAttr)
+    super(context, attrs, defStyleAttr)
 
   @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) :
-      super(context, attrs, defStyleAttr, defStyleRes)
+    super(context, attrs, defStyleAttr, defStyleRes)
 
   override fun onAttachedToWindow() {
     super.onAttachedToWindow()
@@ -85,7 +85,8 @@ abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
       when (viewEvent) {
         ATTACH -> DETACH
         else -> throw LifecycleEndedException(
-            "Cannot bind to View lifecycle after detach.")
+          "Cannot bind to View lifecycle after detach."
+        )
       }
     }
   }

@@ -37,7 +37,7 @@ import org.reactivestreams.Subscriber;
 
 public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
 
-  @Rule public RxErrorsRule rule = new RxErrorsRule();
+  @Rule public final RxErrorsRule rule = new RxErrorsRule();
 
   public AutoDisposeSubscriberTest(boolean hideProxies) {
     super(hideProxies);
