@@ -37,21 +37,12 @@ markdown_extensions:
 
 nav:
   - 'Overview': index.md
-  - '1.X API':
-    - 'autodispose': 1.x/autodispose/com.uber.autodispose/index.md
-    - 'autodispose-android': 1.x/autodispose-android/com.uber.autodispose.android/index.md
-    - 'autodispose-android-archcomponent': 1.x/autodispose-android-archcomponents/com.uber.autodispose.android.lifecycle/index.md
-    - 'autodispose-android-archcomponent-test': 1.x/autodispose-android-archcomponents-test/com.uber.autodispose.android.lifecycle.test/index.md
-    - 'autodispose-lifecycle': 1.x/autodispose-lifecycle/com.uber.autodispose.lifecycle/index.md
-    - 'autodispose-coroutines-interop': 1.x/autodispose-coroutines-interop/com.uber.autodispose.coroutinesinterop/index.md
-    - 'autodispose-rxlifecycle': 1.x/autodispose-rxlifecycle/com.ubercab.autodispose.rxlifecycle/index.md
-    - 'autodispose-rxlifecycle3': 1.x/autodispose-rxlifecycle3/com.ubercab.autodispose.rxlifecycle3/index.md
   - '2.X API':
-    - 'autodispose': 2.x/autodispose/autodispose2/index.md
-    - 'autodispose-android': 2.x/autodispose-android/autodispose2.android/index.md
-    - 'autodispose-androidx-lifecycle': 2.x/autodispose-androidx-lifecycle/autodispose2.androidx.lifecycle/index.md
-    - 'autodispose-lifecycle': 2.x/autodispose-lifecycle/autodispose2.lifecycle/index.md
-    - 'autodispose-interop-coroutines': 2.x/coroutines/autodispose2.interop.coroutines/index.md
+    - 'autodispose': 2.x/autodispose/autodispose2/index.html
+    - 'autodispose-android': 2.x/autodispose-android/autodispose2.android/index.html
+    - 'autodispose-androidx-lifecycle': 2.x/autodispose-androidx-lifecycle/autodispose2.androidx.lifecycle/index.html
+    - 'autodispose-lifecycle': 2.x/autodispose-lifecycle/autodispose2.lifecycle/index.html
+    - 'autodispose-interop-coroutines': 2.x/coroutines/autodispose2.interop.coroutines/index.html
   - 'Error Prone': error-prone.md
   - 'Lint Check': lint-check.md
   - 'Changelog' : changelog.md
