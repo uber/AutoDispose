@@ -1454,7 +1454,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
     val classLoader = AutoDisposeDetector::class.java.classLoader
     return arrayOf(
       LibraryReferenceTestFile(
-        File(classLoader.getResource("rxjava-3.0.13.jar")!!.toURI()),
+        File(classLoader.getResource("rxjava-3.1.0.jar")!!.toURI()),
       ),
       LibraryReferenceTestFile(
         File(classLoader.getResource("autodispose-2.0.0.jar")!!.toURI())
