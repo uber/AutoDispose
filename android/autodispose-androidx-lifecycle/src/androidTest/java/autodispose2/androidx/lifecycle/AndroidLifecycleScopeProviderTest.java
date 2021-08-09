@@ -46,9 +46,7 @@ public final class AndroidLifecycleScopeProviderTest {
     // Spin it up
     TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.INITIALIZED);
     subject.to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+    lifecycle.setCurrentState(Lifecycle.State.RESUMED);
 
     o.takeSubscribe();
     o.assertNoMoreEvents(); // No initial value.
@@ -59,9 +57,7 @@ public final class AndroidLifecycleScopeProviderTest {
     subject.onNext(1);
     assertThat(o.takeNext()).isEqualTo(1);
 
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+    lifecycle.setCurrentState(Lifecycle.State.DESTROYED);
 
     subject.onNext(2);
     o.assertNoMoreEvents();
@@ -74,11 +70,9 @@ public final class AndroidLifecycleScopeProviderTest {
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.INITIALIZED);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
+    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.CREATED);
     subject.to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+    lifecycle.setCurrentState(Lifecycle.State.RESUMED);
 
     o.takeSubscribe();
     o.assertNoMoreEvents(); // No initial value.
@@ -89,9 +83,7 @@ public final class AndroidLifecycleScopeProviderTest {
     subject.onNext(1);
     assertThat(o.takeNext()).isEqualTo(1);
 
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+    lifecycle.setCurrentState(Lifecycle.State.DESTROYED);
 
     subject.onNext(2);
     o.assertNoMoreEvents();
@@ -104,11 +96,9 @@ public final class AndroidLifecycleScopeProviderTest {
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.INITIALIZED);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
+    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.STARTED);
     subject.to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+    lifecycle.setCurrentState(Lifecycle.State.RESUMED);
 
     o.takeSubscribe();
     o.assertNoMoreEvents(); // No initial value.
@@ -136,10 +126,7 @@ public final class AndroidLifecycleScopeProviderTest {
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.INITIALIZED);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.RESUMED);
     subject.to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
 
     o.takeSubscribe();
@@ -167,13 +154,11 @@ public final class AndroidLifecycleScopeProviderTest {
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.INITIALIZED);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
+    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.CREATED);
     subject
         .to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_PAUSE)))
         .subscribe(o);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+    lifecycle.setCurrentState(Lifecycle.State.RESUMED);
 
     o.takeSubscribe();
     o.assertNoMoreEvents(); // No initial value.
@@ -200,10 +185,7 @@ public final class AndroidLifecycleScopeProviderTest {
     final PublishSubject<Integer> subject = PublishSubject.create();
 
     // Spin it up
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.INITIALIZED);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.RESUMED);
     subject
         .to(
             autoDisposable(
@@ -237,10 +219,7 @@ public final class AndroidLifecycleScopeProviderTest {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.INITIALIZED);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.RESUMED);
     lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
     subject.to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
 
@@ -266,10 +245,7 @@ public final class AndroidLifecycleScopeProviderTest {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.INITIALIZED);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.RESUMED);
     lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
     lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
     // In a CREATED state now but the next event will be destroy
@@ -297,11 +273,7 @@ public final class AndroidLifecycleScopeProviderTest {
     TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.INITIALIZED);
     InstrumentationRegistry.getInstrumentation()
         .runOnMainSync(
-            () -> {
-              lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
-              lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
-              lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
-            });
+            () -> lifecycle.setCurrentState(Lifecycle.State.RESUMED));
     subject.to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
     o.takeSubscribe();
     Throwable t = o.takeError();
@@ -316,13 +288,8 @@ public final class AndroidLifecycleScopeProviderTest {
     final RecordingObserver<Integer> o = new RecordingObserver<>(LOGGER);
     final PublishSubject<Integer> subject = PublishSubject.create();
 
-    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.INITIALIZED);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+    TestLifecycleOwner lifecycle = new TestLifecycleOwner(Lifecycle.State.RESUMED);
+    lifecycle.setCurrentState(Lifecycle.State.DESTROYED);
     subject.to(autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))).subscribe(o);
 
     Disposable d = o.takeSubscribe();
