@@ -15,11 +15,12 @@
  */
 package autodispose2;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.parallel.ParallelFlowable;
 import org.reactivestreams.Subscriber;
 
-final class AutoDisposeParallelFlowable<T> extends ParallelFlowable<T>
+final class AutoDisposeParallelFlowable<@NonNull T> extends ParallelFlowable<T>
     implements ParallelFlowableSubscribeProxy<T> {
 
   private final ParallelFlowable<T> source;

@@ -15,12 +15,13 @@
  */
 package autodispose2;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.core.SingleSource;
 
-final class AutoDisposeSingle<T> extends Single<T> implements SingleSubscribeProxy<T> {
+final class AutoDisposeSingle<@NonNull T> extends Single<T> implements SingleSubscribeProxy<T> {
   private final SingleSource<T> source;
   private final CompletableSource scope;
 

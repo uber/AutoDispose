@@ -18,6 +18,7 @@ package autodispose2.lifecycle;
 import autodispose2.ScopeProvider;
 import autodispose2.internal.DoNotMock;
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
@@ -34,7 +35,7 @@ import io.reactivex.rxjava3.core.Observable;
  * @see LifecycleScopes
  */
 @DoNotMock(value = "Use TestLifecycleScopeProvider instead")
-public interface LifecycleScopeProvider<E> extends ScopeProvider {
+public interface LifecycleScopeProvider<@NonNull E> extends ScopeProvider {
 
   /**
    * Returns a sequence of lifecycle events. Note that completion of this lifecycle will also

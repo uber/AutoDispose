@@ -15,6 +15,7 @@
  */
 package autodispose2;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableConverter;
 import io.reactivex.rxjava3.core.FlowableConverter;
 import io.reactivex.rxjava3.core.MaybeConverter;
@@ -28,7 +29,7 @@ import io.reactivex.rxjava3.parallel.ParallelFlowableConverter;
  *
  * @param <T> the type.
  */
-public interface AutoDisposeConverter<T>
+public interface AutoDisposeConverter<@NonNull T>
     extends FlowableConverter<T, FlowableSubscribeProxy<T>>,
         ParallelFlowableConverter<T, ParallelFlowableSubscribeProxy<T>>,
         ObservableConverter<T, ObservableSubscribeProxy<T>>,

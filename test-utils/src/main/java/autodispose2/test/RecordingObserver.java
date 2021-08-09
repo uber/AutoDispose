@@ -17,6 +17,7 @@ package autodispose2.test;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.MaybeObserver;
 import io.reactivex.rxjava3.core.Observer;
@@ -27,7 +28,7 @@ import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
-public final class RecordingObserver<T>
+public final class RecordingObserver<@NonNull T>
     implements Observer<T>, SingleObserver<T>, MaybeObserver<T>, CompletableObserver {
 
   public interface Logger {

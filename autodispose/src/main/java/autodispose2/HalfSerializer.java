@@ -17,6 +17,7 @@
 
 package autodispose2;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,7 +48,7 @@ final class HalfSerializer {
    * @param error the holder of Throwables
    * @return true if a terminal event was emitted to {@code observer}, false if not
    */
-  public static <T> boolean onNext(Subscriber<? super T> subscriber,
+  public static <@NonNull T> boolean onNext(Subscriber<? super T> subscriber,
       T value,
       AtomicInteger wip,
       AtomicThrowable error) {
@@ -116,7 +117,7 @@ final class HalfSerializer {
    * @param error the holder of Throwables
    * @return true if a terminal event was emitted to {@code observer}, false if not
    */
-  public static <T> boolean onNext(Observer<? super T> observer, T value, AtomicInteger wip, AtomicThrowable error) {
+  public static <@NonNull T> boolean onNext(Observer<? super T> observer, T value, AtomicInteger wip, AtomicThrowable error) {
     if (wip.get() == 0 && wip.compareAndSet(0, 1)) {
       observer.onNext(value);
       if (wip.decrementAndGet() != 0) {
