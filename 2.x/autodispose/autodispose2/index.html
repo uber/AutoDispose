@@ -1,909 +1,386 @@
-
-
-
-
-<!doctype html>
-<html lang="en" class="no-js">
+<html>
   <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
-      
-        <meta name="description" content="Automatic binding+disposal of RxJava 2 streams.">
-      
-      
-      
-        <meta name="author" content="Uber Technologies">
-      
-      
-        <meta name="lang:clipboard.copy" content="Copy to clipboard">
-      
-        <meta name="lang:clipboard.copied" content="Copied to clipboard">
-      
-        <meta name="lang:search.language" content="en">
-      
-        <meta name="lang:search.pipeline.stopwords" content="True">
-      
-        <meta name="lang:search.pipeline.trimmer" content="True">
-      
-        <meta name="lang:search.result.none" content="No matching documents">
-      
-        <meta name="lang:search.result.one" content="1 matching document">
-      
-        <meta name="lang:search.result.other" content="# matching documents">
-      
-        <meta name="lang:search.tokenizer" content="[\s\-]+">
-      
-      <link rel="shortcut icon" href="../../../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.0">
-    
-    
-      
-        <title>autodispose - AutoDispose</title>
-      
-    
-    
-      <link rel="stylesheet" href="../../../assets/stylesheets/application.1b62728e.css">
-      
-        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.a8b3c06d.css">
-      
-      
-        
-        
-        <meta name="theme-color" content="">
-      
-    
-    
-      <script src="../../../assets/javascripts/modernizr.268332fc.js"></script>
-    
-    
-      
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
-      
-    
-    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
-    
-    
-      <link rel="stylesheet" href="../../../css/app.css">
-    
-    
-      
-    
-    
-  </head>
-  
-    
-    
-    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="white">
-  
-    <svg class="md-svg">
-      <defs>
-        
-        
-          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
-        
-      </defs>
-    </svg>
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
-    
-      <a href="#package-autodispose2" tabindex="1" class="md-skip">
-        Skip to content
-      </a>
-    
-    
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid">
-    <div class="md-flex">
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../.." title="AutoDispose" class="md-header-nav__button md-logo">
-          
-            <img src="../../../images/uber_oss_logo.png" width="24" height="24">
-          
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>autodispose2</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script><script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../styles/style.css" rel="Stylesheet"><link href="../../styles/logo-styles.css" rel="Stylesheet"><link href="../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../scripts/main.js" async="async"></script>  </head>
+  <body>
+    <div id="container">
+      <div id="leftColumn"><a href="../../index.html">
+          <div id="logo"></div>
         </a>
+        <div id="paneSearch"></div>
+        <div id="sideMenu"></div>
       </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
-      </div>
-      <div class="md-flex__cell md-flex__cell--stretch">
-        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
-          
-            <span class="md-header-nav__topic">
-              AutoDispose
-            </span>
-            <span class="md-header-nav__topic">
-              
-                autodispose
-              
-            </span>
-          
-        </div>
-      </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        
-          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
-          
-<div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
-      <label class="md-icon md-search__icon" for="__search"></label>
-      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
-        &#xE5CD;
-      </button>
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result">
-          <div class="md-search-result__meta">
-            Type to start searching
+      <div id="main">
+        <div id="leftToggler"><span class="icon-toggler"></span></div>
+<script type="text/javascript" src="../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="autodispose::autodispose2////PointingToDeclaration//295210469">
+          <div class="navigation-wrapper" id="navigation-wrapper">
+            <div class="breadcrumbs"><a href="../../index.html">autodispose</a>/<a href="index.html">autodispose2</a></div>
+            <div class="pull-right d-flex">
+              <div id="searchBar"></div>
+            </div>
           </div>
-          <ol class="md-search-result__list"></ol>
-        </div>
-      </div>
-    </div>
+          <div class="cover ">
+            <h1 class="cover"><span>Package</span> <span>autodispose2</span></h1>
+            <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><p class="paragraph">Core implementation.</p></div></div>
+          </div>
+          <div class="tabbedcontent">
+            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Functions">Functions</button></div>
+            <div class="tabs-section-body">
+              <h2 class="">Types</h2>
+              <div class="table" data-togglable="Types"><a data-name="2083090478%2FClasslikes%2F295210469" anchor-label="AutoDispose" id="2083090478%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-auto-dispose/index.html">AutoDispose</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2083090478%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">class <a href="-auto-dispose/index.html">AutoDispose</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
+<a data-name="2083090478%2FClasslikes%2F295210469" anchor-label="AutoDispose" id="2083090478%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="2083090478%2FClasslikes%2F295210469" anchor-label="AutoDispose" id="2083090478%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Factories for autodispose converters that can be used with RxJava types' corresponding <code>{@code * as(...)}</code> methods to transform them into auto-disposing streams.</div></div>
 </div>
-        
-      </div>
-      
-        <div class="md-flex__cell md-flex__cell--shrink">
-          <div class="md-header-nav__source">
-            
+                    </div>
+                  </div>
+                </div>
+<a data-name="-929253659%2FClasslikes%2F295210469" anchor-label="AutoDisposeContext" id="-929253659%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-auto-dispose-context/index.html">AutoDisposeContext</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-929253659%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
-
-  
-
-<a href="https://github.com/uber/AutoDispose/" title="Go to repository" class="md-source" data-md-source="github">
-  
-    <div class="md-source__icon">
-      <svg viewBox="0 0 24 24" width="24" height="24">
-        <use xlink:href="#__github" width="24" height="24"></use>
-      </svg>
-    </div>
-  
-  <div class="md-source__repository">
-    AutoDispose
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">interface <a href="-auto-dispose-context/index.html">AutoDisposeContext</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-</a>
-          </div>
-        </div>
-      
-    </div>
-  </nav>
-</header>
-    
-    <div class="md-container">
-      
-        
-      
-      
-      <main class="md-main" role="main">
-        <div class="md-main__inner md-grid" data-md-component="container">
-          
-            
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" data-md-level="0">
-  <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../.." title="AutoDispose" class="md-nav__button md-logo">
-      
-        <img src="../../../images/uber_oss_logo.png" width="48" height="48">
-      
-    </a>
-    AutoDispose
-  </label>
-  
-    <div class="md-nav__source">
-      
+<a data-name="-929253659%2FClasslikes%2F295210469" anchor-label="AutoDisposeContext" id="-929253659%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-929253659%2FClasslikes%2F295210469" anchor-label="AutoDisposeContext" id="-929253659%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>A context intended for use as <code>AutoDisposeContext.() -&gt; Unit</code> function body parameters where zero-arg <a href="-auto-dispose-context/auto-dispose.html">autoDispose</a> functions can be called.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-2026098860%2FClasslikes%2F295210469" anchor-label="AutoDisposeConverter" id="-2026098860%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-auto-dispose-converter/index.html">AutoDisposeConverter</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2026098860%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
-
-  
-
-<a href="https://github.com/uber/AutoDispose/" title="Go to repository" class="md-source" data-md-source="github">
-  
-    <div class="md-source__icon">
-      <svg viewBox="0 0 24 24" width="24" height="24">
-        <use xlink:href="#__github" width="24" height="24"></use>
-      </svg>
-    </div>
-  
-  <div class="md-source__repository">
-    AutoDispose
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">interface <a href="-auto-dispose-converter/index.html">AutoDisposeConverter</a>&lt;<span>@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/NonNull.html">NonNull</a>() </span><a href="-auto-dispose-converter/index.html">T</a>&gt; : <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/FlowableConverter.html">FlowableConverter</a>&lt;<a href="../autodispose2.observers/-auto-disposing-maybe-observer/index.html">T</a>, <a href="-flowable-subscribe-proxy/index.html">FlowableSubscribeProxy</a>&lt;<a href="../autodispose2.observers/-auto-disposing-maybe-observer/index.html">T</a>&gt;&gt; , <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/parallel/ParallelFlowableConverter.html">ParallelFlowableConverter</a>&lt;<a href="../autodispose2.observers/-auto-disposing-maybe-observer/index.html">T</a>, <a href="-parallel-flowable-subscribe-proxy/index.html">ParallelFlowableSubscribeProxy</a>&lt;<a href="../autodispose2.observers/-auto-disposing-maybe-observer/index.html">T</a>&gt;&gt; , <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/ObservableConverter.html">ObservableConverter</a>&lt;<a href="../autodispose2.observers/-auto-disposing-maybe-observer/index.html">T</a>, <a href="-observable-subscribe-proxy/index.html">ObservableSubscribeProxy</a>&lt;<a href="../autodispose2.observers/-auto-disposing-maybe-observer/index.html">T</a>&gt;&gt; , <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/MaybeConverter.html">MaybeConverter</a>&lt;<a href="../autodispose2.observers/-auto-disposing-maybe-observer/index.html">T</a>, <a href="-maybe-subscribe-proxy/index.html">MaybeSubscribeProxy</a>&lt;<a href="../autodispose2.observers/-auto-disposing-maybe-observer/index.html">T</a>&gt;&gt; , <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/SingleConverter.html">SingleConverter</a>&lt;<a href="../autodispose2.observers/-auto-disposing-maybe-observer/index.html">T</a>, <a href="-single-subscribe-proxy/index.html">SingleSubscribeProxy</a>&lt;<a href="../autodispose2.observers/-auto-disposing-maybe-observer/index.html">T</a>&gt;&gt; , <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/CompletableConverter.html">CompletableConverter</a>&lt;<a href="-completable-subscribe-proxy/index.html">CompletableSubscribeProxy</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-</a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../../.." title="Overview" class="md-nav__link">
-      Overview
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
-    
-    <label class="md-nav__link" for="nav-2">
-      1.X API
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-2">
-        1.X API
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../1.x/autodispose/com.uber.autodispose/" title="autodispose" class="md-nav__link">
-      autodispose
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../1.x/autodispose-android/com.uber.autodispose.android/" title="autodispose-android" class="md-nav__link">
-      autodispose-android
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../1.x/autodispose-android-archcomponents/com.uber.autodispose.android.lifecycle/" title="autodispose-android-archcomponent" class="md-nav__link">
-      autodispose-android-archcomponent
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../1.x/autodispose-android-archcomponents-test/com.uber.autodispose.android.lifecycle.test/" title="autodispose-android-archcomponent-test" class="md-nav__link">
-      autodispose-android-archcomponent-test
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../1.x/autodispose-lifecycle/com.uber.autodispose.lifecycle/" title="autodispose-lifecycle" class="md-nav__link">
-      autodispose-lifecycle
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../1.x/autodispose-coroutines-interop/com.uber.autodispose.coroutinesinterop/" title="autodispose-coroutines-interop" class="md-nav__link">
-      autodispose-coroutines-interop
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../1.x/autodispose-rxlifecycle/com.ubercab.autodispose.rxlifecycle/" title="autodispose-rxlifecycle" class="md-nav__link">
-      autodispose-rxlifecycle
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../1.x/autodispose-rxlifecycle3/com.ubercab.autodispose.rxlifecycle3/" title="autodispose-rxlifecycle3" class="md-nav__link">
-      autodispose-rxlifecycle3
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-  
-
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
-    
-    <label class="md-nav__link" for="nav-3">
-      2.X API
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        2.X API
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-  
-
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        autodispose
-      </label>
-    
-    <a href="./" title="autodispose" class="md-nav__link md-nav__link--active">
-      autodispose
-    </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#package-autodispose2" class="md-nav__link">
-    Package autodispose2
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#types" class="md-nav__link">
-    Types
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exceptions" class="md-nav__link">
-    Exceptions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#extensions-for-external-classes" class="md-nav__link">
-    Extensions for External Classes
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../autodispose-android/autodispose2.android/" title="autodispose-android" class="md-nav__link">
-      autodispose-android
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../autodispose-androidx-lifecycle/autodispose2.androidx.lifecycle/" title="autodispose-androidx-lifecycle" class="md-nav__link">
-      autodispose-androidx-lifecycle
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../autodispose-androidx-lifecycle-test/autodispose2.androidx.lifecycle.test/" title="autodispose-androidx-lifecycle-test" class="md-nav__link">
-      autodispose-androidx-lifecycle-test
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../autodispose-lifecycle/autodispose2.lifecycle/" title="autodispose-lifecycle" class="md-nav__link">
-      autodispose-lifecycle
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../coroutines/autodispose2.interop.coroutines/" title="autodispose-interop-coroutines" class="md-nav__link">
-      autodispose-interop-coroutines
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../../../error-prone/" title="Error Prone" class="md-nav__link">
-      Error Prone
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../../../lint-check/" title="Lint Check" class="md-nav__link">
-      Lint Check
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../../../changelog/" title="Changelog" class="md-nav__link">
-      Changelog
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../../../migrating-020-030/" title="Migrating from 0.2.0 to 0.3.0" class="md-nav__link">
-      Migrating from 0.2.0 to 0.3.0
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../../../migrating-040-050/" title="Migrating from 0.4.0 to 0.5.0" class="md-nav__link">
-      Migrating from 0.4.0 to 0.5.0
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../../../migrating-1x-2x/" title="Migrating from 1.x to 2.x" class="md-nav__link">
-      Migrating from 1.x to 2.x
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../../../contributing/" title="Contributing" class="md-nav__link">
-      Contributing
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../../../code-of-conduct/" title="Code of Conduct" class="md-nav__link">
-      Code of Conduct
-    </a>
-  </li>
-
-    
-  </ul>
-</nav>
+<a data-name="-2026098860%2FClasslikes%2F295210469" anchor-label="AutoDisposeConverter" id="-2026098860%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-2026098860%2FClasslikes%2F295210469" anchor-label="AutoDisposeConverter" id="-2026098860%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>A custom converter that implements all the RxJava types converters, for use with the <code>{@code as()}</code> operator.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-465578476%2FClasslikes%2F295210469" anchor-label="AutoDisposePlugins" id="-465578476%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-auto-dispose-plugins/index.html">AutoDisposePlugins</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-465578476%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">class <a href="-auto-dispose-plugins/index.html">AutoDisposePlugins</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-465578476%2FClasslikes%2F295210469" anchor-label="AutoDisposePlugins" id="-465578476%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-465578476%2FClasslikes%2F295210469" anchor-label="AutoDisposePlugins" id="-465578476%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Utility class to inject handlers to certain standard autodispose-lifecycle operations.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-163180748%2FClasslikes%2F295210469" anchor-label="CompletableSubscribeProxy" id="-163180748%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-completable-subscribe-proxy/index.html">CompletableSubscribeProxy</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-163180748%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">interface <a href="-completable-subscribe-proxy/index.html">CompletableSubscribeProxy</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-163180748%2FClasslikes%2F295210469" anchor-label="CompletableSubscribeProxy" id="-163180748%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-163180748%2FClasslikes%2F295210469" anchor-label="CompletableSubscribeProxy" id="-163180748%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Subscribe proxy that matches <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">Completable</a>'s subscribe overloads.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-636833992%2FClasslikes%2F295210469" anchor-label="FlowableSubscribeProxy" id="-636833992%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-flowable-subscribe-proxy/index.html">FlowableSubscribeProxy</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-636833992%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">interface <a href="-flowable-subscribe-proxy/index.html">FlowableSubscribeProxy</a>&lt;<span>@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/NonNull.html">NonNull</a>() </span><a href="-flowable-subscribe-proxy/index.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-636833992%2FClasslikes%2F295210469" anchor-label="FlowableSubscribeProxy" id="-636833992%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-636833992%2FClasslikes%2F295210469" anchor-label="FlowableSubscribeProxy" id="-636833992%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Subscribe proxy that matches <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Flowable.html">Flowable</a>'s subscribe overloads.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="611181138%2FClasslikes%2F295210469" anchor-label="MaybeSubscribeProxy" id="611181138%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-maybe-subscribe-proxy/index.html">MaybeSubscribeProxy</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="611181138%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">interface <a href="-maybe-subscribe-proxy/index.html">MaybeSubscribeProxy</a>&lt;<span>@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/NonNull.html">NonNull</a>() </span><a href="-maybe-subscribe-proxy/index.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="611181138%2FClasslikes%2F295210469" anchor-label="MaybeSubscribeProxy" id="611181138%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="611181138%2FClasslikes%2F295210469" anchor-label="MaybeSubscribeProxy" id="611181138%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Subscribe proxy that matches <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Maybe.html">Maybe</a>'s subscribe overloads.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="981273693%2FClasslikes%2F295210469" anchor-label="ObservableSubscribeProxy" id="981273693%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-observable-subscribe-proxy/index.html">ObservableSubscribeProxy</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="981273693%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">interface <a href="-observable-subscribe-proxy/index.html">ObservableSubscribeProxy</a>&lt;<span>@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/NonNull.html">NonNull</a>() </span><a href="-observable-subscribe-proxy/index.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="981273693%2FClasslikes%2F295210469" anchor-label="ObservableSubscribeProxy" id="981273693%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="981273693%2FClasslikes%2F295210469" anchor-label="ObservableSubscribeProxy" id="981273693%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Subscribe proxy that matches <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Observable.html">Observable</a>'s subscribe overloads.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="2082585086%2FClasslikes%2F295210469" anchor-label="OutsideScopeException" id="2082585086%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-outside-scope-exception/index.html">OutsideScopeException</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2082585086%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">open class <a href="-outside-scope-exception/index.html">OutsideScopeException</a> : <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/RuntimeException.html">RuntimeException</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="2082585086%2FClasslikes%2F295210469" anchor-label="OutsideScopeException" id="2082585086%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="2082585086%2FClasslikes%2F295210469" anchor-label="OutsideScopeException" id="2082585086%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Signifies an error occurred due to execution starting outside the lifecycle.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1202568399%2FClasslikes%2F295210469" anchor-label="ParallelFlowableSubscribeProxy" id="-1202568399%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-parallel-flowable-subscribe-proxy/index.html">ParallelFlowableSubscribeProxy</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1202568399%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">interface <a href="-parallel-flowable-subscribe-proxy/index.html">ParallelFlowableSubscribeProxy</a>&lt;<span>@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/NonNull.html">NonNull</a>() </span><a href="-parallel-flowable-subscribe-proxy/index.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-1202568399%2FClasslikes%2F295210469" anchor-label="ParallelFlowableSubscribeProxy" id="-1202568399%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-1202568399%2FClasslikes%2F295210469" anchor-label="ParallelFlowableSubscribeProxy" id="-1202568399%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Subscribe proxy that matches <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/parallel/ParallelFlowable.html">ParallelFlowable</a>'s subscribe overloads.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1625485209%2FClasslikes%2F295210469" anchor-label="ScopeProvider" id="1625485209%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-scope-provider/index.html">ScopeProvider</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1625485209%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<span data-unresolved-link="autodispose2.internal/DoNotMock///PointingToDeclaration/">DoNotMock</span>(<span>value = <span class="breakable-word">Use TestScopeProvider instead</span></span><wbr></wbr>)</div></div>interface <a href="-scope-provider/index.html">ScopeProvider</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1625485209%2FClasslikes%2F295210469" anchor-label="ScopeProvider" id="1625485209%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="1625485209%2FClasslikes%2F295210469" anchor-label="ScopeProvider" id="1625485209%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Provides a <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/CompletableSource.html">CompletableSource</a> representation of a scope.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="9826533%2FClasslikes%2F295210469" anchor-label="Scopes" id="9826533%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-scopes/index.html">Scopes</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="9826533%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">class <a href="-scopes/index.html">Scopes</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="9826533%2FClasslikes%2F295210469" anchor-label="Scopes" id="9826533%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="9826533%2FClasslikes%2F295210469" anchor-label="Scopes" id="9826533%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Utilities for dealing with AutoDispose scopes.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1247617848%2FClasslikes%2F295210469" anchor-label="SingleSubscribeProxy" id="1247617848%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-single-subscribe-proxy/index.html">SingleSubscribeProxy</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1247617848%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">interface <a href="-single-subscribe-proxy/index.html">SingleSubscribeProxy</a>&lt;<span>@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/NonNull.html">NonNull</a>() </span><a href="-single-subscribe-proxy/index.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1247617848%2FClasslikes%2F295210469" anchor-label="SingleSubscribeProxy" id="1247617848%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="1247617848%2FClasslikes%2F295210469" anchor-label="SingleSubscribeProxy" id="1247617848%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Subscribe proxy that matches <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html">Single</a>'s subscribe overloads.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1073267787%2FClasslikes%2F295210469" anchor-label="TestScopeProvider" id="1073267787%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-test-scope-provider/index.html">TestScopeProvider</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1073267787%2FClasslikes%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">class <a href="-test-scope-provider/index.html">TestScopeProvider</a> : <a href="-scope-provider/index.html">ScopeProvider</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1073267787%2FClasslikes%2F295210469" anchor-label="TestScopeProvider" id="1073267787%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="1073267787%2FClasslikes%2F295210469" anchor-label="TestScopeProvider" id="1073267787%2FClasslikes%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>ScopeProvider implementation for testing.</div></div>
+</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            
-            
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#package-autodispose2" class="md-nav__link">
-    Package autodispose2
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#types" class="md-nav__link">
-    Types
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exceptions" class="md-nav__link">
-    Exceptions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#extensions-for-external-classes" class="md-nav__link">
-    Extensions for External Classes
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
+              <h2 class="">Functions</h2>
+              <div class="table" data-togglable="Functions"><a data-name="-1744507104%2FFunctions%2F295210469" anchor-label="autoDispose" id="-1744507104%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="auto-dispose.html">autoDispose</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1744507104%2FFunctions%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/CheckReturnValue.html">CheckReturnValue</a>()</div></div>inline fun <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">Completable</a>.<a href="auto-dispose.html">autoDispose</a>(provider: <a href="-scope-provider/index.html">ScopeProvider</a>): <a href="-completable-subscribe-proxy/index.html">CompletableSubscribeProxy</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-2021755099%2FFunctions%2F295210469" anchor-label="autoDispose" id="-2021755099%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-2021755099%2FFunctions%2F295210469" anchor-label="autoDispose" id="-2021755099%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Extension that proxies to <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">Completable.as</a> + <span data-unresolved-link="autodispose2/AutoDispose/autoDisposable/#autodispose2.ScopeProvider/PointingToDeclaration/">AutoDispose.autoDisposable</span></div></div>
+<div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/CheckReturnValue.html">CheckReturnValue</a>()</div></div>inline fun <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">Completable</a>.<a href="auto-dispose.html">autoDispose</a>(scope: <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">Completable</a>): <a href="-completable-subscribe-proxy/index.html">CompletableSubscribeProxy</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1176741779%2FFunctions%2F295210469" anchor-label="autoDispose" id="1176741779%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="1176741779%2FFunctions%2F295210469" anchor-label="autoDispose" id="1176741779%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Extension that proxies to <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">Completable.as</a> + <span data-unresolved-link="autodispose2/AutoDispose/autoDisposable/#autodispose2.ScopeProvider/PointingToDeclaration/">AutoDispose.autoDisposable</span></div></div>
+<div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/CheckReturnValue.html">CheckReturnValue</a>()</div></div>inline fun &lt;<a href="auto-dispose.html">T</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>&gt; <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Flowable.html">Flowable</a>&lt;<a href="auto-dispose.html">T</a>&gt;.<a href="auto-dispose.html">autoDispose</a>(provider: <a href="-scope-provider/index.html">ScopeProvider</a>): <a href="-flowable-subscribe-proxy/index.html">FlowableSubscribeProxy</a>&lt;<a href="auto-dispose.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="35470946%2FFunctions%2F295210469" anchor-label="autoDispose" id="35470946%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="35470946%2FFunctions%2F295210469" anchor-label="autoDispose" id="35470946%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Extension that proxies to <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Flowable.html">Flowable.as</a> + <span data-unresolved-link="autodispose2/AutoDispose/autoDisposable/#autodispose2.ScopeProvider/PointingToDeclaration/">AutoDispose.autoDisposable</span></div></div>
+<div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/CheckReturnValue.html">CheckReturnValue</a>()</div></div>inline fun &lt;<a href="auto-dispose.html">T</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>&gt; <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Flowable.html">Flowable</a>&lt;<a href="auto-dispose.html">T</a>&gt;.<a href="auto-dispose.html">autoDispose</a>(scope: <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">Completable</a>): <a href="-flowable-subscribe-proxy/index.html">FlowableSubscribeProxy</a>&lt;<a href="auto-dispose.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-1985550282%2FFunctions%2F295210469" anchor-label="autoDispose" id="-1985550282%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-1985550282%2FFunctions%2F295210469" anchor-label="autoDispose" id="-1985550282%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Extension that proxies to <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Flowable.html">Flowable.as</a> + <span data-unresolved-link="autodispose2/AutoDispose/autoDisposable/#autodispose2.ScopeProvider/PointingToDeclaration/">AutoDispose.autoDisposable</span></div></div>
+<div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/CheckReturnValue.html">CheckReturnValue</a>()</div></div>inline fun &lt;<a href="auto-dispose.html">T</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>&gt; <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Maybe.html">Maybe</a>&lt;<a href="auto-dispose.html">T</a>&gt;.<a href="auto-dispose.html">autoDispose</a>(provider: <a href="-scope-provider/index.html">ScopeProvider</a>): <a href="-maybe-subscribe-proxy/index.html">MaybeSubscribeProxy</a>&lt;<a href="auto-dispose.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1838032726%2FFunctions%2F295210469" anchor-label="autoDispose" id="1838032726%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="1838032726%2FFunctions%2F295210469" anchor-label="autoDispose" id="1838032726%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Extension that proxies to <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Maybe.html">Maybe.as</a> + <span data-unresolved-link="autodispose2/AutoDispose/autoDisposable/#autodispose2.ScopeProvider/PointingToDeclaration/">AutoDispose.autoDisposable</span></div></div>
+<div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/CheckReturnValue.html">CheckReturnValue</a>()</div></div>inline fun &lt;<a href="auto-dispose.html">T</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>&gt; <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Maybe.html">Maybe</a>&lt;<a href="auto-dispose.html">T</a>&gt;.<a href="auto-dispose.html">autoDispose</a>(scope: <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">Completable</a>): <a href="-maybe-subscribe-proxy/index.html">MaybeSubscribeProxy</a>&lt;<a href="auto-dispose.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-345596222%2FFunctions%2F295210469" anchor-label="autoDispose" id="-345596222%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-345596222%2FFunctions%2F295210469" anchor-label="autoDispose" id="-345596222%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Extension that proxies to <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Maybe.html">Maybe.as</a> + <span data-unresolved-link="autodispose2/AutoDispose/autoDisposable/#autodispose2.ScopeProvider/PointingToDeclaration/">AutoDispose.autoDisposable</span></div></div>
+<div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/CheckReturnValue.html">CheckReturnValue</a>()</div></div>inline fun &lt;<a href="auto-dispose.html">T</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>&gt; <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Observable.html">Observable</a>&lt;<a href="auto-dispose.html">T</a>&gt;.<a href="auto-dispose.html">autoDispose</a>(provider: <a href="-scope-provider/index.html">ScopeProvider</a>): <a href="-observable-subscribe-proxy/index.html">ObservableSubscribeProxy</a>&lt;<a href="auto-dispose.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="971281885%2FFunctions%2F295210469" anchor-label="autoDispose" id="971281885%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="971281885%2FFunctions%2F295210469" anchor-label="autoDispose" id="971281885%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Extension that proxies to <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Observable.html">Observable.as</a> + <span data-unresolved-link="autodispose2/AutoDispose/autoDisposable/#autodispose2.ScopeProvider/PointingToDeclaration/">AutoDispose.autoDisposable</span></div></div>
+<div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/CheckReturnValue.html">CheckReturnValue</a>()</div></div>inline fun &lt;<a href="auto-dispose.html">T</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>&gt; <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Observable.html">Observable</a>&lt;<a href="auto-dispose.html">T</a>&gt;.<a href="auto-dispose.html">autoDispose</a>(scope: <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">Completable</a>): <a href="-observable-subscribe-proxy/index.html">ObservableSubscribeProxy</a>&lt;<a href="auto-dispose.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-1861376549%2FFunctions%2F295210469" anchor-label="autoDispose" id="-1861376549%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-1861376549%2FFunctions%2F295210469" anchor-label="autoDispose" id="-1861376549%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Extension that proxies to <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Observable.html">Observable.as</a> + <span data-unresolved-link="autodispose2/AutoDispose/autoDisposable/#autodispose2.ScopeProvider/PointingToDeclaration/">AutoDispose.autoDisposable</span></div></div>
+<div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/CheckReturnValue.html">CheckReturnValue</a>()</div></div>inline fun &lt;<a href="auto-dispose.html">T</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>&gt; <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html">Single</a>&lt;<a href="auto-dispose.html">T</a>&gt;.<a href="auto-dispose.html">autoDispose</a>(provider: <a href="-scope-provider/index.html">ScopeProvider</a>): <a href="-single-subscribe-proxy/index.html">SingleSubscribeProxy</a>&lt;<a href="auto-dispose.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="82329762%2FFunctions%2F295210469" anchor-label="autoDispose" id="82329762%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="82329762%2FFunctions%2F295210469" anchor-label="autoDispose" id="82329762%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Extension that proxies to <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html">Single.as</a> + <span data-unresolved-link="autodispose2/AutoDispose/autoDisposable/#autodispose2.ScopeProvider/PointingToDeclaration/">AutoDispose.autoDisposable</span></div></div>
+<div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/CheckReturnValue.html">CheckReturnValue</a>()</div></div>inline fun &lt;<a href="auto-dispose.html">T</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>&gt; <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html">Single</a>&lt;<a href="auto-dispose.html">T</a>&gt;.<a href="auto-dispose.html">autoDispose</a>(scope: <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">Completable</a>): <a href="-single-subscribe-proxy/index.html">SingleSubscribeProxy</a>&lt;<a href="auto-dispose.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-1179648522%2FFunctions%2F295210469" anchor-label="autoDispose" id="-1179648522%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-1179648522%2FFunctions%2F295210469" anchor-label="autoDispose" id="-1179648522%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Extension that proxies to <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html">Single.as</a> + <span data-unresolved-link="autodispose2/AutoDispose/autoDisposable/#autodispose2.ScopeProvider/PointingToDeclaration/">AutoDispose.autoDisposable</span></div></div>
+<div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/CheckReturnValue.html">CheckReturnValue</a>()</div></div>inline fun &lt;<a href="auto-dispose.html">T</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>&gt; <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/parallel/ParallelFlowable.html">ParallelFlowable</a>&lt;<a href="auto-dispose.html">T</a>&gt;.<a href="auto-dispose.html">autoDispose</a>(provider: <a href="-scope-provider/index.html">ScopeProvider</a>): <a href="-parallel-flowable-subscribe-proxy/index.html">ParallelFlowableSubscribeProxy</a>&lt;<a href="auto-dispose.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-900784927%2FFunctions%2F295210469" anchor-label="autoDispose" id="-900784927%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-900784927%2FFunctions%2F295210469" anchor-label="autoDispose" id="-900784927%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Extension that proxies to <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/parallel/ParallelFlowable.html">ParallelFlowable.as</a> + <span data-unresolved-link="autodispose2/AutoDispose/autoDisposable/#autodispose2.ScopeProvider/PointingToDeclaration/">AutoDispose.autoDisposable</span></div></div>
+<div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/CheckReturnValue.html">CheckReturnValue</a>()</div></div>inline fun &lt;<a href="auto-dispose.html">T</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>&gt; <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/parallel/ParallelFlowable.html">ParallelFlowable</a>&lt;<a href="auto-dispose.html">T</a>&gt;.<a href="auto-dispose.html">autoDispose</a>(scope: <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">Completable</a>): <a href="-parallel-flowable-subscribe-proxy/index.html">ParallelFlowableSubscribeProxy</a>&lt;<a href="auto-dispose.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1197429847%2FFunctions%2F295210469" anchor-label="autoDispose" id="1197429847%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="1197429847%2FFunctions%2F295210469" anchor-label="autoDispose" id="1197429847%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Extension that proxies to <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/parallel/ParallelFlowable.html">ParallelFlowable.as</a> + <span data-unresolved-link="autodispose2/AutoDispose/autoDisposable/#autodispose2.ScopeProvider/PointingToDeclaration/">AutoDispose.autoDisposable</span></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="780616404%2FFunctions%2F295210469" anchor-label="withScope" id="780616404%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="with-scope.html">withScope</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="780616404%2FFunctions%2F295210469"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">inline fun <a href="with-scope.html">withScope</a>(scope: <a href="-scope-provider/index.html">ScopeProvider</a>, body: <a href="-auto-dispose-context/index.html">AutoDisposeContext</a>.() -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-1697948481%2FFunctions%2F295210469" anchor-label="withScope" id="-1697948481%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="-1697948481%2FFunctions%2F295210469" anchor-label="withScope" id="-1697948481%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Executes a <a href="with-scope.html">body</a> with an <a href="-auto-dispose-context/index.html">AutoDisposeContext</a> backed by the given <a href="with-scope.html">scope</a>.</div></div>
+<div class="divergent-group" data-filterable-current=":autodispose:dokkaHtml/main" data-filterable-set=":autodispose:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":autodispose:dokkaHtml/main"><div class="symbol monospace">inline fun <a href="with-scope.html">withScope</a>(completableScope: <a href="http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html">Completable</a>, body: <a href="-auto-dispose-context/index.html">AutoDisposeContext</a>.() -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="216904743%2FFunctions%2F295210469" anchor-label="withScope" id="216904743%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a><div class="brief "><a data-name="216904743%2FFunctions%2F295210469" anchor-label="withScope" id="216904743%2FFunctions%2F295210469" data-filterable-set=":autodispose:dokkaHtml/main"></a>Executes a <a href="with-scope.html">body</a> with an <a href="-auto-dispose-context/index.html">AutoDisposeContext</a> backed by the given <a href="with-scope.html">completableScope</a>.</div></div>
+</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            
-          
-          <div class="md-content">
-            <article class="md-content__inner md-typeset">
-              
-                
-                  <a href="https://github.com/uber/AutoDispose/edit/master/docs/2.x/autodispose/autodispose2/index.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
-                
-                
-                  <h1>autodispose</h1>
-                
-                <p><a href="../">autodispose</a> / <a href="./">autodispose2</a></p>
-<h2 id="package-autodispose2">Package autodispose2<a class="headerlink" href="#package-autodispose2" title="Permanent link">&para;</a></h2>
-<p>Core implementation.</p>
-<h3 id="types">Types<a class="headerlink" href="#types" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="-auto-dispose/">AutoDispose</a></td>
-<td><code>class AutoDispose</code><br>Factories for autodispose converters that can be used with RxJava types&rsquo; corresponding <code>as(...)</code> methods to transform them into auto-disposing streams.</td>
-</tr>
-<tr>
-<td><a href="-auto-dispose-context/">AutoDisposeContext</a></td>
-<td><code>interface AutoDisposeContext</code><br>A context intended for use as <code>AutoDisposeContext.() -&gt; Unit</code> function body parameters where zero-arg <a href="-auto-dispose-context/auto-dispose/">autoDispose</a> functions can be called. This should be backed by an underlying <a href="#">Completable</a> or <a href="-scope-provider/">ScopeProvider</a>.</td>
-</tr>
-<tr>
-<td><a href="-auto-dispose-converter/">AutoDisposeConverter</a></td>
-<td><code>interface AutoDisposeConverter&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt; : FlowableConverter&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-flowable-subscribe-proxy/"><code>FlowableSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;!&gt;, ParallelFlowableConverter&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-parallel-flowable-subscribe-proxy/"><code>ParallelFlowableSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;!&gt;, ObservableConverter&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-observable-subscribe-proxy/"><code>ObservableSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;!&gt;, MaybeConverter&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-maybe-subscribe-proxy/"><code>MaybeSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;!&gt;, SingleConverter&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>,</code><a href="-single-subscribe-proxy/"><code>SingleSubscribeProxy</code></a><code>&lt;</code><a href="-auto-dispose-converter/#T"><code>T</code></a><code>&gt;!&gt;, CompletableConverter&lt;</code><a href="-completable-subscribe-proxy/"><code>CompletableSubscribeProxy</code></a><code>!&gt;</code><br>A custom converter that implements all the RxJava types converters, for use with the <code>as()</code> operator.</td>
-</tr>
-<tr>
-<td><a href="-auto-dispose-plugins/">AutoDisposePlugins</a></td>
-<td><code>class AutoDisposePlugins</code><br>Utility class to inject handlers to certain standard autodispose-lifecycle operations.</td>
-</tr>
-<tr>
-<td><a href="-completable-subscribe-proxy/">CompletableSubscribeProxy</a></td>
-<td><code>interface CompletableSubscribeProxy</code><br>Subscribe proxy that matches <code>`[</code>Completable`](#)&rsquo;s subscribe overloads.</td>
-</tr>
-<tr>
-<td><a href="-flowable-subscribe-proxy/">FlowableSubscribeProxy</a></td>
-<td><code>interface FlowableSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt;</code><br>Subscribe proxy that matches <code>`[</code>Flowable`](#)&rsquo;s subscribe overloads.</td>
-</tr>
-<tr>
-<td><a href="-maybe-subscribe-proxy/">MaybeSubscribeProxy</a></td>
-<td><code>interface MaybeSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt;</code><br>Subscribe proxy that matches <code>`[</code>Maybe`](#)&rsquo;s subscribe overloads.</td>
-</tr>
-<tr>
-<td><a href="-observable-subscribe-proxy/">ObservableSubscribeProxy</a></td>
-<td><code>interface ObservableSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt;</code><br>Subscribe proxy that matches <code>`[</code>Observable`](#)&rsquo;s subscribe overloads.</td>
-</tr>
-<tr>
-<td><a href="-parallel-flowable-subscribe-proxy/">ParallelFlowableSubscribeProxy</a></td>
-<td><code>interface ParallelFlowableSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt;</code><br>Subscribe proxy that matches <code>`[</code>ParallelFlowable`](#)&rsquo;s subscribe overloads.</td>
-</tr>
-<tr>
-<td><a href="-scope-provider/">ScopeProvider</a></td>
-<td><code>interface ScopeProvider</code><br>Provides a <code>`[</code>CompletableSource`](#) representation of a scope. The emission of this is the signal</td>
-</tr>
-<tr>
-<td><a href="-scopes/">Scopes</a></td>
-<td><code>class Scopes</code><br>Utilities for dealing with AutoDispose scopes.</td>
-</tr>
-<tr>
-<td><a href="-single-subscribe-proxy/">SingleSubscribeProxy</a></td>
-<td><code>interface SingleSubscribeProxy&lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>!&gt;</code><br>Subscribe proxy that matches <code>`[</code>Single`](#)&rsquo;s subscribe overloads.</td>
-</tr>
-<tr>
-<td><a href="-test-scope-provider/">TestScopeProvider</a></td>
-<td><code>class TestScopeProvider :</code><a href="-scope-provider/"><code>ScopeProvider</code></a><br>ScopeProvider implementation for testing. You can either back it with your own instance, or just stub it in place and use its public emit APIs.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="exceptions">Exceptions<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="-outside-scope-exception/">OutsideScopeException</a></td>
-<td><code>open class OutsideScopeException :</code><a href="https://docs.oracle.com/javase/6/docs/api/java/lang/RuntimeException.html"><code>RuntimeException</code></a><br>Signifies an error occurred due to execution starting outside the lifecycle.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="extensions-for-external-classes">Extensions for External Classes<a class="headerlink" href="#extensions-for-external-classes" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="io.reactivex.rxjava3.core.-completable/">io.reactivex.rxjava3.core.Completable</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="io.reactivex.rxjava3.core.-flowable/">io.reactivex.rxjava3.core.Flowable</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="io.reactivex.rxjava3.core.-maybe/">io.reactivex.rxjava3.core.Maybe</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="io.reactivex.rxjava3.core.-observable/">io.reactivex.rxjava3.core.Observable</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="io.reactivex.rxjava3.core.-single/">io.reactivex.rxjava3.core.Single</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="io.reactivex.rxjava3.parallel.-parallel-flowable/">io.reactivex.rxjava3.parallel.ParallelFlowable</a></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="with-scope/">withScope</a></td>
-<td><code>fun withScope(scope:</code><a href="-scope-provider/"><code>ScopeProvider</code></a><code>, body:</code><a href="-auto-dispose-context/"><code>AutoDisposeContext</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Executes a <a href="with-scope/#autodispose2$withScope(autodispose2.ScopeProvider, kotlin.Function1((autodispose2.AutoDisposeContext, kotlin.Unit)))/body">body</a> with an <a href="-auto-dispose-context/">AutoDisposeContext</a> backed by the given <a href="with-scope/#autodispose2$withScope(autodispose2.ScopeProvider, kotlin.Function1((autodispose2.AutoDisposeContext, kotlin.Unit)))/scope">scope</a>.<code>fun withScope(completableScope: Completable, body:</code><a href="-auto-dispose-context/"><code>AutoDisposeContext</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Executes a <a href="with-scope/#autodispose2$withScope(io.reactivex.rxjava3.core.Completable, kotlin.Function1((autodispose2.AutoDisposeContext, kotlin.Unit)))/body">body</a> with an <a href="-auto-dispose-context/">AutoDisposeContext</a> backed by the given <a href="with-scope/#autodispose2$withScope(io.reactivex.rxjava3.core.Completable, kotlin.Function1((autodispose2.AutoDisposeContext, kotlin.Unit)))/completableScope">completableScope</a>.</td>
-</tr>
-</tbody>
-</table>
-                
-                  
-                
-              
-              
-                
-
-
-              
-            </article>
+            </div>
           </div>
         </div>
-      </main>
-      
-        
-<footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../../../1.x/autodispose-rxlifecycle3/com.ubercab.autodispose.rxlifecycle3/" title="autodispose-rxlifecycle3" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                autodispose-rxlifecycle3
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../../autodispose-android/autodispose2.android/" title="autodispose-android" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                autodispose-android
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-          <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2019 Uber Technologies
-          </div>
-        
-        powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
-        and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
-          Material for MkDocs</a>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
-      
     </div>
-  </div>
-</footer>
-      
-    </div>
-    
-      <script src="../../../assets/javascripts/application.a8b5e56f.js"></script>
-      
-      <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
-      
-    
   </body>
 </html>
+

@@ -1,4 +1,0 @@
-$dokka.format:gfm
-$dokka.linkExtension:md
-$dokka.location:autodispose2.androidx.lifecycle.test$test(androidx.lifecycle.LifecycleRegistry)autodispose2.androidx.lifecycle.test/androidx.lifecycle.-lifecycle-registry/test.md
-autodispose2.androidx.lifecycle.test

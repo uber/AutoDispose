@@ -1,14 +1,10 @@
 
-
-
-
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
       
         <meta name="description" content="Automatic binding+disposal of RxJava 2 streams.">
       
@@ -17,26 +13,8 @@
         <meta name="author" content="Uber Technologies">
       
       
-        <meta name="lang:clipboard.copy" content="Copy to clipboard">
-      
-        <meta name="lang:clipboard.copied" content="Copied to clipboard">
-      
-        <meta name="lang:search.language" content="en">
-      
-        <meta name="lang:search.pipeline.stopwords" content="True">
-      
-        <meta name="lang:search.pipeline.trimmer" content="True">
-      
-        <meta name="lang:search.result.none" content="No matching documents">
-      
-        <meta name="lang:search.result.one" content="1 matching document">
-      
-        <meta name="lang:search.result.other" content="# matching documents">
-      
-        <meta name="lang:search.tokenizer" content="[\s\-]+">
-      
       <link rel="shortcut icon" href="../images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.0">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.3">
     
     
       
@@ -44,27 +22,26 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
-      
-        <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
-      
+      <link rel="stylesheet" href="../assets/stylesheets/main.3b61ea93.min.css">
       
         
+        <link rel="stylesheet" href="../assets/stylesheets/palette.39b8e14a.min.css">
         
-        <meta name="theme-color" content="">
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
       
     
     
-      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
-    
     
       
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
       
     
-    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
     
     
       <link rel="stylesheet" href="../css/app.css">
@@ -75,73 +52,82 @@
     
   </head>
   
-    
-    
-    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="white">
   
-    <svg class="md-svg">
-      <defs>
-        
-        
-          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
-        
-      </defs>
-    </svg>
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="white">
+      
+  
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
-    
-      <a href="#changelog" tabindex="1" class="md-skip">
-        Skip to content
-      </a>
-    
-    
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid">
-    <div class="md-flex">
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="AutoDispose" class="md-header-nav__button md-logo">
-          
-            <img src="../images/uber_oss_logo.png" width="24" height="24">
-          
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#changelog" class="md-skip">
+          Skip to content
         </a>
-      </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
-      </div>
-      <div class="md-flex__cell md-flex__cell--stretch">
-        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
-          
-            <span class="md-header-nav__topic">
-              AutoDispose
-            </span>
-            <span class="md-header-nav__topic">
-              
-                Changelog
-              
-            </span>
-          
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href=".." title="AutoDispose" class="md-header-nav__button md-logo" aria-label="AutoDispose">
+      
+  <img src="../images/uber_oss_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            AutoDispose
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Changelog
+            
+          </span>
         </div>
       </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        
-          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
-          
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
-      <label class="md-icon md-search__icon" for="__search"></label>
-      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
-        &#xE5CD;
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
       </button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result">
+        <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
-            Type to start searching
+            Initializing search
           </div>
           <ol class="md-search-result__list"></ol>
         </div>
@@ -149,71 +135,59 @@
     </div>
   </div>
 </div>
+    
+    
+      <div class="md-header-nav__source">
         
-      </div>
-      
-        <div class="md-flex__cell md-flex__cell--shrink">
-          <div class="md-header-nav__source">
-            
-
-
-  
-
-<a href="https://github.com/uber/AutoDispose/" title="Go to repository" class="md-source" data-md-source="github">
-  
-    <div class="md-source__icon">
-      <svg viewBox="0 0 24 24" width="24" height="24">
-        <use xlink:href="#__github" width="24" height="24"></use>
-      </svg>
-    </div>
-  
+<a href="https://github.com/uber/AutoDispose/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
   <div class="md-source__repository">
     AutoDispose
   </div>
 </a>
-          </div>
-        </div>
-      
-    </div>
+      </div>
+    
   </nav>
 </header>
     
-    <div class="md-container">
+    <div class="md-container" data-md-component="container">
+      
       
         
       
-      
-      <main class="md-main" role="main">
-        <div class="md-main__inner md-grid" data-md-component="container">
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
           
             
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" data-md-level="0">
-  <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href=".." title="AutoDispose" class="md-nav__button md-logo">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AutoDispose" class="md-nav__button md-logo" aria-label="AutoDispose">
       
-        <img src="../images/uber_oss_logo.png" width="48" height="48">
-      
+  <img src="../images/uber_oss_logo.png" alt="logo">
+
     </a>
     AutoDispose
   </label>
   
     <div class="md-nav__source">
       
-
-
-  
-
-<a href="https://github.com/uber/AutoDispose/" title="Go to repository" class="md-source" data-md-source="github">
-  
-    <div class="md-source__icon">
-      <svg viewBox="0 0 24 24" width="24" height="24">
-        <use xlink:href="#__github" width="24" height="24"></use>
-      </svg>
-    </div>
-  
+<a href="https://github.com/uber/AutoDispose/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
   <div class="md-source__repository">
     AutoDispose
   </div>
@@ -227,8 +201,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href=".." title="Overview" class="md-nav__link">
+    <a href=".." class="md-nav__link">
       Overview
     </a>
   </li>
@@ -239,15 +214,20 @@
       
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
     
     <label class="md-nav__link" for="nav-2">
       1.X API
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="1.X API" data-md-level="1">
       <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon"></span>
         1.X API
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -258,8 +238,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../1.x/autodispose/com.uber.autodispose/" title="autodispose" class="md-nav__link">
+    <a href="../1.x/autodispose/com.uber.autodispose/index.md" class="md-nav__link">
       autodispose
     </a>
   </li>
@@ -270,8 +251,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../1.x/autodispose-android/com.uber.autodispose.android/" title="autodispose-android" class="md-nav__link">
+    <a href="../1.x/autodispose-android/com.uber.autodispose.android/index.md" class="md-nav__link">
       autodispose-android
     </a>
   </li>
@@ -282,8 +264,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../1.x/autodispose-android-archcomponents/com.uber.autodispose.android.lifecycle/" title="autodispose-android-archcomponent" class="md-nav__link">
+    <a href="../1.x/autodispose-android-archcomponents/com.uber.autodispose.android.lifecycle/index.md" class="md-nav__link">
       autodispose-android-archcomponent
     </a>
   </li>
@@ -294,8 +277,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../1.x/autodispose-android-archcomponents-test/com.uber.autodispose.android.lifecycle.test/" title="autodispose-android-archcomponent-test" class="md-nav__link">
+    <a href="../1.x/autodispose-android-archcomponents-test/com.uber.autodispose.android.lifecycle.test/index.md" class="md-nav__link">
       autodispose-android-archcomponent-test
     </a>
   </li>
@@ -306,8 +290,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../1.x/autodispose-lifecycle/com.uber.autodispose.lifecycle/" title="autodispose-lifecycle" class="md-nav__link">
+    <a href="../1.x/autodispose-lifecycle/com.uber.autodispose.lifecycle/index.md" class="md-nav__link">
       autodispose-lifecycle
     </a>
   </li>
@@ -318,8 +303,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../1.x/autodispose-coroutines-interop/com.uber.autodispose.coroutinesinterop/" title="autodispose-coroutines-interop" class="md-nav__link">
+    <a href="../1.x/autodispose-coroutines-interop/com.uber.autodispose.coroutinesinterop/index.md" class="md-nav__link">
       autodispose-coroutines-interop
     </a>
   </li>
@@ -330,8 +316,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../1.x/autodispose-rxlifecycle/com.ubercab.autodispose.rxlifecycle/" title="autodispose-rxlifecycle" class="md-nav__link">
+    <a href="../1.x/autodispose-rxlifecycle/com.ubercab.autodispose.rxlifecycle/index.md" class="md-nav__link">
       autodispose-rxlifecycle
     </a>
   </li>
@@ -342,8 +329,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../1.x/autodispose-rxlifecycle3/com.ubercab.autodispose.rxlifecycle3/" title="autodispose-rxlifecycle3" class="md-nav__link">
+    <a href="../1.x/autodispose-rxlifecycle3/com.ubercab.autodispose.rxlifecycle3/index.md" class="md-nav__link">
       autodispose-rxlifecycle3
     </a>
   </li>
@@ -359,15 +347,20 @@
       
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
     
     <label class="md-nav__link" for="nav-3">
       2.X API
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="2.X API" data-md-level="1">
       <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon"></span>
         2.X API
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -378,8 +371,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../2.x/autodispose/autodispose2/" title="autodispose" class="md-nav__link">
+    <a href="../2.x/autodispose/autodispose2/index.md" class="md-nav__link">
       autodispose
     </a>
   </li>
@@ -390,8 +384,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../2.x/autodispose-android/autodispose2.android/" title="autodispose-android" class="md-nav__link">
+    <a href="../2.x/autodispose-android/autodispose2.android/index.md" class="md-nav__link">
       autodispose-android
     </a>
   </li>
@@ -402,8 +397,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../2.x/autodispose-androidx-lifecycle/autodispose2.androidx.lifecycle/" title="autodispose-androidx-lifecycle" class="md-nav__link">
+    <a href="../2.x/autodispose-androidx-lifecycle/autodispose2.androidx.lifecycle/index.md" class="md-nav__link">
       autodispose-androidx-lifecycle
     </a>
   </li>
@@ -414,20 +410,9 @@
           
 
 
-  <li class="md-nav__item">
-    <a href="../2.x/autodispose-androidx-lifecycle-test/autodispose2.androidx.lifecycle.test/" title="autodispose-androidx-lifecycle-test" class="md-nav__link">
-      autodispose-androidx-lifecycle-test
-    </a>
-  </li>
-
-        
-          
-          
-          
-
 
   <li class="md-nav__item">
-    <a href="../2.x/autodispose-lifecycle/autodispose2.lifecycle/" title="autodispose-lifecycle" class="md-nav__link">
+    <a href="../2.x/autodispose-lifecycle/autodispose2.lifecycle/index.md" class="md-nav__link">
       autodispose-lifecycle
     </a>
   </li>
@@ -438,8 +423,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../2.x/coroutines/autodispose2.interop.coroutines/" title="autodispose-interop-coroutines" class="md-nav__link">
+    <a href="../2.x/coroutines/autodispose2.interop.coroutines/index.md" class="md-nav__link">
       autodispose-interop-coroutines
     </a>
   </li>
@@ -455,8 +441,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../error-prone/" title="Error Prone" class="md-nav__link">
+    <a href="../error-prone/" class="md-nav__link">
       Error Prone
     </a>
   </li>
@@ -467,8 +454,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../lint-check/" title="Lint Check" class="md-nav__link">
+    <a href="../lint-check/" class="md-nav__link">
       Lint Check
     </a>
   </li>
@@ -478,40 +466,52 @@
       
       
 
+
   
 
 
   <li class="md-nav__item md-nav__item--active">
     
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
       
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
         Changelog
+        <span class="md-nav__icon md-icon"></span>
       </label>
     
-    <a href="./" title="Changelog" class="md-nav__link md-nav__link--active">
+    <a href="./" class="md-nav__link md-nav__link--active">
       Changelog
     </a>
     
       
-<nav class="md-nav md-nav--secondary">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
     <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#version-210" class="md-nav__link">
+    Version 2.1.0
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#version-200" class="md-nav__link">
     Version 2.0.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 2.0.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -545,7 +545,7 @@
     Version 2.0.0-RC1
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 2.0.0-RC1">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -579,7 +579,7 @@
     Version 1.4.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 1.4.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -627,7 +627,7 @@
     Version 1.3.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 1.3.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -675,7 +675,7 @@
     Version 1.1.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 1.1.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -730,7 +730,7 @@
     Version 1.0.0-RC1
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 1.0.0-RC1">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -764,7 +764,7 @@
     Version 0.8.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 0.8.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -826,7 +826,7 @@
     Version 0.7.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 0.7.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -860,7 +860,7 @@
     Version 0.6.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 0.6.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -915,7 +915,7 @@
     Version 0.5.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 0.5.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -963,7 +963,7 @@
     Version 0.4.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 0.4.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1026,10 +1026,6 @@
   </a>
   
 </li>
-      
-      
-      
-      
       
     </ul>
   
@@ -1043,8 +1039,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../migrating-020-030/" title="Migrating from 0.2.0 to 0.3.0" class="md-nav__link">
+    <a href="../migrating-020-030/" class="md-nav__link">
       Migrating from 0.2.0 to 0.3.0
     </a>
   </li>
@@ -1055,8 +1052,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../migrating-040-050/" title="Migrating from 0.4.0 to 0.5.0" class="md-nav__link">
+    <a href="../migrating-040-050/" class="md-nav__link">
       Migrating from 0.4.0 to 0.5.0
     </a>
   </li>
@@ -1067,8 +1065,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../migrating-1x-2x/" title="Migrating from 1.x to 2.x" class="md-nav__link">
+    <a href="../migrating-1x-2x/" class="md-nav__link">
       Migrating from 1.x to 2.x
     </a>
   </li>
@@ -1079,8 +1078,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../contributing/" title="Contributing" class="md-nav__link">
+    <a href="../contributing/" class="md-nav__link">
       Contributing
     </a>
   </li>
@@ -1091,8 +1091,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../code-of-conduct/" title="Code of Conduct" class="md-nav__link">
+    <a href="../code-of-conduct/" class="md-nav__link">
       Code of Conduct
     </a>
   </li>
@@ -1105,25 +1106,36 @@
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
-<nav class="md-nav md-nav--secondary">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
     <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#version-210" class="md-nav__link">
+    Version 2.1.0
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#version-200" class="md-nav__link">
     Version 2.0.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 2.0.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1157,7 +1169,7 @@
     Version 2.0.0-RC1
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 2.0.0-RC1">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1191,7 +1203,7 @@
     Version 1.4.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 1.4.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1239,7 +1251,7 @@
     Version 1.3.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 1.3.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1287,7 +1299,7 @@
     Version 1.1.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 1.1.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1342,7 +1354,7 @@
     Version 1.0.0-RC1
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 1.0.0-RC1">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1376,7 +1388,7 @@
     Version 0.8.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 0.8.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1438,7 +1450,7 @@
     Version 0.7.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 0.7.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1472,7 +1484,7 @@
     Version 0.6.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 0.6.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1527,7 +1539,7 @@
     Version 0.5.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 0.5.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1575,7 +1587,7 @@
     Version 0.4.0
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Version 0.4.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1638,10 +1650,6 @@
   </a>
   
 </li>
-      
-      
-      
-      
       
     </ul>
   
@@ -1655,10 +1663,40 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/uber/AutoDispose/edit/master/docs/changelog.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/uber/AutoDispose/edit/master/docs/changelog.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
                 
                 
                 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
+<h2 id="version-210">Version 2.1.0<a class="headerlink" href="#version-210" title="Permanent link">&para;</a></h2>
+<p><em>2021-08-09</em></p>
+<ul>
+<li>Add <code>@NonNull</code> or <code>: Any</code> to type arguments where appropriate for better nullability contracts in generics.</li>
+<li>Fix lint using &ldquo;mainProject&rdquo; instead of &ldquo;project&rdquo;, meaning this now supports AGP 7.0.0.</li>
+<li>Add lint support for RxKotlin extensions or your own extensions</li>
+<li>See the <a href="https://uber.github.io/AutoDispose/lint-check/">docs</a> for configuration details!</li>
+<li>Lint is now published as a dedicated artifact for use in pure JVM projects.
+  <div class="highlight"><pre><span></span><code><span class="n">plugins</span> <span class="o">{</span>
+  <span class="n">id</span> <span class="s2">&quot;org.jetbrains.kotlin.jvm&quot;</span>
+  <span class="n">id</span> <span class="s2">&quot;com.android.lint&quot;</span>
+<span class="o">}</span>
+
+<span class="n">dependencies</span> <span class="o">{</span>
+  <span class="n">lintChecks</span> <span class="s2">&quot;com.uber.autodispose2:autodispose-lint:&lt;version&gt;&quot;</span>
+<span class="o">}</span>
+</code></pre></div></li>
+<li>Deprecate <code>TestLifecycleOwner</code> artifact + its extensions in favor of the first party <code>androidx.lifecycle.testing.TestLifecycleOwner</code> option.</li>
+<li>See an example migration in <a href="https://github.com/uber/AutoDispose/pull/433">this PR</a>.</li>
+<li>Update to RxJava <code>3.1.0</code></li>
+<li>Update to Kotlin <code>1.5.21</code></li>
+<li>Update to androidx.lifecycle <code>2.3.1</code></li>
+<li>Update to Error-Prone <code>2.8.1</code></li>
+<li>Update to kotlinx.coroutines <code>1.5.1</code></li>
+<li>Update to lint <code>30.0.0</code></li>
+</ul>
+<p>Note that we are no longer releasing AutoDispose 1.x versions as RxJava 2 reached End of Life in February 2021.</p>
+<p>Thanks to <a href="https://github.com/Rajin9601">@Rajin9601</a>, <a href="https://github.com/ianhanniballake">@ianhanniballake</a>, <a href="https://github.com/rafaeltoledo">@rafaeltoledo</a>, and <a href="https://github.com/msridhar">@msridhar</a> for contributing to this release!</p>
 <h2 id="version-200">Version 2.0.0<a class="headerlink" href="#version-200" title="Permanent link">&para;</a></h2>
 <p><em>2020-02-23</em></p>
 <p>AutoDispose 2 is built against RxJava 3 and is binary-compatible with AutoDispose 1.x and RxJava 2.x. As such - it has a different package name and maven group ID.</p>
@@ -1745,11 +1783,10 @@ both or aid in migrations.</p>
 Rx converter types), the Kotlin <code>autoDisposable()</code> extensions have been deprecated in favor of a more 
 idiomatic <code>autoDispose()</code> verb form name. The old extensions have been annotated with <code>@Deprecated</code> 
 and replacements, so this should be an easy one time migration.</p>
-<div class="codehilite"><pre><span></span><span class="n">myObservable</span>
+<div class="highlight"><pre><span></span><code><span class="n">myObservable</span>
     <span class="p">.</span><span class="n">autoDispose</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
     <span class="p">.</span><span class="n">subscribe</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 <h3 id="fused-proxy-types-376">Fused proxy types <a href="https://github.com/uber/AutoDispose/pull/376">#376</a><a class="headerlink" href="#fused-proxy-types-376" title="Permanent link">&para;</a></h3>
 <p>AutoDispose&rsquo;s analogous Rx types (<code>AutoDisposeObservable</code>, etc) have been updated to implement 
 their <code>*SubscribeProxy</code> interfaces directly. The current behavior of subscribe proxies is best 
@@ -1761,19 +1798,17 @@ proxy hiding via <code>AutoDisposePlugins</code> to save that extra allocation.<
 is a function-with-receiver tied to a new <code>AutoDisposeContext</code> interface, which has no-arg <code>autoDispose()</code>
 functions in it. This allows for calling <code>autoDispose()</code> within the context of the body and allow the
 enclosing context manage wiring the applied scope to it.</p>
-<div class="codehilite"><pre><span></span><span class="n">@Test</span>
+<div class="highlight"><pre><span></span><code><span class="n">@Test</span>
 <span class="k">fun</span> <span class="nf">example</span><span class="p">()</span> <span class="p">=</span> <span class="n">withScope</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">Observable</span><span class="p">.</span><span class="n">just</span><span class="p">(</span><span class="s">&quot;Hello withScope()!&quot;</span><span class="p">)</span>
       <span class="p">.</span><span class="n">autoDispose</span><span class="p">()</span>
       <span class="p">.</span><span class="n">subscribe</span><span class="p">()</span>
 <span class="p">}</span>
-</pre></div>
-
+</code></pre></div>
 <h3 id="dependency-updates">Dependency updates<a class="headerlink" href="#dependency-updates" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span>Kotlin: 1.3.50
+<div class="highlight"><pre><span></span><code>Kotlin: 1.3.50
 Lint tools: 26.5.0
-</pre></div>
-
+</code></pre></div>
 <h2 id="version-130">Version 1.3.0<a class="headerlink" href="#version-130" title="Permanent link">&para;</a></h2>
 <p><em>2019-05-15</em></p>
 <h3 id="unified-kotlin-extensions">Unified Kotlin extensions<a class="headerlink" href="#unified-kotlin-extensions" title="Permanent link">&para;</a></h3>
@@ -1785,33 +1820,30 @@ Lint tools: 26.5.0
 <p>PRs: <a href="https://github.com/uber/AutoDispose/pull/339">#339</a> <a href="https://github.com/uber/AutoDispose/pull/341">#341</a> <a href="https://github.com/uber/AutoDispose/pull/346">#346</a></p>
 <h3 id="more-kotlin-extensions">More Kotlin extensions!<a class="headerlink" href="#more-kotlin-extensions" title="Permanent link">&para;</a></h3>
 <p>Initially, we only provided minimal Kotlin extensions to support scopes on extra types like Android&rsquo;s <code>LifecycleOwner</code>, <code>View</code>, etc. This resulted in a bit of ceremony for these APIs to be used though, such as:</p>
-<div class="codehilite"><pre><span></span><span class="n">Observable</span><span class="p">.</span><span class="n">just</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">Observable</span><span class="p">.</span><span class="n">just</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
     <span class="p">.</span><span class="n">autoDisposable</span><span class="p">(</span><span class="n">AndroidLifecycleScopeProvider</span><span class="p">.</span><span class="n">from</span><span class="p">(</span><span class="k">this</span><span class="p">))</span>
     <span class="p">.</span><span class="n">subscribe</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 <p>To simplify this, we&rsquo;ve added the following top-level extension functions for the following:
 * <code>autodispose-android</code> - <code>View</code>
 * <code>autodispose-archcomponents</code> - <code>LifecycleOwner</code>
 * <code>autodispose-rxlifecycle</code> - <code>LifecycleProvider</code>
 * <code>autodispose-rxlifecycle3</code> - <code>LifecycleProvider</code></p>
 <p>So now, the above snippet could just be:</p>
-<div class="codehilite"><pre><span></span><span class="n">Observable</span><span class="p">.</span><span class="n">just</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">Observable</span><span class="p">.</span><span class="n">just</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
     <span class="p">.</span><span class="n">autoDisposable</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
     <span class="p">.</span><span class="n">subscribe</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 <p>PRs: <a href="https://github.com/uber/AutoDispose/pull/348">#348</a> <a href="https://github.com/uber/AutoDispose/pull/353">#353</a></p>
 <h3 id="removed-deprecated-lifecycle-artifacts">Removed deprecated lifecycle artifacts<a class="headerlink" href="#removed-deprecated-lifecycle-artifacts" title="Permanent link">&para;</a></h3>
 <p>Following their deprecating in 1.1.0, the <code>autodispose-lifecycle-jdk8</code> and <code>autodispose-lifecycle-ktx</code> artifacts are no longer published. Please move to just using <code>LifecycleScopeProvider</code> directly.</p>
 <h3 id="misc">Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
 <p>Dependency updates</p>
-<div class="codehilite"><pre><span></span>Kotlin: 1.3.31
+<div class="codehilite"><pre><span></span><code>Kotlin: 1.3.31
 AndroidX Annotations: 1.0.2
 RxJava: 2.2.8
 RxAndroid: 2.1.1
-</pre></div>
-
+</code></pre></div>
 
 <p>Artifact changes</p>
 <table>
@@ -1855,9 +1887,9 @@ RxAndroid: 2.1.1
 <li>Fixes a bug which allows Lint to refer to the app level <code>gradle.properties</code> file for configuration support. <a href="https://github.com/uber/AutoDispose/pull/335">#335</a></li>
 <li>New <code>autodispose-rxlifeycle3</code> artifact for interop with RxLifecycle3. <a href="https://github.com/uber/AutoDispose/pull/319">#319</a></li>
 <li>Various dependency updates
-<div class="codehilite"><pre><span></span>Lint: 26.3.2
+<div class="highlight"><pre><span></span><code>Lint: 26.3.2
 Kotlin 1.3.21
-</pre></div></li>
+</code></pre></div></li>
 </ul>
 <p>All PRs: <a href="https://github.com/uber/AutoDispose/pull/319">#319</a>, <a href="https://github.com/uber/AutoDispose/pull/320">#320</a>, <a href="https://github.com/uber/AutoDispose/pull/322">#322</a>, <a href="https://github.com/uber/AutoDispose/pull/326">#326</a>, <a href="https://github.com/uber/AutoDispose/pull/327">#327</a> <a href="https://github.com/uber/AutoDispose/pull/328">#328</a>, <a href="https://github.com/uber/AutoDispose/pull/329">#329</a>, <a href="https://github.com/uber/AutoDispose/pull/330">#330</a>, <a href="https://github.com/uber/AutoDispose/pull/334">#334</a>, <a href="https://github.com/uber/AutoDispose/pull/335">#335</a>, <a href="https://github.com/uber/AutoDispose/pull/336">#336</a></p>
 <h2 id="version-110">Version 1.1.0<a class="headerlink" href="#version-110" title="Permanent link">&para;</a></h2>
@@ -1911,13 +1943,12 @@ to run, so the new artifact is different than the previous one (but not conflict
 <li>More sample recipes for Android ViewModels and Fragments (<a href="https://github.com/uber/AutoDispose/pull/254">#254</a>) (<a href="https://github.com/uber/AutoDispose/pull/260">#260</a>)</li>
 <li>Various dependency updates</li>
 </ul>
-<div class="codehilite"><pre><span></span>Support library 28.0.0
+<div class="highlight"><pre><span></span><code>Support library 28.0.0
 Architecture Components (runtime) 1.1.1
 Kotlin 1.2.71
 RxJava 2.2.2
 RxAndroid 2.1.0
-</pre></div>
-
+</code></pre></div>
 <p>Thanks to the following contributors for this release: <a href="https://github.com/shaishavgandhi05">@shaishavgandhi05</a></p>
 <h2 id="version-100-rc2">Version 1.0.0-RC2<a class="headerlink" href="#version-100-rc2" title="Permanent link">&para;</a></h2>
 <p><em>2018-8-14</em></p>
@@ -2035,11 +2066,10 @@ stubbed in the mock android.jar and fails explosively when touched.</p>
 <p>Another potential use of this at runtime to customize checks for more fine-grained main thread 
 checks behavior.</p>
 <p>Example</p>
-<div class="codehilite"><pre><span></span><span class="n">AutoDisposeAndroidPlugins</span><span class="p">.</span><span class="na">setOnCheckMainThread</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">AutoDisposeAndroidPlugins</span><span class="p">.</span><span class="na">setOnCheckMainThread</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// Use whatever heuristics you prefer.</span>
 <span class="p">})</span>
-</pre></div>
-
+</code></pre></div>
 <p>This is available in the <code>autodispose-android</code> artifact, and all mainthread-checking APIs in android 
 artifacts will delegate to this plugin hook.</p>
 <h3 id="misc_3">Misc<a class="headerlink" href="#misc_3" title="Permanent link">&para;</a></h3>
@@ -2089,7 +2119,7 @@ artifacts will delegate to this plugin hook.</p>
 <p>AutoDispose&rsquo;s primary API is now via static <code>autoDisposable()</code> methods on the <code>AutoDispose</code> class. The previous <code>to()</code> based APIs are now completely deprecated, and will be removed in AutoDispose 1.0.</p>
 <p>This has been sort of the long-standing ideal API for AutoDispose for awhile, but wasn&rsquo;t possible until the introduction of the new <code>as()</code> operator in RxJava. As this operator is still not marked as stable (and won&rsquo;t until RxJava 2.2.0), AutoDispose will not be updated to 1.0 until then.</p>
 <p>The main difference is that you no longer have to specify the type indirection, and the returned converter is applicable for all 5 RxJava types. In use, it looks like this:</p>
-<div class="codehilite"><pre><span></span><span class="n">Flowable</span><span class="p">.</span><span class="na">just</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">Flowable</span><span class="p">.</span><span class="na">just</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">.</span><span class="na">as</span><span class="p">(</span><span class="n">autoDisposable</span><span class="p">(</span><span class="n">scope</span><span class="p">))</span>
     <span class="p">.</span><span class="na">subscribe</span><span class="p">()</span>
 
@@ -2108,8 +2138,7 @@ artifacts will delegate to this plugin hook.</p>
 <span class="n">Completable</span><span class="p">.</span><span class="na">complete</span><span class="p">()</span>
     <span class="p">.</span><span class="na">as</span><span class="p">(</span><span class="n">autoDisposable</span><span class="p">(</span><span class="n">scope</span><span class="p">))</span>
     <span class="p">.</span><span class="na">subscribe</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 <p>There are three overloads for <code>autoDisposable()</code>, for each of the three scope types (<code>Maybe</code>, <code>ScopeProvider</code>, and <code>LifecycleScopeProvider</code>).</p>
 <p>The Kotlin bindings have also been updated to match semantics, with the <code>autoDisposeWith</code> extension functions being deprecated in favor of analogous <code>autoDisposable</code>. These are <code>WARNING</code> level in this release, and will become <code>ERROR</code> in AutoDispose 0.6.0, before finally being removed in 1.0. They also provide <code>replaceWith</code> options (compatible with Kotlin&rsquo;s deprecation quickfixes).</p>
 <p><code>autoDisposable</code> reads best when statically imported (so you can do <code>.as(autoDisposable(...))</code>, which you can safely do if you&rsquo;re using Java 8.</p>
@@ -2120,11 +2149,10 @@ artifacts will delegate to this plugin hook.</p>
 <p><code>AutoDisposePlugins</code> has a new API to control whether or not lifecycle exception stacktraces are filled in. What this means is that if you opt out, the exceptions thrown in <code>LifecycleScopeProvider</code> boundary issues will no longer have a stacktrace (<code>getStacktrace()</code> will return an empty array) and only carry the type name and message. This can be useful to gain some performance if you track stacktracing via other means.</p>
 <h3 id="unbound-shorthand-125">UNBOUND shorthand (<a href="https://github.com/uber/autodispose/issues/125">#125</a>)<a class="headerlink" href="#unbound-shorthand-125" title="Permanent link">&para;</a></h3>
 <p><code>ScopeProvider</code> has a static instance of an &ldquo;unbound&rdquo; provider directly in the interface now for reuse. This obviates the need for <code>TestScopeProvider#unbound()</code>, which has been <strong>removed</strong>. Usage is simple:</p>
-<div class="codehilite"><pre><span></span><span class="n">Observable</span><span class="p">.</span><span class="na">just</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">Observable</span><span class="p">.</span><span class="na">just</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">.</span><span class="na">as</span><span class="p">(</span><span class="n">autoDisposable</span><span class="p">(</span><span class="n">ScopeProvider</span><span class="p">.</span><span class="na">UNBOUND</span><span class="p">))</span>
     <span class="p">.</span><span class="na">subscribe</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 <h2 id="misc_5">Misc<a class="headerlink" href="#misc_5" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Archcomponents updated to 1.0.0 final (<a href="https://github.com/uber/autodispose/issues/128">#128</a>)</li>
@@ -2164,27 +2192,26 @@ artifacts will delegate to this plugin hook.</p>
 </ul>
 <p>Thanks to the following contributors! <a href="https://github.com/rubengees">@rubengees</a> <a href="https://github.com/bangarharshit">@bangarharshit</a> </p>
 <h4 id="updated-dependencies">Updated dependencies:<a class="headerlink" href="#updated-dependencies" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span>Android Arch Components: 1.0.0-rc1
+<div class="highlight"><pre><span></span><code>Android Arch Components: 1.0.0-rc1
 Android Arch Components (common): 1.0.3
 Kotlin: 1.1.51
-</pre></div>
-
+</code></pre></div>
 <h4 id="new-artifacts-coordinates">New artifacts coordinates:<a class="headerlink" href="#new-artifacts-coordinates" title="Permanent link">&para;</a></h4>
 <p><a href="https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test.svg" /></a>
-<div class="codehilite"><pre><span></span>compile &#39;com.uber.autodispose:autodispose-android-archcomponents-test:x.y.z&#39;
-</pre></div></p>
+<div class="highlight"><pre><span></span><code>compile &#39;com.uber.autodispose:autodispose-android-archcomponents-test:x.y.z&#39;
+</code></pre></div></p>
 <p><a href="https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-rxlifecycle"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-rxlifecycle.svg" /></a>
-<div class="codehilite"><pre><span></span>compile &#39;com.uber.autodispose:autodispose-rxlifecycle:x.y.z&#39;
-</pre></div></p>
+<div class="highlight"><pre><span></span><code>compile &#39;com.uber.autodispose:autodispose-rxlifecycle:x.y.z&#39;
+</code></pre></div></p>
 <p><a href="https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-kotlin"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-kotlin.svg" /></a> 
-<div class="codehilite"><pre><span></span>compile &#39;com.uber.autodispose:autodispose-android-kotlin:x.y.z&#39;
-</pre></div></p>
+<div class="highlight"><pre><span></span><code>compile &#39;com.uber.autodispose:autodispose-android-kotlin:x.y.z&#39;
+</code></pre></div></p>
 <p><a href="https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-kotlin"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-kotlin.svg" /></a> 
-<div class="codehilite"><pre><span></span>compile &#39;com.uber.autodispose:autodispose-android-archcomponents-kotlin:x.y.z&#39;
-</pre></div></p>
+<div class="highlight"><pre><span></span><code>compile &#39;com.uber.autodispose:autodispose-android-archcomponents-kotlin:x.y.z&#39;
+</code></pre></div></p>
 <p><a href="https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin.svg" /></a> 
-<div class="codehilite"><pre><span></span>compile &#39;com.uber.autodispose:autodispose-android-archcomponents-test-kotlin:x.y.z&#39;
-</pre></div></p>
+<div class="highlight"><pre><span></span><code>compile &#39;com.uber.autodispose:autodispose-android-archcomponents-test-kotlin:x.y.z&#39;
+</code></pre></div></p>
 <h2 id="version-030">Version 0.3.0<a class="headerlink" href="#version-030" title="Permanent link">&para;</a></h2>
 <p><em>2017-10-01</em></p>
 <ul>
@@ -2192,7 +2219,7 @@ Kotlin: 1.1.51
 </ul>
 <p>After a long time trying to figure out how to finagle this in a way that played nice with IDE autocomplete,
 the main API for AutoDispose is now via the <code>AutoDispose</code> class and its static factories.</p>
-<div class="codehilite"><pre><span></span><span class="n">Observable</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">Observable</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
   <span class="p">.</span><span class="na">to</span><span class="p">(</span><span class="n">AutoDispose</span><span class="p">.</span><span class="na">with</span><span class="p">(</span><span class="n">yourScope</span><span class="p">).</span><span class="na">forObservable</span><span class="p">())</span>
   <span class="p">.</span><span class="na">subscribe</span><span class="p">();</span>
 
@@ -2200,8 +2227,7 @@ the main API for AutoDispose is now via the <code>AutoDispose</code> class and i
 <span class="n">Observable</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
   <span class="p">.</span><span class="na">to</span><span class="p">(</span><span class="n">AutoDispose</span><span class="p">.</span><span class="na">with</span><span class="p">(</span><span class="n">yourScope</span><span class="p">).</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="n">forObservable</span><span class="p">())</span>
   <span class="p">.</span><span class="na">subscribe</span><span class="p">();</span>
-</pre></div>
-
+</code></pre></div>
 <p><code>with()</code> has three overloads for <code>Maybe</code>, <code>ScopeProvider</code>, and <code>LifecycleScopeProvider</code>. They return
 an intermediary <code>ScopeHandler</code>, which in turn has 5 generic <code>for___()</code> methods that correspond to the
 5 RxJava types (<code>Observable</code>, <code>Flowable</code>, <code>Single</code>, <code>Maybe</code>, and <code>Completable</code>).</p>
@@ -2212,15 +2238,14 @@ this is easy to migrate via IntelliJ&rsquo;s structural replace. Information can
 </ul>
 <p>With the beta release of architecture components, they are now supported in the <code>autodispose-android-archcomponents</code> 
 artifact.</p>
-<div class="codehilite"><pre><span></span><span class="n">Observable</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">Observable</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
   <span class="p">.</span><span class="na">to</span><span class="p">(</span><span class="n">AutoDispose</span><span class="p">.</span><span class="na">with</span><span class="p">(</span><span class="n">AndroidLifecycleScopeProvider</span><span class="p">.</span><span class="na">from</span><span class="p">(</span><span class="k">this</span><span class="p">)).</span><span class="na">forObservable</span><span class="p">())</span>
   <span class="p">.</span><span class="na">subscribe</span><span class="p">();</span>
-</pre></div>
-
+</code></pre></div>
 <p>Where <code>this</code> could be anything that implements <code>LifecycleOwner</code> or extends <code>Lifecycle</code>.</p>
 <p><a href="https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents.svg" /></a>
-<div class="codehilite"><pre><span></span>compile &#39;com.uber.autodispose:autodispose-android-archcomponents:x.y.z&#39;
-</pre></div></p>
+<div class="highlight"><pre><span></span><code>compile &#39;com.uber.autodispose:autodispose-android-archcomponents:x.y.z&#39;
+</code></pre></div></p>
 <p>Thanks to <a href="https://github.com/yigit">@yigit</a>, <a href="https://github.com/jaychang0917">@jaychang0917</a>, and <a href="https://github.com/lsvijay">@lsvijay</a> for their help and contributions on this!</p>
 <ul>
 <li><strong>New: Delegate Observer retrieval (<a href="https://github.com/uber/AutoDispose/pull/89">#89</a>)</strong></li>
@@ -2261,11 +2286,10 @@ conditions.</p>
 <li><strong>Other</strong></li>
 </ul>
 <p>Updated various dependencies:</p>
-<div class="codehilite"><pre><span></span>Android Arch Components: 1.0.0-beta1
+<div class="codehilite"><pre><span></span><code>Android Arch Components: 1.0.0-beta1
 Android Support Library: 26.1.0 (to match arch components)
 Kotlin: 1.1.50
-</pre></div>
-
+</code></pre></div>
 
 <p>As always, we welcome any and all discussions/feedback/PRs! We&rsquo;re marching toward a 1.0 release Real 
 Soon Now, so now is the time. There are a few outstanding discussion issues in the issue tracker about 
@@ -2276,21 +2300,19 @@ Soon Now, so now is the time. There are a few outstanding discussion issues in t
 <li><strong>New: Kotlin artifact! (#47)</strong></li>
 </ul>
 <p>This adds <code>autoDisposeWith()</code> extensions to RxJava types.</p>
-<div class="codehilite"><pre><span></span><span class="n">myObservable</span>
+<div class="highlight"><pre><span></span><code><span class="n">myObservable</span>
    <span class="p">.</span><span class="n">doWhatever</span><span class="p">()</span>
    <span class="p">.</span><span class="n">autoDisposeWith</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
    <span class="p">.</span><span class="n">subscribe</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 <ul>
 <li><strong>New: Plugin system! (#57)</strong></li>
 </ul>
 <p>Modeled after RxJava&rsquo;s plugins, this allows you to customize the behavior of AutoDispose with lifecycle boundary checks.</p>
-<div class="codehilite"><pre><span></span><span class="n">AutoDisposePlugins</span><span class="p">.</span><span class="na">setOutsideLifecycleHandler</span><span class="p">(</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">AutoDisposePlugins</span><span class="p">.</span><span class="na">setOutsideLifecycleHandler</span><span class="p">(</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="p">{</span>
     <span class="c1">// Swallow the exception, or rethrow it, or throw your own!</span>
 <span class="p">})</span>
-</pre></div>
-
+</code></pre></div>
 <p>A good use case of this is, say, just silently disposing/logging observers outside of lifecycle exceptions in production but crashing on debug.</p>
 <ul>
 <li><strong>New: Test helpers! (#48 #49)</strong></li>
@@ -2316,8 +2338,6 @@ annotated with <code>@Nullable</code> are not.
 <li>Initial release</li>
 </ul>
                 
-                  
-                
               
               
                 
@@ -2333,34 +2353,34 @@ annotated with <code>@Nullable</code> are not.
 <footer class="md-footer">
   
     <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../lint-check/" title="Lint Check" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+          <a href="../lint-check/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
                 Lint Check
-              </span>
+              </div>
             </div>
           </a>
         
         
-          <a href="../migrating-020-030/" title="Migrating from 0.2.0 to 0.3.0" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
+          <a href="../migrating-020-030/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
                 Migrating from 0.2.0 to 0.3.0
-              </span>
+              </div>
             </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
             </div>
           </a>
         
@@ -2375,11 +2395,10 @@ annotated with <code>@Nullable</code> are not.
             Copyright &copy; 2019 Uber Technologies
           </div>
         
-        powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
-        and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
-          Material for MkDocs</a>
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
       </div>
       
     </div>
@@ -2388,9 +2407,18 @@ annotated with <code>@Nullable</code> are not.
       
     </div>
     
-      <script src="../assets/javascripts/application.a8b5e56f.js"></script>
+      <script src="../assets/javascripts/vendor.08c56446.min.js"></script>
+      <script src="../assets/javascripts/bundle.6ced434e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
       
     
   </body>

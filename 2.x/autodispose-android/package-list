@@ -1,11 +1,21 @@
-$dokka.format:gfm
-$dokka.linkExtension:md
-$dokka.location:autodispose2.android$autoDispose(io.reactivex.rxjava3.core.Completable, android.view.View)autodispose2.android/io.reactivex.rxjava3.core.-completable/auto-dispose.md
-$dokka.location:autodispose2.android$autoDispose(io.reactivex.rxjava3.core.Flowable((autodispose2.android.autoDispose.T)), android.view.View)autodispose2.android/io.reactivex.rxjava3.core.-flowable/auto-dispose.md
-$dokka.location:autodispose2.android$autoDispose(io.reactivex.rxjava3.core.Maybe((autodispose2.android.autoDispose.T)), android.view.View)autodispose2.android/io.reactivex.rxjava3.core.-maybe/auto-dispose.md
-$dokka.location:autodispose2.android$autoDispose(io.reactivex.rxjava3.core.Observable((autodispose2.android.autoDispose.T)), android.view.View)autodispose2.android/io.reactivex.rxjava3.core.-observable/auto-dispose.md
-$dokka.location:autodispose2.android$autoDispose(io.reactivex.rxjava3.core.Single((autodispose2.android.autoDispose.T)), android.view.View)autodispose2.android/io.reactivex.rxjava3.core.-single/auto-dispose.md
-$dokka.location:autodispose2.android$autoDispose(io.reactivex.rxjava3.parallel.ParallelFlowable((autodispose2.android.autoDispose.T)), android.view.View)autodispose2.android/io.reactivex.rxjava3.parallel.-parallel-flowable/auto-dispose.md
-$dokka.location:autodispose2.android$scope(android.view.View)autodispose2.android/android.view.-view/scope.md
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:autodispose2.android////PointingToDeclaration/autodispose-android/autodispose2.android/index.html
+$dokka.location:autodispose2.android//autoDispose/io.reactivex.rxjava3.core.Completable#android.view.View/PointingToDeclaration/autodispose-android/autodispose2.android/auto-dispose.html
+$dokka.location:autodispose2.android//autoDispose/io.reactivex.rxjava3.core.Flowable[TypeParam(bounds=[kotlin.Any])]#android.view.View/PointingToDeclaration/autodispose-android/autodispose2.android/auto-dispose.html
+$dokka.location:autodispose2.android//autoDispose/io.reactivex.rxjava3.core.Maybe[TypeParam(bounds=[kotlin.Any])]#android.view.View/PointingToDeclaration/autodispose-android/autodispose2.android/auto-dispose.html
+$dokka.location:autodispose2.android//autoDispose/io.reactivex.rxjava3.core.Observable[TypeParam(bounds=[kotlin.Any])]#android.view.View/PointingToDeclaration/autodispose-android/autodispose2.android/auto-dispose.html
+$dokka.location:autodispose2.android//autoDispose/io.reactivex.rxjava3.core.Single[TypeParam(bounds=[kotlin.Any])]#android.view.View/PointingToDeclaration/autodispose-android/autodispose2.android/auto-dispose.html
+$dokka.location:autodispose2.android//autoDispose/io.reactivex.rxjava3.parallel.ParallelFlowable[TypeParam(bounds=[kotlin.Any])]#android.view.View/PointingToDeclaration/autodispose-android/autodispose2.android/auto-dispose.html
+$dokka.location:autodispose2.android//scope/android.view.View#/PointingToDeclaration/autodispose-android/autodispose2.android/scope.html
+$dokka.location:autodispose2.android/AutoDisposeAndroidPlugins///PointingToDeclaration/autodispose-android/autodispose2.android/-auto-dispose-android-plugins/index.html
+$dokka.location:autodispose2.android/AutoDisposeAndroidPlugins/isLockdown/#/PointingToDeclaration/autodispose-android/autodispose2.android/-auto-dispose-android-plugins/is-lockdown.html
+$dokka.location:autodispose2.android/AutoDisposeAndroidPlugins/lockdown/#/PointingToDeclaration/autodispose-android/autodispose2.android/-auto-dispose-android-plugins/lockdown.html
+$dokka.location:autodispose2.android/AutoDisposeAndroidPlugins/onCheckMainThread/#/PointingToDeclaration/autodispose-android/autodispose2.android/-auto-dispose-android-plugins/on-check-main-thread.html
+$dokka.location:autodispose2.android/AutoDisposeAndroidPlugins/onCheckMainThread/#io.reactivex.rxjava3.functions.BooleanSupplier/PointingToDeclaration/autodispose-android/autodispose2.android/-auto-dispose-android-plugins/on-check-main-thread.html
+$dokka.location:autodispose2.android/AutoDisposeAndroidPlugins/reset/#/PointingToDeclaration/autodispose-android/autodispose2.android/-auto-dispose-android-plugins/reset.html
+$dokka.location:autodispose2.android/ViewScopeProvider///PointingToDeclaration/autodispose-android/autodispose2.android/-view-scope-provider/index.html
+$dokka.location:autodispose2.android/ViewScopeProvider/from/#android.view.View/PointingToDeclaration/autodispose-android/autodispose2.android/-view-scope-provider/from.html
+$dokka.location:autodispose2.android/ViewScopeProvider/requestScope/#/PointingToDeclaration/autodispose-android/autodispose2.android/-view-scope-provider/request-scope.html
 autodispose2.android
-autodispose2.android.internal
+
