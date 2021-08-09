@@ -22,7 +22,7 @@ import com.android.tools.lint.checks.infrastructure.TestFiles.projectProperties
 import com.android.tools.lint.checks.infrastructure.TestLintTask.lint
 import org.junit.Test
 
-class AutoDisposeDetectorTest {
+internal class AutoDisposeDetectorTest {
 
   companion object {
     // Stub activity
