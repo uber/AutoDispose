@@ -84,6 +84,7 @@ def androidx = [
         common: "androidx.lifecycle:lifecycle-common:${versions.androidxLifecycle}",
         runtime: "androidx.lifecycle:lifecycle-runtime:${versions.androidxLifecycle}",
         runtimeKtx: "androidx.lifecycle:lifecycle-runtime-ktx:${versions.androidxLifecycle}",
+        runtimeTest: "androidx.lifecycle:lifecycle-runtime-testing:${versions.androidxLifecycle}",
         vmKtx: "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.androidxLifecycle}"
     ]
 ]
