@@ -16,6 +16,7 @@
 package autodispose2;
 
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Action;
@@ -24,7 +25,7 @@ import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
 
 /** Subscribe proxy that matches {@link Flowable}'s subscribe overloads. */
-public interface FlowableSubscribeProxy<T> {
+public interface FlowableSubscribeProxy<@NonNull T> {
 
   /**
    * Proxy for {@link Flowable#subscribe()}.
@@ -64,7 +65,7 @@ public interface FlowableSubscribeProxy<T> {
    * @return an {@link Subscriber}
    */
   @CheckReturnValue
-  <E extends Subscriber<? super T>> E subscribeWith(E observer);
+  <@NonNull E extends Subscriber<? super T>> E subscribeWith(E observer);
 
   /**
    * Proxy for {@link Flowable#test()}.

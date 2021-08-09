@@ -15,12 +15,13 @@
  */
 package autodispose2;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.MaybeObserver;
 import io.reactivex.rxjava3.core.MaybeSource;
 
-final class AutoDisposeMaybe<T> extends Maybe<T> implements MaybeSubscribeProxy<T> {
+final class AutoDisposeMaybe<@NonNull T> extends Maybe<T> implements MaybeSubscribeProxy<T> {
   private final MaybeSource<T> source;
   private final CompletableSource scope;
 

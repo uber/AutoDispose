@@ -111,7 +111,7 @@ inline fun Lifecycle.scope(
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T> Flowable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): FlowableSubscribeProxy<T> {
+inline fun <T : Any> Flowable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): FlowableSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
@@ -134,7 +134,7 @@ inline fun <T> Flowable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEven
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T> Observable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): ObservableSubscribeProxy<T> {
+inline fun <T : Any> Observable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): ObservableSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(
       AutoDispose.autoDisposable(
@@ -161,7 +161,7 @@ inline fun <T> Observable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEv
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T> Single<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): SingleSubscribeProxy<T> {
+inline fun <T : Any> Single<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): SingleSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(
       AutoDispose.autoDisposable(
@@ -188,7 +188,7 @@ inline fun <T> Single<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent:
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T> Maybe<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): MaybeSubscribeProxy<T> {
+inline fun <T : Any> Maybe<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): MaybeSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(
       AutoDispose.autoDisposable(
@@ -242,7 +242,7 @@ inline fun Completable.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: E
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T> ParallelFlowable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): ParallelFlowableSubscribeProxy<T> {
+inline fun <T : Any> ParallelFlowable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): ParallelFlowableSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(
       AutoDispose.autoDisposable(

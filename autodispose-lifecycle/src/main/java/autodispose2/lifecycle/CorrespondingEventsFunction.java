@@ -16,6 +16,7 @@
 package autodispose2.lifecycle;
 
 import autodispose2.OutsideScopeException;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.functions.Function;
 
 /**
@@ -24,7 +25,7 @@ import io.reactivex.rxjava3.functions.Function;
  *
  * @param <E> the event type.
  */
-public interface CorrespondingEventsFunction<E> extends Function<E, E> {
+public interface CorrespondingEventsFunction<@NonNull E> extends Function<E, E> {
 
   /**
    * Given an event {@code event}, returns the next corresponding event that this lifecycle should

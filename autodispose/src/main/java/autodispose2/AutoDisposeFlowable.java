@@ -15,12 +15,14 @@
  */
 package autodispose2;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Flowable;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 
-final class AutoDisposeFlowable<T> extends Flowable<T> implements FlowableSubscribeProxy<T> {
+final class AutoDisposeFlowable<@NonNull T> extends Flowable<T>
+    implements FlowableSubscribeProxy<T> {
   private final Publisher<T> source;
   private final CompletableSource scope;
 

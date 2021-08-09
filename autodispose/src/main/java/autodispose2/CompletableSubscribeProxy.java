@@ -16,6 +16,7 @@
 package autodispose2;
 
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -56,7 +57,7 @@ public interface CompletableSubscribeProxy {
    * @return a {@link CompletableObserver}
    */
   @CheckReturnValue
-  <E extends CompletableObserver> E subscribeWith(E observer);
+  <@NonNull E extends CompletableObserver> E subscribeWith(E observer);
 
   /**
    * Proxy for {@link Completable#test()}.

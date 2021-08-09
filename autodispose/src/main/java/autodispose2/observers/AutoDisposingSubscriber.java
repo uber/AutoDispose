@@ -15,6 +15,7 @@
  */
 package autodispose2.observers;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.FlowableSubscriber;
 import io.reactivex.rxjava3.disposables.Disposable;
 import org.reactivestreams.Subscriber;
@@ -24,7 +25,7 @@ import org.reactivestreams.Subscription;
  * A {@link Disposable} {@link Subscriber} that can automatically dispose itself. Interface here for
  * type safety but enforcement is left to the implementation.
  */
-public interface AutoDisposingSubscriber<T>
+public interface AutoDisposingSubscriber<@NonNull T>
     extends FlowableSubscriber<T>, Subscription, Disposable {
 
   /**

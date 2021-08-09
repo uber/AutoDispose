@@ -15,6 +15,7 @@
  */
 package autodispose2.observers;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 
@@ -22,7 +23,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * A {@link Disposable} {@link SingleObserver} that can automatically dispose itself. Interface here
  * for type safety but enforcement is left to the implementation.
  */
-public interface AutoDisposingSingleObserver<T> extends SingleObserver<T>, Disposable {
+public interface AutoDisposingSingleObserver<@NonNull T> extends SingleObserver<T>, Disposable {
 
   /**
    * Returns the delegate {@link SingleObserver} that is used under the hood for introspection

@@ -15,12 +15,14 @@
  */
 package autodispose2;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.core.Observer;
 
-final class AutoDisposeObservable<T> extends Observable<T> implements ObservableSubscribeProxy<T> {
+final class AutoDisposeObservable<@NonNull T> extends Observable<T>
+    implements ObservableSubscribeProxy<T> {
   private final ObservableSource<T> source;
   private final CompletableSource scope;
 

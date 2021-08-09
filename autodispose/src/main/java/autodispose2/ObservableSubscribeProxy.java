@@ -16,6 +16,7 @@
 package autodispose2;
 
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -24,7 +25,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.observers.TestObserver;
 
 /** Subscribe proxy that matches {@link Observable}'s subscribe overloads. */
-public interface ObservableSubscribeProxy<T> {
+public interface ObservableSubscribeProxy<@NonNull T> {
 
   /**
    * Proxy for {@link Observable#subscribe()}.
@@ -64,7 +65,7 @@ public interface ObservableSubscribeProxy<T> {
    * @return an {@link Observer}
    */
   @CheckReturnValue
-  <E extends Observer<? super T>> E subscribeWith(E observer);
+  <@NonNull E extends Observer<? super T>> E subscribeWith(E observer);
 
   /**
    * Proxy for {@link Observable#test()}.

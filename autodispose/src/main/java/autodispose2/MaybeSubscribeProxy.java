@@ -16,6 +16,7 @@
 package autodispose2;
 
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.MaybeObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -24,7 +25,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.observers.TestObserver;
 
 /** Subscribe proxy that matches {@link Maybe}'s subscribe overloads. */
-public interface MaybeSubscribeProxy<T> {
+public interface MaybeSubscribeProxy<@NonNull T> {
 
   /**
    * Proxy for {@link Maybe#subscribe()}.
@@ -64,7 +65,7 @@ public interface MaybeSubscribeProxy<T> {
    * @return a {@link MaybeObserver}
    */
   @CheckReturnValue
-  <E extends MaybeObserver<? super T>> E subscribeWith(E observer);
+  <@NonNull E extends MaybeObserver<? super T>> E subscribeWith(E observer);
 
   /**
    * Proxy for {@link Maybe#test()}.

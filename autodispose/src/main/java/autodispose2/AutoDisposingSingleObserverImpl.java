@@ -16,13 +16,14 @@
 package autodispose2;
 
 import autodispose2.observers.AutoDisposingSingleObserver;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.observers.DisposableCompletableObserver;
 import java.util.concurrent.atomic.AtomicReference;
 
-final class AutoDisposingSingleObserverImpl<T> implements AutoDisposingSingleObserver<T> {
+final class AutoDisposingSingleObserverImpl<@NonNull T> implements AutoDisposingSingleObserver<T> {
 
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving
   final AtomicReference<Disposable> mainDisposable = new AtomicReference<>();

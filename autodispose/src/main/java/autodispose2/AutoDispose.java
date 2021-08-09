@@ -18,6 +18,7 @@ package autodispose2;
 import static autodispose2.AutoDisposeUtil.checkNotNull;
 import static autodispose2.Scopes.completableOf;
 
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.CompletableSource;
@@ -76,7 +77,7 @@ public final class AutoDispose {
    * @return an {@link AutoDisposeConverter} to transform with operators like {@link
    *     Observable#to(ObservableConverter)}
    */
-  public static <T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
+  public static <@NonNull T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
     checkNotNull(provider, "provider == null");
     return autoDisposable(completableOf(provider));
   }
@@ -97,7 +98,7 @@ public final class AutoDispose {
    * @return an {@link AutoDisposeConverter} to transform with operators like {@link
    *     Observable#to(ObservableConverter)}
    */
-  public static <T> AutoDisposeConverter<T> autoDisposable(final CompletableSource scope) {
+  public static <@NonNull T> AutoDisposeConverter<T> autoDisposable(final CompletableSource scope) {
     checkNotNull(scope, "scope == null");
     return new AutoDisposeConverter<T>() {
       @Override
@@ -136,7 +137,7 @@ public final class AutoDispose {
           }
 
           @Override
-          public <E extends CompletableObserver> E subscribeWith(E observer) {
+          public <@NonNull E extends CompletableObserver> E subscribeWith(E observer) {
             return new AutoDisposeCompletable(upstream, scope).subscribeWith(observer);
           }
 
@@ -194,7 +195,7 @@ public final class AutoDispose {
           }
 
           @Override
-          public <E extends Subscriber<? super T>> E subscribeWith(E observer) {
+          public <@NonNull E extends Subscriber<? super T>> E subscribeWith(E observer) {
             return new AutoDisposeFlowable<>(upstream, scope).subscribeWith(observer);
           }
 
@@ -261,7 +262,7 @@ public final class AutoDispose {
           }
 
           @Override
-          public <E extends MaybeObserver<? super T>> E subscribeWith(E observer) {
+          public <@NonNull E extends MaybeObserver<? super T>> E subscribeWith(E observer) {
             return new AutoDisposeMaybe<>(upstream, scope).subscribeWith(observer);
           }
 
@@ -319,7 +320,7 @@ public final class AutoDispose {
           }
 
           @Override
-          public <E extends Observer<? super T>> E subscribeWith(E observer) {
+          public <@NonNull E extends Observer<? super T>> E subscribeWith(E observer) {
             return new AutoDisposeObservable<>(upstream, scope).subscribeWith(observer);
           }
 
@@ -375,7 +376,7 @@ public final class AutoDispose {
           }
 
           @Override
-          public <E extends SingleObserver<? super T>> E subscribeWith(E observer) {
+          public <@NonNull E extends SingleObserver<? super T>> E subscribeWith(E observer) {
             return new AutoDisposeSingle<>(upstream, scope).subscribeWith(observer);
           }
 
