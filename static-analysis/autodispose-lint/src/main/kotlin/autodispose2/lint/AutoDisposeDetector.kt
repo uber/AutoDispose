@@ -26,8 +26,6 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
-import com.google.common.collect.HashMultimap
-import com.google.common.collect.Multimap
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiType
 import com.intellij.psi.util.PsiUtil
@@ -95,7 +93,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     private const val KOTLIN_EXTENSIONS = "autodispose2.KotlinExtensions"
 
     // The default scopes for Android.
-    private val DEFAULT_SCOPES = listOf(
+    private val DEFAULT_SCOPES = setOf(
       "androidx.lifecycle.LifecycleOwner",
       "autodispose2.ScopeProvider",
       "android.app.Activity",
@@ -115,16 +113,16 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
   // The scopes that are applicable for the lint check.
   // This includes the DEFAULT_SCOPES as well as any custom scopes
   // defined by the consumer.
-  private lateinit var appliedScopes: Set<String>
-  private lateinit var ktExtensionMethodToPackageMap: Multimap<String, String>
-  private lateinit var appliedMethodNames: List<String>
+  private var appliedScopes: Set<String> = DEFAULT_SCOPES
+  private var ktExtensionMethodToPackageMap: Map<String, Set<String>> = emptyMap()
+  private var appliedMethodNames: List<String> = REACTIVE_SUBSCRIBE_METHOD_NAMES.toList()
 
   private var lenient: Boolean = false
 
   override fun beforeCheckRootProject(context: Context) {
     var overrideScopes = false
     val scopes = mutableSetOf<String>()
-    val ktExtensionMethodToPackageMap = HashMultimap.create<String, String>()
+    val ktExtensionMethodToPackageMap = mutableMapOf<String, MutableSet<String>>()
 
     // Add the custom scopes defined in configuration.
     val props = Properties()
@@ -145,7 +143,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
             val arr = it.split("#", limit = 2)
             if (arr.size >= 2) {
               val (packageName, methodName) = arr
-              ktExtensionMethodToPackageMap.put(methodName, packageName)
+              ktExtensionMethodToPackageMap.getOrPut(methodName, ::mutableSetOf).add(packageName)
             }
           }
       }
@@ -162,7 +160,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     }
     this.appliedScopes = scopes
     this.ktExtensionMethodToPackageMap = ktExtensionMethodToPackageMap
-    this.appliedMethodNames = (REACTIVE_SUBSCRIBE_METHOD_NAMES + ktExtensionMethodToPackageMap.keySet()).toList()
+    this.appliedMethodNames = (REACTIVE_SUBSCRIBE_METHOD_NAMES + ktExtensionMethodToPackageMap.keys).toList()
   }
 
   override fun getApplicableMethodNames(): List<String> = appliedMethodNames
@@ -290,9 +288,9 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
   }
 
   private fun isKotlinExtension(evaluator: JavaEvaluator, method: PsiMethod): Boolean {
-    return ktExtensionMethodToPackageMap.get(method.name).any {
+    return ktExtensionMethodToPackageMap[method.name]?.any {
       evaluator.isMemberInClass(method, it)
-    }
+    } ?: false
   }
 
   /**
