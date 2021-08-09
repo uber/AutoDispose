@@ -4,6 +4,19 @@
 
 For Android Java/Kotlin projects, no configuration is required as the AutoDispose lint check is run by default with the existing lint checks. 
 
+For pure JVM projects, apply the `com.android.lint` plugin and add the lint dependency to the `lintChecks` configuration.
+
+```groovy
+plugins {
+  id "org.jetbrains.kotlin.jvm"
+  id "com.android.lint"
+}
+
+dependencies {
+  lintChecks "com.uber.autodispose2:autodispose-lint:<version>"
+}
+```
+
 ## Report example
 
 The following code snippet:

@@ -10,6 +10,17 @@ _2021-08-09_
 * Fix lint using "mainProject" instead of "project", meaning this now supports AGP 7.0.0.
 * Add lint support for RxKotlin extensions or your own extensions
   * See the [docs](https://uber.github.io/AutoDispose/lint-check/) for configuration details!
+* Lint is now published as a dedicated artifact for use in pure JVM projects.
+  ```groovy
+  plugins {
+    id "org.jetbrains.kotlin.jvm"
+    id "com.android.lint"
+  }
+
+  dependencies {
+    lintChecks "com.uber.autodispose2:autodispose-lint:<version>"
+  }
+  ```
 * Deprecate `TestLifecycleOwner` artifact + its extensions in favor of the first party `androidx.lifecycle.testing.TestLifecycleOwner` option.
   * See an example migration in [this PR](https://github.com/uber/AutoDispose/pull/433).
 * Update to RxJava `3.1.0`
