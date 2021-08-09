@@ -190,13 +190,12 @@ subprojects {
         outputDirectory.set(rootProject.file("docs/2.x"))
         moduleName.set(project.property("POM_ARTIFACT_ID"))
         moduleVersion.set(project.property("VERSION_NAME"))
-        cacheRoot.set(file("default"))
         dokkaSourceSets.configureEach {
           skipDeprecated.set(true)
           includes.from("Module.md")
           suppressGeneratedFiles.set(true)
           externalDocumentationLink {
-            url.set(URL("http://reactivex.io/RxJava/3.x/javadoc/"))
+            url.set(new URL("http://reactivex.io/RxJava/3.x/javadoc/"))
           }
           perPackageOption {
             matchingRegex.set(/.*\.internal.*/)

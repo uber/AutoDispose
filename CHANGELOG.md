@@ -1,6 +1,28 @@
 Changelog
 =========
 
+Version 2.1.0
+-------------
+
+_2021-08-09_
+
+* Add `@NonNull` or `: Any` to type arguments where appropriate for better nullability contracts in generics.
+* Fix lint using "mainProject" instead of "project", meaning this now supports AGP 7.0.0.
+* Add lint support for RxKotlin extensions or your own extensions
+  * See the [docs](https://uber.github.io/AutoDispose/lint-check/) for configuration details!
+* Deprecate `TestLifecycleOwner` artifact + its extensions in favor of the first party `androidx.lifecycle.testing.TestLifecycleOwner` option.
+  * See an example migration in [this PR](https://github.com/uber/AutoDispose/pull/433).
+* Update to RxJava `3.1.0`
+* Update to Kotlin `1.5.21`
+* Update to androidx.lifecycle `2.3.1`
+* Update to Error-Prone `2.8.1`
+* Update to kotlinx.coroutines `1.5.1`
+* Update to lint `30.0.0`
+
+Note that we are no longer releasing AutoDispose 1.x versions as RxJava 2 reached End of Life in February 2021.
+
+Thanks to [@Rajin9601](https://github.com/Rajin9601), [@ianhanniballake](https://github.com/ianhanniballake), [@rafaeltoledo](https://github.com/rafaeltoledo), and [@msridhar](https://github.com/msridhar) for contributing to this release!
+
 Version 2.0.0
 -------------
 
