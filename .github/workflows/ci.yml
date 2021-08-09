@@ -61,8 +61,5 @@ jobs:
       - name: Final checks
         run: ./gradlew check --stacktrace
       - name: Upload snapshot (main only)
-        run: ./gradlew publishAllPublicationsToMavenCentralRepository -PmavenCentralUsername="$SONATYPE_NEXUS_USERNAME" -PmavenCentralPassword="$SONATYPE_NEXUS_PASSWORD"
-        env:
-          SONATYPE_NEXUS_USERNAME: ${{ secrets.SonatypeUsername }}
-          SONATYPE_NEXUS_PASSWORD: ${{ secrets.SonatypePassword }}
+        run: ./gradlew publishAllPublicationsToMavenCentralRepository -PmavenCentralUsername="${{ secrets.SonatypeUsername }}" -PmavenCentralPassword="${{ secrets.SonatypePassword }}"
         if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && matrix.java_version == '11'
