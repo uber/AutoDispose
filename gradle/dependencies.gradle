@@ -73,7 +73,7 @@ def misc = [
 
 def rx = [
     android: 'io.reactivex.rxjava3:rxandroid:3.0.0',
-    java: 'io.reactivex.rxjava3:rxjava:3.0.13'
+    java: 'io.reactivex.rxjava3:rxjava:3.1.0'
 ]
 
 def androidx = [
