@@ -116,7 +116,7 @@ public final class AndroidLifecycleScopeProviderTest {
     subject.onNext(2);
     o.assertNoMoreEvents();
 
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+    lifecycle.setCurrentState(Lifecycle.State.DESTROYED);
   }
 
   @Test
@@ -143,8 +143,7 @@ public final class AndroidLifecycleScopeProviderTest {
     subject.onNext(2);
     o.assertNoMoreEvents();
 
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+    lifecycle.setCurrentState(Lifecycle.State.DESTROYED);
   }
 
   @Test
@@ -174,8 +173,7 @@ public final class AndroidLifecycleScopeProviderTest {
     subject.onNext(2);
     o.assertNoMoreEvents();
 
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+    lifecycle.setCurrentState(Lifecycle.State.DESTROYED);
   }
 
   @Test
@@ -208,7 +206,7 @@ public final class AndroidLifecycleScopeProviderTest {
     assertThat(o.takeNext()).isEqualTo(2);
 
     // We should stop here
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+    lifecycle.setCurrentState(Lifecycle.State.DESTROYED);
     subject.onNext(3);
     o.assertNoMoreEvents();
   }
@@ -259,7 +257,7 @@ public final class AndroidLifecycleScopeProviderTest {
     assertThat(o.takeNext()).isEqualTo(2);
 
     // We should stop here
-    lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+    lifecycle.setCurrentState(Lifecycle.State.DESTROYED);
     subject.onNext(3);
     o.assertNoMoreEvents();
   }
