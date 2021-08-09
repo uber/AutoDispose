@@ -10,5 +10,6 @@ public final class autodispose2/lint/AutoDisposeIssueRegistry : com/android/tool
 	public fun <init> ()V
 	public fun getApi ()I
 	public fun getIssues ()Ljava/util/List;
+	public fun getVendor ()Lcom/android/tools/lint/client/api/Vendor;
 }
 
