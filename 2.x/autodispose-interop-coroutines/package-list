@@ -1,14 +1,14 @@
-$dokka.format:html-v1
-$dokka.linkExtension:html
-$dokka.location:autodispose2.interop.coroutines////PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/index.html
-$dokka.location:autodispose2.interop.coroutines//asCompletable/kotlinx.coroutines.CoroutineScope#/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/as-completable.html
-$dokka.location:autodispose2.interop.coroutines//asCoroutineScope/autodispose2.ScopeProvider#kotlin.coroutines.CoroutineContext/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/as-coroutine-scope.html
-$dokka.location:autodispose2.interop.coroutines//asCoroutineScope/io.reactivex.rxjava3.core.CompletableSource#kotlin.coroutines.CoroutineContext/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/as-coroutine-scope.html
-$dokka.location:autodispose2.interop.coroutines//asScopeProvider/kotlinx.coroutines.CoroutineScope#/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/as-scope-provider.html
-$dokka.location:autodispose2.interop.coroutines//autoDispose/io.reactivex.rxjava3.core.Completable#kotlinx.coroutines.CoroutineScope/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/auto-dispose.html
-$dokka.location:autodispose2.interop.coroutines//autoDispose/io.reactivex.rxjava3.core.Flowable[TypeParam(bounds=[kotlin.Any])]#kotlinx.coroutines.CoroutineScope/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/auto-dispose.html
-$dokka.location:autodispose2.interop.coroutines//autoDispose/io.reactivex.rxjava3.core.Maybe[TypeParam(bounds=[kotlin.Any])]#kotlinx.coroutines.CoroutineScope/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/auto-dispose.html
-$dokka.location:autodispose2.interop.coroutines//autoDispose/io.reactivex.rxjava3.core.Observable[TypeParam(bounds=[kotlin.Any])]#kotlinx.coroutines.CoroutineScope/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/auto-dispose.html
-$dokka.location:autodispose2.interop.coroutines//autoDispose/io.reactivex.rxjava3.core.Single[TypeParam(bounds=[kotlin.Any])]#kotlinx.coroutines.CoroutineScope/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/auto-dispose.html
+$dokka.format:gfm-v1
+$dokka.linkExtension:md
+$dokka.location:autodispose2.interop.coroutines////PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/index.md
+$dokka.location:autodispose2.interop.coroutines//asCompletable/kotlinx.coroutines.CoroutineScope#/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/as-completable.md
+$dokka.location:autodispose2.interop.coroutines//asCoroutineScope/autodispose2.ScopeProvider#kotlin.coroutines.CoroutineContext/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/as-coroutine-scope.md
+$dokka.location:autodispose2.interop.coroutines//asCoroutineScope/io.reactivex.rxjava3.core.CompletableSource#kotlin.coroutines.CoroutineContext/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/as-coroutine-scope.md
+$dokka.location:autodispose2.interop.coroutines//asScopeProvider/kotlinx.coroutines.CoroutineScope#/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/as-scope-provider.md
+$dokka.location:autodispose2.interop.coroutines//autoDispose/io.reactivex.rxjava3.core.Completable#kotlinx.coroutines.CoroutineScope/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/auto-dispose.md
+$dokka.location:autodispose2.interop.coroutines//autoDispose/io.reactivex.rxjava3.core.Flowable[TypeParam(bounds=[kotlin.Any])]#kotlinx.coroutines.CoroutineScope/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/auto-dispose.md
+$dokka.location:autodispose2.interop.coroutines//autoDispose/io.reactivex.rxjava3.core.Maybe[TypeParam(bounds=[kotlin.Any])]#kotlinx.coroutines.CoroutineScope/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/auto-dispose.md
+$dokka.location:autodispose2.interop.coroutines//autoDispose/io.reactivex.rxjava3.core.Observable[TypeParam(bounds=[kotlin.Any])]#kotlinx.coroutines.CoroutineScope/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/auto-dispose.md
+$dokka.location:autodispose2.interop.coroutines//autoDispose/io.reactivex.rxjava3.core.Single[TypeParam(bounds=[kotlin.Any])]#kotlinx.coroutines.CoroutineScope/PointingToDeclaration/autodispose-interop-coroutines/autodispose2.interop.coroutines/auto-dispose.md
 autodispose2.interop.coroutines
 

@@ -1,920 +1,590 @@
-<html>
+
+<!doctype html>
+<html lang="en" class="no-js">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>AutoDisposeDetector</title>
-<link href="../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
-  <body>
-    <div id="container">
-      <div id="leftColumn"><a href="../../../index.html">
-          <div id="logo"></div>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Automatic binding+disposal of RxJava 2 streams.">
+      
+      
+      
+        <meta name="author" content="Uber Technologies">
+      
+      
+      <link rel="icon" href="../../../../images/uber_oss_logo.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.1">
+    
+    
+      
+        <title>Index - AutoDispose</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.1118c9be.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ba0d045b.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../../../css/app.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="white">
+  
+    
+    <script>function __prefix(e){return new URL("../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#autodisposedetector" class="md-skip">
+          Skip to content
         </a>
-        <div id="paneSearch"></div>
-        <div id="sideMenu"></div>
-      </div>
-      <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="autodispose-lint::autodispose2.lint/AutoDisposeDetector///PointingToDeclaration//-1163313850">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../../index.html">autodispose-lint</a>/<a href="../index.html">autodispose2.lint</a>/<a href="index.html">AutoDisposeDetector</a></div>
-            <div class="pull-right d-flex">
-              <div id="searchBar"></div>
-            </div>
-          </div>
-          <div class="cover ">
-            <h1 class="cover"><span>Auto</span><wbr></wbr><span>Dispose</span><wbr></wbr><span>Detector</span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">class <a href="index.html">AutoDisposeDetector</a> : <span data-unresolved-link="com.android.tools.lint.detector.api/Detector///PointingToDeclaration/">Detector</span>, <span data-unresolved-link="com.android.tools.lint.detector.api/SourceCodeScanner///PointingToDeclaration/">SourceCodeScanner</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Detector which checks if your stream subscriptions are handled by AutoDispose.</p></div></div>
-          </div>
-          <div class="tabbedcontent">
-            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
-            <div class="tabs-section-body">
-              <h2 class="tabbedcontent">Constructors</h2>
-              <div class="table" data-togglable="Constructors"><a data-name="-978249792%2FConstructors%2F-1163313850" anchor-label="AutoDisposeDetector" id="-978249792%2FConstructors%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue TabbedContent">
-                    <div class=""><span class="inline-flex"><a href="-auto-dispose-detector.html">AutoDisposeDetector</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-978249792%2FConstructors%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">fun <a href="-auto-dispose-detector.html">AutoDisposeDetector</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h2 class="">Functions</h2>
-              <div class="table" data-togglable="Functions"><a data-name="678444378%2FFunctions%2F-1163313850" anchor-label="afterCheckEachProject" id="678444378%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#678444378%2FFunctions%2F-1163313850">afterCheckEachProject</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="678444378%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="AutoDispose" class="md-header__button md-logo" aria-label="AutoDispose" data-md-component="logo">
+      
+  <img src="../../../../images/uber_oss_logo.png" alt="logo">
 
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#678444378%2FFunctions%2F-1163313850">afterCheckEachProject</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1442977594%2FFunctions%2F-1163313850" anchor-label="afterCheckFile" id="-1442977594%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1442977594%2FFunctions%2F-1163313850">afterCheckFile</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1442977594%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1442977594%2FFunctions%2F-1163313850">afterCheckFile</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="106577881%2FFunctions%2F-1163313850" anchor-label="afterCheckRootProject" id="106577881%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#106577881%2FFunctions%2F-1163313850">afterCheckRootProject</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="106577881%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#106577881%2FFunctions%2F-1163313850">afterCheckRootProject</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1605648835%2FFunctions%2F-1163313850" anchor-label="analyzeCallGraph" id="-1605648835%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1605648835%2FFunctions%2F-1163313850">analyzeCallGraph</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1605648835%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1605648835%2FFunctions%2F-1163313850">analyzeCallGraph</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span>, callGraph: <span data-unresolved-link="com.android.tools.lint.detector.api.interprocedural/CallGraphResult///PointingToDeclaration/">CallGraphResult</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-61086896%2FFunctions%2F-1163313850" anchor-label="applicableAnnotations" id="-61086896%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-61086896%2FFunctions%2F-1163313850">applicableAnnotations</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-61086896%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-61086896%2FFunctions%2F-1163313850">applicableAnnotations</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="2136614555%2FFunctions%2F-1163313850" anchor-label="applicableSuperClasses" id="2136614555%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#2136614555%2FFunctions%2F-1163313850">applicableSuperClasses</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2136614555%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#2136614555%2FFunctions%2F-1163313850">applicableSuperClasses</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="165100707%2FFunctions%2F-1163313850" anchor-label="appliesTo" id="165100707%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#165100707%2FFunctions%2F-1163313850">appliesTo</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="165100707%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#165100707%2FFunctions%2F-1163313850">appliesTo</a>(folderType: <span data-unresolved-link="com.android.resources/ResourceFolderType///PointingToDeclaration/">ResourceFolderType</span>): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1746056672%2FFunctions%2F-1163313850" anchor-label="appliesToResourceRefs" id="-1746056672%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1746056672%2FFunctions%2F-1163313850">appliesToResourceRefs</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1746056672%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1746056672%2FFunctions%2F-1163313850">appliesToResourceRefs</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1485910637%2FFunctions%2F-1163313850" anchor-label="beforeCheckEachProject" id="1485910637%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1485910637%2FFunctions%2F-1163313850">beforeCheckEachProject</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1485910637%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#1485910637%2FFunctions%2F-1163313850">beforeCheckEachProject</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1890569453%2FFunctions%2F-1163313850" anchor-label="beforeCheckFile" id="-1890569453%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1890569453%2FFunctions%2F-1163313850">beforeCheckFile</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1890569453%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1890569453%2FFunctions%2F-1163313850">beforeCheckFile</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-690707539%2FFunctions%2F-1163313850" anchor-label="beforeCheckRootProject" id="-690707539%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="before-check-root-project.html">beforeCheckRootProject</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-690707539%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open override fun <a href="before-check-root-project.html">beforeCheckRootProject</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1521050419%2FFunctions%2F-1163313850" anchor-label="checkBinaryResource" id="1521050419%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1521050419%2FFunctions%2F-1163313850">checkBinaryResource</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1521050419%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#1521050419%2FFunctions%2F-1163313850">checkBinaryResource</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/ResourceContext///PointingToDeclaration/">ResourceContext</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1473719069%2FFunctions%2F-1163313850" anchor-label="checkCall" id="-1473719069%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1473719069%2FFunctions%2F-1163313850">checkCall</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1473719069%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1473719069%2FFunctions%2F-1163313850">checkCall</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/ClassContext///PointingToDeclaration/">ClassContext</span>, classNode: <span data-unresolved-link="org.objectweb.asm.tree/ClassNode///PointingToDeclaration/">ClassNode</span>, method: <span data-unresolved-link="org.objectweb.asm.tree/MethodNode///PointingToDeclaration/">MethodNode</span>, call: <span data-unresolved-link="org.objectweb.asm.tree/MethodInsnNode///PointingToDeclaration/">MethodInsnNode</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="760292874%2FFunctions%2F-1163313850" anchor-label="checkClass" id="760292874%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#304050545%2FFunctions%2F-1163313850">checkClass</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="760292874%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#304050545%2FFunctions%2F-1163313850">checkClass</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/ClassContext///PointingToDeclaration/">ClassContext</span>, classNode: <span data-unresolved-link="org.objectweb.asm.tree/ClassNode///PointingToDeclaration/">ClassNode</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace">open fun <a href="index.html#339501327%2FFunctions%2F-1163313850">checkClass</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, declaration: <span data-unresolved-link="com.intellij.psi/PsiClass///PointingToDeclaration/">PsiClass</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1807036180%2FFunctions%2F-1163313850" anchor-label="checkDslPropertyAssignment" id="1807036180%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1629680237%2FFunctions%2F-1163313850">checkDslPropertyAssignment</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1807036180%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1629680237%2FFunctions%2F-1163313850">checkDslPropertyAssignment</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/GradleContext///PointingToDeclaration/">GradleContext</span>, property: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, value: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, parent: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, parentParent: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?, valueCookie: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, statementCookie: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace">open fun <a href="index.html#381982541%2FFunctions%2F-1163313850">checkDslPropertyAssignment</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/GradleContext///PointingToDeclaration/">GradleContext</span>, property: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, value: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, parent: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, parentParent: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?, propertyCookie: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, valueCookie: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, statementCookie: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-375013545%2FFunctions%2F-1163313850" anchor-label="checkFolder" id="-375013545%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-375013545%2FFunctions%2F-1163313850">checkFolder</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-375013545%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-375013545%2FFunctions%2F-1163313850">checkFolder</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/ResourceContext///PointingToDeclaration/">ResourceContext</span>, folderName: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1006905362%2FFunctions%2F-1163313850" anchor-label="checkInstruction" id="1006905362%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1006905362%2FFunctions%2F-1163313850">checkInstruction</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1006905362%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#1006905362%2FFunctions%2F-1163313850">checkInstruction</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/ClassContext///PointingToDeclaration/">ClassContext</span>, classNode: <span data-unresolved-link="org.objectweb.asm.tree/ClassNode///PointingToDeclaration/">ClassNode</span>, method: <span data-unresolved-link="org.objectweb.asm.tree/MethodNode///PointingToDeclaration/">MethodNode</span>, instruction: <span data-unresolved-link="org.objectweb.asm.tree/AbstractInsnNode///PointingToDeclaration/">AbstractInsnNode</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1294397373%2FFunctions%2F-1163313850" anchor-label="checkMergedProject" id="-1294397373%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1294397373%2FFunctions%2F-1163313850">checkMergedProject</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1294397373%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1294397373%2FFunctions%2F-1163313850">checkMergedProject</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1090321512%2FFunctions%2F-1163313850" anchor-label="checkMethodCall" id="1090321512%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-783485435%2FFunctions%2F-1163313850">checkMethodCall</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1090321512%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-783485435%2FFunctions%2F-1163313850">checkMethodCall</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/GradleContext///PointingToDeclaration/">GradleContext</span>, statement: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, parent: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?, namedArguments: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;, unnamedArguments: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;, cookie: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace">open fun <a href="index.html#-1494030583%2FFunctions%2F-1163313850">checkMethodCall</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/GradleContext///PointingToDeclaration/">GradleContext</span>, statement: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, parent: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?, parentParent: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?, namedArguments: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;, unnamedArguments: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;, cookie: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-461042752%2FFunctions%2F-1163313850" anchor-label="checkPartialResults" id="-461042752%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-461042752%2FFunctions%2F-1163313850">checkPartialResults</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-461042752%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-461042752%2FFunctions%2F-1163313850">checkPartialResults</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span>, partialResults: <span data-unresolved-link="com.android.tools.lint.detector.api/PartialResult///PointingToDeclaration/">PartialResult</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1605795772%2FFunctions%2F-1163313850" anchor-label="createPsiVisitor" id="-1605795772%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1605795772%2FFunctions%2F-1163313850">createPsiVisitor</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1605795772%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1605795772%2FFunctions%2F-1163313850">createPsiVisitor</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>): <span data-unresolved-link="com.intellij.psi/JavaElementVisitor///PointingToDeclaration/">JavaElementVisitor</span>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1441644688%2FFunctions%2F-1163313850" anchor-label="createUastHandler" id="1441644688%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="create-uast-handler.html">createUastHandler</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1441644688%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open override fun <a href="create-uast-handler.html">createUastHandler</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>): <span data-unresolved-link="com.android.tools.lint.client.api/UElementHandler///PointingToDeclaration/">UElementHandler</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1082854991%2FFunctions%2F-1163313850" anchor-label="filterIncident" id="1082854991%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1082854991%2FFunctions%2F-1163313850">filterIncident</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1082854991%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#1082854991%2FFunctions%2F-1163313850">filterIncident</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span>, incident: <span data-unresolved-link="com.android.tools.lint.detector.api/Incident///PointingToDeclaration/">Incident</span>, map: <span data-unresolved-link="com.android.tools.lint.detector.api/LintMap///PointingToDeclaration/">LintMap</span>): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="754405188%2FFunctions%2F-1163313850" anchor-label="getApplicableAsmNodeTypes" id="754405188%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#754405188%2FFunctions%2F-1163313850">getApplicableAsmNodeTypes</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="754405188%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#754405188%2FFunctions%2F-1163313850">getApplicableAsmNodeTypes</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int-array/index.html">IntArray</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="717205097%2FFunctions%2F-1163313850" anchor-label="getApplicableAttributes" id="717205097%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#717205097%2FFunctions%2F-1163313850">getApplicableAttributes</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="717205097%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#717205097%2FFunctions%2F-1163313850">getApplicableAttributes</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html">Collection</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-766167312%2FFunctions%2F-1163313850" anchor-label="getApplicableCallNames" id="-766167312%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-766167312%2FFunctions%2F-1163313850">getApplicableCallNames</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-766167312%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-766167312%2FFunctions%2F-1163313850">getApplicableCallNames</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-378852990%2FFunctions%2F-1163313850" anchor-label="getApplicableCallOwners" id="-378852990%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-378852990%2FFunctions%2F-1163313850">getApplicableCallOwners</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-378852990%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-378852990%2FFunctions%2F-1163313850">getApplicableCallOwners</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1630816799%2FFunctions%2F-1163313850" anchor-label="getApplicableConstructorTypes" id="-1630816799%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1630816799%2FFunctions%2F-1163313850">getApplicableConstructorTypes</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1630816799%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1630816799%2FFunctions%2F-1163313850">getApplicableConstructorTypes</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1188370313%2FFunctions%2F-1163313850" anchor-label="getApplicableElements" id="1188370313%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1188370313%2FFunctions%2F-1163313850">getApplicableElements</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1188370313%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#1188370313%2FFunctions%2F-1163313850">getApplicableElements</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html">Collection</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1463275741%2FFunctions%2F-1163313850" anchor-label="getApplicableFiles" id="-1463275741%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1463275741%2FFunctions%2F-1163313850">getApplicableFiles</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1463275741%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1463275741%2FFunctions%2F-1163313850">getApplicableFiles</a>(): <a href="https://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html">EnumSet</a>&lt;<span data-unresolved-link="com.android.tools.lint.detector.api/Scope///PointingToDeclaration/">Scope</span>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="706714386%2FFunctions%2F-1163313850" anchor-label="getApplicableMethodNames" id="706714386%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="get-applicable-method-names.html">getApplicableMethodNames</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="706714386%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open override fun <a href="get-applicable-method-names.html">getApplicableMethodNames</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1800550061%2FFunctions%2F-1163313850" anchor-label="getApplicablePsiTypes" id="1800550061%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1800550061%2FFunctions%2F-1163313850">getApplicablePsiTypes</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1800550061%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#1800550061%2FFunctions%2F-1163313850">getApplicablePsiTypes</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html">Class</a>&lt;out <span data-unresolved-link="com.intellij.psi/PsiElement///PointingToDeclaration/">PsiElement</span>&gt;&gt;?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="432590403%2FFunctions%2F-1163313850" anchor-label="getApplicableReferenceNames" id="432590403%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#432590403%2FFunctions%2F-1163313850">getApplicableReferenceNames</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="432590403%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#432590403%2FFunctions%2F-1163313850">getApplicableReferenceNames</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-688060915%2FFunctions%2F-1163313850" anchor-label="getApplicableUastTypes" id="-688060915%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="get-applicable-uast-types.html">getApplicableUastTypes</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-688060915%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open override fun <a href="get-applicable-uast-types.html">getApplicableUastTypes</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html">Class</a>&lt;out <span data-unresolved-link="org.jetbrains.uast/UElement///PointingToDeclaration/">UElement</span>&gt;&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="640318585%2FFunctions%2F-1163313850" anchor-label="inheritAnnotation" id="640318585%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#640318585%2FFunctions%2F-1163313850">inheritAnnotation</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="640318585%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#640318585%2FFunctions%2F-1163313850">inheritAnnotation</a>(annotation: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1350414010%2FFunctions%2F-1163313850" anchor-label="isApplicableAnnotationUsage" id="1350414010%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1350414010%2FFunctions%2F-1163313850">isApplicableAnnotationUsage</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1350414010%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#1350414010%2FFunctions%2F-1163313850">isApplicableAnnotationUsage</a>(type: <span data-unresolved-link="com.android.tools.lint.detector.api/AnnotationUsageType///PointingToDeclaration/">AnnotationUsageType</span>): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-152763888%2FFunctions%2F-1163313850" anchor-label="isCallGraphRequired" id="-152763888%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-152763888%2FFunctions%2F-1163313850">isCallGraphRequired</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-152763888%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-152763888%2FFunctions%2F-1163313850">isCallGraphRequired</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1585128263%2FFunctions%2F-1163313850" anchor-label="run" id="-1585128263%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1585128263%2FFunctions%2F-1163313850">run</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1585128263%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1585128263%2FFunctions%2F-1163313850">run</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="55171084%2FFunctions%2F-1163313850" anchor-label="visitAnnotationUsage" id="55171084%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#746529557%2FFunctions%2F-1163313850">visitAnnotationUsage</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="55171084%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#746529557%2FFunctions%2F-1163313850">visitAnnotationUsage</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, usage: <span data-unresolved-link="org.jetbrains.uast/UElement///PointingToDeclaration/">UElement</span>, type: <span data-unresolved-link="com.android.tools.lint.detector.api/AnnotationUsageType///PointingToDeclaration/">AnnotationUsageType</span>, annotation: <span data-unresolved-link="org.jetbrains.uast/UAnnotation///PointingToDeclaration/">UAnnotation</span>, qualifiedName: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, method: <span data-unresolved-link="com.intellij.psi/PsiMethod///PointingToDeclaration/">PsiMethod</span>?, annotations: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<span data-unresolved-link="org.jetbrains.uast/UAnnotation///PointingToDeclaration/">UAnnotation</span>&gt;, allMemberAnnotations: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<span data-unresolved-link="org.jetbrains.uast/UAnnotation///PointingToDeclaration/">UAnnotation</span>&gt;, allClassAnnotations: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<span data-unresolved-link="org.jetbrains.uast/UAnnotation///PointingToDeclaration/">UAnnotation</span>&gt;, allPackageAnnotations: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<span data-unresolved-link="org.jetbrains.uast/UAnnotation///PointingToDeclaration/">UAnnotation</span>&gt;)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace">open fun <a href="index.html#469600643%2FFunctions%2F-1163313850">visitAnnotationUsage</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, usage: <span data-unresolved-link="org.jetbrains.uast/UElement///PointingToDeclaration/">UElement</span>, type: <span data-unresolved-link="com.android.tools.lint.detector.api/AnnotationUsageType///PointingToDeclaration/">AnnotationUsageType</span>, annotation: <span data-unresolved-link="org.jetbrains.uast/UAnnotation///PointingToDeclaration/">UAnnotation</span>, qualifiedName: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, method: <span data-unresolved-link="com.intellij.psi/PsiMethod///PointingToDeclaration/">PsiMethod</span>?, referenced: <span data-unresolved-link="com.intellij.psi/PsiElement///PointingToDeclaration/">PsiElement</span>?, annotations: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<span data-unresolved-link="org.jetbrains.uast/UAnnotation///PointingToDeclaration/">UAnnotation</span>&gt;, allMemberAnnotations: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<span data-unresolved-link="org.jetbrains.uast/UAnnotation///PointingToDeclaration/">UAnnotation</span>&gt;, allClassAnnotations: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<span data-unresolved-link="org.jetbrains.uast/UAnnotation///PointingToDeclaration/">UAnnotation</span>&gt;, allPackageAnnotations: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<span data-unresolved-link="org.jetbrains.uast/UAnnotation///PointingToDeclaration/">UAnnotation</span>&gt;)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1698031291%2FFunctions%2F-1163313850" anchor-label="visitAttribute" id="-1698031291%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1698031291%2FFunctions%2F-1163313850">visitAttribute</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1698031291%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1698031291%2FFunctions%2F-1163313850">visitAttribute</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/XmlContext///PointingToDeclaration/">XmlContext</span>, attribute: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-attr/index.html">Attr</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1575607764%2FFunctions%2F-1163313850" anchor-label="visitBuildScript" id="-1575607764%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1575607764%2FFunctions%2F-1163313850">visitBuildScript</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1575607764%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1575607764%2FFunctions%2F-1163313850">visitBuildScript</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1412325153%2FFunctions%2F-1163313850" anchor-label="visitClass" id="-1412325153%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1750640562%2FFunctions%2F-1163313850">visitClass</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1412325153%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1750640562%2FFunctions%2F-1163313850">visitClass</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, declaration: <span data-unresolved-link="org.jetbrains.uast/UClass///PointingToDeclaration/">UClass</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace">open fun <a href="index.html#-1186351203%2FFunctions%2F-1163313850">visitClass</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, lambda: <span data-unresolved-link="org.jetbrains.uast/ULambdaExpression///PointingToDeclaration/">ULambdaExpression</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="607076574%2FFunctions%2F-1163313850" anchor-label="visitConstructor" id="607076574%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1764707558%2FFunctions%2F-1163313850">visitConstructor</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="607076574%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#1764707558%2FFunctions%2F-1163313850">visitConstructor</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, node: <span data-unresolved-link="org.jetbrains.uast/UCallExpression///PointingToDeclaration/">UCallExpression</span>, constructor: <span data-unresolved-link="com.intellij.psi/PsiMethod///PointingToDeclaration/">PsiMethod</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace">open fun <a href="index.html#-1138794860%2FFunctions%2F-1163313850">visitConstructor</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, visitor: <span data-unresolved-link="com.intellij.psi/JavaElementVisitor///PointingToDeclaration/">JavaElementVisitor</span>?, node: <span data-unresolved-link="com.intellij.psi/PsiNewExpression///PointingToDeclaration/">PsiNewExpression</span>, constructor: <span data-unresolved-link="com.intellij.psi/PsiMethod///PointingToDeclaration/">PsiMethod</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1134047712%2FFunctions%2F-1163313850" anchor-label="visitDocument" id="1134047712%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1134047712%2FFunctions%2F-1163313850">visitDocument</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1134047712%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#1134047712%2FFunctions%2F-1163313850">visitDocument</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/XmlContext///PointingToDeclaration/">XmlContext</span>, document: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-document/index.html">Document</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-434032240%2FFunctions%2F-1163313850" anchor-label="visitElement" id="-434032240%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-434032240%2FFunctions%2F-1163313850">visitElement</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-434032240%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-434032240%2FFunctions%2F-1163313850">visitElement</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/XmlContext///PointingToDeclaration/">XmlContext</span>, element: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-element/index.html">Element</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="748808774%2FFunctions%2F-1163313850" anchor-label="visitElementAfter" id="748808774%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#748808774%2FFunctions%2F-1163313850">visitElementAfter</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="748808774%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#748808774%2FFunctions%2F-1163313850">visitElementAfter</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/XmlContext///PointingToDeclaration/">XmlContext</span>, element: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-element/index.html">Element</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1706198624%2FFunctions%2F-1163313850" anchor-label="visitMethod" id="1706198624%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1706198624%2FFunctions%2F-1163313850">visitMethod</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1706198624%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#1706198624%2FFunctions%2F-1163313850">visitMethod</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, visitor: <span data-unresolved-link="com.intellij.psi/JavaElementVisitor///PointingToDeclaration/">JavaElementVisitor</span>?, call: <span data-unresolved-link="com.intellij.psi/PsiMethodCallExpression///PointingToDeclaration/">PsiMethodCallExpression</span>, method: <span data-unresolved-link="com.intellij.psi/PsiMethod///PointingToDeclaration/">PsiMethod</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="772307601%2FFunctions%2F-1163313850" anchor-label="visitMethodCall" id="772307601%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#772307601%2FFunctions%2F-1163313850">visitMethodCall</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="772307601%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#772307601%2FFunctions%2F-1163313850">visitMethodCall</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, node: <span data-unresolved-link="org.jetbrains.uast/UCallExpression///PointingToDeclaration/">UCallExpression</span>, method: <span data-unresolved-link="com.intellij.psi/PsiMethod///PointingToDeclaration/">PsiMethod</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1985108093%2FFunctions%2F-1163313850" anchor-label="visitReference" id="1985108093%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1597959279%2FFunctions%2F-1163313850">visitReference</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1985108093%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-1597959279%2FFunctions%2F-1163313850">visitReference</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, reference: <span data-unresolved-link="org.jetbrains.uast/UReferenceExpression///PointingToDeclaration/">UReferenceExpression</span>, referenced: <span data-unresolved-link="com.intellij.psi/PsiElement///PointingToDeclaration/">PsiElement</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace">open fun <a href="index.html#1431719712%2FFunctions%2F-1163313850">visitReference</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, visitor: <span data-unresolved-link="com.intellij.psi/JavaElementVisitor///PointingToDeclaration/">JavaElementVisitor</span>?, reference: <span data-unresolved-link="com.intellij.psi/PsiJavaCodeReferenceElement///PointingToDeclaration/">PsiJavaCodeReferenceElement</span>, referenced: <span data-unresolved-link="com.intellij.psi/PsiElement///PointingToDeclaration/">PsiElement</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1342146924%2FFunctions%2F-1163313850" anchor-label="visitResourceReference" id="1342146924%2FFunctions%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-465833108%2FFunctions%2F-1163313850">visitResourceReference</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1342146924%2FFunctions%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><div class="symbol monospace">open fun <a href="index.html#-465833108%2FFunctions%2F-1163313850">visitResourceReference</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, node: <span data-unresolved-link="org.jetbrains.uast/UElement///PointingToDeclaration/">UElement</span>, type: <span data-unresolved-link="com.android.resources/ResourceType///PointingToDeclaration/">ResourceType</span>, name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, isFramework: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace">open fun <a href="index.html#-1939286132%2FFunctions%2F-1163313850">visitResourceReference</a>(context: <span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span>, visitor: <span data-unresolved-link="com.intellij.psi/JavaElementVisitor///PointingToDeclaration/">JavaElementVisitor</span>?, node: <span data-unresolved-link="com.intellij.psi/PsiElement///PointingToDeclaration/">PsiElement</span>, type: <span data-unresolved-link="com.android.resources/ResourceType///PointingToDeclaration/">ResourceType</span>, name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, isFramework: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h2 class="">Properties</h2>
-              <div class="table" data-togglable="Properties"><a data-name="259116505%2FProperties%2F-1163313850" anchor-label="customVisitor" id="259116505%2FProperties%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtml/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#259116505%2FProperties%2F-1163313850">customVisitor</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="259116505%2FProperties%2F-1163313850"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtml/main"><a data-name="259116505%2FProperties%2F-1163313850" anchor-label="customVisitor" id="259116505%2FProperties%2F-1163313850" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtml/main"></a><div class="symbol monospace">open val <a href="index.html#259116505%2FProperties%2F-1163313850">customVisitor</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AutoDispose
+          </span>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Index
+            
+          </span>
+        </div>
       </div>
     </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/uber/AutoDispose/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AutoDispose
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="AutoDispose" class="md-nav__button md-logo" aria-label="AutoDispose" data-md-component="logo">
+      
+  <img src="../../../../images/uber_oss_logo.png" alt="logo">
+
+    </a>
+    AutoDispose
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/uber/AutoDispose/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AutoDispose
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        2.X API
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="2.X API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          2.X API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../autodispose/autodispose2/" class="md-nav__link">
+        autodispose
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../autodispose-android/autodispose2.android/" class="md-nav__link">
+        autodispose-android
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../autodispose-androidx-lifecycle/autodispose2.androidx.lifecycle/" class="md-nav__link">
+        autodispose-androidx-lifecycle
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../autodispose-interop-coroutines/autodispose2.interop.coroutines/" class="md-nav__link">
+        autodispose-interop-coroutines
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../autodispose-lifecycle/autodispose2.lifecycle/" class="md-nav__link">
+        autodispose-lifecycle
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../autodispose/autodispose2.observers/" class="md-nav__link">
+        autodispose-observers
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../error-prone/" class="md-nav__link">
+        Error Prone
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lint-check/" class="md-nav__link">
+        Lint Check
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../changelog/" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../migrating-020-030/" class="md-nav__link">
+        Migrating from 0.2.0 to 0.3.0
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../migrating-040-050/" class="md-nav__link">
+        Migrating from 0.4.0 to 0.5.0
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../migrating-1x-2x/" class="md-nav__link">
+        Migrating from 1.x to 2.x
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../code-of-conduct/" class="md-nav__link">
+        Code of Conduct
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#constructors" class="md-nav__link">
+    Constructors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/uber/AutoDispose/edit/master/docs/2.x/autodispose-lint/autodispose2.lint/-auto-dispose-detector/index.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <p>//<a href="../../../">autodispose-lint</a>/<a href="../">autodispose2.lint</a>/<a href="./">AutoDisposeDetector</a></p>
+<h1 id="autodisposedetector">AutoDisposeDetector<a class="headerlink" href="#autodisposedetector" title="Permanent link">&para;</a></h1>
+<p>[jvm]\
+class <a href="./">AutoDisposeDetector</a> : Detector, SourceCodeScanner</p>
+<p>Detector which checks if your stream subscriptions are handled by AutoDispose.</p>
+<h2 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="-auto-dispose-detector/">AutoDisposeDetector</a></td>
+<td>[jvm]<br>fun <a href="-auto-dispose-detector/">AutoDisposeDetector</a>()</td>
+</tr>
+</tbody>
+</table>
+<h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="before-check-root-project/">beforeCheckRootProject</a></td>
+<td>[jvm]<br>open override fun <a href="before-check-root-project/">beforeCheckRootProject</a>(context: Context)</td>
+</tr>
+<tr>
+<td><a href="create-uast-handler/">createUastHandler</a></td>
+<td>[jvm]<br>open override fun <a href="create-uast-handler/">createUastHandler</a>(context: JavaContext): UElementHandler</td>
+</tr>
+<tr>
+<td><a href="get-applicable-method-names/">getApplicableMethodNames</a></td>
+<td>[jvm]<br>open override fun <a href="get-applicable-method-names/">getApplicableMethodNames</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;</td>
+</tr>
+<tr>
+<td><a href="get-applicable-uast-types/">getApplicableUastTypes</a></td>
+<td>[jvm]<br>open override fun <a href="get-applicable-uast-types/">getApplicableUastTypes</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html">Class</a><out UElement>&gt;</td>
+</tr>
+</tbody>
+</table>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2019 Uber Technologies
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../../assets/javascripts/workers/search.53c85856.min.js", "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.716f8af4.min.js"></script>
+      
+    
   </body>
 </html>
-
