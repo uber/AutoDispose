@@ -186,7 +186,7 @@ subprojects {
       }
     }
     project.pluginManager.withPlugin("org.jetbrains.dokka") {
-      tasks.named("dokkaHtml") {
+      tasks.named("dokkaGfm") {
         outputDirectory.set(rootProject.file("docs/2.x"))
         moduleName.set(project.property("POM_ARTIFACT_ID"))
         moduleVersion.set(project.property("VERSION_NAME"))
@@ -194,8 +194,12 @@ subprojects {
           skipDeprecated.set(true)
           includes.from("Module.md")
           suppressGeneratedFiles.set(true)
+          suppressInheritedMembers.set(true)
           externalDocumentationLink {
             url.set(new URL("http://reactivex.io/RxJava/3.x/javadoc/"))
+          }
+          externalDocumentationLink {
+            url.set(new URL("https://kotlin.github.io/kotlinx.coroutines/index.html"))
           }
           perPackageOption {
             matchingRegex.set(/.*\.internal.*/)

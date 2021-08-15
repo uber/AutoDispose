@@ -25,7 +25,7 @@ if ! [ $local ]; then
   git checkout main
 
   # Generate the API docs for 2.x
-  ./gradlew dokkaHtml
+  ./gradlew dokkaGfm
 fi
 
 # Copy in special files that GitHub wants in the project root.

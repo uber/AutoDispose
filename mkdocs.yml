@@ -38,11 +38,12 @@ markdown_extensions:
 nav:
   - 'Overview': index.md
   - '2.X API':
-    - 'autodispose': 2.x/autodispose/autodispose2/index.html
-    - 'autodispose-android': 2.x/autodispose-android/autodispose2.android/index.html
-    - 'autodispose-androidx-lifecycle': 2.x/autodispose-androidx-lifecycle/autodispose2.androidx.lifecycle/index.html
-    - 'autodispose-lifecycle': 2.x/autodispose-lifecycle/autodispose2.lifecycle/index.html
-    - 'autodispose-interop-coroutines': 2.x/coroutines/autodispose2.interop.coroutines/index.html
+    - 'autodispose': 2.x/autodispose/autodispose2/index.md
+    - 'autodispose-android': 2.x/autodispose-android/autodispose2.android/index.md
+    - 'autodispose-androidx-lifecycle': 2.x/autodispose-androidx-lifecycle/autodispose2.androidx.lifecycle/index.md
+    - 'autodispose-interop-coroutines': 2.x/autodispose-interop-coroutines/autodispose2.interop.coroutines/index.md
+    - 'autodispose-lifecycle': 2.x/autodispose-lifecycle/autodispose2.lifecycle/index.md
+    - 'autodispose-observers': 2.x/autodispose/autodispose2.observers/index.md
   - 'Error Prone': error-prone.md
   - 'Lint Check': lint-check.md
   - 'Changelog' : changelog.md
