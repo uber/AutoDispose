@@ -27,6 +27,7 @@ lintOptions {
 
 dependencies {
   api deps.rx.java
+  compileOnly deps.build.errorProneAnnotations
 
   signature deps.build.animalSniffer
   lintChecks project(':static-analysis:autodispose-lint')

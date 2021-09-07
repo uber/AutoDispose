@@ -21,6 +21,7 @@ plugins {
 
 dependencies {
   api project(":autodispose")
+  compileOnly deps.build.errorProneAnnotations
 
   signature deps.build.animalSniffer
 

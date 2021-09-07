@@ -16,7 +16,7 @@
 package autodispose2.lifecycle;
 
 import autodispose2.ScopeProvider;
-import autodispose2.internal.DoNotMock;
+import com.google.errorprone.annotations.DoNotMock;
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.annotations.Nullable;
