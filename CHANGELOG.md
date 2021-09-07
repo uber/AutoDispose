@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.1.1
+-------------
+
+_2021-09-07_
+
+* **Fix:** `SingleSubscribeProxy#subscribe(BiConsumer)` now propagates the correct nullability. Previously, both parameters were implicitly `@NonNull`. Now they are correctly annotated as `@Nullable`.
+* Update Kotlin to `1.5.30`.
+* Update Error Prone Annotations to `2.9.0`.
+* Switch to Error Prone's `@DoNotMock` annotation.
+
 Version 2.1.0
 -------------
 
