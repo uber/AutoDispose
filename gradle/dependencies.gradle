@@ -26,7 +26,7 @@ def versions = [
     kotlin: '1.5.30',
     lint: '30.0.0',
     ktlint: '0.42.1',
-    spotless: '5.14.2'
+    spotless: '5.14.3'
 ]
 
 def apt = [
