@@ -17,6 +17,7 @@ package autodispose2;
 
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.annotations.Nullable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -46,7 +47,7 @@ public interface SingleSubscribeProxy<@NonNull T> {
    *
    * @return a {@link Disposable}
    */
-  Disposable subscribe(BiConsumer<? super T, ? super Throwable> biConsumer);
+  Disposable subscribe(BiConsumer<@Nullable ? super T, @Nullable ? super Throwable> biConsumer);
 
   /**
    * Proxy for {@link Single#subscribe(Consumer, Consumer)}.

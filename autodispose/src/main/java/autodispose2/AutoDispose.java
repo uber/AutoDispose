@@ -19,6 +19,7 @@ import static autodispose2.AutoDisposeUtil.checkNotNull;
 import static autodispose2.Scopes.completableOf;
 
 import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.annotations.Nullable;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.CompletableSource;
@@ -360,7 +361,8 @@ public final class AutoDispose {
           }
 
           @Override
-          public Disposable subscribe(BiConsumer<? super T, ? super Throwable> biConsumer) {
+          public Disposable subscribe(
+              BiConsumer<@Nullable ? super T, @Nullable ? super Throwable> biConsumer) {
             return new AutoDisposeSingle<>(upstream, scope).subscribe(biConsumer);
           }
 
