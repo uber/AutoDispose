@@ -134,10 +134,6 @@ public final class autodispose2/TestScopeProvider : autodispose2/ScopeProvider {
 	public fun requestScope ()Lio/reactivex/rxjava3/core/CompletableSource;
 }
 
-public abstract interface annotation class autodispose2/internal/DoNotMock : java/lang/annotation/Annotation {
-	public abstract fun value ()Ljava/lang/String;
-}
-
 public abstract interface class autodispose2/observers/AutoDisposingCompletableObserver : io/reactivex/rxjava3/core/CompletableObserver, io/reactivex/rxjava3/disposables/Disposable {
 	public abstract fun delegateObserver ()Lio/reactivex/rxjava3/core/CompletableObserver;
 }

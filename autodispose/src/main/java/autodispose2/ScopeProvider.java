@@ -15,7 +15,7 @@
  */
 package autodispose2;
 
-import autodispose2.internal.DoNotMock;
+import com.google.errorprone.annotations.DoNotMock;
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableSource;
