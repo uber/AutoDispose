@@ -361,7 +361,8 @@ public final class AutoDispose {
           }
 
           @Override
-          public Disposable subscribe(BiConsumer<@Nullable ? super T, @Nullable ? super Throwable> biConsumer) {
+          public Disposable subscribe(
+              BiConsumer<@Nullable ? super T, @Nullable ? super Throwable> biConsumer) {
             return new AutoDisposeSingle<>(upstream, scope).subscribe(biConsumer);
           }
 
