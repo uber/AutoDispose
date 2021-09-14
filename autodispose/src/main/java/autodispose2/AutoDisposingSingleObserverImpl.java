@@ -88,6 +88,15 @@ final class AutoDisposingSingleObserverImpl<@NonNull T> implements AutoDisposing
   }
 
   @Override
+  public void onFailure(F value) {
+    if (isDisposed()) {
+      mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
+      AutoDisposableHelper.dispose(scopeDisposable);
+      delegate.onFailure(value);
+    }
+  }
+
+  @Override
   public void onError(Throwable e) {
     if (!isDisposed()) {
       mainDisposable.lazySet(AutoDisposableHelper.DISPOSED);
