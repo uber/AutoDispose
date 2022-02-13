@@ -444,7 +444,7 @@ class AutoDisposeKotlinTest {
       o.takeSubscribe()
 
       assertThat(source.hasObservers()).isTrue()
-      assertThat(scopeSource.hasObservers())
+      assertThat(scopeSource.hasObservers()).isTrue()
 
       source.onNext(1)
       assertThat(o.takeNext()).isEqualTo(1)
@@ -452,7 +452,7 @@ class AutoDisposeKotlinTest {
       source.onNext(2)
 
       assertThat(source.hasObservers()).isTrue()
-      assertThat(scopeSource.hasObservers())
+      assertThat(scopeSource.hasObservers()).isTrue()
       assertThat(o.takeNext()).isEqualTo(2)
 
       scopeSource.onComplete()
@@ -474,7 +474,7 @@ class AutoDisposeKotlinTest {
       o.takeSubscribe()
 
       assertThat(source.hasObservers()).isTrue()
-      assertThat(scopeSource.hasObservers())
+      assertThat(scopeSource.hasObservers()).isTrue()
 
       scopeSource.onComplete()
 
@@ -498,7 +498,7 @@ class AutoDisposeKotlinTest {
       o.takeSubscribe()
 
       assertThat(source.hasObservers()).isTrue()
-      assertThat(scopeSource.hasObservers())
+      assertThat(scopeSource.hasObservers()).isTrue()
 
       scopeSource.onComplete()
 
@@ -522,7 +522,7 @@ class AutoDisposeKotlinTest {
       o.takeSubscribe()
 
       assertThat(source.hasObservers()).isTrue()
-      assertThat(scopeSource.hasObservers())
+      assertThat(scopeSource.hasObservers()).isTrue()
 
       scopeSource.onComplete()
 

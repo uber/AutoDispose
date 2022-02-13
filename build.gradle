@@ -150,7 +150,8 @@ subprojects {
         kotlinOptions {
           freeCompilerArgs = [
               "-Xjsr305=strict",
-              "-progressive"
+              "-progressive",
+              "-Xcontext-receivers"
           ]
           jvmTarget = "1.8"
         }
@@ -167,7 +168,8 @@ subprojects {
         kotlinOptions {
           freeCompilerArgs = [
               "-Xjsr305=strict",
-              "-progressive"
+              "-progressive",
+              "-Xcontext-receivers"
           ]
           jvmTarget = "1.8"
         }
@@ -176,7 +178,8 @@ subprojects {
         kotlinOptions {
           freeCompilerArgs = [
               "-Xjsr305=strict",
-              "-progressive"
+              "-progressive",
+              "-Xcontext-receivers"
           ]
           jvmTarget = "1.8"
         }
