@@ -23,7 +23,7 @@ def versions = [
     errorPronePlugin: '2.0.1',
     gjf: '1.11.0',
     nullawayPlugin: '1.1.0',
-    kotlin: '1.6.10',
+    kotlin: '1.6.20-M1',
     lint: '30.1.0',
     ktlint: '0.42.1',
     spotless: '6.2.1'

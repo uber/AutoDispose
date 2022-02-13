@@ -38,6 +38,36 @@ import kotlinx.coroutines.cancel
 import kotlin.coroutines.CoroutineContext
 
 /** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
+context(CoroutineScope)
+  public inline fun <T : Any> Flowable<T>.autoDispose(): FlowableSubscribeProxy<T> {
+  return autoDispose(asScopeProvider())
+}
+
+/** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
+context(CoroutineScope)
+  public inline fun <T : Any> Observable<T>.autoDispose(): ObservableSubscribeProxy<T> {
+  return autoDispose(asScopeProvider())
+}
+
+/** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
+context(CoroutineScope)
+  public inline fun <T : Any> Single<T>.autoDispose(): SingleSubscribeProxy<T> {
+  return autoDispose(asScopeProvider())
+}
+
+/** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
+context(CoroutineScope)
+  public inline fun <T : Any> Maybe<T>.autoDispose(): MaybeSubscribeProxy<T> {
+  return autoDispose(asScopeProvider())
+}
+
+/** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
+context(CoroutineScope)
+  public inline fun Completable.autoDispose(): CompletableSubscribeProxy {
+  return autoDispose(asScopeProvider())
+}
+
+/** Extension that proxies to the normal [autoDispose] extension function with a [ScopeProvider]. */
 public inline fun <T : Any> Flowable<T>.autoDispose(scope: CoroutineScope): FlowableSubscribeProxy<T> {
   return autoDispose(scope.asScopeProvider())
 }
