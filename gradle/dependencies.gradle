@@ -18,15 +18,15 @@ def versions = [
     androidTest: '1.4.0',
     animalSniffer: '1.5.0',
     androidxLifecycle: '2.3.1',
-    dokka: '1.5.0',
+    dokka: '1.6.10',
     errorProne: '2.9.0',
     errorPronePlugin: '2.0.1',
     gjf: '1.11.0',
     nullawayPlugin: '1.1.0',
-    kotlin: '1.5.30',
-    lint: '30.0.0',
+    kotlin: '1.6.10',
+    lint: '30.1.0',
     ktlint: '0.42.1',
-    spotless: '5.14.3'
+    spotless: '6.2.1'
 ]
 
 def apt = [
@@ -49,7 +49,7 @@ def build = [
     animalSniffer: 'org.codehaus.mojo.signature:java17:1.0@signature',
 
     gradlePlugins: [
-        android: 'com.android.tools.build:gradle:7.0.0',
+        android: 'com.android.tools.build:gradle:7.1.0',
         dokka: "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}",
         dokkaAndroid: "org.jetbrains.dokka:dokka-android-gradle-plugin:${versions.dokka}",
         kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
