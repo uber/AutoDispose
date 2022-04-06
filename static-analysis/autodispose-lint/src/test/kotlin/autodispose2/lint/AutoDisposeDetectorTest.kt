@@ -885,7 +885,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       )
   }
 
-  @Test fun checkLenientLintWithLambdas() {
+  @Test fun checkLenientLintInIfExpression() {
     val propertiesFile = lenientPropertiesFile()
     lint().files(
       *jars(),
@@ -901,9 +901,223 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
 
       class MyActivity: AppCompatActivity {
         private val disposables = CompositeDisposable()
-        fun doSomething(list: List<String>) {
-          list.map {
-            Observable.just(1, 2, 3).subscribe()
+        fun doSomething(flag: Boolean) {
+          if (flag) {
+            Observable.just(1).subscribe()
+          } else {
+            Observable.just(2).subscribe()
+          }
+        }
+      }
+    """
+      ).indented()
+    )
+      .run()
+      .expect(
+        """
+          |src/foo/MyActivity.kt:10: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
+          |      Observable.just(1).subscribe()
+          |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          |src/foo/MyActivity.kt:12: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
+          |      Observable.just(2).subscribe()
+          |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          |2 errors, 0 warnings""".trimMargin()
+      )
+  }
+
+  @Test fun checkLenientLintInIfExpressionCaptured() {
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(
+      *jars(),
+      propertiesFile,
+      LIFECYCLE_OWNER,
+      ACTIVITY,
+      kotlin(
+        """
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.rxjava3.core.Observable
+      import io.reactivex.rxjava3.disposables.CompositeDisposable
+
+      class MyActivity: AppCompatActivity {
+        private val disposables = CompositeDisposable()
+        fun doSomething(flag: Boolean) {
+          val disposable = if (flag) {
+            Observable.just(1).subscribe()
+          } else {
+            Observable.just(2).subscribe()
+          }
+        }
+      }
+    """
+      ).indented()
+    )
+      .run()
+      .expectClean()
+  }
+
+  @Test fun checkLenientLintInWhenExpression() {
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(
+      *jars(),
+      propertiesFile,
+      LIFECYCLE_OWNER,
+      ACTIVITY,
+      kotlin(
+        """
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.rxjava3.core.Observable
+      import io.reactivex.rxjava3.disposables.CompositeDisposable
+
+      class MyActivity: AppCompatActivity {
+        private val disposables = CompositeDisposable()
+        fun doSomething(flag: Boolean) {
+          when (flag) {
+            true -> Observable.just(1).subscribe()
+            false -> Observable.just(2).subscribe()
+          }
+        }
+      }
+    """
+      ).indented()
+    )
+      .run()
+      .expect(
+        """
+          |src/foo/MyActivity.kt:10: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
+          |      true -> Observable.just(1).subscribe()
+          |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          |src/foo/MyActivity.kt:11: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
+          |      false -> Observable.just(2).subscribe()
+          |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          |2 errors, 0 warnings""".trimMargin()
+      )
+  }
+
+  @Test fun checkLenientLintInWhenExpressionCaptured() {
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(
+      *jars(),
+      propertiesFile,
+      LIFECYCLE_OWNER,
+      ACTIVITY,
+      kotlin(
+        """
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.rxjava3.core.Observable
+      import io.reactivex.rxjava3.disposables.CompositeDisposable
+
+      class MyActivity: AppCompatActivity {
+        private val disposables = CompositeDisposable()
+        fun doSomething(flag: Boolean) {
+          val disposable = when (flag) {
+            true -> Observable.just(1).subscribe()
+            false -> Observable.just(2).subscribe()
+          }
+        }
+      }
+    """
+      ).indented()
+    )
+      .run()
+      .expectClean()
+  }
+
+  @Test fun checkLenientLintInLambdaWithUnitReturnExpression() {
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(
+      *jars(),
+      propertiesFile,
+      LIFECYCLE_OWNER,
+      ACTIVITY,
+      kotlin(
+        """
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.rxjava3.core.Observable
+      import io.reactivex.rxjava3.disposables.CompositeDisposable
+
+      class MyActivity: AppCompatActivity {
+        private val disposables = CompositeDisposable()
+        fun doSomething() { 
+          val receiveReturnUnitFn: (() -> Unit) -> Unit = {}
+          receiveReturnUnitFn {
+            Observable.just(1).subscribe()
+          }
+        }
+      }
+    """
+      ).indented()
+    )
+      .run()
+      .expect(
+        """
+          |src/foo/MyActivity.kt:11: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
+          |      Observable.just(1).subscribe()
+          |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          |1 errors, 0 warnings""".trimMargin()
+      )
+  }
+
+  @Test fun checkLenientLintInLambdaWithNonUnitReturnExpression() {
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(
+      *jars(),
+      propertiesFile,
+      LIFECYCLE_OWNER,
+      ACTIVITY,
+      kotlin(
+        """
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.rxjava3.core.Observable
+      import io.reactivex.rxjava3.disposables.CompositeDisposable
+
+      class MyActivity: AppCompatActivity {
+        private val disposables = CompositeDisposable()
+        fun doSomething() { 
+          val receiveReturnAnyFn: (() -> Any) -> Unit = {}
+          receiveReturnAnyFn {
+            Observable.just(1).subscribe()
+            "result"
+          }
+        }
+      }
+    """
+      ).indented()
+    )
+      .run()
+      .expect(
+        """
+          |src/foo/MyActivity.kt:11: Error: ${AutoDisposeDetector.LINT_DESCRIPTION} [AutoDispose]
+          |      Observable.just(1).subscribe()
+          |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          |1 errors, 0 warnings""".trimMargin()
+      )
+  }
+
+  @Test fun checkLenientLintInLambdaExpressionCaptured() {
+    val propertiesFile = lenientPropertiesFile()
+    lint().files(
+      *jars(),
+      propertiesFile,
+      LIFECYCLE_OWNER,
+      ACTIVITY,
+      kotlin(
+        """
+      package foo
+      import androidx.appcompat.app.AppCompatActivity
+      import io.reactivex.rxjava3.core.Observable
+      import io.reactivex.rxjava3.disposables.CompositeDisposable
+
+      class MyActivity: AppCompatActivity {
+        private val disposables = CompositeDisposable()
+        fun doSomething() { 
+          val receiveReturnAnyFn: (() -> Any) -> Unit = {}
+          receiveReturnAnyFn {
+            Observable.just(1).subscribe()
           }
         }
       }
