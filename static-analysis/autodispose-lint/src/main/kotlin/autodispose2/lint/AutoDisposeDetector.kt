@@ -358,7 +358,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
   /**
    * Checks whether the given expression's return value is unused.
    *
-   * Borrowed from https://android.googlesource.com/platform/tools/base/+/studio-master-dev/lint/libs/lint-checks/src/main/java/com/android/tools/lint/checks/CheckResultDetector.kt
+   * Borrowed from https://cs.android.com/android-studio/platform/tools/base/+/mirror-goog-studio-main:lint/libs/lint-checks/src/main/java/com/android/tools/lint/checks/CheckResultDetector.kt;l=289;drc=c5fd7e6e7dd92bf3c57c6fe7a3a3a3ab61f4aec6
    *
    * @param element the element to be analyzed.
    * @return whether the expression is unused.
