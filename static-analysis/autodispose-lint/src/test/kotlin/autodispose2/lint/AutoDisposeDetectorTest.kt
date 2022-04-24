@@ -1041,7 +1041,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
 
       class MyActivity: AppCompatActivity {
         private val disposables = CompositeDisposable()
-        fun doSomething() { 
+        fun doSomething() {
           val receiveReturnUnitFn: (() -> Unit) -> Unit = {}
           receiveReturnUnitFn {
             Observable.just(1).subscribe()
@@ -1077,7 +1077,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
 
       class MyActivity: AppCompatActivity {
         private val disposables = CompositeDisposable()
-        fun doSomething() { 
+        fun doSomething() {
           val receiveReturnAnyFn: (() -> Any) -> Unit = {}
           receiveReturnAnyFn {
             Observable.just(1).subscribe()
@@ -1114,7 +1114,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
 
       class MyActivity: AppCompatActivity {
         private val disposables = CompositeDisposable()
-        fun doSomething() { 
+        fun doSomething() {
           val receiveReturnAnyFn: (() -> Any) -> Unit = {}
           receiveReturnAnyFn {
             Observable.just(1).subscribe()
