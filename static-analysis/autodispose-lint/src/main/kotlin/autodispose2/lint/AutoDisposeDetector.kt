@@ -26,20 +26,31 @@ import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
+import com.android.tools.lint.detector.api.UImplicitCallExpression
+import com.android.tools.lint.detector.api.isJava
+import com.android.tools.lint.detector.api.isKotlin
 import com.intellij.psi.PsiMethod
+import com.intellij.psi.PsiSynchronizedStatement
 import com.intellij.psi.PsiType
 import com.intellij.psi.util.PsiUtil
+import org.jetbrains.uast.UAnnotationMethod
 import org.jetbrains.uast.UBlockExpression
 import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.UCallableReferenceExpression
 import org.jetbrains.uast.UClassInitializer
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UExpression
+import org.jetbrains.uast.UIfExpression
 import org.jetbrains.uast.ULambdaExpression
 import org.jetbrains.uast.UMethod
+import org.jetbrains.uast.UParenthesizedExpression
 import org.jetbrains.uast.UQualifiedReferenceExpression
+import org.jetbrains.uast.USwitchClauseExpressionWithBody
+import org.jetbrains.uast.USwitchExpression
+import org.jetbrains.uast.UYieldExpression
 import org.jetbrains.uast.getContainingUClass
 import org.jetbrains.uast.getParentOfType
+import org.jetbrains.uast.skipParenthesizedExprUp
 import org.jetbrains.uast.visitor.AbstractUastVisitor
 import java.io.StringReader
 import java.util.EnumSet
@@ -347,26 +358,34 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
   /**
    * Checks whether the given expression's return value is unused.
    *
-   * Borrowed from https://android.googlesource.com/platform/tools/base/+/studio-master-dev/lint/libs/lint-checks/src/main/java/com/android/tools/lint/checks/CheckResultDetector.kt
+   * Borrowed from https://cs.android.com/android-studio/platform/tools/base/+/mirror-goog-studio-main:lint/libs/lint-checks/src/main/java/com/android/tools/lint/checks/CheckResultDetector.kt;l=289;drc=c5fd7e6e7dd92bf3c57c6fe7a3a3a3ab61f4aec6
    *
    * @param element the element to be analyzed.
    * @return whether the expression is unused.
    */
   private fun isExpressionValueUnused(element: UElement): Boolean {
-    var prev = element.getParentOfType(
-      UExpression::class.java, false
-    ) ?: return true
-    var curr = prev.uastParent ?: return true
-    while (curr is UQualifiedReferenceExpression && curr.selector === prev) {
+    if (element is UParenthesizedExpression) {
+      return isExpressionValueUnused(element.expression)
+    }
+
+    var prev: UElement = element.getParentOfType(UExpression::class.java, false) ?: return true
+
+    if (prev is UImplicitCallExpression) {
+      // Wrapped overloaded operator call: we need to point to the original element
+      // such that the identity check below (for example in the UIfExpression handling)
+      // recognizes it.
+      prev = prev.expression
+    }
+
+    var curr: UElement = prev.uastParent ?: return true
+    while (curr is UQualifiedReferenceExpression && curr.selector === prev || curr is UParenthesizedExpression) {
       prev = curr
       curr = curr.uastParent ?: return true
     }
+
     @Suppress("RedundantIf")
     if (curr is UBlockExpression) {
-      if (curr.uastParent is ULambdaExpression) {
-        // Lambda block: for now assume used (e.g. parameter
-        // in call. Later consider recursing here to
-        // detect if the lambda itself is unused.
+      if (curr.sourcePsi is PsiSynchronizedStatement) {
         return false
       }
       // In Java, it's apparent when an expression is unused:
@@ -385,19 +404,68 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
       if (index == -1) {
         return true
       }
+
       if (index < block.expressions.size - 1) {
         // Not last child
         return true
       }
+
       // It's the last child: see if the parent is unused
-      val parent = curr.uastParent ?: return true
+      val parent = skipParenthesizedExprUp(curr.uastParent)
+      if (parent is ULambdaExpression && isKotlin(curr.sourcePsi)) {
+        val expressionType = parent.getExpressionType()?.canonicalText
+        if (expressionType != null &&
+          expressionType.startsWith("kotlin.jvm.functions.Function") &&
+          expressionType.endsWith("kotlin.Unit>")
+        ) {
+          // We know that this lambda does not return anything so the value is unused
+          return true
+        }
+        // Lambda block: for now assume used (e.g. parameter
+        // in call. Later consider recursing here to
+        // detect if the lambda itself is unused.
+        return false
+      }
+
+      if (isJava(curr.sourcePsi)) {
+        // In Java there's no implicit passing to the parent
+        return true
+      }
+
+      // It's the last child: see if the parent is unused
+      parent ?: return true
       if (parent is UMethod || parent is UClassInitializer) {
         return true
       }
       return isExpressionValueUnused(parent)
     } else if (curr is UMethod && curr.isConstructor) {
       return true
+    } else if (curr is UIfExpression) {
+      if (curr.condition === prev) {
+        return false
+      } else if (curr.isTernary) {
+        // Ternary expressions can only be used as expressions, not statements,
+        // so we know that the value is used
+        return false
+      }
+      val parent = skipParenthesizedExprUp(curr.uastParent) ?: return true
+      if (parent is UMethod || parent is UClassInitializer) {
+        return true
+      }
+      return isExpressionValueUnused(curr)
+    } else if (curr is UMethod || curr is UClassInitializer) {
+      if (curr is UAnnotationMethod) {
+        return false
+      }
+      return true
     } else {
+      @Suppress("UnstableApiUsage")
+      if (curr is UYieldExpression) {
+        val p2 = skipParenthesizedExprUp((skipParenthesizedExprUp(curr.uastParent))?.uastParent)
+        val body = p2 as? USwitchClauseExpressionWithBody ?: return false
+        val switch = body.getParentOfType(USwitchExpression::class.java) ?: return true
+        return isExpressionValueUnused(switch)
+      }
       // Some other non block node type, such as assignment,
       // method declaration etc: not unused
       // TODO: Make sure that a void/unit method inline declaration
