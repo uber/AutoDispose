@@ -13,17 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
-import com.android.build.gradle.api.BaseVariant
+import com.diffplug.gradle.spotless.SpotlessExtension
+import com.diffplug.gradle.spotless.SpotlessExtensionPredeclare
+import com.diffplug.spotless.LineEnding
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import java.net.URI
 import net.ltgt.gradle.errorprone.CheckSeverity
 import net.ltgt.gradle.errorprone.errorprone
 import net.ltgt.gradle.nullaway.nullaway
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   alias(libs.plugins.kotlin.jvm) apply false
@@ -33,7 +39,7 @@ plugins {
   alias(libs.plugins.android.lint) apply false
   alias(libs.plugins.errorProne) apply false
   alias(libs.plugins.nullAway) apply false
-  alias(libs.plugins.dokka) apply false
+  alias(libs.plugins.dokka)
   alias(libs.plugins.animalSniffer) apply false
   alias(libs.plugins.mavenPublish) apply false
   alias(libs.plugins.ksp) apply false
@@ -65,189 +71,202 @@ val copiedFiles =
     .map { "**/*${it}.java" }
     .toTypedArray()
 
-spotless {
-  format("misc") {
-    target("**/*.md", "**/.gitignore")
-    indentWithSpaces(2)
-    trimTrailingWhitespace()
-    endWithNewline()
+tasks.dokkaHtmlMultiModule {
+  outputDirectory.set(rootDir.resolve("docs/api/2.x"))
+  includes.from(project.layout.projectDirectory.file("README.md"))
+}
+
+val ktfmtVersion = libs.versions.ktfmt.get()
+
+allprojects {
+  apply(plugin = "com.diffplug.spotless")
+  val spotlessFormatters: SpotlessExtension.() -> Unit = {
+    lineEndings = LineEnding.PLATFORM_NATIVE
+
+    format("misc") {
+      target("**/*.md", "**/.gitignore")
+      indentWithSpaces(2)
+      trimTrailingWhitespace()
+      endWithNewline()
+    }
+    kotlin {
+      target("**/src/**/*.kt")
+      targetExclude("spotless/copyright.kt")
+      ktfmt(ktfmtVersion).googleStyle()
+      licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
+      trimTrailingWhitespace()
+      endWithNewline()
+    }
+    kotlinGradle {
+      target("*.kts")
+      targetExclude("spotless/copyright.kt")
+      ktfmt(ktfmtVersion).googleStyle()
+      trimTrailingWhitespace()
+      endWithNewline()
+      licenseHeaderFile(
+        rootProject.file("spotless/copyright.kt"),
+        "(import|plugins|buildscript|dependencies|pluginManagement|dependencyResolutionManagement)"
+      )
+    }
+
+    java {
+      target("**/*.java")
+      targetExclude(*copiedFiles, "spotless/copyright.java")
+      googleJavaFormat(libs.versions.gjf.get())
+      licenseHeaderFile(rootProject.file("spotless/copyright.java"))
+      removeUnusedImports()
+      trimTrailingWhitespace()
+      endWithNewline()
+    }
   }
-  kotlin {
-    target("**/src/**/*.kt")
-    targetExclude("spotless/copyright.kt")
-    ktfmt(libs.versions.ktfmt.get()).googleStyle()
-    licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
-    trimTrailingWhitespace()
-    endWithNewline()
+  configure<SpotlessExtension> {
+    spotlessFormatters()
+    if (project.rootProject == project) {
+      predeclareDeps()
+    }
   }
-  kotlinGradle {
-    target("*.kts")
-    targetExclude("spotless/copyright.kt")
-    ktfmt(libs.versions.ktfmt.get()).googleStyle()
-    trimTrailingWhitespace()
-    endWithNewline()
-    licenseHeaderFile(
-      rootProject.file("spotless/copyright.kt"),
-      "(import|plugins|buildscript|dependencies|pluginManagement|dependencyResolutionManagement)"
-    )
-  }
-  java {
-    target("**/*.java")
-    targetExclude(*copiedFiles, "spotless/copyright.java")
-    googleJavaFormat(libs.versions.gjf.get())
-    licenseHeaderFile(rootProject.file("spotless/copyright.java"))
-    removeUnusedImports()
-    trimTrailingWhitespace()
-    endWithNewline()
+  if (project.rootProject == project) {
+    configure<SpotlessExtensionPredeclare> { spotlessFormatters() }
   }
 }
 
 val compileSdkVersionInt: Int = libs.versions.compileSdkVersion.get().toInt()
 val targetSdkVersion: Int = libs.versions.targetSdkVersion.get().toInt()
 val minSdkVersion: Int = libs.versions.minSdkVersion.get().toInt()
-val jvmTargetString = libs.versions.jvmTarget.get()
-val lintJvmTargetString = libs.versions.lintJvmTarget.get()
+val defaultJvmTargetVersion = libs.versions.jvmTarget
+val lintJvmTargetVersion = libs.versions.lintJvmTarget
 val nullAwayDep = libs.build.nullAway
 val errorProneDep = libs.build.errorProne
 
 subprojects {
-  val isMixedSourceSet = project.name in mixedSourcesArtifacts
-  val isAndroidLibrary = project.path.startsWith(":android:")
-  val isLint = project.path.endsWith("-lint")
-  val isKotlin =
-    project.path.endsWith("-ktx") ||
-      isLint ||
-      isMixedSourceSet ||
-      project.path.contains("coroutines")
   val isSample = project.name == "sample"
-  val isJavaLibrary =
-    !isAndroidLibrary && !isKotlin && !isSample || (isMixedSourceSet && !isAndroidLibrary)
-  val usesErrorProne = !isKotlin && !isSample || isMixedSourceSet
-  project.pluginManager.withPlugin("java") {
-    configure<JavaPluginExtension> { toolchain { languageVersion.set(JavaLanguageVersion.of(11)) } }
-  }
-  if (isAndroidLibrary) {
-    project.apply(plugin = "com.android.library")
-    project.configure<LibraryExtension> {
-      compileSdk = compileSdkVersionInt
-
-      defaultConfig {
-        minSdk = minSdkVersion
-        consumerProguardFiles("consumer-proguard-rules.txt")
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testApplicationId = "autodispose2.android.lifecycle.androidTest"
-      }
-      compileOptions {
-        sourceCompatibility = JavaVersion.toVersion(jvmTargetString)
-        targetCompatibility = JavaVersion.toVersion(jvmTargetString)
-      }
-      lint { lintConfig = file("lint.xml") }
-      testOptions { execution = "ANDROIDX_TEST_ORCHESTRATOR" }
-    }
-  } else if (!isSample && !isLint) {
-    project.tasks.withType<JavaCompile>().configureEach {
-      // Cannot set JavaCompile's release flag in android projects
-      options.release.set(8)
-    }
-  }
-  if (isKotlin) {
-    if (isAndroidLibrary) {
-      project.apply(plugin = "org.jetbrains.kotlin.android")
-      project.apply(plugin = "org.jetbrains.dokka")
-
-      project.tasks.withType<KotlinCompile>().configureEach {
-        compilerOptions {
-          freeCompilerArgs.addAll("-Xjsr305=strict")
-          progressiveMode.set(true)
-          jvmTarget.set(JvmTarget.fromTarget(jvmTargetString))
-        }
-      }
-
-      project.configure<KotlinProjectExtension> { explicitApi() }
+  val isLint = project.path.endsWith("-lint")
+  val isAndroid = project.path.startsWith(":android:") || isSample
+  val jvmTargetVersion =
+    if (isLint) {
+      lintJvmTargetVersion
     } else {
-      project.apply(plugin = "org.jetbrains.kotlin.jvm")
-      project.apply(plugin = "org.jetbrains.dokka")
+      defaultJvmTargetVersion
+    }
 
-      project.tasks.withType<KotlinCompile>().configureEach {
-        compilerOptions {
-          freeCompilerArgs.addAll("-Xjsr305=strict")
-          progressiveMode.set(true)
-          jvmTarget.set(JvmTarget.fromTarget(
-            if (isLint) {
-              lintJvmTargetString
-            } else {
-              jvmTargetString
-            }
-          ))
-        }
+  pluginManager.withPlugin("java") {
+    configure<JavaPluginExtension> {
+      toolchain {
+        languageVersion.set(
+          JavaLanguageVersion.of(libs.versions.jdk.get().removeSuffix("-ea").toInt())
+        )
       }
-      project.configure<KotlinProjectExtension> { explicitApi() }
     }
-    project.pluginManager.withPlugin("org.jetbrains.dokka") {
-      tasks.withType<DokkaTaskPartial>() {
-        outputDirectory.set(rootProject.file("docs/2.x"))
-        moduleName.set(project.providers.gradleProperty("POM_ARTIFACT_ID"))
-        moduleVersion.set(project.providers.gradleProperty("VERSION_NAME"))
-        dokkaSourceSets.configureEach {
-          skipDeprecated.set(true)
-          includes.from("Module.md")
-          suppressGeneratedFiles.set(true)
-          suppressInheritedMembers.set(true)
-          externalDocumentationLink {
-            url.set(URI("https://reactivex.io/RxJava/3.x/javadoc/").toURL())
-          }
-          externalDocumentationLink {
-            url.set(URI("https://kotlin.github.io/kotlinx.coroutines/index.html").toURL())
-          }
-          perPackageOption {
-            matchingRegex.set("/.*\\.internal.*/")
-            suppress.set(true)
+
+    if (!isAndroid) {
+      tasks.withType<JavaCompile>().configureEach {
+        options.release.set(jvmTargetVersion.map { it.removePrefix("1.") }.map(String::toInt))
+      }
+    }
+  }
+
+  val configureKotlin =
+    Action<AppliedPlugin> {
+      configure<KotlinProjectExtension> {
+        if (!isSample) {
+          explicitApi()
+        }
+        if (this is KotlinJvmProjectExtension) {
+          compilerOptions {
+            jvmTarget.set(jvmTargetVersion.map(JvmTarget::fromTarget))
+            freeCompilerArgs.addAll("-Xjsr305=strict")
+            progressiveMode.set(true)
           }
         }
       }
     }
-  }
-  if (isJavaLibrary) {
-    project.apply(plugin = "java-library")
-    project.tasks.withType<Test>().configureEach { testLogging.showStandardStreams = true }
-  }
-  if (usesErrorProne) {
-    project.apply(plugin = "net.ltgt.errorprone")
-    project.apply(plugin = "net.ltgt.nullaway")
-    project.dependencies {
-      add("errorprone", nullAwayDep)
-      add("errorprone", errorProneDep)
-    }
-    if (isJavaLibrary) {
-      project.tasks.withType<JavaCompile>().configureEach {
-        options.errorprone.nullaway {
-          severity = CheckSeverity.ERROR
-          annotatedPackages.add("autodispose2")
+  pluginManager.withPlugin("org.jetbrains.kotlin.jvm", configureKotlin)
+  pluginManager.withPlugin("org.jetbrains.kotlin.android", configureKotlin)
+
+  pluginManager.withPlugin("com.vanniktech.maven.publish") {
+    project.apply(plugin = "org.jetbrains.dokka")
+
+    tasks.withType<DokkaTaskPartial>().configureEach {
+      outputDirectory.set(buildDir.resolve("docs/partial"))
+      moduleName.set(project.providers.gradleProperty("POM_ARTIFACT_ID"))
+      moduleVersion.set(project.providers.gradleProperty("VERSION_NAME"))
+      dokkaSourceSets.configureEach {
+        skipDeprecated.set(true)
+        includes.from("Module.md")
+        suppressGeneratedFiles.set(true)
+        suppressInheritedMembers.set(true)
+        externalDocumentationLink {
+          url.set(URI("https://reactivex.io/RxJava/3.x/javadoc/").toURL())
+        }
+        externalDocumentationLink {
+          url.set(URI("https://kotlin.github.io/kotlinx.coroutines/index.html").toURL())
+        }
+        perPackageOption {
+          matchingRegex.set("/.*\\.internal.*/")
+          suppress.set(true)
+        }
+        val moduleMd = project.layout.projectDirectory.file("Module.md")
+        if (moduleMd.asFile.exists()) {
+          includes.from(moduleMd)
         }
       }
     }
-  }
-  if (isAndroidLibrary) {
-    configure<LibraryAndroidComponentsExtension> {
-      beforeVariants(selector().withBuildType("debug")) { builder -> builder.enable = false }
+
+    configure<MavenPublishBaseExtension> {
+      publishToMavenCentral(automaticRelease = true)
+      signAllPublications()
     }
   }
-  afterEvaluate {
-    if (isAndroidLibrary && usesErrorProne) {
-      configure<LibraryExtension> {
-        @Suppress("DEPRECATION") // no alternative
-        val configurer: (BaseVariant) -> Unit = { variant ->
-          variant.javaCompileProvider.configure {
-            options.errorprone.nullaway {
-              severity = CheckSeverity.ERROR
-              annotatedPackages.add("autodispose2")
-            }
-          }
-        }
-        libraryVariants.configureEach(configurer)
-        testVariants.configureEach(configurer)
-        unitTestVariants.configureEach(configurer)
+
+  // Common android config
+  val commonAndroidConfig: CommonExtension<*, *, *, *>.() -> Unit = {
+    compileSdk = compileSdkVersionInt
+
+    defaultConfig {
+      minSdk = minSdkVersion
+      testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+      testApplicationId = "autodispose2.androidTest"
+    }
+    compileOptions {
+      sourceCompatibility = JavaVersion.toVersion(jvmTargetVersion.get())
+      targetCompatibility = JavaVersion.toVersion(jvmTargetVersion.get())
+    }
+    lint { lintConfig = file("lint.xml") }
+    testOptions { execution = "ANDROIDX_TEST_ORCHESTRATOR" }
+
+    lint { checkTestSources = true }
+  }
+
+  pluginManager.withPlugin("com.android.library") {
+    project.configure<LibraryExtension> {
+      commonAndroidConfig()
+      defaultConfig { consumerProguardFiles("consumer-proguard-rules.txt") }
+      configure<LibraryAndroidComponentsExtension> {
+        beforeVariants(selector().withBuildType("debug")) { builder -> builder.enable = false }
       }
+    }
+  }
+
+  pluginManager.withPlugin("com.android.application") {
+    project.configure<ApplicationExtension> {
+      commonAndroidConfig()
+      configure<ApplicationAndroidComponentsExtension> {
+        // Only debug enabled for this one
+        beforeVariants(selector().withBuildType("release")) { builder -> builder.enable = false }
+      }
+    }
+  }
+
+  project.apply(plugin = "net.ltgt.errorprone")
+  project.apply(plugin = "net.ltgt.nullaway")
+  project.dependencies {
+    add("errorprone", nullAwayDep)
+    add("errorprone", errorProneDep)
+  }
+  project.tasks.withType<JavaCompile>().configureEach {
+    options.errorprone.nullaway {
+      severity = CheckSeverity.ERROR
+      annotatedPackages.add("autodispose2")
     }
   }
 }

@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2017. Uber Technologies
+ * Copyright (C) 2017. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    https://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import com.android.build.gradle.api.BaseVariant
 import net.ltgt.gradle.errorprone.CheckSeverity
 import net.ltgt.gradle.errorprone.errorprone
 import net.ltgt.gradle.nullaway.nullaway
@@ -47,32 +46,26 @@ android {
   lint { checkDependencies = true }
   buildTypes { getByName("debug") { matchingFallbacks += listOf("release") } }
   testOptions { execution = "ANDROIDX_TEST_ORCHESTRATOR" }
+}
 
-  val classesWithScope =
-    listOf(
-      "android.app.Activity",
-      "android.app.Fragment",
-      "androidx.lifecycle.LifecycleOwner",
-      "autodispose2.ScopeProvider",
-      "autodispose2.sample.CustomScope"
-    )
+val classesWithScope =
+  listOf(
+    "android.app.Activity",
+    "android.app.Fragment",
+    "androidx.lifecycle.LifecycleOwner",
+    "autodispose2.ScopeProvider",
+    "autodispose2.sample.CustomScope"
+  )
 
-  val configurer: (BaseVariant) -> Unit = { variant ->
-    variant.javaCompileProvider.configure {
-      options.errorprone {
-        nullaway {
-          severity = CheckSeverity.ERROR
-          annotatedPackages.add("com.uber")
-        }
-        check("AutoDispose", CheckSeverity.ERROR)
-        option("AutoDispose:TypesWithScope", classesWithScope.joinToString(","))
-      }
+tasks.withType<JavaCompile>().configureEach {
+  options.errorprone {
+    nullaway {
+      severity = CheckSeverity.ERROR
+      annotatedPackages.add("com.uber")
     }
+    check("AutoDispose", CheckSeverity.ERROR)
+    option("AutoDispose:TypesWithScope", classesWithScope.joinToString(","))
   }
-
-  applicationVariants.configureEach(configurer)
-  testVariants.configureEach(configurer)
-  unitTestVariants.configureEach(configurer)
 }
 
 androidComponents {
