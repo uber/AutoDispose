@@ -10,10 +10,10 @@ dokka = "1.8.20"
 errorProne = "2.20.0"
 errorPronePlugin = "2.0.1"
 fragmentKtx = "1.6.0"
-gjf = "1.11.0"
+gjf = "1.17.0"
 jvmTarget = "1.8"
 kotlin = "1.9.0"
-ktlint = "0.50.0"
+ktfmt = "0.44"
 leakcanaryAndroid = "2.12"
 lifecycleExtensions = "2.2.0"
 lint = "31.0.2"
@@ -72,6 +72,12 @@ kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2"
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 multidex = { module = "com.android.support:multidex", version.ref = "multidex" }
+
+
+# Only present to trigger automatic renovate updates
+renovateTrigger-ktfmt = { module = "com.facebook:ktfmt", version.ref = "ktfmt" }
+renovateTrigger-gjf = { module = "com.google.googlejavaformat:google-java-format", version.ref = "gjf" }
+
 replaying-share-kotlin = { module = "com.jakewharton.rx2:replaying-share-kotlin", version.ref = "replayingShareKotlin" }
 rx-android = "io.reactivex.rxjava3:rxandroid:3.0.2"
 rx-java = "io.reactivex.rxjava3:rxjava:3.1.6"

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import net.ltgt.gradle.errorprone.CheckSeverity
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.api.BaseVariant
-import com.diffplug.gradle.spotless.SpotlessExtension
+import java.net.URI
+import net.ltgt.gradle.errorprone.CheckSeverity
 import net.ltgt.gradle.errorprone.errorprone
 import net.ltgt.gradle.nullaway.nullaway
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import java.net.URI
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   alias(libs.plugins.kotlin.jvm) apply false
@@ -41,27 +40,29 @@ plugins {
   alias(libs.plugins.binaryCompatibilityValidator)
 }
 
-apiValidation {
-  ignoredProjects += listOf("sample", "test-utils")
-}
+apiValidation { ignoredProjects += listOf("sample", "test-utils") }
 
-val mixedSourcesArtifacts = setOf(
+val mixedSourcesArtifacts =
+  setOf(
     "autodispose",
     "autodispose-android",
     "autodispose-androidx-lifecycle",
     "autodispose-androidx-lifecycle-test",
     "autodispose-lifecycle"
-)
+  )
 // These are files with different copyright headers that should not be modified automatically.
-val copiedFiles = listOf(
-    "AtomicThrowable",
-    "AutoDisposableHelper",
-    "AutoDisposeBackpressureHelper",
-    "AutoDisposeEndConsumerHelper",
-    "AutoSubscriptionHelper",
-    "ExceptionHelper",
-    "HalfSerializer",
-).map { "**/*${it}.java" }.toTypedArray()
+val copiedFiles =
+  listOf(
+      "AtomicThrowable",
+      "AutoDisposableHelper",
+      "AutoDisposeBackpressureHelper",
+      "AutoDisposeEndConsumerHelper",
+      "AutoSubscriptionHelper",
+      "ExceptionHelper",
+      "HalfSerializer",
+    )
+    .map { "**/*${it}.java" }
+    .toTypedArray()
 
 spotless {
   format("misc") {
@@ -72,21 +73,29 @@ spotless {
     endWithNewline()
   }
   kotlin {
-    target ("**/src/**/*.kt", "**/*.kts")
-    ktlint(libs.versions.ktlint.get()).userData(
-      mapOf(
-        "indent_size" to "2", "continuation_indent_size" to "2"
-      )
-    )
-    licenseHeaderFile (rootProject.file("spotless/copyright.kt"))
+    target("**/src/**/*.kt")
+    targetExclude("spotless/copyright.kt")
+    ktfmt(libs.versions.ktfmt.get()).googleStyle()
+    licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
     trimTrailingWhitespace()
     endWithNewline()
   }
+  kotlinGradle {
+    target("*.kts")
+    targetExclude("spotless/copyright.kt")
+    ktfmt(libs.versions.ktfmt.get()).googleStyle()
+    trimTrailingWhitespace()
+    endWithNewline()
+    licenseHeaderFile(
+      rootProject.file("spotless/copyright.kt"),
+      "(import|plugins|buildscript|dependencies|pluginManagement|dependencyResolutionManagement)"
+    )
+  }
   java {
-    target ("**/*.java")
-    targetExclude(copiedFiles)
+    target("**/*.java")
+    targetExclude(*copiedFiles, "spotless/copyright.java")
     googleJavaFormat(libs.versions.gjf.get())
-    licenseHeaderFile (rootProject.file("spotless/copyright.java"))
+    licenseHeaderFile(rootProject.file("spotless/copyright.java"))
     removeUnusedImports()
     trimTrailingWhitespace()
     endWithNewline()
@@ -96,25 +105,26 @@ spotless {
 val compileSdkVersionInt: Int = libs.versions.compileSdkVersion.get().toInt()
 val targetSdkVersion: Int = libs.versions.targetSdkVersion.get().toInt()
 val minSdkVersion: Int = libs.versions.minSdkVersion.get().toInt()
-val ktLintVersion = libs.versions.ktlint.get()
 val jvmTargetString = libs.versions.jvmTarget.get()
 val lintJvmTargetString = libs.versions.lintJvmTarget.get()
 val nullAwayDep = libs.build.nullAway
 val errorProneDep = libs.build.errorProne
+
 subprojects {
   val isMixedSourceSet = project.name in mixedSourcesArtifacts
   val isAndroidLibrary = project.path.startsWith(":android:")
   val isLint = project.path.endsWith("-lint")
-  val isKotlin = project.path.endsWith("-ktx") || isLint || isMixedSourceSet || project.path.contains("coroutines")
+  val isKotlin =
+    project.path.endsWith("-ktx") ||
+      isLint ||
+      isMixedSourceSet ||
+      project.path.contains("coroutines")
   val isSample = project.name == "sample"
-  val isJavaLibrary = !isAndroidLibrary && !isKotlin && !isSample || (isMixedSourceSet && !isAndroidLibrary)
+  val isJavaLibrary =
+    !isAndroidLibrary && !isKotlin && !isSample || (isMixedSourceSet && !isAndroidLibrary)
   val usesErrorProne = !isKotlin && !isSample || isMixedSourceSet
   project.pluginManager.withPlugin("java") {
-    configure<JavaPluginExtension> {
-      toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-      }
-    }
+    configure<JavaPluginExtension> { toolchain { languageVersion.set(JavaLanguageVersion.of(11)) } }
   }
   if (isAndroidLibrary) {
     project.apply(plugin = "com.android.library")
@@ -131,12 +141,8 @@ subprojects {
         sourceCompatibility = JavaVersion.toVersion(jvmTargetString)
         targetCompatibility = JavaVersion.toVersion(jvmTargetString)
       }
-      lint {
-        lintConfig = file("lint.xml")
-      }
-      testOptions {
-        execution = "ANDROIDX_TEST_ORCHESTRATOR"
-      }
+      lint { lintConfig = file("lint.xml") }
+      testOptions { execution = "ANDROIDX_TEST_ORCHESTRATOR" }
     }
   } else if (!isSample && !isLint) {
     project.tasks.withType<JavaCompile>().configureEach {
@@ -151,37 +157,28 @@ subprojects {
 
       project.tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-          freeCompilerArgs = listOf(
-            "-Xjsr305=strict",
-            "-progressive"
-          )
+          freeCompilerArgs = listOf("-Xjsr305=strict", "-progressive")
           jvmTarget = jvmTargetString
         }
       }
 
-      project.configure<KotlinProjectExtension> {
-        explicitApi()
-      }
+      project.configure<KotlinProjectExtension> { explicitApi() }
     } else {
       project.apply(plugin = "org.jetbrains.kotlin.jvm")
       project.apply(plugin = "org.jetbrains.dokka")
 
       project.tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-          freeCompilerArgs = listOf(
-            "-Xjsr305=strict",
-            "-progressive"
-          )
-          jvmTarget = if (isLint) {
-            lintJvmTargetString
-          } else {
-            jvmTargetString
-          }
+          freeCompilerArgs = listOf("-Xjsr305=strict", "-progressive")
+          jvmTarget =
+            if (isLint) {
+              lintJvmTargetString
+            } else {
+              jvmTargetString
+            }
         }
       }
-      project.configure<KotlinProjectExtension> {
-        explicitApi()
-      }
+      project.configure<KotlinProjectExtension> { explicitApi() }
     }
     project.pluginManager.withPlugin("org.jetbrains.dokka") {
       tasks.withType<DokkaTaskPartial>() {
@@ -209,9 +206,7 @@ subprojects {
   }
   if (isJavaLibrary) {
     project.apply(plugin = "java-library")
-    project.tasks.withType<Test>().configureEach {
-      testLogging.showStandardStreams = true
-    }
+    project.tasks.withType<Test>().configureEach { testLogging.showStandardStreams = true }
   }
   if (usesErrorProne) {
     project.apply(plugin = "net.ltgt.errorprone")
@@ -231,9 +226,7 @@ subprojects {
   }
   if (isAndroidLibrary) {
     configure<LibraryAndroidComponentsExtension> {
-      beforeVariants(selector().withBuildType("debug")) { builder ->
-        builder.enable = false
-      }
+      beforeVariants(selector().withBuildType("debug")) { builder -> builder.enable = false }
     }
   }
   afterEvaluate {
