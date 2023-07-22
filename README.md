@@ -1,5 +1,4 @@
-AutoDispose
-===========
+# AutoDispose
 
 Automatic binding+disposal of RxJava streams.
 

@@ -194,8 +194,8 @@ subprojects {
 
     tasks.withType<DokkaTaskPartial>().configureEach {
       outputDirectory.set(buildDir.resolve("docs/partial"))
-      moduleName.set(project.providers.gradleProperty("POM_ARTIFACT_ID"))
-      moduleVersion.set(project.providers.gradleProperty("VERSION_NAME"))
+      moduleName.set(project.property("POM_ARTIFACT_ID").toString())
+      moduleVersion.set(project.property("VERSION_NAME").toString())
       dokkaSourceSets.configureEach {
         skipDeprecated.set(true)
         includes.from("Module.md")
