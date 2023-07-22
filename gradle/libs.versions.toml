@@ -14,6 +14,7 @@ gjf = "1.11.0"
 jvmTarget = "1.8"
 kotlin = "1.9.0"
 ktlint = "0.50.0"
+leakcanaryAndroid = "2.12"
 lifecycleExtensions = "2.2.0"
 lint = "31.0.2"
 lintJvmTarget = "17"
@@ -31,6 +32,7 @@ targetSdkVersion = "31"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+android-lint = { id = "com.android.lint", version.ref = "agp" }
 animalSniffer = { id = "ru.vyarus.animalsniffer", version.ref = "animalSniffer" }
 binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.13.2" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
@@ -67,6 +69,7 @@ build-lint-core = { module = "com.android.tools.lint:lint", version.ref = "lint"
 build-lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "lint" }
 build-nullAway = "com.uber.nullaway:nullaway:0.10.11"
 kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2"
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 multidex = { module = "com.android.support:multidex", version.ref = "multidex" }
 replaying-share-kotlin = { module = "com.jakewharton.rx2:replaying-share-kotlin", version.ref = "replayingShareKotlin" }

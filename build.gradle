@@ -22,6 +22,7 @@ plugins {
   alias(libs.plugins.kotlin.kapt) apply false
   alias(libs.plugins.android.application) apply false
   alias(libs.plugins.android.library) apply false
+  alias(libs.plugins.android.lint) apply false
   alias(libs.plugins.errorProne) apply false
   alias(libs.plugins.nullAway) apply false
   alias(libs.plugins.dokka) apply false

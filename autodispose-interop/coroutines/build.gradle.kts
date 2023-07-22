@@ -15,14 +15,14 @@
  */
 
 plugins {
-//  id 'ru.vyarus.animalsniffer'
-  id "com.vanniktech.maven.publish"
+//  alias(libs.plugins.animalSniffer)
+  alias(libs.plugins.mavenPublish)
 }
 
 dependencies {
-  api libs.rx.java
-  api project(':autodispose')
-  api libs.kotlin.coroutines
+  api(libs.rx.java)
+  api(project(":autodispose"))
+  api(libs.kotlin.coroutines)
 
-  testImplementation project(':test-utils')
+  testImplementation(project(":test-utils"))
 }

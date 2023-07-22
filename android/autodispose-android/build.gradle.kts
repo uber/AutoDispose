@@ -15,7 +15,7 @@
  */
 
 plugins {
-  id "com.vanniktech.maven.publish"
+  alias(libs.plugins.mavenPublish)
 }
 
 android {
@@ -23,20 +23,20 @@ android {
 }
 
 dependencies {
-  api project(':autodispose')
-  api libs.rx.java
-  api libs.androidx.annotations
-  implementation libs.rx.android
+  api(project(":autodispose"))
+  api(libs.rx.java)
+  api(libs.androidx.annotations)
+  implementation(libs.rx.android)
 
-  lintPublish project(':static-analysis:autodispose-lint')
+  lintPublish(project(":static-analysis:autodispose-lint"))
 
-  testImplementation project(':test-utils')
-  testImplementation libs.test.junit
-  testImplementation libs.test.truth
-  androidTestImplementation project(':test-utils')
-  androidTestImplementation libs.androidx.annotations
-  androidTestImplementation libs.test.androidExtJunit
-  androidTestImplementation libs.test.androidRunner
-  androidTestImplementation libs.test.androidRules
-  androidTestUtil libs.test.androidOrchestrator
+  testImplementation(project(":test-utils"))
+  testImplementation(libs.test.junit)
+  testImplementation(libs.test.truth)
+  androidTestImplementation(project(":test-utils"))
+  androidTestImplementation(libs.androidx.annotations)
+  androidTestImplementation(libs.test.androidExtJunit)
+  androidTestImplementation(libs.test.androidRunner)
+  androidTestImplementation(libs.test.androidRules)
+  androidTestUtil(libs.test.androidOrchestrator)
 }

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Copyright (C) 2018. Uber Technologies
  *
@@ -15,30 +17,32 @@
  */
 
 plugins {
-  id 'java-library'
-  id 'org.jetbrains.kotlin.jvm'
-  id 'org.jetbrains.kotlin.kapt'
-  id "com.vanniktech.maven.publish"
+  `java-library`
+  alias(libs.plugins.kotlin.jvm)
+  alias(libs.plugins.kotlin.kapt)
+  alias(libs.plugins.mavenPublish)
 }
 
-project.sourceCompatibility = JavaVersion.toVersion(libs.versions.lintJvmTarget.get())
-project.targetCompatibility = JavaVersion.toVersion(libs.versions.lintJvmTarget.get())
+tasks.withType<JavaCompile>().configureEach {
+  options.release.set(libs.versions.lintJvmTarget.get().toInt())
+}
 
-compileKotlin {
+tasks.withType<KotlinCompile>().configureEach {
   kotlinOptions {
     // Lint runs with 1.6 still, so we need to emit 1.6-compatible code
     apiVersion = "1.6"
     languageVersion = "1.6"
+    jvmTarget = libs.versions.lintJvmTarget.get()
   }
 }
 
 dependencies {
-  kapt libs.apt.autoService
+  kapt(libs.apt.autoService)
 
-  compileOnly libs.build.lint.api
-  compileOnly libs.apt.autoService
+  compileOnly(libs.build.lint.api)
+  compileOnly(libs.apt.autoService)
 
-  testImplementation libs.test.junit
-  testImplementation libs.build.lint.core
-  testImplementation libs.build.lint.tests
+  testImplementation(libs.test.junit)
+  testImplementation(libs.build.lint.core)
+  testImplementation(libs.build.lint.tests)
 }

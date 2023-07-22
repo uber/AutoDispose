@@ -15,7 +15,7 @@
  */
 
 plugins {
-  id "com.vanniktech.maven.publish"
+  alias(libs.plugins.mavenPublish)
 }
 
 android {
@@ -23,8 +23,8 @@ android {
 }
 
 dependencies {
-  api project(':autodispose')
-  api libs.androidx.annotations
-  api libs.androidx.lifecycle.common
-  api libs.androidx.lifecycle.runtime
+  api(project(":autodispose"))
+  api(libs.androidx.annotations)
+  api(libs.androidx.lifecycle.common)
+  api(libs.androidx.lifecycle.runtime)
 }

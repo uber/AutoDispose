@@ -15,26 +15,22 @@
  */
 
 plugins {
-  id "com.vanniktech.maven.publish"
+  alias(libs.plugins.android.lint)
+//  alias(libs.plugins.animalSniffer)
+  alias(libs.plugins.mavenPublish)
+}
+
+lint {
+  abortOnError = true
+  warningsAsErrors = true
 }
 
 dependencies {
-  annotationProcessor libs.apt.autoService
+  api(libs.rx.java)
+  compileOnly(libs.build.errorProneAnnotations)
 
-  compileOnly libs.apt.autoService
-  compileOnly libs.build.errorProneCheckApi
+//  signature libs.build.animalSniffer
+  lintChecks(project(":static-analysis:autodispose-lint"))
 
-  testImplementation(libs.build.errorProneTestHelpers) {
-    exclude group: "junit", module: "junit"
-  }
-  testImplementation libs.rx.java
-  testImplementation libs.test.junit
-  testImplementation project(':autodispose')
-  testImplementation project(':autodispose-lifecycle')
-}
-
-if (!JavaVersion.current().isJava9Compatible()) {
-  test {
-    jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
-  }
+  testImplementation(project(":test-utils"))
 }

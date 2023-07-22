@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2018. Uber Technologies
+ * Copyright (C) 2017. Uber Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,15 +15,20 @@
  */
 
 plugins {
-//  id 'ru.vyarus.animalsniffer'
-  id "com.vanniktech.maven.publish"
+  alias(libs.plugins.mavenPublish)
 }
 
 dependencies {
-  api project(":autodispose")
-  compileOnly libs.build.errorProneAnnotations
+  annotationProcessor(libs.apt.autoService)
 
-//  signature libs.build.animalSniffer
+  compileOnly(libs.apt.autoService)
+  compileOnly(libs.build.errorProneCheckApi)
 
-  testImplementation project(':test-utils')
+  testImplementation(libs.build.errorProneTestHelpers) {
+    exclude(group = "junit", module = "junit")
+  }
+  testImplementation(libs.rx.java)
+  testImplementation(libs.test.junit)
+  testImplementation(project(":autodispose"))
+  testImplementation(project(":autodispose-lifecycle"))
 }
