@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.android.build.gradle.api.BaseVariant
+import net.ltgt.gradle.errorprone.CheckSeverity
+import net.ltgt.gradle.errorprone.errorprone
+import net.ltgt.gradle.nullaway.nullaway
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-// import com.android.build.gradle.api.BaseVariant
-// import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.android)
-  //  id "net.ltgt.errorprone"
-  //  id "net.ltgt.nullaway"
+  alias(libs.plugins.errorProne)
+  alias(libs.plugins.nullAway)
 }
 
 android {
@@ -47,28 +48,31 @@ android {
   buildTypes { getByName("debug") { matchingFallbacks += listOf("release") } }
   testOptions { execution = "ANDROIDX_TEST_ORCHESTRATOR" }
 
-  //  def classesWithScope = [
-  //      "android.app.Activity",
-  //      "android.app.Fragment",
-  //      "androidx.lifecycle.LifecycleOwner",
-  //      "autodispose2.ScopeProvider",
-  //      "autodispose2.sample.CustomScope"
-  //  ]
-  //  DomainObjectSet<BaseVariant> variants = getApplicationVariants()
-  //  variants.addAll(getTestVariants())
-  //  variants.addAll(getUnitTestVariants())
-  //  variants.configureEach { variant ->
-  //    variant.getJavaCompileProvider().configure {
-  //      options.errorprone {
-  //        nullaway {
-  //          severity = CheckSeverity.ERROR
-  //          annotatedPackages.add("com.uber")
-  //        }
-  //        check("AutoDispose", CheckSeverity.ERROR)
-  //        option("AutoDispose:TypesWithScope", classesWithScope.join(","))
-  //      }
-  //    }
-  //  }
+  val classesWithScope =
+    listOf(
+      "android.app.Activity",
+      "android.app.Fragment",
+      "androidx.lifecycle.LifecycleOwner",
+      "autodispose2.ScopeProvider",
+      "autodispose2.sample.CustomScope"
+    )
+
+  val configurer: (BaseVariant) -> Unit = { variant ->
+    variant.javaCompileProvider.configure {
+      options.errorprone {
+        nullaway {
+          severity = CheckSeverity.ERROR
+          annotatedPackages.add("com.uber")
+        }
+        check("AutoDispose", CheckSeverity.ERROR)
+        option("AutoDispose:TypesWithScope", classesWithScope.joinToString(","))
+      }
+    }
+  }
+
+  applicationVariants.configureEach(configurer)
+  testVariants.configureEach(configurer)
+  unitTestVariants.configureEach(configurer)
 }
 
 androidComponents {
@@ -107,10 +111,9 @@ dependencies {
   implementation(libs.rxrelay)
   implementation(libs.rxjava3.bridge)
 
-  //  errorproneJavac libs.build.errorProneJavac
-  //  errorprone libs.build.errorProne
-  //  errorprone libs.build.nullAway
-  //  errorprone project(":static-analysis:autodispose-error-prone")
+  errorprone(libs.build.errorProne)
+  errorprone(libs.build.nullAway)
+  errorprone(project(":static-analysis:autodispose-error-prone"))
 
   debugImplementation(libs.leakcanary.android)
 

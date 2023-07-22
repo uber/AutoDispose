@@ -63,7 +63,6 @@ build-animalSniffer = "org.codehaus.mojo.signature:java17:1.0@signature"
 build-errorProne = { module = "com.google.errorprone:error_prone_core", version.ref = "errorProne" }
 build-errorProneAnnotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "errorProne" }
 build-errorProneCheckApi = { module = "com.google.errorprone:error_prone_check_api", version.ref = "errorProne" }
-build-errorProneJavac = "com.google.errorprone:javac:9+181-r4173-1"
 build-errorProneTestHelpers = { module = "com.google.errorprone:error_prone_test_helpers", version.ref = "errorProne" }
 build-lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" }
 build-lint-core = { module = "com.android.tools.lint:lint", version.ref = "lint" }
