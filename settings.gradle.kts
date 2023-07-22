@@ -30,16 +30,20 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = 'autodispose-root'
+rootProject.name = "autodispose-root"
 if (System.getenv("ANDROID_HOME") != null) {
-  include ':android:autodispose-android'
-  include ':android:autodispose-androidx-lifecycle'
-  include ':android:autodispose-androidx-lifecycle-test'
-  include ':sample'
+  include(
+    ":android:autodispose-android",
+    ":android:autodispose-androidx-lifecycle",
+    ":android:autodispose-androidx-lifecycle-test",
+    ":sample",
+  )
 }
-include ':autodispose'
-include ':autodispose-interop:coroutines'
-include ':autodispose-lifecycle'
-include ':test-utils'
-include ':static-analysis:autodispose-error-prone'
-include ':static-analysis:autodispose-lint'
+include(
+  ":autodispose",
+  ":autodispose-interop:coroutines",
+  ":autodispose-lifecycle",
+  ":test-utils",
+  ":static-analysis:autodispose-error-prone",
+  ":static-analysis:autodispose-lint",
+)
