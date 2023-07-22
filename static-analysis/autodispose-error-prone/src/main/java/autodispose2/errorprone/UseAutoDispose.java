@@ -32,6 +32,8 @@ import com.google.errorprone.VisitorState;
 import com.google.errorprone.bugpatterns.BugChecker;
 import com.google.errorprone.bugpatterns.BugChecker.MethodInvocationTreeMatcher;
 import com.google.errorprone.matchers.Matcher;
+import com.google.errorprone.suppliers.Supplier;
+import com.google.inject.Inject;
 import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.ExpressionTree;
 import com.sun.tools.javac.code.Type;
@@ -49,6 +51,7 @@ import java.util.Set;
  *   -XepOpt:OverrideScopes=<true|false>
  * </code></pre>
  */
+@SuppressWarnings("BugPatternNaming")
 @AutoService(BugChecker.class)
 @BugPattern(
     name = "AutoDispose",
@@ -92,6 +95,12 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
               .onDescendantOf("io.reactivex.rxjava3.parallel.ParallelFlowable")
               .named(SUBSCRIBE));
 
+  private final Supplier<Type> disposableTypeSupplier =
+      VisitorState.memoize(
+          state -> state.getTypeFromString("io.reactivex.rxjava3.disposables.Disposable"));
+  private final Supplier<Type> subscriptionTypeSupplier =
+      VisitorState.memoize(state -> state.getTypeFromString("org.reactivestreams.Subscription"));
+
   private final Matcher<ExpressionTree> matcher;
   private final boolean lenient;
 
@@ -101,6 +110,7 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
   }
 
   @SuppressWarnings("WeakerAccess") // Public for ErrorProne
+  @Inject
   public UseAutoDispose(ErrorProneFlags flags) {
     Optional<ImmutableSet<String>> inputClasses =
         flags.getList("TypesWithScope").map(ImmutableSet::copyOf);
@@ -123,9 +133,8 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
 
   @Override
   protected boolean capturedTypeAllowed(Type type, VisitorState state) {
-    return isSubtype(
-            type, state.getTypeFromString("io.reactivex.rxjava3.disposables.Disposable"), state)
-        || isSubtype(type, state.getTypeFromString("org.reactivestreams.Subscription"), state);
+    return isSubtype(type, disposableTypeSupplier.get(state), state)
+        || isSubtype(type, subscriptionTypeSupplier.get(state), state);
   }
 
   @Override
