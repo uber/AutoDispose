@@ -45,9 +45,9 @@ tasks.withType<JavaCompile>().configureEach {
 
 tasks.withType<KotlinCompile>().configureEach {
   compilerOptions {
-    // Lint runs with 1.6 still, so we need to emit 1.6-compatible code
-    apiVersion.set(KotlinVersion.KOTLIN_1_6)
-    languageVersion.set(KotlinVersion.KOTLIN_1_6)
+    // Lint forces its embedded kotlin version, so we need to match it.
+    apiVersion.set(KotlinVersion.KOTLIN_1_7)
+    languageVersion.set(KotlinVersion.KOTLIN_1_7)
     jvmTarget.set(libs.versions.lintJvmTarget.map(JvmTarget::fromTarget))
   }
 }
