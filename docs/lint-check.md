@@ -1,8 +1,8 @@
-`AutoDisposeDetector` is a lint check to detect missing AutoDispose scope within defined scoped elements. 
+`AutoDisposeDetector` is a lint check to detect missing AutoDispose scope within defined scoped elements.
 
 ## Installation
 
-For Android Java/Kotlin projects, no configuration is required as the AutoDispose lint check is run by default with the existing lint checks. 
+For Android Java/Kotlin projects, no configuration is required as the AutoDispose lint check is run by default with the existing lint checks.
 
 For pure JVM projects, apply the `com.android.lint` plugin and add the lint dependency to the `lintChecks` configuration.
 
@@ -22,7 +22,7 @@ dependencies {
 The following code snippet:
 ```kotlin
 class ComponentWithLifecycle : Activity {
-  
+
   fun observeOnSomething() {
     Observable
         .interval(1, TimeUnit.SECONDS)
@@ -54,7 +54,7 @@ You can add your own custom scopes that you want the lint check applied to. In y
 ```groovy
 autodispose.typesWithScope=com.bluelinelabs.conductor.Controller,com.sample.app.BasePresenter
 ```
-The types supplied are then added to the default types listed above. 
+The types supplied are then added to the default types listed above.
 
 ### Overriding Scopes
 
@@ -67,12 +67,12 @@ autodispose.overrideScopes=true
 
 `Lenient` is a mode to ask the checker to be lenient when capturing returned Disposable types. What this means is that if an rx subscribe method is called and its returned Disposable is captured, AutoDispose this code is manually managing the subscription and show ignore it. The same applies for capturing the returned value of subscribeWith if the input type implements Disposable.
 
-This can be configured by adding the following flag to the **app-level** `gradle.properties` file. 
+This can be configured by adding the following flag to the **app-level** `gradle.properties` file.
 ```groovy
 autodispose.lenient=true
 ```
 
-The default value of this is `false`. 
+The default value of this is `false`.
 
 ### Kotlin Extension
 

@@ -105,7 +105,7 @@ afterEvaluate {
           <artifactId>error_prone_core</artifactId>
           <version>2.3.2</version>
         </dependency>
-      </dependencies>        
+      </dependencies>
     </plugin>
 </build>
 ```

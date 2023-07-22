@@ -9,9 +9,9 @@ usually looks like this:
 
 ```
 myObservable
-	.doStuff()
-	.as(autoDisposable(this))   // <-- AutoDispose
-	.subscribe(s -> ...);
+  .doStuff()
+  .as(autoDisposable(this))   // <-- AutoDispose
+  .subscribe(s -> ...);
 ```
 
 By doing this, you will automatically unsubscribe from `myObservable` as indicated by your scope

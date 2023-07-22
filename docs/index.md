@@ -3,19 +3,19 @@ AutoDispose
 
 ![](https://github.com/uber/AutoDispose/workflows/ci.yml/badge.svg?branch=master)
 
-**AutoDispose** is an RxJava 2+ tool for automatically binding the execution of RxJava streams to a 
+**AutoDispose** is an RxJava 2+ tool for automatically binding the execution of RxJava streams to a
 provided scope via disposal/cancellation.
 
 Overview
 --------
 
-Often (especially in mobile applications), Rx subscriptions need to stop in response to some event 
-(for instance, when Activity#onStop() executes in an Android app). In order to support this common 
+Often (especially in mobile applications), Rx subscriptions need to stop in response to some event
+(for instance, when Activity#onStop() executes in an Android app). In order to support this common
 scenario in RxJava 2, we built AutoDispose.
 
 The idea is simple: construct your chain like any other, and then at subscription you simply drop in
-the relevant factory call + method for that type as a converter. In everyday use, it 
- usually looks like this: 
+the relevant factory call + method for that type as a converter. In everyday use, it
+ usually looks like this:
 
 ```java
 myObservable
@@ -24,23 +24,23 @@ myObservable
     .subscribe(s -> ...);
 ```
 
-By doing this, you will automatically unsubscribe from `myObservable` as indicated by your 
-scope - this helps prevent many classes of errors when an observable emits an item, but the actions 
+By doing this, you will automatically unsubscribe from `myObservable` as indicated by your
+scope - this helps prevent many classes of errors when an observable emits an item, but the actions
 taken in the subscription are no longer valid. For instance, if a network request comes back after a
  UI has already been torn down, the UI can't be updated - this pattern prevents this type of bug.
 
 ### `autoDisposable()`
 
-The main entry point is via static factory `autoDisposable()` methods in the `AutoDispose` class. 
-There are two overloads: `Completable` and `ScopeProvider`. They return an 
+The main entry point is via static factory `autoDisposable()` methods in the `AutoDispose` class.
+There are two overloads: `Completable` and `ScopeProvider`. They return an
 `AutoDisposeConverter` object that implements all the RxJava `Converter` interfaces for use with
 the `as()` operator in RxJava types.
 
 #### Completable (as a scope)
 
-The `Completable` semantic is modeled after the `takeUntil()` operator, which accepts an `Observable` 
-whose first emission is used as a notification to signal completion. This is logically the 
-behavior of a `Single`, so we choose to make that explicit. Since the type doesn't matter, we 
+The `Completable` semantic is modeled after the `takeUntil()` operator, which accepts an `Observable`
+whose first emission is used as a notification to signal completion. This is logically the
+behavior of a `Single`, so we choose to make that explicit. Since the type doesn't matter, we
 simplify this further to just be a `Completable`, where the scope-end emission is just a completion event.
 All scopes in AutoDispose eventually resolve to a `Completable` that emits the end-of-scope notification
 in `onComplete`. `onError` will pass through to the underlying subscription.
@@ -68,8 +68,8 @@ Modeled after RxJava's plugins, this allows you to customize the behavior of Aut
 #### OutsideScopeHandler
 
 When a scope is bound to outside of its allowable boundary, `AutoDispose` will send an error event with an
- `OutsideScopeException` to downstream consumers. If you want to customize this behavior, you can use 
- `AutoDisposePlugins#setOutsideScopeHandler` to intercept these exceptions and rethrow something 
+ `OutsideScopeException` to downstream consumers. If you want to customize this behavior, you can use
+ `AutoDisposePlugins#setOutsideScopeHandler` to intercept these exceptions and rethrow something
  else or nothing at all.
 
 Example
@@ -84,9 +84,9 @@ A good use case of this is, say, just silently disposing/logging observers outsi
 The supported mechanism to throw this is in `ScopeProvider#requestScope()` implementations.
 
 #### FillInOutsideScopeExceptionStacktraces
- 
+
 If you have your own handling of exceptions in scope boundary events, you can optionally set
-`AutoDisposePlugins#setFillInOutsideScopeExceptionStacktraces` to `false`. This will result in 
+`AutoDisposePlugins#setFillInOutsideScopeExceptionStacktraces` to `false`. This will result in
 AutoDispose `not` filling in stacktraces for exceptions, for a potential minor performance boost.
 
 ### AutoDisposeAndroidPlugins
@@ -95,11 +95,11 @@ Similar to `AutoDisposePlugins`, this allows you to customize the behavior of Au
 
 #### MainThreadChecker
 
-This plugin allows for supplying a custom `BooleanSupplier` that can customize how main thread 
-checks work. The conventional use case of this is Android JUnit tests, where the `Looper` class is 
+This plugin allows for supplying a custom `BooleanSupplier` that can customize how main thread
+checks work. The conventional use case of this is Android JUnit tests, where the `Looper` class is
 not stubbed in the mock android.jar and fails explosively when touched.
 
-Another potential use of this at runtime to customize checks for more fine-grained main thread 
+Another potential use of this at runtime to customize checks for more fine-grained main thread
 checks behavior.
 
 Example
@@ -112,12 +112,12 @@ AutoDisposeAndroidPlugins.setOnCheckMainThread(() -> {
 ### Behavior
 
 Under the hood, AutoDispose decorates RxJava's real observer with a custom *AutoDisposing* observer.
-This custom observer leverages the scope to create a disposable, auto-disposing observer that acts 
-as a lambda observer (pass-through) unless the underlying scope `CompletableSource` emits `onComplete`. Both 
+This custom observer leverages the scope to create a disposable, auto-disposing observer that acts
+as a lambda observer (pass-through) unless the underlying scope `CompletableSource` emits `onComplete`. Both
 scope emission and upstream termination result in immediate disposable of both the underlying scope
 subscription and upstream disposable.
 
-These custom `AutoDisposing` observers are considered public read-only API, and can be found under the 
+These custom `AutoDisposing` observers are considered public read-only API, and can be found under the
 `observers` package. They also support retrieval of the underlying observer via `delegateObserver()`
 methods. Read-only API means that the public signatures will follow semantic versioning, but we may
 add new methods in the future (which would break compilation if you make custom implementations!).
@@ -143,13 +143,13 @@ public interface LifecycleScopeProvider<E> extends ScopeProvider {
   Function<E, E> correspondingEvents();
 
   E peekLifecycle();
-  
+
   // Inherited from ScopeProvider
   CompletableSource requestScope();
 }
 ```
 
-A common use case for this is objects that have implicit lifecycles, such as Android's `Activity`, 
+A common use case for this is objects that have implicit lifecycles, such as Android's `Activity`,
 `Fragment`, and `View` classes. Internally at subscription-time, `AutoDispose` will resolve
 a `CompletableSource` representation of the target `end` event in the lifecycle, and exposes an API to dictate what
 corresponding events are for the current lifecycle state (e.g. `ATTACH` -> `DETACH`). This also allows
@@ -163,13 +163,13 @@ as follows:
   - `correspondingEvents()` - a mapping of events to corresponding ones, i.e. Attach -> Detach.
   - `peekLifecycle()` - returns the current lifecycle state of the object.
 
-In `requestScope()`, the implementation expects to these pieces to construct a `CompletableSource` representation 
-of the proper end scope, while also doing precondition checks for lifecycle boundaries. If a 
-lifecycle has not started, it will send you to `onError` with a `LifecycleNotStartedException`. If 
-the lifecycle as ended, it is recommended to throw a `LifecycleEndedException` in your 
+In `requestScope()`, the implementation expects to these pieces to construct a `CompletableSource` representation
+of the proper end scope, while also doing precondition checks for lifecycle boundaries. If a
+lifecycle has not started, it will send you to `onError` with a `LifecycleNotStartedException`. If
+the lifecycle as ended, it is recommended to throw a `LifecycleEndedException` in your
 `correspondingEvents()` mapping, but it is up to the user.
 
-To simplify implementations, there's an included `LifecycleScopes` utility class with factories 
+To simplify implementations, there's an included `LifecycleScopes` utility class with factories
 for generating `CompletableSource` representations from `LifecycleScopeProvider` instances.
 
 `autodispose-lifecycle` contains the core `LifecycleScopeProvider` and `LifecycleScopes` APIs as well as a convenience test helper.
@@ -197,11 +197,11 @@ with [RxLifecycle](https://github.com/trello/RxLifecycle)'s `LifecycleProvider` 
 
 ### Philosophy
 
-Each factory returns a subscribe proxies upon application that just proxy to real subscribe calls under 
-the hood to "AutoDisposing" implementations of the types. These types decorate the actual observer 
+Each factory returns a subscribe proxies upon application that just proxy to real subscribe calls under
+the hood to "AutoDisposing" implementations of the types. These types decorate the actual observer
 at subscribe-time to achieve autodispose behavior. The types are *not* exposed directly because
 autodisposing has *ordering* requirements; specifically, it has to be done at the end of a chain to properly
-wrap all the upstream behavior. Lint could catch this too, but we have seen no use cases for disposing 
+wrap all the upstream behavior. Lint could catch this too, but we have seen no use cases for disposing
 upstream (which can cause a lot of unexpected behavior). Thus, we optimize for the common case, and the
 API is designed to prevent ordering issues while still being a drop-in one-liner.
 
@@ -216,14 +216,14 @@ Two common patterns for binding execution in RxJava that we used prior to this w
 given observable to `takeUntil()` that event is emitted.
 
 Both implementations are elegant and work well, but came with caveats that we sought to revisit and solve
-in AutoDispose. 
+in AutoDispose.
 
 `CompositeSubscription` requires manual capture of the return value of `subscribe` calls, and
 gets tedious to reason about with regards to binding subscription until different events.
 
 [`RxLifecycle`][rxlifecycle] solves the caveats of `CompositeSubscription` use by working in a dead-simple API and handling
-resolution of corresponding events. It works great for `Observable` types, but due to the nature of 
-how `takeUntil()` works, we found that `Single` and `Completable` usage was risky to use (particularly in a 
+resolution of corresponding events. It works great for `Observable` types, but due to the nature of
+how `takeUntil()` works, we found that `Single` and `Completable` usage was risky to use (particularly in a
  large team with varying levels of RxJava experience) considering lifecycle interruption would result
 in a downstream `CancellationException` every time. It's the contract of those types, but induced a lot of
 ceremony for what would otherwise likely be our most commonly used type (`Single`). Even with `Observable`,
@@ -231,18 +231,18 @@ we were still burned occasionally by the completion event still coming through t
 Another caveat we often ran into (and later aggressively linted against) was that the `compose()` call had
 ordering implications, and needed to be as close to the `subscribe()` call as possible to properly wrap upstream.
 If binding to views, there were also threading requirements on the observable chain in order to work properly.
- 
+
 At the end of the day, we wanted true disposal/unsubscription-based behavior, but with RxLifecycle-esque
 semantics around scope resolution. RxJava 2's `Observer` interfaces provide the perfect mechanism for
  this via their `onSubscribe()` callbacks. The result is de-risked `Single`/`Completable` usage, no ordering
  concerns, no threading concerns (fingers crossed), and true disposal with no further events of any kind
  upon scope end. We're quite happy with it, and hope the community finds it useful as well.
- 
-Special thanks go to [Dan Lew][dan] (creator of RxLifecycle), who helped pioneer this area for RxJava 
- in android and humored many of the discussions around lifecycle handling over the past couple years 
- that we've learned from. Much of the internal scope resolution mechanics of `AutoDispose` are 
+
+Special thanks go to [Dan Lew][dan] (creator of RxLifecycle), who helped pioneer this area for RxJava
+ in android and humored many of the discussions around lifecycle handling over the past couple years
+ that we've learned from. Much of the internal scope resolution mechanics of `AutoDispose` are
  inspired by RxLifecycle.
- 
+
 ## RxJava versions support
 
 | RxJava version | AutoDispose version  |

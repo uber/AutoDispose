@@ -11,17 +11,17 @@ We love GitHub issues!
 
 For small feature requests, an issue first proposing it for discussion or demo implementation in a PR suffice.
 
-For big features, please open an issue so that we can agree on the direction, and hopefully avoid 
+For big features, please open an issue so that we can agree on the direction, and hopefully avoid
 investing a lot of time on a feature that might need reworking.
 
 Small pull requests for things like typos, bugfixes, etc are always welcome.
 
 ### Code style
 
-This project uses [ktlint](https://github.com/pinterest/ktlint) and [GJF](https://github.com/google/google-java-format), 
+This project uses [ktlint](https://github.com/pinterest/ktlint) and [GJF](https://github.com/google/google-java-format),
 provided via the [spotless](https://github.com/diffplug/spotless) gradle plugin.
 
-If you find that one of your pull reviews does not pass the CI server check due to a code style 
+If you find that one of your pull reviews does not pass the CI server check due to a code style
 conflict, you can easily fix it by running: ./gradlew spotlessApply.
 
 Generally speaking - we use vanilla ktlint + 2space indents, and vanilla GJF. You can integrate both of
