@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 1.4.1
+-------------
+
+_2023-07-22_
+
+- **Fix**: Dispose the handle returned by `Job.invokeOnCompletion` when Rx subscription is disposed.
+
 Version 1.4.0
 -------------
 
