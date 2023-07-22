@@ -68,6 +68,8 @@ val minSdkVersion: Int = libs.versions.minSdkVersion.get().toInt()
 val ktLintVersion = libs.versions.ktlint.get()
 val jvmTargetString = libs.versions.jvmTarget.get()
 val lintJvmTargetString = libs.versions.lintJvmTarget.get()
+val nullAwayDep = libs.build.nullAway
+val errorProneDep = libs.build.errorProne
 subprojects {
 //  apply(plugin = "com.diffplug.spotless")
 //  configure<SpotlessExtension> {
@@ -216,8 +218,8 @@ subprojects {
     project.apply(plugin = "net.ltgt.errorprone")
     project.apply(plugin = "net.ltgt.nullaway")
     project.dependencies {
-      add("errorprone", libs.build.nullAway)
-      add("errorprone", libs.build.errorProne)
+      add("errorprone", nullAwayDep)
+      add("errorprone", errorProneDep)
     }
     if (isJavaLibrary) {
       project.tasks.withType<JavaCompile>().configureEach {
@@ -225,6 +227,13 @@ subprojects {
           severity = CheckSeverity.ERROR
           annotatedPackages.add("autodispose2")
         }
+      }
+    }
+  }
+  if (isAndroidLibrary) {
+    configure<LibraryAndroidComponentsExtension> {
+      beforeVariants(selector().withBuildType("debug")) { builder ->
+        builder.enable = false
       }
     }
   }
@@ -244,13 +253,6 @@ subprojects {
         testVariants.configureEach(configurer)
         unitTestVariants.configureEach(configurer)
       }
-    }
-    if (isAndroidLibrary) {
-        configure<LibraryAndroidComponentsExtension> {
-            beforeVariants(selector().withBuildType("debug")) { builder ->
-                builder.enable = false
-            }
-        }
     }
   }
 }
