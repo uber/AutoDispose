@@ -16,12 +16,13 @@
 
 plugins {
   alias(libs.plugins.mavenPublish)
+  alias(libs.plugins.ksp)
 }
 
 dependencies {
-  annotationProcessor(libs.apt.autoService)
+  ksp(libs.autoService.ksp)
 
-  compileOnly(libs.apt.autoService)
+  compileOnly(libs.autoService.annotations)
   compileOnly(libs.build.errorProneCheckApi)
 
   testImplementation(libs.build.errorProneTestHelpers) {

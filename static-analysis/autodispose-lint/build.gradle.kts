@@ -21,7 +21,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
   `java-library`
   alias(libs.plugins.kotlin.jvm)
-  alias(libs.plugins.kotlin.kapt)
+  alias(libs.plugins.ksp)
   alias(libs.plugins.mavenPublish)
 }
 
@@ -39,10 +39,10 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 dependencies {
-  kapt(libs.apt.autoService)
+  ksp(libs.autoService.ksp)
 
+  compileOnly(libs.autoService.annotations)
   compileOnly(libs.build.lint.api)
-  compileOnly(libs.apt.autoService)
 
   testImplementation(libs.test.junit)
   testImplementation(libs.build.lint.core)

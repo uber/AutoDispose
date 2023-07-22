@@ -39,7 +39,7 @@ dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 errorProne = { id = "net.ltgt.errorprone", version.ref = "errorPronePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version = "1.9.0-1.0.12" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
 nullAway = { id = "net.ltgt.nullaway", version.ref = "nullawayPlugin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
@@ -57,7 +57,8 @@ androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime", 
 androidx-lifecycle-runtimeKtx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 androidx-lifecycle-runtimeTest = { module = "androidx.lifecycle:lifecycle-runtime-testing", version.ref = "androidxLifecycle" }
 androidx-lifecycle-vmKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
-apt-autoService = "com.google.auto.service:auto-service:1.1.1"
+autoService-annotations = "com.google.auto.service:auto-service-annotations:1.1.1"
+autoService-ksp = "dev.zacsweers.autoservice:auto-service-ksp:1.1.0"
 build-animalSniffer = "org.codehaus.mojo.signature:java17:1.0@signature"
 build-errorProne = { module = "com.google.errorprone:error_prone_core", version.ref = "errorProne" }
 build-errorProneAnnotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "errorProne" }
