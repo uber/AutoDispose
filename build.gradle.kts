@@ -18,6 +18,7 @@ import net.ltgt.gradle.errorprone.CheckSeverity
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.api.BaseVariant
+import com.diffplug.gradle.spotless.SpotlessExtension
 import net.ltgt.gradle.errorprone.errorprone
 import net.ltgt.gradle.nullaway.nullaway
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
@@ -36,7 +37,7 @@ plugins {
   alias(libs.plugins.dokka) apply false
   alias(libs.plugins.animalSniffer) apply false
   alias(libs.plugins.mavenPublish) apply false
-  alias(libs.plugins.spotless) apply false
+  alias(libs.plugins.spotless)
   alias(libs.plugins.binaryCompatibilityValidator)
 }
 
@@ -62,6 +63,36 @@ val copiedFiles = listOf(
     "HalfSerializer",
 ).map { "**/*${it}.java" }.toTypedArray()
 
+spotless {
+  format("misc") {
+    target("**/*.md", "**/.gitignore")
+
+    indentWithTabs()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  kotlin {
+    target ("**/src/**/*.kt", "**/*.kts")
+    ktlint(libs.versions.ktlint.get()).userData(
+      mapOf(
+        "indent_size" to "2", "continuation_indent_size" to "2"
+      )
+    )
+    licenseHeaderFile (rootProject.file("spotless/copyright.kt"))
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  java {
+    target ("**/*.java")
+    targetExclude(copiedFiles)
+    googleJavaFormat(libs.versions.gjf.get())
+    licenseHeaderFile (rootProject.file("spotless/copyright.java"))
+    removeUnusedImports()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+}
+
 val compileSdkVersionInt: Int = libs.versions.compileSdkVersion.get().toInt()
 val targetSdkVersion: Int = libs.versions.targetSdkVersion.get().toInt()
 val minSdkVersion: Int = libs.versions.minSdkVersion.get().toInt()
@@ -71,38 +102,6 @@ val lintJvmTargetString = libs.versions.lintJvmTarget.get()
 val nullAwayDep = libs.build.nullAway
 val errorProneDep = libs.build.errorProne
 subprojects {
-//  apply(plugin = "com.diffplug.spotless")
-//  configure<SpotlessExtension> {
-//    format "misc", {
-//      target "**/*.md", "**/.gitignore"
-//
-//      indentWithTabs()
-//      trimTrailingWhitespace()
-//      endWithNewline()
-//    }
-//    kotlin {
-//      target "**/*.kt"
-//      ktlint(libs.versions.ktlint.get()).userData(["indent_size": "2", "continuation_indent_size" : "2"])
-//      licenseHeaderFile rootProject.file("spotless/copyright.kt")
-//      trimTrailingWhitespace()
-//      endWithNewline()
-//    }
-//    java {
-//      target "**/*.java"
-//      targetExclude(copiedFiles)
-//      googleJavaFormat(libs.versions.gjf.get())
-//      licenseHeaderFile rootProject.file("spotless/copyright.java")
-//      removeUnusedImports()
-//      trimTrailingWhitespace()
-//      endWithNewline()
-//    }
-//    groovyGradle {
-//      target "**/*.gradle"
-//      trimTrailingWhitespace()
-//      endWithNewline()
-//    }
-//  }
-
   val isMixedSourceSet = project.name in mixedSourcesArtifacts
   val isAndroidLibrary = project.path.startsWith(":android:")
   val isLint = project.path.endsWith("-lint")
@@ -255,8 +254,4 @@ subprojects {
       }
     }
   }
-}
-
-tasks.register<Delete>("clean") {
-  delete(rootProject.buildDir)
 }
