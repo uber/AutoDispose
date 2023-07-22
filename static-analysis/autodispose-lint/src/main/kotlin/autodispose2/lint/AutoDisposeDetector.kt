@@ -196,28 +196,22 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
             method.name == "withScope" && method.containingClass?.qualifiedName == KOTLIN_EXTENSIONS
           ) {
             val args = node.valueArguments
-            if (args.size == 2) {
-              val last = args[1]
-              // Check the lambda type too because it's a cheaper instance check
-              if (last is ULambdaExpression) {
-                // This is the AutoDisposeContext.() call
-                // TODO we can't determine this exactly with lint as far as I can tell
-
-                val body = last.body
-                val visitor =
-                  SubscribeCallVisitor(
-                    context,
-                    callExpressionChecker = { context, node, calledMethod ->
-                      callExpressionChecker(context, node, calledMethod) { _, _ -> true }
-                    },
-                    callableReferenceChecker = { context, node, calledMethod ->
-                      callableReferenceChecker(context, node, calledMethod) { _, _ -> true }
-                    }
-                  )
-                body.accept(visitor)
-                return@let
-              }
-            }
+            val contextArg = args.filterIsInstance<ULambdaExpression>().firstOrNull() ?: return@let
+            // Check the lambda type too because it's a cheaper instance check
+            // This is the AutoDisposeContext.() call
+            val body = contextArg.body
+            val visitor =
+              SubscribeCallVisitor(
+                context,
+                callExpressionChecker = { context, node, calledMethod ->
+                  callExpressionChecker(context, node, calledMethod) { _, _ -> true }
+                },
+                callableReferenceChecker = { context, node, calledMethod ->
+                  callableReferenceChecker(context, node, calledMethod) { _, _ -> true }
+                }
+              )
+            body.accept(visitor)
+            return@let
           }
           callExpressionChecker(context, node, method, ::containingClassScopeChecker)
         }
