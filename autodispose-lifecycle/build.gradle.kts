@@ -15,7 +15,7 @@
  */
 
 plugins {
-//  alias(libs.plugins.animalSniffer)
+  alias(libs.plugins.animalSniffer)
   alias(libs.plugins.mavenPublish)
 }
 
@@ -23,7 +23,7 @@ dependencies {
   api(project(":autodispose"))
   compileOnly(libs.build.errorProneAnnotations)
 
-//  signature(libs.build.animalSniffer)
+  signature(libs.build.animalSniffer)
 
   testImplementation(project(":test-utils"))
 }

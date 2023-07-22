@@ -16,7 +16,7 @@
 
 plugins {
   alias(libs.plugins.android.lint)
-//  alias(libs.plugins.animalSniffer)
+  alias(libs.plugins.animalSniffer)
   alias(libs.plugins.mavenPublish)
 }
 
@@ -29,7 +29,7 @@ dependencies {
   api(libs.rx.java)
   compileOnly(libs.build.errorProneAnnotations)
 
-//  signature libs.build.animalSniffer
+  signature(libs.build.animalSniffer)
   lintChecks(project(":static-analysis:autodispose-lint"))
 
   testImplementation(project(":test-utils"))
