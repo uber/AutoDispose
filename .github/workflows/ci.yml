@@ -1,10 +1,27 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  # Only run push on main
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+  # Always run on PRs
+  pull_request:
+    branches: [ main ]
+  merge_group:
+
+concurrency:
+  group: 'ci-${{ github.event.merge_group.head_ref || github.head_ref }}-${{ github.workflow }}'
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: macOS-latest
+    strategy:
+      matrix:
+        api-level: [ 18 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -18,55 +35,52 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.1.2
-
-      - run: sdkmanager platform-tools
-      # TODO Caching disabled for now due to the size of Gradle's cache rendering this super slow
-#      - name: Cache build .gradle dir
-#        uses: actions/cache@v1.0.1
-#        with:
-#          path: .gradle
-#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-#          restore-keys: |
-#            ${{ runner.os }}-gradle-
-#      - name: Cache user .gradle dir
-#        uses: actions/cache@v1.0.1
-#        with:
-#          path: ~/.gradle
-#          key: ${{ runner.os }}-gradleuser-${{ hashFiles('**/*.gradle') }}
-#          restore-keys: |
-#            ${{ runner.os }}-gradleuser-
-
-      - name: Configure Gradle
-        # Initial gradle configuration, install dependencies, etc
-        run: ./gradlew help
-
-      - name: Spot check
-        # Run spotless first to fail fast on spotless issues
-        run: ./gradlew spotlessCheck --stacktrace
-
-      - name: Build project
-        run: ./gradlew assemble --stacktrace
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
 
       # TODO split test and instrumentation into parallel builds
-      - name: Run tests
-        run: ./gradlew test --stacktrace
+      - name: Build and run unit tests
+        id: gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: check
+
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ matrix.api-level }}
+
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
 
       - name: Run instrumentation tests
-        uses: malinskiy/action-android/emulator-run-cmd@release/0.1.2
+        uses: reactivecircus/android-emulator-runner@v2
         with:
-          cmd: ./gradlew connectedCheck --stacktrace
-          api: 18
-          tag: default
-          abi: x86
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: ./gradlew connectedCheck
 
-      - name: Reclaim memory
-        run: ./gradlew --stop && jps|grep -E 'KotlinCompileDaemon|GradleDaemon'| awk '{print $1}'| xargs kill -9
-
-      - name: Final checks
-        run: ./gradlew check --stacktrace
+      - name: (Fail-only) Upload build reports
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: reports
+          path: |
+            **/build/reports/**
 
       - name: Upload snapshot (main only)
-        run: ./gradlew publish -PmavenCentralUsername="${{ secrets.SonatypeUsername }}" -PmavenCentralPassword="${{ secrets.SonatypePassword }}"
         if: success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: ./gradlew publish -PmavenCentralUsername="${{ secrets.SonatypeUsername }}" -PmavenCentralPassword="${{ secrets.SonatypePassword }}"
