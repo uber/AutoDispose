@@ -39,7 +39,7 @@ import io.reactivex.rxjava3.parallel.ParallelFlowable
 
 /** Extension that returns a [ScopeProvider] for this [LifecycleOwner]. */
 @CheckReturnValue
-inline fun LifecycleOwner.scope(): ScopeProvider = AndroidLifecycleScopeProvider.from(this)
+public inline fun LifecycleOwner.scope(): ScopeProvider = AndroidLifecycleScopeProvider.from(this)
 
 /**
  * Extension that returns a [ScopeProvider] for this [LifecycleOwner].
@@ -47,7 +47,7 @@ inline fun LifecycleOwner.scope(): ScopeProvider = AndroidLifecycleScopeProvider
  * @param untilEvent the event until the scope is valid.
  */
 @CheckReturnValue
-inline fun LifecycleOwner.scope(untilEvent: Lifecycle.Event): ScopeProvider =
+public inline fun LifecycleOwner.scope(untilEvent: Event): ScopeProvider =
   AndroidLifecycleScopeProvider.from(this, untilEvent)
 
 /**
@@ -56,13 +56,13 @@ inline fun LifecycleOwner.scope(untilEvent: Lifecycle.Event): ScopeProvider =
  * @param boundaryResolver function that resolves the event boundary.
  */
 @CheckReturnValue
-inline fun LifecycleOwner.scope(
+public inline fun LifecycleOwner.scope(
   boundaryResolver: CorrespondingEventsFunction<Event>
 ): ScopeProvider = AndroidLifecycleScopeProvider.from(this, boundaryResolver)
 
 /** Extension that returns a [ScopeProvider] for this [Lifecycle]. */
 @CheckReturnValue
-inline fun Lifecycle.scope(): ScopeProvider = AndroidLifecycleScopeProvider.from(this)
+public inline fun Lifecycle.scope(): ScopeProvider = AndroidLifecycleScopeProvider.from(this)
 
 /**
  * Extension that returns a [ScopeProvider] for this [Lifecycle].
@@ -70,7 +70,7 @@ inline fun Lifecycle.scope(): ScopeProvider = AndroidLifecycleScopeProvider.from
  * @param untilEvent the event until the scope is valid.
  */
 @CheckReturnValue
-inline fun Lifecycle.scope(untilEvent: Lifecycle.Event): ScopeProvider =
+public inline fun Lifecycle.scope(untilEvent: Event): ScopeProvider =
   AndroidLifecycleScopeProvider.from(this, untilEvent)
 
 /**
@@ -79,8 +79,9 @@ inline fun Lifecycle.scope(untilEvent: Lifecycle.Event): ScopeProvider =
  * @param boundaryResolver function that resolves the event boundary.
  */
 @CheckReturnValue
-inline fun Lifecycle.scope(boundaryResolver: CorrespondingEventsFunction<Event>): ScopeProvider =
-  AndroidLifecycleScopeProvider.from(this, boundaryResolver)
+public inline fun Lifecycle.scope(
+  boundaryResolver: CorrespondingEventsFunction<Event>
+): ScopeProvider = AndroidLifecycleScopeProvider.from(this, boundaryResolver)
 
 /**
  * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent]
@@ -90,7 +91,7 @@ inline fun Lifecycle.scope(boundaryResolver: CorrespondingEventsFunction<Event>)
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T : Any> Flowable<T>.autoDispose(
+public inline fun <T : Any> Flowable<T>.autoDispose(
   lifecycleOwner: LifecycleOwner,
   untilEvent: Event? = null
 ): FlowableSubscribeProxy<T> {
@@ -111,7 +112,7 @@ inline fun <T : Any> Flowable<T>.autoDispose(
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T : Any> Observable<T>.autoDispose(
+public inline fun <T : Any> Observable<T>.autoDispose(
   lifecycleOwner: LifecycleOwner,
   untilEvent: Event? = null
 ): ObservableSubscribeProxy<T> {
@@ -132,7 +133,7 @@ inline fun <T : Any> Observable<T>.autoDispose(
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T : Any> Single<T>.autoDispose(
+public inline fun <T : Any> Single<T>.autoDispose(
   lifecycleOwner: LifecycleOwner,
   untilEvent: Event? = null
 ): SingleSubscribeProxy<T> {
@@ -153,7 +154,7 @@ inline fun <T : Any> Single<T>.autoDispose(
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T : Any> Maybe<T>.autoDispose(
+public inline fun <T : Any> Maybe<T>.autoDispose(
   lifecycleOwner: LifecycleOwner,
   untilEvent: Event? = null
 ): MaybeSubscribeProxy<T> {
@@ -174,7 +175,7 @@ inline fun <T : Any> Maybe<T>.autoDispose(
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun Completable.autoDispose(
+public inline fun Completable.autoDispose(
   lifecycleOwner: LifecycleOwner,
   untilEvent: Event? = null
 ): CompletableSubscribeProxy {
@@ -197,7 +198,7 @@ inline fun Completable.autoDispose(
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T : Any> ParallelFlowable<T>.autoDispose(
+public inline fun <T : Any> ParallelFlowable<T>.autoDispose(
   lifecycleOwner: LifecycleOwner,
   untilEvent: Event? = null
 ): ParallelFlowableSubscribeProxy<T> {

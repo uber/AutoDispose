@@ -28,6 +28,8 @@ import net.ltgt.gradle.errorprone.errorprone
 import net.ltgt.gradle.nullaway.nullaway
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 
@@ -140,7 +142,7 @@ val errorProneDep = libs.build.errorProne
 
 subprojects {
   val isSample = project.name == "sample"
-  val isLint = project.path.endsWith("-lint")
+  val isLint = project.path.contains("static-analysis")
   val isAndroid = project.path.startsWith(":android:") || isSample
   val jvmTargetVersion =
     if (isLint) {
@@ -158,7 +160,7 @@ subprojects {
       }
     }
 
-    if (!isAndroid) {
+    if (!isAndroid && !isLint) {
       tasks.withType<JavaCompile>().configureEach {
         options.release.set(jvmTargetVersion.map { it.removePrefix("1.") }.map(String::toInt))
       }
@@ -171,12 +173,16 @@ subprojects {
         if (!isSample) {
           explicitApi()
         }
-        if (this is KotlinJvmProjectExtension) {
-          compilerOptions {
-            jvmTarget.set(jvmTargetVersion.map(JvmTarget::fromTarget))
-            freeCompilerArgs.addAll("-Xjsr305=strict")
+        val jvmCompilerOptions: KotlinJvmCompilerOptions.() -> Unit = {
+          jvmTarget.set(jvmTargetVersion.map(JvmTarget::fromTarget))
+          freeCompilerArgs.addAll("-Xjsr305=strict")
+          if (!isLint) {
             progressiveMode.set(true)
           }
+        }
+        when (this) {
+          is KotlinJvmProjectExtension -> compilerOptions(jvmCompilerOptions)
+          is KotlinAndroidProjectExtension -> compilerOptions(jvmCompilerOptions)
         }
       }
     }

@@ -360,6 +360,7 @@ public final class AutoDispose {
             return new AutoDisposeSingle<>(upstream, scope).subscribe(onSuccess);
           }
 
+          @SuppressWarnings("NullAway") // False positive
           @Override
           public Disposable subscribe(
               BiConsumer<@Nullable ? super T, @Nullable ? super Throwable> biConsumer) {

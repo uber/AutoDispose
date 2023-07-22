@@ -72,9 +72,7 @@ public final class AutoDisposePlugins {
     return outsideScopeHandler;
   }
 
-  /**
-   * @param handler the consumer for handling {@link OutsideScopeException} to set, null allowed
-   */
+  /** Sets a consumer for handling {@link OutsideScopeException} to set, null allowed */
   public static void setOutsideScopeHandler(
       @Nullable Consumer<? super OutsideScopeException> handler) {
     if (lockdown) {
@@ -84,9 +82,9 @@ public final class AutoDisposePlugins {
   }
 
   /**
-   * @param fillInStacktrace {@code true} to fill in stacktraces in {@link OutsideScopeException}s.
-   *     {@code false} to disable them (and use them as signals only). Disabling them, if you don't
-   *     care about the stacktraces, can result in some minor performance improvements.
+   * Sets whether to fill in stacktraces in {@link OutsideScopeException}s. {@code false} to disable
+   * them (and use them as signals only). Disabling them, if you don't care about the stacktraces,
+   * can result in some minor performance improvements.
    */
   public static void setFillInOutsideScopeExceptionStacktraces(boolean fillInStacktrace) {
     if (lockdown) {
@@ -96,9 +94,9 @@ public final class AutoDisposePlugins {
   }
 
   /**
-   * @param hideProxies {@code true} hide proxy interfaces. This wraps all proxy interfaces in
-   *     {@link autodispose2} at runtime in an anonymous instance to prevent introspection, similar
-   *     to {@link Observable#hide()}. The default is {@code true}.
+   * Sets whether to hide proxy interfaces. This wraps all proxy interfaces in {@link autodispose2}
+   * at runtime in an anonymous instance to prevent introspection, similar to {@link
+   * Observable#hide()}. The default is {@code true}.
    */
   public static void setHideProxies(boolean hideProxies) {
     if (lockdown) {

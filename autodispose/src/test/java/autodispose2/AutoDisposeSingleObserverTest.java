@@ -139,6 +139,7 @@ public class AutoDisposeSingleObserverTest extends PluginsMatrixTest {
     o.assertNoMoreEvents();
   }
 
+  @SuppressWarnings("NullAway")
   @Test
   public void verifyObserverDelegate() {
     final AtomicReference<SingleObserver> atomicObserver = new AtomicReference<>();

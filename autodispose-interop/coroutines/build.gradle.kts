@@ -24,7 +24,12 @@ dependencies {
   api(project(":autodispose"))
   api(libs.kotlin.coroutines)
 
-  signature(libs.build.animalSniffer)
+  signature(libs.build.animalSniffer) {
+    artifact {
+      name = "java17"
+      type = "signature"
+    }
+  }
 
   testImplementation(project(":test-utils"))
 }

@@ -128,6 +128,7 @@ public class AutoDisposeSubscriberTest extends PluginsMatrixTest {
     assertThat(scope.hasObservers()).isFalse();
   }
 
+  @SuppressWarnings("NullAway")
   @Test
   public void verifySubscriberDelegate() {
     final AtomicReference<Subscriber> atomicSubscriber = new AtomicReference<>();

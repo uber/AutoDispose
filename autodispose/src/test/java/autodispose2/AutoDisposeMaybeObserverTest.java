@@ -161,6 +161,7 @@ public class AutoDisposeMaybeObserverTest extends PluginsMatrixTest {
     o.assertNoMoreEvents();
   }
 
+  @SuppressWarnings("NullAway")
   @Test
   public void verifyObserverDelegate() {
     final AtomicReference<MaybeObserver> atomicObserver = new AtomicReference<>();

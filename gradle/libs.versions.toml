@@ -27,7 +27,7 @@ nullawayPlugin = "1.6.0"
 replayingShareKotlin = "2.0.1"
 rxjava3Bridge = "3.0.0"
 rxrelay = "2.1.1"
-spotless = "6.18.0"
+spotless = "6.20.0"
 targetSdkVersion = "33"
 
 [plugins]
@@ -60,7 +60,7 @@ androidx-lifecycle-runtimeTest = { module = "androidx.lifecycle:lifecycle-runtim
 androidx-lifecycle-vmKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
 autoService-annotations = "com.google.auto.service:auto-service-annotations:1.1.1"
 autoService-ksp = "dev.zacsweers.autoservice:auto-service-ksp:1.1.0"
-build-animalSniffer = "org.codehaus.mojo.signature:java17:1.0@signature"
+build-animalSniffer = "org.codehaus.mojo.signature:java17:1.0"
 build-errorProne = { module = "com.google.errorprone:error_prone_core", version.ref = "errorProne" }
 build-errorProneAnnotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "errorProne" }
 build-errorProneCheckApi = { module = "com.google.errorprone:error_prone_check_api", version.ref = "errorProne" }

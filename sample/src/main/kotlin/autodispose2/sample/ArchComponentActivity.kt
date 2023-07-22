@@ -19,8 +19,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import autodispose2.autoDispose
 import autodispose2.sample.repository.ImageRepository
@@ -35,15 +35,11 @@ class ArchComponentActivity : AppCompatActivity() {
 
   private val scopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
 
-  // Custom view model factory
-  private val viewModelFactory by lazy {
-    ArchComponentViewModel.Factory(ImageRepository(resources))
-  }
-
   // ViewModel for given Activity
-  private val viewModel by lazy {
-    ViewModelProviders.of(this, viewModelFactory).get(ArchComponentViewModel::class.java)
-  }
+  private val viewModel by
+    viewModels<ArchComponentViewModel> {
+      ArchComponentViewModel.Factory(ImageRepository(resources))
+    }
 
   lateinit var imageView: ImageView
   lateinit var button: Button

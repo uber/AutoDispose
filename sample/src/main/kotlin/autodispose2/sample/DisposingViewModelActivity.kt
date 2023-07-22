@@ -18,8 +18,8 @@ package autodispose2.sample
 import android.os.Bundle
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import autodispose2.ScopeProvider
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import autodispose2.autoDispose
@@ -31,12 +31,9 @@ class DisposingViewModelActivity : AppCompatActivity() {
 
   // Network repository. Can be substituted by DI
   private val networkRepository: NetworkRepository by lazy { NetworkRepository() }
-  // The view model factory
-  private val viewModelFactory by lazy { DisposingViewModel.Factory(networkRepository) }
   // The ViewModel for this Activity.
-  private val viewModel: DisposingViewModel by lazy {
-    ViewModelProviders.of(this, viewModelFactory).get(DisposingViewModel::class.java)
-  }
+  private val viewModel: DisposingViewModel by
+    viewModels<DisposingViewModel> { DisposingViewModel.Factory(networkRepository) }
 
   private val scope: ScopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
 

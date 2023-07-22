@@ -29,7 +29,12 @@ dependencies {
   api(libs.rx.java)
   compileOnly(libs.build.errorProneAnnotations)
 
-  signature(libs.build.animalSniffer)
+  signature(libs.build.animalSniffer) {
+    artifact {
+      name = "java17"
+      type = "signature"
+    }
+  }
   lintChecks(project(":static-analysis:autodispose-lint"))
 
   testImplementation(project(":test-utils"))

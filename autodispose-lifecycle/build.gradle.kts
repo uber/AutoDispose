@@ -23,7 +23,12 @@ dependencies {
   api(project(":autodispose"))
   compileOnly(libs.build.errorProneAnnotations)
 
-  signature(libs.build.animalSniffer)
+  signature(libs.build.animalSniffer) {
+    artifact {
+      name = "java17"
+      type = "signature"
+    }
+  }
 
   testImplementation(project(":test-utils"))
 }

@@ -127,6 +127,7 @@ public class AutoDisposeObserverTest extends PluginsMatrixTest {
     assertThat(scope.hasObservers()).isFalse();
   }
 
+  @SuppressWarnings("NullAway")
   @Test
   public void verifyObserverDelegate() {
     final AtomicReference<Observer> atomicObserver = new AtomicReference<>();

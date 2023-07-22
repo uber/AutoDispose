@@ -35,6 +35,7 @@ final class ExceptionHelper {
    * A singleton instance of a Throwable indicating a terminal state for exceptions,
    * don't leak this.
    */
+  @SuppressWarnings("StaticAssignmentOfThrowable")
   private static final Throwable TERMINATED = new Termination();
 
   static boolean addThrowable(AtomicReference<Throwable> field, Throwable exception) {
