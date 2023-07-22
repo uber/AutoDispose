@@ -335,8 +335,6 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           )
           .indented()
       )
-      .allowCompilationErrors() // Until AGP 7.1.0
-      // https://groups.google.com/g/lint-dev/c/BigCO8sMhKU
       .run()
       .expectClean()
   }
@@ -425,8 +423,6 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           )
           .indented()
       )
-      .allowCompilationErrors() // Until AGP 7.1.0
-      // https://groups.google.com/g/lint-dev/c/BigCO8sMhKU
       .run()
       .expectClean()
   }
@@ -500,7 +496,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
         kotlin(
             """
           package foo
-          import io.reactivex.rxjava3.core.Observable
+          import io.reactivex.rxjava3.core.Flowable
           import autodispose2.autoDispose
           import autodispose2.lifecycle.LifecycleScopeProvider
 
@@ -514,8 +510,6 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           )
           .indented()
       )
-      .allowCompilationErrors() // Until AGP 7.1.0
-      // https://groups.google.com/g/lint-dev/c/BigCO8sMhKU
       .run()
       .expectClean()
   }
@@ -586,7 +580,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
         kotlin(
             """
           package foo
-          import io.reactivex.rxjava3.core.Observable
+          import io.reactivex.rxjava3.core.Completable
           import autodispose2.ScopeProvider
           import autodispose2.autoDispose
 
@@ -601,8 +595,6 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           )
           .indented()
       )
-      .allowCompilationErrors() // Until AGP 7.1.0
-      // https://groups.google.com/g/lint-dev/c/BigCO8sMhKU
       .run()
       .expectClean()
   }
@@ -691,8 +683,6 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           )
           .indented()
       )
-      .allowCompilationErrors() // Until AGP 7.1.0
-      // https://groups.google.com/g/lint-dev/c/BigCO8sMhKU
       .run()
       .expectClean()
   }
@@ -765,8 +755,6 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           )
           .indented()
       )
-      .allowCompilationErrors() // Until AGP 7.1.0
-      // https://groups.google.com/g/lint-dev/c/BigCO8sMhKU
       .run()
       .expectClean()
   }
@@ -871,8 +859,6 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           )
           .indented()
       )
-      .allowCompilationErrors() // Until AGP 7.1.0
-      // https://groups.google.com/g/lint-dev/c/BigCO8sMhKU
       .run()
       .expectClean()
   }
@@ -1715,8 +1701,6 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           )
           .indented()
       )
-      .allowCompilationErrors() // Until AGP 7.1.0
-      // https://groups.google.com/g/lint-dev/c/BigCO8sMhKU
       .run()
       .expectErrorCount(1)
   }
@@ -1746,8 +1730,6 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           )
           .indented()
       )
-      .allowCompilationErrors() // Until AGP 7.1.0
-      // https://groups.google.com/g/lint-dev/c/BigCO8sMhKU
       .run()
       .expectErrorCount(1)
   }
@@ -1780,8 +1762,8 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           )
           .indented()
       )
-      .allowCompilationErrors() // Until AGP 7.1.0
-      // https://groups.google.com/g/lint-dev/c/BigCO8sMhKU
+      .allowCompilationErrors() // Until AGP 8.2.0
+      // https://issuetracker.google.com/issues/283693338
       .run()
       .expectClean()
   }
@@ -1797,6 +1779,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
             """
           package foo
           import io.reactivex.rxjava3.core.Completable
+          import io.reactivex.rxjava3.core.Observable
           import autodispose2.autoDispose
           import autodispose2.withScope
           class ExampleClass {
@@ -1811,8 +1794,8 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           )
           .indented()
       )
-      .allowCompilationErrors() // Until AGP 7.1.0
-      // https://groups.google.com/g/lint-dev/c/BigCO8sMhKU
+      .allowCompilationErrors() // Until AGP 8.2.0
+      // https://issuetracker.google.com/issues/283693338
       .run()
       .expectClean()
   }
