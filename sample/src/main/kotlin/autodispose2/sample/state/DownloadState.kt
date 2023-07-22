@@ -16,17 +16,13 @@
 package autodispose2.sample.state
 
 /**
- * State representation for when we're downloading
- * a file.
+ * State representation for when we're downloading a file.
  *
- * This is used in your UI for proper state
- * management.
+ * This is used in your UI for proper state management.
  */
 sealed class DownloadState {
 
-  /**
-   * Download started.
-   */
+  /** Download started. */
   object Started : DownloadState()
 
   /**
@@ -36,8 +32,6 @@ sealed class DownloadState {
    */
   class InProgress(val progress: Int) : DownloadState()
 
-  /**
-   * Download has completed.
-   */
+  /** Download has completed. */
   object Completed : DownloadState()
 }

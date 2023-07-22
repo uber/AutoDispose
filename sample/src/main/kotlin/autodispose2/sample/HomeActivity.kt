@@ -21,9 +21,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
-/**
- * Central activity that opens up other activities.
- */
+/** Central activity that opens up other activities. */
 class HomeActivity : AppCompatActivity() {
 
   lateinit var toolbar: Toolbar
@@ -34,24 +32,16 @@ class HomeActivity : AppCompatActivity() {
 
     toolbar = findViewById(R.id.toolbar)
     setSupportActionBar(toolbar)
-    supportActionBar?.let {
-      setTitle(R.string.app_name)
-    }
+    supportActionBar?.let { setTitle(R.string.app_name) }
 
     val mainActivityButton: Button = findViewById(R.id.javaActivityButton)
-    mainActivityButton.setOnClickListener {
-      startActivity(JavaActivity::class.java)
-    }
+    mainActivityButton.setOnClickListener { startActivity(JavaActivity::class.java) }
 
     val archComponentsButton: Button = findViewById(R.id.archComponentsActivityButton)
-    archComponentsButton.setOnClickListener {
-      startActivity(ArchComponentActivity::class.java)
-    }
+    archComponentsButton.setOnClickListener { startActivity(ArchComponentActivity::class.java) }
 
     val kotlinActivityButton: Button = findViewById(R.id.kotlinActivityButton)
-    kotlinActivityButton.setOnClickListener {
-      startActivity(KotlinActivity::class.java)
-    }
+    kotlinActivityButton.setOnClickListener { startActivity(KotlinActivity::class.java) }
 
     val disposingActivityButton: Button = findViewById(R.id.disposingActivity)
     disposingActivityButton.setOnClickListener {

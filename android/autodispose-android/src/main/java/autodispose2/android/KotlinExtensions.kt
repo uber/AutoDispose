@@ -34,60 +34,35 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.parallel.ParallelFlowable
 
-/**
- * Extension that returns a [ScopeProvider] for this [View].
- */
-@CheckReturnValue
-inline fun View.scope(): ScopeProvider = ViewScopeProvider.from(this)
+/** Extension that returns a [ScopeProvider] for this [View]. */
+@CheckReturnValue inline fun View.scope(): ScopeProvider = ViewScopeProvider.from(this)
 
-/**
- * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable]
- */
+/** Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable] */
 @CheckReturnValue
-inline fun <T : Any> Flowable<T>.autoDispose(
-  view: View
-): FlowableSubscribeProxy<T> =
+inline fun <T : Any> Flowable<T>.autoDispose(view: View): FlowableSubscribeProxy<T> =
   this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
 
-/**
- * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable]
- */
+/** Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable] */
 @CheckReturnValue
-inline fun <T : Any> Observable<T>.autoDispose(
-  view: View
-): ObservableSubscribeProxy<T> =
+inline fun <T : Any> Observable<T>.autoDispose(view: View): ObservableSubscribeProxy<T> =
   this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
 
-/**
- * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable]
- */
+/** Extension that proxies to [Single.as] + [AutoDispose.autoDisposable] */
 @CheckReturnValue
-inline fun <T : Any> Single<T>.autoDispose(
-  view: View
-): SingleSubscribeProxy<T> =
+inline fun <T : Any> Single<T>.autoDispose(view: View): SingleSubscribeProxy<T> =
   this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
 
-/**
- * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable]
- */
+/** Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable] */
 @CheckReturnValue
-inline fun <T : Any> Maybe<T>.autoDispose(
-  view: View
-): MaybeSubscribeProxy<T> =
+inline fun <T : Any> Maybe<T>.autoDispose(view: View): MaybeSubscribeProxy<T> =
   this.to(AutoDispose.autoDisposable(ViewScopeProvider.from(view)))
 
-/**
- * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable]
- */
+/** Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable] */
 @CheckReturnValue
-inline fun Completable.autoDispose(
-  view: View
-): CompletableSubscribeProxy =
+inline fun Completable.autoDispose(view: View): CompletableSubscribeProxy =
   this.to(AutoDispose.autoDisposable<Any>(ViewScopeProvider.from(view)))
 
-/**
- * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable]
- */
+/** Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable] */
 @CheckReturnValue
 inline fun <T : Any> ParallelFlowable<T>.autoDispose(
   view: View

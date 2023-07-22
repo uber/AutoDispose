@@ -72,7 +72,9 @@ public final class AutoDisposePlugins {
     return outsideScopeHandler;
   }
 
-  /** @param handler the consumer for handling {@link OutsideScopeException} to set, null allowed */
+  /**
+   * @param handler the consumer for handling {@link OutsideScopeException} to set, null allowed
+   */
   public static void setOutsideScopeHandler(
       @Nullable Consumer<? super OutsideScopeException> handler) {
     if (lockdown) {

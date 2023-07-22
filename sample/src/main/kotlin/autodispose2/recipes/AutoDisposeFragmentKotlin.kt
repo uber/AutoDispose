@@ -45,7 +45,16 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Fr
   private val lifecycleEvents = BehaviorSubject.create<FragmentEvent>()
 
   enum class FragmentEvent {
-    ATTACH, CREATE, CREATE_VIEW, START, RESUME, PAUSE, STOP, DESTROY_VIEW, DESTROY, DETACH
+    ATTACH,
+    CREATE,
+    CREATE_VIEW,
+    START,
+    RESUME,
+    PAUSE,
+    STOP,
+    DESTROY_VIEW,
+    DESTROY,
+    DETACH
   }
 
   override fun lifecycle(): Observable<FragmentEvent> {
@@ -119,21 +128,20 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Fr
      * Resume we dispose on the next immediate destruction event. Subscribing after Detach is an
      * error.
      */
-    private val CORRESPONDING_EVENTS = CorrespondingEventsFunction<FragmentEvent> { event ->
-      when (event) {
-        ATTACH -> DETACH
-        CREATE -> DESTROY
-        CREATE_VIEW -> DESTROY_VIEW
-        START -> STOP
-        RESUME -> PAUSE
-        PAUSE -> STOP
-        STOP -> DESTROY_VIEW
-        DESTROY_VIEW -> DESTROY
-        DESTROY -> DETACH
-        else -> throw LifecycleEndedException(
-          "Cannot bind to Fragment lifecycle after detach."
-        )
+    private val CORRESPONDING_EVENTS =
+      CorrespondingEventsFunction<FragmentEvent> { event ->
+        when (event) {
+          ATTACH -> DETACH
+          CREATE -> DESTROY
+          CREATE_VIEW -> DESTROY_VIEW
+          START -> STOP
+          RESUME -> PAUSE
+          PAUSE -> STOP
+          STOP -> DESTROY_VIEW
+          DESTROY_VIEW -> DESTROY
+          DESTROY -> DETACH
+          else -> throw LifecycleEndedException("Cannot bind to Fragment lifecycle after detach.")
+        }
       }
-    }
   }
 }

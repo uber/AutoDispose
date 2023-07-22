@@ -33,6 +33,9 @@ import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiSynchronizedStatement
 import com.intellij.psi.PsiType
 import com.intellij.psi.util.PsiUtil
+import java.io.StringReader
+import java.util.EnumSet
+import java.util.Properties
 import org.jetbrains.uast.UAnnotationMethod
 import org.jetbrains.uast.UBlockExpression
 import org.jetbrains.uast.UCallExpression
@@ -52,48 +55,47 @@ import org.jetbrains.uast.getContainingUClass
 import org.jetbrains.uast.getParentOfType
 import org.jetbrains.uast.skipParenthesizedExprUp
 import org.jetbrains.uast.visitor.AbstractUastVisitor
-import java.io.StringReader
-import java.util.EnumSet
-import java.util.Properties
 
 internal const val CUSTOM_SCOPE_KEY = "autodispose.typesWithScope"
 internal const val LENIENT = "autodispose.lenient"
 internal const val OVERRIDE_SCOPES = "autodispose.overrideScopes"
 internal const val KOTLIN_EXTENSION_FUNCTIONS = "autodispose.kotlinExtensionFunctions"
 
-/**
- * Detector which checks if your stream subscriptions are handled by AutoDispose.
- */
+/** Detector which checks if your stream subscriptions are handled by AutoDispose. */
 public class AutoDisposeDetector : Detector(), SourceCodeScanner {
 
   internal companion object {
-    internal const val LINT_DESCRIPTION = "Missing Disposable handling: Apply AutoDispose or cache " +
-      "the Disposable instance manually and enable lenient mode."
+    internal const val LINT_DESCRIPTION =
+      "Missing Disposable handling: Apply AutoDispose or cache " +
+        "the Disposable instance manually and enable lenient mode."
 
-    internal val ISSUE: Issue = Issue.create(
-      "AutoDispose",
-      LINT_DESCRIPTION,
-      "You're subscribing to an observable but not handling its subscription. This " +
-        "can result in memory leaks. You can avoid memory leaks by appending " +
-        "`.as(autoDisposable(this))` before you subscribe or cache the Disposable instance" +
-        " manually and enable lenient mode. More: https://github.com/uber/AutoDispose/wiki/Lint-Check",
-      Category.CORRECTNESS,
-      10,
-      Severity.ERROR,
-      // We use the overloaded constructor that takes a varargs of `Scope` as the last param.
-      // This is to enable on-the-fly IDE checks. We are telling lint to run on both
-      // JAVA and TEST_SOURCES in the `scope` parameter but by providing the `analysisScopes`
-      // params, we're indicating that this check can run on either JAVA or TEST_SOURCES and
-      // doesn't require both of them together.
-      // From discussion on lint-dev https://groups.google.com/d/msg/lint-dev/ULQMzW1ZlP0/1dG4Vj3-AQAJ
-      // TODO: This was supposed to be fixed in AS 3.4 but still required as recently as 3.6-alpha10.
-      Implementation(
-        AutoDisposeDetector::class.java,
-        EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES),
-        EnumSet.of(Scope.JAVA_FILE),
-        EnumSet.of(Scope.TEST_SOURCES)
+    internal val ISSUE: Issue =
+      Issue.create(
+        "AutoDispose",
+        LINT_DESCRIPTION,
+        "You're subscribing to an observable but not handling its subscription. This " +
+          "can result in memory leaks. You can avoid memory leaks by appending " +
+          "`.as(autoDisposable(this))` before you subscribe or cache the Disposable instance" +
+          " manually and enable lenient mode. More: https://github.com/uber/AutoDispose/wiki/Lint-Check",
+        Category.CORRECTNESS,
+        10,
+        Severity.ERROR,
+        // We use the overloaded constructor that takes a varargs of `Scope` as the last param.
+        // This is to enable on-the-fly IDE checks. We are telling lint to run on both
+        // JAVA and TEST_SOURCES in the `scope` parameter but by providing the `analysisScopes`
+        // params, we're indicating that this check can run on either JAVA or TEST_SOURCES and
+        // doesn't require both of them together.
+        // From discussion on lint-dev
+        // https://groups.google.com/d/msg/lint-dev/ULQMzW1ZlP0/1dG4Vj3-AQAJ
+        // TODO: This was supposed to be fixed in AS 3.4 but still required as recently as
+        // 3.6-alpha10.
+        Implementation(
+          AutoDisposeDetector::class.java,
+          EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES),
+          EnumSet.of(Scope.JAVA_FILE),
+          EnumSet.of(Scope.TEST_SOURCES)
+        )
       )
-    )
 
     private const val OBSERVABLE = "io.reactivex.rxjava3.core.Observable"
     private const val FLOWABLE = "io.reactivex.rxjava3.core.Flowable"
@@ -104,17 +106,16 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     private const val KOTLIN_EXTENSIONS = "autodispose2.KotlinExtensions"
 
     // The default scopes for Android.
-    private val DEFAULT_SCOPES = setOf(
-      "androidx.lifecycle.LifecycleOwner",
-      "autodispose2.ScopeProvider",
-      "android.app.Activity",
-      "android.app.Fragment"
-    )
+    private val DEFAULT_SCOPES =
+      setOf(
+        "androidx.lifecycle.LifecycleOwner",
+        "autodispose2.ScopeProvider",
+        "android.app.Activity",
+        "android.app.Fragment"
+      )
 
-    private val REACTIVE_TYPES = setOf(
-      OBSERVABLE, FLOWABLE, PARALLEL_FLOWABLE, SINGLE, MAYBE,
-      COMPLETABLE
-    )
+    private val REACTIVE_TYPES =
+      setOf(OBSERVABLE, FLOWABLE, PARALLEL_FLOWABLE, SINGLE, MAYBE, COMPLETABLE)
 
     private val REACTIVE_SUBSCRIBE_METHOD_NAMES = setOf("subscribe", "subscribeWith")
 
@@ -137,41 +138,41 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
 
     // Add the custom scopes defined in configuration.
     val props = Properties()
-    context.project.propertyFiles.find { it.name == PROPERTY_FILE }?.apply {
-      val content = StringReader(context.client.readFile(this).toString())
-      props.load(content)
-      props.getProperty(CUSTOM_SCOPE_KEY)?.let { scopeProperty ->
-        val customScopes = scopeProperty.split(",")
-          .asSequence()
-          .map(String::trim)
-          .filter(String::isNotBlank)
-          .toList()
-        scopes.addAll(customScopes)
-      }
-      props.getProperty(KOTLIN_EXTENSION_FUNCTIONS)?.let { ktExtensionProperty ->
-        ktExtensionProperty.split(",")
-          .forEach {
+    context.project.propertyFiles
+      .find { it.name == PROPERTY_FILE }
+      ?.apply {
+        val content = StringReader(context.client.readFile(this).toString())
+        props.load(content)
+        props.getProperty(CUSTOM_SCOPE_KEY)?.let { scopeProperty ->
+          val customScopes =
+            scopeProperty
+              .split(",")
+              .asSequence()
+              .map(String::trim)
+              .filter(String::isNotBlank)
+              .toList()
+          scopes.addAll(customScopes)
+        }
+        props.getProperty(KOTLIN_EXTENSION_FUNCTIONS)?.let { ktExtensionProperty ->
+          ktExtensionProperty.split(",").forEach {
             val arr = it.split("#", limit = 2)
             if (arr.size >= 2) {
               val (packageName, methodName) = arr
               ktExtensionMethodToPackageMap.getOrPut(methodName, ::mutableSetOf).add(packageName)
             }
           }
+        }
+        props.getProperty(LENIENT)?.toBoolean()?.let { lenient = it }
+        props.getProperty(OVERRIDE_SCOPES)?.toBoolean()?.let { overrideScopes = it }
       }
-      props.getProperty(LENIENT)?.toBoolean()?.let {
-        lenient = it
-      }
-      props.getProperty(OVERRIDE_SCOPES)?.toBoolean()?.let {
-        overrideScopes = it
-      }
-    }
     // If scopes are not overridden, add the default ones.
     if (!overrideScopes) {
       scopes.addAll(DEFAULT_SCOPES)
     }
     this.appliedScopes = scopes
     this.ktExtensionMethodToPackageMap = ktExtensionMethodToPackageMap
-    this.appliedMethodNames = (REACTIVE_SUBSCRIBE_METHOD_NAMES + ktExtensionMethodToPackageMap.keys).toList()
+    this.appliedMethodNames =
+      (REACTIVE_SUBSCRIBE_METHOD_NAMES + ktExtensionMethodToPackageMap.keys).toList()
   }
 
   override fun getApplicableMethodNames(): List<String> = appliedMethodNames
@@ -191,8 +192,8 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
           // Check if it's one of our withScope() higher order functions. If so, we handle that
           // separately and visit the passed in lambda body and run the subscribe method call checks
           // inside it with the "isInScope" check just hardcoded to true.
-          if (method.name == "withScope" &&
-            method.containingClass?.qualifiedName == KOTLIN_EXTENSIONS
+          if (
+            method.name == "withScope" && method.containingClass?.qualifiedName == KOTLIN_EXTENSIONS
           ) {
             val args = node.valueArguments
             if (args.size == 2) {
@@ -203,15 +204,16 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
                 // TODO we can't determine this exactly with lint as far as I can tell
 
                 val body = last.body
-                val visitor = SubscribeCallVisitor(
-                  context,
-                  callExpressionChecker = { context, node, calledMethod ->
-                    callExpressionChecker(context, node, calledMethod) { _, _ -> true }
-                  },
-                  callableReferenceChecker = { context, node, calledMethod ->
-                    callableReferenceChecker(context, node, calledMethod) { _, _ -> true }
-                  }
-                )
+                val visitor =
+                  SubscribeCallVisitor(
+                    context,
+                    callExpressionChecker = { context, node, calledMethod ->
+                      callExpressionChecker(context, node, calledMethod) { _, _ -> true }
+                    },
+                    callableReferenceChecker = { context, node, calledMethod ->
+                      callableReferenceChecker(context, node, calledMethod) { _, _ -> true }
+                    }
+                  )
                 body.accept(visitor)
                 return@let
               }
@@ -248,7 +250,8 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
   private class SubscribeCallVisitor(
     private val context: JavaContext,
     private val callExpressionChecker: (JavaContext, UCallExpression, PsiMethod) -> Unit,
-    private val callableReferenceChecker: (JavaContext, UCallableReferenceExpression, PsiMethod) -> Unit
+    private val callableReferenceChecker:
+      (JavaContext, UCallableReferenceExpression, PsiMethod) -> Unit
   ) : AbstractUastVisitor() {
 
     override fun visitCallExpression(node: UCallExpression): Boolean {
@@ -272,45 +275,43 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
   /**
    * Checks if the calling method is in "scope" that can be handled by AutoDispose.
    *
-   * If your `subscribe`/`subscribeWith` method is called in a scope
-   * that is recognized by AutoDispose, this returns true. This indicates that
-   * you're subscribing in a scope and therefore, you must handle the subscription.
-   * Default scopes include Android activities, fragments and custom classes that
-   * implement ScopeProvider.
+   * If your `subscribe`/`subscribeWith` method is called in a scope that is recognized by
+   * AutoDispose, this returns true. This indicates that you're subscribing in a scope and
+   * therefore, you must handle the subscription. Default scopes include Android activities,
+   * fragments and custom classes that implement ScopeProvider.
    *
    * @param evaluator the java evaluator.
    * @param node the call expression.
    * @return whether the `subscribe` method is called "in-scope".
    * @see appliedScopes
    */
-  private fun containingClassScopeChecker(evaluator: JavaEvaluator, node: UCallExpression): Boolean {
+  private fun containingClassScopeChecker(
+    evaluator: JavaEvaluator,
+    node: UCallExpression
+  ): Boolean {
     node.getContainingUClass()?.let { callingClass ->
-      return appliedScopes.any {
-        evaluator.inheritsFrom(callingClass, it, false)
-      }
+      return appliedScopes.any { evaluator.inheritsFrom(callingClass, it, false) }
     }
     return false
   }
 
   private fun isReactiveType(evaluator: JavaEvaluator, method: PsiMethod): Boolean {
-    return REACTIVE_SUBSCRIBE_METHOD_NAMES.contains(method.name) && REACTIVE_TYPES.any {
-      evaluator.isMemberInClass(method, it)
-    }
+    return REACTIVE_SUBSCRIBE_METHOD_NAMES.contains(method.name) &&
+      REACTIVE_TYPES.any { evaluator.isMemberInClass(method, it) }
   }
 
   private fun isKotlinExtension(evaluator: JavaEvaluator, method: PsiMethod): Boolean {
-    return ktExtensionMethodToPackageMap[method.name]?.any {
-      evaluator.isMemberInClass(method, it)
-    } ?: false
+    return ktExtensionMethodToPackageMap[method.name]?.any { evaluator.isMemberInClass(method, it) }
+      ?: false
   }
 
   /**
    * Returns whether the given [returnType] is allowed to bypass the lint check.
    *
-   * If a `subscribe`/`subscribeWith` method return type is captured by the consumer
-   * AND the return type implements Disposable, we let it bypass the lint check.
-   * For example, subscribing with a plain Observer instead of a DiposableObserver will
-   * not bypass the lint check since Observer doesn't extend Disposable.
+   * If a `subscribe`/`subscribeWith` method return type is captured by the consumer AND the return
+   * type implements Disposable, we let it bypass the lint check. For example, subscribing with a
+   * plain Observer instead of a DiposableObserver will not bypass the lint check since Observer
+   * doesn't extend Disposable.
    *
    * @param returnType the return type of the `subscribe`/`subscribeWith` call.
    * @param evaluator the evaluator.
@@ -339,8 +340,9 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     if (!getApplicableMethodNames().contains(method.name)) return
     val evaluator = context.evaluator
 
-    val shouldReport = (isReactiveType(evaluator, method) || isKotlinExtension(evaluator, method)) &&
-      isInScope(evaluator, node)
+    val shouldReport =
+      (isReactiveType(evaluator, method) || isKotlinExtension(evaluator, method)) &&
+        isInScope(evaluator, node)
     if (shouldReport) {
       if (!lenient) {
         context.report(ISSUE, node, context.getLocation(node), LINT_DESCRIPTION)
@@ -358,7 +360,8 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
   /**
    * Checks whether the given expression's return value is unused.
    *
-   * Borrowed from https://cs.android.com/android-studio/platform/tools/base/+/mirror-goog-studio-main:lint/libs/lint-checks/src/main/java/com/android/tools/lint/checks/CheckResultDetector.kt;l=289;drc=c5fd7e6e7dd92bf3c57c6fe7a3a3a3ab61f4aec6
+   * Borrowed from
+   * https://cs.android.com/android-studio/platform/tools/base/+/mirror-goog-studio-main:lint/libs/lint-checks/src/main/java/com/android/tools/lint/checks/CheckResultDetector.kt;l=289;drc=c5fd7e6e7dd92bf3c57c6fe7a3a3a3ab61f4aec6
    *
    * @param element the element to be analyzed.
    * @return whether the expression is unused.
@@ -378,7 +381,10 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     }
 
     var curr: UElement = prev.uastParent ?: return true
-    while (curr is UQualifiedReferenceExpression && curr.selector === prev || curr is UParenthesizedExpression) {
+    while (
+      curr is UQualifiedReferenceExpression && curr.selector === prev ||
+        curr is UParenthesizedExpression
+    ) {
       prev = curr
       curr = curr.uastParent ?: return true
     }
@@ -414,9 +420,10 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
       val parent = skipParenthesizedExprUp(curr.uastParent)
       if (parent is ULambdaExpression && isKotlin(curr.sourcePsi)) {
         val expressionType = parent.getExpressionType()?.canonicalText
-        if (expressionType != null &&
-          expressionType.startsWith("kotlin.jvm.functions.Function") &&
-          expressionType.endsWith("kotlin.Unit>")
+        if (
+          expressionType != null &&
+            expressionType.startsWith("kotlin.jvm.functions.Function") &&
+            expressionType.endsWith("kotlin.Unit>")
         ) {
           // We know that this lambda does not return anything so the value is unused
           return true

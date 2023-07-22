@@ -67,8 +67,7 @@ val copiedFiles =
 spotless {
   format("misc") {
     target("**/*.md", "**/.gitignore")
-
-    indentWithTabs()
+    indentWithSpaces(2)
     trimTrailingWhitespace()
     endWithNewline()
   }

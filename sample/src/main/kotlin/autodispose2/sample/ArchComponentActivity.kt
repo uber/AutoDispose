@@ -36,10 +36,14 @@ class ArchComponentActivity : AppCompatActivity() {
   private val scopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
 
   // Custom view model factory
-  private val viewModelFactory by lazy { ArchComponentViewModel.Factory(ImageRepository(resources)) }
+  private val viewModelFactory by lazy {
+    ArchComponentViewModel.Factory(ImageRepository(resources))
+  }
 
   // ViewModel for given Activity
-  private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(ArchComponentViewModel::class.java) }
+  private val viewModel by lazy {
+    ViewModelProviders.of(this, viewModelFactory).get(ArchComponentViewModel::class.java)
+  }
 
   lateinit var imageView: ImageView
   lateinit var button: Button
@@ -54,7 +58,8 @@ class ArchComponentActivity : AppCompatActivity() {
 
     // Using automatic disposal, this should determine that the correct time to
     // dispose is onDestroy (the opposite of onCreate).
-    viewModel.image()
+    viewModel
+      .image()
       .doOnDispose { Log.i(TAG, "Disposing ViewModel observer from onCreate()") }
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
@@ -65,9 +70,7 @@ class ArchComponentActivity : AppCompatActivity() {
       }
 
     // Set listener to load the image.
-    button.setOnClickListener {
-      viewModel.loadBitmap(R.raw.sunset)
-    }
+    button.setOnClickListener { viewModel.loadBitmap(R.raw.sunset) }
   }
 
   override fun onStart() {

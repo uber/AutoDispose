@@ -21,9 +21,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.LifecycleRegistry
 import io.reactivex.rxjava3.annotations.CheckReturnValue
 
-/**
- * Extension that returns a [TestLifecycleOwner] for this [LifecycleRegistry].
- */
+/** Extension that returns a [TestLifecycleOwner] for this [LifecycleRegistry]. */
 @Suppress("DEPRECATION")
 @SuppressLint("RestrictedApi")
 @CheckReturnValue

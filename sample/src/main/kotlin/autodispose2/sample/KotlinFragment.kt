@@ -97,18 +97,14 @@ class KotlinFragment : Fragment() {
     Observable.interval(1, TimeUnit.SECONDS)
       .doOnDispose { Log.i(TAG, "Disposing subscription from onResume()") }
       .autoDispose(scopeProvider)
-      .subscribeBy { num ->
-        Log.i(TAG, "Started in onResume(), running until in onPause(): $num")
-      }
+      .subscribeBy { num -> Log.i(TAG, "Started in onResume(), running until in onPause(): $num") }
 
     // Setting a specific untilEvent, this should dispose in onDestroy.
     Observable.interval(1, TimeUnit.SECONDS)
       .doOnDispose {
         Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY")
       }
-      .autoDispose(
-        AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-      )
+      .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
       .subscribeBy { num ->
         Log.i(TAG, "Started in onResume(), running until in onDestroy(): $num")
       }

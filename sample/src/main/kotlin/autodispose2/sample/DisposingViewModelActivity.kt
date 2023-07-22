@@ -34,7 +34,9 @@ class DisposingViewModelActivity : AppCompatActivity() {
   // The view model factory
   private val viewModelFactory by lazy { DisposingViewModel.Factory(networkRepository) }
   // The ViewModel for this Activity.
-  private val viewModel: DisposingViewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(DisposingViewModel::class.java) }
+  private val viewModel: DisposingViewModel by lazy {
+    ViewModelProviders.of(this, viewModelFactory).get(DisposingViewModel::class.java)
+  }
 
   private val scope: ScopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
 
@@ -56,15 +58,11 @@ class DisposingViewModelActivity : AppCompatActivity() {
     }
 
     // Get latest value from ViewModel unaffected by any config changes.
-    viewModel.downloadState()
+    viewModel
+      .downloadState()
       .observeOn(AndroidSchedulers.mainThread())
       .autoDispose(scope)
-      .subscribe(
-        { state ->
-          resolveState(state)
-        },
-        {}
-      )
+      .subscribe({ state -> resolveState(state) }, {})
   }
 
   /**

@@ -21,23 +21,19 @@ import java.util.concurrent.TimeUnit
 /**
  * Repository layer for your network requests.
  *
- * Simulates the download request and sends the
- * progress so far.
+ * Simulates the download request and sends the progress so far.
  */
 class NetworkRepository {
 
   /**
    * Emit the progress of the requested download.
    *
-   * We simulate the download progress by emitting
-   * an int periodically and call onComplete after
+   * We simulate the download progress by emitting an int periodically and call onComplete after
    * it's done.
    *
    * @return [Observable] emitting download progress.
    */
   fun downloadProgress(): Observable<Int> {
-    return Observable.interval(500, TimeUnit.MILLISECONDS)
-      .map { it.toInt() }
-      .take(51)
+    return Observable.interval(500, TimeUnit.MILLISECONDS).map { it.toInt() }.take(51)
   }
 }

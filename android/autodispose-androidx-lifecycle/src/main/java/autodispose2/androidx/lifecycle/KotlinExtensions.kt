@@ -37,13 +37,9 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.parallel.ParallelFlowable
 
-/**
- * Extension that returns a [ScopeProvider] for this [LifecycleOwner].
- */
+/** Extension that returns a [ScopeProvider] for this [LifecycleOwner]. */
 @CheckReturnValue
-inline fun LifecycleOwner.scope(): ScopeProvider = AndroidLifecycleScopeProvider.from(
-  this
-)
+inline fun LifecycleOwner.scope(): ScopeProvider = AndroidLifecycleScopeProvider.from(this)
 
 /**
  * Extension that returns a [ScopeProvider] for this [LifecycleOwner].
@@ -51,12 +47,8 @@ inline fun LifecycleOwner.scope(): ScopeProvider = AndroidLifecycleScopeProvider
  * @param untilEvent the event until the scope is valid.
  */
 @CheckReturnValue
-inline fun LifecycleOwner.scope(
-  untilEvent: Lifecycle.Event
-): ScopeProvider = AndroidLifecycleScopeProvider.from(
-  this,
-  untilEvent
-)
+inline fun LifecycleOwner.scope(untilEvent: Lifecycle.Event): ScopeProvider =
+  AndroidLifecycleScopeProvider.from(this, untilEvent)
 
 /**
  * Extension that returns a [ScopeProvider] for this [LifecycleOwner].
@@ -66,18 +58,11 @@ inline fun LifecycleOwner.scope(
 @CheckReturnValue
 inline fun LifecycleOwner.scope(
   boundaryResolver: CorrespondingEventsFunction<Event>
-): ScopeProvider = AndroidLifecycleScopeProvider.from(
-  this,
-  boundaryResolver
-)
+): ScopeProvider = AndroidLifecycleScopeProvider.from(this, boundaryResolver)
 
-/**
- * Extension that returns a [ScopeProvider] for this [Lifecycle].
- */
+/** Extension that returns a [ScopeProvider] for this [Lifecycle]. */
 @CheckReturnValue
-inline fun Lifecycle.scope(): ScopeProvider = AndroidLifecycleScopeProvider.from(
-  this
-)
+inline fun Lifecycle.scope(): ScopeProvider = AndroidLifecycleScopeProvider.from(this)
 
 /**
  * Extension that returns a [ScopeProvider] for this [Lifecycle].
@@ -85,11 +70,8 @@ inline fun Lifecycle.scope(): ScopeProvider = AndroidLifecycleScopeProvider.from
  * @param untilEvent the event until the scope is valid.
  */
 @CheckReturnValue
-inline fun Lifecycle.scope(
-  untilEvent: Lifecycle.Event
-): ScopeProvider = AndroidLifecycleScopeProvider.from(
-  this, untilEvent
-)
+inline fun Lifecycle.scope(untilEvent: Lifecycle.Event): ScopeProvider =
+  AndroidLifecycleScopeProvider.from(this, untilEvent)
 
 /**
  * Extension that returns a [ScopeProvider] for this [Lifecycle].
@@ -97,166 +79,133 @@ inline fun Lifecycle.scope(
  * @param boundaryResolver function that resolves the event boundary.
  */
 @CheckReturnValue
-inline fun Lifecycle.scope(
-  boundaryResolver: CorrespondingEventsFunction<Event>
-): ScopeProvider = AndroidLifecycleScopeProvider.from(
-  this, boundaryResolver
-)
+inline fun Lifecycle.scope(boundaryResolver: CorrespondingEventsFunction<Event>): ScopeProvider =
+  AndroidLifecycleScopeProvider.from(this, boundaryResolver)
 
 /**
- * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
- * subscription will be disposed.
+ * Extension that proxies to [Flowable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent]
+ * when subscription will be disposed.
  *
  * @param lifecycleOwner The lifecycle owner.
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T : Any> Flowable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): FlowableSubscribeProxy<T> {
+inline fun <T : Any> Flowable<T>.autoDispose(
+  lifecycleOwner: LifecycleOwner,
+  untilEvent: Event? = null
+): FlowableSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
     this.to(
-      AutoDispose.autoDisposable(
-        AndroidLifecycleScopeProvider.from(
-          lifecycleOwner,
-          untilEvent
-        )
-      )
+      AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent))
     )
   }
 }
 
 /**
- * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
- * subscription will be disposed.
+ * Extension that proxies to [Observable.as] + [AutoDispose.autoDisposable] and takes an
+ * [untilEvent] when subscription will be disposed.
  *
  * @param lifecycleOwner The lifecycle owner.
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T : Any> Observable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): ObservableSubscribeProxy<T> {
+inline fun <T : Any> Observable<T>.autoDispose(
+  lifecycleOwner: LifecycleOwner,
+  untilEvent: Event? = null
+): ObservableSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.to(
-      AutoDispose.autoDisposable(
-        AndroidLifecycleScopeProvider.from(lifecycleOwner)
-      )
-    )
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
     this.to(
-      AutoDispose.autoDisposable(
-        AndroidLifecycleScopeProvider.from(
-          lifecycleOwner,
-          untilEvent
-        )
-      )
+      AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent))
     )
   }
 }
 
 /**
- * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
- * subscription will be disposed.
+ * Extension that proxies to [Single.as] + [AutoDispose.autoDisposable] and takes an [untilEvent]
+ * when subscription will be disposed.
  *
  * @param lifecycleOwner The lifecycle owner.
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T : Any> Single<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): SingleSubscribeProxy<T> {
+inline fun <T : Any> Single<T>.autoDispose(
+  lifecycleOwner: LifecycleOwner,
+  untilEvent: Event? = null
+): SingleSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.to(
-      AutoDispose.autoDisposable(
-        AndroidLifecycleScopeProvider.from(lifecycleOwner)
-      )
-    )
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
     this.to(
-      AutoDispose.autoDisposable(
-        AndroidLifecycleScopeProvider.from(
-          lifecycleOwner,
-          untilEvent
-        )
-      )
+      AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent))
     )
   }
 }
 
 /**
- * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
- * subscription will be disposed.
+ * Extension that proxies to [Maybe.as] + [AutoDispose.autoDisposable] and takes an [untilEvent]
+ * when subscription will be disposed.
  *
  * @param lifecycleOwner The lifecycle owner.
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T : Any> Maybe<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): MaybeSubscribeProxy<T> {
+inline fun <T : Any> Maybe<T>.autoDispose(
+  lifecycleOwner: LifecycleOwner,
+  untilEvent: Event? = null
+): MaybeSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.to(
-      AutoDispose.autoDisposable(
-        AndroidLifecycleScopeProvider.from(lifecycleOwner)
-      )
-    )
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
     this.to(
-      AutoDispose.autoDisposable(
-        AndroidLifecycleScopeProvider.from(
-          lifecycleOwner,
-          untilEvent
-        )
-      )
+      AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent))
     )
   }
 }
 
 /**
- * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
- * subscription will be disposed.
+ * Extension that proxies to [Completable.as] + [AutoDispose.autoDisposable] and takes an
+ * [untilEvent] when subscription will be disposed.
  *
  * @param lifecycleOwner The lifecycle owner.
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun Completable.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): CompletableSubscribeProxy {
+inline fun Completable.autoDispose(
+  lifecycleOwner: LifecycleOwner,
+  untilEvent: Event? = null
+): CompletableSubscribeProxy {
   return if (untilEvent == null) {
-    this.to(
-      AutoDispose.autoDisposable<Any>(
-        AndroidLifecycleScopeProvider.from(lifecycleOwner)
-      )
-    )
+    this.to(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
     this.to(
       AutoDispose.autoDisposable<Any>(
-        AndroidLifecycleScopeProvider.from(
-          lifecycleOwner,
-          untilEvent
-        )
+        AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent)
       )
     )
   }
 }
 
 /**
- * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable] and takes an [untilEvent] when
- * subscription will be disposed.
+ * Extension that proxies to [ParallelFlowable.as] + [AutoDispose.autoDisposable] and takes an
+ * [untilEvent] when subscription will be disposed.
  *
  * @param lifecycleOwner The lifecycle owner.
  * @param untilEvent Optional lifecycle event when subscription will be disposed.
  */
 @CheckReturnValue
-inline fun <T : Any> ParallelFlowable<T>.autoDispose(lifecycleOwner: LifecycleOwner, untilEvent: Event? = null): ParallelFlowableSubscribeProxy<T> {
+inline fun <T : Any> ParallelFlowable<T>.autoDispose(
+  lifecycleOwner: LifecycleOwner,
+  untilEvent: Event? = null
+): ParallelFlowableSubscribeProxy<T> {
   return if (untilEvent == null) {
-    this.to(
-      AutoDispose.autoDisposable(
-        AndroidLifecycleScopeProvider.from(lifecycleOwner)
-      )
-    )
+    this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
   } else {
     this.to(
-      AutoDispose.autoDisposable(
-        AndroidLifecycleScopeProvider.from(
-          lifecycleOwner,
-          untilEvent
-        )
-      )
+      AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent))
     )
   }
 }

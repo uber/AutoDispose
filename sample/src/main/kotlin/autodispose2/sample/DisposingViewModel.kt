@@ -30,78 +30,64 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 /**
  * Demo AutoDisposing ViewModel.
  *
- * This ViewModel will subscribe to Rx streams for you and pass along
- * the values through the [viewRelay].
+ * This ViewModel will subscribe to Rx streams for you and pass along the values through the
+ * [viewRelay].
  *
- * Often times, like in the case of network calls, we want our network
- * requests to go on even if there are orientation changes. If you subscribe
- * to your network Rx stream in the view, the request will be cancelled on
- * orientation change (since your streams are disposed) and you will likely
- * have to make a new network call.
+ * Often times, like in the case of network calls, we want our network requests to go on even if
+ * there are orientation changes. If you subscribe to your network Rx stream in the view, the
+ * request will be cancelled on orientation change (since your streams are disposed) and you will
+ * likely have to make a new network call.
  *
- * Since the ViewModel survives configuration changes, it is an ideal place
- * to subscribe to network Rx streams and then pass it along to the UI
- * using a [BehaviorRelay] or LiveData. Since both of them cache the last
- * emitted value, as soon as your Activity/Fragment comes back and resubscribes
- * to the [viewRelay] after orientation change, it will safely get the most
- * updated value.
+ * Since the ViewModel survives configuration changes, it is an ideal place to subscribe to network
+ * Rx streams and then pass it along to the UI using a [BehaviorRelay] or LiveData. Since both of
+ * them cache the last emitted value, as soon as your Activity/Fragment comes back and resubscribes
+ * to the [viewRelay] after orientation change, it will safely get the most updated value.
  *
- * AutoDispose will automatically dispose any pending subscriptions when
- * the [onCleared] method is called since it extends from [AutoDisposeViewModel].
+ * AutoDispose will automatically dispose any pending subscriptions when the [onCleared] method is
+ * called since it extends from [AutoDisposeViewModel].
  */
 class DisposingViewModel(private val repository: NetworkRepository) : AutoDisposeViewModel() {
 
   /**
    * The relay to communicate state to the UI.
    *
-   * This should be subscribed by the UI to get the latest
-   * state updates unaffected by config changes.
-   * This could easily be substituted by a LiveData instance
-   * since both of them cache the last emitted value.
+   * This should be subscribed by the UI to get the latest state updates unaffected by config
+   * changes. This could easily be substituted by a LiveData instance since both of them cache the
+   * last emitted value.
    */
   private val viewRelay = BehaviorRelay.create<DownloadState>()
 
   /**
    * Downloads a large image over the network.
    *
-   * This could take some time and we wish to show
-   * a progress indicator to the user. We setup a
-   * [DownloadState] which we will pass to the UI to
-   * show our state.
+   * This could take some time and we wish to show a progress indicator to the user. We setup a
+   * [DownloadState] which we will pass to the UI to show our state.
    *
-   * We subscribe in ViewModel to survive configuration
-   * changes and keep the download request going. As the
-   * view will resubscribe to the [viewRelay], it will get
-   * the most updated [DownloadState].
+   * We subscribe in ViewModel to survive configuration changes and keep the download request going.
+   * As the view will resubscribe to the [viewRelay], it will get the most updated [DownloadState].
    *
    * @see repository
    */
   fun downloadLargeImage() {
     // Notify UI that we're loading network
     viewRelay.accept(DownloadState.Started)
-    repository.downloadProgress()
+    repository
+      .downloadProgress()
       .subscribeOn(Schedulers.io())
       .doOnDispose { Log.i(TAG, "Disposing subscription from the ViewModel") }
       .autoDispose(this)
       .subscribe(
-        { progress ->
-          viewRelay.accept(DownloadState.InProgress(progress))
-        },
-        { error ->
-          error.printStackTrace()
-        },
-        {
-          viewRelay.accept(DownloadState.Completed)
-        }
+        { progress -> viewRelay.accept(DownloadState.InProgress(progress)) },
+        { error -> error.printStackTrace() },
+        { viewRelay.accept(DownloadState.Completed) }
       )
   }
 
   /**
    * State representation for our current activity.
    *
-   * For the purposes of this demo, we'll use a [String]
-   * but you can model your own ViewState with a sealed class
-   * and expose that.
+   * For the purposes of this demo, we'll use a [String] but you can model your own ViewState with a
+   * sealed class and expose that.
    */
   fun downloadState(): Observable<DownloadState> {
     return RxJavaBridge.toV3Observable(viewRelay)
@@ -113,8 +99,7 @@ class DisposingViewModel(private val repository: NetworkRepository) : AutoDispos
 
   class Factory(private val networkRepository: NetworkRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-      @Suppress("UNCHECKED_CAST")
-      return DisposingViewModel(networkRepository) as T
+      @Suppress("UNCHECKED_CAST") return DisposingViewModel(networkRepository) as T
     }
   }
 }
