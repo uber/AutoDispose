@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /*
@@ -28,11 +30,11 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions {
+  compilerOptions {
     // Lint runs with 1.6 still, so we need to emit 1.6-compatible code
-    apiVersion = "1.6"
-    languageVersion = "1.6"
-    jvmTarget = libs.versions.lintJvmTarget.get()
+    apiVersion.set(KotlinVersion.KOTLIN_1_6)
+    languageVersion.set(KotlinVersion.KOTLIN_1_6)
+    jvmTarget.set(libs.versions.lintJvmTarget.map(JvmTarget::fromTarget))
   }
 }
 

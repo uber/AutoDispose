@@ -21,6 +21,7 @@ import net.ltgt.gradle.errorprone.CheckSeverity
 import net.ltgt.gradle.errorprone.errorprone
 import net.ltgt.gradle.nullaway.nullaway
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -155,9 +156,10 @@ subprojects {
       project.apply(plugin = "org.jetbrains.dokka")
 
       project.tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-          freeCompilerArgs = listOf("-Xjsr305=strict", "-progressive")
-          jvmTarget = jvmTargetString
+        compilerOptions {
+          freeCompilerArgs.addAll("-Xjsr305=strict")
+          progressiveMode.set(true)
+          jvmTarget.set(JvmTarget.fromTarget(jvmTargetString))
         }
       }
 
@@ -167,14 +169,16 @@ subprojects {
       project.apply(plugin = "org.jetbrains.dokka")
 
       project.tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-          freeCompilerArgs = listOf("-Xjsr305=strict", "-progressive")
-          jvmTarget =
+        compilerOptions {
+          freeCompilerArgs.addAll("-Xjsr305=strict")
+          progressiveMode.set(true)
+          jvmTarget.set(JvmTarget.fromTarget(
             if (isLint) {
               lintJvmTargetString
             } else {
               jvmTargetString
             }
+          ))
         }
       }
       project.configure<KotlinProjectExtension> { explicitApi() }

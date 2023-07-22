@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-//import com.android.build.gradle.api.BaseVariant
-//import net.ltgt.gradle.errorprone.CheckSeverity
+
+// import com.android.build.gradle.api.BaseVariant
+// import net.ltgt.gradle.errorprone.CheckSeverity
 
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.android)
-//  id "net.ltgt.errorprone"
-//  id "net.ltgt.nullaway"
+  //  id "net.ltgt.errorprone"
+  //  id "net.ltgt.nullaway"
 }
 
 android {
@@ -40,45 +42,33 @@ android {
     sourceCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
     targetCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
   }
-  sourceSets {
-    getByName("main") {
-      java.srcDirs("src/main/kotlin")
-    }
-  }
-  lint {
-    checkDependencies = true
-  }
-  buildTypes {
-    getByName("debug") {
-      matchingFallbacks += listOf("release")
-    }
-  }
-  testOptions {
-    execution = "ANDROIDX_TEST_ORCHESTRATOR"
-  }
+  sourceSets { getByName("main") { java.srcDirs("src/main/kotlin") } }
+  lint { checkDependencies = true }
+  buildTypes { getByName("debug") { matchingFallbacks += listOf("release") } }
+  testOptions { execution = "ANDROIDX_TEST_ORCHESTRATOR" }
 
-//  def classesWithScope = [
-//      "android.app.Activity",
-//      "android.app.Fragment",
-//      "androidx.lifecycle.LifecycleOwner",
-//      "autodispose2.ScopeProvider",
-//      "autodispose2.sample.CustomScope"
-//  ]
-//  DomainObjectSet<BaseVariant> variants = getApplicationVariants()
-//  variants.addAll(getTestVariants())
-//  variants.addAll(getUnitTestVariants())
-//  variants.configureEach { variant ->
-//    variant.getJavaCompileProvider().configure {
-//      options.errorprone {
-//        nullaway {
-//          severity = CheckSeverity.ERROR
-//          annotatedPackages.add("com.uber")
-//        }
-//        check("AutoDispose", CheckSeverity.ERROR)
-//        option("AutoDispose:TypesWithScope", classesWithScope.join(","))
-//      }
-//    }
-//  }
+  //  def classesWithScope = [
+  //      "android.app.Activity",
+  //      "android.app.Fragment",
+  //      "androidx.lifecycle.LifecycleOwner",
+  //      "autodispose2.ScopeProvider",
+  //      "autodispose2.sample.CustomScope"
+  //  ]
+  //  DomainObjectSet<BaseVariant> variants = getApplicationVariants()
+  //  variants.addAll(getTestVariants())
+  //  variants.addAll(getUnitTestVariants())
+  //  variants.configureEach { variant ->
+  //    variant.getJavaCompileProvider().configure {
+  //      options.errorprone {
+  //        nullaway {
+  //          severity = CheckSeverity.ERROR
+  //          annotatedPackages.add("com.uber")
+  //        }
+  //        check("AutoDispose", CheckSeverity.ERROR)
+  //        option("AutoDispose:TypesWithScope", classesWithScope.join(","))
+  //      }
+  //    }
+  //  }
 }
 
 androidComponents {
@@ -90,12 +80,10 @@ androidComponents {
 }
 
 project.tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions {
-    freeCompilerArgs += listOf(
-      "-Xjsr305=strict",
-      "-progressive"
-    )
-    jvmTarget = "1.8"
+  compilerOptions {
+    freeCompilerArgs.addAll("-Xjsr305=strict")
+    progressiveMode.set(true)
+    jvmTarget.set(JvmTarget.JVM_1_8)
   }
 }
 
@@ -104,7 +92,7 @@ dependencies {
   implementation(project(":android:autodispose-androidx-lifecycle"))
   implementation(project(":autodispose"))
   implementation(project(":autodispose-lifecycle"))
-//  implementation project(":autodispose-rxlifecycle3")
+  //  implementation project(":autodispose-rxlifecycle3")
   implementation(libs.multidex)
   implementation(libs.androidx.appcompat)
   implementation(libs.androidx.constraintlayout)
@@ -119,16 +107,16 @@ dependencies {
   implementation(libs.rxrelay)
   implementation(libs.rxjava3.bridge)
 
-//  errorproneJavac libs.build.errorProneJavac
-//  errorprone libs.build.errorProne
-//  errorprone libs.build.nullAway
-//  errorprone project(":static-analysis:autodispose-error-prone")
+  //  errorproneJavac libs.build.errorProneJavac
+  //  errorprone libs.build.errorProne
+  //  errorprone libs.build.nullAway
+  //  errorprone project(":static-analysis:autodispose-error-prone")
 
   debugImplementation(libs.leakcanary.android)
 
   androidTestImplementation(project(":test-utils"))
-  androidTestImplementation (libs.test.androidRunner)
-  androidTestImplementation (libs.test.androidRules)
-  androidTestUtil (libs.test.androidOrchestrator)
-  androidTestImplementation (libs.test.androidExtJunit)
+  androidTestImplementation(libs.test.androidRunner)
+  androidTestImplementation(libs.test.androidRules)
+  androidTestUtil(libs.test.androidOrchestrator)
+  androidTestImplementation(libs.test.androidExtJunit)
 }
