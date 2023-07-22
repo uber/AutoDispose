@@ -15,7 +15,7 @@
  */
 
 dependencies {
-  api deps.rx.java
-  api deps.test.junit
-  api deps.test.truth
+  api libs.rx.java
+  api libs.test.junit
+  api libs.test.truth
 }

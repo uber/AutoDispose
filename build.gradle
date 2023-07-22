@@ -14,29 +14,22 @@
  * limitations under the License.
  */
 import net.ltgt.gradle.errorprone.CheckSeverity
-buildscript {
-  apply from: rootProject.file('gradle/dependencies.gradle')
-  buildscript {
-    repositories {
-      google()
-      mavenCentral()
-      gradlePluginPortal()
-    }
-    dependencies {
-      classpath deps.build.gradlePlugins.android
-      classpath deps.build.gradlePlugins.kotlin
-      classpath "net.ltgt.gradle:gradle-errorprone-plugin:${deps.versions.errorPronePlugin}"
-      classpath "net.ltgt.gradle:gradle-nullaway-plugin:${deps.versions.nullawayPlugin}"
-      classpath "org.jetbrains.dokka:dokka-gradle-plugin:${deps.versions.dokka}"
-      classpath "ru.vyarus:gradle-animalsniffer-plugin:${deps.versions.animalSniffer}"
-      classpath "com.diffplug.spotless:spotless-plugin-gradle:${deps.versions.spotless}"
-      classpath "com.vanniktech:gradle-maven-publish-plugin:0.17.0"
-      classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.6.0"
-    }
-  }
-}
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-apply plugin: "binary-compatibility-validator"
+plugins {
+  alias(libs.plugins.kotlin.jvm) apply false
+  alias(libs.plugins.kotlin.android) apply false
+  alias(libs.plugins.kotlin.kapt) apply false
+  alias(libs.plugins.android.application) apply false
+  alias(libs.plugins.android.library) apply false
+  alias(libs.plugins.errorProne) apply false
+  alias(libs.plugins.nullAway) apply false
+  alias(libs.plugins.dokka) apply false
+  alias(libs.plugins.animalSniffer) apply false
+  alias(libs.plugins.mavenPublish) apply false
+  alias(libs.plugins.spotless) apply false
+  alias(libs.plugins.binaryCompatibilityValidator)
+}
 
 apiValidation {
   ignoredProjects += ["sample", "test-utils"]
@@ -59,13 +52,8 @@ String[] copiedFiles = [
     "ExceptionHelper",
     "HalfSerializer",
 ].collect { "**/*${it}.java" } as String[]
-subprojects {
-  repositories {
-    google()
-    mavenCentral()
-  }
 
-  apply from: rootProject.file('gradle/dependencies.gradle')
+subprojects {
   apply plugin: 'com.diffplug.spotless'
   spotless {
     format 'misc', {
@@ -77,7 +65,7 @@ subprojects {
     }
     kotlin {
       target "**/*.kt"
-      ktlint(deps.versions.ktlint).userData(['indent_size': '2', 'continuation_indent_size' : '2'])
+      ktlint(libs.versions.ktlint.get()).userData(['indent_size': '2', 'continuation_indent_size' : '2'])
       licenseHeaderFile rootProject.file('spotless/copyright.kt')
       trimTrailingWhitespace()
       endWithNewline()
@@ -85,7 +73,7 @@ subprojects {
     java {
       target "**/*.java"
       targetExclude(copiedFiles)
-      googleJavaFormat(deps.versions.gjf)
+      googleJavaFormat(libs.versions.gjf.get())
       licenseHeaderFile rootProject.file('spotless/copyright.java')
       removeUnusedImports()
       trimTrailingWhitespace()
@@ -115,18 +103,18 @@ subprojects {
   if (isAndroidLibrary) {
     project.apply plugin: 'com.android.library'
     project.android {
-      compileSdkVersion deps.build.compileSdkVersion
+      compileSdk libs.versions.compileSdkVersion.get().toInteger()
 
       defaultConfig {
-        minSdkVersion deps.build.minSdkVersion
-        targetSdkVersion deps.build.targetSdkVersion
+        minSdk libs.versions.minSdkVersion.get().toInteger()
+        targetSdk libs.versions.targetSdkVersion.get().toInteger()
         consumerProguardFiles 'consumer-proguard-rules.txt'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testApplicationId "autodispose2.android.lifecycle.androidTest"
       }
       compileOptions {
-        sourceCompatibility deps.build.javaVersion
-        targetCompatibility deps.build.javaVersion
+        sourceCompatibility JavaVersion.toVersion(libs.versions.jvmTarget.get())
+        targetCompatibility JavaVersion.toVersion(libs.versions.jvmTarget.get())
       }
       lintOptions {
         lintConfig file('lint.xml')
@@ -135,7 +123,7 @@ subprojects {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
       }
     }
-  } else if (!isSample) {
+  } else if (!isSample && !isLint) {
     project.tasks.withType(JavaCompile).configureEach {
       // Cannot set JavaCompile's release flag in android projects
       options.release.set(8)
@@ -146,13 +134,13 @@ subprojects {
       project.apply plugin: 'org.jetbrains.kotlin.android'
       project.apply plugin: 'org.jetbrains.dokka'
 
-      project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+      project.tasks.withType(KotlinCompile).configureEach {
         kotlinOptions {
           freeCompilerArgs = [
               "-Xjsr305=strict",
               "-progressive"
           ]
-          jvmTarget = "1.8"
+          jvmTarget = libs.versions.jvmTarget.get()
         }
       }
 
@@ -169,7 +157,11 @@ subprojects {
               "-Xjsr305=strict",
               "-progressive"
           ]
-          jvmTarget = "1.8"
+          if (isLint) {
+            jvmTarget = libs.versions.lintJvmTarget.get()
+          } else {
+            jvmTarget = libs.versions.jvmTarget.get()
+          }
         }
       }
       project.compileTestKotlin {
@@ -178,7 +170,11 @@ subprojects {
               "-Xjsr305=strict",
               "-progressive"
           ]
-          jvmTarget = "1.8"
+          if (isLint) {
+            jvmTarget = libs.versions.lintJvmTarget.get()
+          } else {
+            jvmTarget = libs.versions.jvmTarget.get()
+          }
         }
       }
       project.kotlin {
@@ -208,26 +204,16 @@ subprojects {
         }
       }
     }
-    // Lint must be compileOnly, mixed source sets (for now) must manually specify depending on needs
-    if (!(isLint || isMixedSourceSet)) {
-      project.dependencies {
-        api deps.kotlin.stdlib
-      }
-    } else {
-      // Lint or mixed source set
-      project.dependencies {
-        compileOnly deps.kotlin.stdlib
-        testImplementation deps.kotlin.stdlib
-        if (isAndroidLibrary) {
-          androidTestImplementation deps.kotlin.stdlib
-        }
-      }
-    }
   }
   if (isJavaLibrary) {
     project.apply plugin: 'java-library'
-    project.sourceCompatibility = deps.build.javaVersion
-    project.targetCompatibility = deps.build.javaVersion
+    if (isLint) {
+      project.sourceCompatibility = JavaVersion.toVersion(libs.versions.lintJvmTarget.get())
+      project.targetCompatibility = JavaVersion.toVersion(libs.versions.lintJvmTarget.get())
+    } else {
+      project.sourceCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
+      project.targetCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
+    }
     project.test {
       testLogging.showStandardStreams = true
     }
@@ -237,10 +223,10 @@ subprojects {
     project.apply plugin: 'net.ltgt.nullaway'
     project.dependencies {
       if (!JavaVersion.current().isJava9Compatible()) {
-        errorproneJavac deps.build.errorProneJavac
+        errorproneJavac libs.build.errorProneJavac
       }
-      errorprone deps.build.nullAway
-      errorprone deps.build.errorProne
+      errorprone libs.build.nullAway
+      errorprone libs.build.errorProne
     }
     if (isJavaLibrary) {
       project.tasks.withType(JavaCompile).configureEach {
@@ -283,6 +269,3 @@ subprojects {
 task clean(type: Delete) {
   delete rootProject.buildDir
 }
-
-apply from: 'gradle/dependencies.gradle'
-apply from: 'gradle/publish-docs.gradle'

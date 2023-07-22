@@ -19,16 +19,16 @@ plugins {
 }
 
 dependencies {
-  annotationProcessor deps.apt.autoService
+  annotationProcessor libs.apt.autoService
 
-  compileOnly deps.apt.autoService
-  compileOnly deps.build.errorProneCheckApi
+  compileOnly libs.apt.autoService
+  compileOnly libs.build.errorProneCheckApi
 
-  testImplementation(deps.build.errorProneTestHelpers) {
+  testImplementation(libs.build.errorProneTestHelpers) {
     exclude group: "junit", module: "junit"
   }
-  testImplementation deps.rx.java
-  testImplementation deps.test.junit
+  testImplementation libs.rx.java
+  testImplementation libs.test.junit
   testImplementation project(':autodispose')
   testImplementation project(':autodispose-lifecycle')
 }

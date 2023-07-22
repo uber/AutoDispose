@@ -15,14 +15,14 @@
  */
 
 plugins {
-  id 'ru.vyarus.animalsniffer'
+//  id 'ru.vyarus.animalsniffer'
   id "com.vanniktech.maven.publish"
 }
 
 dependencies {
-  api deps.rx.java
+  api libs.rx.java
   api project(':autodispose')
-  api deps.kotlin.coroutines
+  api libs.kotlin.coroutines
 
   testImplementation project(':test-utils')
 }

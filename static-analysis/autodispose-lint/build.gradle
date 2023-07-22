@@ -21,24 +21,24 @@ plugins {
   id "com.vanniktech.maven.publish"
 }
 
-sourceCompatibility = deps.build.javaVersion
-targetCompatibility = deps.build.javaVersion
+project.sourceCompatibility = JavaVersion.toVersion(libs.versions.lintJvmTarget.get())
+project.targetCompatibility = JavaVersion.toVersion(libs.versions.lintJvmTarget.get())
 
 compileKotlin {
   kotlinOptions {
-    // Lint runs with 1.4 still, so we need to emit 1.4-compatible code
-    apiVersion = "1.4"
-    languageVersion = "1.4"
+    // Lint runs with 1.6 still, so we need to emit 1.6-compatible code
+    apiVersion = "1.6"
+    languageVersion = "1.6"
   }
 }
 
 dependencies {
-  kapt deps.apt.autoService
+  kapt libs.apt.autoService
 
-  compileOnly deps.build.lint.api
-  compileOnly deps.apt.autoService
+  compileOnly libs.build.lint.api
+  compileOnly libs.apt.autoService
 
-  testImplementation deps.test.junit
-  testImplementation deps.build.lint.core
-  testImplementation deps.build.lint.tests
+  testImplementation libs.test.junit
+  testImplementation libs.build.lint.core
+  testImplementation libs.build.lint.tests
 }

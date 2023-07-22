@@ -15,16 +15,15 @@
  */
 
 plugins {
-  id 'ru.vyarus.animalsniffer'
+//  id 'ru.vyarus.animalsniffer'
   id "com.vanniktech.maven.publish"
 }
 
 dependencies {
   api project(":autodispose")
-  compileOnly deps.build.errorProneAnnotations
+  compileOnly libs.build.errorProneAnnotations
 
-  signature deps.build.animalSniffer
+//  signature libs.build.animalSniffer
 
   testImplementation project(':test-utils')
-  testImplementation deps.kotlin.stdlib
 }

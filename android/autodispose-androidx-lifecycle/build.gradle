@@ -18,24 +18,28 @@ plugins {
   id "com.vanniktech.maven.publish"
 }
 
+android {
+  namespace = "autodispose2.androidx.lifecycle"
+}
+
 dependencies {
-  annotationProcessor deps.androidx.lifecycle.compiler
+  annotationProcessor libs.androidx.lifecycle.compiler
 
   api project(':autodispose')
   api project(':autodispose-lifecycle')
-  api deps.androidx.annotations
-  api deps.androidx.lifecycle.runtime
+  api libs.androidx.annotations
+  api libs.androidx.lifecycle.runtime
 
   implementation project(':android:autodispose-android')
-  implementation deps.rx.android
+  implementation libs.rx.android
 
   lintPublish project(':static-analysis:autodispose-lint')
 
   androidTestImplementation project(':android:autodispose-androidx-lifecycle-test')
   androidTestImplementation project(':test-utils')
-  androidTestImplementation deps.androidx.lifecycle.runtimeTest
-  androidTestImplementation deps.test.androidExtJunit
-  androidTestImplementation deps.test.androidRunner
-  androidTestImplementation deps.test.androidRules
-  androidTestUtil deps.test.androidOrchestrator
+  androidTestImplementation libs.androidx.lifecycle.runtimeTest
+  androidTestImplementation libs.test.androidExtJunit
+  androidTestImplementation libs.test.androidRunner
+  androidTestImplementation libs.test.androidRules
+  androidTestUtil libs.test.androidOrchestrator
 }

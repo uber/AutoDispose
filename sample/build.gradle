@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Copyright (c) 2017. Uber Technologies
  *
@@ -24,19 +26,20 @@ plugins {
 }
 
 android {
-  compileSdkVersion deps.build.compileSdkVersion
+  namespace = "autodispose2.sample"
+  compileSdk libs.versions.compileSdkVersion.get().toInteger()
 
   defaultConfig {
-    minSdkVersion deps.build.minSdkVersion
-    targetSdkVersion deps.build.targetSdkVersion
+    minSdk libs.versions.minSdkVersion.get().toInteger()
+    targetSdk libs.versions.targetSdkVersion.get().toInteger()
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     testApplicationId "autodispose2.android.lifecycle.androidTest"
     multiDexEnabled true
   }
   compileOptions {
-    sourceCompatibility deps.build.javaVersion
-    targetCompatibility deps.build.javaVersion
+    sourceCompatibility JavaVersion.toVersion(libs.versions.jvmTarget.get())
+    targetCompatibility JavaVersion.toVersion(libs.versions.jvmTarget.get())
   }
   sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
@@ -82,7 +85,7 @@ android {
 //  }
 }
 
-project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+project.tasks.withType(KotlinCompile).configureEach {
   kotlinOptions {
     freeCompilerArgs = [
         "-Xjsr305=strict",
@@ -98,31 +101,30 @@ dependencies {
   implementation project(':autodispose')
   implementation project(':autodispose-lifecycle')
 //  implementation project(":autodispose-rxlifecycle3")
-  implementation 'com.android.support:multidex:2.0.1'
-  implementation 'androidx.appcompat:appcompat:1.3.1'
-  implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
-  implementation 'com.google.android.material:material:1.4.0'
-  implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-  implementation "androidx.fragment:fragment:1.3.6"
-  implementation deps.androidx.activityKtx
-  implementation deps.androidx.lifecycle.runtimeKtx
-  implementation deps.androidx.lifecycle.vmKtx
-  implementation deps.kotlin.stdlib
-  implementation deps.rx.android
-  implementation 'com.jakewharton.rx2:replaying-share-kotlin:2.0.1'
-  implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.1'
-  implementation 'com.github.akarnokd:rxjava3-bridge:3.0.0'
+  implementation libs.multidex
+  implementation libs.androidx.appcompat
+  implementation libs.androidx.constraintlayout
+  implementation libs.material
+  implementation libs.androidx.lifecycle.extensions
+  implementation libs.androidx.fragment.ktx
+  implementation libs.androidx.activityKtx
+  implementation libs.androidx.lifecycle.runtimeKtx
+  implementation libs.androidx.lifecycle.vmKtx
+  implementation libs.rx.android
+  implementation libs.replaying.share.kotlin
+  implementation libs.rxrelay
+  implementation libs.rxjava3.bridge
 
-//  errorproneJavac deps.build.errorProneJavac
-//  errorprone deps.build.errorProne
-//  errorprone deps.build.nullAway
+//  errorproneJavac libs.build.errorProneJavac
+//  errorprone libs.build.errorProne
+//  errorprone libs.build.nullAway
 //  errorprone project(':static-analysis:autodispose-error-prone')
 
-  debugImplementation "com.squareup.leakcanary:leakcanary-android:2.7"
+  debugImplementation "com.squareup.leakcanary:leakcanary-android:2.12"
 
   androidTestImplementation project(':test-utils')
-  androidTestImplementation deps.test.androidRunner
-  androidTestImplementation deps.test.androidRules
-  androidTestUtil deps.test.androidOrchestrator
-  androidTestImplementation deps.test.androidExtJunit
+  androidTestImplementation libs.test.androidRunner
+  androidTestImplementation libs.test.androidRules
+  androidTestUtil libs.test.androidOrchestrator
+  androidTestImplementation libs.test.androidExtJunit
 }

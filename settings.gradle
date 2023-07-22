@@ -15,32 +15,17 @@
  */
 
 pluginManagement {
-  apply from: file('gradle/dependencies.gradle')
-  resolutionStrategy {
-    eachPlugin {
-      String id = requested.id.id
-      if (id.startsWith("com.android")) {
-        useModule(deps.build.gradlePlugins.android)
-      } else if (id.startsWith("org.jetbrains.kotlin")) {
-        useModule(deps.build.gradlePlugins.kotlin)
-      } else {
-        switch (id) {
-          case 'net.ltgt.errorprone':
-            useVersion(deps.versions.errorPronePlugin)
-            break
-          case 'net.ltgt.nullaway':
-            useVersion(deps.versions.nullawayPlugin)
-            break
-          case 'ru.vyarus.animalsniffer':
-            useVersion(deps.versions.animalSniffer)
-            break
-        }
-      }
-    }
-  }
   repositories {
     mavenCentral()
     google()
+    gradlePluginPortal()
+  }
+}
+
+dependencyResolutionManagement {
+  repositories {
+    google()
+    mavenCentral()
     gradlePluginPortal()
   }
 }

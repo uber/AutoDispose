@@ -16,7 +16,7 @@
 
 plugins {
   id 'com.android.lint'
-  id 'ru.vyarus.animalsniffer'
+//  id 'ru.vyarus.animalsniffer'
   id "com.vanniktech.maven.publish"
 }
 
@@ -26,10 +26,10 @@ lintOptions {
 }
 
 dependencies {
-  api deps.rx.java
-  compileOnly deps.build.errorProneAnnotations
+  api libs.rx.java
+  compileOnly libs.build.errorProneAnnotations
 
-  signature deps.build.animalSniffer
+//  signature libs.build.animalSniffer
   lintChecks project(':static-analysis:autodispose-lint')
 
   testImplementation project(':test-utils')
