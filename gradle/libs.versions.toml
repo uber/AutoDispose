@@ -1,6 +1,6 @@
 [versions]
 agp = "8.0.2"
-androidTest = "1.5.2"
+androidTest = "1.6.0-alpha03"
 androidxLifecycle = "2.6.1"
 animalSniffer = "1.7.1"
 appcompat = "1.6.1"
@@ -84,9 +84,9 @@ rx-android = "io.reactivex.rxjava3:rxandroid:3.0.2"
 rx-java = "io.reactivex.rxjava3:rxjava:3.1.6"
 rxjava3-bridge = { module = "com.github.akarnokd:rxjava3-bridge", version.ref = "rxjava3Bridge" }
 rxrelay = { module = "com.jakewharton.rxrelay2:rxrelay", version.ref = "rxrelay" }
-test-androidExtJunit = "androidx.test.ext:junit:1.1.5"
-test-androidOrchestrator = { module = "androidx.test:orchestrator", version = "1.4.2" }
-test-androidRules = { module = "androidx.test:rules", version = "1.5.0" }
+test-androidExtJunit = "androidx.test.ext:junit:1.2.0-alpha01"
+test-androidOrchestrator = { module = "androidx.test:orchestrator", version = "1.5.0-alpha01" }
+test-androidRules = { module = "androidx.test:rules", version = "1.6.0-alpha01" }
 test-androidRunner = { module = "androidx.test:runner", version.ref = "androidTest" }
 test-junit = "junit:junit:4.13.2"
 test-truth = "com.google.truth:truth:1.1.5"

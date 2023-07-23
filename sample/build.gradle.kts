@@ -28,19 +28,10 @@ plugins {
 
 android {
   namespace = "autodispose2.sample"
-  compileSdk = libs.versions.compileSdkVersion.get().toInt()
 
   defaultConfig {
-    minSdk = libs.versions.minSdkVersion.get().toInt()
     targetSdk = libs.versions.targetSdkVersion.get().toInt()
-
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    testApplicationId = "autodispose2.android.lifecycle.androidTest"
     multiDexEnabled = true
-  }
-  compileOptions {
-    sourceCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
-    targetCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
   }
   sourceSets { getByName("main") { java.srcDirs("src/main/kotlin") } }
   lint { checkDependencies = true }

@@ -237,16 +237,21 @@ subprojects {
       sourceCompatibility = JavaVersion.toVersion(jvmTargetVersion.get())
       targetCompatibility = JavaVersion.toVersion(jvmTargetVersion.get())
     }
-    lint { lintConfig = file("lint.xml") }
+    lint {
+      checkTestSources = true
+      val lintXml = file("lint.xml")
+      if (lintXml.exists()) {
+        lintConfig = lintXml
+      }
+    }
     testOptions { execution = "ANDROIDX_TEST_ORCHESTRATOR" }
-
-    lint { checkTestSources = true }
   }
 
   pluginManager.withPlugin("com.android.library") {
     project.configure<LibraryExtension> {
       commonAndroidConfig()
       defaultConfig { consumerProguardFiles("consumer-proguard-rules.txt") }
+      testBuildType = "release"
       configure<LibraryAndroidComponentsExtension> {
         beforeVariants(selector().withBuildType("debug")) { builder -> builder.enable = false }
       }
@@ -258,7 +263,11 @@ subprojects {
       commonAndroidConfig()
       configure<ApplicationAndroidComponentsExtension> {
         // Only debug enabled for this one
-        beforeVariants(selector().withBuildType("release")) { builder -> builder.enable = false }
+        beforeVariants { builder ->
+          builder.enable = builder.buildType != "release"
+          builder.enableAndroidTest = false
+          builder.enableUnitTest = false
+        }
       }
     }
   }
