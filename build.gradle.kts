@@ -208,7 +208,8 @@ subprojects {
           url.set(URI("https://kotlin.github.io/kotlinx.coroutines/index.html").toURL())
         }
         perPackageOption {
-          matchingRegex.set("/.*\\.internal.*/")
+          //language=RegExp
+          matchingRegex.set(".*\\.internal\\..*")
           suppress.set(true)
         }
         val moduleMd = project.layout.projectDirectory.file("Module.md")
