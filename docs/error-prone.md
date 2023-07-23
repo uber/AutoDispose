@@ -105,7 +105,7 @@ afterEvaluate {
           <artifactId>error_prone_core</artifactId>
           <version>2.3.2</version>
         </dependency>
-      </dependencies>        
+      </dependencies>
     </plugin>
 </build>
 ```
@@ -152,7 +152,7 @@ By default the checker is applied to AutoDispose interfaces and standard Android
 5. [ScopeProvider](https://uber.github.io/AutoDispose/1.x/autodispose/com/uber/autodispose/ScopeProvider.html)
 6. [LifecycleOwner](https://developer.android.com/reference/android/arch/lifecycle/LifecycleOwner.html)
 
-This can be configured by [Error-Prone's command line flags](http://errorprone.info/docs/flags). The following flag is supported and takes input in a form of comma separated list of fully qualified class names of classes with scopes:
+This can be configured by [Error-Prone's command line flags](https://errorprone.info/docs/flags). The following flag is supported and takes input in a form of comma separated list of fully qualified class names of classes with scopes:
 
 ```
 -XepOpt:AutoDispose:TypesWithScope=com.bluelinelabs.conductor.Controller,android.app.Activity
@@ -171,7 +171,7 @@ If you only want the error prone check to run on your custom scopes and not the 
 
 `Lenient` is a mode to ask the checker to be lenient when capturing returned `Disposable` types. What this means is that if an rx `subscribe` method is called and its returned `Disposable` is captured, AutoDispose this code is manually managing the subscription and show ignore it. The same applies for capturing the returned value of `subscribeWith` if the input type implements `Disposable`.
 
-This can be configured by [Error-Prone's command line flags](http://errorprone.info/docs/flags). The following flag is supported and takes input in a form of a boolean `true` or `false`:
+This can be configured by [Error-Prone's command line flags](https://errorprone.info/docs/flags). The following flag is supported and takes input in a form of a boolean `true` or `false`:
 
 ```
 -XepOpt:AutoDispose:Lenient=true

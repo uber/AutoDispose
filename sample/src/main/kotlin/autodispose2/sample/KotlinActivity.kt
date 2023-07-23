@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,7 +47,8 @@ class KotlinActivity : AppCompatActivity() {
       .autoDispose(scopeProvider)
       .subscribeBy { num -> Log.i(TAG, "Started in onCreate(), running until onDestroy(): $num") }
 
-    supportFragmentManager.beginTransaction()
+    supportFragmentManager
+      .beginTransaction()
       .add(R.id.fragment_container, KotlinFragment())
       .commitNow()
   }
@@ -82,10 +83,10 @@ class KotlinActivity : AppCompatActivity() {
       .doOnDispose {
         Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY")
       }
-      .autoDispose(
-        AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-      )
-      .subscribeBy { num -> Log.i(TAG, "Started in onResume(), running until in onDestroy(): $num") }
+      .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
+      .subscribeBy { num ->
+        Log.i(TAG, "Started in onResume(), running until in onDestroy(): $num")
+      }
   }
 
   override fun onPause() {

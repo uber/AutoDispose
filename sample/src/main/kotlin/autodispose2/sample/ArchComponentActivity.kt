@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,8 +19,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import autodispose2.autoDispose
 import autodispose2.sample.repository.ImageRepository
@@ -35,11 +35,11 @@ class ArchComponentActivity : AppCompatActivity() {
 
   private val scopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
 
-  // Custom view model factory
-  private val viewModelFactory by lazy { ArchComponentViewModel.Factory(ImageRepository(resources)) }
-
   // ViewModel for given Activity
-  private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(ArchComponentViewModel::class.java) }
+  private val viewModel by
+    viewModels<ArchComponentViewModel> {
+      ArchComponentViewModel.Factory(ImageRepository(resources))
+    }
 
   lateinit var imageView: ImageView
   lateinit var button: Button
@@ -54,7 +54,8 @@ class ArchComponentActivity : AppCompatActivity() {
 
     // Using automatic disposal, this should determine that the correct time to
     // dispose is onDestroy (the opposite of onCreate).
-    viewModel.image()
+    viewModel
+      .image()
       .doOnDispose { Log.i(TAG, "Disposing ViewModel observer from onCreate()") }
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
@@ -65,9 +66,7 @@ class ArchComponentActivity : AppCompatActivity() {
       }
 
     // Set listener to load the image.
-    button.setOnClickListener {
-      viewModel.loadBitmap(R.raw.sunset)
-    }
+    button.setOnClickListener { viewModel.loadBitmap(R.raw.sunset) }
   }
 
   override fun onStart() {

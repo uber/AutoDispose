@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,24 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 plugins {
-  id 'com.android.lint'
-  id 'ru.vyarus.animalsniffer'
-  id "com.vanniktech.maven.publish"
+  alias(libs.plugins.kotlin.jvm)
+  alias(libs.plugins.android.lint)
+  alias(libs.plugins.animalSniffer)
+  alias(libs.plugins.mavenPublish)
 }
 
-lintOptions {
-  abortOnError true
-  warningsAsErrors true
+lint {
+  abortOnError = true
+  warningsAsErrors = true
 }
 
 dependencies {
-  api deps.rx.java
-  compileOnly deps.build.errorProneAnnotations
+  api(libs.rx.java)
+  compileOnly(libs.build.errorProneAnnotations)
 
-  signature deps.build.animalSniffer
-  lintChecks project(':static-analysis:autodispose-lint')
+  signature(libs.build.animalSniffer) {
+    artifact {
+      name = "java17"
+      type = "signature"
+    }
+  }
+  lintChecks(project(":static-analysis:autodispose-lint"))
 
-  testImplementation project(':test-utils')
+  testImplementation(project(":test-utils"))
 }

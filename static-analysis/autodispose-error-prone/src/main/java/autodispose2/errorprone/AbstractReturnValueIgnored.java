@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,7 @@ import static com.google.errorprone.matchers.Matchers.enclosingNode;
 import static com.google.errorprone.matchers.Matchers.expressionStatement;
 import static com.google.errorprone.matchers.Matchers.isLastStatementInBlock;
 import static com.google.errorprone.matchers.Matchers.kindIs;
-import static com.google.errorprone.matchers.Matchers.methodSelect;
+import static com.google.errorprone.matchers.Matchers.methodInvocation;
 import static com.google.errorprone.matchers.Matchers.nextStatement;
 import static com.google.errorprone.matchers.Matchers.not;
 import static com.google.errorprone.matchers.Matchers.parentNode;
@@ -92,7 +92,7 @@ abstract class AbstractReturnValueIgnored extends BugChecker
                       anyOf(
                           AbstractReturnValueIgnored::isVoidReturningLambdaExpression,
                           Matchers.kindIs(Kind.EXPRESSION_STATEMENT))),
-                  not(methodSelect(toType(IdentifierTree.class, identifierHasName("super")))),
+                  not(methodInvocation(toType(IdentifierTree.class, identifierHasName("super")))),
                   not((t, s) -> isVoidType(getType(t), s)),
                   not(AbstractReturnValueIgnored::expectedExceptionTest))
               .matches(tree, state);
@@ -215,8 +215,8 @@ abstract class AbstractReturnValueIgnored extends BugChecker
   public abstract Matcher<? super ExpressionTree> specializedMatcher();
 
   /**
-   * @return {@code true} if this should be lenient and only run the checks if the return value is
-   *     ignored, {@code false} if it should always check {@link #specializedMatcher()}.
+   * Controls whether this should be lenient and only run the checks if the return value is ignored.
+   * Set to {@code false} if it should always check {@link #specializedMatcher()}.
    */
   abstract boolean lenient();
 

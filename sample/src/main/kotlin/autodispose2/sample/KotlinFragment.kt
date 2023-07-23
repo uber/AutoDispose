@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -97,18 +97,14 @@ class KotlinFragment : Fragment() {
     Observable.interval(1, TimeUnit.SECONDS)
       .doOnDispose { Log.i(TAG, "Disposing subscription from onResume()") }
       .autoDispose(scopeProvider)
-      .subscribeBy { num ->
-        Log.i(TAG, "Started in onResume(), running until in onPause(): $num")
-      }
+      .subscribeBy { num -> Log.i(TAG, "Started in onResume(), running until in onPause(): $num") }
 
     // Setting a specific untilEvent, this should dispose in onDestroy.
     Observable.interval(1, TimeUnit.SECONDS)
       .doOnDispose {
         Log.i(TAG, "Disposing subscription from onResume() with untilEvent ON_DESTROY")
       }
-      .autoDispose(
-        AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
-      )
+      .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
       .subscribeBy { num ->
         Log.i(TAG, "Started in onResume(), running until in onDestroy(): $num")
       }

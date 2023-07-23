@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,33 +22,28 @@ import autodispose2.sample.repository.ImageRepository
 import io.reactivex.rxjava3.core.Observable
 
 /**
- * Demo Architecture Component ViewModel. The ViewModel
- * will expose your Rx stream which should be observed
- * by the view.
+ * Demo Architecture Component ViewModel. The ViewModel will expose your Rx stream which should be
+ * observed by the view.
  */
 class ArchComponentViewModel(private val imageRepository: ImageRepository) : ViewModel() {
 
   /**
-   * Calls the repository to get a subscription of the Bitmap.
-   * The repository caches the last value of the Observable so that
-   * things like orientation changes don't trigger "reloading" of the
+   * Calls the repository to get a subscription of the Bitmap. The repository caches the last value
+   * of the Observable so that things like orientation changes don't trigger "reloading" of the
    * Bitmap from the raw resource.
    */
   fun image(): Observable<Bitmap> {
     return imageRepository.image()
   }
 
-  /**
-   * Load the given [imageId] from resources.
-   */
+  /** Load the given [imageId] from resources. */
   fun loadBitmap(imageId: Int) {
     imageRepository.loadImage(imageId)
   }
 
   class Factory(private val imageRepository: ImageRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-      @Suppress("UNCHECKED_CAST")
-      return ArchComponentViewModel(imageRepository) as T
+      @Suppress("UNCHECKED_CAST") return ArchComponentViewModel(imageRepository) as T
     }
   }
 }

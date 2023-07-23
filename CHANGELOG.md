@@ -115,15 +115,15 @@ _2019-09-18_
 ### Kotlin `CoroutineScope` interop [#374](https://github.com/uber/AutoDispose/pull/374)
 
 Interop functions for `CoroutineScope` to `ScopeProvider`/`Completable` (and vice versa) are now available
-in a new `autodispose-coroutines-interop` artifact. This is not intended to allow AutoDispose's 
-scoping machinery be a competitor for it, but rather just a tool for interop-ing codebases that use 
+in a new `autodispose-coroutines-interop` artifact. This is not intended to allow AutoDispose's
+scoping machinery be a competitor for it, but rather just a tool for interop-ing codebases that use
 both or aid in migrations.
 
 ### Kotlin API naming improvements [#372](https://github.com/uber/AutoDispose/pull/372) [#377](https://github.com/uber/AutoDispose/pull/377)
 
-To better differentiate between the `AutoDispose` classes's `autoDisposable()` methods (which return 
-Rx converter types), the Kotlin `autoDisposable()` extensions have been deprecated in favor of a more 
-idiomatic `autoDispose()` verb form name. The old extensions have been annotated with `@Deprecated` 
+To better differentiate between the `AutoDispose` classes's `autoDisposable()` methods (which return
+Rx converter types), the Kotlin `autoDisposable()` extensions have been deprecated in favor of a more
+idiomatic `autoDispose()` verb form name. The old extensions have been annotated with `@Deprecated`
 and replacements, so this should be an easy one time migration.
 
 ```kotlin
@@ -134,10 +134,10 @@ myObservable
 
 ### Fused proxy types [#376](https://github.com/uber/AutoDispose/pull/376)
 
-AutoDispose's analogous Rx types (`AutoDisposeObservable`, etc) have been updated to implement 
-their `*SubscribeProxy` interfaces directly. The current behavior of subscribe proxies is best 
-thought of as similar to `hide()`. Subscribe proxies have always wrapped the AutoDispose's 
-analogous Rx types to prevent upcasting. If your team are good citizens though, you can now disable 
+AutoDispose's analogous Rx types (`AutoDisposeObservable`, etc) have been updated to implement
+their `*SubscribeProxy` interfaces directly. The current behavior of subscribe proxies is best
+thought of as similar to `hide()`. Subscribe proxies have always wrapped the AutoDispose's
+analogous Rx types to prevent upcasting. If your team are good citizens though, you can now disable
 proxy hiding via `AutoDisposePlugins` to save that extra allocation.
 
 ### New `withScope()` API [#375](https://github.com/uber/AutoDispose/pull/375) [#378](https://github.com/uber/AutoDispose/pull/378)
@@ -170,7 +170,7 @@ _2019-05-15_
 
 ### Unified Kotlin extensions
 
-Starting with 1.3.0, all the `-ktx` artifacts and their kotlin extensions have been merged into the main artifacts they extended. This means that extensions in an artifact like `autodispose-android-ktx` are now available directly in the corresponding `autodispose-android`. 
+Starting with 1.3.0, all the `-ktx` artifacts and their kotlin extensions have been merged into the main artifacts they extended. This means that extensions in an artifact like `autodispose-android-ktx` are now available directly in the corresponding `autodispose-android`.
 
 This is a binary-compatible change because the extensions file name has changed while the extensions themselves have remained in the same package. So in essence, `import com.uber.autodispose.autoDisposable` still works as-is. Just remove the ktx artifact dependencies and everything will still link as-is!
 
@@ -352,17 +352,17 @@ This is the first release candidate of AutoDispose 1.0!
 
 _Note: we say `Completable` for semantic convenience, but in code it's almost always referred to via `CompletableSource` for flexibility_
 
-This is a significant API change, but a good one we want to clean up before releasing 1.0. Since its inception, AutoDispose has always coerced 
+This is a significant API change, but a good one we want to clean up before releasing 1.0. Since its inception, AutoDispose has always coerced
 scopes into a `Maybe` representation. Now, scopes are coerced to a `CompletableSource`.
 
-`Maybe` seemed like the right idea for something that "may or may not emit", but in our case we actually don't 
-care about the difference between onSuccess or onComplete. We did have a notion of "UNBOUND", but that doesn't offer anything other 
-than a severed lifecycle scope disposal in an atomic reference (no other cleanups would happen for gc, etc). This brings us to a `Single`. 
-The thing is though, we don't care about the object/element type. A `Single` where the type doesn't matter is semantically a `Completable`, 
+`Maybe` seemed like the right idea for something that "may or may not emit", but in our case we actually don't
+care about the difference between onSuccess or onComplete. We did have a notion of "UNBOUND", but that doesn't offer anything other
+than a severed lifecycle scope disposal in an atomic reference (no other cleanups would happen for gc, etc). This brings us to a `Single`.
+The thing is though, we don't care about the object/element type. A `Single` where the type doesn't matter is semantically a `Completable`,
 and thus this change.
 
-Note that semantics are slightly different for anyone that sourced scope via emissions from an `Observable`, `Maybe`, `Completable`, 
-or `Flowable`, where before a completion event would not trigger disposal. Now it would. In the lifecycle artifact, completion 
+Note that semantics are slightly different for anyone that sourced scope via emissions from an `Observable`, `Maybe`, `Completable`,
+or `Flowable`, where before a completion event would not trigger disposal. Now it would. In the lifecycle artifact, completion
 of the lifecycle or emission of the target event (via `takeUntil()`) will signal disposal.
 
 If there's a strong desire for it, we could look at adding top-level `autoDisposable` overrides that accept other RxJava types (and coerce them to `Completable`).
@@ -375,7 +375,7 @@ supports corresponding-events-type lifecycles for use with lifecycle components 
 Dan Lew excellently discusses this subject in his "[Why Not RxLifecycle?](https://blog.danlew.net/2017/08/02/why-not-rxlifecycle/)" blog post.
 
 This does come with the caveat that one must implement `requestScope()` in implementations now. To smoothen this usage, a `autodispose-lifecycle-jdk8`
-artifact exists with a `DefaultLifecycleScopeProvider` that has a `default` implementation of this on Java 8+ that matches the existing behavior. A 
+artifact exists with a `DefaultLifecycleScopeProvider` that has a `default` implementation of this on Java 8+ that matches the existing behavior. A
 similar default behavior was added for the `autodispose-lifecycle-ktx` artifact. These behaviors can be further tuned via factory helpers in `LifecycleScopes`.
 
 Other notable changes in this:
@@ -391,7 +391,7 @@ throwing `OutsideScopeException.
 * Kotlin artifacts with `.ktx` or `.kotlin` package name entries have had them removed to match convention with other ktx-style artifacts.
   * i.e. Instead of `com.uber.autodispose.kotlin`, it would just be `com.uber.autodispose`.
 * `ViewScopeProvider` now uses a custom `MainThreadDisposable` that respects any main thread checks set via `AutoDisposeAndroidPlugins`. ([#232](https://github.com/uber/AutoDispose/pull/232))
-* Jetbrains annotations have been removed in favor of just using RxJava's `@Nullable` annotation directly. Saves some proguard rules and dependencies, and also makes annotation usage consistent. 
+* Jetbrains annotations have been removed in favor of just using RxJava's `@Nullable` annotation directly. Saves some proguard rules and dependencies, and also makes annotation usage consistent.
 * The following dependencies have been updated:
   * RxJava 2.2.0 (`as()` and `ParallelFlowable` are now stable APIs)
   * Kotlin 1.2.60
@@ -404,7 +404,7 @@ throwing `OutsideScopeException.
   * [Architecture components sample](https://github.com/uber/AutoDispose/pull/223), including `ViewModel` and using a repository pattern
   * [General structure cleanup](https://github.com/uber/AutoDispose/pull/226)
 
-This is an RC1. We won't release 1.0 final until the AndroidX artifacts are stable to save ourselves from having to release a 2.0 immediately after this. 
+This is an RC1. We won't release 1.0 final until the AndroidX artifacts are stable to save ourselves from having to release a 2.0 immediately after this.
 These are a lot of breaking changes, so please let us know if you see any issues.
 
 Thanks to the following contributors for this release: [@shaishavgandhi05](https://github.com/shaishavgandhi05) and [@remcomokveld](https://github.com/remcomokveld)
@@ -416,55 +416,55 @@ _2018-5-7_
 
 ### Deprecated Scoper APIs now use the converter API under the hood ([#188](https://github.com/uber/AutoDispose/issues/188))
 
-Up to this point, the new `as()`-based converter APIs just delegated to the existing deprecated 
-`to()` APIs. In this release, they have been flipped, such that the `to()` APIs now just point to 
-the `as()`-based APIs. This should be no visible user change, but please let us know if you see any 
+Up to this point, the new `as()`-based converter APIs just delegated to the existing deprecated
+`to()` APIs. In this release, they have been flipped, such that the `to()` APIs now just point to
+the `as()`-based APIs. This should be no visible user change, but please let us know if you see any
 issues.
 
 ### ViewScopeProvider now implements ScopeProvider instead of LifecycleScopeProvider ([#196](https://github.com/uber/AutoDispose/issues/196))
 
-We believe this makes more sense, as there's no beginning boundary check for Views that we can 
-check and the general attach state is quite simple. This also avoids leaking an unnecessary 
+We believe this makes more sense, as there's no beginning boundary check for Views that we can
+check and the general attach state is quite simple. This also avoids leaking an unnecessary
 internal API.
 
 ### Defer to `Comparable` checks if `LifecycleScopeProvider` types implement it ([#196](https://github.com/uber/AutoDispose/issues/196))
 
-For better flexibility, if a type for `LifecycleScopeProvider` implements `Comparable`, we will 
-defer to it rather than `equals()`. This allows for consumers to better convey event *ordering* to 
-the scope provider, and allow AutoDispose to catch events *after* a target event as a fallback. 
-This covers cases where the targeted "end" event is missed but a later event comes through, 
-allowing AutoDispose to dispose anyway. Note that this may result in a behavior change if your 
+For better flexibility, if a type for `LifecycleScopeProvider` implements `Comparable`, we will
+defer to it rather than `equals()`. This allows for consumers to better convey event *ordering* to
+the scope provider, and allow AutoDispose to catch events *after* a target event as a fallback.
+This covers cases where the targeted "end" event is missed but a later event comes through,
+allowing AutoDispose to dispose anyway. Note that this may result in a behavior change if your
 lifecycle types implemented `Comparable` before.
 
 ### Removed Error-Prone annotations ([#208](https://github.com/uber/AutoDispose/issues/208))
 
-As of Error-Prone 2.3.1, `@DoNotMock` was removed. We've switched to an internal copy of this 
-annotation for documentation purposes and for any external checkers to still check this usage on 
+As of Error-Prone 2.3.1, `@DoNotMock` was removed. We've switched to an internal copy of this
+annotation for documentation purposes and for any external checkers to still check this usage on
 their own (by name).
 
 ### Switch from JSR305 to Jetbrains annotations for nullability ([#208](https://github.com/uber/AutoDispose/issues/208))
 
-To be compatible with the Java 9 module system, we've switched away from the JSR 305 
-annotations/javax-extras on packages and now use the Jetbrains annotations for nullability instead. 
-We still abide by a nonnull-by-default implementation, and only annotate nullable elements with 
+To be compatible with the Java 9 module system, we've switched away from the JSR 305
+annotations/javax-extras on packages and now use the Jetbrains annotations for nullability instead.
+We still abide by a nonnull-by-default implementation, and only annotate nullable elements with
 `@Nullable`. This dependency, like JSR305/javax-extras, is `compileOnly`.
 
 ### Misc changes
 
 * A few miscellaneous IDE warnings ([#208](https://github.com/uber/AutoDispose/issues/208))
 * We are now building against Android Gradle Plugin 3.1.x (latest stable) ([#190](https://github.com/uber/AutoDispose/issues/190))
-  * Due to ongoing Dokka issues and update latency, we've had to disable it on Kotlin artifacts for 
+  * Due to ongoing Dokka issues and update latency, we've had to disable it on Kotlin artifacts for
   now. We plan to re-enable on the next release, which should add compatibility for AGP 3.x+.
 
 ### Call for input on next steps
 
-We have two major design proposals that we want community feedback on that would take shape in the 
+We have two major design proposals that we want community feedback on that would take shape in the
 next couple of releases. Please let us know if you have any thoughts!
 
 * **Kotlin rewrite:** [#198](https://github.com/uber/AutoDispose/issues/198)
 * **Extract LifecycleScopeProvider to separate artifact, make it extend ScopeProvider:** [#197](https://github.com/uber/AutoDispose/issues/197)
 
-Thanks to the following contributors for this release: [@tbsandee](https://github.com/tbsandee), 
+Thanks to the following contributors for this release: [@tbsandee](https://github.com/tbsandee),
 [@atexannamedbob](https://github.com/atexannamedbob)
 
 Version 0.7.0
@@ -474,14 +474,14 @@ _2018-3-26_
 
 ### AutoDisposeAndroidPlugins ([#183](https://github.com/uber/AutoDispose/pull/183))
 
-New API! `AutoDisposeAndroidPlugins` API for plugin hooks to AutoDispose's android behavior at runtime. 
+New API! `AutoDisposeAndroidPlugins` API for plugin hooks to AutoDispose's android behavior at runtime.
 The first plugin supported here is `MainThreadChecker`.
 
-This plugin allows for supplying a custom `BooleanSupplier` that can customize how main thread checks 
-work. The conventional use case of this is Android JUnit tests, where the `Looper` class is not 
+This plugin allows for supplying a custom `BooleanSupplier` that can customize how main thread checks
+work. The conventional use case of this is Android JUnit tests, where the `Looper` class is not
 stubbed in the mock android.jar and fails explosively when touched.
 
-Another potential use of this at runtime to customize checks for more fine-grained main thread 
+Another potential use of this at runtime to customize checks for more fine-grained main thread
 checks behavior.
 
 Example
@@ -492,7 +492,7 @@ AutoDisposeAndroidPlugins.setOnCheckMainThread(() -> {
 })
 ```
 
-This is available in the `autodispose-android` artifact, and all mainthread-checking APIs in android 
+This is available in the `autodispose-android` artifact, and all mainthread-checking APIs in android
 artifacts will delegate to this plugin hook.
 
 ### Misc
@@ -547,7 +547,7 @@ These are to match the convenience `test()` methods in regular RxJava types.
 - Android artifacts now compiled against SDK 27
 - Android support annotations updated to 27.0.2
 
-Thanks to the following contributors! [@VisheshVadhera](https://github.com/VisheshVadhera) [@bangarharshit](https://github.com/bangarharshit) [@mmallozzi](https://github.com/mmallozzi) [@0legg](https://github.com/0legg) [@shaunkawano](https://github.com/shaunkawano) 
+Thanks to the following contributors! [@VisheshVadhera](https://github.com/VisheshVadhera) [@bangarharshit](https://github.com/bangarharshit) [@mmallozzi](https://github.com/mmallozzi) [@0legg](https://github.com/0legg) [@shaunkawano](https://github.com/shaunkawano)
 
 Version 0.5.1
 ----------------------------
@@ -667,7 +667,7 @@ A new `autodispose-rxlifecycle` interop module was added, adding support for sco
 - Removed synthetic accessors ([#103](https://github.com/uber/AutoDispose/issues/103))
 - Updated to Kotlin 1.1.51 ([#116](https://github.com/uber/AutoDispose/issues/116))
 
-Thanks to the following contributors! [@rubengees](https://github.com/rubengees) [@bangarharshit](https://github.com/bangarharshit) 
+Thanks to the following contributors! [@rubengees](https://github.com/rubengees) [@bangarharshit](https://github.com/bangarharshit)
 
 #### Updated dependencies:
 ```
@@ -688,17 +688,17 @@ compile 'com.uber.autodispose:autodispose-android-archcomponents-test:x.y.z'
 compile 'com.uber.autodispose:autodispose-rxlifecycle:x.y.z'
 ```
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-kotlin) 
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-kotlin)
 ```gradle
 compile 'com.uber.autodispose:autodispose-android-kotlin:x.y.z'
 ```
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-kotlin) 
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-kotlin)
 ```gradle
 compile 'com.uber.autodispose:autodispose-android-archcomponents-kotlin:x.y.z'
 ```
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin) 
+[![Maven Central](https://img.shields.io/maven-central/v/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin.svg)](https://mvnrepository.com/artifact/com.uber.autodispose/autodispose-android-archcomponents-test-kotlin)
 ```gradle
 compile 'com.uber.autodispose:autodispose-android-archcomponents-test-kotlin:x.y.z'
 ```
@@ -728,12 +728,12 @@ Observable(1)
 an intermediary `ScopeHandler`, which in turn has 5 generic `for___()` methods that correspond to the
 5 RxJava types (`Observable`, `Flowable`, `Single`, `Maybe`, and `Completable`).
 
-The old `Scoper` class are now **deprecated**, and will be removed in AutoDispose 1.0. Fortunately, 
+The old `Scoper` class are now **deprecated**, and will be removed in AutoDispose 1.0. Fortunately,
 this is easy to migrate via IntelliJ's structural replace. Information can be found [here](https://github.com/uber/AutoDispose/wiki/Migrating-from-0.2.0-to-0.3.0).
 
 * **New: Support for Android Architecture Components! ([#71](https://github.com/uber/AutoDispose/pull/71))**
 
-With the beta release of architecture components, they are now supported in the `autodispose-android-archcomponents` 
+With the beta release of architecture components, they are now supported in the `autodispose-android-archcomponents`
 artifact.
 
 ```java
@@ -763,7 +763,7 @@ The reason for this is that there may be conditions where you want to handle fun
 on information from that Observer. As of RxJava 2.1.4, one such case could be to read information from
 a `LambdaConsumerIntrospection` ([relevant PR](https://github.com/ReactiveX/RxJava/pull/5590)).
 
-In the future, this will likely be narrowed to return a `@Nullable lambdaConsumerIntrospection()`, but 
+In the future, this will likely be narrowed to return a `@Nullable lambdaConsumerIntrospection()`, but
 we're open to feedback if others think this should remain the high level `Observer` type.
 
 Thanks to [@mswysocki](https://github.com/mswysocki) for his contribution on this!
@@ -786,20 +786,20 @@ iterate on this over time.
 
 * **Improved: EndConsumerHelper ([#77](https://github.com/uber/AutoDispose/pull/77))**
 
-AutoDispose uses the same disposal-helper utilities as RxJava. This updates to RxJava's new 
+AutoDispose uses the same disposal-helper utilities as RxJava. This updates to RxJava's new
 `EndConsumerHelper`, which should hopefully help produce more helpful error messages in disposal error
 conditions.
 
 * **Other**
 
 Updated various dependencies:
-  
+
     Android Arch Components: 1.0.0-beta1
     Android Support Library: 26.1.0 (to match arch components)
-    Kotlin: 1.1.50 
-    
-As always, we welcome any and all discussions/feedback/PRs! We're marching toward a 1.0 release Real 
-Soon Now, so now is the time. There are a few outstanding discussion issues in the issue tracker about 
+    Kotlin: 1.1.50
+
+As always, we welcome any and all discussions/feedback/PRs! We're marching toward a 1.0 release Real
+Soon Now, so now is the time. There are a few outstanding discussion issues in the issue tracker about
 1.0 final design decisions.
 
 Version 0.2.0
@@ -844,7 +844,7 @@ For testing with just the `Maybe<?>` scope, we recommend using RxJava's built-in
 * **Fix**: Add missing `@CheckReturnValue` annotations to `subscribeWith` methods. (#53)
 
 **Other tidbits:**
-- Removed `@NonNull` annotations. Everything is `@NonNull` by default, and only elements 
+- Removed `@NonNull` annotations. Everything is `@NonNull` by default, and only elements
 annotated with `@Nullable` are not.
 - Use of the new `java-library` plugin for gradle (#64). The RxJava dependencies are marked as `api`.
 - Error prone has been integrated. Currently the annotations are just marked as `compileOnly`, but if a need arises/community wants them - we can compile them in a future version.

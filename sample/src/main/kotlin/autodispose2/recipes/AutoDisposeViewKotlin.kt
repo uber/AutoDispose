@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,21 +38,26 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
 
   enum class ViewEvent {
-    ATTACH, DETACH
+    ATTACH,
+    DETACH
   }
 
   private val lifecycleEvents by lazy { BehaviorSubject.create<ViewEvent>() }
 
-  @JvmOverloads constructor(
+  @JvmOverloads
+  constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = View.NO_ID
-  ) :
-    super(context, attrs, defStyleAttr)
+  ) : super(context, attrs, defStyleAttr)
 
   @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-  constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) :
-    super(context, attrs, defStyleAttr, defStyleRes)
+  constructor(
+    context: Context,
+    attrs: AttributeSet,
+    defStyleAttr: Int,
+    defStyleRes: Int
+  ) : super(context, attrs, defStyleAttr, defStyleRes)
 
   override fun onAttachedToWindow() {
     super.onAttachedToWindow()
@@ -81,13 +86,12 @@ abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
      * "Attach" returns "Detach", then any stream subscribed to during Attach will autodispose on
      * Detach.
      */
-    private val CORRESPONDING_EVENTS = CorrespondingEventsFunction<ViewEvent> { viewEvent ->
-      when (viewEvent) {
-        ATTACH -> DETACH
-        else -> throw LifecycleEndedException(
-          "Cannot bind to View lifecycle after detach."
-        )
+    private val CORRESPONDING_EVENTS =
+      CorrespondingEventsFunction<ViewEvent> { viewEvent ->
+        when (viewEvent) {
+          ATTACH -> DETACH
+          else -> throw LifecycleEndedException("Cannot bind to View lifecycle after detach.")
+        }
       }
-    }
   }
 }

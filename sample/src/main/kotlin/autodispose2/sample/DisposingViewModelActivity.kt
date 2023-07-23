@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,8 +18,8 @@ package autodispose2.sample
 import android.os.Bundle
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import autodispose2.ScopeProvider
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
 import autodispose2.autoDispose
@@ -31,10 +31,9 @@ class DisposingViewModelActivity : AppCompatActivity() {
 
   // Network repository. Can be substituted by DI
   private val networkRepository: NetworkRepository by lazy { NetworkRepository() }
-  // The view model factory
-  private val viewModelFactory by lazy { DisposingViewModel.Factory(networkRepository) }
   // The ViewModel for this Activity.
-  private val viewModel: DisposingViewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(DisposingViewModel::class.java) }
+  private val viewModel: DisposingViewModel by
+    viewModels<DisposingViewModel> { DisposingViewModel.Factory(networkRepository) }
 
   private val scope: ScopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
 
@@ -56,15 +55,11 @@ class DisposingViewModelActivity : AppCompatActivity() {
     }
 
     // Get latest value from ViewModel unaffected by any config changes.
-    viewModel.downloadState()
+    viewModel
+      .downloadState()
       .observeOn(AndroidSchedulers.mainThread())
       .autoDispose(scope)
-      .subscribe(
-        { state ->
-          resolveState(state)
-        },
-        {}
-      )
+      .subscribe({ state -> resolveState(state) }, {})
   }
 
   /**

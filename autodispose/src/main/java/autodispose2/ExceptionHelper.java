@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *    https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,6 +35,7 @@ final class ExceptionHelper {
    * A singleton instance of a Throwable indicating a terminal state for exceptions,
    * don't leak this.
    */
+  @SuppressWarnings("StaticAssignmentOfThrowable")
   private static final Throwable TERMINATED = new Termination();
 
   static boolean addThrowable(AtomicReference<Throwable> field, Throwable exception) {

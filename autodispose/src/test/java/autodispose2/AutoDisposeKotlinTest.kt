@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,20 +46,18 @@ class AutoDisposeKotlinTest {
   private val scope = CompletableSubject.create()
   private val scopeProvider = TestScopeProvider.create()
 
-  @Test fun observable_maybeNormalCompletion() {
-    Observable.just("Hello")
-      .autoDispose(scope)
-      .subscribe(o)
+  @Test
+  fun observable_maybeNormalCompletion() {
+    Observable.just("Hello").autoDispose(scope).subscribe(o)
 
     o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
-  @Test fun observable_maybeNormalInterrupted() {
+  @Test
+  fun observable_maybeNormalInterrupted() {
     val subject = PublishSubject.create<String>()
-    subject
-      .autoDispose(scope)
-      .subscribe(o)
+    subject.autoDispose(scope).subscribe(o)
 
     subject.onNext("Hello")
 
@@ -68,24 +66,22 @@ class AutoDisposeKotlinTest {
     scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
-//    assertThat(o.isDisposed).isTrue()
-//    o.assertNotSubscribed()
+    //    assertThat(o.isDisposed).isTrue()
+    //    o.assertNotSubscribed()
   }
 
-  @Test fun observable_scopeProviderNormalCompletion() {
-    Observable.just("Hello")
-      .autoDispose(scopeProvider)
-      .subscribe(o)
+  @Test
+  fun observable_scopeProviderNormalCompletion() {
+    Observable.just("Hello").autoDispose(scopeProvider).subscribe(o)
 
     o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
-  @Test fun observable_scopeProviderNormalInterrupted() {
+  @Test
+  fun observable_scopeProviderNormalInterrupted() {
     val subject = PublishSubject.create<String>()
-    subject
-      .autoDispose(scopeProvider)
-      .subscribe(o)
+    subject.autoDispose(scopeProvider).subscribe(o)
 
     subject.onNext("Hello")
 
@@ -94,24 +90,22 @@ class AutoDisposeKotlinTest {
     scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
-//    assertThat(o.isDisposed).isTrue()
-//    o.assertNotSubscribed()
+    //    assertThat(o.isDisposed).isTrue()
+    //    o.assertNotSubscribed()
   }
 
-  @Test fun flowable_maybeNormalCompletion() {
-    Flowable.just("Hello")
-      .autoDispose(scope)
-      .subscribe(s)
+  @Test
+  fun flowable_maybeNormalCompletion() {
+    Flowable.just("Hello").autoDispose(scope).subscribe(s)
 
     s.assertValue { it == "Hello" }
     s.assertComplete()
   }
 
-  @Test fun flowable_maybeNormalInterrupted() {
+  @Test
+  fun flowable_maybeNormalInterrupted() {
     val subject = PublishSubject.create<String>()
-    subject.toFlowable(ERROR)
-      .autoDispose(scope)
-      .subscribe(s)
+    subject.toFlowable(ERROR).autoDispose(scope).subscribe(s)
 
     subject.onNext("Hello")
 
@@ -120,24 +114,22 @@ class AutoDisposeKotlinTest {
     scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
-//    assertThat(s.isDisposed).isTrue()
-//    s.assertNotSubscribed()
+    //    assertThat(s.isDisposed).isTrue()
+    //    s.assertNotSubscribed()
   }
 
-  @Test fun flowable_scopeProviderNormalCompletion() {
-    Flowable.just("Hello")
-      .autoDispose(scopeProvider)
-      .subscribe(s)
+  @Test
+  fun flowable_scopeProviderNormalCompletion() {
+    Flowable.just("Hello").autoDispose(scopeProvider).subscribe(s)
 
     s.assertValue { it == "Hello" }
     s.assertComplete()
   }
 
-  @Test fun flowable_scopeProviderNormalInterrupted() {
+  @Test
+  fun flowable_scopeProviderNormalInterrupted() {
     val subject = PublishSubject.create<String>()
-    subject.toFlowable(ERROR)
-      .autoDispose(scopeProvider)
-      .subscribe(s)
+    subject.toFlowable(ERROR).autoDispose(scopeProvider).subscribe(s)
 
     subject.onNext("Hello")
 
@@ -146,24 +138,22 @@ class AutoDisposeKotlinTest {
     scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
-//    assertThat(s.isDisposed).isTrue()
-//    s.assertNotSubscribed()
+    //    assertThat(s.isDisposed).isTrue()
+    //    s.assertNotSubscribed()
   }
 
-  @Test fun maybe_maybeNormalCompletion() {
-    Maybe.just("Hello")
-      .autoDispose(scope)
-      .subscribe(o)
+  @Test
+  fun maybe_maybeNormalCompletion() {
+    Maybe.just("Hello").autoDispose(scope).subscribe(o)
 
     o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
-  @Test fun maybe_maybeNormalInterrupted() {
+  @Test
+  fun maybe_maybeNormalInterrupted() {
     val subject = MaybeSubject.create<String>()
-    subject
-      .autoDispose(scope)
-      .subscribe(o)
+    subject.autoDispose(scope).subscribe(o)
 
     subject.onSuccess("Hello")
 
@@ -172,24 +162,22 @@ class AutoDisposeKotlinTest {
     scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
-//    assertThat(o.isDisposed).isTrue()
-//    o.assertNotSubscribed()
+    //    assertThat(o.isDisposed).isTrue()
+    //    o.assertNotSubscribed()
   }
 
-  @Test fun maybe_scopeProviderNormalCompletion() {
-    Maybe.just("Hello")
-      .autoDispose(scopeProvider)
-      .subscribe(o)
+  @Test
+  fun maybe_scopeProviderNormalCompletion() {
+    Maybe.just("Hello").autoDispose(scopeProvider).subscribe(o)
 
     o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
-  @Test fun maybe_scopeProviderNormalInterrupted() {
+  @Test
+  fun maybe_scopeProviderNormalInterrupted() {
     val subject = MaybeSubject.create<String>()
-    subject
-      .autoDispose(scopeProvider)
-      .subscribe(o)
+    subject.autoDispose(scopeProvider).subscribe(o)
 
     scopeProvider.emit()
 
@@ -198,24 +186,22 @@ class AutoDisposeKotlinTest {
     o.assertNoValues()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
-//    assertThat(o.isDisposed).isTrue()
-//    o.assertNotSubscribed()
+    //    assertThat(o.isDisposed).isTrue()
+    //    o.assertNotSubscribed()
   }
 
-  @Test fun single_maybeNormalCompletion() {
-    Single.just("Hello")
-      .autoDispose(scope)
-      .subscribe(o)
+  @Test
+  fun single_maybeNormalCompletion() {
+    Single.just("Hello").autoDispose(scope).subscribe(o)
 
     o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
-  @Test fun single_maybeNormalInterrupted() {
+  @Test
+  fun single_maybeNormalInterrupted() {
     val subject = SingleSubject.create<String>()
-    subject
-      .autoDispose(scope)
-      .subscribe(o)
+    subject.autoDispose(scope).subscribe(o)
 
     subject.onSuccess("Hello")
 
@@ -224,24 +210,22 @@ class AutoDisposeKotlinTest {
     scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
-//    assertThat(o.isDisposed).isTrue()
-//    o.assertNotSubscribed()
+    //    assertThat(o.isDisposed).isTrue()
+    //    o.assertNotSubscribed()
   }
 
-  @Test fun single_scopeProviderNormalCompletion() {
-    Single.just("Hello")
-      .autoDispose(scopeProvider)
-      .subscribe(o)
+  @Test
+  fun single_scopeProviderNormalCompletion() {
+    Single.just("Hello").autoDispose(scopeProvider).subscribe(o)
 
     o.assertValue { it == "Hello" }
     o.assertComplete()
   }
 
-  @Test fun single_scopeProviderNormalInterrupted() {
+  @Test
+  fun single_scopeProviderNormalInterrupted() {
     val subject = SingleSubject.create<String>()
-    subject
-      .autoDispose(scopeProvider)
-      .subscribe(o)
+    subject.autoDispose(scopeProvider).subscribe(o)
 
     subject.onSuccess("Hello")
 
@@ -250,23 +234,21 @@ class AutoDisposeKotlinTest {
     scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
-//    assertThat(o.isDisposed).isTrue()
-//    o.assertNotSubscribed()
+    //    assertThat(o.isDisposed).isTrue()
+    //    o.assertNotSubscribed()
   }
 
-  @Test fun completable_maybeNormalCompletion() {
-    Completable.complete()
-      .autoDispose(scope)
-      .subscribe(o)
+  @Test
+  fun completable_maybeNormalCompletion() {
+    Completable.complete().autoDispose(scope).subscribe(o)
 
     o.assertComplete()
   }
 
-  @Test fun completable_maybeNormalInterrupted() {
+  @Test
+  fun completable_maybeNormalInterrupted() {
     val subject = PublishSubject.create<String>()
-    subject
-      .autoDispose(scope)
-      .subscribe(o)
+    subject.autoDispose(scope).subscribe(o)
 
     subject.onNext("Hello")
 
@@ -275,34 +257,33 @@ class AutoDisposeKotlinTest {
     scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
-//    assertThat(o.isDisposed).isTrue()
-//    o.assertNotSubscribed()
+    //    assertThat(o.isDisposed).isTrue()
+    //    o.assertNotSubscribed()
   }
 
-  @Test fun completable_scopeProviderNormalCompletion() {
-    Completable.complete()
-      .autoDispose(scopeProvider)
-      .subscribe(o)
+  @Test
+  fun completable_scopeProviderNormalCompletion() {
+    Completable.complete().autoDispose(scopeProvider).subscribe(o)
 
     o.assertComplete()
   }
 
-  @Test fun completable_scopeProviderNormalInterrupted() {
+  @Test
+  fun completable_scopeProviderNormalInterrupted() {
     val subject = CompletableSubject.create()
-    subject
-      .autoDispose(scopeProvider)
-      .subscribe(o)
+    subject.autoDispose(scopeProvider).subscribe(o)
 
     subject.onComplete()
 
     scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
-//    assertThat(o.isDisposed).isTrue()
-//    o.assertNotSubscribed()
+    //    assertThat(o.isDisposed).isTrue()
+    //    o.assertNotSubscribed()
   }
 
-  @Test fun parallelFlowable_maybeNormalCompletion() {
+  @Test
+  fun parallelFlowable_maybeNormalCompletion() {
     val s2 = TestSubscriber<String>()
     Flowable.just("Hello", "World")
       .parallel(DEFAULT_PARALLELISM)
@@ -315,10 +296,12 @@ class AutoDisposeKotlinTest {
     s2.assertComplete()
   }
 
-  @Test fun parallelFlowable_maybeNormalInterrupted() {
+  @Test
+  fun parallelFlowable_maybeNormalInterrupted() {
     val subject = PublishSubject.create<String>()
     val s2 = TestSubscriber<String>()
-    subject.toFlowable(ERROR)
+    subject
+      .toFlowable(ERROR)
       .parallel(DEFAULT_PARALLELISM)
       .autoDispose(scope)
       .subscribe(arrayOf(s, s2))
@@ -332,11 +315,12 @@ class AutoDisposeKotlinTest {
     scope.onComplete()
 
     // https://github.com/ReactiveX/RxJava/issues/5178
-//    assertThat(s.isDisposed).isTrue()
-//    s.assertNotSubscribed()
+    //    assertThat(s.isDisposed).isTrue()
+    //    s.assertNotSubscribed()
   }
 
-  @Test fun parallelFlowable_scopeProviderNormalCompletion() {
+  @Test
+  fun parallelFlowable_scopeProviderNormalCompletion() {
     val s2 = TestSubscriber<String>()
     Flowable.just("Hello", "World")
       .parallel(DEFAULT_PARALLELISM)
@@ -349,10 +333,12 @@ class AutoDisposeKotlinTest {
     s2.assertComplete()
   }
 
-  @Test fun parallelFlowable_scopeProviderNormalInterrupted() {
+  @Test
+  fun parallelFlowable_scopeProviderNormalInterrupted() {
     val subject = PublishSubject.create<String>()
     val s2 = TestSubscriber<String>()
-    subject.toFlowable(ERROR)
+    subject
+      .toFlowable(ERROR)
       .parallel(DEFAULT_PARALLELISM)
       .autoDispose(scopeProvider)
       .subscribe(arrayOf(s, s2))
@@ -365,12 +351,13 @@ class AutoDisposeKotlinTest {
 
     scope.onComplete()
 
-// https://github.com/ReactiveX/RxJava/issues/5178
-//    assertThat(s.isDisposed).isTrue()
-//    s.assertNotSubscribed()
+    // https://github.com/ReactiveX/RxJava/issues/5178
+    //    assertThat(s.isDisposed).isTrue()
+    //    s.assertNotSubscribed()
   }
 
-  @Test fun withScope_parallelFlowable() {
+  @Test
+  fun withScope_parallelFlowable() {
     val scopeSource = CompletableSubject.create()
     val source = PublishProcessor.create<Int>()
     withScope(scopeSource) {

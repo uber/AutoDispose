@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,12 +41,12 @@ import io.reactivex.rxjava3.plugins.RxJavaPlugins
  */
 
 private val onNextStub: (Any) -> Unit = {}
-private val onErrorStub: (Throwable) -> Unit = { RxJavaPlugins.onError(OnErrorNotImplementedException(it)) }
+private val onErrorStub: (Throwable) -> Unit = {
+  RxJavaPlugins.onError(OnErrorNotImplementedException(it))
+}
 private val onCompleteStub: () -> Unit = {}
 
-/**
- * Overloaded subscribe function that allows passing named parameters
- */
+/** Overloaded subscribe function that allows passing named parameters */
 fun <T : Any> ObservableSubscribeProxy<T>.subscribeBy(
   onError: (Throwable) -> Unit = onErrorStub,
   onComplete: () -> Unit = onCompleteStub,
@@ -59,9 +59,7 @@ fun <T : Any> ObservableSubscribeProxy<T>.subscribeBy(
   }
 }
 
-/**
- * Overloaded subscribe function that allows passing named parameters
- */
+/** Overloaded subscribe function that allows passing named parameters */
 fun <T : Any> FlowableSubscribeProxy<T>.subscribeBy(
   onError: (Throwable) -> Unit = onErrorStub,
   onComplete: () -> Unit = onCompleteStub,
@@ -74,9 +72,7 @@ fun <T : Any> FlowableSubscribeProxy<T>.subscribeBy(
   }
 }
 
-/**
- * Overloaded subscribe function that allows passing named parameters
- */
+/** Overloaded subscribe function that allows passing named parameters */
 fun <T : Any> SingleSubscribeProxy<T>.subscribeBy(
   onError: (Throwable) -> Unit = onErrorStub,
   onSuccess: (T) -> Unit = onNextStub
@@ -88,9 +84,7 @@ fun <T : Any> SingleSubscribeProxy<T>.subscribeBy(
   }
 }
 
-/**
- * Overloaded subscribe function that allows passing named parameters
- */
+/** Overloaded subscribe function that allows passing named parameters */
 fun <T : Any> MaybeSubscribeProxy<T>.subscribeBy(
   onError: (Throwable) -> Unit = onErrorStub,
   onComplete: () -> Unit = onCompleteStub,
@@ -103,9 +97,7 @@ fun <T : Any> MaybeSubscribeProxy<T>.subscribeBy(
   }
 }
 
-/**
- * Overloaded subscribe function that allows passing named parameters
- */
+/** Overloaded subscribe function that allows passing named parameters */
 fun CompletableSubscribeProxy.subscribeBy(
   onError: (Throwable) -> Unit = onErrorStub,
   onComplete: () -> Unit = onCompleteStub

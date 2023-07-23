@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,9 +24,7 @@ import autodispose2.recipes.AutoDisposeViewModel.ViewModelEvent.CREATED
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
-/**
- * Demo base [ViewModel] that can automatically dispose itself in [onCleared].
- */
+/** Demo base [ViewModel] that can automatically dispose itself in [onCleared]. */
 abstract class AutoDisposeViewModel : ViewModel(), LifecycleScopeProvider<ViewModelEvent> {
 
   // Subject backing the auto disposing of subscriptions.
@@ -35,12 +33,12 @@ abstract class AutoDisposeViewModel : ViewModel(), LifecycleScopeProvider<ViewMo
   /**
    * The events that represent the lifecycle of a [ViewModel].
    *
-   * The [ViewModel] lifecycle is very simple. It is created
-   * and then allows you to clean up any resources in the
-   * [ViewModel.onCleared] method before it is destroyed.
+   * The [ViewModel] lifecycle is very simple. It is created and then allows you to clean up any
+   * resources in the [ViewModel.onCleared] method before it is destroyed.
    */
   enum class ViewModelEvent {
-    CREATED, CLEARED
+    CREATED,
+    CLEARED
   }
 
   /**
@@ -53,8 +51,7 @@ abstract class AutoDisposeViewModel : ViewModel(), LifecycleScopeProvider<ViewMo
   }
 
   /**
-   * Returns a [CorrespondingEventsFunction] that maps the
-   * current event -> target disposal event.
+   * Returns a [CorrespondingEventsFunction] that maps the current event -> target disposal event.
    *
    * @return function mapping the current event to terminal event.
    */
@@ -66,10 +63,7 @@ abstract class AutoDisposeViewModel : ViewModel(), LifecycleScopeProvider<ViewMo
     return lifecycleEvents.value
   }
 
-  /**
-   * Emit the [ViewModelEvent.CLEARED] event to
-   * dispose off any subscriptions in the ViewModel.
-   */
+  /** Emit the [ViewModelEvent.CLEARED] event to dispose off any subscriptions in the ViewModel. */
   override fun onCleared() {
     lifecycleEvents.onNext(ViewModelEvent.CLEARED)
     super.onCleared()
@@ -77,17 +71,17 @@ abstract class AutoDisposeViewModel : ViewModel(), LifecycleScopeProvider<ViewMo
 
   companion object {
     /**
-     * Function of current event -> target disposal event. ViewModel has a very simple lifecycle.
-     * It is created and then later on cleared. So we only have two events and all subscriptions
-     * will only be disposed at [ViewModelEvent.CLEARED].
+     * Function of current event -> target disposal event. ViewModel has a very simple lifecycle. It
+     * is created and then later on cleared. So we only have two events and all subscriptions will
+     * only be disposed at [ViewModelEvent.CLEARED].
      */
-    private val CORRESPONDING_EVENTS = CorrespondingEventsFunction<ViewModelEvent> { event ->
-      when (event) {
-        ViewModelEvent.CREATED -> ViewModelEvent.CLEARED
-        else -> throw LifecycleEndedException(
-          "Cannot bind to ViewModel lifecycle after onCleared."
-        )
+    private val CORRESPONDING_EVENTS =
+      CorrespondingEventsFunction<ViewModelEvent> { event ->
+        when (event) {
+          ViewModelEvent.CREATED -> ViewModelEvent.CLEARED
+          else ->
+            throw LifecycleEndedException("Cannot bind to ViewModel lifecycle after onCleared.")
+        }
       }
-    }
   }
 }
