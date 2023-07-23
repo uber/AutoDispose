@@ -77,6 +77,7 @@ final class DetachEventCompletable implements CompletableSource {
     public void onViewDetachedFromWindow(View v) {
       if (!isDisposed()) {
         observer.onComplete();
+        v.removeOnAttachStateChangeListener(this);
       }
     }
 
