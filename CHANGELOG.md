@@ -8,13 +8,16 @@ _2023-07-23_
 
 - **Fix**: Dispose the handle returned by `Job.invokeOnCompletion` when Rx subscription is disposed.
 - **Fix**: The `withScope()` lint now correctly handles different named arguments order.
+- **Fix**: Support kotlin if/when/lambda expressions in lint lenient mode.
 - Update AndroidX Lifecycle to `2.6.1`.
 - Update Kotlin to `1.9.0`.
 - Update RxJava to `3.1.6`.
 - Update RxAndroid to `3.0.2`.
 - Update lint to `8.0.2`/`31.0.2`.
 - Update error-prone to `2.20.0`.
-- Update dokka + fresh coat of paint on API docs on the project site.
+- Update dokka + fresh coat of paint on API docs on the project site: https://uber.github.io/AutoDispose/api/2.x/
+
+Special thanks to [@alexfu](https://github.com/alexfu), [@sanggggg](https://github.com/sanggggg), and [@psteiger](https://github.com/@psteiger) for contributing to this release!
 
 Version 2.1.1
 -------------
