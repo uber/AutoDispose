@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>TestLifecycleScopeProvider</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+<a href="../../../index.html">
+<span>autodispose-root</span>            </a>    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":autodispose-lifecycle:dokkaHtmlPartial/main">jvm</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="autodispose-lifecycle::autodispose2.lifecycle/TestLifecycleScopeProvider///PointingToDeclaration//864224013">
+  <div class="breadcrumbs"><a href="../../index.html">autodispose-lifecycle</a><span class="delimiter">/</span><a href="../index.html">autodispose2.lifecycle</a><span class="delimiter">/</span><span class="current">TestLifecycleScopeProvider</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Test</span><wbr><span>Lifecycle</span><wbr><span>Scope</span><wbr><span><span>Provider</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":autodispose-lifecycle:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">TestLifecycleScopeProvider</a> : <a href="../-lifecycle-scope-provider/index.html">LifecycleScopeProvider</a><span class="token operator">&lt;</span><span><span class="token annotation builtin">@</span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/NonNull.html"><span class="token annotation builtin">NonNull</span></a>&nbsp;</span><a href="../-lifecycle-scope-provider/index.html">E</a><span class="token operator">&gt; </span></div><p class="paragraph">Test utility to create <a href="../-lifecycle-scope-provider/index.html">LifecycleScopeProvider</a> instances for tests. </p><p class="paragraph">Supports a start and stop lifecycle. Subscribing when outside of the lifecycle will throw either a <a href="../-lifecycle-not-started-exception/index.html">LifecycleNotStartedException</a> or <a href="../-lifecycle-ended-exception/index.html">LifecycleEndedException</a>.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-1816951223%2FClasslikes%2F864224013" anchor-label="TestLifecycle" id="-1816951223%2FClasslikes%2F864224013" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":autodispose-lifecycle:dokkaHtmlPartial/main" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-test-lifecycle/index.html"><span>Test</span><wbr><span><span>Lifecycle</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1816951223%2FClasslikes%2F864224013"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":autodispose-lifecycle:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-test-lifecycle/index.html">TestLifecycle</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="24788866%2FFunctions%2F864224013" anchor-label="correspondingEvents" id="24788866%2FFunctions%2F864224013" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":autodispose-lifecycle:dokkaHtmlPartial/main" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="corresponding-events.html"><span>corresponding</span><wbr><span><span>Events</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="24788866%2FFunctions%2F864224013"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":autodispose-lifecycle:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="corresponding-events.html"><span class="token function">correspondingEvents</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-corresponding-events-function/index.html">CorrespondingEventsFunction</a><span class="token operator">&lt;</span><a href="-test-lifecycle/index.html">TestLifecycleScopeProvider.TestLifecycle</a><span class="token operator">&gt;</span></div><div class="brief ">Returns a sequence of lifecycle events.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="673210416%2FFunctions%2F864224013" anchor-label="create" id="673210416%2FFunctions%2F864224013" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":autodispose-lifecycle:dokkaHtmlPartial/main" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="create.html"><span><span>create</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="673210416%2FFunctions%2F864224013"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":autodispose-lifecycle:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="create.html"><span class="token function">create</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">TestLifecycleScopeProvider</a></div><div class="brief ">Returns a new <a href="index.html">TestLifecycleScopeProvider</a> instance.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1317191285%2FFunctions%2F864224013" anchor-label="createInitial" id="1317191285%2FFunctions%2F864224013" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":autodispose-lifecycle:dokkaHtmlPartial/main" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="create-initial.html"><span>create</span><wbr><span><span>Initial</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1317191285%2FFunctions%2F864224013"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":autodispose-lifecycle:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="create-initial.html"><span class="token function">createInitial</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">initialValue<span class="token operator">: </span><a href="-test-lifecycle/index.html">TestLifecycleScopeProvider.TestLifecycle</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">TestLifecycleScopeProvider</a></div><div class="brief ">Returns a new <a href="index.html">TestLifecycleScopeProvider</a> instance with <code class="lang-kotlin">initialValue</code> as its initial lifecycle event.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1172143292%2FFunctions%2F864224013" anchor-label="lifecycle" id="-1172143292%2FFunctions%2F864224013" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":autodispose-lifecycle:dokkaHtmlPartial/main" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="lifecycle.html"><span><span>lifecycle</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1172143292%2FFunctions%2F864224013"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":autodispose-lifecycle:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="lifecycle.html"><span class="token function">lifecycle</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Observable.html">Observable</a><span class="token operator">&lt;</span><a href="-test-lifecycle/index.html">TestLifecycleScopeProvider.TestLifecycle</a><span class="token operator">&gt;</span></div><div class="brief ">Returns a sequence of lifecycle events.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="949426559%2FFunctions%2F864224013" anchor-label="peekLifecycle" id="949426559%2FFunctions%2F864224013" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":autodispose-lifecycle:dokkaHtmlPartial/main" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="peek-lifecycle.html"><span>peek</span><wbr><span><span>Lifecycle</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="949426559%2FFunctions%2F864224013"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":autodispose-lifecycle:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="peek-lifecycle.html"><span class="token function">peekLifecycle</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-test-lifecycle/index.html">TestLifecycleScopeProvider.TestLifecycle</a></div><div class="brief ">Returns the last seen lifecycle event, or <code class="lang-kotlin">null</code> if none.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-125411065%2FFunctions%2F864224013" anchor-label="requestScope" id="-125411065%2FFunctions%2F864224013" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":autodispose-lifecycle:dokkaHtmlPartial/main" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="request-scope.html"><span>request</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-125411065%2FFunctions%2F864224013"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":autodispose-lifecycle:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="request-scope.html"><span class="token function">requestScope</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/CompletableSource.html">CompletableSource</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="630599116%2FFunctions%2F864224013" anchor-label="start" id="630599116%2FFunctions%2F864224013" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":autodispose-lifecycle:dokkaHtmlPartial/main" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="start.html"><span><span>start</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="630599116%2FFunctions%2F864224013"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":autodispose-lifecycle:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="start.html"><span class="token function">start</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief ">Start the test lifecycle.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1593738326%2FFunctions%2F864224013" anchor-label="stop" id="-1593738326%2FFunctions%2F864224013" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":autodispose-lifecycle:dokkaHtmlPartial/main" data-filterable-set=":autodispose-lifecycle:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="stop.html"><span><span>stop</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1593738326%2FFunctions%2F864224013"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":autodispose-lifecycle:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="stop.html"><span class="token function">stop</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief ">Stop the test lifecycle.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
+

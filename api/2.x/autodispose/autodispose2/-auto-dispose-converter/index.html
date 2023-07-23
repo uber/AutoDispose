@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>AutoDisposeConverter</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+<a href="../../../index.html">
+<span>autodispose-root</span>            </a>    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":autodispose:dokkaHtmlPartial/main">jvm</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="autodispose::autodispose2/AutoDisposeConverter///PointingToDeclaration//750336650">
+  <div class="breadcrumbs"><a href="../../index.html">autodispose</a><span class="delimiter">/</span><a href="../index.html">autodispose2</a><span class="delimiter">/</span><span class="current">AutoDisposeConverter</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Auto</span><wbr><span>Dispose</span><wbr><span><span>Converter</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":autodispose:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">AutoDisposeConverter</a><span class="token operator">&lt;</span><span><span class="token annotation builtin">@</span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/annotations/NonNull.html"><span class="token annotation builtin">NonNull</span></a>&nbsp;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span> : <a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/FlowableConverter.html">FlowableConverter</a><span class="token operator">&lt;</span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/FlowableConverter.html">T</a><span class="token punctuation">, </span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/FlowableConverter.html">R</a><span class="token operator">&gt; </span>, <a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/parallel/ParallelFlowableConverter.html">ParallelFlowableConverter</a><span class="token operator">&lt;</span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/parallel/ParallelFlowableConverter.html">T</a><span class="token punctuation">, </span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/parallel/ParallelFlowableConverter.html">R</a><span class="token operator">&gt; </span>, <a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/ObservableConverter.html">ObservableConverter</a><span class="token operator">&lt;</span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/ObservableConverter.html">T</a><span class="token punctuation">, </span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/ObservableConverter.html">R</a><span class="token operator">&gt; </span>, <a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/MaybeConverter.html">MaybeConverter</a><span class="token operator">&lt;</span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/MaybeConverter.html">T</a><span class="token punctuation">, </span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/MaybeConverter.html">R</a><span class="token operator">&gt; </span>, <a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/SingleConverter.html">SingleConverter</a><span class="token operator">&lt;</span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/SingleConverter.html">T</a><span class="token punctuation">, </span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/SingleConverter.html">R</a><span class="token operator">&gt; </span>, <a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/CompletableConverter.html">CompletableConverter</a><span class="token operator">&lt;</span><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/CompletableConverter.html">R</a><span class="token operator">&gt; </span></div><p class="paragraph">A custom converter that implements all the RxJava types converters, for use with the <code class="lang-kotlin">as()</code> operator.</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":autodispose:dokkaHtmlPartial/main" data-filterable-set=":autodispose:dokkaHtmlPartial/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>&lt;T&gt;</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the type.</p></div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"></div>
+    <div class="tabs-section-body"></div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
+

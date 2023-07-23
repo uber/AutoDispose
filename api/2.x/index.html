@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>All modules</title>
+    <link href="images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="scripts/sourceset_dependencies.js" async="async"></script>
+<link href="styles/style.css" rel="Stylesheet">
+<link href="styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="styles/main.css" rel="Stylesheet">
+<link href="styles/prism.css" rel="Stylesheet">
+<link href="styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="index.html">
+                    <span>autodispose-root</span>
+            </a>
+    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="autodispose-root::.ext/allModules///PointingToDeclaration//0">
+  <div class="breadcrumbs"></div>
+  <div class="cover ">
+    <div class="cover ">
+      <h1 class="">AutoDispose</h1>
+      <p class="paragraph">Automatic binding+disposal of RxJava streams.</p>
+      <h3 class=""> <a href="https://uber.github.io/AutoDispose">uber.github.io/AutoDispose</a></h3>
+      <p class="paragraph">
+        <p class="paragraph">License</p>
+ -------</p>
+      <div class="sample-container">
+        <pre><code class="block lang-kotlin" theme="idea">Copyright (C) 2017 Uber Technologies
+
+Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</code></pre>
+<span class="top-right-position"><span class="copy-icon"></span>
+          <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
+        </span></div>
+    </div>
+    <h2 class="">All modules:</h2>
+    <div class="table"><a data-name="516610045%2FMain%2F0" anchor-label="autodispose" id="516610045%2FMain%2F0" data-filterable-set=""></a>
+      <div class="table-row">
+        <div class="main-subrow ">
+          <div class="w-100"><span class="inline-flex">
+              <div><a href="autodispose/index.html">autodispose</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="516610045%2FMain%2F0"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div><span class="brief-comment">
+              <p class="paragraph">AutoDispose is an RxJava 2 tool for automatically binding the execution of RxJava 2 streams to a provided scope via disposal/cancellation.</p>
+            </span></div>
+        </div>
+      </div>
+<a data-name="-448140133%2FMain%2F0" anchor-label="autodispose-android" id="-448140133%2FMain%2F0" data-filterable-set=""></a>
+      <div class="table-row">
+        <div class="main-subrow ">
+          <div class="w-100"><span class="inline-flex">
+              <div><a href="android/autodispose-android/index.html">autodispose-android</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-448140133%2FMain%2F0"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div><span class="brief-comment">
+              <p class="paragraph">Android components for AutoDispose.</p>
+            </span></div>
+        </div>
+      </div>
+<a data-name="-1835073838%2FMain%2F0" anchor-label="autodispose-androidx-lifecycle" id="-1835073838%2FMain%2F0" data-filterable-set=""></a>
+      <div class="table-row">
+        <div class="main-subrow ">
+          <div class="w-100"><span class="inline-flex">
+              <div><a href="android/autodispose-androidx-lifecycle/index.html">autodispose-androidx-lifecycle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1835073838%2FMain%2F0"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div><span class="brief-comment">
+              <p class="paragraph"><code class="lang-kotlin">androidx-lifecycle</code> extensions for AutoDispose.</p>
+            </span></div>
+        </div>
+      </div>
+<a data-name="-528579507%2FMain%2F0" anchor-label="autodispose-interop-coroutines" id="-528579507%2FMain%2F0" data-filterable-set=""></a>
+      <div class="table-row">
+        <div class="main-subrow ">
+          <div class="w-100"><span class="inline-flex">
+              <div><a href="autodispose-interop/coroutines/index.html">autodispose-interop-coroutines</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-528579507%2FMain%2F0"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div><span class="brief-comment">
+              <p class="paragraph">Extension functions to interop <code class="lang-kotlin">ScopeProvider</code>/<code class="lang-kotlin">Completable</code> and <code class="lang-kotlin">CoroutineScope</code>, as well as <code class="lang-kotlin">autoDispose(CoroutineScope)</code> extension functions on RxJava types.</p>
+            </span></div>
+        </div>
+      </div>
+<a data-name="1014571456%2FMain%2F0" anchor-label="autodispose-lifecycle" id="1014571456%2FMain%2F0" data-filterable-set=""></a>
+      <div class="table-row">
+        <div class="main-subrow ">
+          <div class="w-100"><span class="inline-flex">
+              <div><a href="autodispose-lifecycle/index.html">autodispose-lifecycle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1014571456%2FMain%2F0"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div><span class="brief-comment">
+              <p class="paragraph">A common use case for this is objects that have implicit lifecycles, such as Android's <code class="lang-kotlin">Activity</code>, <code class="lang-kotlin">Fragment</code>, and <code class="lang-kotlin">View</code> classes. Internally at subscription-time, <code class="lang-kotlin">AutoDispose</code> will resolve a <code class="lang-kotlin">CompletableSource</code> representation of the target <code class="lang-kotlin">end</code> event in the lifecycle, and exposes an API to dictate what corresponding events are for the current lifecycle state (e.g. <code class="lang-kotlin">ATTACH</code> -><code class="lang-kotlin">DETACH</code>). This also allows you to enforce lifecycle boundary requirements, and by default will error if the lifecycle has either not started yet or has already ended.</p>
+            </span></div>
+        </div>
+      </div>
+<a data-name="-1754757067%2FMain%2F0" anchor-label="autodispose-lint" id="-1754757067%2FMain%2F0" data-filterable-set=""></a>
+      <div class="table-row">
+        <div class="main-subrow ">
+          <div class="w-100"><span class="inline-flex">
+              <div><a href="static-analysis/autodispose-lint/index.html">autodispose-lint</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1754757067%2FMain%2F0"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div><span class="brief-comment">
+              <p class="paragraph">Lint checks for AutoDispose. See full docs at https://uber.github.io/AutoDispose/lint-check/</p>
+            </span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:autodispose
+autodispose2
+autodispose2.observers
+module:autodispose-lifecycle
+autodispose2.lifecycle
+module:autodispose-android
+autodispose2.android
+autodispose2.android.internal
+module:autodispose-androidx-lifecycle
+autodispose2.androidx.lifecycle
+module:autodispose-interop-coroutines
+autodispose2.interop.coroutines
+module:autodispose-lint
+autodispose2.lint

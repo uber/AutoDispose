@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>AutoDisposeDetector</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+<a href="../../../../index.html">
+<span>autodispose-root</span>            </a>    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":static-analysis:autodispose-lint:dokkaHtmlPartial/main">jvm</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="autodispose-lint::autodispose2.lint/AutoDisposeDetector///PointingToDeclaration//2074586121">
+  <div class="breadcrumbs"><a href="../../index.html">autodispose-lint</a><span class="delimiter">/</span><a href="../index.html">autodispose2.lint</a><span class="delimiter">/</span><span class="current">AutoDisposeDetector</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Auto</span><wbr><span>Dispose</span><wbr><span><span>Detector</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">AutoDisposeDetector</a> : <span data-unresolved-link="com.android.tools.lint.detector.api/Detector///PointingToDeclaration/">Detector</span>, <span data-unresolved-link="com.android.tools.lint.detector.api/SourceCodeScanner///PointingToDeclaration/">SourceCodeScanner</span></div><p class="paragraph">Detector which checks if your stream subscriptions are handled by AutoDispose.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-978249792%2FConstructors%2F2074586121" anchor-label="AutoDisposeDetector" id="-978249792%2FConstructors%2F2074586121" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtmlPartial/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-auto-dispose-detector.html"><span>Auto</span><wbr><span>Dispose</span><wbr><span><span>Detector</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-978249792%2FConstructors%2F2074586121"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-690707539%2FFunctions%2F2074586121" anchor-label="beforeCheckRootProject" id="-690707539%2FFunctions%2F2074586121" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtmlPartial/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="before-check-root-project.html"><span>before</span><wbr><span>Check</span><wbr><span>Root</span><wbr><span><span>Project</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-690707539%2FFunctions%2F2074586121"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="before-check-root-project.html"><span class="token function">beforeCheckRootProject</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><span data-unresolved-link="com.android.tools.lint.detector.api/Context///PointingToDeclaration/">Context</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1441644688%2FFunctions%2F2074586121" anchor-label="createUastHandler" id="1441644688%2FFunctions%2F2074586121" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtmlPartial/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="create-uast-handler.html"><span>create</span><wbr><span>Uast</span><wbr><span><span>Handler</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1441644688%2FFunctions%2F2074586121"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="create-uast-handler.html"><span class="token function">createUastHandler</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><span data-unresolved-link="com.android.tools.lint.detector.api/JavaContext///PointingToDeclaration/">JavaContext</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.android.tools.lint.client.api/UElementHandler///PointingToDeclaration/">UElementHandler</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="706714386%2FFunctions%2F2074586121" anchor-label="getApplicableMethodNames" id="706714386%2FFunctions%2F2074586121" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtmlPartial/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-applicable-method-names.html"><span>get</span><wbr><span>Applicable</span><wbr><span>Method</span><wbr><span><span>Names</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="706714386%2FFunctions%2F2074586121"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-applicable-method-names.html"><span class="token function">getApplicableMethodNames</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-688060915%2FFunctions%2F2074586121" anchor-label="getApplicableUastTypes" id="-688060915%2FFunctions%2F2074586121" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":static-analysis:autodispose-lint:dokkaHtmlPartial/main" data-filterable-set=":static-analysis:autodispose-lint:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-applicable-uast-types.html"><span>get</span><wbr><span>Applicable</span><wbr><span>Uast</span><wbr><span><span>Types</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-688060915%2FFunctions%2F2074586121"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":static-analysis:autodispose-lint:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-applicable-uast-types.html"><span class="token function">getApplicableUastTypes</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html">Class</a><span class="token operator">&lt;</span><span class="token keyword">out </span><span data-unresolved-link="org.jetbrains.uast/UElement///PointingToDeclaration/">UElement</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
+

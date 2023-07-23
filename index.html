@@ -9,12 +9,15 @@
         <meta name="description" content="Automatic binding+disposal of RxJava 2 streams.">
       
       
-      
         <meta name="author" content="Uber Technologies">
       
       
-      <link rel="shortcut icon" href="images/uber_oss_logo.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.3">
+      
+      
+        <link rel="next" href="api/2.x/">
+      
+      <link rel="icon" href="images/uber_oss_logo.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.0">
     
     
       
@@ -22,32 +25,32 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.3b61ea93.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.402914a4.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.39b8e14a.min.css">
-        
-          
-          
-          <meta name="theme-color" content="#ffffff">
-        
+        <link rel="stylesheet" href="assets/stylesheets/palette.a0c5b2b5.min.css">
       
+      
+
     
     
     
       
+        
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
-    
     
     
       <link rel="stylesheet" href="css/app.css">
     
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
+
+    
     
     
   </head>
@@ -58,9 +61,9 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="white">
-      
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="white">
   
+    
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -77,26 +80,29 @@
       
     </div>
     
+    
       
 
-<header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="." title="AutoDispose" class="md-header-nav__button md-logo" aria-label="AutoDispose">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="AutoDispose" class="md-header__button md-logo" aria-label="AutoDispose" data-md-component="logo">
       
   <img src="images/uber_oss_logo.png" alt="logo">
 
     </a>
-    <label class="md-header-nav__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
-    <div class="md-header-nav__title" data-md-component="header-title">
-      <div class="md-header-nav__ellipsis">
-        <div class="md-header-nav__topic">
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
           <span class="md-ellipsis">
             AutoDispose
           </span>
         </div>
-        <div class="md-header-nav__topic">
+        <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
               Overview
@@ -106,22 +112,27 @@
       </div>
     </div>
     
-      <label class="md-header-nav__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
       </label>
-      
-<div class="md-search" data-md-component="search" role="dialog">
+      <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -129,7 +140,7 @@
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
       </div>
     </div>
@@ -137,12 +148,11 @@
 </div>
     
     
-      <div class="md-header-nav__source">
-        
-<a href="https://github.com/uber/AutoDispose/" title="Go to repository" class="md-source">
+      <div class="md-header__source">
+        <a href="https://github.com/uber/AutoDispose" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     AutoDispose
@@ -151,11 +161,14 @@
       </div>
     
   </nav>
+  
 </header>
     
     <div class="md-container" data-md-component="container">
       
       
+        
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -163,17 +176,15 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
 
 
-
-
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="AutoDispose" class="md-nav__button md-logo" aria-label="AutoDispose">
+    <a href="." title="AutoDispose" class="md-nav__button md-logo" aria-label="AutoDispose" data-md-component="logo">
       
   <img src="images/uber_oss_logo.png" alt="logo">
 
@@ -182,11 +193,10 @@
   </label>
   
     <div class="md-nav__source">
-      
-<a href="https://github.com/uber/AutoDispose/" title="Go to repository" class="md-source">
+      <a href="https://github.com/uber/AutoDispose" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     AutoDispose
@@ -200,28 +210,32 @@
       
       
 
-
   
-
-
-  <li class="md-nav__item md-nav__item--active">
+  
     
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
       
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
         Overview
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-    
-    <a href="." class="md-nav__link md-nav__link--active">
-      Overview
-    </a>
-    
+      </a>
       
+        
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
   
   
     
@@ -231,7 +245,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
   <a href="#overview" class="md-nav__link">
@@ -439,219 +453,262 @@
     </ul>
   
 </nav>
-    
-  </li>
+      
+    </li>
+  
 
     
       
       
       
-
-
 
   
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
     
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
-    
-    <label class="md-nav__link" for="nav-2">
-      2.X API
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="2.X API" data-md-level="1">
-      <label class="md-nav__title" for="nav-2">
-        <span class="md-nav__icon md-icon"></span>
-        2.X API
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-
-  <li class="md-nav__item">
-    <a href="2.x/autodispose/autodispose2/" class="md-nav__link">
-      autodispose
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-
-  <li class="md-nav__item">
-    <a href="2.x/autodispose-android/autodispose2.android/" class="md-nav__link">
-      autodispose-android
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-
-  <li class="md-nav__item">
-    <a href="2.x/autodispose-androidx-lifecycle/autodispose2.androidx.lifecycle/" class="md-nav__link">
-      autodispose-androidx-lifecycle
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-
-  <li class="md-nav__item">
-    <a href="2.x/autodispose-interop-coroutines/autodispose2.interop.coroutines/" class="md-nav__link">
-      autodispose-interop-coroutines
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-
-  <li class="md-nav__item">
-    <a href="2.x/autodispose-lifecycle/autodispose2.lifecycle/" class="md-nav__link">
-      autodispose-lifecycle
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-
-  <li class="md-nav__item">
-    <a href="2.x/autodispose/autodispose2.observers/" class="md-nav__link">
-      autodispose-observers
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
-
-
-
-  <li class="md-nav__item">
-    <a href="error-prone/" class="md-nav__link">
-      Error Prone
-    </a>
-  </li>
-
-    
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
       
       
       
-
-
-
-  <li class="md-nav__item">
-    <a href="lint-check/" class="md-nav__link">
-      Lint Check
-    </a>
-  </li>
-
-    
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          2.X API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
-      
-      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          2.X API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/2.x/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
 
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/2.x/autodispose/" class="md-nav__link">
+        autodispose
+      </a>
+    </li>
+  
 
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/2.x/android/autodispose-android/" class="md-nav__link">
+        autodispose-android
+      </a>
+    </li>
+  
 
-  <li class="md-nav__item">
-    <a href="changelog/" class="md-nav__link">
-      Changelog
-    </a>
-  </li>
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/2.x/android/autodispose-androidx-lifecycle/" class="md-nav__link">
+        autodispose-androidx-lifecycle
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/2.x/autodispose-interop/coroutines/" class="md-nav__link">
+        autodispose-interop-coroutines
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/2.x/autodispose-lifecycle/" class="md-nav__link">
+        autodispose-lifecycle
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/2.x/autodispose/autodispose2.observers/" class="md-nav__link">
+        autodispose-observers
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-
-  <li class="md-nav__item">
-    <a href="migrating-020-030/" class="md-nav__link">
-      Migrating from 0.2.0 to 0.3.0
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-
-  <li class="md-nav__item">
-    <a href="migrating-040-050/" class="md-nav__link">
-      Migrating from 0.4.0 to 0.5.0
-    </a>
-  </li>
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="error-prone/" class="md-nav__link">
+        Error Prone
+      </a>
+    </li>
+  
 
     
       
       
       
 
-
-
-  <li class="md-nav__item">
-    <a href="migrating-1x-2x/" class="md-nav__link">
-      Migrating from 1.x to 2.x
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-
-  <li class="md-nav__item">
-    <a href="contributing/" class="md-nav__link">
-      Contributing
-    </a>
-  </li>
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lint-check/" class="md-nav__link">
+        Lint Check
+      </a>
+    </li>
+  
 
     
       
       
       
 
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog/" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
 
+    
+      
+      
+      
 
-  <li class="md-nav__item">
-    <a href="code-of-conduct/" class="md-nav__link">
-      Code of Conduct
-    </a>
-  </li>
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migrating-020-030/" class="md-nav__link">
+        Migrating from 0.2.0 to 0.3.0
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migrating-040-050/" class="md-nav__link">
+        Migrating from 0.4.0 to 0.5.0
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migrating-1x-2x/" class="md-nav__link">
+        Migrating from 1.x to 2.x
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="code-of-conduct/" class="md-nav__link">
+        Code of Conduct
+      </a>
+    </li>
+  
 
     
   </ul>
@@ -662,11 +719,13 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
   
   
     
@@ -676,7 +735,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
   <a href="#overview" class="md-nav__link">
@@ -889,50 +948,51 @@
               </div>
             
           
-          <div class="md-content">
-            <article class="md-content__inner md-typeset">
-              
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
-                  <a href="https://github.com/uber/AutoDispose/edit/master/docs/index.md" title="Edit this page" class="md-content__button md-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
-                  </a>
-                
-                
-                <h1 id="autodispose">AutoDispose<a class="headerlink" href="#autodispose" title="Permanent link">&para;</a></h1>
+                  
+
+  
+  
+
+
+<h1 id="autodispose">AutoDispose<a class="headerlink" href="#autodispose" title="Permanent link">&para;</a></h1>
 <p><img alt="" src="https://github.com/uber/AutoDispose/workflows/ci.yml/badge.svg?branch=master" /></p>
-<p><strong>AutoDispose</strong> is an RxJava 2+ tool for automatically binding the execution of RxJava streams to a 
+<p><strong>AutoDispose</strong> is an RxJava 2+ tool for automatically binding the execution of RxJava streams to a
 provided scope via disposal/cancellation.</p>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>Often (especially in mobile applications), Rx subscriptions need to stop in response to some event 
-(for instance, when Activity#onStop() executes in an Android app). In order to support this common 
+<p>Often (especially in mobile applications), Rx subscriptions need to stop in response to some event
+(for instance, when Activity#onStop() executes in an Android app). In order to support this common
 scenario in RxJava 2, we built AutoDispose.</p>
 <p>The idea is simple: construct your chain like any other, and then at subscription you simply drop in
-the relevant factory call + method for that type as a converter. In everyday use, it 
- usually looks like this: </p>
+the relevant factory call + method for that type as a converter. In everyday use, it
+ usually looks like this:</p>
 <div class="highlight"><pre><span></span><code><span class="n">myObservable</span>
-    <span class="p">.</span><span class="na">doStuff</span><span class="p">()</span>
-    <span class="p">.</span><span class="na">as</span><span class="p">(</span><span class="n">autoDisposable</span><span class="p">(</span><span class="k">this</span><span class="p">))</span>   <span class="c1">// The magic</span>
-    <span class="p">.</span><span class="na">subscribe</span><span class="p">(</span><span class="n">s</span> <span class="o">-&gt;</span> <span class="p">...);</span>
+<span class="w">    </span><span class="p">.</span><span class="na">doStuff</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">as</span><span class="p">(</span><span class="n">autoDisposable</span><span class="p">(</span><span class="k">this</span><span class="p">))</span><span class="w">   </span><span class="c1">// The magic</span>
+<span class="w">    </span><span class="p">.</span><span class="na">subscribe</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">...);</span>
 </code></pre></div>
-<p>By doing this, you will automatically unsubscribe from <code>myObservable</code> as indicated by your 
-scope - this helps prevent many classes of errors when an observable emits an item, but the actions 
+<p>By doing this, you will automatically unsubscribe from <code>myObservable</code> as indicated by your
+scope - this helps prevent many classes of errors when an observable emits an item, but the actions
 taken in the subscription are no longer valid. For instance, if a network request comes back after a
  UI has already been torn down, the UI can&rsquo;t be updated - this pattern prevents this type of bug.</p>
 <h3 id="autodisposable"><code>autoDisposable()</code><a class="headerlink" href="#autodisposable" title="Permanent link">&para;</a></h3>
-<p>The main entry point is via static factory <code>autoDisposable()</code> methods in the <code>AutoDispose</code> class. 
-There are two overloads: <code>Completable</code> and <code>ScopeProvider</code>. They return an 
+<p>The main entry point is via static factory <code>autoDisposable()</code> methods in the <code>AutoDispose</code> class.
+There are two overloads: <code>Completable</code> and <code>ScopeProvider</code>. They return an
 <code>AutoDisposeConverter</code> object that implements all the RxJava <code>Converter</code> interfaces for use with
 the <code>as()</code> operator in RxJava types.</p>
 <h4 id="completable-as-a-scope">Completable (as a scope)<a class="headerlink" href="#completable-as-a-scope" title="Permanent link">&para;</a></h4>
-<p>The <code>Completable</code> semantic is modeled after the <code>takeUntil()</code> operator, which accepts an <code>Observable</code> 
-whose first emission is used as a notification to signal completion. This is logically the 
-behavior of a <code>Single</code>, so we choose to make that explicit. Since the type doesn&rsquo;t matter, we 
+<p>The <code>Completable</code> semantic is modeled after the <code>takeUntil()</code> operator, which accepts an <code>Observable</code>
+whose first emission is used as a notification to signal completion. This is logically the
+behavior of a <code>Single</code>, so we choose to make that explicit. Since the type doesn&rsquo;t matter, we
 simplify this further to just be a <code>Completable</code>, where the scope-end emission is just a completion event.
 All scopes in AutoDispose eventually resolve to a <code>Completable</code> that emits the end-of-scope notification
 in <code>onComplete</code>. <code>onError</code> will pass through to the underlying subscription.</p>
 <h4 id="scopeprovider">ScopeProvider<a class="headerlink" href="#scopeprovider" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ScopeProvider</span> <span class="p">{</span>
-  <span class="n">CompletableSource</span> <span class="nf">requestScope</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">ScopeProvider</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">CompletableSource</span><span class="w"> </span><span class="nf">requestScope</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p><code>ScopeProvider</code> is an abstraction that allows objects to expose and control and provide their own scopes.
@@ -945,40 +1005,40 @@ first, and sent through <code>onError()</code> if not handled.</p>
 <p>Modeled after RxJava&rsquo;s plugins, this allows you to customize the behavior of AutoDispose.</p>
 <h4 id="outsidescopehandler">OutsideScopeHandler<a class="headerlink" href="#outsidescopehandler" title="Permanent link">&para;</a></h4>
 <p>When a scope is bound to outside of its allowable boundary, <code>AutoDispose</code> will send an error event with an
- <code>OutsideScopeException</code> to downstream consumers. If you want to customize this behavior, you can use 
- <code>AutoDisposePlugins#setOutsideScopeHandler</code> to intercept these exceptions and rethrow something 
+ <code>OutsideScopeException</code> to downstream consumers. If you want to customize this behavior, you can use
+ <code>AutoDisposePlugins#setOutsideScopeHandler</code> to intercept these exceptions and rethrow something
  else or nothing at all.</p>
 <p>Example
-<div class="highlight"><pre><span></span><code><span class="n">AutoDisposePlugins</span><span class="p">.</span><span class="na">setOutsideScopeHandler</span><span class="p">(</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="p">{</span>
-    <span class="c1">// Swallow the exception, or rethrow it, or throw your own!</span>
+<div class="highlight"><pre><span></span><code><span class="n">AutoDisposePlugins</span><span class="p">.</span><span class="na">setOutsideScopeHandler</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Swallow the exception, or rethrow it, or throw your own!</span>
 <span class="p">})</span>
 </code></pre></div></p>
 <p>A good use case of this is, say, just silently disposing/logging observers outside of scope exceptions in production but crashing on debug.</p>
 <p>The supported mechanism to throw this is in <code>ScopeProvider#requestScope()</code> implementations.</p>
 <h4 id="fillinoutsidescopeexceptionstacktraces">FillInOutsideScopeExceptionStacktraces<a class="headerlink" href="#fillinoutsidescopeexceptionstacktraces" title="Permanent link">&para;</a></h4>
 <p>If you have your own handling of exceptions in scope boundary events, you can optionally set
-<code>AutoDisposePlugins#setFillInOutsideScopeExceptionStacktraces</code> to <code>false</code>. This will result in 
+<code>AutoDisposePlugins#setFillInOutsideScopeExceptionStacktraces</code> to <code>false</code>. This will result in
 AutoDispose <code>not</code> filling in stacktraces for exceptions, for a potential minor performance boost.</p>
 <h3 id="autodisposeandroidplugins">AutoDisposeAndroidPlugins<a class="headerlink" href="#autodisposeandroidplugins" title="Permanent link">&para;</a></h3>
 <p>Similar to <code>AutoDisposePlugins</code>, this allows you to customize the behavior of AutoDispose in Android environments.</p>
 <h4 id="mainthreadchecker">MainThreadChecker<a class="headerlink" href="#mainthreadchecker" title="Permanent link">&para;</a></h4>
-<p>This plugin allows for supplying a custom <code>BooleanSupplier</code> that can customize how main thread 
-checks work. The conventional use case of this is Android JUnit tests, where the <code>Looper</code> class is 
+<p>This plugin allows for supplying a custom <code>BooleanSupplier</code> that can customize how main thread
+checks work. The conventional use case of this is Android JUnit tests, where the <code>Looper</code> class is
 not stubbed in the mock android.jar and fails explosively when touched.</p>
-<p>Another potential use of this at runtime to customize checks for more fine-grained main thread 
+<p>Another potential use of this at runtime to customize checks for more fine-grained main thread
 checks behavior.</p>
 <p>Example
-<div class="highlight"><pre><span></span><code><span class="n">AutoDisposeAndroidPlugins</span><span class="p">.</span><span class="na">setOnCheckMainThread</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// Use whatever heuristics you prefer.</span>
+<div class="highlight"><pre><span></span><code><span class="n">AutoDisposeAndroidPlugins</span><span class="p">.</span><span class="na">setOnCheckMainThread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"> </span><span class="c1">// Use whatever heuristics you prefer.</span>
 <span class="p">})</span>
 </code></pre></div></p>
 <h3 id="behavior">Behavior<a class="headerlink" href="#behavior" title="Permanent link">&para;</a></h3>
 <p>Under the hood, AutoDispose decorates RxJava&rsquo;s real observer with a custom <em>AutoDisposing</em> observer.
-This custom observer leverages the scope to create a disposable, auto-disposing observer that acts 
-as a lambda observer (pass-through) unless the underlying scope <code>CompletableSource</code> emits <code>onComplete</code>. Both 
+This custom observer leverages the scope to create a disposable, auto-disposing observer that acts
+as a lambda observer (pass-through) unless the underlying scope <code>CompletableSource</code> emits <code>onComplete</code>. Both
 scope emission and upstream termination result in immediate disposable of both the underlying scope
 subscription and upstream disposable.</p>
-<p>These custom <code>AutoDisposing</code> observers are considered public read-only API, and can be found under the 
+<p>These custom <code>AutoDisposing</code> observers are considered public read-only API, and can be found under the
 <code>observers</code> package. They also support retrieval of the underlying observer via <code>delegateObserver()</code>
 methods. Read-only API means that the public signatures will follow semantic versioning, but we may
 add new methods in the future (which would break compilation if you make custom implementations!).</p>
@@ -990,18 +1050,18 @@ based on their <code>Observer</code> types, so conceivably any type that uses th
 <h4 id="extensions">Extensions<a class="headerlink" href="#extensions" title="Permanent link">&para;</a></h4>
 <p>There are also a number of extension artifacts available, detailed below.</p>
 <h5 id="lifecyclescopeprovider">LifecycleScopeProvider<a class="headerlink" href="#lifecyclescopeprovider" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">LifecycleScopeProvider</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="n">ScopeProvider</span> <span class="p">{</span>
-  <span class="n">Observable</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="nf">lifecycle</span><span class="p">();</span>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">LifecycleScopeProvider</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">ScopeProvider</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Observable</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">lifecycle</span><span class="p">();</span>
 
-  <span class="n">Function</span><span class="o">&lt;</span><span class="n">E</span><span class="p">,</span> <span class="n">E</span><span class="o">&gt;</span> <span class="nf">correspondingEvents</span><span class="p">();</span>
+<span class="w">  </span><span class="n">Function</span><span class="o">&lt;</span><span class="n">E</span><span class="p">,</span><span class="w"> </span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">correspondingEvents</span><span class="p">();</span>
 
-  <span class="n">E</span> <span class="nf">peekLifecycle</span><span class="p">();</span>
+<span class="w">  </span><span class="n">E</span><span class="w"> </span><span class="nf">peekLifecycle</span><span class="p">();</span>
 
-  <span class="c1">// Inherited from ScopeProvider</span>
-  <span class="n">CompletableSource</span> <span class="nf">requestScope</span><span class="p">();</span>
+<span class="w">  </span><span class="c1">// Inherited from ScopeProvider</span>
+<span class="w">  </span><span class="n">CompletableSource</span><span class="w"> </span><span class="nf">requestScope</span><span class="p">();</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A common use case for this is objects that have implicit lifecycles, such as Android&rsquo;s <code>Activity</code>, 
+<p>A common use case for this is objects that have implicit lifecycles, such as Android&rsquo;s <code>Activity</code>,
 <code>Fragment</code>, and <code>View</code> classes. Internally at subscription-time, <code>AutoDispose</code> will resolve
 a <code>CompletableSource</code> representation of the target <code>end</code> event in the lifecycle, and exposes an API to dictate what
 corresponding events are for the current lifecycle state (e.g. <code>ATTACH</code> -&gt; <code>DETACH</code>). This also allows
@@ -1013,12 +1073,12 @@ as follows:
   or something similar (<code>BehaviorRelay</code>, etc).
   - <code>correspondingEvents()</code> - a mapping of events to corresponding ones, i.e. Attach -&gt; Detach.
   - <code>peekLifecycle()</code> - returns the current lifecycle state of the object.</p>
-<p>In <code>requestScope()</code>, the implementation expects to these pieces to construct a <code>CompletableSource</code> representation 
-of the proper end scope, while also doing precondition checks for lifecycle boundaries. If a 
-lifecycle has not started, it will send you to <code>onError</code> with a <code>LifecycleNotStartedException</code>. If 
-the lifecycle as ended, it is recommended to throw a <code>LifecycleEndedException</code> in your 
+<p>In <code>requestScope()</code>, the implementation expects to these pieces to construct a <code>CompletableSource</code> representation
+of the proper end scope, while also doing precondition checks for lifecycle boundaries. If a
+lifecycle has not started, it will send you to <code>onError</code> with a <code>LifecycleNotStartedException</code>. If
+the lifecycle as ended, it is recommended to throw a <code>LifecycleEndedException</code> in your
 <code>correspondingEvents()</code> mapping, but it is up to the user.</p>
-<p>To simplify implementations, there&rsquo;s an included <code>LifecycleScopes</code> utility class with factories 
+<p>To simplify implementations, there&rsquo;s an included <code>LifecycleScopes</code> utility class with factories
 for generating <code>CompletableSource</code> representations from <code>LifecycleScopeProvider</code> instances.</p>
 <p><code>autodispose-lifecycle</code> contains the core <code>LifecycleScopeProvider</code> and <code>LifecycleScopes</code> APIs as well as a convenience test helper.</p>
 <h5 id="android">Android<a class="headerlink" href="#android" title="Permanent link">&para;</a></h5>
@@ -1035,11 +1095,11 @@ use D8 (Android Gradle Plugin 3.2+) or desugar as needed (depending on the build
 <p>As of 0.4.0 there is an RxLifecycle interop module under <code>autodispose-rxlifecycle</code>. This is for interop
 with <a href="https://github.com/trello/RxLifecycle">RxLifecycle</a>&lsquo;s <code>LifecycleProvider</code> interfaces.</p>
 <h3 id="philosophy">Philosophy<a class="headerlink" href="#philosophy" title="Permanent link">&para;</a></h3>
-<p>Each factory returns a subscribe proxies upon application that just proxy to real subscribe calls under 
-the hood to &ldquo;AutoDisposing&rdquo; implementations of the types. These types decorate the actual observer 
+<p>Each factory returns a subscribe proxies upon application that just proxy to real subscribe calls under
+the hood to &ldquo;AutoDisposing&rdquo; implementations of the types. These types decorate the actual observer
 at subscribe-time to achieve autodispose behavior. The types are <em>not</em> exposed directly because
 autodisposing has <em>ordering</em> requirements; specifically, it has to be done at the end of a chain to properly
-wrap all the upstream behavior. Lint could catch this too, but we have seen no use cases for disposing 
+wrap all the upstream behavior. Lint could catch this too, but we have seen no use cases for disposing
 upstream (which can cause a lot of unexpected behavior). Thus, we optimize for the common case, and the
 API is designed to prevent ordering issues while still being a drop-in one-liner.</p>
 <h2 id="motivations">Motivations<a class="headerlink" href="#motivations" title="Permanent link">&para;</a></h2>
@@ -1051,12 +1111,12 @@ API is designed to prevent ordering issues while still being a drop-in one-liner
 given observable to <code>takeUntil()</code> that event is emitted.</li>
 </ul>
 <p>Both implementations are elegant and work well, but came with caveats that we sought to revisit and solve
-in AutoDispose. </p>
+in AutoDispose.</p>
 <p><code>CompositeSubscription</code> requires manual capture of the return value of <code>subscribe</code> calls, and
 gets tedious to reason about with regards to binding subscription until different events.</p>
 <p><a href="https://github.com/trello/RxLifecycle/"><code>RxLifecycle</code></a> solves the caveats of <code>CompositeSubscription</code> use by working in a dead-simple API and handling
-resolution of corresponding events. It works great for <code>Observable</code> types, but due to the nature of 
-how <code>takeUntil()</code> works, we found that <code>Single</code> and <code>Completable</code> usage was risky to use (particularly in a 
+resolution of corresponding events. It works great for <code>Observable</code> types, but due to the nature of
+how <code>takeUntil()</code> works, we found that <code>Single</code> and <code>Completable</code> usage was risky to use (particularly in a
  large team with varying levels of RxJava experience) considering lifecycle interruption would result
 in a downstream <code>CancellationException</code> every time. It&rsquo;s the contract of those types, but induced a lot of
 ceremony for what would otherwise likely be our most commonly used type (<code>Single</code>). Even with <code>Observable</code>,
@@ -1069,22 +1129,41 @@ semantics around scope resolution. RxJava 2&rsquo;s <code>Observer</code> interf
  this via their <code>onSubscribe()</code> callbacks. The result is de-risked <code>Single</code>/<code>Completable</code> usage, no ordering
  concerns, no threading concerns (fingers crossed), and true disposal with no further events of any kind
  upon scope end. We&rsquo;re quite happy with it, and hope the community finds it useful as well.</p>
-<p>Special thanks go to <a href="https://twitter.com/danlew42">Dan Lew</a> (creator of RxLifecycle), who helped pioneer this area for RxJava 
- in android and humored many of the discussions around lifecycle handling over the past couple years 
- that we&rsquo;ve learned from. Much of the internal scope resolution mechanics of <code>AutoDispose</code> are 
+<p>Special thanks go to <a href="https://twitter.com/danlew42">Dan Lew</a> (creator of RxLifecycle), who helped pioneer this area for RxJava
+ in android and humored many of the discussions around lifecycle handling over the past couple years
+ that we&rsquo;ve learned from. Much of the internal scope resolution mechanics of <code>AutoDispose</code> are
  inspired by RxLifecycle.</p>
 <h2 id="rxjava-versions-support">RxJava versions support<a class="headerlink" href="#rxjava-versions-support" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>RxJava version</th>
+<th>AutoDispose version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RxJava 3</td>
+<td>AutoDispose 2.x</td>
+</tr>
+<tr>
+<td>RxJava 2</td>
+<td>AutoDispose 1.x</td>
+</tr>
+<tr>
+<td>RxJava 1</td>
+<td>Unsupported</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>RxJava 3</li>
-<li>AutoDispose 2.x</li>
-<li>RxJava 2</li>
-<li>AutoDispose 1.x</li>
-<li>RxJava 1</li>
-<li>We do not plan to try to backport this to RxJava 1. This pattern is <em>sort of</em> possible in 
-  RxJava 1, but only on <code>Subscriber</code> (via <code>onStart()</code>) and <code>CompletableObserver</code> (which matches the 
-  API of RxJava 2+).</li>
-</ul>
+<li>
+<p>We do not plan to try to backport this to RxJava 1. This pattern is <em>sort of</em> possible in RxJava 1, but only on <code>Subscriber</code> (via <code>onStart()</code>) and <code>CompletableObserver</code> (which matches the API of RxJava 2+)</p>
+</li>
+<li>
 <p>2.x versions of AutoDispose are built for RxJava 3.</p>
+</li>
+</ul>
 <h2 id="static-analysis">Static analysis<a class="headerlink" href="#static-analysis" title="Permanent link">&para;</a></h2>
 <h3 id="error-prone">Error Prone<a class="headerlink" href="#error-prone" title="Permanent link">&para;</a></h3>
 <p>There is an optional error-prone checker you can use to enforce use of AutoDispose.
@@ -1130,74 +1209,51 @@ implementation &#39;com.uber.autodispose2:autodispose-androidx-lifecycle-test:x.
 </code></pre></div></p>
 <p>Javadocs and KDocs for the most recent release can be found here: <a href="https://uber.github.io/AutoDispose/2.x/autodispose/">https://uber.github.io/AutoDispose/2.x/autodispose/</a></p>
 <p>Snapshots of the development version are available in <a href="https://oss.sonatype.org/content/repositories/snapshots/com/uber/autodispose2/">Sonatype&rsquo;s snapshots repository</a>.</p>
-                
-              
-              
-                
 
 
-              
-            </article>
-          </div>
+
+
+
+                
+              </article>
+            </div>
+          
+          
         </div>
+        
       </main>
       
-        
-<footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
-        
-        
-          <a href="2.x/autodispose/autodispose2/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                autodispose
-              </div>
-            </div>
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
+        <footer class="md-footer">
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-          <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2019 Uber Technologies
-          </div>
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-      </div>
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2019 Uber Technologies
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
       
     </div>
   </div>
 </footer>
       
     </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
     
-      <script src="assets/javascripts/vendor.08c56446.min.js"></script>
-      <script src="assets/javascripts/bundle.6ced434e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
-      
-      <script>
-        app = initialize({
-          base: ".",
-          features: [],
-          search: Object.assign({
-            worker: "assets/javascripts/worker/search.8c7e0a7e.min.js"
-          }, typeof search !== "undefined" && search)
-        })
-      </script>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.ce72ebac.min.js"></script>
       
     
   </body>
