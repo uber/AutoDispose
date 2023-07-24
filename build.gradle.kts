@@ -208,7 +208,7 @@ subprojects {
           url.set(URI("https://kotlin.github.io/kotlinx.coroutines/index.html").toURL())
         }
         perPackageOption {
-          //language=RegExp
+          // language=RegExp
           matchingRegex.set(".*\\.internal\\..*")
           suppress.set(true)
         }
