@@ -69,7 +69,7 @@ build-lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "li
 build-lint-core = { module = "com.android.tools.lint:lint", version.ref = "lint" }
 build-lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "lint" }
 build-nullAway = "com.uber.nullaway:nullaway:0.10.11"
-kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2"
+kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 multidex = { module = "com.android.support:multidex", version.ref = "multidex" }
