@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 2.2.1
+-------------
+
+_2023-07-25_
+
+- **Fix**: Don't hold a reference to the view if detach happens before `DetachEventCompletable` is disposed.
+
 Version 2.2.0
 -------------
 
