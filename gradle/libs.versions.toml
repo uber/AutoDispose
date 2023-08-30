@@ -27,7 +27,7 @@ nullawayPlugin = "1.6.0"
 replayingShareKotlin = "2.2.0"
 rxjava3Bridge = "3.0.2"
 rxrelay = "2.1.1"
-spotless = "6.20.0"
+spotless = "6.21.0"
 targetSdkVersion = "33"
 
 [plugins]
