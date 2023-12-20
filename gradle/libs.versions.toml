@@ -89,4 +89,4 @@ test-androidOrchestrator = { module = "androidx.test:orchestrator", version = "1
 test-androidRules = { module = "androidx.test:rules", version = "1.6.0-alpha01" }
 test-androidRunner = { module = "androidx.test:runner", version.ref = "androidTest" }
 test-junit = "junit:junit:4.13.2"
-test-truth = "com.google.truth:truth:1.1.5"
+test-truth = "com.google.truth:truth:1.2.0"
