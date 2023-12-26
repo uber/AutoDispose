@@ -13,7 +13,7 @@ fragmentKtx = "1.6.0"
 gjf = "1.19.1"
 jdk = "17"
 jvmTarget = "1.8"
-kotlin = "1.9.21"
+kotlin = "1.9.22"
 ktfmt = "0.46"
 leakcanaryAndroid = "2.12"
 lifecycleExtensions = "2.2.0"
@@ -40,7 +40,7 @@ dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 errorProne = { id = "net.ltgt.errorprone", version.ref = "errorPronePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version = "1.9.21-1.0.15" }
+ksp = { id = "com.google.devtools.ksp", version = "1.9.22-1.0.16" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
 nullAway = { id = "net.ltgt.nullaway", version.ref = "nullawayPlugin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
