@@ -68,7 +68,7 @@ build-errorProneTestHelpers = { module = "com.google.errorprone:error_prone_test
 build-lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" }
 build-lint-core = { module = "com.android.tools.lint:lint", version.ref = "lint" }
 build-lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "lint" }
-build-nullAway = "com.uber.nullaway:nullaway:0.10.21"
+build-nullAway = "com.uber.nullaway:nullaway:0.10.22"
 kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
