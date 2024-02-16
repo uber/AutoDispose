@@ -1,5 +1,5 @@
 [versions]
-agp = "8.0.2"
+agp = "8.2.2"
 androidTest = "1.6.0-alpha03"
 androidxLifecycle = "2.6.1"
 animalSniffer = "1.7.1"
