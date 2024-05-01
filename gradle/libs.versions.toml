@@ -46,7 +46,7 @@ nullAway = { id = "net.ltgt.nullaway", version.ref = "nullawayPlugin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 
 [libraries]
-androidx-activityKtx = "androidx.activity:activity-ktx:1.7.2"
+androidx-activityKtx = "androidx.activity:activity-ktx:1.9.0"
 androidx-annotations = "androidx.annotation:annotation:1.6.0"
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
