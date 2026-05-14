@@ -19,15 +19,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      api-level: "21"
     steps:
-      - name: Enable KVM
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-
       - name: Checkout
         uses: actions/checkout@v6
 
@@ -44,32 +36,28 @@ jobs:
       - name: Build and run unit tests
         run: ./gradlew check
 
-      - name: AVD cache
-        uses: actions/cache@v4
-        id: avd-cache
-        with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-${{ env.api-level }}
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
-      - name: Create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ env.api-level }}
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
-          script: echo "Generated AVD snapshot for caching."
+      - name: Free up disk space for the emulator
+        run: |
+          # Remove Haskell stuff to free up space for the emulator
+          sudo rm -rf /usr/local/.ghcup
+          # Remove dotnet stuff as well
+          sudo rm -rf /usr/share/dotnet
+          df -h
 
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ env.api-level }}
-          force-avd-creation: false
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          api-level: 35
+          arch: x86_64
           disable-animations: true
+          disk-size: 6000M
+          heap-size: 600M
           script: ./gradlew connectedCheck
 
       - name: (Fail-only) Upload build reports
