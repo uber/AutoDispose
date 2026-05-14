@@ -52,7 +52,7 @@ public final class LifecycleScopes {
    * @throws OutsideScopeException if the {@link LifecycleScopeProvider#correspondingEvents()}
    *     throws an {@link OutsideScopeException} during resolution.
    */
-  public static <@NonNull E> CompletableSource resolveScopeFromLifecycle(
+  public static <E extends @NonNull Object> CompletableSource resolveScopeFromLifecycle(
       final LifecycleScopeProvider<E> provider) throws OutsideScopeException {
     return resolveScopeFromLifecycle(provider, true);
   }
@@ -75,7 +75,7 @@ public final class LifecycleScopes {
    * @throws OutsideScopeException if the {@link LifecycleScopeProvider#correspondingEvents()}
    *     throws an {@link OutsideScopeException} during resolution.
    */
-  public static <@NonNull E> CompletableSource resolveScopeFromLifecycle(
+  public static <E extends @NonNull Object> CompletableSource resolveScopeFromLifecycle(
       final LifecycleScopeProvider<E> provider, final boolean checkEndBoundary)
       throws OutsideScopeException {
     E lastEvent = provider.peekLifecycle();
@@ -115,7 +115,7 @@ public final class LifecycleScopes {
    * @param endEvent the target end event
    * @param <E> the lifecycle event type
    */
-  public static <@NonNull E> CompletableSource resolveScopeFromLifecycle(
+  public static <E extends @NonNull Object> CompletableSource resolveScopeFromLifecycle(
       Observable<E> lifecycle, final E endEvent) {
     @Nullable Comparator<E> comparator = null;
     if (endEvent instanceof Comparable) {
@@ -134,7 +134,7 @@ public final class LifecycleScopes {
    * @param comparator an optional comparator for checking event equality.
    * @param <E> the lifecycle event type
    */
-  public static <@NonNull E> CompletableSource resolveScopeFromLifecycle(
+  public static <E extends @NonNull Object> CompletableSource resolveScopeFromLifecycle(
       Observable<E> lifecycle, final E endEvent, @Nullable final Comparator<E> comparator) {
     Predicate<E> equalityPredicate;
     if (comparator != null) {

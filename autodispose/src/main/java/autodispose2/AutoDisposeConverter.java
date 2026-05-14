@@ -29,7 +29,7 @@ import io.reactivex.rxjava3.parallel.ParallelFlowableConverter;
  *
  * @param <T> the type.
  */
-public interface AutoDisposeConverter<@NonNull T>
+public interface AutoDisposeConverter<T extends @NonNull Object>
     extends FlowableConverter<T, FlowableSubscribeProxy<T>>,
         ParallelFlowableConverter<T, ParallelFlowableSubscribeProxy<T>>,
         ObservableConverter<T, ObservableSubscribeProxy<T>>,

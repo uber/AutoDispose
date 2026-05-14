@@ -24,7 +24,7 @@ import io.reactivex.rxjava3.observers.DisposableCompletableObserver;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-final class AutoDisposingObserverImpl<@NonNull T> extends AtomicInteger
+final class AutoDisposingObserverImpl<T extends @NonNull Object> extends AtomicInteger
     implements AutoDisposingObserver<T> {
 
   @SuppressWarnings("WeakerAccess") // Package private for synthetic accessor saving

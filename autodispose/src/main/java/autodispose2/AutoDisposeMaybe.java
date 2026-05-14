@@ -21,7 +21,8 @@ import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.MaybeObserver;
 import io.reactivex.rxjava3.core.MaybeSource;
 
-final class AutoDisposeMaybe<@NonNull T> extends Maybe<T> implements MaybeSubscribeProxy<T> {
+final class AutoDisposeMaybe<T extends @NonNull Object> extends Maybe<T>
+    implements MaybeSubscribeProxy<T> {
   private final MaybeSource<T> source;
   private final CompletableSource scope;
 

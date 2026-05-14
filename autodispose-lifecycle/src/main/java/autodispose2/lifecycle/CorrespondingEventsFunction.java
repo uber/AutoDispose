@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.functions.Function;
  *
  * @param <E> the event type.
  */
-public interface CorrespondingEventsFunction<@NonNull E> extends Function<E, E> {
+public interface CorrespondingEventsFunction<E extends @NonNull Object> extends Function<E, E> {
 
   /**
    * Given an event {@code event}, returns the next corresponding event that this lifecycle should

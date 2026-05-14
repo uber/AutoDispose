@@ -26,7 +26,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.observers.TestObserver;
 
 /** Subscribe proxy that matches {@link Single}'s subscribe overloads. */
-public interface SingleSubscribeProxy<@NonNull T> {
+public interface SingleSubscribeProxy<T extends @NonNull Object> {
 
   /**
    * Proxy for {@link Single#subscribe()}.
@@ -47,7 +47,7 @@ public interface SingleSubscribeProxy<@NonNull T> {
    *
    * @return a {@link Disposable}
    */
-  Disposable subscribe(BiConsumer<@Nullable ? super T, @Nullable ? super Throwable> biConsumer);
+  Disposable subscribe(BiConsumer<? super @Nullable T, ? super @Nullable Throwable> biConsumer);
 
   /**
    * Proxy for {@link Single#subscribe(Consumer, Consumer)}.
@@ -65,7 +65,7 @@ public interface SingleSubscribeProxy<@NonNull T> {
    * @return a {@link SingleObserver}
    */
   @CheckReturnValue
-  <@NonNull E extends SingleObserver<? super T>> E subscribeWith(E observer);
+  <E extends @NonNull SingleObserver<? super T>> E subscribeWith(E observer);
 
   /**
    * Proxy for {@link Single#test()}.

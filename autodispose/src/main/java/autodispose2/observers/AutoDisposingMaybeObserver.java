@@ -23,7 +23,8 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * A {@link Disposable} {@link MaybeObserver} that can automatically dispose itself. Interface here
  * for type safety but enforcement is left to the implementation.
  */
-public interface AutoDisposingMaybeObserver<@NonNull T> extends MaybeObserver<T>, Disposable {
+public interface AutoDisposingMaybeObserver<T extends @NonNull Object>
+    extends MaybeObserver<T>, Disposable {
 
   /**
    * Returns the delegate {@link MaybeObserver} that is used under the hood for introspection
