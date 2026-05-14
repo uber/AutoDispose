@@ -193,7 +193,7 @@ subprojects {
     project.apply(plugin = "org.jetbrains.dokka")
 
     tasks.withType<DokkaTaskPartial>().configureEach {
-      outputDirectory.set(buildDir.resolve("docs/partial"))
+      outputDirectory.set(layout.buildDirectory.dir("docs/partial"))
       moduleName.set(project.property("POM_ARTIFACT_ID").toString())
       moduleVersion.set(project.property("VERSION_NAME").toString())
       dokkaSourceSets.configureEach {
@@ -226,7 +226,7 @@ subprojects {
   }
 
   // Common android config
-  val commonAndroidConfig: CommonExtension<*, *, *, *>.() -> Unit = {
+  val commonAndroidConfig: CommonExtension<*, *, *, *, *, *>.() -> Unit = {
     compileSdk = compileSdkVersionInt
 
     defaultConfig {
