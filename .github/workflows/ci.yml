@@ -20,7 +20,7 @@ jobs:
   build:
     runs-on: macOS-latest
     env:
-      api-level: "18"
+      api-level: "21"
     steps:
       - name: Checkout
         uses: actions/checkout@v6
