@@ -1,53 +1,53 @@
 [versions]
 agp = "8.13.2"
-androidTest = "1.6.0-alpha03"
-androidxLifecycle = "2.6.1"
+androidTest = "1.7.0"
+androidxLifecycle = "2.10.0"
 animalSniffer = "2.0.1"
-appcompat = "1.6.1"
-compileSdkVersion = "35"
-constraintlayout = "2.1.4"
-dokka = "1.9.10"
-errorProne = "2.24.1"
-errorPronePlugin = "3.1.0"
-fragmentKtx = "1.6.0"
+appcompat = "1.7.1"
+compileSdkVersion = "36"
+constraintlayout = "2.2.1"
+dokka = "2.2.0"
+errorProne = "2.49.0"
+errorPronePlugin = "5.1.0"
+fragmentKtx = "1.8.9"
 gjf = "1.35.0"
 jdk = "21"
 jvmTarget = "1.8"
-kotlin = "1.9.23"
+kotlin = "2.3.21"
 ktfmt = "0.62"
-leakcanaryAndroid = "2.13"
+leakcanaryAndroid = "2.14"
 lifecycleExtensions = "2.2.0"
-lint = "31.0.2"
-lintJvmTarget = "17"
-material = "1.9.0"
-mavenPublish = "0.27.0"
-minSdkVersion = "21"
+lint = "32.2.1"
+lintJvmTarget = "21"
+material = "1.14.0"
+mavenPublish = "0.36.0"
+minSdkVersion = "23"
 multidex = "2.0.1"
 nullawayPlugin = "3.0.0"
 replayingShareKotlin = "2.2.0"
 rxjava3Bridge = "3.0.2"
 rxrelay = "2.1.1"
 spotless = "8.4.0"
-targetSdkVersion = "35"
+targetSdkVersion = "36"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-lint = { id = "com.android.lint", version.ref = "agp" }
 animalSniffer = { id = "ru.vyarus.animalsniffer", version.ref = "animalSniffer" }
-binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.14.0" }
+binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.18.1" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 errorProne = { id = "net.ltgt.errorprone", version.ref = "errorPronePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version = "1.9.23-1.0.19" }
+ksp = { id = "com.google.devtools.ksp", version = "2.3.8" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
 nullAway = { id = "net.ltgt.nullaway", version.ref = "nullawayPlugin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 
 [libraries]
-androidx-activityKtx = "androidx.activity:activity-ktx:1.9.1"
-androidx-annotations = "androidx.annotation:annotation:1.6.0"
+androidx-activityKtx = "androidx.activity:activity-ktx:1.13.0"
+androidx-annotations = "androidx.annotation:annotation:1.10.0"
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
@@ -59,7 +59,7 @@ androidx-lifecycle-runtimeKtx = { module = "androidx.lifecycle:lifecycle-runtime
 androidx-lifecycle-runtimeTest = { module = "androidx.lifecycle:lifecycle-runtime-testing", version.ref = "androidxLifecycle" }
 androidx-lifecycle-vmKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
 autoService-annotations = "com.google.auto.service:auto-service-annotations:1.1.1"
-autoService-ksp = "dev.zacsweers.autoservice:auto-service-ksp:1.1.0"
+autoService-ksp = "dev.zacsweers.autoservice:auto-service-ksp:1.2.0"
 build-animalSniffer = "org.codehaus.mojo.signature:java17:1.0"
 build-errorProne = { module = "com.google.errorprone:error_prone_core", version.ref = "errorProne" }
 build-errorProneAnnotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "errorProne" }
@@ -68,8 +68,8 @@ build-errorProneTestHelpers = { module = "com.google.errorprone:error_prone_test
 build-lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "lint" }
 build-lint-core = { module = "com.android.tools.lint:lint", version.ref = "lint" }
 build-lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "lint" }
-build-nullAway = "com.uber.nullaway:nullaway:0.10.22"
-kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
+build-nullAway = "com.uber.nullaway:nullaway:0.13.4"
+kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0"
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 multidex = { module = "com.android.support:multidex", version.ref = "multidex" }
@@ -81,12 +81,12 @@ renovateTrigger-gjf = { module = "com.google.googlejavaformat:google-java-format
 
 replaying-share-kotlin = { module = "com.jakewharton.rx2:replaying-share-kotlin", version.ref = "replayingShareKotlin" }
 rx-android = "io.reactivex.rxjava3:rxandroid:3.0.2"
-rx-java = "io.reactivex.rxjava3:rxjava:3.1.8"
+rx-java = "io.reactivex.rxjava3:rxjava:3.1.12"
 rxjava3-bridge = { module = "com.github.akarnokd:rxjava3-bridge", version.ref = "rxjava3Bridge" }
 rxrelay = { module = "com.jakewharton.rxrelay2:rxrelay", version.ref = "rxrelay" }
-test-androidExtJunit = "androidx.test.ext:junit:1.2.0-alpha01"
-test-androidOrchestrator = { module = "androidx.test:orchestrator", version = "1.5.0-alpha01" }
-test-androidRules = { module = "androidx.test:rules", version = "1.6.1" }
+test-androidExtJunit = "androidx.test.ext:junit:1.3.0"
+test-androidOrchestrator = { module = "androidx.test:orchestrator", version = "1.6.1" }
+test-androidRules = { module = "androidx.test:rules", version = "1.7.0" }
 test-androidRunner = { module = "androidx.test:runner", version.ref = "androidTest" }
 test-junit = "junit:junit:4.13.2"
-test-truth = "com.google.truth:truth:1.4.0"
+test-truth = "com.google.truth:truth:1.4.5"
