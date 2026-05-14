@@ -21,7 +21,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.core.Observer;
 
-final class AutoDisposeObservable<@NonNull T> extends Observable<T>
+final class AutoDisposeObservable<T extends @NonNull Object> extends Observable<T>
     implements ObservableSubscribeProxy<T> {
   private final ObservableSource<T> source;
   private final CompletableSource scope;

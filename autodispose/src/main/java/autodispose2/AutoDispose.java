@@ -78,7 +78,8 @@ public final class AutoDispose {
    * @return an {@link AutoDisposeConverter} to transform with operators like {@link
    *     Observable#to(ObservableConverter)}
    */
-  public static <@NonNull T> AutoDisposeConverter<T> autoDisposable(final ScopeProvider provider) {
+  public static <T extends @NonNull Object> AutoDisposeConverter<T> autoDisposable(
+      final ScopeProvider provider) {
     checkNotNull(provider, "provider == null");
     return autoDisposable(completableOf(provider));
   }
@@ -99,7 +100,8 @@ public final class AutoDispose {
    * @return an {@link AutoDisposeConverter} to transform with operators like {@link
    *     Observable#to(ObservableConverter)}
    */
-  public static <@NonNull T> AutoDisposeConverter<T> autoDisposable(final CompletableSource scope) {
+  public static <T extends @NonNull Object> AutoDisposeConverter<T> autoDisposable(
+      final CompletableSource scope) {
     checkNotNull(scope, "scope == null");
     return new AutoDisposeConverter<T>() {
       @Override
@@ -138,7 +140,7 @@ public final class AutoDispose {
           }
 
           @Override
-          public <@NonNull E extends CompletableObserver> E subscribeWith(E observer) {
+          public <E extends @NonNull CompletableObserver> E subscribeWith(E observer) {
             return new AutoDisposeCompletable(upstream, scope).subscribeWith(observer);
           }
 
@@ -196,7 +198,7 @@ public final class AutoDispose {
           }
 
           @Override
-          public <@NonNull E extends Subscriber<? super T>> E subscribeWith(E observer) {
+          public <E extends @NonNull Subscriber<? super T>> E subscribeWith(E observer) {
             return new AutoDisposeFlowable<>(upstream, scope).subscribeWith(observer);
           }
 
@@ -263,7 +265,7 @@ public final class AutoDispose {
           }
 
           @Override
-          public <@NonNull E extends MaybeObserver<? super T>> E subscribeWith(E observer) {
+          public <E extends @NonNull MaybeObserver<? super T>> E subscribeWith(E observer) {
             return new AutoDisposeMaybe<>(upstream, scope).subscribeWith(observer);
           }
 
@@ -321,7 +323,7 @@ public final class AutoDispose {
           }
 
           @Override
-          public <@NonNull E extends Observer<? super T>> E subscribeWith(E observer) {
+          public <E extends @NonNull Observer<? super T>> E subscribeWith(E observer) {
             return new AutoDisposeObservable<>(upstream, scope).subscribeWith(observer);
           }
 
@@ -363,7 +365,7 @@ public final class AutoDispose {
           @SuppressWarnings("NullAway") // False positive
           @Override
           public Disposable subscribe(
-              BiConsumer<@Nullable ? super T, @Nullable ? super Throwable> biConsumer) {
+              BiConsumer<? super @Nullable T, ? super @Nullable Throwable> biConsumer) {
             return new AutoDisposeSingle<>(upstream, scope).subscribe(biConsumer);
           }
 
@@ -379,7 +381,7 @@ public final class AutoDispose {
           }
 
           @Override
-          public <@NonNull E extends SingleObserver<? super T>> E subscribeWith(E observer) {
+          public <E extends @NonNull SingleObserver<? super T>> E subscribeWith(E observer) {
             return new AutoDisposeSingle<>(upstream, scope).subscribeWith(observer);
           }
 

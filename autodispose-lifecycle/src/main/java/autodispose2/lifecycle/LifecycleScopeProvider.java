@@ -35,7 +35,7 @@ import io.reactivex.rxjava3.core.Observable;
  * @see LifecycleScopes
  */
 @DoNotMock(value = "Use TestLifecycleScopeProvider instead")
-public interface LifecycleScopeProvider<@NonNull E> extends ScopeProvider {
+public interface LifecycleScopeProvider<E extends @NonNull Object> extends ScopeProvider {
 
   /**
    * Returns a sequence of lifecycle events. Note that completion of this lifecycle will also

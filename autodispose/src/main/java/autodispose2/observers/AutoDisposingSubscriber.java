@@ -25,7 +25,7 @@ import org.reactivestreams.Subscription;
  * A {@link Disposable} {@link Subscriber} that can automatically dispose itself. Interface here for
  * type safety but enforcement is left to the implementation.
  */
-public interface AutoDisposingSubscriber<@NonNull T>
+public interface AutoDisposingSubscriber<T extends @NonNull Object>
     extends FlowableSubscriber<T>, Subscription, Disposable {
 
   /**

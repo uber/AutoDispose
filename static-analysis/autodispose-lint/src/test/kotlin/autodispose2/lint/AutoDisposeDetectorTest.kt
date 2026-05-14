@@ -44,11 +44,13 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
 
     // Stub LifecycleOwner
     private val LIFECYCLE_OWNER =
-      java("""
+      java(
+          """
       package androidx.lifecycle;
 
       public interface LifecycleOwner {}
-    """)
+    """
+        )
         .indented()
 
     // Stub Fragment
@@ -65,11 +67,14 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
 
     // Stub Scope Provider
     private val SCOPE_PROVIDER =
-      kotlin("""
+      kotlin(
+          """
       package autodispose2
 
       interface ScopeProvider
-    """).indented()
+    """
+        )
+        .indented()
 
     // Stub LifecycleScopeProvider
     private val LIFECYCLE_SCOPE_PROVIDER =
@@ -85,19 +90,24 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
 
     // Custom Scope
     private val CUSTOM_SCOPE =
-      kotlin("""
+      kotlin(
+          """
       package autodispose2.sample
 
       class ClassWithCustomScope
-    """)
+    """
+        )
         .indented()
 
     private val AUTODISPOSE_CONTEXT =
-      kotlin("""
+      kotlin(
+          """
       package autodispose2
 
       interface AutoDisposeContext
-    """).indented()
+    """
+        )
+        .indented()
 
     private val WITH_SCOPE_PROVIDER =
       kotlin(
@@ -108,7 +118,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
 
           fun withScope(scope: ScopeProvider, body: AutoDisposeContext.() -> Unit) {
           }
-        """
+        """,
         )
         .indented()
         .within("src/")
@@ -124,7 +134,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
 
           fun withScope(scope: Completable, body: AutoDisposeContext.() -> Unit) {
           }
-        """
+        """,
         )
         .indented()
         .within("src/")
@@ -142,14 +152,14 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           fun <G : Any> Observable<G>.subscribeBy(
                   onNext: (G) -> Unit
           ): Disposable = subscribe()
-        """
+        """,
         )
         .indented()
         .within("src/")
 
     private fun propertiesFile(
       lenient: Boolean = true,
-      kotlinExtensionFunctions: String? = null
+      kotlinExtensionFunctions: String? = null,
     ): TestFile.PropertyTestFile {
       val properties = projectProperties()
       properties.property(LENIENT, lenient.toString())
@@ -184,7 +194,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -217,7 +227,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .allowCompilationErrors() // Lint 30 doesn't understand subscribeProxies for some reason
       .run()
@@ -256,7 +266,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -305,7 +315,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .allowCompilationErrors() // Lint 30 doesn't understand subscribeWith for some reason
       .run()
@@ -333,7 +343,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -360,7 +370,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -393,7 +403,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .allowCompilationErrors() // Lint 30 doesn't understand subscribeProxies for some reason
       .run()
@@ -421,7 +431,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -447,7 +457,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -480,7 +490,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .allowCompilationErrors() // Lint 30 doesn't understand subscribeProxies for some reason
       .run()
@@ -508,7 +518,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -534,7 +544,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -566,7 +576,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -593,7 +603,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -620,7 +630,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -653,7 +663,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .allowCompilationErrors() // Lint 30 doesn't understand subscribeProxies for some reason
       .run()
@@ -681,7 +691,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -712,7 +722,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -753,7 +763,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -785,7 +795,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -821,7 +831,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .allowCompilationErrors() // TODO or replace with a real sample stub?
       .run()
@@ -857,7 +867,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -885,7 +895,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -917,7 +927,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -946,7 +956,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -986,7 +996,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -1030,7 +1040,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -1063,7 +1073,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -1106,7 +1116,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -1139,7 +1149,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -1180,7 +1190,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -1220,7 +1230,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -1249,7 +1259,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -1278,7 +1288,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
       }
     """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -1338,7 +1348,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -1399,7 +1409,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -1452,7 +1462,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -1508,7 +1518,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -1538,7 +1548,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -1571,7 +1581,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -1620,7 +1630,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expect(
@@ -1667,7 +1677,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectClean()
@@ -1699,7 +1709,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectErrorCount(1)
@@ -1728,7 +1738,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .run()
       .expectErrorCount(1)
@@ -1760,7 +1770,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .allowCompilationErrors() // Until AGP 8.2.0
       // https://issuetracker.google.com/issues/283693338
@@ -1792,7 +1802,7 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
           }
         """
           )
-          .indented()
+          .indented(),
       )
       .allowCompilationErrors() // Until AGP 8.2.0
       // https://issuetracker.google.com/issues/283693338
@@ -1803,10 +1813,8 @@ internal class AutoDisposeDetectorTest : LintDetectorTest() {
   private fun jars(): Array<TestFile> {
     val classLoader = AutoDisposeDetector::class.java.classLoader
     return arrayOf(
-      LibraryReferenceTestFile(
-        File(classLoader.getResource("rxjava-3.1.0.jar")!!.toURI()),
-      ),
-      LibraryReferenceTestFile(File(classLoader.getResource("autodispose-2.0.0.jar")!!.toURI()))
+      LibraryReferenceTestFile(File(classLoader.getResource("rxjava-3.1.0.jar")!!.toURI())),
+      LibraryReferenceTestFile(File(classLoader.getResource("autodispose-2.0.0.jar")!!.toURI())),
     )
   }
 

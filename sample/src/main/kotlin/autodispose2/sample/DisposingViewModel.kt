@@ -79,7 +79,7 @@ class DisposingViewModel(private val repository: NetworkRepository) : AutoDispos
       .subscribe(
         { progress -> viewRelay.accept(DownloadState.InProgress(progress)) },
         { error -> error.printStackTrace() },
-        { viewRelay.accept(DownloadState.Completed) }
+        { viewRelay.accept(DownloadState.Completed) },
       )
   }
 
@@ -99,7 +99,8 @@ class DisposingViewModel(private val repository: NetworkRepository) : AutoDispos
 
   class Factory(private val networkRepository: NetworkRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-      @Suppress("UNCHECKED_CAST") return DisposingViewModel(networkRepository) as T
+      @Suppress("UNCHECKED_CAST")
+      return DisposingViewModel(networkRepository) as T
     }
   }
 }

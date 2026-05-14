@@ -27,6 +27,7 @@ import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import com.android.tools.lint.detector.api.SourceCodeScanner
 import com.android.tools.lint.detector.api.UImplicitCallExpression
+import com.android.tools.lint.detector.api.isIncorrectImplicitReturnInLambda
 import com.android.tools.lint.detector.api.isJava
 import com.android.tools.lint.detector.api.isKotlin
 import com.intellij.psi.PsiMethod
@@ -93,8 +94,8 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
           AutoDisposeDetector::class.java,
           EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES),
           EnumSet.of(Scope.JAVA_FILE),
-          EnumSet.of(Scope.TEST_SOURCES)
-        )
+          EnumSet.of(Scope.TEST_SOURCES),
+        ),
       )
 
     private const val OBSERVABLE = "io.reactivex.rxjava3.core.Observable"
@@ -111,7 +112,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
         "androidx.lifecycle.LifecycleOwner",
         "autodispose2.ScopeProvider",
         "android.app.Activity",
-        "android.app.Fragment"
+        "android.app.Fragment",
       )
 
     private val REACTIVE_TYPES =
@@ -208,7 +209,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
                 },
                 callableReferenceChecker = { context, node, calledMethod ->
                   callableReferenceChecker(context, node, calledMethod) { _, _ -> true }
-                }
+                },
               )
             body.accept(visitor)
             return@let
@@ -223,7 +224,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     context: JavaContext,
     node: UCallExpression,
     method: PsiMethod,
-    isInScope: (JavaEvaluator, UCallExpression) -> Boolean
+    isInScope: (JavaEvaluator, UCallExpression) -> Boolean,
   ) {
     evaluateMethodCall(node, method, context, isInScope)
   }
@@ -232,7 +233,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     context: JavaContext,
     node: UCallableReferenceExpression,
     method: PsiMethod,
-    isInScope: (JavaEvaluator, UCallExpression) -> Boolean
+    isInScope: (JavaEvaluator, UCallExpression) -> Boolean,
   ) {
     // Check if the resolved call reference is method and check that it's invocation is a
     // call expression so that we can get it's return type etc.
@@ -245,7 +246,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     private val context: JavaContext,
     private val callExpressionChecker: (JavaContext, UCallExpression, PsiMethod) -> Unit,
     private val callableReferenceChecker:
-      (JavaContext, UCallableReferenceExpression, PsiMethod) -> Unit
+      (JavaContext, UCallableReferenceExpression, PsiMethod) -> Unit,
   ) : AbstractUastVisitor() {
 
     override fun visitCallExpression(node: UCallExpression): Boolean {
@@ -281,7 +282,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
    */
   private fun containingClassScopeChecker(
     evaluator: JavaEvaluator,
-    node: UCallExpression
+    node: UCallExpression,
   ): Boolean {
     node.getContainingUClass()?.let { callingClass ->
       return appliedScopes.any { evaluator.inheritsFrom(callingClass, it, false) }
@@ -329,7 +330,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     node: UCallExpression,
     method: PsiMethod,
     context: JavaContext,
-    isInScope: (JavaEvaluator, UCallExpression) -> Boolean
+    isInScope: (JavaEvaluator, UCallExpression) -> Boolean,
   ) {
     if (!getApplicableMethodNames().contains(method.name)) return
     val evaluator = context.evaluator
@@ -377,7 +378,8 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     var curr: UElement = prev.uastParent ?: return true
     while (
       curr is UQualifiedReferenceExpression && curr.selector === prev ||
-        curr is UParenthesizedExpression
+        curr is UParenthesizedExpression ||
+        curr.isIncorrectImplicitReturnInLambda()
     ) {
       prev = curr
       curr = curr.uastParent ?: return true
@@ -385,7 +387,8 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
 
     @Suppress("RedundantIf")
     if (curr is UBlockExpression) {
-      if (curr.sourcePsi is PsiSynchronizedStatement) {
+      val sourcePsi = curr.sourcePsi
+      if (sourcePsi is PsiSynchronizedStatement) {
         return false
       }
       // In Java, it's apparent when an expression is unused:
@@ -412,7 +415,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
 
       // It's the last child: see if the parent is unused
       val parent = skipParenthesizedExprUp(curr.uastParent)
-      if (parent is ULambdaExpression && isKotlin(curr.sourcePsi)) {
+      if (parent is ULambdaExpression && sourcePsi != null && isKotlin(sourcePsi.language)) {
         val expressionType = parent.getExpressionType()?.canonicalText
         if (
           expressionType != null &&
@@ -428,7 +431,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
         return false
       }
 
-      if (isJava(curr.sourcePsi)) {
+      if (sourcePsi != null && isJava(sourcePsi.language)) {
         // In Java there's no implicit passing to the parent
         return true
       }

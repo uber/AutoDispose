@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.observers.TestObserver;
 
 /** Subscribe proxy that matches {@link Observable}'s subscribe overloads. */
-public interface ObservableSubscribeProxy<@NonNull T> {
+public interface ObservableSubscribeProxy<T extends @NonNull Object> {
 
   /**
    * Proxy for {@link Observable#subscribe()}.
@@ -65,7 +65,7 @@ public interface ObservableSubscribeProxy<@NonNull T> {
    * @return an {@link Observer}
    */
   @CheckReturnValue
-  <@NonNull E extends Observer<? super T>> E subscribeWith(E observer);
+  <E extends @NonNull Observer<? super T>> E subscribeWith(E observer);
 
   /**
    * Proxy for {@link Observable#test()}.

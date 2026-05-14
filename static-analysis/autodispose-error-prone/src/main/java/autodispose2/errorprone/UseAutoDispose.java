@@ -33,12 +33,13 @@ import com.google.errorprone.bugpatterns.BugChecker;
 import com.google.errorprone.bugpatterns.BugChecker.MethodInvocationTreeMatcher;
 import com.google.errorprone.matchers.Matcher;
 import com.google.errorprone.suppliers.Supplier;
-import com.google.inject.Inject;
 import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.ExpressionTree;
 import com.sun.tools.javac.code.Type;
 import java.util.Optional;
 import java.util.Set;
+import javax.inject.Inject;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
  * Checker for subscriptions not binding to lifecycle in components with lifecycle. Use
@@ -112,8 +113,7 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
   @SuppressWarnings("WeakerAccess") // Public for ErrorProne
   @Inject
   public UseAutoDispose(ErrorProneFlags flags) {
-    Optional<ImmutableSet<String>> inputClasses =
-        flags.getList("TypesWithScope").map(ImmutableSet::copyOf);
+    ImmutableSet<String> inputClasses = flags.getSetOrEmpty("TypesWithScope");
     Optional<Boolean> overrideScopes = flags.getBoolean("OverrideScopes");
 
     ImmutableSet<String> classesWithScope = getClassesWithScope(inputClasses, overrideScopes);
@@ -150,16 +150,16 @@ public final class UseAutoDispose extends AbstractReturnValueIgnored
    * @return the classes on which to apply the error-prone check.
    */
   private static ImmutableSet<String> getClassesWithScope(
-      Optional<ImmutableSet<String>> inputClasses, Optional<Boolean> overrideScopes) {
-    if (inputClasses.isPresent()) {
+      @MonotonicNonNull ImmutableSet<String> inputClasses, Optional<Boolean> overrideScopes) {
+    if (!inputClasses.isEmpty()) {
       if (overrideScopes.isPresent() && overrideScopes.get()) {
         // The custom scopes are exclusive, just return that.
-        return inputClasses.get();
+        return inputClasses;
       } else {
         // The custom scopes aren't exclusive, so bundle them together with default scopes.
         return ImmutableSet.<String>builder()
             .addAll(DEFAULT_CLASSES_WITH_LIFECYCLE)
-            .addAll(inputClasses.get())
+            .addAll(inputClasses)
             .build();
       }
     } else {

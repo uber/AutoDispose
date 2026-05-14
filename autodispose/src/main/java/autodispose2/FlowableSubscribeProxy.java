@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.reactivestreams.Subscriber;
 
 /** Subscribe proxy that matches {@link Flowable}'s subscribe overloads. */
-public interface FlowableSubscribeProxy<@NonNull T> {
+public interface FlowableSubscribeProxy<T extends @NonNull Object> {
 
   /**
    * Proxy for {@link Flowable#subscribe()}.
@@ -65,7 +65,7 @@ public interface FlowableSubscribeProxy<@NonNull T> {
    * @return an {@link Subscriber}
    */
   @CheckReturnValue
-  <@NonNull E extends Subscriber<? super T>> E subscribeWith(E observer);
+  <E extends @NonNull Subscriber<? super T>> E subscribeWith(E observer);
 
   /**
    * Proxy for {@link Flowable#test()}.

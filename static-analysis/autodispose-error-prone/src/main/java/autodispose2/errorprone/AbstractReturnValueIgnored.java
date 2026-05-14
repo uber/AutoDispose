@@ -80,7 +80,7 @@ abstract class AbstractReturnValueIgnored extends BugChecker
   }
 
   private Description matchMethodInvocationNew(MethodInvocationTree tree, VisitorState state) {
-    boolean matches = specializedMatcher().matches(tree, state);
+    var matches = specializedMatcher().matches(tree, state);
     if (!matches) {
       return Description.NO_MATCH;
     }
@@ -107,7 +107,7 @@ abstract class AbstractReturnValueIgnored extends BugChecker
 
   @Override
   public Description matchMemberReference(MemberReferenceTree tree, VisitorState state) {
-    boolean matches = specializedMatcher().matches(tree, state);
+    var matches = specializedMatcher().matches(tree, state);
     if (!matches) {
       return Description.NO_MATCH;
     }
@@ -169,11 +169,13 @@ abstract class AbstractReturnValueIgnored extends BugChecker
     out:
     for (Tree t : state.getPath()) {
       switch (t.getKind()) {
-        case LAMBDA_EXPRESSION:
-        case CLASS:
+        case LAMBDA_EXPRESSION, CLASS -> {
           tree = t;
           break out;
-        default: // fall out, to loop again
+        }
+        default -> {
+          // fall out, to loop again
+        }
       }
     }
 
@@ -261,21 +263,21 @@ abstract class AbstractReturnValueIgnored extends BugChecker
    */
   private Description describe(MethodInvocationTree methodInvocationTree, VisitorState state) {
     // Find the root of the field access chain, i.e. a.intern().trim() ==> a.
-    ExpressionTree identifierExpr = ASTHelpers.getRootAssignable(methodInvocationTree);
+    var identifierExpr = ASTHelpers.getRootAssignable(methodInvocationTree);
     String identifierStr = null;
     Type identifierType = null;
     if (identifierExpr != null) {
       identifierStr = state.getSourceForNode(identifierExpr);
-      if (identifierExpr instanceof JCIdent) {
-        identifierType = ((JCIdent) identifierExpr).sym.type;
-      } else if (identifierExpr instanceof JCFieldAccess) {
-        identifierType = ((JCFieldAccess) identifierExpr).sym.type;
+      if (identifierExpr instanceof JCIdent jcIdent) {
+        identifierType = jcIdent.sym.type;
+      } else if (identifierExpr instanceof JCFieldAccess jcFieldAccess) {
+        identifierType = jcFieldAccess.sym.type;
       } else {
         throw new IllegalStateException("Expected a JCIdent or a JCFieldAccess");
       }
     }
 
-    Type returnType = getReturnType(((JCMethodInvocation) methodInvocationTree).getMethodSelect());
+    var returnType = getReturnType(((JCMethodInvocation) methodInvocationTree).getMethodSelect());
 
     Fix fix;
     if (identifierStr != null
@@ -285,8 +287,8 @@ abstract class AbstractReturnValueIgnored extends BugChecker
       // Fix by assigning the assigning the result of the call to the root receiver reference.
       fix = SuggestedFix.prefixWith(methodInvocationTree, identifierStr + " = ");
     } else {
-      // Unclear what the programmer intended.  Delete since we don't know what else to do.
-      Tree parent = state.getPath().getParentPath().getLeaf();
+      // Unclear what the programmer intended. Delete since we don't know what else to do.
+      var parent = state.getPath().getParentPath().getLeaf();
       fix = SuggestedFix.delete(parent);
     }
     return describeMatch(methodInvocationTree, fix);
@@ -306,11 +308,8 @@ abstract class AbstractReturnValueIgnored extends BugChecker
     // } catch (IllegalArgumentException expected) {
     // }
     //
-    StatementTree statement = ASTHelpers.findEnclosingNode(state.getPath(), StatementTree.class);
-    if (statement != null && EXPECTED_EXCEPTION_MATCHER.matches(statement, state)) {
-      return true;
-    }
-    return false;
+    var statement = ASTHelpers.findEnclosingNode(state.getPath(), StatementTree.class);
+    return statement != null && EXPECTED_EXCEPTION_MATCHER.matches(statement, state);
   }
 
   private static final Matcher<ExpressionTree> FAIL_METHOD =
@@ -350,14 +349,13 @@ abstract class AbstractReturnValueIgnored extends BugChecker
    * doReturn(val).when(t)}.
    */
   private static boolean mockitoInvocation(Tree tree, VisitorState state) {
-    if (!(tree instanceof JCMethodInvocation)) {
+    if (!(tree instanceof JCMethodInvocation invocation)) {
       return false;
     }
-    JCMethodInvocation invocation = (JCMethodInvocation) tree;
     if (!(invocation.getMethodSelect() instanceof JCFieldAccess)) {
       return false;
     }
-    ExpressionTree receiver = ASTHelpers.getReceiver(invocation);
+    var receiver = ASTHelpers.getReceiver(invocation);
     return MOCKITO_MATCHER.matches(receiver, state);
   }
 }

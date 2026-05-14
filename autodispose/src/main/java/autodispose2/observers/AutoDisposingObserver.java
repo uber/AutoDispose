@@ -23,7 +23,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * A {@link Disposable} {@link Observer} that can automatically dispose itself. Interface here for
  * type safety but enforcement is left to the implementation.
  */
-public interface AutoDisposingObserver<@NonNull T> extends Observer<T>, Disposable {
+public interface AutoDisposingObserver<T extends @NonNull Object> extends Observer<T>, Disposable {
 
   /**
    * Returns the delegate {@link Observer} that is used under the hood for introspection purposes.

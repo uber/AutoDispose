@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.observers.TestObserver;
 
 /** Subscribe proxy that matches {@link Maybe}'s subscribe overloads. */
-public interface MaybeSubscribeProxy<@NonNull T> {
+public interface MaybeSubscribeProxy<T extends @NonNull Object> {
 
   /**
    * Proxy for {@link Maybe#subscribe()}.
@@ -65,7 +65,7 @@ public interface MaybeSubscribeProxy<@NonNull T> {
    * @return a {@link MaybeObserver}
    */
   @CheckReturnValue
-  <@NonNull E extends MaybeObserver<? super T>> E subscribeWith(E observer);
+  <E extends @NonNull MaybeObserver<? super T>> E subscribeWith(E observer);
 
   /**
    * Proxy for {@link Maybe#test()}.

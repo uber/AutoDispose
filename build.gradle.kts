@@ -22,11 +22,11 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessExtensionPredeclare
 import com.diffplug.spotless.LineEnding
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
-import java.net.URI
 import net.ltgt.gradle.errorprone.CheckSeverity
 import net.ltgt.gradle.errorprone.errorprone
 import net.ltgt.gradle.nullaway.nullaway
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
+import org.jetbrains.dokka.gradle.DokkaExtension
+import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
@@ -57,7 +57,7 @@ val mixedSourcesArtifacts =
     "autodispose-android",
     "autodispose-androidx-lifecycle",
     "autodispose-androidx-lifecycle-test",
-    "autodispose-lifecycle"
+    "autodispose-lifecycle",
   )
 // These are files with different copyright headers that should not be modified automatically.
 val copiedFiles =
@@ -73,9 +73,11 @@ val copiedFiles =
     .map { "**/*${it}.java" }
     .toTypedArray()
 
-tasks.dokkaHtmlMultiModule {
-  outputDirectory.set(rootDir.resolve("docs/api/2.x"))
-  includes.from(project.layout.projectDirectory.file("README.md"))
+dokka {
+  dokkaPublications.html {
+    outputDirectory.set(rootDir.resolve("docs/api/2.x"))
+    includes.from(project.layout.projectDirectory.file("README.md"))
+  }
 }
 
 val ktfmtVersion = libs.versions.ktfmt.get()
@@ -87,7 +89,7 @@ allprojects {
 
     format("misc") {
       target("**/*.md", "**/.gitignore")
-      indentWithSpaces(2)
+      leadingTabsToSpaces(2)
       trimTrailingWhitespace()
       endWithNewline()
     }
@@ -107,7 +109,7 @@ allprojects {
       endWithNewline()
       licenseHeaderFile(
         rootProject.file("spotless/copyright.kt"),
-        "(import|plugins|buildscript|dependencies|pluginManagement|dependencyResolutionManagement)"
+        "(import|plugins|buildscript|dependencies|pluginManagement|dependencyResolutionManagement)",
       )
     }
 
@@ -192,29 +194,48 @@ subprojects {
   pluginManager.withPlugin("com.vanniktech.maven.publish") {
     project.apply(plugin = "org.jetbrains.dokka")
 
-    tasks.withType<DokkaTaskPartial>().configureEach {
-      outputDirectory.set(buildDir.resolve("docs/partial"))
+    configure<DokkaExtension> {
       moduleName.set(project.property("POM_ARTIFACT_ID").toString())
       moduleVersion.set(project.property("VERSION_NAME").toString())
+      basePublicationsDirectory.set(layout.buildDirectory.dir("dokkaDir"))
+      dokkaPublications.configureEach { suppressInheritedMembers.set(true) }
       dokkaSourceSets.configureEach {
-        skipDeprecated.set(true)
-        includes.from("Module.md")
+        val readMeProvider = project.layout.projectDirectory.file("README.md")
+        if (readMeProvider.asFile.exists()) {
+          includes.from(readMeProvider)
+        }
         suppressGeneratedFiles.set(true)
-        suppressInheritedMembers.set(true)
-        externalDocumentationLink {
-          url.set(URI("https://reactivex.io/RxJava/3.x/javadoc/").toURL())
+
+        if (name.contains("androidTest", ignoreCase = true)) {
+          suppress.set(true)
         }
-        externalDocumentationLink {
-          url.set(URI("https://kotlin.github.io/kotlinx.coroutines/index.html").toURL())
-        }
+        skipDeprecated.set(true)
+        documentedVisibilities.add(VisibilityModifier.Public)
+
+        // Skip internal packages
         perPackageOption {
           // language=RegExp
           matchingRegex.set(".*\\.internal\\..*")
           suppress.set(true)
         }
-        val moduleMd = project.layout.projectDirectory.file("Module.md")
-        if (moduleMd.asFile.exists()) {
-          includes.from(moduleMd)
+        // AndroidX and Android docs are automatically added by the Dokka plugin.
+        externalDocumentationLinks.apply {
+          create("RxJava").apply { url("https://reactivex.io/RxJava/3.x/javadoc/") }
+          create("Coroutines").apply {
+            url("https://kotlin.github.io/kotlinx.coroutines/index.html")
+          }
+        }
+
+        // Add source links
+        sourceLink {
+          localDirectory.set(layout.projectDirectory.dir("src"))
+          val relPath = rootProject.projectDir.toPath().relativize(projectDir.toPath())
+          remoteUrl(
+            providers.gradleProperty("POM_SCM_URL").map { scmUrl ->
+              "$scmUrl/tree/main/$relPath/src"
+            }
+          )
+          remoteLineSuffix.set("#L")
         }
       }
     }
@@ -226,7 +247,7 @@ subprojects {
   }
 
   // Common android config
-  val commonAndroidConfig: CommonExtension<*, *, *, *>.() -> Unit = {
+  val commonAndroidConfig: CommonExtension<*, *, *, *, *, *>.() -> Unit = {
     compileSdk = compileSdkVersionInt
 
     defaultConfig {

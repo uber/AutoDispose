@@ -57,7 +57,7 @@ public interface CompletableSubscribeProxy {
    * @return a {@link CompletableObserver}
    */
   @CheckReturnValue
-  <@NonNull E extends CompletableObserver> E subscribeWith(E observer);
+  <E extends @NonNull CompletableObserver> E subscribeWith(E observer);
 
   /**
    * Proxy for {@link Completable#test()}.

@@ -20,7 +20,7 @@ import io.reactivex.rxjava3.parallel.ParallelFlowable;
 import org.reactivestreams.Subscriber;
 
 /** Subscribe proxy that matches {@link ParallelFlowable}'s subscribe overloads. */
-public interface ParallelFlowableSubscribeProxy<@NonNull T> {
+public interface ParallelFlowableSubscribeProxy<T extends @NonNull Object> {
 
   /** Proxy for {@link ParallelFlowable#subscribe(Subscriber[])}. */
   void subscribe(Subscriber<? super T>[] subscribers);

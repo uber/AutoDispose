@@ -28,7 +28,7 @@ import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
-public final class RecordingObserver<@NonNull T>
+public final class RecordingObserver<T extends @NonNull Object>
     implements Observer<T>, SingleObserver<T>, MaybeObserver<T>, CompletableObserver {
 
   public interface Logger {
