@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+- **Fix**: Handle empty lambdas in lint checks.
+- **Fix**: Use `javax.inject.Inject` for newer versions of ErrorProne.
+- **Fix**: Properly propagate nullabiltiy in type params (i.e., `T extends @NonNull Object` vs `@NonNull T`).
+- Raise lint target Kotlin language version to `2.0`.
+- Update to RxJava `3.1.12`.
+- Update minSdk to `23` to match upstream AndroidX deps.
+- Update to Lint `32.2.1`.
+- Update to ErrorProne `2.49.0`.
+
 Version 2.2.1
 -------------
 
