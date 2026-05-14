@@ -44,7 +44,7 @@ abstract class AutoDisposeActivityKotlin : Activity(), LifecycleScopeProvider<Ac
     RESUME,
     PAUSE,
     STOP,
-    DESTROY
+    DESTROY,
   }
 
   override fun lifecycle(): Observable<ActivityEvent> {

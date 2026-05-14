@@ -93,8 +93,8 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
           AutoDisposeDetector::class.java,
           EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES),
           EnumSet.of(Scope.JAVA_FILE),
-          EnumSet.of(Scope.TEST_SOURCES)
-        )
+          EnumSet.of(Scope.TEST_SOURCES),
+        ),
       )
 
     private const val OBSERVABLE = "io.reactivex.rxjava3.core.Observable"
@@ -111,7 +111,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
         "androidx.lifecycle.LifecycleOwner",
         "autodispose2.ScopeProvider",
         "android.app.Activity",
-        "android.app.Fragment"
+        "android.app.Fragment",
       )
 
     private val REACTIVE_TYPES =
@@ -208,7 +208,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
                 },
                 callableReferenceChecker = { context, node, calledMethod ->
                   callableReferenceChecker(context, node, calledMethod) { _, _ -> true }
-                }
+                },
               )
             body.accept(visitor)
             return@let
@@ -223,7 +223,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     context: JavaContext,
     node: UCallExpression,
     method: PsiMethod,
-    isInScope: (JavaEvaluator, UCallExpression) -> Boolean
+    isInScope: (JavaEvaluator, UCallExpression) -> Boolean,
   ) {
     evaluateMethodCall(node, method, context, isInScope)
   }
@@ -232,7 +232,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     context: JavaContext,
     node: UCallableReferenceExpression,
     method: PsiMethod,
-    isInScope: (JavaEvaluator, UCallExpression) -> Boolean
+    isInScope: (JavaEvaluator, UCallExpression) -> Boolean,
   ) {
     // Check if the resolved call reference is method and check that it's invocation is a
     // call expression so that we can get it's return type etc.
@@ -245,7 +245,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     private val context: JavaContext,
     private val callExpressionChecker: (JavaContext, UCallExpression, PsiMethod) -> Unit,
     private val callableReferenceChecker:
-      (JavaContext, UCallableReferenceExpression, PsiMethod) -> Unit
+      (JavaContext, UCallableReferenceExpression, PsiMethod) -> Unit,
   ) : AbstractUastVisitor() {
 
     override fun visitCallExpression(node: UCallExpression): Boolean {
@@ -281,7 +281,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
    */
   private fun containingClassScopeChecker(
     evaluator: JavaEvaluator,
-    node: UCallExpression
+    node: UCallExpression,
   ): Boolean {
     node.getContainingUClass()?.let { callingClass ->
       return appliedScopes.any { evaluator.inheritsFrom(callingClass, it, false) }
@@ -329,7 +329,7 @@ public class AutoDisposeDetector : Detector(), SourceCodeScanner {
     node: UCallExpression,
     method: PsiMethod,
     context: JavaContext,
-    isInScope: (JavaEvaluator, UCallExpression) -> Boolean
+    isInScope: (JavaEvaluator, UCallExpression) -> Boolean,
   ) {
     if (!getApplicableMethodNames().contains(method.name)) return
     val evaluator = context.evaluator

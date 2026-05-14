@@ -39,7 +39,7 @@ abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
 
   enum class ViewEvent {
     ATTACH,
-    DETACH
+    DETACH,
   }
 
   private val lifecycleEvents by lazy { BehaviorSubject.create<ViewEvent>() }
@@ -48,7 +48,7 @@ abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
   constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = View.NO_ID
+    defStyleAttr: Int = View.NO_ID,
   ) : super(context, attrs, defStyleAttr)
 
   @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -56,7 +56,7 @@ abstract class AutoDisposeViewKotlin : View, LifecycleScopeProvider<ViewEvent> {
     context: Context,
     attrs: AttributeSet,
     defStyleAttr: Int,
-    defStyleRes: Int
+    defStyleRes: Int,
   ) : super(context, attrs, defStyleAttr, defStyleRes)
 
   override fun onAttachedToWindow() {

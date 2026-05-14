@@ -89,14 +89,13 @@ private fun CoroutineScope.asUndeferredCompletable(): Completable {
         ?: error(
           "Scope cannot be created because it does not have a job: ${this@asUndeferredCompletable}"
         )
-    val handle =
-      job.invokeOnCompletion {
-        when (it) {
-          null,
-          is CancellationException -> emitter.onComplete()
-          else -> emitter.onError(it)
-        }
+    val handle = job.invokeOnCompletion {
+      when (it) {
+        null,
+        is CancellationException -> emitter.onComplete()
+        else -> emitter.onError(it)
       }
+    }
     emitter.setCancellable(handle::dispose)
   }
 }

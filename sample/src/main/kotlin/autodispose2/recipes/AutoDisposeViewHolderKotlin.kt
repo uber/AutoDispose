@@ -38,7 +38,7 @@ abstract class AutoDisposeViewHolderKotlin(itemView: View) :
 
   enum class ViewHolderEvent {
     BIND,
-    UNBIND
+    UNBIND,
   }
 
   override fun onBind() = lifecycleEvents.onNext(BIND)

@@ -93,7 +93,7 @@ public inline fun Lifecycle.scope(
 @CheckReturnValue
 public inline fun <T : Any> Flowable<T>.autoDispose(
   lifecycleOwner: LifecycleOwner,
-  untilEvent: Event? = null
+  untilEvent: Event? = null,
 ): FlowableSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
@@ -114,7 +114,7 @@ public inline fun <T : Any> Flowable<T>.autoDispose(
 @CheckReturnValue
 public inline fun <T : Any> Observable<T>.autoDispose(
   lifecycleOwner: LifecycleOwner,
-  untilEvent: Event? = null
+  untilEvent: Event? = null,
 ): ObservableSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
@@ -135,7 +135,7 @@ public inline fun <T : Any> Observable<T>.autoDispose(
 @CheckReturnValue
 public inline fun <T : Any> Single<T>.autoDispose(
   lifecycleOwner: LifecycleOwner,
-  untilEvent: Event? = null
+  untilEvent: Event? = null,
 ): SingleSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
@@ -156,7 +156,7 @@ public inline fun <T : Any> Single<T>.autoDispose(
 @CheckReturnValue
 public inline fun <T : Any> Maybe<T>.autoDispose(
   lifecycleOwner: LifecycleOwner,
-  untilEvent: Event? = null
+  untilEvent: Event? = null,
 ): MaybeSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
@@ -177,7 +177,7 @@ public inline fun <T : Any> Maybe<T>.autoDispose(
 @CheckReturnValue
 public inline fun Completable.autoDispose(
   lifecycleOwner: LifecycleOwner,
-  untilEvent: Event? = null
+  untilEvent: Event? = null,
 ): CompletableSubscribeProxy {
   return if (untilEvent == null) {
     this.to(AutoDispose.autoDisposable<Any>(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
@@ -200,7 +200,7 @@ public inline fun Completable.autoDispose(
 @CheckReturnValue
 public inline fun <T : Any> ParallelFlowable<T>.autoDispose(
   lifecycleOwner: LifecycleOwner,
-  untilEvent: Event? = null
+  untilEvent: Event? = null,
 ): ParallelFlowableSubscribeProxy<T> {
   return if (untilEvent == null) {
     this.to(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))

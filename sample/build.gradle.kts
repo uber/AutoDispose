@@ -45,7 +45,7 @@ val classesWithScope =
     "android.app.Fragment",
     "androidx.lifecycle.LifecycleOwner",
     "autodispose2.ScopeProvider",
-    "autodispose2.sample.CustomScope"
+    "autodispose2.sample.CustomScope",
   )
 
 tasks.withType<JavaCompile>().configureEach {

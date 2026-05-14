@@ -38,7 +38,7 @@ abstract class AutoDisposeViewModel : ViewModel(), LifecycleScopeProvider<ViewMo
    */
   enum class ViewModelEvent {
     CREATED,
-    CLEARED
+    CLEARED,
   }
 
   /**

@@ -54,7 +54,7 @@ abstract class AutoDisposeFragmentKotlin : Fragment(), LifecycleScopeProvider<Fr
     STOP,
     DESTROY_VIEW,
     DESTROY,
-    DETACH
+    DETACH,
   }
 
   override fun lifecycle(): Observable<FragmentEvent> {

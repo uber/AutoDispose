@@ -54,7 +54,7 @@ class KotlinFragment : Fragment() {
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
-    savedInstanceState: Bundle?
+    savedInstanceState: Bundle?,
   ): View? {
     Log.d(TAG, "onCreateView()")
     return inflater.inflate(R.layout.content_main, container, false)

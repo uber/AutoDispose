@@ -57,7 +57,7 @@ val mixedSourcesArtifacts =
     "autodispose-android",
     "autodispose-androidx-lifecycle",
     "autodispose-androidx-lifecycle-test",
-    "autodispose-lifecycle"
+    "autodispose-lifecycle",
   )
 // These are files with different copyright headers that should not be modified automatically.
 val copiedFiles =
@@ -87,7 +87,7 @@ allprojects {
 
     format("misc") {
       target("**/*.md", "**/.gitignore")
-      indentWithSpaces(2)
+      leadingTabsToSpaces(2)
       trimTrailingWhitespace()
       endWithNewline()
     }
@@ -107,7 +107,7 @@ allprojects {
       endWithNewline()
       licenseHeaderFile(
         rootProject.file("spotless/copyright.kt"),
-        "(import|plugins|buildscript|dependencies|pluginManagement|dependencyResolutionManagement)"
+        "(import|plugins|buildscript|dependencies|pluginManagement|dependencyResolutionManagement)",
       )
     }
 
