@@ -15,8 +15,12 @@
  */
 package autodispose2.errorprone;
 
+import static org.junit.Assert.assertTrue;
+
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.CompilationTestHelper;
+import com.google.errorprone.bugpatterns.BugChecker;
+import java.util.ServiceLoader;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,6 +38,13 @@ public final class UseAutoDisposeTest {
   @Before
   public void setup() {
     compilationHelper = CompilationTestHelper.newInstance(UseAutoDispose.class, getClass());
+  }
+
+  @Test
+  public void checkerIsRegisteredAsService() {
+    assertTrue(
+        ServiceLoader.load(BugChecker.class, UseAutoDispose.class.getClassLoader()).stream()
+            .anyMatch(provider -> provider.type().equals(UseAutoDispose.class)));
   }
 
   @Test

@@ -16,7 +16,6 @@
 plugins {
   `java-library`
   alias(libs.plugins.mavenPublish)
-  alias(libs.plugins.ksp)
 }
 
 val jvmArgsNeeded =
@@ -38,7 +37,7 @@ tasks.withType<JavaCompile>().configureEach { options.compilerArgs.addAll(jvmArg
 tasks.withType<Test>().configureEach { jvmArgs(jvmArgsNeeded) }
 
 dependencies {
-  ksp(libs.autoService.ksp)
+  annotationProcessor(libs.autoService.processor)
 
   compileOnly(libs.autoService.annotations)
   compileOnly(libs.build.errorProneCheckApi)
