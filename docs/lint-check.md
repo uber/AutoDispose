@@ -47,7 +47,7 @@ By default, the lint check is applied to AutoDispose interfaces and standard And
 1. [Activity](https://developer.android.com/reference/android/app/Activity.html)
 2. [Fragment](https://developer.android.com/reference/android/app/Fragment.html)
 3. [Support Fragment](https://developer.android.com/reference/android/support/v4/app/Fragment.html)
-4. [ScopeProvider](https://uber.github.io/AutoDispose/1.x/autodispose/com/uber/autodispose/ScopeProvider.html) (which implicitly includes [LifecycleScopeProvider](https://uber.github.io/AutoDispose/1.x/autodispose/com/uber/autodispose/LifecycleScopeProvider.html))
+4. [ScopeProvider](https://uber.github.io/AutoDispose/api/2.x/autodispose/autodispose2/-scope-provider/index.html) (which implicitly includes [LifecycleScopeProvider](https://uber.github.io/AutoDispose/api/2.x/autodispose-lifecycle/autodispose2.lifecycle/-lifecycle-scope-provider/index.html))
 5. [LifecycleOwner](https://developer.android.com/reference/android/arch/lifecycle/LifecycleOwner.html)
 
 You can add your own custom scopes that you want the lint check applied to. In your **app-level** `gradle.properties` file, add the fully qualified name of your custom classes as comma-separated-values like so:

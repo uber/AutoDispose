@@ -148,8 +148,8 @@ By default the checker is applied to AutoDispose interfaces and standard Android
 1. [Activity](https://developer.android.com/reference/android/app/Activity.html)
 2. [Fragment](https://developer.android.com/reference/android/app/Fragment.html)
 3. [Support Fragment](https://developer.android.com/reference/android/support/v4/app/Fragment.html)
-4. [LifecycleScopeProvider](https://uber.github.io/AutoDispose/1.x/autodispose/com/uber/autodispose/LifecycleScopeProvider.html)
-5. [ScopeProvider](https://uber.github.io/AutoDispose/1.x/autodispose/com/uber/autodispose/ScopeProvider.html)
+4. [LifecycleScopeProvider](https://uber.github.io/AutoDispose/api/2.x/autodispose-lifecycle/autodispose2.lifecycle/-lifecycle-scope-provider/index.html)
+5. [ScopeProvider](https://uber.github.io/AutoDispose/api/2.x/autodispose/autodispose2/-scope-provider/index.html)
 6. [LifecycleOwner](https://developer.android.com/reference/android/arch/lifecycle/LifecycleOwner.html)
 
 This can be configured by [Error-Prone's command line flags](https://errorprone.info/docs/flags). The following flag is supported and takes input in a form of comma separated list of fully qualified class names of classes with scopes:
